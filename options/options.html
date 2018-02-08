@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="css/options.css" rel="stylesheet">
+    <title></title>        
+    <script src="/helpers/domHelper.js"></script>
+    <script src="/helpers/logHelper.js"></script>
+    <script src="/helpers/textHelper.js"></script>
+    <script src="/helpers/storageHelper.js"></script>
+    <script src="/helpers/bookmarkHelper.js"></script>
+    <script src="/helpers/dateTimeHelper.js"></script>
+    <script src="/helpers/progressBarHelper.js"></script>
+    <script src="/helpers/transferHelper.js"></script>
+    <script src="/helpers/themeHelper.js"></script>
+    <script src="/options/js/general.js"></script>
+    <script src="/options/js/opml-import.js"></script>
+    <script src="/options/js/opml-export.js"></script>
+  </head>
+
+  <body>
+    
+    <div class="panel">
+      <label class="panelTitle">General</label></p>
+      <table>
+        <tr>
+          <td>
+            <label>Select feed folder&nbsp;</label>
+          </td>
+          <td>
+            <div id ="feedList">
+              <!--
+              <select id="feedFolderSelect">            
+                <option value="bookmarkId1">bookmarkTitle1</option>
+              </select>
+              -->
+            </div>
+          </td>
+          <td>
+            <button id="applySelectedFeedButton" style="display:none">Apply</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Select theme&nbsp;</label>
+          </td>
+          <td>
+            <div id ="themeList">
+              <!--
+              <select id="themeSelect">            
+                <option value="themeName1">themeName1</option>
+              </select>
+              -->
+            </div>
+          </td>
+          <td>
+            <button id="applySelectedTheme" style="display:none">Apply</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="panel">
+      <label class="panelTitle">OMPL Import/Export</label></p>
+      <table>
+        <tr>
+          <td><label>Select the opml file to import</label></td>
+          <td>
+            <input type="file" accept=".opml" id="inputImportFile"/>
+            <button id="importButton">Import...</button>
+          </td>
+          <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
+        </tr>
+        <tr>
+          <td><label>Select where to export the ompl file<label></td>
+          <td><button id="exportButton">Export...</button></td>
+          <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
+        </tr>
+      </table>
+    </div>    
+    <script src="/options/js/options.js"></script>
+  </body>
+</html>

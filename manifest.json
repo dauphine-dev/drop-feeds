@@ -1,0 +1,76 @@
+{
+  "manifest_version": 2,
+  "name": "Drop feeds",
+  "description": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
+  "version": "0.1",
+  "applications": {
+    "gecko": {
+      "strict_min_version": "56.0.2"
+    }
+  },
+  
+  "icons": {
+    "32": "icons/drop-feeds-32.png",
+    "48": "icons/drop-feeds-48.png",
+    "96": "icons/drop-feeds-96.png"
+  },
+  
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  
+  "sidebar_action": {
+    "default_icon": "icons/drop-feeds-32.png",
+    "default_title" : "Drop feeds",
+    "default_panel": "sidebar/sidebar.html"
+  },
+
+
+  "commands": {
+    "_execute_sidebar_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z"
+      }
+    }
+  },
+  
+  "browser_action": {
+    "default_icon": "icons/drop-feeds-32.png"
+  },
+  
+  "page_action": {
+    "browser_style": true,
+    "default_icon": "themes/dauphine/img/subscribe.png",
+    "default_title": "Subscribe with Drop feed",
+    "default_popup": "subscribe/subscribe.html"
+  },
+  
+  "background": {
+    "scripts": ["background/js/background.js"]
+  },
+  
+  "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["background/js/content-script.js"],
+    "run_at": "document_end"
+  }],
+  
+  "options_ui": {
+    "page": "options/options.html",
+    "browser_style": true
+  },
+  
+  "web_accessible_resources": [
+    "transform/*.xsl",
+    "transform/*.css"
+  ],
+  
+  "permissions": [
+    "<all_urls>", "webRequest",
+    "bookmarks",
+    "menus",
+    "contextMenus",
+    "storage",
+    "downloads",
+    "tabs"
+  ]  
+}

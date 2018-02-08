@@ -1,0 +1,44 @@
+/* table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+td:first-child {
+  white-space: nowrap;
+}
+td:last-child {
+  width: 100%;
+}
+
+/* Panel */
+.panel{
+  border: 1px solid;
+  padding: 0 20px 20px 20px; 
+  margin: 5px 1px 5px 0;
+  border-color:gray;
+}
+
+.panelTitle{
+  text-decoration: underline;
+}
+
+/* hidden input */
+#inputImportFile {
+  display: none;
+}
+
+/* Progress bar */
+.progressBarTotal {
+  display: none;
+  border-radius:16px;
+  color:#000;
+  background-color:#d1d1d1;
+}
+
+.progressBarValue {
+  display: none;
+  border-radius:16px;
+  padding:0.01em 16px;
+  color:#fff;
+  background-color:#2196F3;
+}
