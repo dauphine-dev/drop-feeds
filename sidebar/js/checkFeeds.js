@@ -55,7 +55,7 @@ async function checkFeedOnbyOneAsync(feedObj, name) {
     catch (e) {
       feed.error = e;
       feed.pubDate = null;
-      console.log(e)
+      console.log(e);
       console.log('error:', feed);
     }
   }    
