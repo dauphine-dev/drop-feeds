@@ -4,21 +4,32 @@
 "use strict";
 //----------------------------------------------------------------------
 main();
+async function debugButtonOnClickedEvent(event ) {
+  let url = browser.extension.getURL('options/debug.html');
+  /*
+  let createData = {url: url, width: 778, height: 500, allowScriptsToClose: true};
+  browser.windows.create(createData);
+  */
+   var creating = browser.tabs.create({url: url});
+}
 //----------------------------------------------------------------------
 async function main() {  
+  //Debug
+  //addEventListener('debugButton', 'click', debugButtonOnClickedEvent);
+  
   //OMPL Import/Export
   addEventListener('inputImportFile', 'change', importInputChangedEvent);
   addEventListener('importButton', 'click', importButtonOnClickedEvent);
   addEventListener('exportButton', 'click', exportButtonOnClickedEventAsync);
   //Select theme
   let themeSelectHtml = await createThemeOptionsAsync();  
-  document.querySelector("#themeList").innerHTML += themeSelectHtml;
+  document.getElementById('themeList').innerHTML += themeSelectHtml;  
   addEventListener('themeSelect', 'change', themeSelectChangedEvent);
   //Select feed folder
   let feedFolderSelectHtml = await createFeedFolderOptionsAsync();
-  document.querySelector("#feedList").innerHTML += feedFolderSelectHtml;
+  document.getElementById('feedList').innerHTML += feedFolderSelectHtml;
   addEventListener('feedFolderSelect', 'change', feedFolderSelectChangedEvent);
-  addEventListener('applySelectedFeedButton', 'click', applySelectedClickedEventAsync);    
+  addEventListener('applySelectedFeedButton', 'click', applySelectedClickedEventAsync);
 }
 //----------------------------------------------------------------------
 function importButtonOnClickedEvent(event) {
@@ -54,7 +65,6 @@ async function applySelectedClickedEventAsync(event) {
 }
 //----------------------------------------------------------------------
 async function themeSelectChangedEvent(event) {
-console.log('1:');
   let themeName = document.getElementById('themeSelect').value;
   await setThemeFolderNameAsync(themeName);
   storageLocalSetItemAsync('lastModifiedForceReload', Date.now());

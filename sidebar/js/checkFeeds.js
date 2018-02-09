@@ -1,5 +1,5 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/
-/*global browser, logError, updatingFeedsButtons, checkFeedsAsync, printToStatusBar, downloadFileByFeedObjAsync, decodeHtml*/
+/*global browser, updatingFeedsButtons, checkFeedsAsync, printToStatusBar, downloadFileByFeedObjAsync, decodeHtml*/
 /*global getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync*/
 
 "use strict";
@@ -8,8 +8,7 @@ async function checkFeedsAsync(feedObj, baseElement) {
   try {
                             
     updatingFeedsButtons(true);
-    //let feedReads = document.querySelectorAll('.feedRead');
-    let feedReads = baseElement.querySelectorAll('.feedRead');
+    let feedReads = baseElement.querySelectorAll('.feedRead, .feedError');    
     for (let i = 0; i < feedReads.length; i++) {
       let feedObj = {index:i, id:null, title:null, bookmark:null, pubDate:null, feedText:null, error:null, newUrl: null};
       try {
@@ -21,7 +20,7 @@ async function checkFeedsAsync(feedObj, baseElement) {
       }
       catch(e) {
         feedObj.error = e;
-        logError(feedObj);
+        console.log(e);
       }      
     }
   }
@@ -36,36 +35,48 @@ async function checkOneFeedAsync(feedObj) {
   let oneByOne = true;
   if (oneByOne)
   {
-    checkFeedOnbyOneAsync(feedObj);
+    checkFeedOnbyOneAsync(feedObj, feedObj.bookmark.title);
   }
   else
   {
-    checkFeedAsync(feedObj);
+    checkFeedAsync(feedObj, feedObj.bookmark.title);
   }
 }
 //---------------------------------------------------------------------- 
-async function checkFeedOnbyOneAsync(feedObj) {
+async function checkFeedOnbyOneAsync(feedObj, name) {
   let feed = feedObj;
-  try {    
-    feed = await downloadFileByFeedObjAsync(feedObj);
+  try {
+    feed = await downloadFileByFeedObjAsync(feedObj, true);
   }
   catch (e) {
-    feed.error = e;
-    feed.pubDate = null;
-    logError(feed);
+    try {
+      feed = await downloadFileByFeedObjAsync(feedObj, false);
+    }
+    catch (e) {
+      feed.error = e;
+      feed.pubDate = null;
+      console.log(e)
+      console.log('error:', feed);
+    }
   }    
-  await computeFeedStatus(feed);
+  await computeFeedStatus(feed, name);
 }
 //---------------------------------------------------------------------- 
-async function checkFeedAsync(feedObj) {
-  await downloadFileByFeedObjAsync(feedObj).then(computeFeedStatus, logError);
+async function checkFeedAsync(feedObj, name) {
+  try {
+    let feed = await downloadFileByFeedObjAsync(feedObj);
+    computeFeedStatus(feed, name);
+  }
+  catch(e) {
+    console.log(e);
+  }
 }
 //---------------------------------------------------------------------- 
-async function computeFeedStatus(feedObj) {
+async function computeFeedStatus(feedObj, name) {
   feedObj.feedText = decodeHtml(feedObj.feedText);
   feedObj.pubDate = getFeedPubdate(feedObj);
   let status = FeedStatusEnum.OLD;
-  let storedFeedObj = await getStoredFeedAsync(null, feedObj.id);
+  let storedFeedObj = await getStoredFeedAsync(null, feedObj.id, name);
   let feedUiItem = document.getElementById(feedObj.id);
   if (isValidDate(feedObj.pubDate)) {
     if (feedObj.pubDate > storedFeedObj.pubDate) {
@@ -75,6 +86,6 @@ async function computeFeedStatus(feedObj) {
   else {
     status = FeedStatusEnum.ERROR;
   }  
-  await updateFeedStatusAsync(null, feedObj.id, status, feedObj.pubDate);
+  await updateFeedStatusAsync(null, feedObj.id, status, feedObj.pubDate, name);
 }
 //---------------------------------------------------------------------- 

@@ -1,5 +1,5 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-/*global browser, logError, storageLocalGetItemAsync, downloadFileAsync, getThemeFolderNameAsync*/
+/*global browser, storageLocalGetItemAsync, downloadFileAsync, getThemeFolderNameAsync*/
 "use strict";
 //----------------------------------------------------------------------
 let _optionFolderList= [];

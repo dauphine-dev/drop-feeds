@@ -89,7 +89,7 @@ async function loadFolderViewAsync(idToSelect) {
 async function createItemsForSubTreeAsync(bookmarkItems, idToSelect) {
   _html= [];
   await prepareItemsrecursivelyAsync(bookmarkItems[0], 10, idToSelect);
-  document.querySelector("#content").innerHTML = '\n' + _html.join('');
+  document.getElementById('content').innerHTML = '\n' + _html.join('');
 }
 //----------------------------------------------------------------------
 async function prepareItemsrecursivelyAsync(bookmarkItem, indent, idToSelect) {

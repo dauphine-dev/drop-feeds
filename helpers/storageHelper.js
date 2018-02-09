@@ -21,7 +21,7 @@ async function cleanStorage() {
   let items = Object.entries(storageItems);
   for (let [key, value] of items) {
     if (value) {
-      if (value.bkmrkId) {
+      if (value.isBkmrk || value.bkmrkId) {
         keysToRemove.push(key);
       } else if (value.checked) {
         keysToRemove.push(key);

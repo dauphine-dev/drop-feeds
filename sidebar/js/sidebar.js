@@ -1,6 +1,6 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, addEventListenerContextMenus, contextMenusOnClickedEvent, defaultStoredFolder, FeedStatusEnum, getFeedItemClassAsync, checkRootFolderAsync, getSourceCodeAsync, buttonAddFeedEnable*/
-/*global getFolderFromStorageObj, getStoredFeedAsync, logError, makeIndent, prepareTopMenuAsync, storageLocalGetItemAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
+/*global getFolderFromStorageObj, getStoredFeedAsync, makeIndent, prepareTopMenuAsync, storageLocalGetItemAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
 /*global checkFeedsMenuClicked, markAllFeedsAsReadMenuClicked, markAllFeedsAsUpdatedMenuClicked, openAllUpdatedFeedsMenuClicked, openFeedAsync, getThemeCssUrlAsync, sleep, getThemePageActionIcoAsync*/
 //----------------------------------------------------------------------
 "use strict";
@@ -14,6 +14,7 @@ async function mainSbr() {
   prepareTopMenuAsync();
   await loadPanelAsync();
   addingBookmarkListeners();
+  window.onresize = windowOnResize;
   browser.tabs.onActivated.addListener(tabOnActivatedEvent);
   browser.tabs.onUpdated.addListener(tabOnUpdatedEvent);  
   let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
@@ -22,6 +23,11 @@ async function mainSbr() {
 }
 //----------------------------------------------------------------------
 async function testButtonOnClickedEvent() {
+}
+//----------------------------------------------------------------------
+async function windowOnResize() {
+  let height = window.innerHeight - 57;
+  replaceStyle('.contentHeight', '  height:' + height + 'px;');
 }
 //----------------------------------------------------------------------
 async function tabOnActivatedEvent(activeInfo) {
@@ -73,7 +79,7 @@ async function createItemsForSubTree(bookmarkItems) {
   let storageObj = await browser.storage.local.get();
   _html= [];
   await prepareItemsrecursivelyAsync(storageObj, bookmarkItems[0], 10);
-  document.querySelector("#content").innerHTML = '\n' + _html.join('');
+  document.getElementById('content').innerHTML = '\n' + _html.join('');  
   addEventListenerOnFeedItems();
   addEventListenerOnFeedFolders();
   let height = window.innerHeight - 57;
@@ -95,7 +101,7 @@ async function prepareItemsrecursivelyAsync(storageObj, bookmarkItem, indent) {
 //----------------------------------------------------------------------
 async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
   let feedName = bookmarkItem.title;
-  let className = await getFeedItemClassAsync(storageObj, bookmarkItem.id);
+  let className = await getFeedItemClassAsync(storageObj, bookmarkItem.id, bookmarkItem.title);
   let feedLine = makeIndent(indent) + 
     '<li role="feeditem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
   _html.push(feedLine);
@@ -153,7 +159,6 @@ function feedClickedEvent(event) {
     let feedItem = event.currentTarget;
     let id = feedItem.getAttribute('id');
     let bookmarks = browser.bookmarks.get(id);
-    //bookmarks.then(openFeedAsync, logError('from openFeedFromEvent()', bookmarks));
     bookmarks.then(openFeedItemAsync);
     event.stopPropagation();
     event.preventDefault();
@@ -170,8 +175,8 @@ function folderChangedEvent(event) {
 async function openFeedItemAsync(bookmarkItems){
   let itemUrl = bookmarkItems[0].url;
   openFeedAsync(itemUrl);
-  let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id);
-  await updateFeedStatusAsync(null, bookmarkItems[0].id, FeedStatusEnum.OLD, null);  
+  let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
+  await updateFeedStatusAsync(null, bookmarkItems[0].id, FeedStatusEnum.OLD, new Date(), bookmarkItems[0].title);  
 }
 //---------------------------------------------------------------------- 
 function runtimeOnMessageEvent(request) {

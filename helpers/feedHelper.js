@@ -144,8 +144,8 @@ function getNextItem(feedText, itemId, tagItem) {
     return result;
 }
 //----------------------------------------------------------------------
-async function updateFeedStatusAsync(storageObj, feedId, feedStatus, pubDate) {
-  let storedFeedObj = await getStoredFeedAsync(null, feedId);
+async function updateFeedStatusAsync(storageObj, feedId, feedStatus, pubDate, name) {
+  let storedFeedObj = await getStoredFeedAsync(null, feedId, name);
   let feedUiItem = document.getElementById(feedId);
   storedFeedObj.status = feedStatus;
   
@@ -166,13 +166,14 @@ async function updateFeedStatusAsync(storageObj, feedId, feedStatus, pubDate) {
       feedUiItem.classList.add('feedError');
       break;
   }
-  if (pubDate) {
-    storedFeedObj.pubDate = pubDate;
+  storedFeedObj.pubDate = pubDate;
+  if (storedFeedObj.bkmrkId) {
+    storedFeedObj = {id: storedFeedObj.id, pubDate: storedFeedObj.pubDate, isBkmrk: true, status: storedFeedObj.status, name: name};
   }
   await storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);  
 }
 //----------------------------------------------------------------------
-async function getStoredFeedAsync(storageObj, feedId) {
+async function getStoredFeedAsync(storageObj, feedId, name) {
   let storedFeedObj = null;
   if (storageObj) {
     storedFeedObj = storageObj[feedId];
@@ -181,7 +182,7 @@ async function getStoredFeedAsync(storageObj, feedId) {
     storedFeedObj = await storageLocalGetItemAsync(feedId);
   }
   if (!storedFeedObj) {
-    storedFeedObj = {id: feedId, bkmrkId: feedId, status: FeedStatusEnum.OLD, pubDate: dateTimeMinValue()};
+    storedFeedObj = {id: feedId, pubDate: dateTimeMinValue(), isBkmrk: true, status:FeedStatusEnum.OLD, name: name};
   }
   return storedFeedObj;
 }
@@ -198,9 +199,9 @@ function defaultStoredFolder(folderId) {
   return {id: folderId, checked: true};
 }
 //----------------------------------------------------------------------
-async function getFeedItemClassAsync(storageObj, feedId) {
+async function getFeedItemClassAsync(storageObj, feedId, name) {
   let itemClass = null;  
-  let storedFeedObj = await getStoredFeedAsync(storageObj, feedId);
+  let storedFeedObj = await getStoredFeedAsync(storageObj, feedId, name);
   let feedStatus = storedFeedObj.status;
   switch(feedStatus) {
     case FeedStatusEnum.UPDATED:
@@ -228,8 +229,8 @@ async function OpenAllUpdatedFeedsAsync(id) {
     let bookmarkItems = await browser.bookmarks.get(feedId);
     let itemUrl = bookmarkItems[0].url;    
     openFeedAsync(itemUrl);
-    let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id);
-    await updateFeedStatusAsync(null, bookmarkItems[0].id, FeedStatusEnum.OLD, null);
+    let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].id);
+    await updateFeedStatusAsync(null, bookmarkItems[0].id, FeedStatusEnum.OLD, new Date(), bookmarkItems[0].title);
   }
 }
 //----------------------------------------------------------------------
@@ -243,8 +244,9 @@ async function MarkAllFeedsAsReadAsync(id) {
     let storedFeed = getStoredFeedAsync(null, feedId);
     /* jshint ignore:start */
     storedFeed.then(function (storedFeedObj) {
-      storedFeedObj.status = FeedStatusEnum.OLD;
-      storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
+      //storedFeedObj.status = FeedStatusEnum.OLD;
+      //storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
+      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.OLD, new Date(), '')
     });
     /* jshint ignore:end */
   }
@@ -260,8 +262,9 @@ async function MarkAllFeedsAsUpdatedAsync(id) {
     let storedFeed = getStoredFeedAsync(null, feedId);    
     /* jshint ignore:start */
     storedFeed.then(function (storedFeedObj) {
-      storedFeedObj.status = FeedStatusEnum.UPDATED;
-      storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
+      //storedFeedObj.status = FeedStatusEnum.UPDATED;
+      //storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
+      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.UPDATED, new Date(), '')      
     });
     /* jshint ignore:end */
     
