@@ -2,10 +2,10 @@
   "manifest_version": 2,
   "name": "Drop feeds",
   "description": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "applications": {
     "gecko": {
-      "id": "drop-feeds@dauphine-dev.tld",
+      "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
       "strict_min_version": "56.0"
     }
   },
@@ -15,9 +15,7 @@
     "48": "icons/drop-feeds-48.png",
     "96": "icons/drop-feeds-96.png"
   },
-  
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-  
+    
   "sidebar_action": {
     "default_icon": "icons/drop-feeds-32.png",
     "default_title" : "Drop feeds",

@@ -1,17 +1,14 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/
 /*global browser, updatingFeedsButtons, checkFeedsAsync, printToStatusBar, downloadFileByFeedObjAsync, decodeHtml*/
 /*global getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync*/
+
 "use strict";
-let _feedCheckingInProgress = false;
 //---------------------------------------------------------------------- 
 async function checkFeedsAsync(feedObj, baseElement) {
-  if (_feedCheckingInProgress) { return; }
   try {
-    _feedCheckingInProgress = true;
+                            
     updatingFeedsButtons(true);
-    let feedsToCheckList = [];
-    let feedsWaitForAnswer = [];
-    let feedReads = baseElement.querySelectorAll('.feedRead, .feedError');
+    let feedReads = baseElement.querySelectorAll('.feedRead, .feedError');    
     for (let i = 0; i < feedReads.length; i++) {
       let feedObj = {index:i, id:null, title:null, bookmark:null, pubDate:null, feedText:null, error:null, newUrl: null};
       try {
@@ -19,35 +16,36 @@ async function checkFeedsAsync(feedObj, baseElement) {
         let bookmarks = await browser.bookmarks.get(feedObj.id);
         feedObj.bookmark = bookmarks[0];
         feedObj.title = feedObj.bookmark.title;
-        printToStatusBar('preparing: ' + feedObj.bookmark.title);
-        feedsToCheckList.push(feedObj);
+        await checkOneFeedAsync(feedObj);
       }
       catch(e) {
         feedObj.error = e;
         console.log(e);
       }      
     }
-    await checkFeedsFromListAsync(feedsToCheckList, feedsWaitForAnswer);
   }
   finally {
-    //printToStatusBar('');
+    printToStatusBar('');
     updatingFeedsButtons(false);    
-    _feedCheckingInProgress = false;
   }
 }
 //---------------------------------------------------------------------- 
-async function checkFeedsFromListAsync(feedsToCheckList, feedsWaitForAnswer) {
-  while (feedsToCheckList.length >0) {
-    let feedObj = feedsToCheckList.pop();
-    printToStatusBar('checking: ' + feedObj.bookmark.title);
-    feedsWaitForAnswer = await checkOneFeedAsync(feedObj, feedObj.bookmark.title, feedsWaitForAnswer);
+async function checkOneFeedAsync(feedObj) {
+  printToStatusBar('checking: ' + feedObj.bookmark.title);
+  let oneByOne = true;
+  if (oneByOne)
+  {
+    checkFeedOnbyOneAsync(feedObj, feedObj.bookmark.title);
+  }
+  else
+  {
+    checkFeedAsync(feedObj, feedObj.bookmark.title);
   }
 }
 //---------------------------------------------------------------------- 
-async function checkOneFeedAsync(feedObj, name, feedsWaitForAnswer) {
+async function checkFeedOnbyOneAsync(feedObj, name) {
   let feed = feedObj;
   try {
-    feedsWaitForAnswer.push(feedObj);
     feed = await downloadFileByFeedObjAsync(feedObj, true);
   }
   catch (e) {
@@ -61,13 +59,20 @@ async function checkOneFeedAsync(feedObj, name, feedsWaitForAnswer) {
       console.log('error:', feed);
     }
   }    
-  feedsWaitForAnswer = removeFeedFromWaitingList(feedsWaitForAnswer, feed.id);
-  printToStatusBar('received: ' + feedObj.bookmark.title);
-  await computeFeedStatusAsync(feed, name);
-  return feedsWaitForAnswer;
+  await computeFeedStatus(feed, name);
 }
 //---------------------------------------------------------------------- 
-async function computeFeedStatusAsync(feedObj, name) {
+async function checkFeedAsync(feedObj, name) {
+  try {
+    let feed = await downloadFileByFeedObjAsync(feedObj);
+    computeFeedStatus(feed, name);
+  }
+  catch(e) {
+    console.log(e);
+  }
+}
+//---------------------------------------------------------------------- 
+async function computeFeedStatus(feedObj, name) {
   feedObj.feedText = decodeHtml(feedObj.feedText);
   feedObj.pubDate = getFeedPubdate(feedObj);
   let status = FeedStatusEnum.OLD;
@@ -82,10 +87,5 @@ async function computeFeedStatusAsync(feedObj, name) {
     status = FeedStatusEnum.ERROR;
   }  
   await updateFeedStatusAsync(null, feedObj.id, status, feedObj.pubDate, name);
-}
-//---------------------------------------------------------------------- 
-function removeFeedFromWaitingList(feedsWaitForAnswer, feedId) {
-  feedsWaitForAnswer = feedsWaitForAnswer.filter(function(feedObj) { return feedObj.id != feedId; });
-  return feedsWaitForAnswer;
 }
 //---------------------------------------------------------------------- 

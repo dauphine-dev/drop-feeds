@@ -16,7 +16,7 @@ const TAG_ITEM_LIST = ['item', 'entry'];
 const TAG_ID_LIST = ['guid', 'id'];
 const TAG_TITLE_LIST = ['title'];
 const TAG_LINK_LIST = ['link'];
-const TAG_LINK_LIST1 = ['link', {tag: 'link', attributeValue: 'href', attributeSelect: null }];
+const ATT_LINK_LIST = ['href'];
 const TAG_DESC_LIST = ['content:encoded', 'description', 'content', 'summary', 'subtitle'];
 const TAG_CAT_LIST = ['category'];
 const TAG_AUTHOR_LIST = ['author', 'dc:creator'];
@@ -36,6 +36,7 @@ function getItemId(itemText) {
   }
   return result;
 }
+//---------------------------------------------------------------------- 
 function getEncoding(text) {
   let pattern = 'encoding="';
   let encodingStart = text.indexOf(pattern);
@@ -72,11 +73,44 @@ function extractValue(text, tagList, startIndex_optional, out_endIndex_optional)
       result = result.trim();
     }
     out_endIndex_optional[0] = valueEnd + tagEnd.length;
+    
     return result;
   }
   return null;
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
+function extractOpenTag(text, tagList) {
+  let result = null;
+  for (let tag of tagList) {
+    let tagStart = '<' + tag;
+    let tagEnd = '</' + tag + '>';    
+    let valueStart = text.indexOf(tagStart);
+    if (valueStart==-1) { continue; }
+    let valueEnd = text.indexOf('>', valueStart);
+    if (valueEnd==-1) { continue; }    
+    let result = text.substring(valueStart, valueEnd + 1).trim();    
+    return result;
+  }
+  return null;
+}
+//----------------------------------------------------------------------
+function extractAttribute(text, tagList, attributeList) {
+  let textOpenTag = extractOpenTag(text, tagList);
+  for (let attribute of attributeList) {
+    let attStart = attribute + '="';
+    let attEnd = '"';
+    let i = textOpenTag.indexOf(attStart);
+    if (i==-1) { continue; }
+    let valueStart = textOpenTag.indexOf('"', i);
+    if (valueStart==-1) { continue; }
+    let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
+    if (valueEnd==-1) { continue; }    
+    let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
+    return result;
+  }
+  return null;  
+}
+//----------------------------------------------------------------------
 function getFeedPubdate(feedObj) {
   if (!feedObj.feedText) return null;  
   let tagItem = get1stUsedTag(feedObj.feedText, TAG_ITEM_LIST);
@@ -223,7 +257,8 @@ async function checkFeedsForFolderAsync(id) {
 }
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
-  let feeds = document.getElementById(id).querySelectorAll('.feedUnread');  
+  let feeds = document.getElementById(id).querySelectorAll('.feedUnread, .feedError');
+console.log('feeds:', feeds);
   for (let i = 0; i < feeds.length; i++) {
     let feedId = feeds[i].getAttribute('id');        
     let bookmarkItems = await browser.bookmarks.get(feedId);
@@ -378,6 +413,9 @@ function parseChannelToObj(feedText, tagItem) {
   let tagChannel = get1stUsedTag(feedText, TAG_CHANNEL_LIST);
   let channelText = getInnerText1(feedText, tagChannel, tagItem);
   channel.link = extractValue(channelText, TAG_LINK_LIST);
+  if (!channel.link) {
+      channel.link = extractAttribute(channelText, TAG_LINK_LIST, ATT_LINK_LIST);    
+  }
   channel.title = decodeHtml(extractValue(channelText, TAG_TITLE_LIST));
   if (!channel.title) { channel.title = channel.link; }
   channel.description = decodeHtml(extractValue(channelText, TAG_DESC_LIST));
@@ -408,6 +446,9 @@ function parseItemsToHtmlList(feedText, tagItem) {
     let itemId = getItemId(itemText);
     item.number = i + 1;
     item.link = extractValue(itemText, TAG_LINK_LIST);
+    if (! item.link) {
+      item.link = extractAttribute(itemText, TAG_LINK_LIST, ATT_LINK_LIST);
+    }
     item.title = decodeHtml(extractValue(itemText, TAG_TITLE_LIST));
     if (!item.title) { item.title = item.link; }
     item.description = decodeHtml(extractValue(itemText, TAG_DESC_LIST));
@@ -450,7 +491,7 @@ function getHtmlItem(item) {
   htmlItem +=                         '        <span class="itemNumber">' + item.number + '.</span>\n';
   htmlItem +=                         '        <a href="' + item.link + '">' + title + '</a>\n';
   htmlItem +=                         '      </h2>\n';
-  if (item.description) { htmlItem += '      <div class="itemDescription">' + item.description + '</div>\n'; }
+  if (item.description) { htmlItem += '      <div class="itemDescription">' + fixDescriptionTags(item.description) + ' </div>\n'; }
   htmlItem +=                         '      <div class="itemInfo">\n';
   if (item.category) { htmlItem +=    '        <div class="itemCat">[' + item.category + ']</div>\n'; }
   if (item.author) { htmlItem +=      '        Posted by ' + item.author + '<br/>\n'; }
@@ -460,3 +501,12 @@ function getHtmlItem(item) {
   return htmlItem;
 }
 //---------------------------------------------------------------------- 
+function fixDescriptionTags(text) {
+  if (!text.includes('<')) { return text; }
+  let lastTtPos = text.lastIndexOf('<');
+  let lastGtPos = text.lastIndexOf('>');
+  if (lastTtPos > lastGtPos) {
+    text = text.concat('>');
+  }
+  return text;
+}

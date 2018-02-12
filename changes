@@ -1,0 +1,14 @@
+0.1.2
+fix unclose tags in description
+fix links in atom feeds
+make synchrone check to avoid lost responses
+any way, try to open feed in error too
+
+0.1.1
+fix windows resizing
+adding no-cache management in feed url
+adding debug view
+and many small fixies
+
+0.1 
+Initial version
