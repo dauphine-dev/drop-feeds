@@ -1,19 +1,18 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-/*global bookmark, TAG_RSS_LIST, getInnerText1*/
-"use strict";
+/*global TAG_RSS_LIST, getInnerText1*/
+'use strict';
 //----------------------------------------------------------------------
 function downloadFileAsync(url, urlNocache) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
-    xhr.responseType = "text";
+    xhr.responseType = 'text';
     xhr.onreadystatechange = function(event) {
-        if (this.readyState === XMLHttpRequest.DONE) {
-            if (this.status === 200) {
-                resolve(xhr.responseText);
-            } else {
-                reject(xhr.status);
-            }
+      if (this.readyState === XMLHttpRequest.DONE) {
+        if (this.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.status);
         }
+      }
     };
     if (urlNocache) {
       let sep = url.includes('?') ? '&' : '?';
@@ -33,21 +32,21 @@ function downloadFileByFeedObjCoreAsync(feedObj, urlNocache) {
     }
     let result = downloadFileAsync(url, urlNocache);
     result.then( function(responseText) {
-        let tagRss = null;
-        for (let tag of TAG_RSS_LIST) {
-          if (responseText.includes('<' + tag)) { tagRss = tag; break; }
-        }      
-        if (tagRss) {
-          feedObj.feedText = responseText; resolve(feedObj); 
-        } 
-        else {          
-          feedObj.error = 'it is not a rss file'; reject(feedObj.error); 
-        }
-      },
-      function(error) {
-        feedObj.error = error;
-        reject(error); }
-      );
+      let tagRss = null;
+      for (let tag of TAG_RSS_LIST) {
+        if (responseText.includes('<' + tag)) { tagRss = tag; break; }
+      }      
+      if (tagRss) {
+        feedObj.feedText = responseText; resolve(feedObj); 
+      } 
+      else {          
+        feedObj.error = 'it is not a rss file'; reject(feedObj.error); 
+      }
+    },
+    function(error) {
+      feedObj.error = error;
+      reject(error); }
+    );
   });
 }
 //---------------------------------------------------------------------- 

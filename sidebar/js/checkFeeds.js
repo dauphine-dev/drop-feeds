@@ -38,7 +38,7 @@ async function checkFeedsAsync(feedObj, baseElement) {
 //---------------------------------------------------------------------- 
 async function checkFeedsFromListAsync(feedsToCheckList, feedsWaitForAnswer) {
   while (feedsToCheckList.length >0) {
-    let feedObj = feedsToCheckList.pop();
+    let feedObj = feedsToCheckList.shift();
     printToStatusBar('checking: ' + feedObj.bookmark.title);
     feedsWaitForAnswer = await checkOneFeedAsync(feedObj, feedObj.bookmark.title, feedsWaitForAnswer);
   }

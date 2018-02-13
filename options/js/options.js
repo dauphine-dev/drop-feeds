@@ -1,16 +1,11 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync*/
 /*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, setThemeFolderNameAsync*/
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 main();
 async function debugButtonOnClickedEvent(event ) {
   let url = browser.extension.getURL('options/debug.html');
-  /*
-  let createData = {url: url, width: 778, height: 500, allowScriptsToClose: true};
-  browser.windows.create(createData);
-  */
-   var creating = browser.tabs.create({url: url});
+  var creating = browser.tabs.create({url: url});
 }
 //----------------------------------------------------------------------
 async function main() {  

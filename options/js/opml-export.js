@@ -1,12 +1,12 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, escape, storageLocalGetItemAsync, makeIndent, bookmarkItemHasChild*/
-"use strict";
+'use strict';
 let _opmlItemList = [];
 let  _opmlIntentSize = 2;
 //----------------------------------------------------------------------
 async function GetUrlForExportedOpmlFileAsync() {
   let opmlFileText = await computeOpmlTextAsync();
-  let blob = new Blob([opmlFileText], {encoding:"UTF-8", type : 'text/html;charset=UTF-8'});
+  let blob = new Blob([opmlFileText], {encoding:'UTF-8', type : 'text/html;charset=UTF-8'});
   let opmlFileUrl = URL.createObjectURL(blob);
   return opmlFileUrl;
 }

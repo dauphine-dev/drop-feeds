@@ -1,4 +1,5 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
+/*global checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
+
 //---------------------------------------------------------------------- 
 function addEventListenerContextMenus() {
   addEventListener('main', 'click', mainOnClickedEvent);  
@@ -14,11 +15,6 @@ function contextMenusOnClickedEvent(event){
   let elcontent = document.getElementById('content');
   let elContextMenu = document.getElementById('contextMenuId');
   let idComeFrom = event.currentTarget.getAttribute('id');
-/*
-let lblId = 'lbl-' + idComeFrom.substring(3);
-let elLbl = document.getElementById(lblId);
-console.log('label:', elLbl.innerHTML);
-*/
   elContextMenu.setAttribute('comeFrom', idComeFrom);  
   elContextMenu.classList.add('show');
   let x  = Math.max(0, elcontent.offsetWidth - elContextMenu.offsetWidth - 36);
@@ -32,28 +28,28 @@ function mainOnClickedEvent(event){
 }
 //----------------------------------------------------------------------
 async function checkFeedsMenuClicked(event) {
-  elContextMenu = document.getElementById('contextMenuId');
+  let elContextMenu = document.getElementById('contextMenuId');
   elContextMenu.classList.remove('show');
   let idComeFrom = elContextMenu.getAttribute('comeFrom');
   checkFeedsForFolderAsync(idComeFrom);
 }
 //----------------------------------------------------------------------
 async function openAllUpdatedFeedsMenuClicked(event) {
-  elContextMenu = document.getElementById('contextMenuId');
+  let elContextMenu = document.getElementById('contextMenuId');
   elContextMenu.classList.remove('show');
   let idComeFrom = elContextMenu.getAttribute('comeFrom');
   OpenAllUpdatedFeedsAsync(idComeFrom);
 }
 //----------------------------------------------------------------------
 async function markAllFeedsAsReadMenuClicked(event) {
-  elContextMenu = document.getElementById('contextMenuId');
+  let elContextMenu = document.getElementById('contextMenuId');
   elContextMenu.classList.remove('show');
   let idComeFrom = elContextMenu.getAttribute('comeFrom');
   MarkAllFeedsAsReadAsync(idComeFrom);
 }
 //----------------------------------------------------------------------
 async function markAllFeedsAsUpdatedMenuClicked(event) {
-  elContextMenu = document.getElementById('contextMenuId');
+  let elContextMenu = document.getElementById('contextMenuId');
   elContextMenu.classList.remove('show');
   let idComeFrom = elContextMenu.getAttribute('comeFrom');
   MarkAllFeedsAsUpdatedAsync(idComeFrom);

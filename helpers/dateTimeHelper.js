@@ -1,5 +1,5 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-"use strict";
+'use strict';
+//----------------------------------------------------------------------
 const TIME_ZONE = {'ACDT':'GMT+10:30', 'ACST':'GMT+9:30', 'ADT':'GMT−3', 'AEDT':'GMT+11', 'AEST':'GMT+10', 'AFT':'GMT+4:30', 'AKDT':'GMT−8',
   'AKST':'GMT−9', 'AMST':'GMT+5', 'AMT':'GMT+4', 'ART':'GMT−3', 'AST':'GMT−4', 'AWDT':'GMT+9',
   'AWST':'GMT+8', 'AZOST':'GMT−1', 'AZT':'GMT+4', 'BDT':'GMT+8', 'BIOT':'GMT+6', 'BIT':'GMT−12', 'BOT':'GMT−4', 'BRT':'GMT−3',
@@ -24,12 +24,12 @@ function dateTimeMinValue() {
 }
 //----------------------------------------------------------------------
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 //----------------------------------------------------------------------
 function isValidDate(date) {
   let bOk = false;
-  if ( Object.prototype.toString.call(date) === "[object Date]" ) {
+  if ( Object.prototype.toString.call(date) === '[object Date]' ) {
     if ( ! isNaN( date.getTime() ) ) {      
       bOk = true;
     }

@@ -1,7 +1,7 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 mainDbg();
 //----------------------------------------------------------------------
 async function mainDbg() {
@@ -40,9 +40,9 @@ async function getStorageLocalHtmlAsync() {
 function printToHtml(message) {
   let html = '';
   if (typeof message == 'object') {
-      html += (JSON && JSON.stringify ? JSON.stringify(message) : message);
+    html += (JSON && JSON.stringify ? JSON.stringify(message) : message);
   } else {
-      html += message;
+    html += message;
   }
   return html;
 }

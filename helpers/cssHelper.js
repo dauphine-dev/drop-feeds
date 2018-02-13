@@ -1,5 +1,4 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 function getSheetAndRuleIndex(styleName) {
   let styleNameLower = styleName.toLowerCase();
@@ -23,7 +22,7 @@ function replaceStyle(styleName, styleText) {
   }
   let styleSheetList = document.styleSheets[sheetAndRuleIndex.sheetIndex];
   styleSheetList.deleteRule(sheetAndRuleIndex.ruleIndex);
-  styleSheetList.insertRule(styleName+"{"+styleText+"}", styleSheetList.cssRules.length);
+  styleSheetList.insertRule(styleName + '{' + styleText + '}', styleSheetList.cssRules.length);
 }
 //---------------------------------------------------------------------- 
 function getStyleText(styleName) {

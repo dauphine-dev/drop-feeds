@@ -1,7 +1,6 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global  browser*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 const verEnum = {
   MAJ : 0,
   MIN : 1,
@@ -11,7 +10,6 @@ let _sidebarActionIsOpen = false;
 mainBg();
 //----------------------------------------------------------------------
 async function mainBg() {  
-  //addingTestContextMenus();
   let version = await getBrowserVersionAsync();
   if (version[verEnum.MAJ] < 57) {
     disableBrowserAction();
@@ -19,22 +17,6 @@ async function mainBg() {
   }    
   _sidebarActionIsOpen = await sidebarActionIsOpenAsync();
   browser.browserAction.onClicked.addListener(toggleDropFeedsPanelAsync);
-}
-//----------------------------------------------------------------------
-function addingTestContextMenus() {
-  browser.contextMenus.create( {id: 'test', title:'test', contexts: ["all"] });
-  browser.contextMenus.onClicked.addListener(contextMenusOnClickedEvent);  
-}
-//----------------------------------------------------------------------
-function contextMenusOnClickedEvent(info, tab) {
-  switch (info.menuItemId) {
-    case "test":
-      testAsync();
-      break;
-  }
-}
-//----------------------------------------------------------------------
-async function testAsync() {
 }
 //----------------------------------------------------------------------
 function disableBrowserAction() {
@@ -57,7 +39,7 @@ async function toggleDropFeedsPanelAsync(){
     browser.sidebarAction.close();
   }
   else {
-    let panelUrl = browser.extension.getURL("sidebar/sidebar.html");
+    let panelUrl = browser.extension.getURL('sidebar/sidebar.html');
     browser.sidebarAction.setPanel({panel: panelUrl});
     browser.sidebarAction.open();
   }

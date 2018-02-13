@@ -1,7 +1,7 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, storageLocalGetItemAsync, makeIndent, storageLocalSetItemAsync*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 let _html= [];
 let _feedTitle = null;
 let _feedUrl = null;
@@ -103,33 +103,33 @@ async function prepareItemsrecursivelyAsync(bookmarkItem, indent, idToSelect) {
 }
 //----------------------------------------------------------------------
 async function createFolderItemAsync (bookmarkItem, indent, idToSelect) {
-    let id = bookmarkItem.id;
-    let folderName = bookmarkItem.title;
-    let selected = (idToSelect == id ? ' class="selected"' : '');
-    let selected1 = (idToSelect == id ? ' class="selected1"' : '');
-    let folderLine = '';
-    folderLine += makeIndent(indent) + 
-    '<div id="dv-' + id + '" class="folder">\n';
-    indent += 2;    
-    folderLine += makeIndent(indent) + 
-      '<li>' + 
-      '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
-      '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' + 
-      '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' + 
-      '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
-    folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
-    indent += 2;
-    _html.push(folderLine);
-    if (bookmarkItem.children) {
-      for (let child of bookmarkItem.children) {
-        await prepareItemsrecursivelyAsync(child, indent, idToSelect);
-      }
+  let id = bookmarkItem.id;
+  let folderName = bookmarkItem.title;
+  let selected = (idToSelect == id ? ' class="selected"' : '');
+  let selected1 = (idToSelect == id ? ' class="selected1"' : '');
+  let folderLine = '';
+  folderLine += makeIndent(indent) + 
+  '<div id="dv-' + id + '" class="folder">\n';
+  indent += 2;    
+  folderLine += makeIndent(indent) + 
+  '<li>' + 
+  '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
+  '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' + 
+  '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' + 
+  '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
+  folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+  indent += 2;
+  _html.push(folderLine);
+  if (bookmarkItem.children) {
+    for (let child of bookmarkItem.children) {
+      await prepareItemsrecursivelyAsync(child, indent, idToSelect);
     }
-    indent -= 2;
-    _html.push(makeIndent(indent) + '</ul>\n');
-    _html.push(makeIndent(indent) + '</li>\n');
-    indent -= 2;
-    _html.push(makeIndent(indent) + '</div>\n');
+  }
+  indent -= 2;
+  _html.push(makeIndent(indent) + '</ul>\n');
+  _html.push(makeIndent(indent) + '</li>\n');
+  indent -= 2;
+  _html.push(makeIndent(indent) + '</div>\n');
 }
 //----------------------------------------------------------------------
 function addEventListenerOnFolders() {  

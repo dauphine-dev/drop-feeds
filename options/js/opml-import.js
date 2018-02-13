@@ -1,11 +1,11 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, occurrences, sleep, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar, storageLocalGetItemAsync, storageLocalSetItemAsync, cleanStorage, importInProgress*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 const TagKindEnum = {
-    OPENNER: 'openner',
-    CLOSER: 'closer',
-    SINGLE: 'single'
+  OPENNER: 'openner',
+  CLOSER: 'closer',
+  SINGLE: 'single'
 };
 //----------------------------------------------------------------------
 async function ImportOmplFileAsync(event) {
@@ -24,68 +24,68 @@ async function ImportOmplFileAsync(event) {
 //----------------------------------------------------------------------
 function opmlIsValid(opmlText) {
   let parser = new DOMParser();
-  let docXml = parser.parseFromString(opmlText, "application/xml");
+  let docXml = parser.parseFromString(opmlText, 'application/xml');
   let parseErrorElements = docXml.getElementsByTagName('parsererror');
   return  (parseErrorElements.length == 0);  
 }
 //----------------------------------------------------------------------
 async function importOmplOutlinesAsync(opmlText) {
-    let folderId = await storageLocalGetItemAsync('rootBookmarkId');    
-    await cleanBookmarkFolderAsync(folderId);
-    await cleanStorage();
-    let indent = 0;
-    let i1 = occurrences(opmlText, '<outline');
-    let i2 = occurrences(opmlText, '</outline');
-    let itemNumber = i1 + i2;
-    let index = 0;
-    showProgressBar('progressBarImport');
-    setProgressBarValue('progressBarImport', 0);
-    try {
-      storageLocalSetItemAsync('importInProgress', true);
-      for (let i=0; i<itemNumber; i++) {
-        let perCent = (100*i) / itemNumber;
-        perCent = Math.round(perCent * 10) / 10;
-        setProgressBarValue('progressBarImport', perCent);
-        let outlineInfo = getNextOutlineElementInfo(opmlText, index);
-        switch (outlineInfo.kind) {
-          case TagKindEnum.OPENNER:
-            let bookmarkFolder = await browser.bookmarks.create({
-                parentId: folderId,
-                title: outlineInfo.title
-            });
-            folderId = bookmarkFolder.id;
-            break;
-          case TagKindEnum.CLOSER:
-            let bookmarks = await browser.bookmarks.get(folderId);
-            let curentFolder = bookmarks[0];
-            folderId = curentFolder.parentId;
-            break;
-          case TagKindEnum.SINGLE:
-            await browser.bookmarks.create({
-                parentId: folderId,
-                title: outlineInfo.title,
-                url: outlineInfo.url
-            });          
-            break;
-        }      
-        index = outlineInfo.endIndex;
-      }
-      setProgressBarValue('progressBarImport', 100);
-      await sleep(500);
+  let folderId = await storageLocalGetItemAsync('rootBookmarkId');    
+  await cleanBookmarkFolderAsync(folderId);
+  await cleanStorage();
+  let indent = 0;
+  let i1 = occurrences(opmlText, '<outline');
+  let i2 = occurrences(opmlText, '</outline');
+  let itemNumber = i1 + i2;
+  let index = 0;
+  showProgressBar('progressBarImport');
+  setProgressBarValue('progressBarImport', 0);
+  try {
+    storageLocalSetItemAsync('importInProgress', true);
+    for (let i=0; i<itemNumber; i++) {
+      let perCent = (100*i) / itemNumber;
+      perCent = Math.round(perCent * 10) / 10;
+      setProgressBarValue('progressBarImport', perCent);
+      let outlineInfo = getNextOutlineElementInfo(opmlText, index);
+      switch (outlineInfo.kind) {
+      case TagKindEnum.OPENNER:
+        let bookmarkFolder = await browser.bookmarks.create({
+          parentId: folderId,
+          title: outlineInfo.title
+        });
+        folderId = bookmarkFolder.id;
+        break;
+      case TagKindEnum.CLOSER:
+        let bookmarks = await browser.bookmarks.get(folderId);
+        let curentFolder = bookmarks[0];
+        folderId = curentFolder.parentId;
+        break;
+      case TagKindEnum.SINGLE:
+        await browser.bookmarks.create({
+          parentId: folderId,
+          title: outlineInfo.title,
+          url: outlineInfo.url
+        });          
+        break;
+      }      
+      index = outlineInfo.endIndex;
     }
-    catch(e) {
-      console.log('e:', e);
-    }
-    finally {
-      storageLocalSetItemAsync('importInProgress', false);
-      hideProgressBar('progressBarImport');
-    }
+    setProgressBarValue('progressBarImport', 100);
+    await sleep(500);
+  }
+  catch(e) {
+    console.log('e:', e);
+  }
+  finally {
+    storageLocalSetItemAsync('importInProgress', false);
+    hideProgressBar('progressBarImport');
+  }
 }
 //----------------------------------------------------------------------
 async function cleanBookmarkFolderAsync(folderId) {
   let children = await browser.bookmarks.getChildren(folderId);
   for (let bookmark of children) {
-      browser.bookmarks.removeTree(bookmark.id);
+    browser.bookmarks.removeTree(bookmark.id);
   }
 }
 //----------------------------------------------------------------------
@@ -124,7 +124,7 @@ function getNextOutlineElementInfo(opmlText, index) {
   let xmlUrl = getAttributeValue(outlineText , 'xmlUrl');
       
   let outlineElementInfo = { startIndex : indexStart, endIndex : indexEnd, kind : kind,
-                              isFeed : isFeed, type : type, title : title, url : xmlUrl };
+    isFeed : isFeed, type : type, title : title, url : xmlUrl };
   return outlineElementInfo;
 }  
 //----------------------------------------------------------------------

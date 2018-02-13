@@ -1,8 +1,7 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/
 /*global browser, updatingFeedsButtons, checkFeedsAsync, printToStatusBar, downloadFileByFeedObjAsync, decodeHtml*/
 /*global getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync*/
 
-"use strict";
+'use strict';
 //---------------------------------------------------------------------- 
 async function checkFeedsAsync(feedObj, baseElement) {
   try {

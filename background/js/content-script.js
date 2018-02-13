@@ -1,17 +1,17 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global  browser*/
-"use strict";
+'use strict';
 browser.runtime.onMessage.addListener(runtimeOnMessageEvent);
 //----------------------------------------------------------------------
-function runtimeOnMessageEvent(request) {
+async function runtimeOnMessageEvent(request) {
   let response = null;
   switch (request.req) {
-    case 'isFeed':
-      response = isFeed();
-      break;
-    case 'addSubscribeButton':
-      addSubscribeButton();
-      break;
+  case 'isFeed':
+    response = isFeed();
+    break;
+  case 'addSubscribeButton':
+    addSubscribeButton();
+    break;
   }
   return Promise.resolve(response);
 }
@@ -21,7 +21,7 @@ function isFeed() {
   try {
     feedHandler = document.getElementById('feedHandler').innerHTML;
   }
-  catch(e) {}
+  catch(e) {/**/}
   let result = (feedHandler ? true : false);
   return result;
 }

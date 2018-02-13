@@ -1,9 +1,9 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-/*global browser, addEventListenerContextMenus, contextMenusOnClickedEvent, defaultStoredFolder, FeedStatusEnum, getFeedItemClassAsync, checkRootFolderAsync, getSourceCodeAsync, buttonAddFeedEnable*/
-/*global getFolderFromStorageObj, getStoredFeedAsync, makeIndent, prepareTopMenuAsync, storageLocalGetItemAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
-/*global checkFeedsMenuClicked, markAllFeedsAsReadMenuClicked, markAllFeedsAsUpdatedMenuClicked, openAllUpdatedFeedsMenuClicked, openFeedAsync, getThemeCssUrlAsync, sleep, getThemePageActionIcoAsync*/
+/*global browser, addEventListenerContextMenus, contextMenusOnClickedEvent, defaultStoredFolder, FeedStatusEnum, getFeedItemClassAsync, checkRootFolderAsync, buttonAddFeedEnable*/
+/*global getFolderFromStorageObj, getStoredFeedAsync, makeIndent, prepareTopMenuAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
+/*global openFeedAsync, sleep, getThemePageActionIcoAsync*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 let _html= [];
 console.log('Drop feeds loading...');
 mainSbr();
@@ -108,33 +108,33 @@ async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
 }
 //----------------------------------------------------------------------
 async function createFolderItemAsync (storageObj, bookmarkItem, indent) {
-    let id = bookmarkItem.id;
-    let folderName = bookmarkItem.title;
-    let storedFolder = getFolderFromStorageObj(storageObj, 'cb-' + id);    
-    let checked = storedFolder.checked ? 'checked' : '';
-    let folderLine = '';
-    folderLine += makeIndent(indent) + 
-    '<div id="dv-' + id + '" class="folder">\n';
-    indent += 2;    
-    folderLine += makeIndent(indent) + 
-      '<li>' + 
-      '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
-      '<label for="cb-' + id + '" class="folderClose"></label>' + 
-      '<label for="cb-' + id + '" class="folderOpen"></label>' + 
-      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
-    folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
-    indent += 2;
-    _html.push(folderLine);
-    if (bookmarkItem.children) {
-      for (let child of bookmarkItem.children) {
-        await prepareItemsrecursivelyAsync(storageObj, child, indent);
-      }
+  let id = bookmarkItem.id;
+  let folderName = bookmarkItem.title;
+  let storedFolder = getFolderFromStorageObj(storageObj, 'cb-' + id);    
+  let checked = storedFolder.checked ? 'checked' : '';
+  let folderLine = '';
+  folderLine += makeIndent(indent) + 
+  '<div id="dv-' + id + '" class="folder">\n';
+  indent += 2;    
+  folderLine += makeIndent(indent) + 
+    '<li>' + 
+    '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
+    '<label for="cb-' + id + '" class="folderClose"></label>' + 
+    '<label for="cb-' + id + '" class="folderOpen"></label>' + 
+    '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
+  folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+  indent += 2;
+  _html.push(folderLine);
+  if (bookmarkItem.children) {
+    for (let child of bookmarkItem.children) {
+      await prepareItemsrecursivelyAsync(storageObj, child, indent);
     }
-    indent -= 2;
-    _html.push(makeIndent(indent) + '</ul>\n');
-    _html.push(makeIndent(indent) + '</li>\n');
-    indent -= 2;
-    _html.push(makeIndent(indent) + '</div>\n');
+  }
+  indent -= 2;
+  _html.push(makeIndent(indent) + '</ul>\n');
+  _html.push(makeIndent(indent) + '</li>\n');
+  indent -= 2;
+  _html.push(makeIndent(indent) + '</div>\n');
 }
 //----------------------------------------------------------------------
 function addEventListenerOnFeedItems() {
@@ -156,20 +156,20 @@ function addEventListenerOnFeedFolders() {
 }  
 //----------------------------------------------------------------------
 function feedClickedEvent(event) {
-    let feedItem = event.currentTarget;
-    let id = feedItem.getAttribute('id');
-    let bookmarks = browser.bookmarks.get(id);
-    bookmarks.then(openFeedItemAsync);
-    event.stopPropagation();
-    event.preventDefault();
+  let feedItem = event.currentTarget;
+  let id = feedItem.getAttribute('id');
+  let bookmarks = browser.bookmarks.get(id);
+  bookmarks.then(openFeedItemAsync);
+  event.stopPropagation();
+  event.preventDefault();
 }
 //----------------------------------------------------------------------
 function folderChangedEvent(event) {
-    let folderItem = event.currentTarget;
-    let folderId = folderItem.getAttribute('id');
-    let storedFolder = defaultStoredFolder(folderId);
-    storedFolder.checked = folderItem.checked;
-    storageLocalSetItemAsync(folderId, storedFolder);
+  let folderItem = event.currentTarget;
+  let folderId = folderItem.getAttribute('id');
+  let storedFolder = defaultStoredFolder(folderId);
+  storedFolder.checked = folderItem.checked;
+  storageLocalSetItemAsync(folderId, storedFolder);
 }
 //----------------------------------------------------------------------
 async function openFeedItemAsync(bookmarkItems){
@@ -182,9 +182,9 @@ async function openFeedItemAsync(bookmarkItems){
 function runtimeOnMessageEvent(request) {
   let response = null;
   switch (request.req) {
-    case 'openSubscribeDialog':
-      openSubscribeDialogAsync();
-      break;
+  case 'openSubscribeDialog':
+    openSubscribeDialogAsync();
+    break;
   }
   return Promise.resolve(response);
 }

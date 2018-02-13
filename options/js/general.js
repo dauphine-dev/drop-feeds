@@ -1,6 +1,6 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, storageLocalGetItemAsync, downloadFileAsync, getThemeFolderNameAsync*/
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 let _optionFolderList= [];
 let _optionSize = 4;
@@ -17,7 +17,7 @@ async function createFeedFolderOptionsAsync() {
 async function createThemeOptionsAsync() {
   const folder_name = 0;
   const ui_name = 1;
-  let themeListUrl = browser.extension.getURL("/themes/themes.list");  
+  let themeListUrl = browser.extension.getURL('/themes/themes.list');
   let themeListText = await downloadFileAsync(themeListUrl);
   let themeList = themeListText.trim().split('\n');
   let selectedThemeName = await getThemeFolderNameAsync();

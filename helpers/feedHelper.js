@@ -1,12 +1,12 @@
 /*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync*/
 /*global dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, getThemeCssUrlMozExtAsync*/
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
-    UPDATED: 'updated',
-    OLD: 'old',
-    ERROR: 'error'
+  UPDATED: 'updated',
+  OLD: 'old',
+  ERROR: 'error'
 };
 const TAG_RSS_LIST = ['?xml', 'rss'];
 const TAG_CHANNEL_LIST = ['channel', 'feed'];
@@ -118,7 +118,7 @@ function getFeedPubdate(feedObj) {
   let itemNumber = occurrences(feedObj.feedText, '</' + tagItem + '>');
   let pubDateList=[];
   
-  let itemText = getNextItem(feedObj.feedText, "---", tagItem); // use a fake id to start
+  let itemText = getNextItem(feedObj.feedText, '---', tagItem); // use a fake id to start
   for (let i=0; i<itemNumber; i++) { 
     let itemId = getItemId(itemText);
     let pubDateText = extractValue(itemText, TAG_PUBDATE_LIST);
@@ -137,24 +137,23 @@ function getFeedPubdate(feedObj) {
     let lastBuildDateText = extractValue(feedObj.feedText, TAG_LASTBUILDDATE_LIST);
     pubDate = extracDateTime(lastBuildDateText);    
   }
-//console.log('pubDate:', pubDate);
   return pubDate;
 }
 //----------------------------------------------------------------------
 function extracDateTime(dateTimeText) {
-    let dateTime = null;
-    if (dateTimeText) {
-      dateTimeText = dateTimeText.replace(/\s+/g, ' ');
-      dateTime = new Date(dateTimeText);
+  let dateTime = null;
+  if (dateTimeText) {
+    dateTimeText = dateTimeText.replace(/\s+/g, ' ');
+    dateTime = new Date(dateTimeText);
+    if (!isValidDate(dateTime)) {
+      dateTime = new Date(timeZoneToGmt(dateTimeText));
       if (!isValidDate(dateTime)) {
-        dateTime = new Date(timeZoneToGmt(dateTimeText));
-        if (!isValidDate(dateTime)) {
-          //dateTime = new Date(null);
-          dateTime = null;
-        }
+        //dateTime = new Date(null);
+        dateTime = null;
       }
     }
-    return dateTime;
+  }
+  return dateTime;
 }
 
 //----------------------------------------------------------------------
@@ -166,16 +165,16 @@ function get1stUsedTag(text, tagArray) {
 }
 //----------------------------------------------------------------------
 function getNextItem(feedText, itemId, tagItem) {
-    let itemIdPattern = ">" + itemId + "<";
-    let idIndex = feedText.indexOf(itemIdPattern); if (idIndex < 0) idIndex = 0;
-    
-    let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
-    if (startNextItemIndex == -1) return '';
-    let tagItemEnd = '</' + tagItem + '>';
-    let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);
-    if (endNextItemIndex < 1) return '';
-    let result = feedText.substring(startNextItemIndex, endNextItemIndex + tagItemEnd.length);
-    return result;
+  let itemIdPattern = '>' + itemId + '<';
+  let idIndex = feedText.indexOf(itemIdPattern); if (idIndex < 0) idIndex = 0;
+  
+  let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
+  if (startNextItemIndex == -1) return '';
+  let tagItemEnd = '</' + tagItem + '>';
+  let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);
+  if (endNextItemIndex < 1) return '';
+  let result = feedText.substring(startNextItemIndex, endNextItemIndex + tagItemEnd.length);
+  return result;
 }
 //----------------------------------------------------------------------
 async function updateFeedStatusAsync(storageObj, feedId, feedStatus, pubDate, name) {
@@ -184,21 +183,21 @@ async function updateFeedStatusAsync(storageObj, feedId, feedStatus, pubDate, na
   storedFeedObj.status = feedStatus;
   
   switch(feedStatus) {
-    case FeedStatusEnum.UPDATED:
-        feedUiItem.classList.remove('feedError');
-        feedUiItem.classList.remove('feedRead');
-        feedUiItem.classList.add('feedUnread');
-      break;
-    case FeedStatusEnum.OLD:
-      feedUiItem.classList.remove('feedError');
-      feedUiItem.classList.remove('feedUnread');
-      feedUiItem.classList.add('feedRead');
-      break;
-    case FeedStatusEnum.ERROR:
-      feedUiItem.classList.remove('feedRead');
-      feedUiItem.classList.remove('feedUnread');
-      feedUiItem.classList.add('feedError');
-      break;
+  case FeedStatusEnum.UPDATED:
+    feedUiItem.classList.remove('feedError');
+    feedUiItem.classList.remove('feedRead');
+    feedUiItem.classList.add('feedUnread');
+    break;
+  case FeedStatusEnum.OLD:
+    feedUiItem.classList.remove('feedError');
+    feedUiItem.classList.remove('feedUnread');
+    feedUiItem.classList.add('feedRead');
+    break;
+  case FeedStatusEnum.ERROR:
+    feedUiItem.classList.remove('feedRead');
+    feedUiItem.classList.remove('feedUnread');
+    feedUiItem.classList.add('feedError');
+    break;
   }
   storedFeedObj.pubDate = pubDate;
   if (storedFeedObj.bkmrkId) {
@@ -238,15 +237,15 @@ async function getFeedItemClassAsync(storageObj, feedId, name) {
   let storedFeedObj = await getStoredFeedAsync(storageObj, feedId, name);
   let feedStatus = storedFeedObj.status;
   switch(feedStatus) {
-    case FeedStatusEnum.UPDATED:
-      itemClass = 'feedUnread';
-      break;
-    case FeedStatusEnum.OLD:
-      itemClass = 'feedRead';
-      break;
-    case FeedStatusEnum.ERROR:
-      itemClass = 'feedError';
-      break;
+  case FeedStatusEnum.UPDATED:
+    itemClass = 'feedUnread';
+    break;
+  case FeedStatusEnum.OLD:
+    itemClass = 'feedRead';
+    break;
+  case FeedStatusEnum.ERROR:
+    itemClass = 'feedError';
+    break;
   }
   return itemClass;
 }
@@ -258,7 +257,6 @@ async function checkFeedsForFolderAsync(id) {
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
   let feeds = document.getElementById(id).querySelectorAll('.feedUnread, .feedError');
-console.log('feeds:', feeds);
   for (let i = 0; i < feeds.length; i++) {
     let feedId = feeds[i].getAttribute('id');        
     let bookmarkItems = await browser.bookmarks.get(feedId);
@@ -277,13 +275,9 @@ async function MarkAllFeedsAsReadAsync(id) {
     feeds[i].classList.remove('feedUnread');
     feeds[i].classList.add('feedRead');
     let storedFeed = getStoredFeedAsync(null, feedId);
-    /* jshint ignore:start */
     storedFeed.then(function (storedFeedObj) {
-      //storedFeedObj.status = FeedStatusEnum.OLD;
-      //storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
-      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.OLD, new Date(), '')
+      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.OLD, new Date(), '');
     });
-    /* jshint ignore:end */
   }
 }
 //----------------------------------------------------------------------
@@ -295,14 +289,9 @@ async function MarkAllFeedsAsUpdatedAsync(id) {
     feeds[i].classList.remove('feedRead');
     feeds[i].classList.add('feedUnread');
     let storedFeed = getStoredFeedAsync(null, feedId);    
-    /* jshint ignore:start */
     storedFeed.then(function (storedFeedObj) {
-      //storedFeedObj.status = FeedStatusEnum.UPDATED;
-      //storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
-      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.UPDATED, new Date(), '')      
-    });
-    /* jshint ignore:end */
-    
+      updateFeedStatusAsync(null, storedFeedObj.id, FeedStatusEnum.UPDATED, new Date(), '') ;   
+    });    
   }
 }
 //----------------------------------------------------------------------
@@ -384,7 +373,7 @@ async function parseFeedAsync(feedText) {
 }
 //----------------------------------------------------------------------
 async function getHtmlHeadAsync(channel) {
-  let iconUrl = browser.extension.getURL("icons/drop-feeds-32.png");  
+  let iconUrl = browser.extension.getURL('icons/drop-feeds-32.png');
   let cssUrl = await getThemeCssUrlMozExtAsync('feed.css');
   let encoding = channel.encoding ? channel.encoding : 'UTF-8';
   if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }
@@ -414,7 +403,7 @@ function parseChannelToObj(feedText, tagItem) {
   let channelText = getInnerText1(feedText, tagChannel, tagItem);
   channel.link = extractValue(channelText, TAG_LINK_LIST);
   if (!channel.link) {
-      channel.link = extractAttribute(channelText, TAG_LINK_LIST, ATT_LINK_LIST);    
+    channel.link = extractAttribute(channelText, TAG_LINK_LIST, ATT_LINK_LIST);    
   }
   channel.title = decodeHtml(extractValue(channelText, TAG_TITLE_LIST));
   if (!channel.title) { channel.title = channel.link; }
