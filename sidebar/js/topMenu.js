@@ -2,7 +2,7 @@
 /*global checkFeedsAsync, discoverFeedsAsync, toogleUpdatedFeedsVisibity, toogleFolders, optionsMenuAsync, toogleErrorFeedsVisibity*/
 /*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, defaultStoredFolder, sleep, getStyle, replaceStyle*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 let _updatedFeedsVisible=false;
 let _errorFeedsVisible=false;
 let _foldersOpenned=true;

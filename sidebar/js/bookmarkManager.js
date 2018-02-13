@@ -1,7 +1,6 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, printToStatusBar, sleep*/
 //----------------------------------------------------------------------
-"use strict";
+'use strict';
 let _lastCreatedBookmarkId = '';
 let _importInProgress = false;
 browser.storage.onChanged.addListener(storageEventChanged);

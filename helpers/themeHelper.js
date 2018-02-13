@@ -1,6 +1,5 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync*/
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 async function getThemeFolderNameAsync() {
   let themeFolderName = await storageLocalGetItemAsync('themeFolderName');

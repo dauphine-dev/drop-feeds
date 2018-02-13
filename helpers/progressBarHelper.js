@@ -1,6 +1,5 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
 /*global browser*/
-"use strict";
+'use strict';
 //----------------------------------------------------------------------
 function showProgressBar(progressBarId) {
   let progressBarTotal = document.getElementById(progressBarId + 'Total');
