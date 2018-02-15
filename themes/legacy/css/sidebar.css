@@ -23,14 +23,20 @@ body{
   border-width: 0 0 1px 0;
   border-color: #9D9D9D;
 }
-#checkFeedsButton::before {
+.checkFeedsButton::before {
   content: url(/themes/legacy/img/check-feeds.png);
   padding-left: 2px;
 }
+
+.checkFeedsButtonAnim::before {
+  content: url(/themes/legacy/img/check-feeds-animation.gif);
+  padding-left: 2px;
+}
+
 #discoverFeedsButton::before {
   content: url(/themes/legacy/img/magnify.png);
   padding-left: 2px;
-}  
+}
 #onlyUpdatedFeedsButton::before {
   content: url(/themes/legacy/img/only-updated-feeds.png);
   padding-left: 2px;
@@ -66,8 +72,8 @@ body{
 }
 
 /* statuts bar*/
-#statusBar {  
-  display: block;  
+#statusBar {
+  display: block;
   background-color: #E8E8E8;
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -76,7 +82,7 @@ body{
   line-height: 30px;
 }
 
-.statusButton::before {  
+.statusButton::before {
   padding-left: 5px;
   vertical-align: -20%;
 }
@@ -87,7 +93,7 @@ body{
 }
 
 #statusText {
-  line-height: 30px; 
+  line-height: 30px;
   padding-left: 5px;
 }
 
@@ -143,7 +149,7 @@ li {
 }
 .feedUnread::before  {
   content: url(/themes/legacy/img/feed-unread.png);
-  padding-right: 5px;  
+  padding-right: 5px;
 }
 .feedUnread {
   font-weight: bold;
@@ -163,7 +169,7 @@ li {
   background-color: #f9f9f9;
   min-width: 160px;
   padding-right: 20px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;  
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
   z-index: 1;
 }
 
@@ -180,7 +186,7 @@ li {
 #ctxMnCheckFeeds::before {
     background-image: url(/themes/legacy/img/check-feeds.png);
     background-size: 16px 16px;
-    width: 16px; 
+    width: 16px;
     height: 16px;
     content: "";
     display: inline-block;
@@ -189,7 +195,7 @@ li {
 #ctxMnMarkAllasRead::before {
     background-image: url(/themes/legacy/img/feed-read.png);
     background-size: 16px 16px;
-    width: 16px; 
+    width: 16px;
     height: 16px;
     content: "";
     display: inline-block;
@@ -198,7 +204,7 @@ li {
 #ctxMnMarkAllasUpdated::before {
     background-image: url(/themes/legacy/img/feed-unread.png);
     background-size: 16px 16px;
-    width: 16px; 
+    width: 16px;
     height: 16px;
     content: "";
     display: inline-block;
@@ -207,7 +213,7 @@ li {
 #ctxMnOpenAllUpdated::before {
     background-image: url(/themes/legacy/img/folder-open.png);
     background-size: 16px 16px;
-    width: 16px; 
+    width: 16px;
     height: 16px;
     content: "";
     display: inline-block;
