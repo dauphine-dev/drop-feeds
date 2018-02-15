@@ -10,11 +10,11 @@ let _buttonAddFeedEnabled=false;
 //----------------------------------------------------------------------
 async function prepareTopMenuAsync() {
   _updatedFeedsVisible = await storageLocalGetItemAsync('updatedFeedsVisibity');
-  setUpdatedFeedsVisibity();    
+  setUpdatedFeedsVisibity();
   _errorFeedsVisible = await storageLocalGetItemAsync('errorFeedsVisibity');
   setErrorFeedsVisibity();
- 
-  document.getElementById('discoverFeedsButton').style.opacity = '0.2';      
+
+  document.getElementById('discoverFeedsButton').style.opacity = '0.2';
   addEventListener('checkFeedsButton', 'click', checkFeedsButtonClickedEvent);
   addEventListener('discoverFeedsButton', 'click', discoverFeedsButtonClickedEvent);
   addEventListener('onlyUpdatedFeedsButton', 'click', onlyUpdatedFeedsButtonClickedEvent);
@@ -31,7 +31,7 @@ function buttonAddFeedEnable(isEnable) {
   }
   else {
     _buttonAddFeedEnabled = false;
-    document.getElementById('addFeedButton').style.opacity = '0.2';    
+    document.getElementById('addFeedButton').style.opacity = '0.2';
   }
 }
 //----------------------------------------------------------------------
@@ -40,29 +40,29 @@ function updatingFeedsButtons(updateInprogress) {
   {
     document.getElementById('checkFeedsButton').classList.add('checkFeedsButtonAnim');
     document.getElementById('checkFeedsButton').classList.remove('checkFeedsButton');
-    
+
     document.getElementById('statusButton').classList.add('statusButtonUpdating');
   }
   else
   {
     document.getElementById('checkFeedsButton').classList.add('checkFeedsButton');
     document.getElementById('checkFeedsButton').classList.remove('checkFeedsButtonAnim');
-    
+
     document.getElementById('statusButton').classList.remove('statusButtonUpdating');
   }
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function printToStatusBar(text) {
   let statusBar = document.getElementById('statusText');
-  statusBar.innerHTML = text;  
+  statusBar.innerHTML = text;
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function checkFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  checkFeedsAsync(null, document);
+  checkFeedsAsync(document);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 
 function onlyUpdatedFeedsButtonClickedEvent(event) {
   event.stopPropagation();
@@ -70,21 +70,21 @@ function onlyUpdatedFeedsButtonClickedEvent(event) {
   _updatedFeedsVisible = ! _updatedFeedsVisible;
   setUpdatedFeedsVisibity();
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function onlyErrorFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
   _errorFeedsVisible = ! _errorFeedsVisible;
   setErrorFeedsVisibity();
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function setUpdatedFeedsVisibity() {
   let visibleValue = _updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
   replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
   replaceStyle('.feedRead', visibleValue);
   storageLocalSetItemAsync('updatedFeedsVisibity', _updatedFeedsVisible);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function setErrorFeedsVisibity() {
   let visibleValue = _errorFeedsVisible ? 'visibility:visible;' : 'display:none,';
   //replaceStyle('.feedError', visibleValue);
@@ -97,7 +97,7 @@ function setErrorFeedsVisibity() {
   }
   storageLocalSetItemAsync('errorFeedsVisibity', _errorFeedsVisible);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function toogleFoldersButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
@@ -110,17 +110,17 @@ function toogleFoldersButtonClickedEvent(event) {
     let storedFolder = defaultStoredFolder(folderId);
     folders[i].checked = _foldersOpenned;
     storedFolder.checked = _foldersOpenned;
-    storageLocalSetItemAsync(folderId, storedFolder);    
-  } 
+    storageLocalSetItemAsync(folderId, storedFolder);
+  }
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 async function addFeedButtonClickedEvent(event) {
   if (!_buttonAddFeedEnabled) { return; }
   browser.pageAction.openPopup();
   event.stopPropagation();
   event.preventDefault();
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 async function discoverFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
@@ -128,10 +128,10 @@ async function discoverFeedsButtonClickedEvent(event) {
   await sleep(250);
   printToStatusBar('');
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 async function optionsMenuClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
   await browser.runtime.openOptionsPage();
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------

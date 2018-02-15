@@ -8,20 +8,27 @@ console.log('Drop feeds loading...');
 mainSbr();
 //----------------------------------------------------------------------
 async function mainSbr() {
-//await storageLocalSetItemAsync('rootBookmarkId', 'sdEbRZE4KwUa');  
-  //addEventListener('testButton', 'click', testButtonOnClickedEvent);
+  reloadOnce();
   prepareTopMenuAsync();
   await loadPanelAsync();
   addingBookmarkListeners();
   window.onresize = windowOnResize;
   browser.tabs.onActivated.addListener(tabOnActivatedEvent);
-  browser.tabs.onUpdated.addListener(tabOnUpdatedEvent);  
+  browser.tabs.onUpdated.addListener(tabOnUpdatedEvent);
   let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
   tabOnChangedAsync(tabInfos[0]);
   browser.runtime.onMessage.addListener(runtimeOnMessageEvent);
+
+
 }
 //----------------------------------------------------------------------
-async function testButtonOnClickedEvent() {
+function reloadOnce() {
+  //Workarround to have a clean display on 1st start.
+  let doReload = ! sessionStorage.getItem('hasAlreadyReloaded');
+  if (doReload) {
+    sessionStorage.setItem('hasAlreadyReloaded', true);
+    window.location.reload();
+  }
 }
 //----------------------------------------------------------------------
 async function windowOnResize() {
@@ -31,13 +38,13 @@ async function windowOnResize() {
 //----------------------------------------------------------------------
 async function tabOnActivatedEvent(activeInfo) {
   let tabInfo = await browser.tabs.get(activeInfo.tabId);
-  tabOnChangedAsync(tabInfo);  
+  tabOnChangedAsync(tabInfo);
 }
 //----------------------------------------------------------------------
 function tabOnUpdatedEvent(tabId, changeInfo, tabInfo) {
   if (changeInfo.status == 'complete') {
     tabOnChangedAsync(tabInfo);
-  }  
+  }
 }
 //----------------------------------------------------------------------
 async function tabOnChangedAsync(tabInfo) {
@@ -69,20 +76,21 @@ function storageEventChanged(changes, area) {
 //----------------------------------------------------------------------
 async function loadPanelAsync() {
   let rootBookmarkId = await checkRootFolderAsync();
-  let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);  
+  let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
   createItemsForSubTree(subTree);
   browser.storage.onChanged.addListener(storageEventChanged);
+  let height = window.innerHeight - 57;
+  replaceStyle('.contentHeight', '  height:' + height + 'px;');
 }
 //----------------------------------------------------------------------
 async function createItemsForSubTree(bookmarkItems) {
+
   let storageObj = await browser.storage.local.get();
   _html= [];
   await prepareItemsrecursivelyAsync(storageObj, bookmarkItems[0], 10);
-  document.getElementById('content').innerHTML = '\n' + _html.join('');  
+  document.getElementById('content').innerHTML = '\n' + _html.join('');
   addEventListenerOnFeedItems();
   addEventListenerOnFeedFolders();
-  let height = window.innerHeight - 57;
-  replaceStyle('.contentHeight', '  height:' + height + 'px;');
   addEventListenerContextMenus();
 }
 //----------------------------------------------------------------------
@@ -101,26 +109,26 @@ async function prepareItemsrecursivelyAsync(storageObj, bookmarkItem, indent) {
 async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
   let feedName = bookmarkItem.title;
   let className = await getFeedItemClassAsync(storageObj, bookmarkItem.id, bookmarkItem.title);
-  let feedLine = makeIndent(indent) + 
-    '<li role="feeditem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
+  let feedLine = makeIndent(indent) +
+  '<li role="feeditem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
   _html.push(feedLine);
 }
 //----------------------------------------------------------------------
 async function createFolderItemAsync (storageObj, bookmarkItem, indent) {
   let id = bookmarkItem.id;
   let folderName = bookmarkItem.title;
-  let storedFolder = getFolderFromStorageObj(storageObj, 'cb-' + id);    
+  let storedFolder = getFolderFromStorageObj(storageObj, 'cb-' + id);
   let checked = storedFolder.checked ? 'checked' : '';
   let folderLine = '';
-  folderLine += makeIndent(indent) + 
+  folderLine += makeIndent(indent) +
   '<div id="dv-' + id + '" class="folder">\n';
-  indent += 2;    
-  folderLine += makeIndent(indent) + 
-    '<li>' + 
-    '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
-    '<label for="cb-' + id + '" class="folderClose"></label>' + 
-    '<label for="cb-' + id + '" class="folderOpen"></label>' + 
-    '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
+  indent += 2;
+  folderLine += makeIndent(indent) +
+  '<li>' +
+  '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
+  '<label for="cb-' + id + '" class="folderClose"></label>' +
+  '<label for="cb-' + id + '" class="folderOpen"></label>' +
+  '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
   folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
   indent += 2;
   _html.push(folderLine);
@@ -152,7 +160,7 @@ function addEventListenerOnFeedFolders() {
   for (let i = 0; i < divItems.length; i++) {
     divItems[i].addEventListener('contextmenu', contextMenusOnClickedEvent);
   }
-}  
+}
 //----------------------------------------------------------------------
 function feedClickedEvent(event) {
   let feedItem = event.currentTarget;
@@ -173,17 +181,18 @@ function folderChangedEvent(event) {
 //----------------------------------------------------------------------
 async function openFeedItemAsync(bookmarkItems){
   let itemUrl = bookmarkItems[0].url;
-  openFeedAsync(itemUrl);
   let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
-  await updateFeedStatusAsync(null, bookmarkItems[0].id, FeedStatusEnum.OLD, new Date(), bookmarkItems[0].title);  
+  let downloadFeedObj = {index:0, id:bookmarkItems[0].id, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
+  let hash = await openFeedAsync(downloadFeedObj);
+  await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, new Date(), downloadFeedObj.title, hash);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function runtimeOnMessageEvent(request) {
   let response = null;
   switch (request.req) {
-  case 'openSubscribeDialog':
-    openSubscribeDialogAsync();
-    break;
+    case 'openSubscribeDialog':
+      openSubscribeDialogAsync();
+      break;
   }
   return Promise.resolve(response);
 }
@@ -200,3 +209,4 @@ async function openSubscribeDialogAsync() {
   await sleep(100);
   browser.windows.update(win.id, {width: 780});
 }
+//----------------------------------------------------------------------

@@ -1,3 +1,9 @@
+0.1.3
+Improve feed status management
+Adding check on signature hash
+Code cleaning
+Fix wrong theme display when browser has just started
+
 0.1.2
 fix unclose tags in description
 fix links in atom feeds
@@ -10,5 +16,5 @@ adding no-cache management in feed url
 adding debug view
 and many small fixies
 
-0.1 
+0.1
 Initial version

@@ -25,11 +25,11 @@ function opmlIsValid(opmlText) {
   let parser = new DOMParser();
   let docXml = parser.parseFromString(opmlText, 'application/xml');
   let parseErrorElements = docXml.getElementsByTagName('parsererror');
-  return  (parseErrorElements.length == 0);  
+  return  (parseErrorElements.length == 0);
 }
 //----------------------------------------------------------------------
 async function importOmplOutlinesAsync(opmlText) {
-  let folderId = await storageLocalGetItemAsync('rootBookmarkId');    
+  let folderId = await storageLocalGetItemAsync('rootBookmarkId');
   await cleanBookmarkFolderAsync(folderId);
   await cleanStorage();
   let indent = 0;
@@ -47,26 +47,26 @@ async function importOmplOutlinesAsync(opmlText) {
       setProgressBarValue('progressBarImport', perCent);
       let outlineInfo = getNextOutlineElementInfo(opmlText, index);
       switch (outlineInfo.kind) {
-      case TagKindEnum.OPENNER:
-        let bookmarkFolder = await browser.bookmarks.create({
-          parentId: folderId,
-          title: outlineInfo.title
-        });
-        folderId = bookmarkFolder.id;
-        break;
-      case TagKindEnum.CLOSER:
-        let bookmarks = await browser.bookmarks.get(folderId);
-        let curentFolder = bookmarks[0];
-        folderId = curentFolder.parentId;
-        break;
-      case TagKindEnum.SINGLE:
-        await browser.bookmarks.create({
-          parentId: folderId,
-          title: outlineInfo.title,
-          url: outlineInfo.url
-        });          
-        break;
-      }      
+        case TagKindEnum.OPENNER:
+          let bookmarkFolder = await browser.bookmarks.create({
+            parentId: folderId,
+            title: outlineInfo.title
+          });
+          folderId = bookmarkFolder.id;
+          break;
+        case TagKindEnum.CLOSER:
+          let bookmarks = await browser.bookmarks.get(folderId);
+          let curentFolder = bookmarks[0];
+          folderId = curentFolder.parentId;
+          break;
+        case TagKindEnum.SINGLE:
+          await browser.bookmarks.create({
+            parentId: folderId,
+            title: outlineInfo.title,
+            url: outlineInfo.url
+          });
+          break;
+      }
       index = outlineInfo.endIndex;
     }
     setProgressBarValue('progressBarImport', 100);
@@ -92,7 +92,7 @@ function getNextOutlineElementInfo(opmlText, index) {
   let kind = null;
   let indexStart = Number.MAX_SAFE_INTEGER;
   let indexEnd = Number.MAX_SAFE_INTEGER;
-  
+
   let i1 = opmlText.indexOf('<outline', index); if (i1==-1) { i1 = Number.MAX_SAFE_INTEGER; }
   let i2 = opmlText.indexOf('</outline>', index); if (i2==-1) { i2 = Number.MAX_SAFE_INTEGER; }
   if (i1 < i2) {
@@ -116,16 +116,16 @@ function getNextOutlineElementInfo(opmlText, index) {
     indexEnd = i2 + '</outline>'.length;
   }
   let outlineText =  opmlText.substring(indexStart, indexEnd);
-  let isFeed = outlineText.includes('xmlUrl');  
+  let isFeed = outlineText.includes('xmlUrl');
   let type = getAttributeValue(outlineText , 'type');
   let title = getAttributeValue(outlineText , 'title');
   if (title == '') { title = getAttributeValue(outlineText , 'text'); }
   let xmlUrl = getAttributeValue(outlineText , 'xmlUrl');
-      
+
   let outlineElementInfo = { startIndex : indexStart, endIndex : indexEnd, kind : kind,
     isFeed : isFeed, type : type, title : title, url : xmlUrl };
   return outlineElementInfo;
-}  
+}
 //----------------------------------------------------------------------
 function getAttributeValue(elementText,  attributeName) {
   let value = '';
@@ -138,7 +138,7 @@ function getAttributeValue(elementText,  attributeName) {
     let startValue = elementText.indexOf('"', endAttributeName) + 1;
     let endValue = elementText.indexOf('"', startValue + 1);
     value = elementText.substring(startValue, endValue);
-  }  
+  }
   return value;
 }
 //----------------------------------------------------------------------

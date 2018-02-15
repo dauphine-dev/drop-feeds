@@ -19,13 +19,13 @@ function addingBookmarkListeners() {
   browser.bookmarks.onMoved.addListener(bookmarkOnMovedEvent);
   //browser.bookmarks.onChildrenReordered.addListener(bookmarkOnChildrenReorderedEvent);
   //browser.bookmarks.onImportBegan.addListener(bookmarkEventImportBegan);
-  //browser.bookmarks.onImportEnded.addListener(bookmarkEventImportEnded);  
+  //browser.bookmarks.onImportEnded.addListener(bookmarkEventImportEnded);
 }
 //----------------------------------------------------------------------
 async function bookmarkOnCreatedEvent(id, bookmarkInfo) {
   if (_importInProgress) { return; }
   _lastCreatedBookmarkId = id;
-  let isChid =  await isDropfeedsChildBookmarkAsync(bookmarkInfo.parentId);  
+  let isChid =  await isDropfeedsChildBookmarkAsync(bookmarkInfo.parentId);
   if (!isChid) { return; }
   storageLocalSetItemAsync('lastModified', Date.now());
 }
@@ -39,7 +39,7 @@ async function bookmarkOnRemovedEvent(id, removeInfo) {
 //----------------------------------------------------------------------
 async function bookmarkOnChangedEvent(id, changeInfo) {
   if (_importInProgress) { return; }
-  let isChid =  await isDropfeedsChildBookmarkAsync(id);  
+  let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
   storageLocalSetItemAsync('lastModified', Date.now());
 }
@@ -55,13 +55,13 @@ async function bookmarkOnMovedEvent(id, moveInfo) {
     printToStatusBar('To add a feed use the button above !');
     await sleep(1);
     printToStatusBar('');
-  } 
+  }
   storageLocalSetItemAsync('lastModified', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnChildrenReorderedEvent(id, reorderInfo) {
   if (_importInProgress) { return; }
-  let isChid =  await isDropfeedsChildBookmarkAsync(id);  
+  let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
   storageLocalSetItemAsync('lastModified', Date.now());
 }
@@ -98,14 +98,14 @@ async function checkRootFolderAsync() {
 //----------------------------------------------------------------------
 async function createRootfolderAsync() {
   let rootBookmarkId = null;
-  
+
   let bookmarkItems = await browser.bookmarks.search({title: 'Drop feeds'});
   if (bookmarkItems) {
     if (bookmarkItems[0]) {
       rootBookmarkId = bookmarkItems[0].id;
     }
   }
-  
+
   if (!rootBookmarkId) {
     let rootBookmark = await browser.bookmarks.create({
       title: 'Drop feeds'
@@ -116,8 +116,8 @@ async function createRootfolderAsync() {
       title: 'The Mozilla Blog',
       url: 'https://blog.mozilla.org/feed/'
     });
-  }  
-  
+  }
+
   await storageLocalSetItemAsync('rootBookmarkId', rootBookmarkId);
   return rootBookmarkId;
 }
@@ -125,12 +125,12 @@ async function createRootfolderAsync() {
 async function isDropfeedsChildBookmarkAsync(id) {
   let isChild = false;
   let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
-  if (rootBookmarkId == id) { 
-    return true; 
+  if (rootBookmarkId == id) {
+    return true;
   }
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
   let children = subTree[0].children;
-  if (children) {  
+  if (children) {
     isChild = isChildBookmark(children, id);
   }
   return isChild;
@@ -138,13 +138,13 @@ async function isDropfeedsChildBookmarkAsync(id) {
 //----------------------------------------------------------------------
 function isChildBookmark(children, id) {
   for (let chid of children) {
-    if (chid.id == id) { 
-      return true; 
+    if (chid.id == id) {
+      return true;
     }
     if(chid.children) {
       let isChild = isChildBookmark(chid.children, id);
-      if (isChild) { 
-        return true; 
+      if (isChild) {
+        return true;
       }
     }
   }

@@ -33,8 +33,6 @@ async function getBrowserVersionAsync() {
 }
 //----------------------------------------------------------------------
 async function toggleDropFeedsPanelAsync(){
-  //let isOpen = await browser.sidebarAction.isOpen();
-  //if (isOpen) {
   if (_sidebarActionIsOpen) {
     browser.sidebarAction.close();
   }

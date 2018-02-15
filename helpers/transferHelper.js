@@ -24,39 +24,44 @@ function downloadFileAsync(url, urlNocache) {
   });
 }
 //----------------------------------------------------------------------
-function downloadFileByFeedObjCoreAsync(feedObj, urlNocache) {
+function downloadFileByFeedObjCoreAsync(downloadFeedObj, urlNocache) {
   return new Promise((resolve, reject) => {
-    let url = feedObj.bookmark.url;
-    if (feedObj.newUrl) {
-      url = feedObj.newUrl;
+    let url = downloadFeedObj.bookmark.url;
+    if (downloadFeedObj.newUrl) {
+      url = downloadFeedObj.newUrl;
     }
     let result = downloadFileAsync(url, urlNocache);
     result.then( function(responseText) {
       let tagRss = null;
       for (let tag of TAG_RSS_LIST) {
         if (responseText.includes('<' + tag)) { tagRss = tag; break; }
-      }      
+      }
       if (tagRss) {
-        feedObj.feedText = responseText; resolve(feedObj); 
-      } 
-      else {          
-        feedObj.error = 'it is not a rss file'; reject(feedObj.error); 
+        downloadFeedObj.feedText = responseText; resolve(downloadFeedObj);
+      }
+      else {
+        downloadFeedObj.error = 'it is not a rss file'; reject(downloadFeedObj.error);
       }
     },
     function(error) {
-      feedObj.error = error;
+      downloadFeedObj.error = error;
       reject(error); }
     );
   });
 }
-//---------------------------------------------------------------------- 
-async function downloadFileByFeedObjAsync(feedObj) {
-  let feedOj = await downloadFileByFeedObjCoreAsync(feedObj);
+//----------------------------------------------------------------------
+async function downloadFileByFeedObjAsync(downloadFeedObj) {
+  let feedOj = await downloadFileByFeedObjCoreAsync(downloadFeedObj);
   if (feedOj.feedText.includes('</redirect>') && feedOj.feedText.includes('</newLocation>')) {
     let newUrl = getInnerText1(feedOj.feedText, '<newLocation>', '</newLocation>').trim();
     feedOj.newUrl = newUrl;
-    feedOj = downloadFileByFeedObjCoreAsync(feedObj);
+    try {
+      feedOj = downloadFileByFeedObjCoreAsync(downloadFeedObj, true);
+    }
+    catch(e) {
+      feedOj = downloadFileByFeedObjCoreAsync(downloadFeedObj, false);
+    }
   }
   return feedOj;
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------

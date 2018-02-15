@@ -5,12 +5,12 @@ browser.runtime.onMessage.addListener(runtimeOnMessageEvent);
 async function runtimeOnMessageEvent(request) {
   let response = null;
   switch (request.req) {
-  case 'isFeed':
-    response = isFeed();
-    break;
-  case 'addSubscribeButton':
-    addSubscribeButton();
-    break;
+    case 'isFeed':
+      response = isFeed();
+      break;
+    case 'addSubscribeButton':
+      addSubscribeButton();
+      break;
   }
   return Promise.resolve(response);
 }

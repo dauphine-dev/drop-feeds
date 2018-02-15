@@ -1,3 +1,4 @@
 .vscode/settings.json
 dropfeeds.code-workspace
 .eslintrc.json
+.vscode/tasks.json
