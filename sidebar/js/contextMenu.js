@@ -1,28 +1,81 @@
 /*global checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
-
-//---------------------------------------------------------------------- 
+let _selectedRootElement = null;
+let _selectedRootElementId = null;
+let _selectedElement = null;
+let _selectedElementId = null;
+//----------------------------------------------------------------------
 function addEventListenerContextMenus() {
-  addEventListener('main', 'click', mainOnClickedEvent);  
-  addEventListener('ctxMnCheckFeeds', 'click', checkFeedsMenuClicked);
-  addEventListener('ctxMnMarkAllasRead', 'click', markAllFeedsAsReadMenuClicked);
-  addEventListener('ctxMnMarkAllasUpdated', 'click', markAllFeedsAsUpdatedMenuClicked);
-  addEventListener('ctxMnOpenAllUpdated', 'click', openAllUpdatedFeedsMenuClicked);
+  document.getElementById('main').addEventListener('click', mainOnClickedEvent);
+  document.getElementById('ctxMnCheckFeeds').addEventListener('click', checkFeedsMenuClicked);
+  document.getElementById('ctxMnMarkAllAsRead').addEventListener('click', markAllFeedsAsReadMenuClicked);
+  document.getElementById('ctxMnMarkAllAsUpdated').addEventListener('click', markAllFeedsAsUpdatedMenuClicked);
+  document.getElementById('ctxMnOpenAllUpdated').addEventListener('click', openAllUpdatedFeedsMenuClicked);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
 function contextMenusOnClickedEvent(event){
   event.stopPropagation();
   event.preventDefault();
-  let elcontent = document.getElementById('content');
+  let elContent = document.getElementById('content');
   let elContextMenu = document.getElementById('contextMenuId');
   let idComeFrom = event.currentTarget.getAttribute('id');
-  elContextMenu.setAttribute('comeFrom', idComeFrom);  
+  elContextMenu.setAttribute('comeFrom', idComeFrom);
   elContextMenu.classList.add('show');
-  let x  = Math.max(0, elcontent.offsetWidth - elContextMenu.offsetWidth - 36);
-  x = Math.min(x, event.clientX);  
+  let xMax  = Math.max(0, elContent.offsetWidth - elContextMenu.offsetWidth - 36);
+  let x = Math.min(xMax, event.clientX);
   elContextMenu.style.left = x + 'px';
-  elContextMenu.style.top = event.clientY + 'px';
+
+  let rectTarget = event.currentTarget.getBoundingClientRect();
+  let yMax  = Math.max(0, elContent.offsetHeight - elContextMenu.offsetHeight + 60);
+  let y = Math.min(yMax, rectTarget.top+ 17);
+  elContextMenu.style.top = y + 'px';
+  setSelectionBar(event.currentTarget);
 }
-//---------------------------------------------------------------------- 
+//----------------------------------------------------------------------
+function folderOnClickedEvent(event){
+  setSelectionBar(event.currentTarget);
+}
+//----------------------------------------------------------------------
+function getSelectedRootElement(targetElement) {
+  if (!_selectedRootElement) {
+    let el1 = document.getElementById('content');
+    _selectedRootElement = el1.children[0];
+  }
+  return _selectedRootElement;
+}
+//----------------------------------------------------------------------
+function setSelectionBar(targetElement) {
+
+  let prevSelectedElement = _selectedElement;
+  let prevSelectedElementId = _selectedElementId;
+  if (prevSelectedElement) {
+    prevSelectedElement.removeEventListener('scroll', selectedElementOnScrollEvent);
+    let prevElLabel = document.getElementById('lbl-' + prevSelectedElementId);
+    prevElLabel.style.color = '';
+  }
+
+  let isTheSame = (_selectedElement == targetElement);
+  _selectedElement = targetElement;
+  if (_selectedElement) {
+    _selectedElementId = targetElement.getAttribute('id').substring(3);
+    let elLabel = document.getElementById('lbl-' + _selectedElementId);
+    elLabel.style.color = 'white';
+    let rectTarget = _selectedElement.getBoundingClientRect();
+    let elSelectionBar = document.getElementById('selectionBar');
+    let y = rectTarget.top + 5;
+    elSelectionBar.style.top = y + 'px';
+    if (! isTheSame) {
+    }
+  }
+}
+//----------------------------------------------------------------------
+function contentOnScrollEvent(event){
+  setSelectionBar(_selectedElement);
+}
+//----------------------------------------------------------------------
+function selectedElementOnScrollEvent(event) {
+  setSelectionBar(_selectedElement);
+}
+//----------------------------------------------------------------------
 function mainOnClickedEvent(event){
   document.getElementById('contextMenuId').classList.remove('show');
 }

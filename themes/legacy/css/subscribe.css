@@ -23,7 +23,7 @@ body{
 }
 
 #folderView{
-  background-color: white;  
+  background-color: white;
   border: 1px solid #9d9d99;
   width: 100%;
   height: 320px;
@@ -42,7 +42,7 @@ td:last-child {
 }
 
 td {
-  padding-right: 10px;  
+  padding-right: 10px;
   /*border: 1px solid #ff0000;*/
 }
 

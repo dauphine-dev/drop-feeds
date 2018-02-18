@@ -13,7 +13,7 @@ td:last-child {
 /* Panel */
 .panel{
   border: 1px solid;
-  padding: 0 20px 20px 20px; 
+  padding: 0 20px 20px 20px;
   margin: 5px 1px 5px 0;
   border-color:gray;
 }
@@ -41,4 +41,8 @@ td:last-child {
   padding:0.01em 16px;
   color:#fff;
   background-color:#2196F3;
+}
+/* Checkboxs */
+.checkboxText {
+  margin-right: 10px;
 }

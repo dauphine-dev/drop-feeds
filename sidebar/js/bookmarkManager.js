@@ -27,21 +27,21 @@ async function bookmarkOnCreatedEvent(id, bookmarkInfo) {
   _lastCreatedBookmarkId = id;
   let isChid =  await isDropfeedsChildBookmarkAsync(bookmarkInfo.parentId);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnRemovedEvent(id, removeInfo) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(removeInfo.parentId);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnChangedEvent(id, changeInfo) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnMovedEvent(id, moveInfo) {
@@ -56,14 +56,14 @@ async function bookmarkOnMovedEvent(id, moveInfo) {
     await sleep(1);
     printToStatusBar('');
   }
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnChildrenReorderedEvent(id, reorderInfo) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 function bookmarkEventImportBegan() {
@@ -72,16 +72,16 @@ function bookmarkEventImportBegan() {
 //----------------------------------------------------------------------
 function bookmarkEventImportEnded() {
   _importInProgress = false;
-  storageLocalSetItemAsync('lastModified', Date.now());
+  storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function checkRootFolderAsync() {
-  let hasToCreateRootfolder = false;
+  let hasToCreateRootFolder = false;
   let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
   // is rootBookmarkId exist ?
   if (rootBookmarkId == undefined)  {
     //no -> create a root folder
-    rootBookmarkId = await createRootfolderAsync();
+    rootBookmarkId = await createRootFolderAsync();
   }
   else {
     //yes -> try to get the root folder
@@ -90,13 +90,13 @@ async function checkRootFolderAsync() {
     }
     catch(e) {
       //has failed then create a root folder
-      rootBookmarkId = await createRootfolderAsync();
+      rootBookmarkId = await createRootFolderAsync();
     }
   }
   return rootBookmarkId;
 }
 //----------------------------------------------------------------------
-async function createRootfolderAsync() {
+async function createRootFolderAsync() {
   let rootBookmarkId = null;
 
   let bookmarkItems = await browser.bookmarks.search({title: 'Drop feeds'});

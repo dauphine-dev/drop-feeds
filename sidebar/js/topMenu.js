@@ -1,27 +1,28 @@
-/*jshint -W097, esversion: 6, devel: true, nomen: true, indent: 2, maxerr: 50 , browser: true, bitwise: true*/ /*jslint plusplus: true */
-/*global checkFeedsAsync, discoverFeedsAsync, toogleUpdatedFeedsVisibity, toogleFolders, optionsMenuAsync, toogleErrorFeedsVisibity*/
+/*global checkFeedsAsync, discoverFeedsAsync, optionsMenuAsync, setSelectionBar, getSelectedRootElement*/
 /*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, defaultStoredFolder, sleep, getStyle, replaceStyle*/
 //----------------------------------------------------------------------
 'use strict';
 let _updatedFeedsVisible=false;
 let _errorFeedsVisible=false;
-let _foldersOpenned=true;
+let _foldersOpened=true;
 let _buttonAddFeedEnabled=false;
 //----------------------------------------------------------------------
 async function prepareTopMenuAsync() {
-  _updatedFeedsVisible = await storageLocalGetItemAsync('updatedFeedsVisibity');
-  setUpdatedFeedsVisibity();
-  _errorFeedsVisible = await storageLocalGetItemAsync('errorFeedsVisibity');
-  setErrorFeedsVisibity();
+  _updatedFeedsVisible = await storageLocalGetItemAsync('updatedFeedsVisibility');
+  setUpdatedFeedsVisibility();
+  _errorFeedsVisible = await storageLocalGetItemAsync('errorFeedsVisibility');
+  setErrorFeedsVisibility();
+  updatingSelectedButton('toggleFoldersButton' ,_foldersOpened);
 
-  document.getElementById('discoverFeedsButton').style.opacity = '0.2';
-  addEventListener('checkFeedsButton', 'click', checkFeedsButtonClickedEvent);
-  addEventListener('discoverFeedsButton', 'click', discoverFeedsButtonClickedEvent);
-  addEventListener('onlyUpdatedFeedsButton', 'click', onlyUpdatedFeedsButtonClickedEvent);
-  //addEventListener('onlyErrorFeedsButton', 'click', onlyErrorFeedsButtonClickedEvent);
-  addEventListener('toogleFoldersButton', 'click', toogleFoldersButtonClickedEvent);
-  addEventListener('addFeedButton', 'click', addFeedButtonClickedEvent);
-  addEventListener('optionsMenuButton', 'click', optionsMenuClickedEvent);
+  document.getElementById('checkFeedsButton').addEventListener('click', checkFeedsButtonClickedEvent);
+  let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
+  elDiscoverFeedsButton.addEventListener('click', discoverFeedsButtonClickedEvent);
+  elDiscoverFeedsButton.style.opacity = '0.2';
+  document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', onlyUpdatedFeedsButtonClickedEvent);
+  //document.getElementById('onlyErrorFeedsButton').addEventListener('click', onlyErrorFeedsButtonClickedEvent);
+  document.getElementById('toggleFoldersButton').addEventListener('click', toggleFoldersButtonClickedEvent);
+  document.getElementById('addFeedButton').addEventListener('click', addFeedButtonClickedEvent);
+  document.getElementById('optionsMenuButton').addEventListener('click', optionsMenuClickedEvent);
 }
 //----------------------------------------------------------------------
 function buttonAddFeedEnable(isEnable) {
@@ -35,8 +36,8 @@ function buttonAddFeedEnable(isEnable) {
   }
 }
 //----------------------------------------------------------------------
-function updatingFeedsButtons(updateInprogress) {
-  if (updateInprogress)
+function updatingFeedsButtons(updateInProgress) {
+  if (updateInProgress)
   {
     document.getElementById('checkFeedsButton').classList.add('checkFeedsButtonAnim');
     document.getElementById('checkFeedsButton').classList.remove('checkFeedsButton');
@@ -60,6 +61,7 @@ function printToStatusBar(text) {
 function checkFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
+  setSelectionBar(getSelectedRootElement());
   checkFeedsAsync(document);
 }
 //----------------------------------------------------------------------
@@ -68,24 +70,28 @@ function onlyUpdatedFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
   _updatedFeedsVisible = ! _updatedFeedsVisible;
-  setUpdatedFeedsVisibity();
+  _errorFeedsVisible = ! _updatedFeedsVisible;
+  setSelectionBar(getSelectedRootElement());
+  setUpdatedFeedsVisibility();
 }
 //----------------------------------------------------------------------
 function onlyErrorFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  _errorFeedsVisible = ! _errorFeedsVisible;
-  setErrorFeedsVisibity();
+  setSelectionBar(getSelectedRootElement());
+  setErrorFeedsVisibility();
 }
 //----------------------------------------------------------------------
-function setUpdatedFeedsVisibity() {
+function setUpdatedFeedsVisibility() {
+  updatingSelectedButton('onlyUpdatedFeedsButton',  _updatedFeedsVisible);
   let visibleValue = _updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
   replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
   replaceStyle('.feedRead', visibleValue);
-  storageLocalSetItemAsync('updatedFeedsVisibity', _updatedFeedsVisible);
+  replaceStyle('.feedError', visibleValue);
+  storageLocalSetItemAsync('updatedFeedsVisibility', _updatedFeedsVisible);
 }
 //----------------------------------------------------------------------
-function setErrorFeedsVisibity() {
+function setErrorFeedsVisibility() {
   let visibleValue = _errorFeedsVisible ? 'visibility:visible;' : 'display:none,';
   //replaceStyle('.feedError', visibleValue);
   if (_errorFeedsVisible) {
@@ -93,37 +99,41 @@ function setErrorFeedsVisibity() {
     replaceStyle('.feedUnread', 'display:none; ');
   }
   else{
-    setUpdatedFeedsVisibity();
+    setUpdatedFeedsVisibility();
   }
-  storageLocalSetItemAsync('errorFeedsVisibity', _errorFeedsVisible);
+  storageLocalSetItemAsync('errorFeedsVisibility', _errorFeedsVisible);
 }
 //----------------------------------------------------------------------
-function toogleFoldersButtonClickedEvent(event) {
+function toggleFoldersButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  _foldersOpenned = !_foldersOpenned;
-  let query = _foldersOpenned ? 'not(checked)' : 'checked';
+  setSelectionBar(getSelectedRootElement());
+  _foldersOpened = !_foldersOpened;
+  let query = _foldersOpened ? 'not(checked)' : 'checked';
   let folders = document.querySelectorAll('input[type=checkbox]:' + query);
   let i = folders.length;
+  updatingSelectedButton('toggleFoldersButton' ,_foldersOpened);
   while (i--) {
     let folderId = folders[i].id;
     let storedFolder = defaultStoredFolder(folderId);
-    folders[i].checked = _foldersOpenned;
-    storedFolder.checked = _foldersOpenned;
+    folders[i].checked = _foldersOpened;
+    storedFolder.checked = _foldersOpened;
     storageLocalSetItemAsync(folderId, storedFolder);
   }
 }
 //----------------------------------------------------------------------
 async function addFeedButtonClickedEvent(event) {
-  if (!_buttonAddFeedEnabled) { return; }
-  browser.pageAction.openPopup();
   event.stopPropagation();
   event.preventDefault();
+  setSelectionBar(getSelectedRootElement());
+  if (!_buttonAddFeedEnabled) { return; }
+  browser.pageAction.openPopup();
 }
 //----------------------------------------------------------------------
 async function discoverFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
+  setSelectionBar(getSelectedRootElement());
   printToStatusBar('not yet implemented!');
   await sleep(250);
   printToStatusBar('');
@@ -132,6 +142,21 @@ async function discoverFeedsButtonClickedEvent(event) {
 async function optionsMenuClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
+  setSelectionBar(getSelectedRootElement());
   await browser.runtime.openOptionsPage();
+}
+//----------------------------------------------------------------------
+function updatingSelectedButton(elementId, selected) {
+  let el =  document.getElementById(elementId);
+  if (selected)
+  {
+    el.classList.add('topMenuItemSelected');
+    el.classList.remove('topMenuItem');
+  }
+  else
+  {
+    el.classList.add('topMenuItem');
+    el.classList.remove('topMenuItemSelected');
+  }
 }
 //----------------------------------------------------------------------

@@ -1,20 +1,32 @@
+0.2
+Rework legacy theme treeview
+Adding option "Do not display root folder"
+Adding option "Always open new tab"
+Adding option "Open new tab in foreground"
+Fix opml import (url decoding issue, and title encoding)
+Some spell checking... (sorry I am not a native english speaker, I do what I can...)
+Improve top menu buttons in sidebar
+Fix sidebar context menu bottom boundary
+Adding highlighting selection bar on folder items in treeview in sidebar
+
 0.1.3
 Improve feed status management
 Adding check on signature hash
 Code cleaning
 Fix wrong theme display when browser has just started
+Fix check feed animation button in legacy theme
 
 0.1.2
 fix unclose tags in description
 fix links in atom feeds
-make synchrone check to avoid lost responses
+make synchronous check to avoid lost responses
 any way, try to open feed in error too
 
 0.1.1
 fix windows resizing
 adding no-cache management in feed url
 adding debug view
-and many small fixies
+and many small fixes
 
 0.1
 Initial version

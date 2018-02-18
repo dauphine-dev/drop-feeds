@@ -1,3 +1,4 @@
+'use strict';
 //----------------------------------------------------------------------
 String.prototype.hashCode = function() {
   let hash = 0;

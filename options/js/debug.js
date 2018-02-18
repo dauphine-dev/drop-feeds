@@ -16,19 +16,19 @@ async function getStorageLocalHtmlAsync() {
   let bookmarkList = [];
   for (let property in storageLocal) {
     if (storageLocal.hasOwnProperty(property)) {
-      if (!storageLocal[property]) { 
-        nodataList.push([property, null]);
+      if(typeof storageLocal[property] === 'undefined') {
+        nodataList.push([property, 'undefined']);
         continue;
       }
       if (property.startsWith('cb-')) {
-        folderStateList.push([property, storageLocal[property]]);
+        folderStateList.push([property, storageLocal[property].toString() ]);
         continue;
       }
       if (storageLocal[property].isBkmrk || storageLocal[property].bkmrkId) {
-        bookmarkList.push([property, storageLocal[property]]);
+        bookmarkList.push([property, storageLocal[property].toString()]);
         continue;
-      }      
-      miscList.push([property, storageLocal[property]]);
+      }
+      miscList.push([property, storageLocal[property].toString()]);
     }
   }
 
@@ -51,7 +51,7 @@ function listToHtml(list) {
   for(let item of list) {
     htmlText+= '<tr>';
     htmlText+= '<td>' + item[0] + '</td>' + '<td>' + printToHtml(item[1]) + '</td>';
-    htmlText+= '</tr>\n';  
+    htmlText+= '</tr>\n';
   }
   return htmlText;
 }

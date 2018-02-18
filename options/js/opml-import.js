@@ -1,8 +1,9 @@
-/*global browser, occurrences, sleep, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar, storageLocalGetItemAsync, storageLocalSetItemAsync, cleanStorage, importInProgress*/
+/*global browser, occurrences, sleep, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar*/
+/*global storageLocalGetItemAsync, storageLocalSetItemAsync, cleanStorage, importInProgress, decodeHtml*/
 //----------------------------------------------------------------------
 'use strict';
 const TagKindEnum = {
-  OPENNER: 'openner',
+  OPENER: 'opener',
   CLOSER: 'closer',
   SINGLE: 'single'
 };
@@ -12,7 +13,7 @@ async function ImportOmplFileAsync(event) {
   let isOpmlValid = opmlIsValid(opmlText);
   if (isOpmlValid) {
     await importOmplOutlinesAsync(opmlText);
-    storageLocalSetItemAsync('lastModified', Date.now());
+    storageLocalSetItemAsync('reloadPanel', Date.now());
   }
   else {
     showMsgInProgressBar('progressBarImport', 'Invalid ompl file!');
@@ -42,38 +43,40 @@ async function importOmplOutlinesAsync(opmlText) {
   try {
     storageLocalSetItemAsync('importInProgress', true);
     for (let i=0; i<itemNumber; i++) {
-      let perCent = (100*i) / itemNumber;
-      perCent = Math.round(perCent * 10) / 10;
-      setProgressBarValue('progressBarImport', perCent);
-      let outlineInfo = getNextOutlineElementInfo(opmlText, index);
-      switch (outlineInfo.kind) {
-        case TagKindEnum.OPENNER:
-          let bookmarkFolder = await browser.bookmarks.create({
-            parentId: folderId,
-            title: outlineInfo.title
-          });
-          folderId = bookmarkFolder.id;
-          break;
-        case TagKindEnum.CLOSER:
-          let bookmarks = await browser.bookmarks.get(folderId);
-          let curentFolder = bookmarks[0];
-          folderId = curentFolder.parentId;
-          break;
-        case TagKindEnum.SINGLE:
-          await browser.bookmarks.create({
-            parentId: folderId,
-            title: outlineInfo.title,
-            url: outlineInfo.url
-          });
-          break;
+      try {
+        let perCent = (100*i) / itemNumber;
+        perCent = Math.round(perCent * 10) / 10;
+        setProgressBarValue('progressBarImport', perCent);
+        let outlineInfo = getNextOutlineElementInfo(opmlText, index);
+        switch (outlineInfo.kind) {
+          case TagKindEnum.OPENER:
+            let bookmarkFolder = await browser.bookmarks.create({
+              parentId: folderId,
+              title: outlineInfo.title
+            });
+            folderId = bookmarkFolder.id;
+            break;
+          case TagKindEnum.CLOSER:
+            let bookmarks = await browser.bookmarks.get(folderId);
+            let currentFolder = bookmarks[0];
+            folderId = currentFolder.parentId;
+            break;
+          case TagKindEnum.SINGLE:
+            await browser.bookmarks.create({
+              parentId: folderId,
+              title: outlineInfo.title,
+              url: outlineInfo.url
+            });
+            break;
+        }
+        index = outlineInfo.endIndex;
       }
-      index = outlineInfo.endIndex;
+      catch(e) {
+        console.log(e);
+      }
     }
     setProgressBarValue('progressBarImport', 100);
     await sleep(500);
-  }
-  catch(e) {
-    console.log('e:', e);
   }
   finally {
     storageLocalSetItemAsync('importInProgress', false);
@@ -101,7 +104,7 @@ function getNextOutlineElementInfo(opmlText, index) {
       let j1 = opmlText.indexOf('>', indexStart + 1); if (j1==-1) { j1 = Number.MAX_SAFE_INTEGER; }
       let j2 = opmlText.indexOf('/>', indexStart + 1); if (j2==-1) { j2 = Number.MAX_SAFE_INTEGER; }
       if (j1 < j2) {
-        kind = TagKindEnum.OPENNER;
+        kind = TagKindEnum.OPENER;
         indexEnd = j1 + 1;
       }
       else {
@@ -120,7 +123,9 @@ function getNextOutlineElementInfo(opmlText, index) {
   let type = getAttributeValue(outlineText , 'type');
   let title = getAttributeValue(outlineText , 'title');
   if (title == '') { title = getAttributeValue(outlineText , 'text'); }
+  title = unescape(title);
   let xmlUrl = getAttributeValue(outlineText , 'xmlUrl');
+  xmlUrl = decodeURIComponent(xmlUrl);
 
   let outlineElementInfo = { startIndex : indexStart, endIndex : indexEnd, kind : kind,
     isFeed : isFeed, type : type, title : title, url : xmlUrl };

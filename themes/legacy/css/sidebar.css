@@ -3,6 +3,7 @@ body{
   white-space: nowrap;
   overflow: hidden;
   background-color: white;
+  line-height: 16px;
 }
 #content {
   margin-top: 1px;
@@ -22,41 +23,141 @@ body{
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: #9D9D9D;
+  line-height: 41px;
+  height: 41px;
+  padding: 2px;
 }
+
+.topMenuItem {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px outset #70707000;
+  border-radius: 4px;
+}
+.topMenuItem:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+.topMenuItemSelected {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px inset #707070;
+  border-radius: 4px;
+}
+
 .checkFeedsButton::before {
-  content: url(/themes/legacy/img/check-feeds.png);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/check-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 
 .checkFeedsButtonAnim::before {
-  content: url(/themes/legacy/img/check-feeds-animation.gif);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/check-feeds-animation.gif);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 
 #discoverFeedsButton::before {
-  content: url(/themes/legacy/img/magnify.png);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/magnify.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #onlyUpdatedFeedsButton::before {
-  content: url(/themes/legacy/img/only-updated-feeds.png);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/only-updated-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #onlyErrorFeedsButton::before {
-  content: url(/themes/legacy/img/feed-error.png);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/feed-error.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
-#toogleFoldersButton::before {
-  content: url(/themes/legacy/img/toogle-folders.png);
-  padding-left: 2px;
+#toggleFoldersButton::before {
+  background-image: url(/themes/legacy/img/toggle-folders.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #addFeedButton::before {
-  content: url(/themes/legacy/img/subscribe.png);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/subscribe.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #optionsMenuButton::before {
-  content: url(/themes/legacy/img/options.png);
-  padding-left: 10px;
+  background-image: url(/themes/legacy/img/options.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
+
 .toolTip:hover:after{
   position: absolute;
   background: #333;
@@ -64,14 +165,15 @@ body{
   border-radius: 5px;
   color: #fff;
   content: attr(toolTipText);
-  /*top: 32px;*/
-  margin-top: 32px;
+  margin-top: 45px;
   margin-left: -25px;
   padding: 5px 5px;
   height: 16px;
+  line-height: 16px;
+  opacity: 0.9;
 }
 
-/* statuts bar*/
+/* status bar*/
 #statusBar {
   display: block;
   background-color: #E8E8E8;
@@ -104,6 +206,11 @@ input[type="checkbox"] {
 input ~ ul {
   display: none;
 }
+input ~ label {
+  line-height: 18px;
+  margin-bottom: 1px;
+}
+
 input:checked ~ ul {
   display: block;
 }
@@ -116,14 +223,33 @@ input:checked ~ .folderClose {
 input:checked ~ .folderOpen {
   display: inline;
 }
+
 .folderOpen::before {
-  content: url(/themes/legacy/img/folder-open.png);
+  background-image: url(/themes/legacy/img/folder-open.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
 }
+
 .folderClose::before {
-  content: url(/themes/legacy/img/folder-closed.png);
+  background-image: url(/themes/legacy/img/folder-closed.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
 }
+
 ul {
-  margin-left: -20px;
+  margin-left: -22px;
 }
 
 /* feeds */
@@ -132,32 +258,58 @@ li {
   margin-top: -1px;
   margin-bottom: -1px;
 }
+
 .feedRead::before {
-  content: url(/themes/legacy/img/feed-read.png);
+  background-image: url(/themes/legacy/img/feed-read.png);
+  background-size: 12px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 12px;
+  height: 16px;
+  content:"";
+  padding-right: 5px;
+  margin-top: -1px;
+}
+.feedRead {
+  font-weight: normal;
 }
 .feedRead:hover {
   display: block;
   text-decoration: underline;
   cursor: pointer;
 }
-.feedRead {
-  margin: -10px 0 -10px 0;
-}
+
 .feedUnread:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 .feedUnread::before  {
-  content: url(/themes/legacy/img/feed-unread.png);
+  background-image: url(/themes/legacy/img/feed-unread.png);
+  background-size: 12px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 12px;
+  height: 16px;
+  content:"";
   padding-right: 5px;
+  margin-top: -1px;
 }
+
 .feedUnread {
   font-weight: bold;
 }
 .feedError::before {
-  content: url(/themes/legacy/img/feed-error.png);
+  background-image: url(/themes/legacy/img/feed-error.png);
+  background-size: 12px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 12px;
+  height: 16px;
+  content:"";
   padding-right: 5px;
+  margin-top: -1px;
 }
+
 .feedError {
   visibility: visible;
 }
@@ -184,39 +336,39 @@ li {
 }
 
 #ctxMnCheckFeeds::before {
-    background-image: url(/themes/legacy/img/check-feeds.png);
-    background-size: 16px 16px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    display: inline-block;
+  background-image: url(/themes/legacy/img/check-feeds.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
-#ctxMnMarkAllasRead::before {
-    background-image: url(/themes/legacy/img/feed-read.png);
-    background-size: 16px 16px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    display: inline-block;
+#ctxMnMarkAllAsRead::before {
+  background-image: url(/themes/legacy/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
-#ctxMnMarkAllasUpdated::before {
-    background-image: url(/themes/legacy/img/feed-unread.png);
-    background-size: 16px 16px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    display: inline-block;
+#ctxMnMarkAllAsUpdated::before {
+  background-image: url(/themes/legacy/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
 #ctxMnOpenAllUpdated::before {
-    background-image: url(/themes/legacy/img/folder-open.png);
-    background-size: 16px 16px;
-    width: 16px;
-    height: 16px;
-    content: "";
-    display: inline-block;
+  background-image: url(/themes/legacy/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
 
@@ -236,7 +388,16 @@ li {
 }
 
 .ctxMenuItem:hover {
-    background-color: #999999;
-    color: white;
+  background-color: #999999;
+  color: white;
 }
 
+#selectionBar {
+  position: absolute;
+  top: 0px;
+  height: 17px;
+  width: 100%;
+  margin-top: -5px;
+  background-color: #448bd6;
+  z-index: -1;
+}

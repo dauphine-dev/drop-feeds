@@ -12,9 +12,11 @@
     <script src="/helpers/textHelper.js"></script>
     <script src="/helpers/dateTimeHelper.js"></script>
     <script src="/helpers/feedHelper.js"></script>
-    <script src="/helpers/domHelper.js"></script>
+    <script src="/helpers/browserHelper.js"></script>
+    <script src="/helpers/optionsHelper.js"></script>
     <script src="/helpers/transferHelper.js"></script>
     <script src="/themes/js/theme-sidebar.js"></script>
+    <script src="/common/commonValues.js"></script>
     <script src="/sidebar/js/checkFeeds.js"></script>
     <script src="/sidebar/js/topMenu.js"></script>
     <script src="/sidebar/js/contextMenu.js"></script>
@@ -25,13 +27,17 @@
   <body>
     <div id="main">
       <div class="topMenu">
-        <span id="checkFeedsButton" toolTiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
-        <span id="discoverFeedsButton" toolTiptext="Discover feeds" class="topMenuItem toolTip"></span>
-        <span id="onlyUpdatedFeedsButton" toolTiptext="View only updated feeds" class="topMenuItem toolTip"></span>
-        <!--<span id="onlyErrorFeedsButton" toolTiptext="View only feeds in error" class="topMenuItem toolTip"></span>-->
-        <span id="toogleFoldersButton" toolTiptext="Toogle folders (open/close)" class="topMenuItem toolTip"></span>
-        <span id="addFeedButton" toolTiptext="Add a new feed" class="topMenuItem toolTip"></span>
-        <span id="optionsMenuButton" toolTiptext="Open options tab" class="topMenuItem toolTip"></span>
+        <span id="checkFeedsButton" toolTipText="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
+        <!--
+        <span id="discoverFeedsButton" toolTipText="Discover feeds" class="topMenuItem toolTip"></span>
+        -->
+        <span id="discoverFeedsButton" class="topMenuItem"></span>
+
+        <span id="onlyUpdatedFeedsButton" toolTipText="View only updated feeds" class="topMenuItem toolTip"></span>
+        <!--<span id="onlyErrorFeedsButton" toolTipText="View only feeds in error" class="topMenuItem toolTip"></span>-->
+        <span id="toggleFoldersButton" toolTipText="Toggle folders (open/close)" class="topMenuItem toolTip"></span>
+        <span id="addFeedButton" toolTipText="Add a new feed" class="topMenuItem toolTip"></span>
+        <span id="optionsMenuButton" toolTipText="Open options tab" class="topMenuItem toolTip"></span>
       </div>
       <div id="statusBar">
         <span id="statusButton" class="statusButton"></span>
@@ -41,12 +47,13 @@
         <ul>
           <li id="ctxMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
           <li class="menuSep"></li>
-          <li id="ctxMnMarkAllasRead" class="ctxMenuItem">Set all to read</li>
-          <li id="ctxMnMarkAllasUpdated" class="ctxMenuItem">Set all to updated</li>
+          <li id="ctxMnMarkAllAsRead" class="ctxMenuItem">Set all to read</li>
+          <li id="ctxMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
           <li class="menuSep"></li>
           <li id="ctxMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
         </ul>
       </div>
+      <div id="selectionBar"></div>
       <ul class="contentHeight" id="content">
       </ul>
     </div>

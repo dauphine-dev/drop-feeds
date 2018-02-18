@@ -1,5 +1,6 @@
 /*global browser, getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync*/
 /*global dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, getThemeCssUrlMozExtAsync, downloadFileByFeedObjAsync*/
+/*global getActiveTabAsync, isTabEmptyAsync, _openNewTabForeground, _alwaysOpenNewTab*/
 'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
@@ -128,7 +129,7 @@ function getFeedPubdate(feedObj) {
   for (let i=0; i<itemNumber; i++) {
     let itemId = getItemId(itemText);
     let pubDateText = extractValue(itemText, TAG_PUBDATE_LIST);
-    let pubDate = extracDateTime(pubDateText);
+    let pubDate = extractDateTime(pubDateText);
     pubDateList.push(pubDate);
     itemText = getNextItem(feedObj.feedText, itemId, tagItem);
   }
@@ -142,12 +143,12 @@ function getFeedPubdate(feedObj) {
   let pubDate = pubDateList[0];
   if (!pubDate || pubDate == new Date(null)) {
     let lastBuildDateText = extractValue(feedObj.feedText, TAG_LASTBUILDDATE_LIST);
-    pubDate = extracDateTime(lastBuildDateText);
+    pubDate = extractDateTime(lastBuildDateText);
   }
   return pubDate;
 }
 //----------------------------------------------------------------------
-function extracDateTime(dateTimeText) {
+function extractDateTime(dateTimeText) {
   if (!dateTimeText) return null;
   let dateTime = null;
   if (dateTimeText) {
@@ -189,7 +190,7 @@ function getNextItem(feedText, itemId, tagItem) {
 //----------------------------------------------------------------------
 async function updateFeedStatusAsync(feedId, feedStatus, pubDate, defaultName, hash) {
   if (!feedId) { return; }
-  let storedFeedObj = await getStoredFeedAsync(null, feedId, name);
+  let storedFeedObj = await getStoredFeedAsync(null, feedId, defaultName);
   storedFeedObj = {id: storedFeedObj.id, hash: storedFeedObj.hash, pubDate: storedFeedObj.pubDate, isBkmrk: true, status: storedFeedObj.status, name: storedFeedObj.name};
   if (feedStatus) {
     storedFeedObj.status = feedStatus;
@@ -219,7 +220,6 @@ async function updateFeedStatusAsync(feedId, feedStatus, pubDate, defaultName, h
       feedUiItem.classList.add('feedError');
       break;
   }
-
   await storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
 }
 //----------------------------------------------------------------------
@@ -273,13 +273,13 @@ async function checkFeedsForFolderAsync(id) {
 }
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
-  let feeds = document.getElementById(id).querySelectorAll('.feedUnread, .feedError');
+  let feeds = document.getElementById(id).querySelectorAll('.feedUnread');
   for (let i = 0; i < feeds.length; i++) {
     let feedId = feeds[i].getAttribute('id');
     let bookmarkItems = await browser.bookmarks.get(feedId);
     let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].id);
     let downloadFeedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
-    let hashPromise = openFeedAsync(downloadFeedObj);
+    let hashPromise = openFeedAsync(downloadFeedObj, true);
     hashPromise.then(async (hash)=> {
       await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, null, downloadFeedObj.title, hash);
     });
@@ -388,14 +388,24 @@ async function downloadFeedAsync(downloadFeedObj) {
   return downloadFeedObj;
 }
 //----------------------------------------------------------------------
-async function openFeedAsync(downloadFeedObj) {
+async function openFeedAsync(downloadFeedObj, openNewTabForce) {
   downloadFeedObj = await downloadFeedAsync(downloadFeedObj);
   downloadFeedObj.pubDate = getFeedPubdate(downloadFeedObj);
   let feedHtml = await parseFeedAsync(downloadFeedObj.feedText);
   let hash = computeHashFeed(downloadFeedObj.feedText);
   let feedBlob = new Blob([feedHtml]);
   let feedHtmlUrl = URL.createObjectURL(feedBlob);
-  browser.tabs.create({url:feedHtmlUrl, active: false});
+
+  let activeTab = await getActiveTabAsync();
+  let isEmptyActiveTab = await isTabEmptyAsync(activeTab);
+  let openNewTab = _alwaysOpenNewTab || openNewTabForce;
+  if(openNewTab && !isEmptyActiveTab) {
+    await browser.tabs.create({url:feedHtmlUrl, active: _openNewTabForeground});
+  } else {
+    await browser.tabs.update(activeTab.id, {url: feedHtmlUrl});
+  }
+
+
   return hash;
 }
 //----------------------------------------------------------------------
@@ -481,10 +491,10 @@ function parseItemsToHtmlList(feedText, tagItem) {
     item.title = decodeHtml(extractValue(itemText, TAG_TITLE_LIST));
     if (!item.title) { item.title = item.link; }
     item.description = decodeHtml(extractValue(itemText, TAG_DESC_LIST));
-    item.category = getItemCatagory(itemText);
+    item.category = getItemCategory(itemText);
     item.author = decodeHtml(extractValue(itemText, TAG_AUTHOR_LIST));
     let pubDateText = extractValue(itemText, TAG_PUBDATE_LIST);
-    item.pubDate = extracDateTime(pubDateText);
+    item.pubDate = extractDateTime(pubDateText);
     let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
     item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateText;
     let htmlItem = getHtmlItem(item);
@@ -494,7 +504,7 @@ function parseItemsToHtmlList(feedText, tagItem) {
   return htmlItemList;
 }
 //----------------------------------------------------------------------
-function getItemCatagory(itemText){
+function getItemCategory(itemText){
   let category = '';
   let endIndexRef = [];
   let catCmpt = 0;

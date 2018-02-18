@@ -22,39 +22,139 @@ body{
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: #9D9D9D;
+  line-height: 41px;
+  height: 41px;
+  padding: 2px;
 }
+
+.topMenuItem {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px outset #70707000;
+  border-radius: 4px;
+}
+.topMenuItem:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+.topMenuItemSelected {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px inset #707070;
+  border-radius: 4px;
+}
+
 .checkFeedsButton::before {
-  content: url(/themes/dauphine/img/check-feeds.png);
-  padding-left: 2px;
+  background-image: url(/themes/dauphine/img/check-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 .checkFeedsButtonAnim::before {
-  content: url(/themes/dauphine/img/check-feeds-animation.gif);
-  padding-left: 2px;
+  background-image: url(/themes/dauphine/img/check-feeds-animation.gif);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #discoverFeedsButton::before {
-  content: url(/themes/dauphine/img/magnify.png);
-  padding-left: 2px;
-}  
+  background-image: url(/themes/dauphine/img/magnify.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
 #onlyUpdatedFeedsButton::before {
-  content: url(/themes/dauphine/img/only-updated-feeds.png);
-  padding-left: 2px;
+  background-image: url(/themes/dauphine/img/only-updated-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #onlyErrorFeedsButton::before {
-  content: url(/themes/dauphine/img/feed-error.png);
-  padding-left: 2px;
+  background-image: url(/themes/dauphine/img/feed-error.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
-#toogleFoldersButton::before {
-  content: url(/themes/dauphine/img/toogle-folders.png);
-  padding-left: 2px;
+#toggleFoldersButton::before {
+  background-image: url(/themes/dauphine/img/toggle-folders.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #addFeedButton::before {
-  content: url(/themes/dauphine/img/subscribe.png);
-  padding-left: 2px;
+  background-image: url(/themes/dauphine/img/subscribe.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
 #optionsMenuButton::before {
-  content: url(/themes/dauphine/img/options.png);
-  padding-left: 10px;
+  background-image: url(/themes/dauphine/img/options.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
 }
+
 .toolTip:hover:after{
   position: absolute;
   background: #333;
@@ -62,16 +162,17 @@ body{
   border-radius: 5px;
   color: #fff;
   content: attr(toolTipText);
-  /*top: 32px;*/
-  margin-top: 32px;
+  margin-top: 45px;
   margin-left: -25px;
   padding: 5px 5px;
   height: 16px;
+  line-height: 16px;
+  opacity: 0.9;
 }
 
-/* statuts bar*/
-#statusBar {  
-  display: block;  
+/* status bar*/
+#statusBar {
+  display: block;
   background-color: #E8E8E8;
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -80,7 +181,7 @@ body{
   line-height: 30px;
 }
 
-.statusButton::before {  
+.statusButton::before {
   padding-left: 5px;
   vertical-align: -20%;
 }
@@ -91,7 +192,7 @@ body{
 }
 
 #statusText {
-  line-height: 30px; 
+  line-height: 30px;
   padding-left: 5px;
 }
 
@@ -133,13 +234,13 @@ li {
   display: block;
   margin-top: -1px;
   margin-bottom: -1px;
-;
+  ;
 }
 li.feedRead {
- color: #7F7F70;
+  color: #7F7F70;
 }
 li.feedUnread {
- color: #44486E;
+  color: #44486E;
 }
 
 .feedRead::before {
@@ -181,7 +282,7 @@ li.feedUnread {
   background-color: #f9f9f9;
   min-width: 160px;
   padding-right: 20px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;  
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
   z-index: 1;
 }
 
@@ -196,39 +297,39 @@ li.feedUnread {
 }
 
 #ctxMnCheckFeeds::before {
-    background-image: url(/themes/dauphine/img/check-feeds.png);
-    background-size: 16px 16px;
-    width: 16px; 
-    height: 16px;
-    content: "";
-    display: inline-block;
+  background-image: url(/themes/dauphine/img/check-feeds.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
-#ctxMnMarkAllasRead::before {
-    background-image: url(/themes/dauphine/img/feed-read.png);
-    background-size: 16px 16px;
-    width: 16px; 
-    height: 16px;
-    content: "";
-    display: inline-block;
+#ctxMnMarkAllAsRead::before {
+  background-image: url(/themes/dauphine/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
-#ctxMnMarkAllasUpdated::before {
-    background-image: url(/themes/dauphine/img/feed-unread.png);
-    background-size: 16px 16px;
-    width: 16px; 
-    height: 16px;
-    content: "";
-    display: inline-block;
+#ctxMnMarkAllAsUpdated::before {
+  background-image: url(/themes/dauphine/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
 #ctxMnOpenAllUpdated::before {
-    background-image: url(/themes/dauphine/img/folder-open.png);
-    background-size: 16px 16px;
-    width: 16px; 
-    height: 16px;
-    content: "";
-    display: inline-block;
+  background-image: url(/themes/dauphine/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
 }
 
 
@@ -248,7 +349,16 @@ li.feedUnread {
 }
 
 .ctxMenuItem:hover {
-    background-color: #999999;
-    color: white;
+  background-color: #999999;
+  color: white;
 }
 
+#selectionBar {
+  position: absolute;
+  top: 0px;
+  height: 17px;
+  width: 100%;
+  margin-top: -5px;
+  background-color: #60698f;
+  z-index: -1;
+}

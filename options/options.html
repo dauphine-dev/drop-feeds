@@ -3,8 +3,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link href="css/options.css" rel="stylesheet">
-    <title></title>        
-    <script src="/helpers/domHelper.js"></script>
+    <title></title>
+    <script src="/helpers/browserHelper.js"></script>
     <script src="/helpers/logHelper.js"></script>
     <script src="/helpers/textHelper.js"></script>
     <script src="/helpers/storageHelper.js"></script>
@@ -13,13 +13,14 @@
     <script src="/helpers/progressBarHelper.js"></script>
     <script src="/helpers/transferHelper.js"></script>
     <script src="/helpers/themeHelper.js"></script>
+    <script src="/helpers/optionsHelper.js"></script>
     <script src="/options/js/general.js"></script>
     <script src="/options/js/opml-import.js"></script>
     <script src="/options/js/opml-export.js"></script>
   </head>
 
   <body>
-    
+
     <div class="panel">
       <label class="panelTitle">General</label></p>
       <table>
@@ -30,15 +31,19 @@
           <td>
             <div id ="feedList">
               <!--
-              <select id="feedFolderSelect">            
+              <select id="feedFolderSelect">
                 <option value="bookmarkId1">bookmarkTitle1</option>
               </select>
               -->
             </div>
           </td>
           <td>
-            <button id="applySelectedFeedButton" style="display:none">Apply</button>
+            <button id="applySelectedFeedButton" style="display:''">Apply</button>
           </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span class="checkboxText">Do not display root folder</span></td>
+          <td/><td/>
         </tr>
         <tr>
           <td>
@@ -47,7 +52,7 @@
           <td>
             <div id ="themeList">
               <!--
-              <select id="themeSelect">            
+              <select id="themeSelect">
                 <option value="themeName1">themeName1</option>
               </select>
               -->
@@ -59,7 +64,7 @@
         </tr>
       </table>
     </div>
-    
+
     <div class="panel">
       <label class="panelTitle">OMPL Import/Export</label></p>
       <table>
@@ -78,20 +83,16 @@
         </tr>
       </table>
     </div>
-    <!--
     <div class="panel">
-      <label class="panelTitle">Debug</label></p>
+      <label class="panelTitle">Contents area</label></p>
       <table>
         <tr>
-          <td><label>View debug info</label></td>
-          <td>
-            <button id="debugButton">Debug...</button>
-          </td>
+          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
+          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span class="checkboxText">Open new tab in foreground</td>
         </tr>
       </table>
     </div>
-    </div>    
-    -->    
+    </div>
     <script src="/options/js/options.js"></script>
   </body>
 </html>
