@@ -35,12 +35,15 @@ function folderOnClickedEvent(event){
   setSelectionBar(event.currentTarget);
 }
 //----------------------------------------------------------------------
-function getSelectedRootElement(targetElement) {
+function getSelectedRootElement() {
   if (!_selectedRootElement) {
-    let el1 = document.getElementById('content');
-    _selectedRootElement = el1.children[0];
+    _selectedRootElement = document.getElementById(_selectedRootElementId);
   }
   return _selectedRootElement;
+}
+//----------------------------------------------------------------------
+function setSelectedRootElement(rootElementId) {
+  _selectedRootElementId = rootElementId;
 }
 //----------------------------------------------------------------------
 function setSelectionBar(targetElement) {
@@ -50,7 +53,9 @@ function setSelectionBar(targetElement) {
   if (prevSelectedElement) {
     prevSelectedElement.removeEventListener('scroll', selectedElementOnScrollEvent);
     let prevElLabel = document.getElementById('lbl-' + prevSelectedElementId);
-    prevElLabel.style.color = '';
+    if (prevElLabel) {
+      prevElLabel.style.color = '';
+    }
   }
 
   let isTheSame = (_selectedElement == targetElement);
@@ -58,12 +63,12 @@ function setSelectionBar(targetElement) {
   if (_selectedElement) {
     _selectedElementId = targetElement.getAttribute('id').substring(3);
     let elLabel = document.getElementById('lbl-' + _selectedElementId);
-    elLabel.style.color = 'white';
-    let rectTarget = _selectedElement.getBoundingClientRect();
-    let elSelectionBar = document.getElementById('selectionBar');
-    let y = rectTarget.top + 5;
-    elSelectionBar.style.top = y + 'px';
-    if (! isTheSame) {
+    if (elLabel) {
+      elLabel.style.color = 'white';
+      let rectTarget = _selectedElement.getBoundingClientRect();
+      let elSelectionBar = document.getElementById('selectionBar');
+      let y = rectTarget.top + 5;
+      elSelectionBar.style.top = y + 'px';
     }
   }
 }

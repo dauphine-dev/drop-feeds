@@ -1,16 +1,19 @@
 /*global browser, addEventListenerContextMenus, contextMenusOnClickedEvent, defaultStoredFolder, FeedStatusEnum, getFeedItemClassAsync, checkRootFolderAsync, buttonAddFeedEnable*/
 /*global getFolderFromStorageObj, getStoredFeedAsync, makeIndent, prepareTopMenuAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
 /*global openFeedAsync, sleep, getThemePageActionIcoAsync, displayRootFolderAsync, loadCommonValuesAsync, folderOnClickedEvent*/
-/*global setSelectionBar, getSelectedRootElement, addObserverListener, contentOnScrollEvent*/
+/*global setSelectionBar, addObserverListener, contentOnScrollEvent, getSelectedRootElement, setSelectedRootElement*/
 //----------------------------------------------------------------------
 'use strict';
 let _html= [];
+let _statusBarBottom = null;
+let _is1stElement = true;
+let _1stElementId = null;
+let _1stElement = null;
 console.log('Drop feeds loading...');
 mainSbr();
+reloadOnce();
 //----------------------------------------------------------------------
 async function mainSbr() {
-  reloadOnce();
-  loadCommonValuesAsync();
   prepareTopMenuAsync();
   await loadPanelAsync();
   addingBookmarkListeners();
@@ -22,7 +25,7 @@ async function mainSbr() {
   browser.runtime.onMessage.addListener(runtimeOnMessageEvent);
   setSelectionBar(getSelectedRootElement());
   document.getElementById('content').addEventListener('scroll', contentOnScrollEvent);
-  browser.browserAction.setBadgeBackgroundColor({color: 'green'});
+  setStatusBarBottom();
 }
 //----------------------------------------------------------------------
 function reloadOnce() {
@@ -35,7 +38,17 @@ function reloadOnce() {
 }
 //----------------------------------------------------------------------
 async function windowOnResize() {
-  let height = window.innerHeight - 57;
+  setContentHeight();
+}
+//----------------------------------------------------------------------
+function setStatusBarBottom() {
+  let elStatusBar = document.getElementById('statusBar');
+  let rect = elStatusBar.getBoundingClientRect();
+  _statusBarBottom = rect.bottom + 1;
+}
+//----------------------------------------------------------------------
+function setContentHeight() {
+  let height = Math.max(window.innerHeight - _statusBarBottom, 0);
   replaceStyle('.contentHeight', '  height:' + height + 'px;');
 }
 //----------------------------------------------------------------------
@@ -85,8 +98,7 @@ async function loadPanelAsync() {
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
   createItemsForSubTree(subTree);
   browser.storage.onChanged.addListener(storageEventChanged);
-  let height = window.innerHeight - 57;
-  replaceStyle('.contentHeight', '  height:' + height + 'px;');
+  setContentHeight();
 }
 //----------------------------------------------------------------------
 async function createItemsForSubTree(bookmarkItems) {
@@ -112,7 +124,33 @@ async function prepareItemsRecursivelyAsync(storageObj, bookmarkItem, indent, di
   indent -=2;
 }
 //----------------------------------------------------------------------
+let _is1stFeedItem = true;
+let _1stFeedItemId = null;
+function setAs1stFeedItem(id)  {
+  _is1stFeedItem = false;
+  _1stFeedItemId = id;
+  if (_is1stElement) {
+    _is1stElement = false;
+    _1stElementId = _1stFeedItemId;
+  }
+}
+//----------------------------------------------------------------------
+let _is1stFolder = true;
+let _1stFolderDivId = null;
+function setAs1stFolder(id)  {
+  _is1stFolder = false;
+  _1stFolderDivId = 'dv-' + id;
+  setSelectedRootElement(_1stFolderDivId);
+  if (_is1stElement) {
+    _is1stElement = false;
+    _1stElementId = _1stFolderDivId;
+  }
+}
+//----------------------------------------------------------------------
 async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
+  if (_is1stFeedItem) {
+    setAs1stFeedItem(bookmarkItem.id);
+  }
   let feedName = bookmarkItem.title;
   let className = await getFeedItemClassAsync(storageObj, bookmarkItem.id, bookmarkItem.title);
   let feedLine = makeIndent(indent) +
@@ -127,6 +165,9 @@ async function createFolderItemAsync (storageObj, bookmarkItem, indent, displayT
   let checked = storedFolder.checked ? 'checked' : '';
   let folderLine = '';
   if (displayThisFolder) {
+    if (_is1stFolder) {
+      setAs1stFolder(id);
+    }
     folderLine += makeIndent(indent) +
     '<div id="dv-' + id + '" class="folder">\n';
     indent += 2;

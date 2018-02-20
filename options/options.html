@@ -3,7 +3,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link href="css/options.css" rel="stylesheet">
-    <title></title>
+    <title>Drop feeds (options)</title>
+    <script src="/common/commonValues.js"></script>
     <script src="/helpers/browserHelper.js"></script>
     <script src="/helpers/logHelper.js"></script>
     <script src="/helpers/textHelper.js"></script>
@@ -22,7 +23,7 @@
   <body>
 
     <div class="panel">
-      <label class="panelTitle">General</label></p>
+      <label class="panelTitle">General</label><p/>
       <table>
         <tr>
           <td>
@@ -66,7 +67,28 @@
     </div>
 
     <div class="panel">
-      <label class="panelTitle">OMPL Import/Export</label></p>
+      <label class="panelTitle">Update checker</label><p></p>
+      <table>
+        <tr>
+          <td><label>Timeout</label></td>
+          <td><input type="number" id="timeoutNumber" step="1" min="1" max="99"><span class="checkboxText">seconds</span></td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="panel">
+      <label class="panelTitle">Contents area</label><p></p>
+      <table>
+        <tr>
+          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
+          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span class="checkboxText">Open new tab in foreground</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="panel">
+      <label class="panelTitle">Management</label><p></p>
       <table>
         <tr>
           <td><label>Select the opml file to import</label></td>
@@ -77,21 +99,11 @@
           <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>
         <tr>
-          <td><label>Select where to export the ompl file<label></td>
+          <td><label>Select where to export the ompl file</label></td>
           <td><button id="exportButton">Export...</button></td>
           <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>
       </table>
-    </div>
-    <div class="panel">
-      <label class="panelTitle">Contents area</label></p>
-      <table>
-        <tr>
-          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
-          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span class="checkboxText">Open new tab in foreground</td>
-        </tr>
-      </table>
-    </div>
     </div>
     <script src="/options/js/options.js"></script>
   </body>

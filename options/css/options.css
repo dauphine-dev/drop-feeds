@@ -42,7 +42,13 @@ td:last-child {
   color:#fff;
   background-color:#2196F3;
 }
-/* Checkboxs */
+/* Misc. */
 .checkboxText {
   margin-right: 10px;
+}
+
+input[type="number"] {
+  margin-left: 10px;
+  margin-right: 10px;
+  width:50px;
 }

@@ -1,5 +1,11 @@
 0.2.1
-Fix discover feeds tool tip text.
+Fix discover feeds tool tip text
+Fix scroll bar size
+Fix selection bar positioning
+Fix debug view
+Fix subscribe view
+Reduce option view loading time
+Adding check feed timeout (default 10s)
 
 0.2
 Rework legacy theme treeview

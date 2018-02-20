@@ -1,5 +1,5 @@
-/*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync*/
-/*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, setThemeFolderNameAsync, displayRootFolderAsync*/
+/*global browser, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync, _timeOutMs, _alwaysOpenNewTab, _openNewTabForeground*/
+/*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, setThemeFolderNameAsync, displayRootFolderAsync, getStoredValueAsync*/
 'use strict';
 //----------------------------------------------------------------------
 main();
@@ -9,25 +9,15 @@ async function debugButtonOnClickedEvent(event ) {
 }
 //----------------------------------------------------------------------
 async function main() {
-  //Contents area
-  let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
-  elAlwaysOpenNewTabCheckbox.checked = await storageLocalGetItemAsync('alwaysOpenNewTab');
-  elAlwaysOpenNewTabCheckbox.addEventListener('click', alwaysOpenNewTabCheckBoxClickedEvent);
-
-
-  let elOpenNewTabForegroundCheckbox = document.getElementById('openNewTabForegroundCheckbox');
-  elOpenNewTabForegroundCheckbox.checked = await storageLocalGetItemAsync('openNewTabForeground');
-  elOpenNewTabForegroundCheckbox.addEventListener('click', openNewTabForegroundCheckboxClickedEvent);
-
-  //OMPL Import/Export
-  document.getElementById('inputImportFile').addEventListener('change', importInputChangedEvent);
-
-  document.getElementById('importButton').addEventListener('click', importButtonOnClickedEvent);
-  document.getElementById('exportButton').addEventListener('click', exportButtonOnClickedEvent);
-  //Select theme
-  let themeSelectHtml = await createThemeOptionsAsync();
-  document.getElementById('themeList').innerHTML += themeSelectHtml;
-  document.getElementById('themeSelect').addEventListener('change', themeSelectChangedEvent);
+  prepareGeneralPanelAsync();
+  prepareUpdateCheckerPanelAsync();
+  prepareContentAreaPanelAsync();
+  prepareManagementPanelAsync();
+}
+//----------------------------------------------------------------------
+async function prepareGeneralPanelAsync() {
+  //Theme list
+  PopulateThemeListAsync();
   //Set not display root folder checkbox
   let notDisplayRootFolder = ! await displayRootFolderAsync();
   let elNotDisplayRootFolderCheckBox = document.getElementById('notDisplayRootFolderCheckBox');
@@ -38,6 +28,36 @@ async function main() {
   document.getElementById('feedList').innerHTML += feedFolderSelectHtml;
   document.getElementById('feedFolderSelect').addEventListener('change', feedFolderSelectChangedEvent);
   document.getElementById('applySelectedFeedButton').addEventListener('click', applySelectedClickedEvent);
+}
+//----------------------------------------------------------------------
+async function prepareUpdateCheckerPanelAsync() {
+  let elTimeoutNumber = document.getElementById('timeoutNumber');
+  let timeOut = await getStoredValueAsync('timeOut', _timeOutMs) / 1000;
+  elTimeoutNumber.value = timeOut;
+  elTimeoutNumber.addEventListener('change', elTimeoutNumberValueChangeEvent);
+}
+//----------------------------------------------------------------------
+async function prepareContentAreaPanelAsync() {
+  let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
+  elAlwaysOpenNewTabCheckbox.checked = await getStoredValueAsync('alwaysOpenNewTab', _alwaysOpenNewTab);
+  elAlwaysOpenNewTabCheckbox.addEventListener('click', alwaysOpenNewTabCheckBoxClickedEvent);
+
+  let elOpenNewTabForegroundCheckbox = document.getElementById('openNewTabForegroundCheckbox');
+  elOpenNewTabForegroundCheckbox.checked = await getStoredValueAsync('openNewTabForeground', _openNewTabForeground);
+  elOpenNewTabForegroundCheckbox.addEventListener('click', openNewTabForegroundCheckboxClickedEvent);
+}
+//----------------------------------------------------------------------
+async function prepareManagementPanelAsync() {
+  document.getElementById('inputImportFile').addEventListener('change', importInputChangedEvent);
+
+  document.getElementById('importButton').addEventListener('click', importButtonOnClickedEvent);
+  document.getElementById('exportButton').addEventListener('click', exportButtonOnClickedEvent);
+}
+//----------------------------------------------------------------------
+async function PopulateThemeListAsync() {
+  let themeSelectHtml = await createThemeOptionsAsync();
+  document.getElementById('themeList').innerHTML += themeSelectHtml;
+  document.getElementById('themeSelect').addEventListener('change', themeSelectChangedEvent);
 }
 //----------------------------------------------------------------------
 async function importButtonOnClickedEvent(event) {
@@ -92,6 +112,12 @@ async function alwaysOpenNewTabCheckBoxClickedEvent(event) {
 async function openNewTabForegroundCheckboxClickedEvent(event) {
   let openNewTabForeground = document.getElementById('openNewTabForegroundCheckbox').checked;
   await storageLocalSetItemAsync('openNewTabForeground', openNewTabForeground);
+  await storageLocalSetItemAsync('reloadCommonValues', Date.now());
+}
+//----------------------------------------------------------------------
+async function elTimeoutNumberValueChangeEvent(event) {
+  let timeOut = document.getElementById('timeoutNumber').value * 1000;
+  await storageLocalSetItemAsync('timeOut', timeOut);
   await storageLocalSetItemAsync('reloadCommonValues', Date.now());
 }
 //----------------------------------------------------------------------

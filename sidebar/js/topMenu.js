@@ -61,8 +61,8 @@ function printToStatusBar(text) {
 function checkFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   checkFeedsAsync(document);
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 
@@ -71,15 +71,15 @@ function onlyUpdatedFeedsButtonClickedEvent(event) {
   event.preventDefault();
   _updatedFeedsVisible = ! _updatedFeedsVisible;
   _errorFeedsVisible = ! _updatedFeedsVisible;
-  setSelectionBar(getSelectedRootElement());
   setUpdatedFeedsVisibility();
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 function onlyErrorFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   setErrorFeedsVisibility();
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 function setUpdatedFeedsVisibility() {
@@ -107,7 +107,6 @@ function setErrorFeedsVisibility() {
 function toggleFoldersButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   _foldersOpened = !_foldersOpened;
   let query = _foldersOpened ? 'not(checked)' : 'checked';
   let folders = document.querySelectorAll('input[type=checkbox]:' + query);
@@ -120,21 +119,22 @@ function toggleFoldersButtonClickedEvent(event) {
     storedFolder.checked = _foldersOpened;
     storageLocalSetItemAsync(folderId, storedFolder);
   }
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 async function addFeedButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   if (!_buttonAddFeedEnabled) { return; }
   browser.pageAction.openPopup();
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 async function discoverFeedsButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   printToStatusBar('not yet implemented!');
+  setSelectionBar(getSelectedRootElement());
   await sleep(250);
   printToStatusBar('');
 }
@@ -142,8 +142,8 @@ async function discoverFeedsButtonClickedEvent(event) {
 async function optionsMenuClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-  setSelectionBar(getSelectedRootElement());
   await browser.runtime.openOptionsPage();
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 function updatingSelectedButton(elementId, selected) {

@@ -1,7 +1,7 @@
-/*global TAG_RSS_LIST, getInnerText1*/
+/*global TAG_RSS_LIST, getInnerText1, _timeOutMs*/
 'use strict';
 //----------------------------------------------------------------------
-function downloadFileAsync(url, urlNocache) {
+function downloadFileAsync(url, urlNoCache) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
@@ -14,23 +14,28 @@ function downloadFileAsync(url, urlNocache) {
         }
       }
     };
-    if (urlNocache) {
+    if (urlNoCache) {
       let sep = url.includes('?') ? '&' : '?';
-      url += sep + 'dpncache=' +  new Date().getTime();
+      url += sep + 'dpNoCache=' +  new Date().getTime();
     }
     xhr.open('GET', url);
     xhr.setRequestHeader('Cache-Control', 'no-cache');
+    xhr.timeout = _timeOutMs;
+
+    xhr.ontimeout = function (e) {
+      reject(e);
+    };
     xhr.send();
   });
 }
 //----------------------------------------------------------------------
-function downloadFileByFeedObjCoreAsync(downloadFeedObj, urlNocache) {
+function downloadFileByFeedObjCoreAsync(downloadFeedObj, urlNoCache) {
   return new Promise((resolve, reject) => {
     let url = downloadFeedObj.bookmark.url;
     if (downloadFeedObj.newUrl) {
       url = downloadFeedObj.newUrl;
     }
-    let result = downloadFileAsync(url, urlNocache);
+    let result = downloadFileAsync(url, urlNoCache);
     result.then( function(responseText) {
       let tagRss = null;
       for (let tag of TAG_RSS_LIST) {

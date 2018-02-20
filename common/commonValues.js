@@ -2,12 +2,13 @@
 'use strict';
 let _alwaysOpenNewTab = true;
 let _openNewTabForeground = true;
+let _timeOutMs = 10000;
 //----------------------------------------------------------------------
 async function loadCommonValuesAsync()
 {
   _alwaysOpenNewTab = await getStoredValueAsync('alwaysOpenNewTab', _alwaysOpenNewTab);
   _openNewTabForeground = await getStoredValueAsync('openNewTabForeground', _openNewTabForeground);
-  console.log('_openNewTabForeground:', _openNewTabForeground);
+  _timeOutMs = await getStoredValueAsync('timeOut', _timeOutMs);
 }
 //----------------------------------------------------------------------
 async function getStoredValueAsync(valueName, defaultValue) {

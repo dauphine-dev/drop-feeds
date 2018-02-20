@@ -164,7 +164,7 @@ body{
   background: rgba(0,0,0,.8);
   border-radius: 5px;
   color: #fff;
-  content: attr(toolTipText);
+  content: attr(tooltiptext);
   margin-top: 45px;
   margin-left: -25px;
   padding: 5px 5px;
@@ -190,8 +190,18 @@ body{
 }
 
 .statusButtonUpdating::before {
-  content: url(/themes/legacy/img/updating.gif);
-  padding-left: 2px;
+  background-image: url(/themes/legacy/img/updating.gif);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  border-radius: 4px;
+  width: 34px;
+  height: 19px;
+  content:"";
+  padding: 0;
 }
 
 #statusText {
