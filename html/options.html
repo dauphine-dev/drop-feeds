@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="/resources/css/options.css" rel="stylesheet">
+    <title>Drop feeds (options)</title>
+    <script src="/js/tools/commonValues.js"></script>
+    <script src="/js/tools/browserHelper.js"></script>
+    <script src="/js/tools/logHelper.js"></script>
+    <script src="/js/tools/textHelper.js"></script>
+    <script src="/js/tools/storageHelper.js"></script>
+    <script src="/js/tools/bookmarkHelper.js"></script>
+    <script src="/js/tools/dateTimeHelper.js"></script>
+    <script src="/js/tools/progressBarHelper.js"></script>
+    <script src="/js/tools/transferHelper.js"></script>
+    <script src="/js/tools/themeManager.js"></script>
+    <script src="/js/tools/optionsHelper.js"></script>
+    <script src="/js/tools/general.js"></script>
+    <script src="/js/tools/opml-import.js"></script>
+    <script src="/js/tools/opml-export.js"></script>
+  </head>
+
+  <body>
+
+    <div class="tab">
+      <button class="tabLinks active" target="generalTab">General</button>
+      <button class="tabLinks" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" target="contentsAreaTab">Contents area</button>
+      <button class="tabLinks" target="managementTab">Management</button>
+    </div>
+
+    <div id="generalTab" class="tabContent" style="display: block;">
+      <table>
+        <tr>
+          <td>
+            <label>Select feed folder&nbsp;</label>
+          </td>
+          <td>
+            <div id ="feedList">
+              <!--
+              <select id="feedFolderSelect">
+                <option value="bookmarkId1">bookmarkTitle1</option>
+              </select>
+              -->
+            </div>
+          </td>
+          <td>
+            <button id="applySelectedFeedButton" style="display:none">Apply</button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span class="checkboxText">Do not display root folder</span></td>
+          <td/><td/>
+        </tr>
+        <tr>
+          <td>
+            <label>Select theme&nbsp;</label>
+          </td>
+          <td>
+            <div id ="themeList">
+              <!--
+              <select id="themeSelect">
+                <option value="themeName1">themeName1</option>
+              </select>
+              -->
+            </div>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="updateCheckerTab" class="tabContent">
+      <table>
+        <tr>
+          <td><label>Timeout</label></td>
+          <td><input type="number" id="timeoutNumber" step="1" min="1" max="99"><span class="checkboxText">seconds</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="contentsAreaTab" class="tabContent">
+      <table>
+        <tr>
+          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
+          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span class="checkboxText">Open new tab in foreground</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="managementTab" class="tabContent">
+      <table>
+        <tr>
+          <td><label>Select the opml file to import</label></td>
+          <td>
+            <input type="file" accept=".opml" id="inputImportFile"/>
+            <button id="importButton">Import...</button>
+          </td>
+          <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
+        </tr>
+        <tr>
+          <td><label>Select where to export the ompl file</label></td>
+          <td><button id="exportButton">Export...</button></td>
+          <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
+        </tr>
+      </table>
+    </div>
+    <script src="/js/ui/options.js"></script>
+  </body>
+</html>

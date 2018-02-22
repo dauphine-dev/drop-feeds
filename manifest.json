@@ -11,15 +11,15 @@
   },
 
   "icons": {
-    "32": "icons/drop-feeds-32.png",
-    "48": "icons/drop-feeds-48.png",
-    "96": "icons/drop-feeds-96.png"
+    "32": "resources/img/drop-feeds-32.png",
+    "48": "resources/img/drop-feeds-48.png",
+    "96": "resources/img/drop-feeds-96.png"
   },
 
   "sidebar_action": {
-    "default_icon": "icons/drop-feeds-32.png",
+    "default_icon": "resources/img/drop-feeds-32.png",
     "default_title" : "Drop feeds",
-    "default_panel": "sidebar/sidebar.html"
+    "default_panel": "html/sidebar.html"
   },
 
 
@@ -32,36 +32,31 @@
   },
 
   "browser_action": {
-    "default_icon": "icons/drop-feeds-32.png"
+    "default_icon": "resources/img/drop-feeds-32.png"
   },
 
   "page_action": {
     "browser_style": true,
-    "default_icon": "themes/dauphine/img/subscribe.png",
+    "default_icon": "resources/themes/dauphine/img/subscribe.png",
     "default_title": "Subscribe with Drop feed",
-    "default_popup": "subscribe/subscribe.html"
+    "default_popup": "html/subscribe.html"
   },
 
   "background": {
-    "scripts": ["background/js/background.js"]
+    "scripts": ["js/independent/background.js"]
   },
 
   "content_scripts": [
   {
     "matches": ["<all_urls>"],
-    "js": ["background/js/content-script.js"],
+    "js": ["js/independent/content-script.js"],
     "run_at": "document_end"
   }],
 
   "options_ui": {
-    "page": "options/options.html",
+    "page": "html/options.html",
     "browser_style": true
   },
-
-  "web_accessible_resources": [
-    "transform/*.xsl",
-    "transform/*.css"
-  ],
 
   "permissions": [
     "<all_urls>",

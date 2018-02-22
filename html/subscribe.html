@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link id="cssLink" href="/themes/dauphine/css/subscribe.css" rel="stylesheet">
+    <script src="/js/tools/commonValues.js"></script>
+    <script src="/js/tools/storageHelper.js"></script>
+    <script src="/js/tools/themeManager.js"></script>
+    <script src="/js/tools/browserHelper.js"></script>
+    <script src="/js/tools/textHelper.js"></script>
+    <script src="/js/themes/theme-subscribe.js"></script>
+    <title>Drop feeds (subscribe)</title>
+  </head>
+
+  <body>
+    <div id="mainDiv">
+      <h3 class="title">Subscribe with Drop feed</h3>
+      <table>
+        <tr class="spaceUnder">
+          <td><label>Name: </label></td>
+          <td><input type="text" id="inputName" class="fieldText"></td>
+        </tr>
+        <tr>
+          <td class="atTop"><label>Folder: </label></td>
+          <td>
+            <div id="folderView">
+              <ul id="content">
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><button id="newFolderButton">New folder</button></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div class="atRight">
+              <button id="cancelButton">Cancel</button>
+              <button id="subscribeButton">Subscribe</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <div id="newFolderDialog" class="hide">
+        <table>
+          <tr>
+            <td><label>New folder: </label></td>
+            <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <div class="atRight">
+                <button id="cancelNewFolderButton">Cancel</button>
+                <button id="createNewFolderButton">Create</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script src="/js/ui/subscribe.js"></script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Drop feeds (side panel)</title>
+    <link id="cssLink" href="/resources/themes/dauphine/css/sidebar.css" rel="stylesheet">
+    <script src="/js/tools/commonValues.js"></script>
+    <script src="/js/tools/storageHelper.js"></script>
+    <script src="/js/tools/themeManager.js"></script>
+    <script src="/js/tools/cssHelper.js"></script>
+    <script src="/js/tools/miscHelper.js"></script>
+    <script src="/js/tools/logHelper.js"></script>
+    <script src="/js/tools/textHelper.js"></script>
+    <script src="/js/tools/dateTimeHelper.js"></script>
+    <script src="/js/tools/feedHelper.js"></script>
+    <script src="/js/tools/browserHelper.js"></script>
+    <script src="/js/tools/optionsHelper.js"></script>
+    <script src="/js/tools/transferHelper.js"></script>
+    <script src="/js/tools/checkFeeds.js"></script>
+    <script src="/js/tools/bookmarkManager.js"></script>
+    <script src="/js/themes/theme-sidebar.js"></script>
+  </head>
+
+  <body>
+    <div id="main">
+      <div class="topMenu">
+        <span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
+        <span id="discoverFeedsButton" tooltiptext="Discover feeds" class="topMenuItem toolTip"></span>
+        <span id="onlyUpdatedFeedsButton" tooltiptext="View only updated feeds" class="topMenuItem toolTip"></span>
+        <!--<span id="onlyErrorFeedsButton" tooltiptext="View only feeds in error" class="topMenuItem toolTip"></span>-->
+        <span id="toggleFoldersButton" tooltiptext="Toggle folders (open/close)" class="topMenuItem toolTip"></span>
+        <span id="addFeedButton" tooltiptext="Add a new feed" class="topMenuItem toolTip"></span>
+        <span id="optionsMenuButton" tooltiptext="Open options tab" class="topMenuItem toolTip"></span>
+      </div>
+      <div id="statusBar">
+        <span id="statusButton" class="statusButton"></span>
+        <span id="statusText" ></span>
+      </div>
+      <div id="contextMenuId" class="contextMenuStyle">
+        <ul>
+          <li id="ctxMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
+          <li class="menuSep"></li>
+          <li id="ctxMnMarkAllAsRead" class="ctxMenuItem">Set all to read</li>
+          <li id="ctxMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
+          <li class="menuSep"></li>
+          <li id="ctxMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
+        </ul>
+      </div>
+      <div id="selectionBar"></div>
+      <ul class="contentHeight" id="content">
+      </ul>
+    </div>
+    <script src="/js/ui/topMenu.js"></script>
+    <script src="/js/ui/contextMenu.js"></script>
+    <script src="/js/ui/sidebar.js"></script>
+  </body>
+</html>

@@ -1,0 +1,374 @@
+body{
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #E0E0EF;
+}
+#content {
+  margin-top: 1px;
+  padding-top: 7px;
+  padding-left: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.contentHeight {
+  height:100px;
+}
+
+/* top menu */
+.topMenu {
+  display: block;
+  background-color: #E8E8E8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  line-height: 41px;
+  height: 41px;
+  padding: 2px;
+}
+
+.topMenuItem {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px outset #70707000;
+  border-radius: 4px;
+}
+.topMenuItem:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+.topMenuItemSelected {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px inset #707070;
+  border-radius: 4px;
+}
+
+.checkFeedsButton::before {
+  background-image: url(/resources/themes/dauphine/img/check-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+.checkFeedsButtonAnim::before {
+  background-image: url(/resources/themes/dauphine/img/check-feeds-animation.gif);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#discoverFeedsButton::before {
+  background-image: url(/resources/themes/dauphine/img/magnify.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#onlyUpdatedFeedsButton::before {
+  background-image: url(/resources/themes/dauphine/img/only-updated-feeds.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#onlyErrorFeedsButton::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#toggleFoldersButton::before {
+  background-image: url(/resources/themes/dauphine/img/toggle-folders.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#addFeedButton::before {
+  background-image: url(/resources/themes/dauphine/img/subscribe.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+#optionsMenuButton::before {
+  background-image: url(/resources/themes/dauphine/img/options.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content:"";
+  padding: 0;
+}
+
+.toolTip:hover:after{
+  position: absolute;
+  background: #333;
+  background: rgba(0,0,0,.8);
+  border-radius: 5px;
+  color: #fff;
+  content: attr(tooltiptext);
+  margin-top: 45px;
+  margin-left: -25px;
+  padding: 5px 5px;
+  height: 16px;
+  line-height: 16px;
+  opacity: 0.9;
+}
+
+/* status bar*/
+#statusBar {
+  display: block;
+  background-color: #E8E8E8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  height: 30px;
+  line-height: 30px;
+}
+
+.statusButton::before {
+  padding-left: 5px;
+  vertical-align: -20%;
+}
+
+.statusButtonUpdating::before {
+  background-image: url(/resources/themes/dauphine/img/updating.gif);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  border-radius: 4px;
+  width: 34px;
+  height: 19px;
+  content:"";
+  padding: 0;
+}
+
+#statusText {
+  line-height: 30px;
+  padding-left: 5px;
+}
+
+/* folders */
+label {
+  font-weight: bold;
+  color: #4f4545;
+}
+input[type="checkbox"] {
+  display: none;
+}
+input ~ ul {
+  display: none;
+}
+input:checked ~ ul {
+  display: block;
+}
+input ~ .folderOpen {
+  display: none;
+}
+input:checked ~ .folderClose {
+  display: none;
+}
+input:checked ~ .folderOpen {
+  display: inline;
+}
+.folderOpen::before {
+  content: "-";
+}
+.folderClose::before {
+  content: "+";
+}
+ul {
+  margin-left: -20px;
+}
+
+/* feeds */
+li {
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  ;
+}
+li.feedRead {
+  color: #7F7F70;
+}
+li.feedUnread {
+  color: #44486E;
+}
+
+.feedRead::before {
+  content: '.';
+  padding-left: 1px;
+}
+.feedRead:hover {
+  display: block;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.feedRead {
+  margin: -10px 0 -10px 0;
+}
+
+.feedUnread:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.feedUnread::before  {
+  padding-left: 1px;
+  content: '.';
+}
+.feedUnread {
+  font-weight: bold;
+}
+.feedError::before {
+  content: url(/resources/themes/dauphine/img/feed-error.png);
+  padding-right: 5px;
+}
+.feedError {
+  visibility: visible;
+}
+
+/* context menu */
+.contextMenuStyle {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  padding-right: 20px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  z-index: 1;
+}
+
+.show {
+  display:block;
+}
+.visibilityVisible {
+  visibility: visible;
+}
+.displayNone {
+  display:none;
+}
+
+#ctxMnCheckFeeds::before {
+  background-image: url(/resources/themes/dauphine/img/check-feeds.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+#ctxMnMarkAllAsRead::before {
+  background-image: url(/resources/themes/dauphine/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+#ctxMnMarkAllAsUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+#ctxMnOpenAllUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+
+.menuSep {
+  margin: 2px 0 2px 0;
+  border-color: #999999;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ctxMenuItem {
+  line-height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ctxMenuItem:hover {
+  background-color: #999999;
+  color: white;
+}
+
+#selectionBar {
+  position: absolute;
+  top: 0px;
+  height: 17px;
+  width: 100%;
+  margin-top: -5px;
+  background-color: #60698f;
+  z-index: -1;
+}
