@@ -30,7 +30,7 @@ function sleep(ms) {
 function isValidDate(date) {
   let bOk = false;
   if ( Object.prototype.toString.call(date) === '[object Date]' ) {
-    if ( ! isNaN( date.getTime() ) ) {      
+    if ( ! isNaN( date.getTime() ) ) {
       bOk = true;
     }
   }
@@ -39,7 +39,6 @@ function isValidDate(date) {
 //----------------------------------------------------------------------
 function timeZoneToGmt(dateTimeText) {
   for(var keyTz in TIME_ZONE) {
-    //if (dateTimeText.includes(keyTz)) {
     if (dateTimeText.endsWith(' ' + keyTz)) {
       dateTimeText = dateTimeText.replace(' ' + keyTz, ' ' + TIME_ZONE[keyTz]);
       return dateTimeText;

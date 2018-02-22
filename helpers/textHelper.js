@@ -85,7 +85,7 @@ function getOuterText0(text, startPattern, endPattern, inputIndex, outputIndex, 
 function getOuterTextToEnd(text, startPattern) {
   let startIndex = text.indexOf(startPattern);
   if (startIndex == -1) return null;
-  let lastEpisodeTitle = text.ubstring(startIndex);
+  let lastEpisodeTitle = text.substring(startIndex);
   return lastEpisodeTitle;
 }
 //----------------------------------------------------------------------
@@ -94,17 +94,17 @@ function occurrences(string, subString) {
 }
 //----------------------------------------------------------------------
 function decodeHtml(htmlText) {
-  if (!htmlText) { return htmlText; }  
+  if (!htmlText) { return htmlText; }
   let listEncodedCars = {amp: '&', lt: '<', gt: '>', quot: '"' };
-    
-  let decodedText = htmlText.replace(/&([^;]+);/g, (l, c) => { 
+
+  let decodedText = htmlText.replace(/&([^;]+);/g, (l, c) => {
     let decodedCar =  listEncodedCars[c];
     decodedCar = decodedCar ? decodedCar : l;
     return decodedCar; });
-  
+
   decodedText = decodedText.replace(/&#(\d+);/g, function(match, dec) {
     let fromCharCode = String.fromCharCode(dec);
     return fromCharCode; });
-  return decodedText;  
+  return decodedText;
 }
 //----------------------------------------------------------------------

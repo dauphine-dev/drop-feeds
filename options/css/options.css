@@ -1,3 +1,59 @@
+/* Misc. */
+body {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.checkboxText {
+  margin-right: 10px;
+}
+
+input[type="number"] {
+  margin-left: 10px;
+  margin-right: 10px;
+  width:50px;
+}
+
+#inputImportFile {
+  display: none;
+}
+
+/* tabs */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    /*border: none;*/
+    border-width: 0 1px 0 0;
+    border-style: solid;
+    border-color: #ccc;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabContent {
+    display: none;
+    padding: 20px 10px 20px 10px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
 /* table */
 table {
   width: 100%;
@@ -8,23 +64,6 @@ td:first-child {
 }
 td:last-child {
   width: 100%;
-}
-
-/* Panel */
-.panel{
-  border: 1px solid;
-  padding: 0 20px 20px 20px;
-  margin: 5px 1px 5px 0;
-  border-color:gray;
-}
-
-.panelTitle{
-  text-decoration: underline;
-}
-
-/* hidden input */
-#inputImportFile {
-  display: none;
 }
 
 /* Progress bar */
@@ -41,14 +80,4 @@ td:last-child {
   padding:0.01em 16px;
   color:#fff;
   background-color:#2196F3;
-}
-/* Misc. */
-.checkboxText {
-  margin-right: 10px;
-}
-
-input[type="number"] {
-  margin-left: 10px;
-  margin-right: 10px;
-  width:50px;
 }

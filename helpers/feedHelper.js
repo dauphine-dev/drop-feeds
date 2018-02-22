@@ -1,6 +1,6 @@
-/*global browser, getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync*/
-/*global dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, getThemeCssUrlMozExtAsync, downloadFileByFeedObjAsync*/
-/*global getActiveTabAsync, isTabEmptyAsync, _openNewTabForeground, _alwaysOpenNewTab*/
+/*global browser, themeManager, getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync*/
+/*global dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, downloadFileByFeedObjAsync*/
+/*global getActiveTabAsync, isTabEmptyAsync, printToStatusBar, updatingFeedsButtons, commonValues*/
 'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
@@ -273,16 +273,27 @@ async function checkFeedsForFolderAsync(id) {
 }
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
-  let feeds = document.getElementById(id).querySelectorAll('.feedUnread');
-  for (let i = 0; i < feeds.length; i++) {
-    let feedId = feeds[i].getAttribute('id');
-    let bookmarkItems = await browser.bookmarks.get(feedId);
-    let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].id);
-    let downloadFeedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
-    let hashPromise = openFeedAsync(downloadFeedObj, true);
-    hashPromise.then(async (hash)=> {
-      await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, null, downloadFeedObj.title, hash);
-    });
+  try {
+    updatingFeedsButtons(true);
+    let feeds = document.getElementById(id).querySelectorAll('.feedUnread');
+    for (let i = 0; i < feeds.length; i++) {
+      try {
+        let feedId = feeds[i].getAttribute('id');
+        let bookmarkItems = await browser.bookmarks.get(feedId);
+        printToStatusBar('Loading ' + bookmarkItems[0].title);
+        let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
+        let downloadFeedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
+        let hash = await openFeedAsync(downloadFeedObj, true);
+        await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, null, downloadFeedObj.title, hash);
+      }
+      catch(e) {
+        console.log(e);
+      }
+    }
+  }
+  finally {
+    printToStatusBar('');
+    updatingFeedsButtons(false);
   }
 }
 //----------------------------------------------------------------------
@@ -314,62 +325,6 @@ async function MarkAllFeedsAsUpdatedAsync(id) {
   }
 }
 //----------------------------------------------------------------------
-/*
-async function openFeedOld(feedUrl) {
-  let doc = loadAndTransformFeed(feedUrl);
-  let docBlob = new Blob([getHtmlText(doc)]);
-  let docUrl = URL.createObjectURL(docBlob);
-  browser.tabs.create({url:docUrl});
-}
-*/
-//----------------------------------------------------------------------
-/*
-function getHtmlText(doc) {
-  let htmlText = doc.documentElement.outerHTML.replace( /&lt;(([^&]|\&[^g]|&g[^t]|&gt[^;])+)&gt;/g, "<$1>");
-  return htmlText;
-}
-*/
-//----------------------------------------------------------------------
-/*
-function loadAndTransformFeed(feedUrl) {
-  let xslUrl = browser.extension.getURL("transform/stylesheet.xsl");
-  let xmlDoc = loadXmlFile(feedUrl);
-  let xslStyleDoc = loadXslFileAndAddingCss(xslUrl, 'feed/feed.css');
-  let htmlDoc = transformToHtmlDoc(xmlDoc, xslStyleDoc);
-  return htmlDoc;
-}
-*/
-//----------------------------------------------------------------------
-/*
-function transformToHtmlDoc(xmlDoc, xslStyleDoc) {
-  try {
-    let  xsltProcessor = new XSLTProcessor();
-    xsltProcessor.importStylesheet(xslStyleDoc);
-    let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
-    return htmlDoc;
-  }
-  catch(e) { console.log('e', e); }
-}
-*/
-//----------------------------------------------------------------------
-/*
-function loadXslFileAndAddingCss(xslUrl, relativeCssUrl) {
-  let xslDoc = loadXmlFile(xslUrl);
-  let cssUrl = browser.extension.getURL(relativeCssUrl);
-  let elCssLink = xslDoc.getElementById('cssLink');
-  elCssLink.setAttribute('href', cssUrl);
-  return xslDoc;
-}
-//----------------------------------------------------------------------
-function loadXmlFile(xmlUrl) {
-  let xmlHttpRequest = new XMLHttpRequest();
-  xmlHttpRequest.open("GET", xmlUrl, false);
-  xmlHttpRequest.send(null);
-  let xmlDoc = xmlHttpRequest.responseXML;
-  return xmlDoc;
-}
-*/
-//----------------------------------------------------------------------
 async function downloadFeedAsync(downloadFeedObj) {
   try {
     downloadFeedObj = await downloadFileByFeedObjAsync(downloadFeedObj);
@@ -398,9 +353,9 @@ async function openFeedAsync(downloadFeedObj, openNewTabForce) {
 
   let activeTab = await getActiveTabAsync();
   let isEmptyActiveTab = await isTabEmptyAsync(activeTab);
-  let openNewTab = _alwaysOpenNewTab || openNewTabForce;
+  let openNewTab = commonValues.alwaysOpenNewTab || openNewTabForce;
   if(openNewTab && !isEmptyActiveTab) {
-    await browser.tabs.create({url:feedHtmlUrl, active: _openNewTabForeground});
+    await browser.tabs.create({url:feedHtmlUrl, active: commonValues.openNewTabForeground});
   } else {
     await browser.tabs.update(activeTab.id, {url: feedHtmlUrl});
   }
@@ -423,8 +378,8 @@ async function parseFeedAsync(feedText) {
 }
 //----------------------------------------------------------------------
 async function getHtmlHeadAsync(channel) {
-  let iconUrl = browser.extension.getURL('icons/drop-feeds-32.png');
-  let cssUrl = await getThemeCssUrlMozExtAsync('feed.css');
+  let iconUrl = browser.extension.getURL(commonValues.iconDF32Url);
+  let cssUrl = await themeManager.getCssMozUrl('feed.css');
   let encoding = channel.encoding ? channel.encoding : 'UTF-8';
   //if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }
   let htmlHead = '';

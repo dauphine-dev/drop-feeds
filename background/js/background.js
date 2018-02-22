@@ -1,6 +1,10 @@
-/*global  browser, getThemeFolderNameAsync*/
+/*global browser*/
 //----------------------------------------------------------------------
 'use strict';
+const _iconNoneUrl = '/icons/none.png';
+const _sidebarUrl = '/sidebar/sidebar.html';
+const _iconDF96Url = '/icons/drop-feeds-96.png';
+const _iconDF96ShadowUrl = '/icons/drop-feeds-shadow-96.png';
 const verEnum = {
   MAJ : 0,
   MIN : 1,
@@ -22,7 +26,7 @@ async function mainBg() {
 }
 //----------------------------------------------------------------------
 function disableBrowserAction() {
-  browser.browserAction.setIcon({path: '/icons/none.png'});
+  browser.browserAction.setIcon({path: _iconNoneUrl});
   browser.browserAction.disable();
   browser.browserAction.setBadgeText({text: ''});
   browser.browserAction.setTitle({title: ''});
@@ -39,7 +43,7 @@ async function toggleDropFeedsPanelAsync(){
     browser.sidebarAction.close();
   }
   else {
-    let panelUrl = browser.extension.getURL('sidebar/sidebar.html');
+    let panelUrl = browser.extension.getURL(_sidebarUrl);
     browser.sidebarAction.setPanel({panel: panelUrl});
     browser.sidebarAction.open();
   }
@@ -60,7 +64,7 @@ async function sidebarActionIsOpenAsync() {
 //----------------------------------------------------------------------
 function setSidebarActionIcon(sidebarActionIsOpen) {
   /*
-  let iconUrl = '/icons/drop-feeds' + (sidebarActionIsOpen ? '-shadow' : '') + '-96.png';
+  let iconUrl = (sidebarActionIsOpen ? _iconDF96ShadowUrl : _iconDF96Url);
   browser.browserAction.setIcon({path: iconUrl});
   */
 }

@@ -1,12 +1,14 @@
 /*global browser, updatingFeedsButtons, checkFeedsAsync, printToStatusBar, downloadFeedAsync, decodeHtml, computeHashFeed*/
-/*global getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync*/
+/*global getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync, displayNotification*/
 'use strict';
 let _feedCheckingInProgress = false;
+let _updatedFeeds = 0;
 //----------------------------------------------------------------------
 async function checkFeedsAsync(baseElement) {
   if (_feedCheckingInProgress) { return; }
+  _feedCheckingInProgress = true;
   try {
-    _feedCheckingInProgress = true;
+    _updatedFeeds = 0;
     updatingFeedsButtons(true);
     let feedsToCheckList = [];
     let feedsWaitForAnswer = [];
@@ -31,7 +33,21 @@ async function checkFeedsAsync(baseElement) {
   finally {
     printToStatusBar('');
     updatingFeedsButtons(false);
+    displayFeedsUpdatedNotification(_updatedFeeds);
+    _updatedFeeds = 0;
     _feedCheckingInProgress = false;
+  }
+}
+//----------------------------------------------------------------------
+function displayFeedsUpdatedNotification(updatedFeeds) {
+  if (updatedFeeds > 1) {
+    displayNotification(updatedFeeds + ' feeds updated');
+  }
+  if (updatedFeeds == 1) {
+    displayNotification(updatedFeeds + ' feed updated');
+  }
+  if (updatedFeeds == 0) {
+    displayNotification('No feed has been updated');
   }
 }
 //----------------------------------------------------------------------
@@ -48,7 +64,10 @@ async function checkOneFeedAsync(downloadFeedObj, name, feedsWaitForAnswer) {
   downloadFeedObj = await downloadFeedAsync(downloadFeedObj);
   feedsWaitForAnswer = removeFeedFromWaitingList(feedsWaitForAnswer, downloadFeedObj.id);
   //printToStatusBar('received: ' + feedObj.bookmark.title);
-  await computeFeedStatusAsync(downloadFeedObj, name);
+  let status = await computeFeedStatusAsync(downloadFeedObj, name);
+  if (status == FeedStatusEnum.UPDATED) {
+    _updatedFeeds++;
+  }
   return feedsWaitForAnswer;
 }
 //----------------------------------------------------------------------
@@ -73,6 +92,7 @@ async function computeFeedStatusAsync(downloadFeedObj, name) {
     }
   }
   await updateFeedStatusAsync(downloadFeedObj.id, status, downloadFeedObj.pubDate, name, hash);
+  return status;
 }
 //----------------------------------------------------------------------
 function removeFeedFromWaitingList(feedsWaitForAnswer, feedId) {

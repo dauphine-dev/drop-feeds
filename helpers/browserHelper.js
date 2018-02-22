@@ -1,4 +1,4 @@
-/*global browser*/
+/*global browser, commonValues*/
 'use strict';
 //----------------------------------------------------------------------
 async function isTabEmptyAsync(tab) {
@@ -9,5 +9,14 @@ async function isTabEmptyAsync(tab) {
 async function getActiveTabAsync() {
   let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
   return tabInfos[0];
+}
+//----------------------------------------------------------------------
+function displayNotification(message) {
+  browser.notifications.create({
+    'type': 'basic',
+    'iconUrl': browser.extension.getURL(commonValues.iconDF96Url),
+    'title': 'Drop feeds',
+    'message': message
+  });
 }
 //----------------------------------------------------------------------

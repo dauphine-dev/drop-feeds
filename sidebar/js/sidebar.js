@@ -1,7 +1,7 @@
 /*global browser, addEventListenerContextMenus, contextMenusOnClickedEvent, defaultStoredFolder, FeedStatusEnum, getFeedItemClassAsync, checkRootFolderAsync, buttonAddFeedEnable*/
 /*global getFolderFromStorageObj, getStoredFeedAsync, makeIndent, prepareTopMenuAsync, storageLocalSetItemAsync, updateFeedStatusAsync, addingBookmarkListeners, replaceStyle*/
-/*global openFeedAsync, sleep, getThemePageActionIcoAsync, displayRootFolderAsync, loadCommonValuesAsync, folderOnClickedEvent*/
-/*global setSelectionBar, addObserverListener, contentOnScrollEvent, getSelectedRootElement, setSelectedRootElement*/
+/*global openFeedAsync, sleep, displayRootFolderAsync, folderOnClickedEvent, updatingFeedsButtons, commonValues*/
+/*global setSelectionBar, addObserverListener, contentOnScrollEvent, getSelectedRootElement, setSelectedRootElement, printToStatusBar, themeManager*/
 //----------------------------------------------------------------------
 'use strict';
 let _html= [];
@@ -14,6 +14,7 @@ mainSbr();
 reloadOnce();
 //----------------------------------------------------------------------
 async function mainSbr() {
+  await commonValues.reloadAll_async();
   prepareTopMenuAsync();
   await loadPanelAsync();
   addingBookmarkListeners();
@@ -71,7 +72,7 @@ async function tabOnChangedAsync(tabInfo) {
   buttonAddFeedEnable(isFeed);
   if(isFeed) {
     browser.pageAction.show(tabInfo.id);
-    let iconUrl = await getThemePageActionIcoAsync('subscribe.png');
+    let iconUrl = themeManager.getImgRawUrl('subscribe.png');
     browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
     browser.tabs.sendMessage(tabInfo.id, {'req':'addSubscribeButton'});
   }
@@ -83,7 +84,7 @@ async function tabOnChangedAsync(tabInfo) {
 function storageEventChanged(changes, area) {
   let changedItems = Object.keys(changes);
   if (changedItems.includes('reloadCommonValues')) {
-    loadCommonValuesAsync();
+    commonValues.reload_async();
   }
   else if (changedItems.includes('reloadPanel')) {
     loadPanelAsync();
@@ -212,13 +213,22 @@ function addEventListenerOnFeedFolders() {
   }
 }
 //----------------------------------------------------------------------
-function feedClickedEvent(event) {
-  let feedItem = event.currentTarget;
-  let id = feedItem.getAttribute('id');
-  let bookmarks = browser.bookmarks.get(id);
-  bookmarks.then(openFeedItemAsync);
+async function feedClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
+  try {
+    updatingFeedsButtons(true);
+    let feedItem = event.currentTarget;
+    let id = feedItem.getAttribute('id');
+    let bookmarks = await browser.bookmarks.get(id);
+    printToStatusBar('Loading ' + bookmarks[0].title);
+    await openFeedItemAsync(bookmarks[0]);
+
+  }
+  finally {
+    printToStatusBar('');
+    updatingFeedsButtons(false);
+  }
 }
 //----------------------------------------------------------------------
 function folderChangedEvent(event) {
@@ -229,10 +239,10 @@ function folderChangedEvent(event) {
   storageLocalSetItemAsync(folderId, storedFolder);
 }
 //----------------------------------------------------------------------
-async function openFeedItemAsync(bookmarkItems){
-  let itemUrl = bookmarkItems[0].url;
-  let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
-  let downloadFeedObj = {index:0, id:bookmarkItems[0].id, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
+async function openFeedItemAsync(bookmarkItem){
+  let itemUrl = bookmarkItem.url;
+  let storedFeedObj = await getStoredFeedAsync(null, bookmarkItem.id, bookmarkItem.title);
+  let downloadFeedObj = {index:0, id:bookmarkItem.id, title:storedFeedObj.name, bookmark:bookmarkItem, pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
   let hash = await openFeedAsync(downloadFeedObj, false);
   await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, new Date(), downloadFeedObj.title, hash);
 }

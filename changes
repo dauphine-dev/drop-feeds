@@ -1,3 +1,10 @@
+0.2.2
+Notification on feed update complete
+Tabs in option view
+Add "loading" messages in status bar
+Fix settings loading at start
+Small Code Rework
+
 0.2.1
 Fix discover feeds tool tip text
 Fix scroll bar size

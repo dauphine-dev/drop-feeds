@@ -30,3 +30,11 @@ async function cleanStorage() {
   await browser.storage.local.remove(keysToRemove);
 }
 //----------------------------------------------------------------------
+async function getStoredValue_async(valueName, defaultValue) {
+  let value = defaultValue;
+  let storedValue = await storageLocalGetItemAsync(valueName);
+  if (typeof storedValue != 'undefined') {
+    value  = storedValue;
+  }
+  return value;
+}

@@ -1,18 +1,23 @@
-/*global browser, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync, _timeOutMs, _alwaysOpenNewTab, _openNewTabForeground*/
-/*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, setThemeFolderNameAsync, displayRootFolderAsync, getStoredValueAsync*/
+/*global browser, themeManager, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync, commonValues*/
+/*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, displayRootFolderAsync*/
 'use strict';
 //----------------------------------------------------------------------
 main();
-async function debugButtonOnClickedEvent(event ) {
-  let url = browser.extension.getURL('options/debug.html');
-  var creating = browser.tabs.create({url: url});
-}
 //----------------------------------------------------------------------
 async function main() {
+  await commonValues.reloadAll_async();
+  prepareTabs();
   prepareGeneralPanelAsync();
   prepareUpdateCheckerPanelAsync();
   prepareContentAreaPanelAsync();
   prepareManagementPanelAsync();
+}
+//----------------------------------------------------------------------
+function prepareTabs() {
+  let tabLinksList = document.getElementsByClassName('tabLinks');
+  for (let tabLink of tabLinksList) {
+    tabLink.addEventListener('click', openTab);
+  }
 }
 //----------------------------------------------------------------------
 async function prepareGeneralPanelAsync() {
@@ -32,18 +37,18 @@ async function prepareGeneralPanelAsync() {
 //----------------------------------------------------------------------
 async function prepareUpdateCheckerPanelAsync() {
   let elTimeoutNumber = document.getElementById('timeoutNumber');
-  let timeOut = await getStoredValueAsync('timeOut', _timeOutMs) / 1000;
+  let timeOut = commonValues.timeOutMs / 1000;
   elTimeoutNumber.value = timeOut;
   elTimeoutNumber.addEventListener('change', elTimeoutNumberValueChangeEvent);
 }
 //----------------------------------------------------------------------
 async function prepareContentAreaPanelAsync() {
   let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
-  elAlwaysOpenNewTabCheckbox.checked = await getStoredValueAsync('alwaysOpenNewTab', _alwaysOpenNewTab);
+  elAlwaysOpenNewTabCheckbox.checked = commonValues.alwaysOpenNewTab;
   elAlwaysOpenNewTabCheckbox.addEventListener('click', alwaysOpenNewTabCheckBoxClickedEvent);
 
   let elOpenNewTabForegroundCheckbox = document.getElementById('openNewTabForegroundCheckbox');
-  elOpenNewTabForegroundCheckbox.checked = await getStoredValueAsync('openNewTabForeground', _openNewTabForeground);
+  elOpenNewTabForegroundCheckbox.checked =  commonValues.openNewTabForeground;
   elOpenNewTabForegroundCheckbox.addEventListener('click', openNewTabForegroundCheckboxClickedEvent);
 }
 //----------------------------------------------------------------------
@@ -99,7 +104,7 @@ async function notDisplayRootFolderCheckBoxClickedEvent(event) {
 //----------------------------------------------------------------------
 async function themeSelectChangedEvent(event) {
   let themeName = document.getElementById('themeSelect').value;
-  await setThemeFolderNameAsync(themeName);
+  await themeManager.setThemeFolderName_async(themeName);
   await storageLocalSetItemAsync('reloadPanelWindow', Date.now());
 }
 //----------------------------------------------------------------------
@@ -119,5 +124,20 @@ async function elTimeoutNumberValueChangeEvent(event) {
   let timeOut = document.getElementById('timeoutNumber').value * 1000;
   await storageLocalSetItemAsync('timeOut', timeOut);
   await storageLocalSetItemAsync('reloadCommonValues', Date.now());
+}
+//----------------------------------------------------------------------
+function openTab(event) {
+  let tabName = event.currentTarget.getAttribute('target');
+  let i, tabContent, tabLinks;
+  tabContent = document.getElementsByClassName('tabContent');
+  for (i = 0; i < tabContent.length; i++) {
+    tabContent[i].style.display = 'none';
+  }
+  tabLinks = document.getElementsByClassName('tabLinks');
+  for (i = 0; i < tabLinks.length; i++) {
+    tabLinks[i].className = tabLinks[i].className.replace(' active', '');
+  }
+  document.getElementById(tabName).style.display = 'block';
+  event.currentTarget.className += ' active';
 }
 //----------------------------------------------------------------------

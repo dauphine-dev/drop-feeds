@@ -1,4 +1,4 @@
-/*global TAG_RSS_LIST, getInnerText1, _timeOutMs*/
+/*global commonValues, TAG_RSS_LIST, getInnerText1*/
 'use strict';
 //----------------------------------------------------------------------
 function downloadFileAsync(url, urlNoCache) {
@@ -20,7 +20,7 @@ function downloadFileAsync(url, urlNoCache) {
     }
     xhr.open('GET', url);
     xhr.setRequestHeader('Cache-Control', 'no-cache');
-    xhr.timeout = _timeOutMs;
+    xhr.timeout = commonValues.timeOutMs;
 
     xhr.ontimeout = function (e) {
       reject(e);

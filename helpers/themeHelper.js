@@ -1,39 +1,44 @@
-/*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync*/
+/*global browser, commonValues, getStoredValue_async, storageLocalGetItemAsync, storageLocalSetItemAsync*/
 'use strict';
 //----------------------------------------------------------------------
-async function getThemeFolderNameAsync() {
-  let themeFolderName = await storageLocalGetItemAsync('themeFolderName');
-  if (!themeFolderName) {
-    themeFolderName = 'dauphine';
-  }  
-  return themeFolderName;
-}
-//----------------------------------------------------------------------
-async function setThemeFolderNameAsync(themeFolderName) {
-  await storageLocalSetItemAsync('themeFolderName', themeFolderName);
-}
-//----------------------------------------------------------------------
-async function getThemeCssUrlMozExtAsync(cssName) {
-  let cssUrl = await getThemeCssUrlAsync(cssName);
-  let cssUrlMozExt = browser.extension.getURL(cssUrl);
-  return cssUrlMozExt;
-}
-//----------------------------------------------------------------------
-async function getThemeCssUrlAsync(cssName) {
-  let themeFolderName = await getThemeFolderNameAsync();
-  let cssUrl = '/themes/' + themeFolderName + '/css/' + cssName;
-  return cssUrl;
-}
-//----------------------------------------------------------------------
-async function getThemePageActionIcoAsync(iconName) {
-  let themeFolderName = await getThemeFolderNameAsync();
-  let cssUrl = '/themes/' + themeFolderName + '/img/' + iconName;
-  return cssUrl;
-}
-//----------------------------------------------------------------------
-async function loadCssAsync(pageName) {
-  let cssUrl = await getThemeCssUrlAsync(pageName);
-  let elCss = document.getElementById('cssLink');  
-  elCss.setAttribute('href', cssUrl);
-}
+let themeManager = {
+  themeFolderName: commonValues.themeDefaultFolderName,
+  themeFolderUrl: commonValues.themeBaseFolderUrl + commonValues.themeDefaultFolderName,
+
+  async reload_async() {
+    themeManager.themeFolderName = await getStoredValue_async('themeFolderName', themeManager.themeFolderName);
+    themeManager._reloadValues();
+  },
+
+  async _reloadValues() {
+    themeManager.themeFolderUrl = commonValues.themeBaseFolderUrl + this.themeFolderName + '/';
+  },
+
+  async setThemeFolderName_async(themeFolderName) {
+    themeManager.themeFolderName = themeFolderName;
+    themeManager._reloadValues();
+    await storageLocalSetItemAsync('themeFolderName', themeFolderName);
+  },
+
+  async applyCssToCurrentDocument_async(cssName) {
+    let cssUrl = themeManager.themeFolderUrl + 'css/' + cssName;
+    let elCssLink = document.getElementById('cssLink');
+    elCssLink.setAttribute('href', cssUrl);
+  },
+
+  getCssRawUrl(cssName) {
+    let cssUrl = themeManager.themeFolderUrl + 'css/' + cssName;
+    return cssUrl;
+  },
+
+  getCssMozUrl(cssName) {
+    let cssMozUrl = browser.extension.getURL(themeManager.themeFolderUrl + 'css/' + cssName);
+    return cssMozUrl;
+  },
+
+  getImgRawUrl(imgName) {
+    let icoUrl = themeManager.themeFolderUrl + 'img/' + imgName;
+    return icoUrl;
+  }
+};
 //----------------------------------------------------------------------

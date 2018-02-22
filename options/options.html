@@ -22,8 +22,14 @@
 
   <body>
 
-    <div class="panel">
-      <label class="panelTitle">General</label><p/>
+    <div class="tab">
+      <button class="tabLinks active" target="generalTab">General</button>
+      <button class="tabLinks" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" target="contentsAreaTab">Contents area</button>
+      <button class="tabLinks" target="managementTab">Management</button>
+    </div>
+
+    <div id="generalTab" class="tabContent" style="display: block;">
       <table>
         <tr>
           <td>
@@ -39,7 +45,7 @@
             </div>
           </td>
           <td>
-            <button id="applySelectedFeedButton" style="display:''">Apply</button>
+            <button id="applySelectedFeedButton" style="display:none">Apply</button>
           </td>
         </tr>
         <tr>
@@ -59,15 +65,12 @@
               -->
             </div>
           </td>
-          <td>
-            <button id="applySelectedTheme" style="display:none">Apply</button>
-          </td>
+          <td></td>
         </tr>
       </table>
     </div>
 
-    <div class="panel">
-      <label class="panelTitle">Update checker</label><p></p>
+    <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
           <td><label>Timeout</label></td>
@@ -76,9 +79,7 @@
       </table>
     </div>
 
-
-    <div class="panel">
-      <label class="panelTitle">Contents area</label><p></p>
+    <div id="contentsAreaTab" class="tabContent">
       <table>
         <tr>
           <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
@@ -87,8 +88,7 @@
       </table>
     </div>
 
-    <div class="panel">
-      <label class="panelTitle">Management</label><p></p>
+    <div id="managementTab" class="tabContent">
       <table>
         <tr>
           <td><label>Select the opml file to import</label></td>

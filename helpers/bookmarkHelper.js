@@ -1,3 +1,5 @@
+/*global browser*/
+'use strict';
 //----------------------------------------------------------------------
 function bookmarkItemHasChild(bookmarkItem) {
   let result = false;

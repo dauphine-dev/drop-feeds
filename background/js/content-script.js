@@ -20,7 +20,7 @@ function isFeed() {
   try {
     feedHandler = document.getElementById('feedHandler').innerHTML;
   }
-  catch(e) {/**/}
+  catch(e) {}
   let result = (feedHandler ? true : false);
   return result;
 }

@@ -1,22 +1,25 @@
-/*global storageLocalGetItemAsync*/
+/*global themeManager, getStoredValue_async*/
 'use strict';
-let _alwaysOpenNewTab = true;
-let _openNewTabForeground = true;
-let _timeOutMs = 10000;
 //----------------------------------------------------------------------
-async function loadCommonValuesAsync()
-{
-  _alwaysOpenNewTab = await getStoredValueAsync('alwaysOpenNewTab', _alwaysOpenNewTab);
-  _openNewTabForeground = await getStoredValueAsync('openNewTabForeground', _openNewTabForeground);
-  _timeOutMs = await getStoredValueAsync('timeOut', _timeOutMs);
-}
-//----------------------------------------------------------------------
-async function getStoredValueAsync(valueName, defaultValue) {
-  let value = defaultValue;
-  let storedValue = await storageLocalGetItemAsync(valueName);
-  if (typeof storedValue != 'undefined') {
-    value  = storedValue;
+let commonValues = {
+  alwaysOpenNewTab: true,
+  openNewTabForeground: true,
+  timeOutMs: 10000,
+  iconDF32Url: '/icons/drop-feeds-32.png',
+  iconDF96Url: '/icons/drop-feeds-96.png',
+
+  themeBaseFolderUrl: '/themes/',
+  themesListUrl: '/themes/themes.list',
+  themeDefaultFolderName: 'dauphine',
+
+  async reload_async() {
+    this.alwaysOpenNewTab = await getStoredValue_async('alwaysOpenNewTab', commonValues.alwaysOpenNewTab);
+    this.openNewTabForeground = await getStoredValue_async('openNewTabForeground', commonValues.openNewTabForeground);
+    this.timeOutMs = await getStoredValue_async('timeOut', commonValues.timeOutMs);
+  },
+  async reloadAll_async() {
+    await commonValues.reload_async();
+    await themeManager.reload_async();
   }
-  return value;
-}
+};
 //----------------------------------------------------------------------
