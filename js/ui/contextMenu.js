@@ -1,8 +1,4 @@
-/*global checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
-let _selectedRootElement = null;
-let _selectedRootElementId = null;
-let _selectedElement = null;
-let _selectedElementId = null;
+/*global  selectionBar, checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
 //----------------------------------------------------------------------
 function addEventListenerContextMenus() {
   document.getElementById('main').addEventListener('click', mainOnClickedEvent);
@@ -28,57 +24,7 @@ function contextMenusOnClickedEvent(event){
   let yMax  = Math.max(0, elContent.offsetHeight - elContextMenu.offsetHeight + 60);
   let y = Math.min(yMax, rectTarget.top+ 17);
   elContextMenu.style.top = y + 'px';
-  setSelectionBar(event.currentTarget);
-}
-//----------------------------------------------------------------------
-function folderOnClickedEvent(event){
-  setSelectionBar(event.currentTarget);
-}
-//----------------------------------------------------------------------
-function getSelectedRootElement() {
-  if (!_selectedRootElement) {
-    _selectedRootElement = document.getElementById(_selectedRootElementId);
-  }
-  return _selectedRootElement;
-}
-//----------------------------------------------------------------------
-function setSelectedRootElement(rootElementId) {
-  _selectedRootElementId = rootElementId;
-}
-//----------------------------------------------------------------------
-function setSelectionBar(targetElement) {
-
-  let prevSelectedElement = _selectedElement;
-  let prevSelectedElementId = _selectedElementId;
-  if (prevSelectedElement) {
-    prevSelectedElement.removeEventListener('scroll', selectedElementOnScrollEvent);
-    let prevElLabel = document.getElementById('lbl-' + prevSelectedElementId);
-    if (prevElLabel) {
-      prevElLabel.style.color = '';
-    }
-  }
-
-  let isTheSame = (_selectedElement == targetElement);
-  _selectedElement = targetElement;
-  if (_selectedElement) {
-    _selectedElementId = targetElement.getAttribute('id').substring(3);
-    let elLabel = document.getElementById('lbl-' + _selectedElementId);
-    if (elLabel) {
-      elLabel.style.color = 'white';
-      let rectTarget = _selectedElement.getBoundingClientRect();
-      let elSelectionBar = document.getElementById('selectionBar');
-      let y = rectTarget.top + 5;
-      elSelectionBar.style.top = y + 'px';
-    }
-  }
-}
-//----------------------------------------------------------------------
-function contentOnScrollEvent(event){
-  setSelectionBar(_selectedElement);
-}
-//----------------------------------------------------------------------
-function selectedElementOnScrollEvent(event) {
-  setSelectionBar(_selectedElement);
+  selectionBar.put(event.currentTarget);
 }
 //----------------------------------------------------------------------
 function mainOnClickedEvent(event){

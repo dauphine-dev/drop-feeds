@@ -1,11 +1,12 @@
-/*global browser, storageLocalGetItemAsync, storageLocalSetItemAsync, printToStatusBar, sleep*/
+/*global browser, statusBar*/
+/*global storageLocalGetItemAsync, storageLocalSetItemAsync, sleep*/
 //----------------------------------------------------------------------
 'use strict';
 let _lastCreatedBookmarkId = '';
 let _importInProgress = false;
-browser.storage.onChanged.addListener(storageEventChanged);
+browser.storage.onChanged.addListener(storageChanged_event);
 //----------------------------------------------------------------------
-async function storageEventChanged(changes, area) {
+async function storageChanged_event(changes, area) {
   let changedItems = Object.keys(changes);
   if (changedItems.includes('importInProgress')) {
     _importInProgress = changes.importInProgress.newValue;
@@ -52,9 +53,9 @@ async function bookmarkOnMovedEvent(id, moveInfo) {
   }
   if (!isChid) { return; }
   if (id == _lastCreatedBookmarkId) {
-    printToStatusBar('To add a feed use the button above !');
+    statusBar.printMessage('To add a feed use the button above !');
     await sleep(1);
-    printToStatusBar('');
+    statusBar.printMessage('');
   }
   storageLocalSetItemAsync('reloadPanel', Date.now());
 }

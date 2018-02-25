@@ -1,4 +1,4 @@
-/*global commonValues, TAG_RSS_LIST, getInnerText1*/
+/*global commonValues, tagList, getInnerText1*/
 'use strict';
 //----------------------------------------------------------------------
 function downloadFileAsync(url, urlNoCache) {
@@ -38,7 +38,7 @@ function downloadFileByFeedObjCoreAsync(downloadFeedObj, urlNoCache) {
     let result = downloadFileAsync(url, urlNoCache);
     result.then( function(responseText) {
       let tagRss = null;
-      for (let tag of TAG_RSS_LIST) {
+      for (let tag of tagList.RSS) {
         if (responseText.includes('<' + tag)) { tagRss = tag; break; }
       }
       if (tagRss) {

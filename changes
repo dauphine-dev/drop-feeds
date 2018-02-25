@@ -1,3 +1,11 @@
+0.2.3 (commit 1)
+Code refactory (in progress)
+Fix a parsing issue when guid use a CDATA (for some feeds, the same item was repeated many times)
+Hide the selection bar when "Do not display root folder" is changed.
+
+0.2.3 (commit 0)
+Reorganize the code tree
+
 0.2.2
 Notification on feed update complete
 Tabs in option view

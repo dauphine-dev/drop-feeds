@@ -1,4 +1,5 @@
-/*global browser, escape, storageLocalGetItemAsync, makeIndent, bookmarkItemHasChild*/
+/*global browser, browserManager*/
+/*global escape, storageLocalGetItemAsync, makeIndent*/
 'use strict';
 let _opmlItemList = [];
 let  _opmlIntentSize = 2;
@@ -34,26 +35,26 @@ async function prepareOpmlItemsRecursivelyAsync(bookmarkItem, indentRef) {
   }
   else {
     let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
-    let url = escape(bookmarkItem.url);    
+    let url = escape(bookmarkItem.url);
     let externalLine = makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
-    _opmlItemList.push(externalLine);    
+    _opmlItemList.push(externalLine);
   }
 }
 //----------------------------------------------------------------------
 async function createOpmlInternalNodesAsync (bookmarkItem, indentRef) {
   let addClose = false;
   let internalLineOpen = makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
-  
-  if (bookmarkItemHasChild(bookmarkItem)) { addClose = true; internalLineOpen += '>\n'; }
+
+  if (browserManager.bookmarkHasChild(bookmarkItem)) { addClose = true; internalLineOpen += '>\n'; }
   else { internalLineOpen += '/>\n'; }
-  
+
   _opmlItemList.push(internalLineOpen);
   indentRef[0] += _opmlIntentSize;
-  if (bookmarkItemHasChild(bookmarkItem)) {
+  if (browserManager.bookmarkHasChild(bookmarkItem)) {
     for (let child of bookmarkItem.children) {
       await prepareOpmlItemsRecursivelyAsync(child, indentRef);
     }
-  }    
+  }
   indentRef[0] -= _opmlIntentSize;
   if (addClose) {
     let internalLineClose = makeIndent(indentRef[0]) + '</outline>\n';
@@ -66,9 +67,9 @@ function GetOpmlHead(indentRef) {
   headText += '<opml version="1.0">\n';
   indentRef[0] += _opmlIntentSize;
   headText += makeIndent(indentRef[0]) + '<head>\n';
-  indentRef[0] += _opmlIntentSize;  
+  indentRef[0] += _opmlIntentSize;
   headText += makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
-  indentRef[0] -= _opmlIntentSize;  
+  indentRef[0] -= _opmlIntentSize;
   headText += makeIndent(indentRef[0]) +'</head>\n';
   headText += makeIndent(indentRef[0]) +'<body>\n';
   indentRef[0] += _opmlIntentSize;
@@ -78,7 +79,7 @@ function GetOpmlHead(indentRef) {
 function GetOpmlFoot(indentRef) {
   indentRef[0] -= _opmlIntentSize;
   let footText = makeIndent(indentRef[0]) + '</body>\n';
-  footText += '</opml>';  
+  footText += '</opml>';
   return footText;
 }
 //----------------------------------------------------------------------

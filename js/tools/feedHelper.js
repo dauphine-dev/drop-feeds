@@ -1,6 +1,7 @@
-/*global browser, themeManager, getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync*/
-/*global dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, downloadFileByFeedObjAsync*/
-/*global getActiveTabAsync, isTabEmptyAsync, printToStatusBar, updatingFeedsButtons, commonValues*/
+/*global browser, commonValues, themeManager, statusBar, topMenu, browserManager*/
+/*global , getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync
+dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, downloadFileByFeedObjAsync
+browserManager.getActiveTab_async, browserManager.isTabEmpty_async*/
 'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
@@ -8,25 +9,26 @@ const FeedStatusEnum = {
   OLD: 'old',
   ERROR: 'error'
 };
-const TAG_RSS_LIST = ['?xml', 'rss'];
-const TAG_CHANNEL_LIST = ['channel', 'feed'];
-const TAG_LASTBUILDDATE_LIST = ['lastBuildDate', 'pubDate'];
-
-const TAG_ITEM_LIST = ['item', 'entry'];
-const TAG_ID_LIST = ['guid', 'id'];
-const TAG_TITLE_LIST = ['title'];
-const TAG_LINK_LIST = ['link'];
-const ATT_LINK_LIST = ['href'];
-const TAG_DESC_LIST = ['content:encoded', 'description', 'content', 'summary', 'subtitle'];
-const TAG_CAT_LIST = ['category'];
-const TAG_AUTHOR_LIST = ['author', 'dc:creator'];
-const TAG_PUBDATE_LIST = ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate'];
+let tagList = {
+  RSS: ['?xml', 'rss'],
+  CHANNEL: ['channel', 'feed'],
+  LASTBUILDDATE: ['lastBuildDate', 'pubDate'],
+  ITEM: ['item', 'entry'],
+  ID: ['guid', 'id'],
+  TITLE: ['title'],
+  LINK: ['link'],
+  ATT_LINK: ['href'],
+  DESC: ['content:encoded', 'description', 'content', 'summary', 'subtitle'],
+  CAT: ['category'],
+  AUTHOR: ['author', 'dc:creator'],
+  PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
+};
 //----------------------------------------------------------------------
 function getItemId(itemText) {
   if (!itemText) { return null; }
-  let result = extractValue(itemText, TAG_ID_LIST);
+  let result = extractValue(itemText, tagList.ID);
   if (!result) {
-    let hasIdTag = get1stUsedTag(itemText, TAG_ID_LIST);
+    let hasIdTag = get1stUsedTag(itemText, tagList.ID);
     if (!hasIdTag) {
       let i = itemText.indexOf('>', 1);
       let j = itemText.lastIndexOf('<');
@@ -120,15 +122,15 @@ function extractAttribute(text, tagList, attributeList) {
 function getFeedPubdate(feedObj) {
   if (!feedObj) return null;
   if (!feedObj.feedText) return null;
-  let tagItem = get1stUsedTag(feedObj.feedText, TAG_ITEM_LIST);
-  let tagId = get1stUsedTag(feedObj.feedText, TAG_ID_LIST);
+  let tagItem = get1stUsedTag(feedObj.feedText, tagList.ITEM);
+  let tagId = get1stUsedTag(feedObj.feedText, tagList.ID);
   let itemNumber = occurrences(feedObj.feedText, '</' + tagItem + '>');
   let pubDateList=[];
 
   let itemText = getNextItem(feedObj.feedText, '---', tagItem); // use a fake id to start
   for (let i=0; i<itemNumber; i++) {
     let itemId = getItemId(itemText);
-    let pubDateText = extractValue(itemText, TAG_PUBDATE_LIST);
+    let pubDateText = extractValue(itemText, tagList.PUBDATE);
     let pubDate = extractDateTime(pubDateText);
     pubDateList.push(pubDate);
     itemText = getNextItem(feedObj.feedText, itemId, tagItem);
@@ -142,7 +144,7 @@ function getFeedPubdate(feedObj) {
 
   let pubDate = pubDateList[0];
   if (!pubDate || pubDate == new Date(null)) {
-    let lastBuildDateText = extractValue(feedObj.feedText, TAG_LASTBUILDDATE_LIST);
+    let lastBuildDateText = extractValue(feedObj.feedText, tagList.LASTBUILDDATE);
     pubDate = extractDateTime(lastBuildDateText);
   }
   return pubDate;
@@ -177,7 +179,12 @@ function get1stUsedTag(text, tagArray) {
 function getNextItem(feedText, itemId, tagItem) {
   if (!feedText) return null;
   let itemIdPattern = '>' + itemId + '<';
-  let idIndex = feedText.indexOf(itemIdPattern); if (idIndex < 0) idIndex = 0;
+  let idIndex = feedText.indexOf(itemIdPattern);
+  if (idIndex <0 ) {
+    itemIdPattern = '><![CDATA[' + itemId + ']]><';
+    idIndex = feedText.indexOf(itemIdPattern);
+  }
+  if (idIndex < 0) idIndex = 0;
 
   let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
   if (startNextItemIndex == -1) return '';
@@ -274,13 +281,13 @@ async function checkFeedsForFolderAsync(id) {
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
   try {
-    updatingFeedsButtons(true);
+    topMenu.animateCheckFeedButton(true);
     let feeds = document.getElementById(id).querySelectorAll('.feedUnread');
     for (let i = 0; i < feeds.length; i++) {
       try {
         let feedId = feeds[i].getAttribute('id');
         let bookmarkItems = await browser.bookmarks.get(feedId);
-        printToStatusBar('Loading ' + bookmarkItems[0].title);
+        statusBar.printMessage('Loading ' + bookmarkItems[0].title);
         let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
         let downloadFeedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
         let hash = await openFeedAsync(downloadFeedObj, true);
@@ -292,8 +299,8 @@ async function OpenAllUpdatedFeedsAsync(id) {
     }
   }
   finally {
-    printToStatusBar('');
-    updatingFeedsButtons(false);
+    statusBar.printMessage('');
+    topMenu.animateCheckFeedButton(false);
   }
 }
 //----------------------------------------------------------------------
@@ -351,8 +358,8 @@ async function openFeedAsync(downloadFeedObj, openNewTabForce) {
   let feedBlob = new Blob([feedHtml]);
   let feedHtmlUrl = URL.createObjectURL(feedBlob);
 
-  let activeTab = await getActiveTabAsync();
-  let isEmptyActiveTab = await isTabEmptyAsync(activeTab);
+  let activeTab = await browserManager.getActiveTab_async();
+  let isEmptyActiveTab = await browserManager.isTabEmpty_async(activeTab);
   let openNewTab = commonValues.alwaysOpenNewTab || openNewTabForce;
   if(openNewTab && !isEmptyActiveTab) {
     await browser.tabs.create({url:feedHtmlUrl, active: commonValues.openNewTabForeground});
@@ -366,7 +373,7 @@ async function openFeedAsync(downloadFeedObj, openNewTabForce) {
 //----------------------------------------------------------------------
 async function parseFeedAsync(feedText) {
   let feedHtml = '';
-  let tagItem = get1stUsedTag(feedText, TAG_ITEM_LIST);
+  let tagItem = get1stUsedTag(feedText, tagList.ITEM);
   let channelObj = parseChannelToObj(feedText, tagItem);
   let htmlHead = await getHtmlHeadAsync(channelObj);
   feedHtml += htmlHead;
@@ -404,15 +411,15 @@ function getHtmFoot() {
 function parseChannelToObj(feedText, tagItem) {
   let channel = {encoding: '', title: '', link: '', description: '', category : '', pubDate: '', htmlChannel: ''};
   channel.encoding =  getEncoding(feedText);
-  let tagChannel = get1stUsedTag(feedText, TAG_CHANNEL_LIST);
+  let tagChannel = get1stUsedTag(feedText, tagList.CHANNEL);
   let channelText = getInnerText1(feedText, tagChannel, tagItem);
-  channel.link = extractValue(channelText, TAG_LINK_LIST);
+  channel.link = extractValue(channelText, tagList.LINK);
   if (!channel.link) {
-    channel.link = extractAttribute(channelText, TAG_LINK_LIST, ATT_LINK_LIST);
+    channel.link = extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
   }
-  channel.title = decodeHtml(extractValue(channelText, TAG_TITLE_LIST));
+  channel.title = decodeHtml(extractValue(channelText, tagList.TITLE));
   if (!channel.title) { channel.title = channel.link; }
-  channel.description = decodeHtml(extractValue(channelText, TAG_DESC_LIST));
+  channel.description = decodeHtml(extractValue(channelText, tagList.DESC));
   channel.htmlChannel = getHtmlChannel(channel);
   return channel;
 
@@ -431,7 +438,7 @@ function getHtmlChannel(channel) {
 //----------------------------------------------------------------------
 function parseItemsToHtmlList(feedText, tagItem) {
   if (!feedText) return null;
-  let tagId = get1stUsedTag(feedText, TAG_ID_LIST);
+  let tagId = get1stUsedTag(feedText, tagList.ID);
   let itemNumber = occurrences(feedText, '</' + tagItem + '>');
   let htmlItemList=[];
   let item = {number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: ''};
@@ -439,16 +446,16 @@ function parseItemsToHtmlList(feedText, tagItem) {
   for (let i=0; i<itemNumber; i++) {
     let itemId = getItemId(itemText);
     item.number = i + 1;
-    item.link = extractValue(itemText, TAG_LINK_LIST);
+    item.link = extractValue(itemText, tagList.LINK);
     if (! item.link) {
-      item.link = extractAttribute(itemText, TAG_LINK_LIST, ATT_LINK_LIST);
+      item.link = extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
     }
-    item.title = decodeHtml(extractValue(itemText, TAG_TITLE_LIST));
+    item.title = decodeHtml(extractValue(itemText, tagList.TITLE));
     if (!item.title) { item.title = item.link; }
-    item.description = decodeHtml(extractValue(itemText, TAG_DESC_LIST));
+    item.description = decodeHtml(extractValue(itemText, tagList.DESC));
     item.category = getItemCategory(itemText);
-    item.author = decodeHtml(extractValue(itemText, TAG_AUTHOR_LIST));
-    let pubDateText = extractValue(itemText, TAG_PUBDATE_LIST);
+    item.author = decodeHtml(extractValue(itemText, tagList.AUTHOR));
+    let pubDateText = extractValue(itemText, tagList.PUBDATE);
     item.pubDate = extractDateTime(pubDateText);
     let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
     item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateText;
@@ -466,7 +473,7 @@ function getItemCategory(itemText){
   let nextStartIndex = 1;
   const MAX_CAT = 10;
   while (nextStartIndex && catCmpt < MAX_CAT) {
-    let tmp = extractValue(itemText, TAG_CAT_LIST, nextStartIndex, endIndexRef);
+    let tmp = extractValue(itemText, tagList.CAT, nextStartIndex, endIndexRef);
     if (tmp) {
       category += (catCmpt==0 ? '' : ', ')  + decodeHtml(tmp);
     }
@@ -508,7 +515,7 @@ function fixDescriptionTags(text) {
 function computeHashFeed(feedText) {
   if (!feedText) { return null; }
   let itemsText = feedText;
-  let tagItem = get1stUsedTag(feedText, TAG_ITEM_LIST);
+  let tagItem = get1stUsedTag(feedText, tagList.ITEM);
   if (tagItem) {
     let i = feedText.indexOf(tagItem);
     if (i >= 0) {

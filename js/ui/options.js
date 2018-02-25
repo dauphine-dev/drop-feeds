@@ -1,11 +1,13 @@
-/*global browser, themeManager, storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync, commonValues*/
-/*global GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync, displayRootFolderAsync*/
+/*global browser, commonValues, themeManager*/
+/*global storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync
+GetUrlForExportedOpmlFileAsync, sleep, cleanStorage, createThemeOptionsAsync*/
 'use strict';
 //----------------------------------------------------------------------
 main();
 //----------------------------------------------------------------------
 async function main() {
-  await commonValues.reloadAll_async();
+  await commonValues.reload_async();
+  await themeManager.reload_async();
   prepareTabs();
   prepareGeneralPanelAsync();
   prepareUpdateCheckerPanelAsync();
@@ -24,7 +26,7 @@ async function prepareGeneralPanelAsync() {
   //Theme list
   PopulateThemeListAsync();
   //Set not display root folder checkbox
-  let notDisplayRootFolder = ! await displayRootFolderAsync();
+  let notDisplayRootFolder = ! commonValues.displayRootFolder;
   let elNotDisplayRootFolderCheckBox = document.getElementById('notDisplayRootFolderCheckBox');
   elNotDisplayRootFolderCheckBox.checked = notDisplayRootFolder;
   elNotDisplayRootFolderCheckBox.addEventListener('click', notDisplayRootFolderCheckBoxClickedEvent);
@@ -90,15 +92,15 @@ async function feedFolderSelectChangedEvent(event) {
 async function applySelectedClickedEvent(event) {
   let rootBookmarkId = document.getElementById('feedFolderSelect').value;
   await cleanStorage();
-  await storageLocalSetItemAsync('rootBookmarkId', rootBookmarkId);
+  await commonValues.setRootBookmarkId_async(rootBookmarkId);
   await storageLocalSetItemAsync('reloadPanel', Date.now());
   await sleep(100);
   document.getElementById('applySelectedFeedButton').style.display = 'none';
 }
 //----------------------------------------------------------------------
 async function notDisplayRootFolderCheckBoxClickedEvent(event) {
-  let displayRootFolder = document.getElementById('notDisplayRootFolderCheckBox').checked ? 'no' : 'yes';
-  await storageLocalSetItemAsync('displayRootFolder', displayRootFolder);
+  let displayRootFolder = ! document.getElementById('notDisplayRootFolderCheckBox').checked;
+  await commonValues.setDisplayRootFolder_async(displayRootFolder);
   await storageLocalSetItemAsync('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
@@ -110,19 +112,20 @@ async function themeSelectChangedEvent(event) {
 //----------------------------------------------------------------------
 async function alwaysOpenNewTabCheckBoxClickedEvent(event) {
   let alwaysOpenNewTab = document.getElementById('alwaysOpenNewTabCheckbox').checked;
-  await storageLocalSetItemAsync('alwaysOpenNewTab', alwaysOpenNewTab);
-  storageLocalSetItemAsync('reloadCommonValues', Date.now());
+  await commonValues.setAlwaysOpenNewTab_async(alwaysOpenNewTab);
+  await storageLocalSetItemAsync('reloadCommonValues', Date.now());
+
 }
 //----------------------------------------------------------------------
 async function openNewTabForegroundCheckboxClickedEvent(event) {
   let openNewTabForeground = document.getElementById('openNewTabForegroundCheckbox').checked;
-  await storageLocalSetItemAsync('openNewTabForeground', openNewTabForeground);
+  await commonValues.setOpenNewTabForeground_async(openNewTabForeground);
   await storageLocalSetItemAsync('reloadCommonValues', Date.now());
 }
 //----------------------------------------------------------------------
 async function elTimeoutNumberValueChangeEvent(event) {
   let timeOut = document.getElementById('timeoutNumber').value * 1000;
-  await storageLocalSetItemAsync('timeOut', timeOut);
+  await commonValues.setTimeOut_async(timeOut);
   await storageLocalSetItemAsync('reloadCommonValues', Date.now());
 }
 //----------------------------------------------------------------------
