@@ -1,5 +1,5 @@
 /*global browser, selectionBar, statusBar*/
-/*global storageLocalGetItemAsync, storageLocalSetItemAsync, defaultStoredFolder, sleep, getStyle, replaceStyle
+/*global storageLocalGetItemAsync, storageLocalSetItemAsync, defaultStoredFolder, delay_async, getStyle, replaceStyle
 checkFeedsAsync, discoverFeedsAsync, optionsMenuAsync*/
 //----------------------------------------------------------------------
 'use strict';
@@ -119,7 +119,7 @@ let topMenu = {
     event.preventDefault();
     statusBar.printMessage('not yet implemented!');
     selectionBar.putAtRoot();
-    await sleep(250);
+    await delay_async(250);
     statusBar.printMessage('');
   },
   //------------------------------

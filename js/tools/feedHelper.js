@@ -360,9 +360,9 @@ async function openFeedAsync(downloadFeedObj, openNewTabForce) {
 
   let activeTab = await browserManager.getActiveTab_async();
   let isEmptyActiveTab = await browserManager.isTabEmpty_async(activeTab);
-  let openNewTab = commonValues.alwaysOpenNewTab || openNewTabForce;
+  let openNewTab = commonValues.instance.alwaysOpenNewTab || openNewTabForce;
   if(openNewTab && !isEmptyActiveTab) {
-    await browser.tabs.create({url:feedHtmlUrl, active: commonValues.openNewTabForeground});
+    await browser.tabs.create({url:feedHtmlUrl, active: commonValues.instance.openNewTabForeground});
   } else {
     await browser.tabs.update(activeTab.id, {url: feedHtmlUrl});
   }
@@ -385,7 +385,7 @@ async function parseFeedAsync(feedText) {
 }
 //----------------------------------------------------------------------
 async function getHtmlHeadAsync(channel) {
-  let iconUrl = browser.extension.getURL(commonValues.iconDF32Url);
+  let iconUrl = browser.extension.getURL(commonValues.instance.iconDF32Url);
   let cssUrl = browser.extension.getURL(themeManager.getCssUrl('feed.css'));
   let encoding = channel.encoding ? channel.encoding : 'UTF-8';
   //if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }

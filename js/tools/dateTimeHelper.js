@@ -23,7 +23,7 @@ function dateTimeMinValue() {
   return new Date(null);
 }
 //----------------------------------------------------------------------
-function sleep(ms) {
+function delay_async(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 //----------------------------------------------------------------------

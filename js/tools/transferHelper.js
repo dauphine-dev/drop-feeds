@@ -1,4 +1,5 @@
-/*global commonValues, tagList, getInnerText1*/
+/*global commonValues*/
+/*global tagList, getInnerText1*/
 'use strict';
 //----------------------------------------------------------------------
 function downloadFileAsync(url, urlNoCache) {
@@ -20,7 +21,7 @@ function downloadFileAsync(url, urlNoCache) {
     }
     xhr.open('GET', url);
     xhr.setRequestHeader('Cache-Control', 'no-cache');
-    xhr.timeout = commonValues.timeOutMs;
+    xhr.timeout = 1000 * commonValues.instance.timeOut;
 
     xhr.ontimeout = function (e) {
       reject(e);

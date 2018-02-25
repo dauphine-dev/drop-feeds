@@ -1,3 +1,6 @@
+0.2.3 (commit ...)
+Code refactory (in progress)
+
 0.2.3 (commit 1)
 Code refactory (in progress)
 Fix a parsing issue when guid use a CDATA (for some feeds, the same item was repeated many times)

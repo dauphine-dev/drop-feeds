@@ -15,7 +15,7 @@ let browserManager = {
   displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.extension.getURL(commonValues.iconDF96Url),
+      'iconUrl': browser.extension.getURL(commonValues.instance.iconDF96Url),
       'title': 'Drop feeds',
       'message': message
     });

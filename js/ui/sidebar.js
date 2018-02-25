@@ -1,7 +1,8 @@
 /*global browser, commonValues, themeManager, selectionBar, topMenu, statusBar*/
 /*global addingBookmarkListeners, replaceStyle, checkRootFolderAsync
 addEventListenerContextMenus, getFeedItemClassAsync, makeIndent, getFolderFromStorageObj, contextMenusOnClickedEvent
-defaultStoredFolder, storageLocalSetItemAsync, getStoredFeedAsync, openFeedAsync, updateFeedStatusAsync, FeedStatusEnum, sleep*/
+defaultStoredFolder, storageLocalSetItemAsync, getStoredFeedAsync, openFeedAsync, updateFeedStatusAsync, FeedStatusEnum, delay_async
+SomeClass*/
 //----------------------------------------------------------------------
 'use strict';
 let _html= [];
@@ -10,11 +11,12 @@ let _is1stElement = true;
 let _1stElementId = null;
 let _1stElement = null;
 console.log('Drop feeds loading...');
+
 mainSbr();
-reloadOnce();
+//reloadOnce();
 //----------------------------------------------------------------------
 async function mainSbr() {
-  await commonValues.reload_async();
+  await commonValues.instance.init_async();
   await themeManager.reload_async();
   topMenu.init_async();
   await loadPanelAsync();
@@ -29,6 +31,17 @@ function reloadOnce() {
   let doReload = ! sessionStorage.getItem('hasAlreadyReloaded');
   if (doReload) {
     sessionStorage.setItem('hasAlreadyReloaded', true);
+    window.location.reload();
+  }
+}
+//----------------------------------------------------------------------
+async function storageChanged_event(changes, area) {
+  let changedItems = Object.keys(changes);
+  if (changedItems.includes('reloadPanel')) {
+    await commonValues.instance.reload_async();
+    loadPanelAsync();
+  }
+  else if (changedItems.includes('reloadPanelWindow')) {
     window.location.reload();
   }
 }
@@ -94,21 +107,6 @@ async function tabOnChangedAsync(tabInfo) {
   }
 }
 //----------------------------------------------------------------------
-async function storageChanged_event(changes, area) {
-  let changedItems = Object.keys(changes);
-  if (changedItems.includes('reloadCommonValues')) {
-    commonValues.reload_async();
-  }
-  else if (changedItems.includes('reloadPanel')) {
-    await commonValues.reload_async();
-    loadPanelAsync();
-  }
-  else if (changedItems.includes('reloadPanelWindow')) {
-    await commonValues.reload_async();
-    window.location.reload();
-  }
-}
-//----------------------------------------------------------------------
 async function loadPanelAsync() {
   let rootBookmarkId = await checkRootFolderAsync();
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
@@ -118,7 +116,7 @@ async function loadPanelAsync() {
 }
 //----------------------------------------------------------------------
 async function createItemsForSubTree(bookmarkItems) {
-  let displayRootFolder = commonValues.displayRootFolder;
+  let displayRootFolder = commonValues.instance.displayRootFolder;
   let storageObj = await browser.storage.local.get();
   _html= [];
   resetAll1stInfo();
@@ -289,14 +287,14 @@ function runtimeOnMessageEvent(request) {
 //----------------------------------------------------------------------
 async function openSubscribeDialogAsync() {
   let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-  let url = browser.extension.getURL(commonValues.subscribeHtmlUrl);
+  let url = browser.extension.getURL(commonValues.instance.subscribeHtmlUrl);
   let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop feed'};
   storageLocalSetItemAsync('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
   let win = await browser.windows.create(createData);
   //workaround to force to display content
-  await sleep(100);
+  await delay_async(100);
   browser.windows.update(win.id, {width: 779});
-  await sleep(100);
+  await delay_async(100);
   browser.windows.update(win.id, {width: 780});
 }
 //----------------------------------------------------------------------

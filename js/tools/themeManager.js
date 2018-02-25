@@ -1,17 +1,18 @@
-/*global browser, commonValues, getStoredValue_async, storageLocalGetItemAsync, storageLocalSetItemAsync*/
+/*global browser, commonValues*/
+/*global getStoredValue_async, storageLocalGetItemAsync, storageLocalSetItemAsync*/
 'use strict';
 //----------------------------------------------------------------------
 let themeManager = {
-  themeFolderName: commonValues.themeDefaultFolderName,
-  themeFolderUrl: commonValues.themeBaseFolderUrl + commonValues.themeDefaultFolderName,
+  themeFolderName: commonValues.instance.themeDefaultFolderName,
+  themeFolderUrl: commonValues.instance.themeBaseFolderUrl + commonValues.instance.themeDefaultFolderName,
 
   async reload_async() {
     themeManager.themeFolderName = await getStoredValue_async('themeFolderName', themeManager.themeFolderName);
     themeManager._reloadValues();
   },
 
-  async _reloadValues() {
-    themeManager.themeFolderUrl = commonValues.themeBaseFolderUrl + this.themeFolderName + '/';
+  _reloadValues() {
+    themeManager.themeFolderUrl = commonValues.instance.themeBaseFolderUrl + this.themeFolderName + '/';
   },
 
   async setThemeFolderName_async(themeFolderName) {
@@ -20,7 +21,7 @@ let themeManager = {
     await storageLocalSetItemAsync('themeFolderName', themeFolderName);
   },
 
-  async applyCssToCurrentDocument_async(cssName) {
+  applyCssToCurrentDocument(cssName) {
     let cssUrl = themeManager.themeFolderUrl + 'css/' + cssName;
     let elCssLink = document.getElementById('cssLink');
     elCssLink.setAttribute('href', cssUrl);

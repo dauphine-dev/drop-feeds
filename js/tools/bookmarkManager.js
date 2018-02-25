@@ -1,5 +1,5 @@
 /*global browser, statusBar*/
-/*global storageLocalGetItemAsync, storageLocalSetItemAsync, sleep*/
+/*global storageLocalGetItemAsync, storageLocalSetItemAsync, delay_async*/
 //----------------------------------------------------------------------
 'use strict';
 let _lastCreatedBookmarkId = '';
@@ -54,7 +54,7 @@ async function bookmarkOnMovedEvent(id, moveInfo) {
   if (!isChid) { return; }
   if (id == _lastCreatedBookmarkId) {
     statusBar.printMessage('To add a feed use the button above !');
-    await sleep(1);
+    await delay_async(1);
     statusBar.printMessage('');
   }
   storageLocalSetItemAsync('reloadPanel', Date.now());

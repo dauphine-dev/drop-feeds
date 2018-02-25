@@ -1,4 +1,5 @@
-/*global browser, commonValues, themeManager, storageLocalGetItemAsync, downloadFileAsync*/
+/*global browser, commonValues, themeManager*/
+/*global storageLocalGetItemAsync, downloadFileAsync*/
 'use strict';
 //----------------------------------------------------------------------
 let _optionFolderList= [];
@@ -16,7 +17,7 @@ async function createFeedFolderOptionsAsync() {
 async function createThemeOptionsAsync() {
   const folder_name = 0;
   const ui_name = 1;
-  let themeListUrl = browser.extension.getURL(commonValues.themesListUrl);
+  let themeListUrl = browser.extension.getURL(commonValues.instance.themesListUrl);
   let themeListText = await downloadFileAsync(themeListUrl);
   let themeList = themeListText.trim().split('\n');
   let selectedThemeName = await themeManager.themeFolderName;

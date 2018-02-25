@@ -1,4 +1,4 @@
-/*global browser, occurrences, sleep, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar*/
+/*global browser, occurrences, delay_async, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar*/
 /*global storageLocalGetItemAsync, storageLocalSetItemAsync, cleanStorage, importInProgress, decodeHtml*/
 //----------------------------------------------------------------------
 'use strict';
@@ -17,7 +17,7 @@ async function ImportOmplFileAsync(event) {
   }
   else {
     showMsgInProgressBar('progressBarImport', 'Invalid ompl file!');
-    await sleep(2000);
+    await delay_async(2000);
     hideProgressBar('progressBarImport');
   }
 }
@@ -76,7 +76,7 @@ async function importOmplOutlinesAsync(opmlText) {
       }
     }
     setProgressBarValue('progressBarImport', 100);
-    await sleep(500);
+    await delay_async(500);
   }
   finally {
     storageLocalSetItemAsync('importInProgress', false);
