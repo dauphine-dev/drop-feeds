@@ -1,3 +1,7 @@
+0.2.3
+Fix a parsing issue when guid use a CDATA (for some feeds, the same item was repeated many times)
+Fix the selection bar positioning when "Do not display root folder" is changed.
+
 0.2.2
 Notification on feed update complete
 Tabs in option view

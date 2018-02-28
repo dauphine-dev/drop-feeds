@@ -177,7 +177,12 @@ function get1stUsedTag(text, tagArray) {
 function getNextItem(feedText, itemId, tagItem) {
   if (!feedText) return null;
   let itemIdPattern = '>' + itemId + '<';
-  let idIndex = feedText.indexOf(itemIdPattern); if (idIndex < 0) idIndex = 0;
+  let idIndex = feedText.indexOf(itemIdPattern);
+  if (idIndex <0 ) {
+    itemIdPattern = '><![CDATA[' + itemId + ']]><';
+    idIndex = feedText.indexOf(itemIdPattern);
+  }
+  if (idIndex < 0) idIndex = 0;
 
   let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
   if (startNextItemIndex == -1) return '';

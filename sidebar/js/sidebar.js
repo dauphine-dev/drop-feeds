@@ -95,11 +95,19 @@ function storageEventChanged(changes, area) {
 }
 //----------------------------------------------------------------------
 async function loadPanelAsync() {
-  let rootBookmarkId = await checkRootFolderAsync();
+  _is1stElement = true;
+  _1stElementId = null;
+  _1stElement = null;
+  _is1stFeedItem = true;
+  _1stFeedItemId = null;
+  _is1stFolder = true;
+  _1stFolderDivId = null;
+    let rootBookmarkId = await checkRootFolderAsync();
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
   createItemsForSubTree(subTree);
   browser.storage.onChanged.addListener(storageEventChanged);
   setContentHeight();
+  setSelectionBar(getSelectedRootElement());
 }
 //----------------------------------------------------------------------
 async function createItemsForSubTree(bookmarkItems) {

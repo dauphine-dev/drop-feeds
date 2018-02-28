@@ -36,10 +36,12 @@ function folderOnClickedEvent(event){
 }
 //----------------------------------------------------------------------
 function getSelectedRootElement() {
+  /*
   if (!_selectedRootElement) {
     _selectedRootElement = document.getElementById(_selectedRootElementId);
   }
-  return _selectedRootElement;
+  */
+  return document.getElementById(_selectedRootElementId);
 }
 //----------------------------------------------------------------------
 function setSelectedRootElement(rootElementId) {
