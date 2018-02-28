@@ -4,11 +4,15 @@
 mainDbg();
 //----------------------------------------------------------------------
 async function mainDbg() {
-  let storageLocalHtml = await storageLocalHtmlAsync();
-  document.getElementById('debugContent').innerHTML += storageLocalHtml;
+  let debugContent = '\n';
+  debugContent += '<table>\n';
+  debugContent += await localStorageToHtml_async();
+  debugContent += await allBookmarksToHtml_async();
+  debugContent += '</table>\n';
+  document.getElementById('debugContent').innerHTML += debugContent;
 }
 //----------------------------------------------------------------------
-async function storageLocalHtmlAsync() {
+async function localStorageToHtml_async() {
   let storageLocal = await browser.storage.local.get();
   let nodataList = [];
   let miscList = [];
@@ -25,7 +29,7 @@ async function storageLocalHtmlAsync() {
         continue;
       }
       if (storageLocal[property] !== null) {
-        if (storageLocal[property].isBkmrk || storageLocal[property].bkmrkId) {
+        if (storageLocal[property].isFeedInfo || storageLocal[property].isBkmrk || storageLocal[property].bkmrkId) {
           bookmarkList.push([property, typeof storageLocal[property], storageLocal[property] ]);
           continue;
         }
@@ -42,19 +46,40 @@ async function storageLocalHtmlAsync() {
   bookmarkList.sort(function(a, b) {
     return new Date(b[1].pubDate) - new Date(a[1].pubDate);
   });
-  let htmlText = '\n';
-  htmlText += '<table>\n';
+  let htmlText = '';
   htmlText += '  ' + addSectionHtml('Misc.');
   htmlText += '  ' + listToHtml(nodataList);
   htmlText += '  ' + listToHtml(miscList);
-  htmlText += '  ' + addSectionHtml('Bookmarks');
+  htmlText += '  ' + addSectionHtml('Feeds info');
   htmlText += '  ' + listToHtml(bookmarkList);
-  htmlText += '  ' + addSectionHtml('folder state');
+  htmlText += '  ' + addSectionHtml('Folders state');
   htmlText += '  ' + listToHtml(folderStateList);
-  htmlText += '</table>\n';
   return htmlText;
 }
-
+//----------------------------------------------------------------------
+async function allBookmarksToHtml_async(){
+  let htmlText = '';
+  let rootBookmarkId = (await browser.storage.local.get('rootBookmarkId'))['rootBookmarkId'];
+  let bookmarks = await browser.bookmarks.getSubTree(rootBookmarkId);
+  htmlText += '  ' + addSectionHtml('Bookmarks');
+  htmlText += await bookmarksToHtml_async(bookmarks);
+  return htmlText;
+}
+//----------------------------------------------------------------------
+async function bookmarksToHtml_async(bookmarks){
+  let htmlText = '';
+  for (let bookmark of bookmarks) {
+    htmlText += '<tr>';
+    htmlText += '<td>' + bookmark.id + '</td>';
+    htmlText += '<td>(' + (bookmark.url ?  'item' : 'folder') + ')</td>';
+    htmlText += '<td>' + printToHtml(bookmark) + '</td>';
+    htmlText += '</tr>';
+    if (bookmark.children) {
+      htmlText += await bookmarksToHtml_async(bookmark.children);
+    }
+  }
+  return htmlText;
+}
 //----------------------------------------------------------------------
 function listToHtml(list) {
   let htmlText = '';
@@ -85,10 +110,16 @@ function printToHtml(message) {
   if (!message)  {return ''; }
   let html = '';
   if (typeof message == 'object') {
-    html += (JSON && JSON.stringify ? JSON.stringify(message) : message);
+    html += (JSON && JSON.stringify ? JSON.stringify(message, jsonStringifyReplacer) : message);
   } else {
     html += message;
   }
   return html;
 }
 //----------------------------------------------------------------------
+function jsonStringifyReplacer(key, value) {
+  if (key == 'children') {
+    return '[...]';
+  }
+  return value;
+}

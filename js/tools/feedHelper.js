@@ -1,7 +1,6 @@
-/*global browser, commonValues, themeManager, statusBar, topMenu, browserManager*/
+/*global browser, commonValues, themeManager, statusBar, topMenu, browserManager, compute, transfer*/
 /*global , getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync
-dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml, downloadFileByFeedObjAsync
-browserManager.getActiveTab_async, browserManager.isTabEmpty_async*/
+dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml*/
 'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
@@ -198,7 +197,7 @@ function getNextItem(feedText, itemId, tagItem) {
 async function updateFeedStatusAsync(feedId, feedStatus, pubDate, defaultName, hash) {
   if (!feedId) { return; }
   let storedFeedObj = await getStoredFeedAsync(null, feedId, defaultName);
-  storedFeedObj = {id: storedFeedObj.id, hash: storedFeedObj.hash, pubDate: storedFeedObj.pubDate, isBkmrk: true, status: storedFeedObj.status, name: storedFeedObj.name};
+  storedFeedObj = {id: storedFeedObj.id, hash: storedFeedObj.hash, pubDate: storedFeedObj.pubDate, isFeedInfo: true, status: storedFeedObj.status, name: storedFeedObj.name};
   if (feedStatus) {
     storedFeedObj.status = feedStatus;
   }
@@ -239,7 +238,7 @@ async function getStoredFeedAsync(storageObj, feedId, defaultName) {
     storedFeedObj = await storageLocalGetItemAsync(feedId);
   }
   if (!storedFeedObj) {
-    storedFeedObj = {id: feedId, hash: null, pubDate: dateTimeMinValue(), isBkmrk: true, status:FeedStatusEnum.OLD, name: defaultName};
+    storedFeedObj = {id: feedId, hash: null, pubDate: dateTimeMinValue(), isFeedInfo: true, status:FeedStatusEnum.OLD, name: defaultName};
   }
   return storedFeedObj;
 }
@@ -333,19 +332,51 @@ async function MarkAllFeedsAsUpdatedAsync(id) {
 }
 //----------------------------------------------------------------------
 async function downloadFeedAsync(downloadFeedObj) {
+  downloadFeedObj = await downloadFeedNoCacheAsync(downloadFeedObj);
+  let newUrl = getNewUrlLocation(downloadFeedObj.feedText);
+  if (newUrl) {
+    downloadFeedObj = await downloadFeedNoCacheAsync(downloadFeedObj);
+  }
+  return downloadFeedObj;
+}
+//----------------------------------------------------------------------
+function getNewUrlLocation(feedText) {
+  let newUrl = null;
+  if (feedText.includes('</redirect>') && feedText.includes('</newLocation>')) {
+    newUrl = getInnerText1(feedText, '<newLocation>', '</newLocation>').trim();
+  }
+  return newUrl;
+}
+//----------------------------------------------------------------------
+async function downloadFeedNoCacheAsync(downloadFeedObj) {
+  downloadFeedObj = await downloadFeedThenCheckItAsync(downloadFeedObj, true);
+  if (downloadFeedObj.error) {
+    downloadFeedObj = await downloadFeedThenCheckItAsync(downloadFeedObj, false);
+    if (downloadFeedObj.error) {
+      downloadFeedObj.pubDate = null;
+    }
+  }
+  return downloadFeedObj;
+}
+//----------------------------------------------------------------------
+async function downloadFeedThenCheckItAsync(downloadFeedObj, urlNoCache) {
+  let url = downloadFeedObj.bookmark.url;
+  if (downloadFeedObj.newUrl) { url = downloadFeedObj.newUrl; }
   try {
-    downloadFeedObj = await downloadFileByFeedObjAsync(downloadFeedObj);
+    let responseText =  await transfer.downloadTextFileEx_async(url, urlNoCache);
+    let tagRss = null;
+    for (let tag of tagList.RSS) {
+      if (responseText.includes('<' + tag)) { tagRss = tag; break; }
+    }
+    if (tagRss) {
+      downloadFeedObj.feedText = responseText;
+    }
+    else {
+      downloadFeedObj.error = 'it is not a rss file';
+    }
   }
   catch (e) {
     downloadFeedObj.error = e;
-    downloadFeedObj.pubDate = null;
-    console.log(e);
-    console.log('error:', downloadFeedObj);
-  }
-  if(!downloadFeedObj.feedText) {
-    downloadFeedObj.error = 'feedText is null';
-    downloadFeedObj.pubDate = null;
-    console.log('error:', downloadFeedObj);
   }
   return downloadFeedObj;
 }
@@ -523,7 +554,7 @@ function computeHashFeed(feedText) {
     }
   }
   let hash = null;
-  hash = itemsText.hashCode();
+  hash =  compute.hashCode(itemsText);
   return hash;
 }
 //----------------------------------------------------------------------
