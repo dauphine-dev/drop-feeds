@@ -1,6 +1,5 @@
-/*global browser, commonValues, themeManager, statusBar, topMenu, browserManager, compute, transfer*/
-/*global , getInnerText1, occurrences, dateTimeMaxValue, isValidDate, storageLocalSetItemAsync, storageLocalGetItemAsync, downloadFeedAsync
-dateTimeMinValue, timeZoneToGmt, checkFeedsAsync, XSLTProcessor, downloadFileAsync, decodeHtml*/
+/*global browser, commonValues, themeManager, statusBar, topMenu, browserManager, compute, transfer, localStorageManager, textTools, dateTime*/
+/*global checkFeedsAsync, XSLTProcessor*/
 'use strict';
 //----------------------------------------------------------------------
 const FeedStatusEnum = {
@@ -53,7 +52,6 @@ function getEncoding(text) {
 //----------------------------------------------------------------------
 function extractValue(text, tagList, startIndex_optional, out_endIndex_optional) {
   if (!text) { return null; }
-  let result = null;
   if (!out_endIndex_optional) { out_endIndex_optional = []; }
   if (!startIndex_optional) { startIndex_optional = 0; }
   out_endIndex_optional[0] = null;
@@ -85,10 +83,8 @@ function extractValue(text, tagList, startIndex_optional, out_endIndex_optional)
 //----------------------------------------------------------------------
 function extractOpenTag(text, tagList) {
   if (!text) { return null; }
-  let result = null;
   for (let tag of tagList) {
     let tagStart = '<' + tag;
-    let tagEnd = '</' + tag + '>';
     let valueStart = text.indexOf(tagStart);
     if (valueStart==-1) { continue; }
     let valueEnd = text.indexOf('>', valueStart);
@@ -122,8 +118,7 @@ function getFeedPubdate(feedObj) {
   if (!feedObj) return null;
   if (!feedObj.feedText) return null;
   let tagItem = get1stUsedTag(feedObj.feedText, tagList.ITEM);
-  let tagId = get1stUsedTag(feedObj.feedText, tagList.ID);
-  let itemNumber = occurrences(feedObj.feedText, '</' + tagItem + '>');
+  let itemNumber = textTools.occurrences(feedObj.feedText, '</' + tagItem + '>');
   let pubDateList=[];
 
   let itemText = getNextItem(feedObj.feedText, '---', tagItem); // use a fake id to start
@@ -151,19 +146,19 @@ function getFeedPubdate(feedObj) {
 //----------------------------------------------------------------------
 function extractDateTime(dateTimeText) {
   if (!dateTimeText) return null;
-  let dateTime = null;
+  let extractedDateTime = null;
   if (dateTimeText) {
     dateTimeText = dateTimeText.replace(/\s+/g, ' ');
-    dateTime = new Date(dateTimeText);
-    if (!isValidDate(dateTime)) {
-      dateTime = new Date(timeZoneToGmt(dateTimeText));
-      if (!isValidDate(dateTime)) {
+    extractedDateTime = new Date(dateTimeText);
+    if (!dateTime.isValid(dateTime)) {
+      extractedDateTime = new Date(dateTime.timeZoneToGmt(dateTimeText));
+      if (!dateTime.isValid(dateTime)) {
         //dateTime = new Date(null);
-        dateTime = null;
+        extractedDateTime = null;
       }
     }
   }
-  return dateTime;
+  return extractedDateTime;
 }
 
 //----------------------------------------------------------------------
@@ -226,7 +221,7 @@ async function updateFeedStatusAsync(feedId, feedStatus, pubDate, defaultName, h
       feedUiItem.classList.add('feedError');
       break;
   }
-  await storageLocalSetItemAsync(storedFeedObj.id, storedFeedObj);
+  await localStorageManager.setValue_async(storedFeedObj.id, storedFeedObj);
 }
 //----------------------------------------------------------------------
 async function getStoredFeedAsync(storageObj, feedId, defaultName) {
@@ -235,10 +230,10 @@ async function getStoredFeedAsync(storageObj, feedId, defaultName) {
     storedFeedObj = storageObj[feedId];
   }
   else {
-    storedFeedObj = await storageLocalGetItemAsync(feedId);
+    storedFeedObj = await localStorageManager.getValue_async(feedId);
   }
   if (!storedFeedObj) {
-    storedFeedObj = {id: feedId, hash: null, pubDate: dateTimeMinValue(), isFeedInfo: true, status:FeedStatusEnum.OLD, name: defaultName};
+    storedFeedObj = {id: feedId, hash: null, pubDate: dateTime.minValue(), isFeedInfo: true, status:FeedStatusEnum.OLD, name: defaultName};
   }
   return storedFeedObj;
 }
@@ -280,26 +275,28 @@ async function checkFeedsForFolderAsync(id) {
 //----------------------------------------------------------------------
 async function OpenAllUpdatedFeedsAsync(id) {
   try {
-    topMenu.animateCheckFeedButton(true);
+    topMenu.instance.animateCheckFeedButton(true);
     let feeds = document.getElementById(id).querySelectorAll('.feedUnread');
     for (let i = 0; i < feeds.length; i++) {
       try {
         let feedId = feeds[i].getAttribute('id');
         let bookmarkItems = await browser.bookmarks.get(feedId);
-        statusBar.printMessage('Loading ' + bookmarkItems[0].title);
+        statusBar.instance.text = 'Loading ' + bookmarkItems[0].title;
         let storedFeedObj = await getStoredFeedAsync(null, bookmarkItems[0].id, bookmarkItems[0].title);
-        let downloadFeedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
-        let hash = await openFeedAsync(downloadFeedObj, true);
-        await updateFeedStatusAsync(downloadFeedObj.id, FeedStatusEnum.OLD, null, downloadFeedObj.title, hash);
+        let feedObj = {index:i, id:feedId, title:storedFeedObj.name, bookmark:bookmarkItems[0], pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
+        let hash = await openFeedAsync(feedObj, true);
+        await updateFeedStatusAsync(feedObj.id, FeedStatusEnum.OLD, null, feedObj.title, hash);
       }
       catch(e) {
+        /* eslint-disable no-console */
         console.log(e);
+        /* eslint-enable no-console */
       }
     }
   }
   finally {
-    statusBar.printMessage('');
-    topMenu.animateCheckFeedButton(false);
+    statusBar.instance.text = '';
+    topMenu.instance.animateCheckFeedButton(false);
   }
 }
 //----------------------------------------------------------------------
@@ -331,37 +328,37 @@ async function MarkAllFeedsAsUpdatedAsync(id) {
   }
 }
 //----------------------------------------------------------------------
-async function downloadFeedAsync(downloadFeedObj) {
-  downloadFeedObj = await downloadFeedNoCacheAsync(downloadFeedObj);
-  let newUrl = getNewUrlLocation(downloadFeedObj.feedText);
+async function downloadFeedAsync(feedObj) {
+  feedObj = await downloadFeedNoCacheAsync(feedObj);
+  let newUrl = getNewUrlLocation(feedObj.feedText);
   if (newUrl) {
-    downloadFeedObj = await downloadFeedNoCacheAsync(downloadFeedObj);
+    feedObj = await downloadFeedNoCacheAsync(feedObj);
   }
-  return downloadFeedObj;
+  return feedObj;
 }
 //----------------------------------------------------------------------
 function getNewUrlLocation(feedText) {
   let newUrl = null;
-  if (feedText.includes('</redirect>') && feedText.includes('</newLocation>')) {
-    newUrl = getInnerText1(feedText, '<newLocation>', '</newLocation>').trim();
+  if (feedText && feedText.includes('</redirect>') && feedText.includes('</newLocation>')) {
+    newUrl = textTools.getInnerText(feedText, '<newLocation>', '</newLocation>').trim();
   }
   return newUrl;
 }
 //----------------------------------------------------------------------
-async function downloadFeedNoCacheAsync(downloadFeedObj) {
-  downloadFeedObj = await downloadFeedThenCheckItAsync(downloadFeedObj, true);
-  if (downloadFeedObj.error) {
-    downloadFeedObj = await downloadFeedThenCheckItAsync(downloadFeedObj, false);
-    if (downloadFeedObj.error) {
-      downloadFeedObj.pubDate = null;
+async function downloadFeedNoCacheAsync(feedObj) {
+  feedObj = await downloadFeedThenCheckItAsync(feedObj, true);
+  if (feedObj.error) {
+    feedObj = await downloadFeedThenCheckItAsync(feedObj, false);
+    if (feedObj.error) {
+      feedObj.pubDate = null;
     }
   }
-  return downloadFeedObj;
+  return feedObj;
 }
 //----------------------------------------------------------------------
-async function downloadFeedThenCheckItAsync(downloadFeedObj, urlNoCache) {
-  let url = downloadFeedObj.bookmark.url;
-  if (downloadFeedObj.newUrl) { url = downloadFeedObj.newUrl; }
+async function downloadFeedThenCheckItAsync(feedObj, urlNoCache) {
+  let url = feedObj.bookmark.url;
+  if (feedObj.newUrl) { url = feedObj.newUrl; }
   try {
     let responseText =  await transfer.downloadTextFileEx_async(url, urlNoCache);
     let tagRss = null;
@@ -369,23 +366,23 @@ async function downloadFeedThenCheckItAsync(downloadFeedObj, urlNoCache) {
       if (responseText.includes('<' + tag)) { tagRss = tag; break; }
     }
     if (tagRss) {
-      downloadFeedObj.feedText = responseText;
+      feedObj.feedText = responseText;
     }
     else {
-      downloadFeedObj.error = 'it is not a rss file';
+      feedObj.error = 'it is not a rss file';
     }
   }
   catch (e) {
-    downloadFeedObj.error = e;
+    feedObj.error = e;
   }
-  return downloadFeedObj;
+  return feedObj;
 }
 //----------------------------------------------------------------------
-async function openFeedAsync(downloadFeedObj, openNewTabForce) {
-  downloadFeedObj = await downloadFeedAsync(downloadFeedObj);
-  downloadFeedObj.pubDate = getFeedPubdate(downloadFeedObj);
-  let feedHtml = await parseFeedAsync(downloadFeedObj.feedText);
-  let hash = computeHashFeed(downloadFeedObj.feedText);
+async function openFeedAsync(feedObj, openNewTabForce) {
+  feedObj = await downloadFeedAsync(feedObj);
+  feedObj.pubDate = getFeedPubdate(feedObj);
+  let feedHtml = await parseFeedAsync(feedObj.feedText);
+  let hash = computeHashFeed(feedObj.feedText);
   let feedBlob = new Blob([feedHtml]);
   let feedHtmlUrl = URL.createObjectURL(feedBlob);
 
@@ -416,8 +413,8 @@ async function parseFeedAsync(feedText) {
 }
 //----------------------------------------------------------------------
 async function getHtmlHeadAsync(channel) {
-  let iconUrl = browser.extension.getURL(commonValues.instance.iconDF32Url);
-  let cssUrl = browser.extension.getURL(themeManager.getCssUrl('feed.css'));
+  let iconUrl = browser.extension.getURL(themeManager.instance.iconDF32Url);
+  let cssUrl = browser.extension.getURL(themeManager.instance.getCssUrl('feed.css'));
   let encoding = channel.encoding ? channel.encoding : 'UTF-8';
   //if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }
   let htmlHead = '';
@@ -443,14 +440,14 @@ function parseChannelToObj(feedText, tagItem) {
   let channel = {encoding: '', title: '', link: '', description: '', category : '', pubDate: '', htmlChannel: ''};
   channel.encoding =  getEncoding(feedText);
   let tagChannel = get1stUsedTag(feedText, tagList.CHANNEL);
-  let channelText = getInnerText1(feedText, tagChannel, tagItem);
+  let channelText = textTools.getInnerText(feedText, tagChannel, tagItem);
   channel.link = extractValue(channelText, tagList.LINK);
   if (!channel.link) {
     channel.link = extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
   }
-  channel.title = decodeHtml(extractValue(channelText, tagList.TITLE));
+  channel.title = textTools.decodeHtml(extractValue(channelText, tagList.TITLE));
   if (!channel.title) { channel.title = channel.link; }
-  channel.description = decodeHtml(extractValue(channelText, tagList.DESC));
+  channel.description = textTools.decodeHtml(extractValue(channelText, tagList.DESC));
   channel.htmlChannel = getHtmlChannel(channel);
   return channel;
 
@@ -469,8 +466,7 @@ function getHtmlChannel(channel) {
 //----------------------------------------------------------------------
 function parseItemsToHtmlList(feedText, tagItem) {
   if (!feedText) return null;
-  let tagId = get1stUsedTag(feedText, tagList.ID);
-  let itemNumber = occurrences(feedText, '</' + tagItem + '>');
+  let itemNumber = textTools.occurrences(feedText, '</' + tagItem + '>');
   let htmlItemList=[];
   let item = {number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: ''};
   let itemText = getNextItem(feedText, '---', tagItem); // use a fake id to start
@@ -481,11 +477,11 @@ function parseItemsToHtmlList(feedText, tagItem) {
     if (! item.link) {
       item.link = extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
     }
-    item.title = decodeHtml(extractValue(itemText, tagList.TITLE));
+    item.title = textTools.decodeHtml(extractValue(itemText, tagList.TITLE));
     if (!item.title) { item.title = item.link; }
-    item.description = decodeHtml(extractValue(itemText, tagList.DESC));
+    item.description = textTools.decodeHtml(extractValue(itemText, tagList.DESC));
     item.category = getItemCategory(itemText);
-    item.author = decodeHtml(extractValue(itemText, tagList.AUTHOR));
+    item.author = textTools.decodeHtml(extractValue(itemText, tagList.AUTHOR));
     let pubDateText = extractValue(itemText, tagList.PUBDATE);
     item.pubDate = extractDateTime(pubDateText);
     let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
@@ -506,7 +502,7 @@ function getItemCategory(itemText){
   while (nextStartIndex && catCmpt < MAX_CAT) {
     let tmp = extractValue(itemText, tagList.CAT, nextStartIndex, endIndexRef);
     if (tmp) {
-      category += (catCmpt==0 ? '' : ', ')  + decodeHtml(tmp);
+      category += (catCmpt==0 ? '' : ', ')  + textTools.decodeHtml(tmp);
     }
     nextStartIndex = endIndexRef[0];
     catCmpt++;

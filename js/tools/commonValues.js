@@ -1,8 +1,6 @@
-/*global browser, themeManager*/
-/*global getStoredValue_async, storageLocalSetItemAsync, delay_async*/
+/*global browser, localStorageManager*/
 'use strict';
-//----------------------------------------------------------------------
-class commonValues {
+class commonValues { /*exported commonValues*/
   static get instance() {
     if (!this._instance) {
       this._instance = new commonValues();
@@ -16,11 +14,6 @@ class commonValues {
     this._timeOut= 10;
     this._displayRootFolder = true;
     this._rootBookmarkId = undefined;
-    this._iconDF32Url = '/resources/img/drop-feeds-32.png';
-    this._iconDF96Url = '/resources/img/drop-feeds-96.png';
-    this._themeBaseFolderUrl = '/resources/themes/';
-    this._themesListUrl = '/resources/themes/themes.list';
-    this._themeDefaultFolderName = 'dauphine';
     this._subscribeHtmlUrl = '/html/subscribe.html';
 
   }
@@ -31,16 +24,16 @@ class commonValues {
   }
 
   async reload_async() {
-    this._alwaysOpenNewTab = await getStoredValue_async('alwaysOpenNewTab', this.alwaysOpenNewTab);
-    this._openNewTabForeground = await getStoredValue_async('openNewTabForeground', this._openNewTabForeground);
-    this._timeOut = await getStoredValue_async('timeOut', this._timeOut);
+    this._alwaysOpenNewTab = await localStorageManager.getValue_async('alwaysOpenNewTab', this.alwaysOpenNewTab);
+    this._openNewTabForeground = await localStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
+    this._timeOut = await localStorageManager.getValue_async('timeOut', this._timeOut);
     if (this._timeOut < 1 || this._timeOut >= 100) { this._timeOut = 10; }
-    this._displayRootFolder = await getStoredValue_async('displayRootFolder', this._displayRootFolder);
+    this._displayRootFolder = await localStorageManager.getValue_async('displayRootFolder', this._displayRootFolder);
     if (this._displayRootFolder == 'yes') { this._displayRootFolder = true; }
-    this._rootBookmarkId = await getStoredValue_async('rootBookmarkId', this._rootBookmarkId);
+    this._rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId', this._rootBookmarkId);
   }
 
-  _storageChanged_event(self, changes, area) {
+  _storageChanged_event(self, changes) {
     //listen for values changed from another instance
     let changedItems = Object.keys(changes);
     if (changedItems.includes('alwaysOpenNewTab')) {
@@ -80,7 +73,7 @@ class commonValues {
   }
   set alwaysOpenNewTab(value) {
     this._alwaysOpenNewTab = value; //change value in local instance
-    storageLocalSetItemAsync('alwaysOpenNewTab', value); //change value in all instances
+    localStorageManager.setValue_async('alwaysOpenNewTab', value); //change value in all instances
   }
 
   get openNewTabForeground() {
@@ -88,7 +81,7 @@ class commonValues {
   }
   set openNewTabForeground(value) {
     this._openNewTabForeground = value;
-    storageLocalSetItemAsync('openNewTabForeground', value);
+    localStorageManager.setValue_async('openNewTabForeground', value);
   }
 
   get timeOut() {
@@ -96,7 +89,7 @@ class commonValues {
   }
   set timeOut(value) {
     this._timeOut = value;
-    storageLocalSetItemAsync('timeOut', this._timeOut);
+    localStorageManager.setValue_async('timeOut', this._timeOut);
   }
 
   get displayRootFolder() {
@@ -104,7 +97,7 @@ class commonValues {
   }
   set displayRootFolder(value) {
     this._displayRootFolder = value;
-    storageLocalSetItemAsync('displayRootFolder', value);
+    localStorageManager.setValue_async('displayRootFolder', value);
   }
 
   get rootBookmarkId() {
@@ -112,27 +105,7 @@ class commonValues {
   }
   set rootBookmarkId(value) {
     this._rootBookmarkId = value;
-    storageLocalSetItemAsync('rootBookmarkId', value);
-  }
-
-  get iconDF32Url() {
-    return this._iconDF32Url;
-  }
-
-  get iconDF96Url() {
-    return this._iconDF96Url;
-  }
-
-  get themeBaseFolderUrl() {
-    return this._themeBaseFolderUrl;
-  }
-
-  get themesListUrl() {
-    return this._themesListUrl;
-  }
-
-  get themeDefaultFolderName() {
-    return this._themeDefaultFolderName;
+    localStorageManager.setValue_async('rootBookmarkId', value);
   }
 
   get subscribeHtmlUrl() {

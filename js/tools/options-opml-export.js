@@ -1,5 +1,4 @@
-/*global browser, browserManager*/
-/*global escape, storageLocalGetItemAsync, makeIndent*/
+/*global browser, browserManager, localStorageManager, textTools*/
 'use strict';
 let _opmlItemList = [];
 let  _opmlIntentSize = 2;
@@ -20,7 +19,7 @@ async function computeOpmlTextAsync() {
 }
 //----------------------------------------------------------------------
 async function GetOpmlBodyAsync(indentRef) {
-  let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
+  let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
   let bookmarkItems = await browser.bookmarks.getSubTree(rootBookmarkId);
   await prepareOpmlItemsRecursivelyAsync(bookmarkItems[0], indentRef);
   let opmlBody = _opmlItemList.join('');
@@ -36,14 +35,14 @@ async function prepareOpmlItemsRecursivelyAsync(bookmarkItem, indentRef) {
   else {
     let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
     let url = escape(bookmarkItem.url);
-    let externalLine = makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
+    let externalLine = textTools.makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
     _opmlItemList.push(externalLine);
   }
 }
 //----------------------------------------------------------------------
 async function createOpmlInternalNodesAsync (bookmarkItem, indentRef) {
   let addClose = false;
-  let internalLineOpen = makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
+  let internalLineOpen = textTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
 
   if (browserManager.bookmarkHasChild(bookmarkItem)) { addClose = true; internalLineOpen += '>\n'; }
   else { internalLineOpen += '/>\n'; }
@@ -57,7 +56,7 @@ async function createOpmlInternalNodesAsync (bookmarkItem, indentRef) {
   }
   indentRef[0] -= _opmlIntentSize;
   if (addClose) {
-    let internalLineClose = makeIndent(indentRef[0]) + '</outline>\n';
+    let internalLineClose = textTools.makeIndent(indentRef[0]) + '</outline>\n';
     _opmlItemList.push(internalLineClose);
   }
 }
@@ -66,19 +65,19 @@ function GetOpmlHead(indentRef) {
   let headText = '<?xml version="1.0" encoding="UTF-8"?>\n';
   headText += '<opml version="1.0">\n';
   indentRef[0] += _opmlIntentSize;
-  headText += makeIndent(indentRef[0]) + '<head>\n';
+  headText += textTools.makeIndent(indentRef[0]) + '<head>\n';
   indentRef[0] += _opmlIntentSize;
-  headText += makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
+  headText += textTools.makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
   indentRef[0] -= _opmlIntentSize;
-  headText += makeIndent(indentRef[0]) +'</head>\n';
-  headText += makeIndent(indentRef[0]) +'<body>\n';
+  headText += textTools.makeIndent(indentRef[0]) +'</head>\n';
+  headText += textTools.makeIndent(indentRef[0]) +'<body>\n';
   indentRef[0] += _opmlIntentSize;
   return headText;
 }
 //----------------------------------------------------------------------
 function GetOpmlFoot(indentRef) {
   indentRef[0] -= _opmlIntentSize;
-  let footText = makeIndent(indentRef[0]) + '</body>\n';
+  let footText = textTools.makeIndent(indentRef[0]) + '</body>\n';
   footText += '</opml>';
   return footText;
 }

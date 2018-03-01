@@ -1,12 +1,12 @@
 /*global commonValues*/
 'use strict';
 //----------------------------------------------------------------------
-class transfer {
+class transfer { /*exported transfer*/
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'text';
-      xhr.onreadystatechange = function(event) {
+      xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             resolve(xhr.responseText);
@@ -25,7 +25,7 @@ class transfer {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'text';
-      xhr.onreadystatechange = function(event) {
+      xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             resolve(xhr.responseText);

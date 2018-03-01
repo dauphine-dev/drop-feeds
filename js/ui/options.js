@@ -1,13 +1,12 @@
-/*global browser, commonValues, themeManager*/
-/*global storageLocalSetItemAsync, createFeedFolderOptionsAsync, ImportOmplFileAsync
-GetUrlForExportedOpmlFileAsync, delay_async, cleanStorage, createThemeOptionsAsync*/
+/*global browser, commonValues, themeManager, localStorageManager, dateTime*/
+/*global createFeedFolderOptionsAsync, ImportOmplFileAsync, GetUrlForExportedOpmlFileAsync, createThemeOptionsAsync*/
 'use strict';
 //----------------------------------------------------------------------
 main();
 //----------------------------------------------------------------------
 async function main() {
+  await themeManager.instance.init_async();
   await commonValues.instance.init_async();
-  await themeManager.reload_async();
   prepareTabs();
   prepareGeneralPanelAsync();
   prepareUpdateCheckerPanelAsync();
@@ -67,57 +66,55 @@ async function PopulateThemeListAsync() {
   document.getElementById('themeSelect').addEventListener('change', themeSelectChangedEvent);
 }
 //----------------------------------------------------------------------
-async function importButtonOnClickedEvent(event) {
+async function importButtonOnClickedEvent() {
   document.getElementById('inputImportFile').click();
 }
 //----------------------------------------------------------------------
-async function importInputChangedEvent(event) {
+async function importInputChangedEvent() {
   let file = document.getElementById('inputImportFile').files[0];
   let reader = new FileReader();
   reader.onload = ImportOmplFileAsync;
   reader.readAsText(file);
 }
 //----------------------------------------------------------------------
-async function exportButtonOnClickedEvent(event) {
+async function exportButtonOnClickedEvent() {
   let opmlFileUrl = await GetUrlForExportedOpmlFileAsync();
   browser.downloads.download({url : opmlFileUrl, filename: 'export.opml', saveAs: true });
 }
 //----------------------------------------------------------------------
-async function feedFolderSelectChangedEvent(event) {
+async function feedFolderSelectChangedEvent() {
   document.getElementById('applySelectedFeedButton').style.display = '';
-  let selectedBookmarkId = document.getElementById('feedFolderSelect').value;
-  console.log('selectedBookmarkId:', selectedBookmarkId);
 }
 //----------------------------------------------------------------------
-async function applySelectedFeedButtonClickedEvent(event) {
+async function applySelectedFeedButtonClickedEvent() {
   let rootBookmarkId = document.getElementById('feedFolderSelect').value;
-  await cleanStorage();
+  await localStorageManager.clean();
   commonValues.instance.rootBookmarkId = rootBookmarkId;
-  await storageLocalSetItemAsync('reloadPanel', Date.now());
-  await delay_async(100);
+  await localStorageManager.setValue_async('reloadPanel', Date.now());
+  await dateTime.delay_async(100);
   document.getElementById('applySelectedFeedButton').style.display = 'none';
 }
 //----------------------------------------------------------------------
-async function notDisplayRootFolderCheckBoxClickedEvent(event) {
+async function notDisplayRootFolderCheckBoxClickedEvent() {
   commonValues.instance.displayRootFolder = ! document.getElementById('notDisplayRootFolderCheckBox').checked;
-  await storageLocalSetItemAsync('reloadPanel', Date.now());
+  await localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
-async function themeSelectChangedEvent(event) {
+async function themeSelectChangedEvent() {
   let themeName = document.getElementById('themeSelect').value;
-  await themeManager.setThemeFolderName_async(themeName);
-  await storageLocalSetItemAsync('reloadPanelWindow', Date.now());
+  await themeManager.instance.setThemeFolderName_async(themeName);
+  await localStorageManager.setValue_async('reloadPanelWindow', Date.now());
 }
 //----------------------------------------------------------------------
-async function alwaysOpenNewTabCheckBoxClickedEvent(event) {
+async function alwaysOpenNewTabCheckBoxClickedEvent() {
   commonValues.instance.alwaysOpenNewTab = document.getElementById('alwaysOpenNewTabCheckbox').checked;
 }
 //----------------------------------------------------------------------
-async function openNewTabForegroundCheckboxClickedEvent(event) {
+async function openNewTabForegroundCheckboxClickedEvent() {
   commonValues.instance.openNewTabForeground = document.getElementById('openNewTabForegroundCheckbox').checked;
 }
 //----------------------------------------------------------------------
-async function elTimeoutNumberValueChangeEvent(event) {
+async function elTimeoutNumberValueChangeEvent() {
   commonValues.instance.timeOut = document.getElementById('timeoutNumber').value;
 }
 //----------------------------------------------------------------------

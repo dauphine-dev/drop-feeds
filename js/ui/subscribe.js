@@ -1,4 +1,4 @@
-/*global browser, storageLocalGetItemAsync, makeIndent, storageLocalSetItemAsync*/
+/*global browser, localStorageManager, textTools*/
 //----------------------------------------------------------------------
 'use strict';
 let _html= [];
@@ -8,9 +8,9 @@ let _selectedId = null;
 mainSbc();
 //----------------------------------------------------------------------
 async function mainSbc() {
-  let subscribeInfo = await storageLocalGetItemAsync('subscribeInfo');
+  let subscribeInfo = await localStorageManager.getValue_async('subscribeInfo');
   if (subscribeInfo) {
-    storageLocalSetItemAsync('subscribeInfo', null);
+    localStorageManager.setValue_async('subscribeInfo', null);
     _feedTitle = subscribeInfo.feedTitle;
     _feedUrl = subscribeInfo.feedUrl;
   }
@@ -20,7 +20,7 @@ async function mainSbc() {
     _feedUrl = tabInfos[0].url;
   }
 
-  _selectedId = await storageLocalGetItemAsync('rootBookmarkId');
+  _selectedId = await localStorageManager.getValue_async('rootBookmarkId');
   loadFolderViewAsync( _selectedId);
   document.getElementById('inputName').value = _feedTitle;
   document.getElementById('newFolderButton').addEventListener('click', newFolderButtonClickedEvent);
@@ -33,8 +33,6 @@ async function mainSbc() {
 async function newFolderButtonClickedEvent(event) {
   event.stopPropagation();
   event.preventDefault();
-
-  let idComeFrom = event.currentTarget.getAttribute('id');
   showNewFolderDialog();
 }
 //----------------------------------------------------------------------
@@ -67,19 +65,21 @@ async function cancelButtonClickedEvent(event) {
   window.close();
 }
 //----------------------------------------------------------------------
-async function subscribeButtonClickedEvent(event) {
+async function subscribeButtonClickedEvent() {
   try {
     let name = document.getElementById('inputName').value;
     await browser.bookmarks.create({parentId: _selectedId, title: name, url: _feedUrl});
   }
   catch(e) {
-    console.log('e:', e);
+    /* eslint-disable no-console */
+    console.log(e);
+    /* eslint-enable no-console */
   }
   window.close();
 }
 //----------------------------------------------------------------------
 async function loadFolderViewAsync(idToSelect) {
-  let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
+  let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
   await createItemsForSubTreeAsync(subTree, idToSelect);
   addEventListenerOnFolders();
@@ -101,22 +101,22 @@ async function prepareSbItemsRecursivelyAsync(bookmarkItem, indent, idToSelect) 
   indent -=2;
 }
 //----------------------------------------------------------------------
-async function createFolderSbItemAsync (bookmarkItem, indent, idToSelect, displayThisFolder) {
+async function createFolderSbItemAsync (bookmarkItem, indent, idToSelect) {
   let id = bookmarkItem.id;
   let folderName = bookmarkItem.title;
   let selected = (idToSelect == id ? ' class="selected"' : '');
   let selected1 = (idToSelect == id ? ' class="selected1"' : '');
   let folderLine = '';
-  folderLine += makeIndent(indent) +
+  folderLine += textTools.makeIndent(indent) +
   '<div id="dv-' + id + '" class="folder">\n';
   indent += 2;
-  folderLine += makeIndent(indent) +
+  folderLine += textTools.makeIndent(indent) +
   '<li>' +
   '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
   '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' +
   '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' +
   '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
-  folderLine += makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+  folderLine += textTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
   indent += 2;
   _html.push(folderLine);
   if (bookmarkItem.children) {
@@ -125,10 +125,10 @@ async function createFolderSbItemAsync (bookmarkItem, indent, idToSelect, displa
     }
   }
   indent -= 2;
-  _html.push(makeIndent(indent) + '</ul>\n');
-  _html.push(makeIndent(indent) + '</li>\n');
+  _html.push(textTools.makeIndent(indent) + '</ul>\n');
+  _html.push(textTools.makeIndent(indent) + '</li>\n');
   indent -= 2;
-  _html.push(makeIndent(indent) + '</div>\n');
+  _html.push(textTools.makeIndent(indent) + '</div>\n');
 }
 //----------------------------------------------------------------------
 function addEventListenerOnFolders() {
@@ -173,7 +173,9 @@ async function createNewFolderButtonClickedEvent(event) {
     loadFolderViewAsync(_selectedId);
   }
   catch(e) {
-    console.log('e:', e);
+    /* eslint-disable no-console */
+    console.log(e);
+    /* eslint-enable no-console */
   }
   hideNewFolderDialog();
 }

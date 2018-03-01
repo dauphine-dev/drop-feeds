@@ -13,32 +13,32 @@ async function mainDbg() {
 }
 //----------------------------------------------------------------------
 async function localStorageToHtml_async() {
-  let storageLocal = await browser.storage.local.get();
+  let localStorageManager = await browser.storage.local.get();
   let nodataList = [];
   let miscList = [];
   let folderStateList = [];
   let bookmarkList = [];
-  for (let property in storageLocal) {
-    if (storageLocal.hasOwnProperty(property)) {
-      if(typeof storageLocal[property] === 'undefined') {
-        nodataList.push([property, typeof storageLocal[property], 'undefined']);
+  for (let property in localStorageManager) {
+    if (localStorageManager.hasOwnProperty(property)) {
+      if(typeof localStorageManager[property] === 'undefined') {
+        nodataList.push([property, typeof localStorageManager[property], 'undefined']);
         continue;
       }
       if (property.startsWith('cb-')) {
-        folderStateList.push([property, typeof storageLocal[property], storageLocal[property] ]);
+        folderStateList.push([property, typeof localStorageManager[property], localStorageManager[property] ]);
         continue;
       }
-      if (storageLocal[property] !== null) {
-        if (storageLocal[property].isFeedInfo || storageLocal[property].isBkmrk || storageLocal[property].bkmrkId) {
-          bookmarkList.push([property, typeof storageLocal[property], storageLocal[property] ]);
+      if (localStorageManager[property] !== null) {
+        if (localStorageManager[property].isFeedInfo || localStorageManager[property].isBkmrk || localStorageManager[property].bkmrkId) {
+          bookmarkList.push([property, typeof localStorageManager[property], localStorageManager[property] ]);
           continue;
         }
       }
-      if (storageLocal[property] === null) {
-        nodataList.push([property, typeof storageLocal[property], 'null']);
+      if (localStorageManager[property] === null) {
+        nodataList.push([property, typeof localStorageManager[property], 'null']);
       }
       else {
-        miscList.push([property, typeof storageLocal[property], storageLocal[property].toString() ]);
+        miscList.push([property, typeof localStorageManager[property], localStorageManager[property].toString() ]);
       }
     }
   }

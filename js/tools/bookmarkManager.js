@@ -1,12 +1,11 @@
-/*global browser, statusBar*/
-/*global storageLocalGetItemAsync, storageLocalSetItemAsync, delay_async*/
+/*global browser, commonValues, statusBar, localStorageManager, dateTime*/
 //----------------------------------------------------------------------
 'use strict';
 let _lastCreatedBookmarkId = '';
 let _importInProgress = false;
 browser.storage.onChanged.addListener(storageChanged_event);
 //----------------------------------------------------------------------
-async function storageChanged_event(changes, area) {
+async function storageChanged_event(changes) {
   let changedItems = Object.keys(changes);
   if (changedItems.includes('importInProgress')) {
     _importInProgress = changes.importInProgress.newValue;
@@ -28,21 +27,21 @@ async function bookmarkOnCreatedEvent(id, bookmarkInfo) {
   _lastCreatedBookmarkId = id;
   let isChid =  await isDropfeedsChildBookmarkAsync(bookmarkInfo.parentId);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnRemovedEvent(id, removeInfo) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(removeInfo.parentId);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
-async function bookmarkOnChangedEvent(id, changeInfo) {
+async function bookmarkOnChangedEvent(id) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function bookmarkOnMovedEvent(id, moveInfo) {
@@ -53,18 +52,18 @@ async function bookmarkOnMovedEvent(id, moveInfo) {
   }
   if (!isChid) { return; }
   if (id == _lastCreatedBookmarkId) {
-    statusBar.printMessage('To add a feed use the button above !');
-    await delay_async(1);
-    statusBar.printMessage('');
+    statusBar.instance.text = 'To add a feed use the button above !';
+    await dateTime.delay_async(1);
+    statusBar.instance.text = '';
   }
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
-async function bookmarkOnChildrenReorderedEvent(id, reorderInfo) {
+async function bookmarkOnChildrenReorderedEvent(id) {
   if (_importInProgress) { return; }
   let isChid =  await isDropfeedsChildBookmarkAsync(id);
   if (!isChid) { return; }
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 function bookmarkEventImportBegan() {
@@ -73,12 +72,11 @@ function bookmarkEventImportBegan() {
 //----------------------------------------------------------------------
 function bookmarkEventImportEnded() {
   _importInProgress = false;
-  storageLocalSetItemAsync('reloadPanel', Date.now());
+  localStorageManager.setValue_async('reloadPanel', Date.now());
 }
 //----------------------------------------------------------------------
 async function checkRootFolderAsync() {
-  let hasToCreateRootFolder = false;
-  let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
+  let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId', undefined);
   // is rootBookmarkId exist ?
   if (rootBookmarkId == undefined)  {
     //no -> create a root folder
@@ -87,7 +85,7 @@ async function checkRootFolderAsync() {
   else {
     //yes -> try to get the root folder
     try {
-      let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
+      await browser.bookmarks.getSubTree(rootBookmarkId);
     }
     catch(e) {
       //has failed then create a root folder
@@ -119,17 +117,14 @@ async function createRootFolderAsync() {
     });
   }
 
-  await storageLocalSetItemAsync('rootBookmarkId', rootBookmarkId);
+  await localStorageManager.setValue_async('rootBookmarkId', rootBookmarkId);
   return rootBookmarkId;
 }
 //----------------------------------------------------------------------
 async function isDropfeedsChildBookmarkAsync(id) {
   let isChild = false;
-  let rootBookmarkId = await storageLocalGetItemAsync('rootBookmarkId');
-  if (rootBookmarkId == id) {
-    return true;
-  }
-  let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
+  if (id == commonValues.instance.rootBookmarkId) { return true; }
+  let subTree = await browser.bookmarks.getSubTree(commonValues.instance.rootBookmarkId);
   let children = subTree[0].children;
   if (children) {
     isChild = isChildBookmark(children, id);

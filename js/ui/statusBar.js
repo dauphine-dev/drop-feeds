@@ -1,9 +1,15 @@
 /*global */
 //----------------------------------------------------------------------
 'use strict';
-let statusBar = {
-  //------------------------------
-  workInProgress(workInProgress) {
+class statusBar { /*exported statusBar*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new statusBar();
+    }
+    return this._instance;
+  }
+
+  set workInProgress(workInProgress) {
     if (workInProgress)
     {
       document.getElementById('statusButton').classList.add('statusButtonUpdating');
@@ -12,11 +18,10 @@ let statusBar = {
     {
       document.getElementById('statusButton').classList.remove('statusButtonUpdating');
     }
-  },
-  //------------------------------
-  printMessage(message) {
+  }
+
+  set text(text) {
     let elStatusBar = document.getElementById('statusText');
-    elStatusBar.innerHTML = message;
-  },
-  //------------------------------
-};
+    elStatusBar.innerHTML = text;
+  }
+}

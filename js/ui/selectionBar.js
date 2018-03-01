@@ -29,7 +29,7 @@ let selectionBar = {
     selectionBar._selectedRootElement = null;
   },
   //------------------------------
-  _selectedElementOnScrollEvent(event) {
+  _selectedElementOnScrollEvent() {
     selectionBar.put(selectionBar._selectedElement);
   },
   //------------------------------

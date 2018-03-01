@@ -1,33 +1,32 @@
-/*global browser, commonValues*/
+/*global browser, themeManager*/
 'use strict';
 //----------------------------------------------------------------------
-let browserManager = {
-  async isTabEmpty_async(tab) {
+class browserManager { /* exported browserManager*/
+  static async isTabEmpty_async(tab) {
     let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
     return isEmpty;
-  },
-  //------------------------------
-  async getActiveTab_async() {
+  }
+
+  static async getActiveTab_async() {
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
     return tabInfos[0];
-  },
-  //------------------------------
-  displayNotification(message) {
+  }
+
+  static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.extension.getURL(commonValues.instance.iconDF96Url),
+      'iconUrl': browser.extension.getURL(themeManager.instance.iconDF96Url),
       'title': 'Drop feeds',
       'message': message
     });
-  },
-  //------------------------------
-  bookmarkHasChild(bookmarkItem) {
-    //bookmarkItemHasChild
+  }
+
+  static bookmarkHasChild(bookmarkItem) {
     let result = false;
     if (bookmarkItem.children) {
       result = (bookmarkItem.children.length > 0);
     }
     return result;
   }
-};
+}
 //----------------------------------------------------------------------

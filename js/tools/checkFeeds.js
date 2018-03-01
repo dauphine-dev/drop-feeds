@@ -1,6 +1,5 @@
-/*global browser, topMenu, statusBar, browserManager*/
-/*global checkFeedsAsync, downloadFeedAsync, decodeHtml, computeHashFeed
-getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, isValidDate, updateFeedStatusAsync, MarkAllFeedsAsReadAsync, browserManager.displayNotification*/
+/*global browser, topMenu, statusBar, browserManager, feed, textTools, dateTime*/
+/*global checkFeedsAsync, computeHashFeed, getFeedPubdate, FeedStatusEnum, getStoredFeedAsync, updateFeedStatusAsync*/
 'use strict';
 let _feedCheckingInProgress = false;
 let _updatedFeeds = 0;
@@ -10,30 +9,30 @@ async function checkFeedsAsync(baseElement) {
   _feedCheckingInProgress = true;
   try {
     _updatedFeeds = 0;
-    topMenu.animateCheckFeedButton(true);
+    topMenu.instance.animateCheckFeedButton(true);
     let feedsToCheckList = [];
     let feedsWaitForAnswer = [];
     let feedReads = baseElement.querySelectorAll('.feedRead, .feedError');
     for (let i = 0; i < feedReads.length; i++) {
-      let feedObj = {index:i, id:null, title:null, bookmark:null, pubDate:null, feedText:null, error:null, newUrl: null};
+      let feedObj = null;
       try {
-        feedObj.id = feedReads[i].getAttribute('id');
-        let bookmarks = await browser.bookmarks.get(feedObj.id);
-        feedObj.bookmark = bookmarks[0];
-        feedObj.title = feedObj.bookmark.title;
-        statusBar.printMessage('preparing: ' + feedObj.bookmark.title);
+        let id = feedReads[i].getAttribute('id');
+        let bookmark = (await browser.bookmarks.get(id))[0];
+        feedObj = new feed(i, id, bookmark);
+        statusBar.instance.text = 'preparing: ' + feedObj.title;
         feedsToCheckList.push(feedObj);
       }
       catch(e) {
-        feedObj.error = e;
+        /*eslint-disable no-console*/
         console.log(e);
+        /*eslint-enable no-console*/
       }
     }
     await checkFeedsFromListAsync(feedsToCheckList, feedsWaitForAnswer);
   }
   finally {
-    statusBar.printMessage('');
-    topMenu.animateCheckFeedButton(false);
+    statusBar.instance.text = '';
+    topMenu.instance.animateCheckFeedButton(false);
     displayFeedsUpdatedNotification(_updatedFeeds);
     _updatedFeeds = 0;
     _feedCheckingInProgress = false;
@@ -55,44 +54,45 @@ function displayFeedsUpdatedNotification(updatedFeeds) {
 async function checkFeedsFromListAsync(feedsToCheckList, feedsWaitForAnswer) {
   while (feedsToCheckList.length >0) {
     let feedObj = feedsToCheckList.shift();
-    statusBar.printMessage('checking: ' + feedObj.bookmark.title);
+    statusBar.instance.text = 'checking: ' + feedObj.bookmark.title;
     feedsWaitForAnswer = await checkOneFeedAsync(feedObj, feedObj.bookmark.title, feedsWaitForAnswer);
   }
 }
 //----------------------------------------------------------------------
-async function checkOneFeedAsync(downloadFeedObj, name, feedsWaitForAnswer) {
-  feedsWaitForAnswer.push(downloadFeedObj);
-  downloadFeedObj = await downloadFeedAsync(downloadFeedObj);
-  feedsWaitForAnswer = removeFeedFromWaitingList(feedsWaitForAnswer, downloadFeedObj.id);
-  //statusBar.printMessage('received: ' + feedObj.bookmark.title);
-  let status = await computeFeedStatusAsync(downloadFeedObj, name);
+async function checkOneFeedAsync(feedObj, name, feedsWaitForAnswer) {
+  feedsWaitForAnswer.push(feedObj);
+  await feedObj.download_async();
+  feedsWaitForAnswer = removeFeedFromWaitingList(feedsWaitForAnswer, feedObj.id);
+  //statusBar.instance.text = 'received: ' + feedObj.bookmark.title);
+  let status = await computeFeedStatusAsync(feedObj, name);
   if (status == FeedStatusEnum.UPDATED) {
     _updatedFeeds++;
   }
   return feedsWaitForAnswer;
 }
 //----------------------------------------------------------------------
-async function computeFeedStatusAsync(downloadFeedObj, name) {
-  let hash = computeHashFeed(downloadFeedObj.feedText);
-  downloadFeedObj.feedText = decodeHtml(downloadFeedObj.feedText);
-  downloadFeedObj.pubDate = getFeedPubdate(downloadFeedObj);
+async function computeFeedStatusAsync(feedObj, name) {
+  let hash = computeHashFeed(feedObj.feedText);
+  feedObj.feedText = textTools.decodeHtml(feedObj.feedText);
+  //feedObj.pubDate = getFeedPubdate(feedObj);
+  let pubDate = getFeedPubdate(feedObj);
+  feedObj.pubDate = pubDate;
   let status = FeedStatusEnum.OLD;
-  let storedFeedObj = await getStoredFeedAsync(null, downloadFeedObj.id, name);
-  let feedUiItem = document.getElementById(downloadFeedObj.id);
+  let storedFeedObj = await getStoredFeedAsync(null, feedObj.id, name);
 
-  if (downloadFeedObj.error) {
+  if (feedObj.error) {
     status = FeedStatusEnum.ERROR;
   }
   else {
-    if (isValidDate(downloadFeedObj.pubDate)) {
-      if ((downloadFeedObj.pubDate > storedFeedObj.pubDate) &&  (hash != storedFeedObj.hash)) {
+    if (dateTime.isValid(feedObj.pubDate)) {
+      if ((feedObj.pubDate > storedFeedObj.pubDate) &&  (hash != storedFeedObj.hash)) {
         status = FeedStatusEnum.UPDATED;
       }
     } else if(hash != storedFeedObj.hash) {
       status = FeedStatusEnum.UPDATED;
     }
   }
-  await updateFeedStatusAsync(downloadFeedObj.id, status, downloadFeedObj.pubDate, name, hash);
+  await updateFeedStatusAsync(feedObj.id, status, feedObj.pubDate, name, hash);
   return status;
 }
 //----------------------------------------------------------------------

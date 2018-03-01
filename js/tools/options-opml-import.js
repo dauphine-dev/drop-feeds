@@ -1,5 +1,4 @@
-/*global browser, occurrences, delay_async, showProgressBar, hideProgressBar, setProgressBarValue, showMsgInProgressBar*/
-/*global storageLocalGetItemAsync, storageLocalSetItemAsync, cleanStorage, importInProgress, decodeHtml*/
+/*global browser, localStorageManager, textTools, progressBar, dateTime*/
 //----------------------------------------------------------------------
 'use strict';
 const TagKindEnum = {
@@ -7,18 +6,19 @@ const TagKindEnum = {
   CLOSER: 'closer',
   SINGLE: 'single'
 };
+let _progressBarImport = new progressBar();
 //----------------------------------------------------------------------
 async function ImportOmplFileAsync(event) {
   let opmlText = event.target.result;
   let isOpmlValid = opmlIsValid(opmlText);
   if (isOpmlValid) {
     await importOmplOutlinesAsync(opmlText);
-    storageLocalSetItemAsync('reloadPanel', Date.now());
+    localStorageManager.setValue_async('reloadPanel', Date.now());
   }
   else {
-    showMsgInProgressBar('progressBarImport', 'Invalid ompl file!');
-    await delay_async(2000);
-    hideProgressBar('progressBarImport');
+    _progressBarImport.text = 'Invalid ompl file!';
+    await dateTime.delay_async(2000);
+    _progressBarImport.hide();
   }
 }
 //----------------------------------------------------------------------
@@ -30,23 +30,21 @@ function opmlIsValid(opmlText) {
 }
 //----------------------------------------------------------------------
 async function importOmplOutlinesAsync(opmlText) {
-  let folderId = await storageLocalGetItemAsync('rootBookmarkId');
+  let folderId = await localStorageManager.getValue_async('rootBookmarkId');
   await cleanBookmarkFolderAsync(folderId);
-  await cleanStorage();
-  let indent = 0;
-  let i1 = occurrences(opmlText, '<outline');
-  let i2 = occurrences(opmlText, '</outline');
+  await localStorageManager.clean();
+  let i1 = textTools.occurrences(opmlText, '<outline');
+  let i2 = textTools.occurrences(opmlText, '</outline');
   let itemNumber = i1 + i2;
   let index = 0;
-  showProgressBar('progressBarImport');
-  setProgressBarValue('progressBarImport', 0);
+  _progressBarImport.show();
   try {
-    storageLocalSetItemAsync('importInProgress', true);
+    localStorageManager.setValue_async('importInProgress', true);
     for (let i=0; i<itemNumber; i++) {
       try {
         let perCent = (100*i) / itemNumber;
         perCent = Math.round(perCent * 10) / 10;
-        setProgressBarValue('progressBarImport', perCent);
+        _progressBarImport.value = perCent;
         let outlineInfo = getNextOutlineElementInfo(opmlText, index);
         switch (outlineInfo.kind) {
           case TagKindEnum.OPENER:
@@ -68,19 +66,22 @@ async function importOmplOutlinesAsync(opmlText) {
               url: outlineInfo.url
             });
             break;
+            // no default
         }
         index = outlineInfo.endIndex;
       }
       catch(e) {
+        /* eslint-disable no-console */
         console.log(e);
+        /* eslint-enable no-console */
       }
     }
-    setProgressBarValue('progressBarImport', 100);
-    await delay_async(500);
+    _progressBarImport.value = 100;
+    await dateTime.delay_async(500);
   }
   finally {
-    storageLocalSetItemAsync('importInProgress', false);
-    hideProgressBar('progressBarImport');
+    localStorageManager.setValue_async('importInProgress', false);
+    _progressBarImport.hide();
   }
 }
 //----------------------------------------------------------------------

@@ -1,32 +1,31 @@
-/*global browser*/
 'use strict';
-//----------------------------------------------------------------------
-function showProgressBar(progressBarId) {
-  let progressBarTotal = document.getElementById(progressBarId + 'Total');
-  let progressBar = document.getElementById(progressBarId);
-  progressBarTotal.style.display = ' block';
-  progressBar.style.display = ' block';
+class progressBar { /* exported progressBar*/
+  constructor(progressBarId) {
+    this.progressBarId = progressBarId;
+    this.progressBarTotal = document.getElementById(this.progressBarId + 'Total');
+    this.progressBar = document.getElementById(this.progressBarId);
+    this.setValue(0);
+  }
+
+  show() {
+    this.progressBarTotal.style.display = ' block';
+    this.progressBar.style.display = ' block';
+  }
+
+  hide() {
+    this.progressBarTotal.style.display = 'none';
+    this.progressBar.style.display = 'none';
+  }
+
+  set value(value) {
+    this.progressBar.style.width = value + '%';
+    this.progressBar.innerText = value + '%';
+  }
+
+  set text(text) {
+    this.progressBarTotal.style.display = ' block';
+    this.progressBar.style.display = ' block';
+    this.progressBar.style.width = '100%';
+    this.progressBar.innerText = text;
+  }
 }
-//----------------------------------------------------------------------
-function hideProgressBar(progressBarId) {
-  let progressBarTotal = document.getElementById(progressBarId + 'Total');
-  let progressBar = document.getElementById(progressBarId);
-  progressBarTotal.style.display = 'none';
-  progressBar.style.display = 'none';
-}
-//----------------------------------------------------------------------
-function setProgressBarValue(progressBarId, value) {
-  let progressBar = document.getElementById(progressBarId);
-  progressBar.style.width = value + '%';
-  progressBar.innerText = value + '%';
-}
-//----------------------------------------------------------------------
-function showMsgInProgressBar(progressBarId, message) {
-  let progressBarTotal = document.getElementById(progressBarId + 'Total');
-  let progressBar = document.getElementById(progressBarId);
-  progressBarTotal.style.display = ' block';
-  progressBar.style.display = ' block';
-  progressBar.style.width = '100%';
-  progressBar.innerText = message;
-}
-//----------------------------------------------------------------------

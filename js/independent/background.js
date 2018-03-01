@@ -2,8 +2,6 @@
 //----------------------------------------------------------------------
 'use strict';
 const _iconNoneUrl = '/resources/img/none.png';
-const _iconDF96Url = '/resources/img/drop-feeds-96.png';
-const _iconDF96ShadowUrl = '/resources/img/drop-feeds-shadow-96.png';
 const _sidebarUrl = '/html/sidebar.html';
 const verEnum = {
   MAJ : 0,
@@ -20,7 +18,6 @@ async function mainBg() {
     return;
   }
   _sidebarActionIsOpen = await sidebarActionIsOpenAsync();
-  setSidebarActionIcon(_sidebarActionIsOpen);
   browser.browserAction.onClicked.addListener(toggleDropFeedsPanelAsync);
 
 }
@@ -48,7 +45,6 @@ async function toggleDropFeedsPanelAsync(){
     browser.sidebarAction.open();
   }
   _sidebarActionIsOpen = await sidebarActionIsOpenAsync();
-  setSidebarActionIcon(_sidebarActionIsOpen);
 }
 //----------------------------------------------------------------------
 async function sidebarActionIsOpenAsync() {
@@ -60,12 +56,5 @@ async function sidebarActionIsOpenAsync() {
     isOpen = ! _sidebarActionIsOpen;
   }
   return isOpen;
-}
-//----------------------------------------------------------------------
-function setSidebarActionIcon(sidebarActionIsOpen) {
-  /*
-  let iconUrl = (sidebarActionIsOpen ? _iconDF96ShadowUrl : _iconDF96Url);
-  browser.browserAction.setIcon({path: iconUrl});
-  */
 }
 //----------------------------------------------------------------------

@@ -1,40 +1,48 @@
-/*global browser, selectionBar, statusBar*/
-/*global storageLocalGetItemAsync, storageLocalSetItemAsync, defaultStoredFolder, delay_async, getStyle, replaceStyle
-checkFeedsAsync, discoverFeedsAsync, optionsMenuAsync*/
+/*global browser, selectionBar, statusBar, localStorageManager, cssManager, dateTime*/
+/*global defaultStoredFolder, checkFeedsAsync*/
 //----------------------------------------------------------------------
 'use strict';
 //----------------------------------------------------------------------
-let topMenu = {
-  _updatedFeedsVisible: false,
-  _foldersOpened: true,
-  _buttonAddFeedEnabled: false,
-  //------------------------------
-  async init_async() {
-    topMenu._updatedFeedsVisible = await storageLocalGetItemAsync('updatedFeedsVisibility');
-    topMenu.updatedFeedsSetVisibility();
-    topMenu.activateButton('toggleFoldersButton' , topMenu._foldersOpened);
+class topMenu  { /*exported topMenu*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new topMenu();
+    }
+    return this._instance;
+  }
 
-    document.getElementById('checkFeedsButton').addEventListener('click', topMenu.checkFeedsButtonClicked_event);
+  constructor() {
+    this._updatedFeedsVisible = false;
+    this._foldersOpened = true;
+    this._buttonAddFeedEnabled = false;
+  }
+
+  async init_async() {
+    this._updatedFeedsVisible = await localStorageManager.getValue_async('updatedFeedsVisibility');
+    this.updatedFeedsSetVisibility();
+    this.activateButton('toggleFoldersButton' , this._foldersOpened);
+
+    document.getElementById('checkFeedsButton').addEventListener('click', this.checkFeedsButtonClicked_event);
     let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
-    elDiscoverFeedsButton.addEventListener('click', topMenu.discoverFeedsButtonClicked_event);
+    elDiscoverFeedsButton.addEventListener('click', this.discoverFeedsButtonClicked_event);
     elDiscoverFeedsButton.style.opacity = '0.2';
-    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', topMenu.onlyUpdatedFeedsButtonClicked_event);
-    document.getElementById('toggleFoldersButton').addEventListener('click', topMenu.toggleFoldersButtonClicked_event);
-    document.getElementById('addFeedButton').addEventListener('click', topMenu.addFeedButtonClicked_event);
-    document.getElementById('optionsMenuButton').addEventListener('click', topMenu.optionsMenuClicked_event);
-  },
-  //------------------------------
+    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', this.onlyUpdatedFeedsButtonClicked_event);
+    document.getElementById('toggleFoldersButton').addEventListener('click', this.toggleFoldersButtonClicked_event);
+    document.getElementById('addFeedButton').addEventListener('click', this.addFeedButtonClicked_event);
+    document.getElementById('optionsMenuButton').addEventListener('click', this.optionsMenuClicked_event);
+  }
+
   enableAddFeedButton(isEnable) {
     if (isEnable) {
-      topMenu._buttonAddFeedEnabled = true;
+      this._buttonAddFeedEnabled = true;
       document.getElementById('addFeedButton').style.opacity = '1';
     }
     else {
-      topMenu._buttonAddFeedEnabled = false;
+      this._buttonAddFeedEnabled = false;
       document.getElementById('addFeedButton').style.opacity = '0.2';
     }
-  },
-  //------------------------------
+  }
+
   animateCheckFeedButton(animationEnable) {
     if (animationEnable)
     {
@@ -46,87 +54,87 @@ let topMenu = {
       document.getElementById('checkFeedsButton').classList.add('checkFeedsButton');
       document.getElementById('checkFeedsButton').classList.remove('checkFeedsButtonAnim');
     }
-    //Todo: move it at the call level
-    statusBar.workInProgress(animationEnable);
-  },
-  //------------------------------
+  //Todo: move it at the call level
+    statusBar.instance.workInProgress = animationEnable;
+  }
+
   activateButton(buttonId, activated) {
     let el =  document.getElementById(buttonId);
     if (activated)
     {
-      el.classList.add('topMenuItemSelected');
-      el.classList.remove('topMenuItem');
+      el.classList.add('thisItemSelected');
+      el.classList.remove('thisItem');
     }
     else
     {
-      el.classList.add('topMenuItem');
-      el.classList.remove('topMenuItemSelected');
+      el.classList.add('thisItem');
+      el.classList.remove('thisItemSelected');
     }
-  },
-  //------------------------------
+  }
+
   updatedFeedsSetVisibility() {
-    topMenu.activateButton('onlyUpdatedFeedsButton' , topMenu._updatedFeedsVisible);
-    let visibleValue = topMenu._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
-    replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
-    replaceStyle('.feedRead', visibleValue);
-    replaceStyle('.feedError', visibleValue);
-    storageLocalSetItemAsync('updatedFeedsVisibility', topMenu._updatedFeedsVisible);
-  },
-  //------------------------------
-  //------------------------------
+    this.activateButton('onlyUpdatedFeedsButton' , this._updatedFeedsVisible);
+    let visibleValue = this._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
+    cssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
+    cssManager.replaceStyle('.feedRead', visibleValue);
+    cssManager.replaceStyle('.feedError', visibleValue);
+    localStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+  }
+
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     checkFeedsAsync(document);
     selectionBar.putAtRoot();
-  },
-  //------------------------------
+  }
+
   async onlyUpdatedFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    topMenu._updatedFeedsVisible = ! topMenu._updatedFeedsVisible;
-    topMenu.updatedFeedsSetVisibility();
+    this._updatedFeedsVisible = ! this._updatedFeedsVisible;
+    this.updatedFeedsSetVisibility();
     selectionBar.putAtRoot();
-  },
+  }
+
   async toggleFoldersButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    topMenu._foldersOpened = !topMenu._foldersOpened;
-    let query = topMenu._foldersOpened ? 'not(checked)' : 'checked';
+    this._foldersOpened = !this._foldersOpened;
+    let query = this._foldersOpened ? 'not(checked)' : 'checked';
     let folders = document.querySelectorAll('input[type=checkbox]:' + query);
     let i = folders.length;
-    topMenu.activateButton('toggleFoldersButton' , topMenu._foldersOpened);
+    this.activateButton('toggleFoldersButton' , this._foldersOpened);
     while (i--) {
       let folderId = folders[i].id;
       let storedFolder = defaultStoredFolder(folderId);
-      folders[i].checked = topMenu._foldersOpened;
-      storedFolder.checked = topMenu._foldersOpened;
-      storageLocalSetItemAsync(folderId, storedFolder);
+      folders[i].checked = this._foldersOpened;
+      storedFolder.checked = this._foldersOpened;
+      localStorageManager.setValue_async(folderId, storedFolder);
     }
     selectionBar.putAtRoot();
-  },
-  //------------------------------
+  }
+
   async addFeedButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    if (!topMenu._buttonAddFeedEnabled) { return; }
+    if (!this._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
     selectionBar.putAtRoot();
-  },
-  //------------------------------
+  }
+
   async discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    statusBar.printMessage('not yet implemented!');
+    statusBar.instance.text = 'not yet implemented!';
     selectionBar.putAtRoot();
-    await delay_async(250);
-    statusBar.printMessage('');
-  },
-  //------------------------------
+    await dateTime.delay_async(250);
+    statusBar.instance.text = '';
+  }
+
   async optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
     selectionBar.putAtRoot();
   }
-};
+}
