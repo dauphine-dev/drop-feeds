@@ -85,7 +85,7 @@ class topMenu  { /*exported topMenu*/
     event.stopPropagation();
     event.preventDefault();
     checkFeedsAsync(document);
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {
@@ -94,7 +94,7 @@ class topMenu  { /*exported topMenu*/
     event.preventDefault();
     self._updatedFeedsVisible = ! self._updatedFeedsVisible;
     self.updatedFeedsSetVisibility();
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
   }
 
   async toggleFoldersButtonClicked_event(event) {
@@ -113,7 +113,7 @@ class topMenu  { /*exported topMenu*/
       storedFolder.checked = self._foldersOpened;
       localStorageManager.setValue_async(folderId, storedFolder);
     }
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
   }
 
   async addFeedButtonClicked_event(event) {
@@ -122,14 +122,14 @@ class topMenu  { /*exported topMenu*/
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
   }
 
   async discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     statusBar.instance.text = 'not yet implemented!';
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
     await dateTime.delay_async(250);
     statusBar.instance.text = '';
   }
@@ -138,6 +138,6 @@ class topMenu  { /*exported topMenu*/
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
-    selectionBar.putAtRoot();
+    selectionBar.instance.putAtRoot();
   }
 }

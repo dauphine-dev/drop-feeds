@@ -30,7 +30,7 @@
         ],
 
         "no-console": "warn",
-        "no-unused-vars": "off",
+        "no-unused-vars": "error",
         "no-case-declarations": "off",
         "no-empty": "off"
     }

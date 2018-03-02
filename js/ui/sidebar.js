@@ -1,6 +1,5 @@
-/*global browser, commonValues, themeManager, selectionBar, topMenu, statusBar, localStorageManager, textTools, cssManager, dateTime*/
-/*global addingBookmarkListeners, checkRootFolderAsync, addEventListenerContextMenus,
-getFeedItemClassAsync, getFolderFromStorageObj, contextMenusOnClickedEvent, defaultStoredFolder,
+/*global browser, commonValues, themeManager, selectionBar, topMenu, statusBar, localStorageManager, textTools, cssManager, dateTime, contextMenu*/
+/*global addingBookmarkListeners, checkRootFolderAsync, getFeedItemClassAsync, getFolderFromStorageObj, defaultStoredFolder,
 openFeedAsync, updateFeedStatusAsync, FeedStatusEnum, getStoredFeedAsync*/
 //----------------------------------------------------------------------
 'use strict';
@@ -20,7 +19,7 @@ async function mainSbr() {
   topMenu.instance.init_async();
   await loadPanelAsync();
   addListeners();
-  selectionBar.refresh();
+  selectionBar.instance.refresh();
   computeContentTop();
   await feedInCurrentTab_async();
 }
@@ -55,7 +54,7 @@ function addListeners() {
 }
 //----------------------------------------------------------------------
 function contentOnScrollEvent(){
-  selectionBar.refresh();
+  selectionBar.instance.refresh();
 }
 //----------------------------------------------------------------------
 async function feedInCurrentTab_async() {
@@ -123,7 +122,7 @@ async function createItemsForSubTree(bookmarkItems) {
   document.getElementById('content').innerHTML = '\n' + _html.join('');
   addEventListenerOnFeedItems();
   addEventListenerOnFeedFolders();
-  addEventListenerContextMenus();
+  document.getElementById('main').addEventListener('click', contextMenu.instance.hide);
 }
 //----------------------------------------------------------------------
 function resetAll1stInfo() {
@@ -151,7 +150,7 @@ let _1stFolderDivId = null;
 function setAs1stFolder(id)  {
   _is1stFolder = false;
   _1stFolderDivId = 'dv-' + id;
-  selectionBar.setSelectedRootElement(_1stFolderDivId);
+  selectionBar.instance.setRootElement(_1stFolderDivId);
   if (_is1stElement) {
     _is1stElement = false;
   }
@@ -220,13 +219,13 @@ function addEventListenerOnFeedFolders() {
   }
   let divItems = document.querySelectorAll('.folder');
   for (let i = 0; i < divItems.length; i++) {
-    divItems[i].addEventListener('contextmenu', contextMenusOnClickedEvent);
+    divItems[i].addEventListener('contextmenu', contextMenu.instance.onClicked_event);
     divItems[i].addEventListener('click', folderOnClickedEvent, true);
   }
 }
 //----------------------------------------------------------------------
 function folderOnClickedEvent(event){
-  selectionBar.put(event.currentTarget);
+  selectionBar.instance.put(event.currentTarget);
 }
 //----------------------------------------------------------------------
 async function feedClickedEvent(event) {

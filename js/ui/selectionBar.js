@@ -1,60 +1,67 @@
 /*global */
 'use strict';
-//----------------------------------------------------------------------
-let selectionBar = {
-  _selectedRootElement: null,
-  _selectedRootElementId: null,
-  _selectedElement: null,
-  _selectedElementId: null,
-  //------------------------------
-  put(targetElement) {
-    selectionBar._removeOld();
-    selectionBar._putNew(targetElement);
-  },
-  //------------------------------
-  refresh() {
-    selectionBar.put(selectionBar._selectedElement);
-  },
-  //------------------------------
-  putAtRoot() {
-    if (!selectionBar._selectedRootElement) {
-      selectionBar._selectedRootElement = document.getElementById(selectionBar._selectedRootElementId);
+class selectionBar { /*exported selectionBar*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new selectionBar();
     }
-    selectionBar.put(selectionBar._selectedRootElement);
-  },
-  //------------------------------
-  setSelectedRootElement(rootElementId) {
-    selectionBar._removeOld();
-    selectionBar._selectedRootElementId = rootElementId;
-    selectionBar._selectedRootElement = null;
-  },
-  //------------------------------
+    return this._instance;
+  }
+
+  constructor() {
+    this._selectedRootElement = null;
+    this._selectedRootElementId = null;
+    this._selectedElement = null;
+    this._selectedElementId = null;
+  }
+
+  put(targetElement) {
+    this._removeOld();
+    this._putNew(targetElement);
+  }
+
+  refresh() {
+    this.put(this._selectedElement);
+  }
+
+  putAtRoot() {
+    if (!this._selectedRootElement) {
+      this._selectedRootElement = document.getElementById(this._selectedRootElementId);
+    }
+    this.put(this._selectedRootElement);
+  }
+
+  setRootElement(rootElementId) {
+    this._removeOld();
+    this._selectedRootElementId = rootElementId;
+    this._selectedRootElement = null;
+  }
+
   _selectedElementOnScrollEvent() {
-    selectionBar.put(selectionBar._selectedElement);
-  },
-  //------------------------------
+    this.put(this._selectedElement);
+  }
+
   _removeOld() {
-    if (! selectionBar._selectedElement) { return; }
-    selectionBar._selectedElement.removeEventListener('scroll', selectionBar._selectedElementOnScrollEvent);
+    if (! this._selectedElement) { return; }
+    this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
     document.getElementById('selectionBar').style.top = '0px';
-    let prevElLabel = document.getElementById('lbl-' + selectionBar._selectedElementId);
+    let prevElLabel = document.getElementById('lbl-' + this._selectedElementId);
     if (prevElLabel) {
       prevElLabel.style.color = '';
     }
-  },
-  //------------------------------
+  }
+
   _putNew(selectedElement) {
-    selectionBar._selectedElement = selectedElement;
-    if (! selectionBar._selectedElement) { return; }
-    selectionBar._selectedElementId = selectedElement.getAttribute('id').substring(3);
-    let elLabel = document.getElementById('lbl-' + selectionBar._selectedElementId);
+    this._selectedElement = selectedElement;
+    if (! this._selectedElement) { return; }
+    this._selectedElementId = selectedElement.getAttribute('id').substring(3);
+    let elLabel = document.getElementById('lbl-' + this._selectedElementId);
     if (elLabel) {
       elLabel.style.color = 'white';
-      let rectTarget = selectionBar._selectedElement.getBoundingClientRect();
+      let rectTarget = this._selectedElement.getBoundingClientRect();
       let elSelectionBar = document.getElementById('selectionBar');
       let y = rectTarget.top + 5;
       elSelectionBar.style.top = y + 'px';
     }
   }
-  //------------------------------
-};
+}

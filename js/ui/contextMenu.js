@@ -1,61 +1,70 @@
-/*global  selectionBar, checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
-//----------------------------------------------------------------------
-function addEventListenerContextMenus() {
-  document.getElementById('main').addEventListener('click', mainOnClickedEvent);
-  document.getElementById('ctxMnCheckFeeds').addEventListener('click', checkFeedsMenuClicked);
-  document.getElementById('ctxMnMarkAllAsRead').addEventListener('click', markAllFeedsAsReadMenuClicked);
-  document.getElementById('ctxMnMarkAllAsUpdated').addEventListener('click', markAllFeedsAsUpdatedMenuClicked);
-  document.getElementById('ctxMnOpenAllUpdated').addEventListener('click', openAllUpdatedFeedsMenuClicked);
-}
-//----------------------------------------------------------------------
-function contextMenusOnClickedEvent(event){
-  event.stopPropagation();
-  event.preventDefault();
-  let elContent = document.getElementById('content');
-  let elContextMenu = document.getElementById('contextMenuId');
-  let idComeFrom = event.currentTarget.getAttribute('id');
-  elContextMenu.setAttribute('comeFrom', idComeFrom);
-  elContextMenu.classList.add('show');
-  let xMax  = Math.max(0, elContent.offsetWidth - elContextMenu.offsetWidth - 36);
-  let x = Math.min(xMax, event.clientX);
-  elContextMenu.style.left = x + 'px';
+/*global  selectionBar*/
+/*global  checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
+'use strict';
+class contextMenu { /*exported contextMenu*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new contextMenu();
+    }
+    return this._instance;
+  }
 
-  let rectTarget = event.currentTarget.getBoundingClientRect();
-  let yMax  = Math.max(0, elContent.offsetHeight - elContextMenu.offsetHeight + 60);
-  let y = Math.min(yMax, rectTarget.top+ 17);
-  elContextMenu.style.top = y + 'px';
-  selectionBar.put(event.currentTarget);
+  constructor() {
+    document.getElementById('ctxMnCheckFeeds').addEventListener('click', this._checkFeedsMenuClicked_event);
+    document.getElementById('ctxMnMarkAllAsRead').addEventListener('click', this._markAllFeedsAsReadMenuClicked_event);
+    document.getElementById('ctxMnMarkAllAsUpdated').addEventListener('click', this._markAllFeedsAsUpdatedMenuClicked_event);
+    document.getElementById('ctxMnOpenAllUpdated').addEventListener('click', this._openAllUpdatedFeedsMenuClicked_event);
+    this._elContent = document.getElementById('content');
+    this._elContextMenu = document.getElementById('contextMenuId');
+    this._idComeFrom = null;
+  }
+
+  onClicked_event(event){
+    let self = contextMenu.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    self._idComeFrom = event.currentTarget.getAttribute('id');
+    self._elContextMenu.classList.add('show');
+    let xMax  = Math.max(0, self._elContent.offsetWidth - self._elContextMenu.offsetWidth - 36);
+    let x = Math.min(xMax, event.clientX);
+    self._elContextMenu.style.left = x + 'px';
+
+    let rectTarget = event.currentTarget.getBoundingClientRect();
+    let yMax  = Math.max(0, self._elContent.offsetHeight - self._elContextMenu.offsetHeight + 60);
+    let y = Math.min(yMax, rectTarget.top+ 17);
+    self._elContextMenu.style.top = y + 'px';
+    selectionBar.instance.put(event.currentTarget);
+  }
+
+  hide(){
+    document.getElementById('contextMenuId').classList.remove('show');
+  }
+
+  async _checkFeedsMenuClicked_event() {
+    let self = contextMenu.instance;
+    let elContextMenu = document.getElementById('contextMenuId');
+    elContextMenu.classList.remove('show');
+    checkFeedsForFolderAsync(self._idComeFrom);
+  }
+
+  async _openAllUpdatedFeedsMenuClicked_event() {
+    let self = contextMenu.instance;
+    let elContextMenu = document.getElementById('contextMenuId');
+    elContextMenu.classList.remove('show');
+    OpenAllUpdatedFeedsAsync(self._idComeFrom);
+  }
+
+  async _markAllFeedsAsReadMenuClicked_event() {
+    let self = contextMenu.instance;
+    let elContextMenu = document.getElementById('contextMenuId');
+    elContextMenu.classList.remove('show');
+    MarkAllFeedsAsReadAsync(self._idComeFrom);
+  }
+
+  async _markAllFeedsAsUpdatedMenuClicked_event() {
+    let self = contextMenu.instance;
+    let elContextMenu = document.getElementById('contextMenuId');
+    elContextMenu.classList.remove('show');
+    MarkAllFeedsAsUpdatedAsync(self._idComeFrom);
+  }
 }
-//----------------------------------------------------------------------
-function mainOnClickedEvent(){
-  document.getElementById('contextMenuId').classList.remove('show');
-}
-//----------------------------------------------------------------------
-async function checkFeedsMenuClicked() {
-  let elContextMenu = document.getElementById('contextMenuId');
-  elContextMenu.classList.remove('show');
-  let idComeFrom = elContextMenu.getAttribute('comeFrom');
-  checkFeedsForFolderAsync(idComeFrom);
-}
-//----------------------------------------------------------------------
-async function openAllUpdatedFeedsMenuClicked() {
-  let elContextMenu = document.getElementById('contextMenuId');
-  elContextMenu.classList.remove('show');
-  let idComeFrom = elContextMenu.getAttribute('comeFrom');
-  OpenAllUpdatedFeedsAsync(idComeFrom);
-}
-//----------------------------------------------------------------------
-async function markAllFeedsAsReadMenuClicked() {
-  let elContextMenu = document.getElementById('contextMenuId');
-  elContextMenu.classList.remove('show');
-  let idComeFrom = elContextMenu.getAttribute('comeFrom');
-  MarkAllFeedsAsReadAsync(idComeFrom);
-}
-//----------------------------------------------------------------------
-async function markAllFeedsAsUpdatedMenuClicked() {
-  let elContextMenu = document.getElementById('contextMenuId');
-  elContextMenu.classList.remove('show');
-  let idComeFrom = elContextMenu.getAttribute('comeFrom');
-  MarkAllFeedsAsUpdatedAsync(idComeFrom);
-}
-//----------------------------------------------------------------------
