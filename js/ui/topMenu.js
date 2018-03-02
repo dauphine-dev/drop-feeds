@@ -62,13 +62,13 @@ class topMenu  { /*exported topMenu*/
     let el =  document.getElementById(buttonId);
     if (activated)
     {
-      el.classList.add('thisItemSelected');
-      el.classList.remove('thisItem');
+      el.classList.add('itemSelected');
+      el.classList.remove('item');
     }
     else
     {
-      el.classList.add('thisItem');
-      el.classList.remove('thisItemSelected');
+      el.classList.add('item');
+      el.classList.remove('itemSelected');
     }
   }
 
@@ -89,35 +89,38 @@ class topMenu  { /*exported topMenu*/
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {
+    let self = topMenu.instance;
     event.stopPropagation();
     event.preventDefault();
-    this._updatedFeedsVisible = ! this._updatedFeedsVisible;
-    this.updatedFeedsSetVisibility();
+    self._updatedFeedsVisible = ! self._updatedFeedsVisible;
+    self.updatedFeedsSetVisibility();
     selectionBar.putAtRoot();
   }
 
   async toggleFoldersButtonClicked_event(event) {
+    let self = topMenu.instance;
     event.stopPropagation();
     event.preventDefault();
-    this._foldersOpened = !this._foldersOpened;
-    let query = this._foldersOpened ? 'not(checked)' : 'checked';
+    self._foldersOpened = !self._foldersOpened;
+    let query = self._foldersOpened ? 'not(checked)' : 'checked';
     let folders = document.querySelectorAll('input[type=checkbox]:' + query);
     let i = folders.length;
-    this.activateButton('toggleFoldersButton' , this._foldersOpened);
+    self.activateButton('toggleFoldersButton' , self._foldersOpened);
     while (i--) {
       let folderId = folders[i].id;
       let storedFolder = defaultStoredFolder(folderId);
-      folders[i].checked = this._foldersOpened;
-      storedFolder.checked = this._foldersOpened;
+      folders[i].checked = self._foldersOpened;
+      storedFolder.checked = self._foldersOpened;
       localStorageManager.setValue_async(folderId, storedFolder);
     }
     selectionBar.putAtRoot();
   }
 
   async addFeedButtonClicked_event(event) {
+    let self = topMenu.instance;
     event.stopPropagation();
     event.preventDefault();
-    if (!this._buttonAddFeedEnabled) { return; }
+    if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
     selectionBar.putAtRoot();
   }

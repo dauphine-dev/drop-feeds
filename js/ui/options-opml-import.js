@@ -6,7 +6,7 @@ const TagKindEnum = {
   CLOSER: 'closer',
   SINGLE: 'single'
 };
-let _progressBarImport = new progressBar();
+let _progressBarImport = new progressBar('progressBarImport');
 //----------------------------------------------------------------------
 async function ImportOmplFileAsync(event) {
   let opmlText = event.target.result;

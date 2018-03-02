@@ -4,7 +4,6 @@ class progressBar { /* exported progressBar*/
     this.progressBarId = progressBarId;
     this.progressBarTotal = document.getElementById(this.progressBarId + 'Total');
     this.progressBar = document.getElementById(this.progressBarId);
-    this.setValue(0);
   }
 
   show() {

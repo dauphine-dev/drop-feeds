@@ -20,17 +20,17 @@ async function computeOpmlTextAsync() {
 //----------------------------------------------------------------------
 async function GetOpmlBodyAsync(indentRef) {
   let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
-  let bookmarkItems = await browser.bookmarks.getSubTree(rootBookmarkId);
-  await prepareOpmlItemsRecursivelyAsync(bookmarkItems[0], indentRef);
+  let rootBookmarkItem = (await browser.bookmarks.getSubTree(rootBookmarkId))[0];
+  await prepareOpmlItemsRecursivelyAsync(rootBookmarkItem, indentRef, true);
   let opmlBody = _opmlItemList.join('');
   return opmlBody;
 }
 //----------------------------------------------------------------------
-async function prepareOpmlItemsRecursivelyAsync(bookmarkItem, indentRef) {
+async function prepareOpmlItemsRecursivelyAsync(bookmarkItem, indentRef, isRoot) {
   //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
   let isFolder = (!bookmarkItem.url);
   if (isFolder) {
-    await createOpmlInternalNodesAsync(bookmarkItem, indentRef);
+    await createOpmlInternalNodesAsync(bookmarkItem, indentRef, isRoot);
   }
   else {
     let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
@@ -40,24 +40,32 @@ async function prepareOpmlItemsRecursivelyAsync(bookmarkItem, indentRef) {
   }
 }
 //----------------------------------------------------------------------
-async function createOpmlInternalNodesAsync (bookmarkItem, indentRef) {
+async function createOpmlInternalNodesAsync (bookmarkItem, indentRef, isRoot) {
   let addClose = false;
-  let internalLineOpen = textTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
+  if (!isRoot) {
+    let internalLineOpen = textTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
+    if (browserManager.bookmarkHasChild(bookmarkItem)) {
+      addClose = true;
+      internalLineOpen += '>\n';
+    }
+    else {
+      internalLineOpen += '/>\n';
+    }
+    _opmlItemList.push(internalLineOpen);
+    indentRef[0] += _opmlIntentSize;
+  }
 
-  if (browserManager.bookmarkHasChild(bookmarkItem)) { addClose = true; internalLineOpen += '>\n'; }
-  else { internalLineOpen += '/>\n'; }
-
-  _opmlItemList.push(internalLineOpen);
-  indentRef[0] += _opmlIntentSize;
   if (browserManager.bookmarkHasChild(bookmarkItem)) {
     for (let child of bookmarkItem.children) {
-      await prepareOpmlItemsRecursivelyAsync(child, indentRef);
+      await prepareOpmlItemsRecursivelyAsync(child, indentRef, false);
     }
   }
-  indentRef[0] -= _opmlIntentSize;
-  if (addClose) {
-    let internalLineClose = textTools.makeIndent(indentRef[0]) + '</outline>\n';
-    _opmlItemList.push(internalLineClose);
+  if (!isRoot) {
+    indentRef[0] -= _opmlIntentSize;
+    if (addClose) {
+      let internalLineClose = textTools.makeIndent(indentRef[0]) + '</outline>\n';
+      _opmlItemList.push(internalLineClose);
+    }
   }
 }
 //----------------------------------------------------------------------
