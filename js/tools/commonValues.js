@@ -1,4 +1,4 @@
-/*global browser, LocalStorageManager*/
+/*global browser LocalStorageManager*/
 'use strict';
 class CommonValues { /*exported CommonValues*/
   static get instance() {
@@ -14,7 +14,7 @@ class CommonValues { /*exported CommonValues*/
     this._timeOut= 10;
     this._displayRootFolder = true;
     this._rootBookmarkId = undefined;
-    this._subscribeHtmlUrl = '/html/Subscribe.html';
+    this._subscribeHtmlUrl = '/html/subscribe.html';
   }
 
   async init_async() {
@@ -113,4 +113,4 @@ class CommonValues { /*exported CommonValues*/
     return this._subscribeHtmlUrl;
   }
 }
-//----------------------------------------------------------------------
+

@@ -20,6 +20,7 @@ class FeedManager { /*exported FeedManager*/
     try {
       this._updatedFeeds = 0;
       TopMenu.instance.animateCheckFeedButton(true);
+      StatusBar.instance.workInProgress = true;
       this._feedsToCheckList = [];
       let feedReadElementList = rootElement.querySelectorAll('.feedRead, .feedError');
       for (let i = 0; i < feedReadElementList.length; i++) {
@@ -41,6 +42,7 @@ class FeedManager { /*exported FeedManager*/
     finally {
       StatusBar.instance.text = '';
       TopMenu.instance.animateCheckFeedButton(false);
+      StatusBar.instance.workInProgress = false;
       this._displayNotification();
       this._updatedFeeds = 0;
       this._feedCheckingInProgress = false;
@@ -65,6 +67,7 @@ class FeedManager { /*exported FeedManager*/
   async openAllUpdatedFeeds_async(folderId) {
     try {
       TopMenu.instance.animateCheckFeedButton(true);
+      StatusBar.instance.workInProgress = true;
       let feedUpdatedList = document.getElementById(folderId).querySelectorAll('.feedUnread');
       for (let i = 0; i < feedUpdatedList.length; i++) {
         try {
@@ -81,6 +84,7 @@ class FeedManager { /*exported FeedManager*/
     finally {
       StatusBar.instance.text = '';
       TopMenu.instance.animateCheckFeedButton(false);
+      StatusBar.instance.workInProgress = false;
     }
   }
 

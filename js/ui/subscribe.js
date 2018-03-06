@@ -1,4 +1,4 @@
-/*global browser, LocalStorageManager, TextTools BrowserManager*/
+/*global browser LocalStorageManager TextTools BrowserManager*/
 'use strict';
 class Subscribe {
 

@@ -1,5 +1,4 @@
 /*global BrowserManager*/
-//----------------------------------------------------------------------
 'use strict';
 class StatusBar { /*exported StatusBar*/
   static get instance() {

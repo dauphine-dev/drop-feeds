@@ -53,6 +53,19 @@ class SideBar { /*exported SideBar*/
     this._setContentHeight();
   }
 
+  async openSubscribeDialog_async() {
+    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
+    let url = browser.extension.getURL(CommonValues.instance.subscribeHtmlUrl);
+    let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop Feed'};
+    LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
+    let win = await browser.windows.create(createData);
+    //workaround to force to display content
+    await DateTime.delay_async(100);
+    browser.windows.update(win.id, {width: 779});
+    await DateTime.delay_async(100);
+    browser.windows.update(win.id, {width: 780});
+  }
+
   _addListeners() {
     BookmarkManager.addListeners();
     window.onresize = this._windowOnResize;
@@ -87,12 +100,12 @@ class SideBar { /*exported SideBar*/
 
   async _tabOnActivated_event(activeInfo) {
     let tabInfo = await browser.tabs.get(activeInfo.tabId);
-    this._tabHasChanged_async(tabInfo);
+    SideBar.instance._tabHasChanged_async(tabInfo);
   }
 
   _tabOnUpdated_event(tabId, changeInfo, tabInfo) {
     if (changeInfo.status == 'complete') {
-      this._tabHasChanged_async(tabInfo);
+      SideBar.instance._tabHasChanged_async(tabInfo);
     }
   }
 
@@ -104,7 +117,7 @@ class SideBar { /*exported SideBar*/
     TopMenu.instance.enableAddFeedButton(isFeed);
     if(isFeed) {
       browser.pageAction.show(tabInfo.id);
-      let iconUrl = ThemeManager.instance.getImgUrl('Subscribe.png');
+      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
       browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
       browser.tabs.sendMessage(tabInfo.id, {'req':'addSubscribeButton'});
     }
@@ -112,20 +125,6 @@ class SideBar { /*exported SideBar*/
       browser.pageAction.hide(tabInfo.id);
     }
   }
-
-  async _openSubscribeDialogAsync() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    let url = browser.extension.getURL(CommonValues.instance.subscribeHtmlUrl);
-    let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop Feed'};
-    LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
-    let win = await browser.windows.create(createData);
-    //workaround to force to display content
-    await DateTime.delay_async(100);
-    browser.windows.update(win.id, {width: 779});
-    await DateTime.delay_async(100);
-    browser.windows.update(win.id, {width: 780});
-  }
-
 }
 
 SideBar.instance.init_async();

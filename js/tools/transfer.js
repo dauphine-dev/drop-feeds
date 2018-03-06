@@ -1,6 +1,5 @@
 /*global CommonValues*/
 'use strict';
-//----------------------------------------------------------------------
 class Transfer { /*exported Transfer*/
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
@@ -52,4 +51,3 @@ class Transfer { /*exported Transfer*/
     return 1000 * CommonValues.instance.timeOut;
   }
 }
-//----------------------------------------------------------------------

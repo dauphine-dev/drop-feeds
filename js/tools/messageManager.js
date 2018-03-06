@@ -1,5 +1,4 @@
-/*global browser*/
-/*global openSubscribeDialogAsync*/
+/*global browser SideBar*/
 'use strict';
 class MessageManager { /*exported MessageManager*/
   static get instance() {
@@ -17,7 +16,7 @@ class MessageManager { /*exported MessageManager*/
     let response = null;
     switch (request.req) {
       case 'openSubscribeDialog':
-        openSubscribeDialogAsync();
+        SideBar.instance.openSubscribeDialog_async();
         break;
     }
     return Promise.resolve(response);

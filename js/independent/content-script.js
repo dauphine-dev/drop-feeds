@@ -1,47 +1,48 @@
 /*global  browser*/
 'use strict';
-browser.runtime.onMessage.addListener(runtimeOnMessageEvent);
-//----------------------------------------------------------------------
-async function runtimeOnMessageEvent(request) {
-  let response = null;
-  switch (request.req) {
-    case 'isFeed':
-      response = isFeed();
-      break;
-    case 'addSubscribeButton':
-      addSubscribeButton();
-      break;
+class ContentManager {
+  static async runtimeOnMessageEvent(request) {
+    let response = null;
+    switch (request.req) {
+      case 'isFeed':
+        response = ContentManager._isFeed();
+        break;
+      case 'addSubscribeButton':
+        ContentManager._addSubscribeButton();
+        break;
+    }
+    return Promise.resolve(response);
   }
-  return Promise.resolve(response);
-}
-//----------------------------------------------------------------------
-function isFeed() {
-  let feedHandler = null;
-  try {
-    feedHandler = document.getElementById('feedHandler').innerHTML;
+
+  static _isFeed() {
+    let feedHandler = null;
+    try {
+      feedHandler = document.getElementById('feedHandler').innerHTML;
+    }
+    catch(e) {}
+    let result = (feedHandler ? true : false);
+    return result;
   }
-  catch(e) {}
-  let result = (feedHandler ? true : false);
-  return result;
-}
-//----------------------------------------------------------------------
-function addSubscribeButton() {
-  if (!document.getElementById('subscribeWithDropFeedsButton')) {
-    let feedSubscribeLine = document.getElementById('feedSubscribeLine');
-    let subscribeButton = document.createElement('button');
-    subscribeButton.id = 'subscribeWithDropFeedsButton';
-    subscribeButton.innerText = 'Subscribe with Drop feeds';
-    subscribeButton.style.display = 'block';
-    subscribeButton.style.marginInlineStart = 'auto';
-    subscribeButton.style.marginTop = '0.5em';
-    subscribeButton.addEventListener('click', addSubscribeButtonOnClickEvent);
-    feedSubscribeLine.appendChild(subscribeButton);
+
+  static _addSubscribeButton() {
+    if (!document.getElementById('subscribeWithDropFeedsButton')) {
+      let feedSubscribeLine = document.getElementById('feedSubscribeLine');
+      let subscribeButton = document.createElement('button');
+      subscribeButton.id = 'subscribeWithDropFeedsButton';
+      subscribeButton.innerText = 'Subscribe with Drop feeds';
+      subscribeButton.style.display = 'block';
+      subscribeButton.style.marginInlineStart = 'auto';
+      subscribeButton.style.marginTop = '0.5em';
+      subscribeButton.addEventListener('click', ContentManager._addSubscribeButtonOnClick_event);
+      feedSubscribeLine.appendChild(subscribeButton);
+    }
+  }
+
+  static async _addSubscribeButtonOnClick_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    browser.runtime.sendMessage({'req':'openSubscribeDialog'});
   }
 }
-//----------------------------------------------------------------------
-async function addSubscribeButtonOnClickEvent(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  browser.runtime.sendMessage({'req':'openSubscribeDialog'});
-}
-//----------------------------------------------------------------------
+
+browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);

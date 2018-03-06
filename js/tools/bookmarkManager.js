@@ -1,5 +1,4 @@
 /*global browser, CommonValues, StatusBar, LocalStorageManager, DateTime*/
-//----------------------------------------------------------------------
 'use strict';
 class BookmarksInfo {
   static get instance() {
@@ -43,6 +42,10 @@ class BookmarkManager { /*exported BookmarkManager*/
       }
     }
     return rootBookmarkId;
+  }
+
+  static getDefaultStoredFolder(folderId) {
+    return {id: folderId, checked: true};
   }
 
   static async _bookmarkOnCreated_event(id, bookmarkInfo) {
@@ -151,5 +154,4 @@ class BookmarkManager { /*exported BookmarkManager*/
     });
     return rootBookmark.id;
   }
-
 }

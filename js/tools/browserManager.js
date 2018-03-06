@@ -1,6 +1,5 @@
-/*global browser, ThemeManager*/
+/*global browser ThemeManager*/
 'use strict';
-//----------------------------------------------------------------------
 class BrowserManager { /* exported BrowserManager*/
   static async isTabEmpty_async(tab) {
     let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
@@ -45,4 +44,3 @@ class BrowserManager { /* exported BrowserManager*/
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 }
-//----------------------------------------------------------------------

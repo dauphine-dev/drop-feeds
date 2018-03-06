@@ -1,8 +1,5 @@
 'use strict';
-
-
 class CssManager { /*exported CssManager*/
-
   static _getSheetAndRuleIndex(styleName) {
     let sheetAndRuleIndex = null;
     let styleNameLower = styleName.toLowerCase();
@@ -18,7 +15,6 @@ class CssManager { /*exported CssManager*/
     }
     return sheetAndRuleIndex;
   }
-
 
   static replaceStyle(styleName, styleText) {
     let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);

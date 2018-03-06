@@ -1,8 +1,5 @@
-/*global browser SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager*/
-/*global defaultStoredFolder */
-//----------------------------------------------------------------------
+/*global browser SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager BookmarkManager*/
 'use strict';
-//----------------------------------------------------------------------
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
     if (!this._instance) {
@@ -52,8 +49,6 @@ class TopMenu  { /*exported TopMenu*/
       document.getElementById('checkFeedsButton').classList.add('checkFeedsButton');
       document.getElementById('checkFeedsButton').classList.remove('checkFeedsButtonAnim');
     }
-  //Todo: move it at the call level
-    StatusBar.instance.workInProgress = animationEnable;
   }
 
   activateButton(buttonId, activated) {
@@ -106,7 +101,7 @@ class TopMenu  { /*exported TopMenu*/
     self.activateButton('toggleFoldersButton' , self._foldersOpened);
     while (i--) {
       let folderId = folders[i].id;
-      let storedFolder = defaultStoredFolder(folderId);
+      let storedFolder = BookmarkManager.getDefaultStoredFolder(folderId);
       folders[i].checked = self._foldersOpened;
       storedFolder.checked = self._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);

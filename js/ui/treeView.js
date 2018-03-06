@@ -1,5 +1,4 @@
 /*global browser CommonValues BrowserManager SelectionBar TopMenu FeedManager StatusBar ContextMenu LocalStorageManager TextTools Feed BookmarkManager*/
-/*global defaultStoredFolder*/
 'use strict';
 class TreeView { /*exported TreeView*/
   constructor() {
@@ -8,7 +7,6 @@ class TreeView { /*exported TreeView*/
   }
 
   async createAndShow() {
-    //loadPanelAsync
     this._html = [];
     this._is1stFolder = true;
     let rootBookmarkId = await BookmarkManager.getRootFolderId_async();
@@ -44,6 +42,7 @@ class TreeView { /*exported TreeView*/
     event.preventDefault();
     try {
       TopMenu.instance.animateCheckFeedButton(true);
+      StatusBar.instance.workInProgress = true;
       let feedId = event.currentTarget.getAttribute('id');
       FeedManager.instance.openOneFeedToTab_async(feedId);
 
@@ -51,13 +50,14 @@ class TreeView { /*exported TreeView*/
     finally {
       StatusBar.instance.text = '';
       TopMenu.instance.animateCheckFeedButton(false);
+      StatusBar.instance.workInProgress = false;
     }
   }
 
   _folderChanged_event(event) {
     let folderItem = event.currentTarget;
     let folderId = folderItem.getAttribute('id');
-    let storedFolder = defaultStoredFolder(folderId);
+    let storedFolder = BookmarkManager.getDefaultStoredFolder(folderId);
     storedFolder.checked = folderItem.checked;
     LocalStorageManager.setValue_async(folderId, storedFolder);
   }
@@ -97,7 +97,7 @@ class TreeView { /*exported TreeView*/
   async _createTreeFolder_async (bookmarkItem, indent, displayThisFolder) {
     let id = bookmarkItem.id;
     let folderName = bookmarkItem.title;
-    let storedFolder = await LocalStorageManager.getValue_async('cb-' + id, defaultStoredFolder('cb-' + id));
+    let storedFolder = await LocalStorageManager.getValue_async('cb-' + id, BookmarkManager.getDefaultStoredFolder('cb-' + id));
     let checked = storedFolder.checked ? 'checked' : '';
     let folderLine = '';
     if (displayThisFolder) {

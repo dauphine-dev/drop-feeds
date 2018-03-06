@@ -1,6 +1,5 @@
 /*global LocalStorageManager*/
 'use strict';
-//----------------------------------------------------------------------
 class ThemeManager { /*exported ThemeManager*/
   static get instance() {
     if (!this._instance) {
@@ -86,4 +85,3 @@ class ThemeManager { /*exported ThemeManager*/
     return this._themesListUrl;
   }
 }
-//----------------------------------------------------------------------
