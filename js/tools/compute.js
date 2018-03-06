@@ -2,7 +2,7 @@
 class compute { /* exported compute*/
   static hashCode(text) {
     let hash = 0;
-    if (text.length == 0) {
+    if (!text || text.length == 0) {
       return hash;
     }
     for (var i = 0; i < text.length; i++) {

@@ -46,8 +46,8 @@ class opmlImporter { /*exported opmlImporter*/
 
   async _importOmplOutlinesAsync(opmlText) {
     let folderId = await localStorageManager.getValue_async('rootBookmarkId');
-    await this._cleanBookmarkFolderAsync(folderId);
-    await localStorageManager.clean();
+    await this._cleanBookmarkFolder_async(folderId);
+    await localStorageManager.clean_async();
     let i1 = textTools.occurrences(opmlText, '<outline');
     let i2 = textTools.occurrences(opmlText, '</outline');
     let itemNumber = i1 + i2;
@@ -100,7 +100,7 @@ class opmlImporter { /*exported opmlImporter*/
     }
   }
 
-  async _cleanBookmarkFolderAsync(folderId) {
+  async _cleanBookmarkFolder_async(folderId) {
     let children = await browser.bookmarks.getChildren(folderId);
     for (let bookmark of children) {
       browser.bookmarks.removeTree(bookmark.id);

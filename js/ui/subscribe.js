@@ -1,182 +1,194 @@
 /*global browser, localStorageManager, textTools*/
-//----------------------------------------------------------------------
 'use strict';
-let _html= [];
-let _feedTitle = null;
-let _feedUrl = null;
-let _selectedId = null;
-mainSbc();
-//----------------------------------------------------------------------
-async function mainSbc() {
-  let subscribeInfo = await localStorageManager.getValue_async('subscribeInfo');
-  if (subscribeInfo) {
-    localStorageManager.setValue_async('subscribeInfo', null);
-    _feedTitle = subscribeInfo.feedTitle;
-    _feedUrl = subscribeInfo.feedUrl;
-  }
-  else {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    _feedTitle = tabInfos[0].title;
-    _feedUrl = tabInfos[0].url;
+class subscribe {
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new subscribe();
+    }
+    return this._instance;
   }
 
-  _selectedId = await localStorageManager.getValue_async('rootBookmarkId');
-  loadFolderViewAsync( _selectedId);
-  document.getElementById('inputName').value = _feedTitle;
-  document.getElementById('newFolderButton').addEventListener('click', newFolderButtonClickedEvent);
-  document.getElementById('cancelButton').addEventListener('click', cancelButtonClickedEvent);
-  document.getElementById('subscribeButton').addEventListener('click', subscribeButtonClickedEvent);
-  document.getElementById('cancelNewFolderButton').addEventListener('click', cancelNewFolderButtonClickedEvent);
-  document.getElementById('createNewFolderButton').addEventListener('click', createNewFolderButtonClickedEvent);
-}
-//----------------------------------------------------------------------
-async function newFolderButtonClickedEvent(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  showNewFolderDialog();
-}
-//----------------------------------------------------------------------
-function showNewFolderDialog() {
-  let elNewFolderDialog = document.getElementById('newFolderDialog');
-  let elMainDiv = document.getElementById('mainDiv');
-  let elSelectedLabel = document.getElementById('lbl-' + _selectedId);
-  let rectSelectedLabel = elSelectedLabel.getBoundingClientRect();
-  let x = Math.round(rectSelectedLabel.left);
-  let y = Math.round(rectSelectedLabel.bottom);
-  elNewFolderDialog.classList.remove('hide');
-  elNewFolderDialog.classList.add('show');
-  let xMax  = Math.max(0, elMainDiv.offsetWidth - elNewFolderDialog.offsetWidth + 18);
-  let yMax  = Math.max(0, elMainDiv.offsetHeight - elNewFolderDialog.offsetHeight + 20);
-  x = Math.min(xMax, x);
-  y = Math.min(yMax, y);
-  elNewFolderDialog.style.left = x + 'px';
-  elNewFolderDialog.style.top = y + 'px';
-}
-//----------------------------------------------------------------------
-function hideNewFolderDialog() {
-  let elNewFolderDialog = document.getElementById('newFolderDialog');
-  elNewFolderDialog.classList.remove('show');
-  elNewFolderDialog.classList.add('hide');
-}
-//----------------------------------------------------------------------
-async function cancelButtonClickedEvent(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  window.close();
-}
-//----------------------------------------------------------------------
-async function subscribeButtonClickedEvent() {
-  try {
-    let name = document.getElementById('inputName').value;
-    await browser.bookmarks.create({parentId: _selectedId, title: name, url: _feedUrl});
+  constructor() {
+    this._html = [];
+    this._feedTitle = null;
+    this._feedUrl = null;
+    this._selectedId = null;
   }
-  catch(e) {
-    /* eslint-disable no-console */
-    console.log(e);
-    /* eslint-enable no-console */
+
+  async init_async() {
+    let subscribeInfo = await localStorageManager.getValue_async('subscribeInfo');
+    if (subscribeInfo) {
+      localStorageManager.setValue_async('subscribeInfo', null);
+      this._feedTitle = subscribeInfo.feedTitle;
+      this._feedUrl = subscribeInfo.feedUrl;
+    }
+    else {
+      let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
+      this._feedTitle = tabInfos[0].title;
+      this._feedUrl = tabInfos[0].url;
+    }
+
+    this._selectedId = await localStorageManager.getValue_async('rootBookmarkId');
+    this._loadFolderView_async( this._selectedId);
+    document.getElementById('inputName').value = this._feedTitle;
+    document.getElementById('newFolderButton').addEventListener('click', this._newFolderButtonClicked_event);
+    document.getElementById('cancelButton').addEventListener('click', this._cancelButtonClicked_event);
+    document.getElementById('subscribeButton').addEventListener('click', this._subscribeButtonClicked_event);
+    document.getElementById('cancelNewFolderButton').addEventListener('click', this._cancelNewFolderButtonClicked_event);
+    document.getElementById('createNewFolderButton').addEventListener('click', this._createNewFolderButtonClicked_event);
   }
-  window.close();
-}
-//----------------------------------------------------------------------
-async function loadFolderViewAsync(idToSelect) {
-  let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
-  let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
-  await createItemsForSubTreeAsync(subTree, idToSelect);
-  addEventListenerOnFolders();
-}
-//----------------------------------------------------------------------
-async function createItemsForSubTreeAsync(bookmarkItems, idToSelect) {
-  _html= [];
-  await prepareSbItemsRecursivelyAsync(bookmarkItems[0], 10, idToSelect);
-  document.getElementById('content').innerHTML = '\n' + _html.join('');
-}
-//----------------------------------------------------------------------
-async function prepareSbItemsRecursivelyAsync(bookmarkItem, indent, idToSelect) {
-  //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
-  let isFolder = (!bookmarkItem.url);
-  if (isFolder) {
-    await createFolderSbItemAsync(bookmarkItem, indent, idToSelect);
+
+  async _newFolderButtonClicked_event(event) {
+    let self = subscribe.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    self._showNewFolderDialog();
+  }
+
+  async _cancelButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    window.close();
+  }
+
+  async _subscribeButtonClicked_event() {
+    let self = subscribe.instance;
+    try {
+      let name = document.getElementById('inputName').value;
+      await browser.bookmarks.create({parentId: self._selectedId, title: name, url: self._feedUrl});
+    }
+    catch(e) {
+      /* eslint-disable no-console */
+      console.log(e);
+      /* eslint-enable no-console */
+    }
+    window.close();
+  }
+
+  async _cancelNewFolderButtonClicked_event(event) {
+    let self = subscribe.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    self._hideNewFolderDialog();
+  }
+
+  async _createNewFolderButtonClicked_event(event) {
+    let self = subscribe.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    try {
+      let folderName = document.getElementById('inputNewFolder').value;
+      await browser.bookmarks.create({parentId: self._selectedId, title: folderName});
+      self._hideNewFolderDialog(self._selectedId);
+    }
+    catch(e) {
+      /* eslint-disable no-console */
+      console.log(e);
+      /* eslint-enable no-console */
+    }
+    self._hideNewFolderDialog();
+  }
+
+  _hideNewFolderDialog() {
+    let elNewFolderDialog = document.getElementById('newFolderDialog');
+    elNewFolderDialog.classList.remove('show');
+    elNewFolderDialog.classList.add('hide');
+  }
+
+
+  _showNewFolderDialog() {
+    let elNewFolderDialog = document.getElementById('newFolderDialog');
+    let elMainDiv = document.getElementById('mainDiv');
+    let elSelectedLabel = document.getElementById('lbl-' + this._selectedId);
+    let rectSelectedLabel = elSelectedLabel.getBoundingClientRect();
+    let x = Math.round(rectSelectedLabel.left);
+    let y = Math.round(rectSelectedLabel.bottom);
+    elNewFolderDialog.classList.remove('hide');
+    elNewFolderDialog.classList.add('show');
+    let xMax  = Math.max(0, elMainDiv.offsetWidth - elNewFolderDialog.offsetWidth + 18);
+    let yMax  = Math.max(0, elMainDiv.offsetHeight - elNewFolderDialog.offsetHeight + 20);
+    x = Math.min(xMax, x);
+    y = Math.min(yMax, y);
+    elNewFolderDialog.style.left = x + 'px';
+    elNewFolderDialog.style.top = y + 'px';
+  }
+  async _loadFolderView_async(idToSelect) {
+    let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
+    let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
+    await this._createItemsForSubTree_async(subTree, idToSelect);
+    this._addEventListenerOnFolders();
+  }
+  async _createItemsForSubTree_async(bookmarkItems, idToSelect) {
+    this._html= [];
+    await this._prepareSbItemsRecursively_async(bookmarkItems[0], 10, idToSelect);
+    document.getElementById('content').innerHTML = '\n' + this._html.join('');
+  }
+  async _prepareSbItemsRecursively_async(bookmarkItem, indent, idToSelect) {
+    //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
+    let isFolder = (!bookmarkItem.url);
+    if (isFolder) {
+      await this._createFolderSbItem_async(bookmarkItem, indent, idToSelect);
+      indent += 2;
+    }
+    indent -=2;
+  }
+
+  async _createFolderSbItem_async (bookmarkItem, indent, idToSelect) {
+    let id = bookmarkItem.id;
+    let folderName = bookmarkItem.title;
+    let selected = (idToSelect == id ? ' class="selected"' : '');
+    let selected1 = (idToSelect == id ? ' class="selected1"' : '');
+    let folderLine = '';
+    folderLine += textTools.makeIndent(indent) +
+    '<div id="dv-' + id + '" class="folder">\n';
     indent += 2;
+    folderLine += textTools.makeIndent(indent) +
+    '<li>' +
+    '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
+    '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' +
+    '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' +
+    '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
+    folderLine += textTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+    indent += 2;
+    this._html.push(folderLine);
+    if (bookmarkItem.children) {
+      for (let child of bookmarkItem.children) {
+        await this._prepareSbItemsRecursively_async(child, indent, idToSelect);
+      }
+    }
+    indent -= 2;
+    this._html.push(textTools.makeIndent(indent) + '</ul>\n');
+    this._html.push(textTools.makeIndent(indent) + '</li>\n');
+    indent -= 2;
+    this._html.push(textTools.makeIndent(indent) + '</div>\n');
   }
-  indent -=2;
-}
-//----------------------------------------------------------------------
-async function createFolderSbItemAsync (bookmarkItem, indent, idToSelect) {
-  let id = bookmarkItem.id;
-  let folderName = bookmarkItem.title;
-  let selected = (idToSelect == id ? ' class="selected"' : '');
-  let selected1 = (idToSelect == id ? ' class="selected1"' : '');
-  let folderLine = '';
-  folderLine += textTools.makeIndent(indent) +
-  '<div id="dv-' + id + '" class="folder">\n';
-  indent += 2;
-  folderLine += textTools.makeIndent(indent) +
-  '<li>' +
-  '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
-  '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' +
-  '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' +
-  '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
-  folderLine += textTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
-  indent += 2;
-  _html.push(folderLine);
-  if (bookmarkItem.children) {
-    for (let child of bookmarkItem.children) {
-      await prepareSbItemsRecursivelyAsync(child, indent, idToSelect);
+  _addEventListenerOnFolders() {
+    let els = document.querySelectorAll('.folderLabel');
+    for (let i = 0; i < els.length; i++) {
+      els[i].addEventListener('click', this._folderOnClicked_event);
     }
   }
-  indent -= 2;
-  _html.push(textTools.makeIndent(indent) + '</ul>\n');
-  _html.push(textTools.makeIndent(indent) + '</li>\n');
-  indent -= 2;
-  _html.push(textTools.makeIndent(indent) + '</div>\n');
-}
-//----------------------------------------------------------------------
-function addEventListenerOnFolders() {
-  let els = document.querySelectorAll('.folderLabel');
-  for (let i = 0; i < els.length; i++) {
-    els[i].addEventListener('click', folderOnClickedEvent);
+  async _folderOnClicked_event(event) {
+    let self = subscribe.instance;
+    let elLabel = event.currentTarget;
+    let id = elLabel.getAttribute('id').substring(4);
+    self._selectedId = id;
+    //Unselecting
+    let labelsToUnselect = document.querySelectorAll('.folderLabel, .folderClose, .folderOpen, label');
+    for (let i = 0; i < labelsToUnselect.length; i++) {
+      labelsToUnselect[i].classList.remove('selected');
+      labelsToUnselect[i].classList.remove('selected1');
+    }
+    //Selecting
+    elLabel.classList.add('selected');
+    let labelsToSelect = document.querySelectorAll('label[for="cb-' + id + '"]');
+    for (let i = 0; i < labelsToSelect.length; i++) {
+      labelsToSelect[i].classList.add('selected1');
+    }
+    //document.getElementById('lbl-' + id).classList.add('selected');
+    document.getElementById('cb-' + id).classList.add('selected1');
   }
 }
-//----------------------------------------------------------------------
-async function folderOnClickedEvent(event) {
-  let elLabel = event.currentTarget;
-  let id = elLabel.getAttribute('id').substring(4);
-  _selectedId = id;
-  //Unselecting
-  let labelsToUnselect = document.querySelectorAll('.folderLabel, .folderClose, .folderOpen, label');
-  for (let i = 0; i < labelsToUnselect.length; i++) {
-    labelsToUnselect[i].classList.remove('selected');
-    labelsToUnselect[i].classList.remove('selected1');
-  }
-  //Selecting
-  elLabel.classList.add('selected');
-  let labelsToSelect = document.querySelectorAll('label[for="cb-' + id + '"]');
-  for (let i = 0; i < labelsToSelect.length; i++) {
-    labelsToSelect[i].classList.add('selected1');
-  }
-  //document.getElementById('lbl-' + id).classList.add('selected');
-  document.getElementById('cb-' + id).classList.add('selected1');
-}
-//----------------------------------------------------------------------
-async function cancelNewFolderButtonClickedEvent(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  hideNewFolderDialog();
-}
-//----------------------------------------------------------------------
-async function createNewFolderButtonClickedEvent(event) {
-  event.stopPropagation();
-  event.preventDefault();
-  try {
-    let folderName = document.getElementById('inputNewFolder').value;
-    await browser.bookmarks.create({parentId: _selectedId, title: folderName});
-    loadFolderViewAsync(_selectedId);
-  }
-  catch(e) {
-    /* eslint-disable no-console */
-    console.log(e);
-    /* eslint-enable no-console */
-  }
-  hideNewFolderDialog();
-}
-//----------------------------------------------------------------------
+
+subscribe.instance.init_async();

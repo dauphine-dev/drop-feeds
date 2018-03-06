@@ -18,5 +18,4 @@ class tabManagement { /*exported tabManagement*/
   static async _exportButtonOnClicked_event() {
     opmlExporter.instance.export_async();
   }
-
 }

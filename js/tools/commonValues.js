@@ -15,12 +15,11 @@ class commonValues { /*exported commonValues*/
     this._displayRootFolder = true;
     this._rootBookmarkId = undefined;
     this._subscribeHtmlUrl = '/html/subscribe.html';
-
   }
 
   async init_async() {
     await this.reload_async();
-    browser.storage.onChanged.addListener((changes, area) => { this._storageChanged_event(this, changes, area); });
+    browser.storage.onChanged.addListener(this._storageChanged_event);
   }
 
   async reload_async() {
@@ -30,10 +29,12 @@ class commonValues { /*exported commonValues*/
     if (this._timeOut < 1 || this._timeOut >= 100) { this._timeOut = 10; }
     this._displayRootFolder = await localStorageManager.getValue_async('displayRootFolder', this._displayRootFolder);
     if (this._displayRootFolder == 'yes') { this._displayRootFolder = true; }
+    if (this._displayRootFolder == 'no') { this._displayRootFolder = false; }
     this._rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId', this._rootBookmarkId);
   }
 
-  _storageChanged_event(self, changes) {
+  _storageChanged_event(changes) {
+    let self = commonValues.instance;
     //listen for values changed from another instance
     let changedItems = Object.keys(changes);
     if (changedItems.includes('alwaysOpenNewTab')) {

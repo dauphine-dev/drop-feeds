@@ -1,5 +1,5 @@
-/*global browser, selectionBar, statusBar, localStorageManager, cssManager, dateTime*/
-/*global defaultStoredFolder, checkFeedsAsync*/
+/*global browser selectionBar statusBar localStorageManager cssManager dateTime feedManager*/
+/*global defaultStoredFolder */
 //----------------------------------------------------------------------
 'use strict';
 //----------------------------------------------------------------------
@@ -18,10 +18,8 @@ class topMenu  { /*exported topMenu*/
   }
 
   async init_async() {
-    this._updatedFeedsVisible = await localStorageManager.getValue_async('updatedFeedsVisibility');
     this.updatedFeedsSetVisibility();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
-
     document.getElementById('checkFeedsButton').addEventListener('click', this.checkFeedsButtonClicked_event);
     let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
     elDiscoverFeedsButton.addEventListener('click', this.discoverFeedsButtonClicked_event);
@@ -84,8 +82,8 @@ class topMenu  { /*exported topMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    checkFeedsAsync(document);
     selectionBar.instance.putAtRoot();
+    feedManager.instance.checkFeeds_async(document);
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {

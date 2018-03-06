@@ -1,6 +1,5 @@
-/*global browser, commonValues, themeManager, selectionBar, topMenu, statusBar, localStorageManager, textTools, cssManager, dateTime, contextMenu*/
-/*global addingBookmarkListeners, checkRootFolderAsync, getFeedItemClassAsync, getFolderFromStorageObj, defaultStoredFolder,
-openFeedAsync, updateFeedStatusAsync, FeedStatusEnum, getStoredFeedAsync*/
+/*global browser, commonValues, themeManager, selectionBar, topMenu, statusBar, localStorageManager, textTools, cssManager, dateTime, contextMenu feedManager feed*/
+/*global addingBookmarkListeners, checkRootFolderAsync, defaultStoredFolder*/
 //----------------------------------------------------------------------
 'use strict';
 let _html= [];
@@ -11,12 +10,14 @@ let _is1stFeedItem = true;
 console.log('Drop feeds loading...');
 /*eslint-enable no-console*/
 mainSbr();
+
 reloadOnce();
 //----------------------------------------------------------------------
 async function mainSbr() {
+
   await themeManager.instance.init_async();
   await commonValues.instance.init_async();
-  topMenu.instance.init_async();
+  await topMenu.instance.init_async();
   await loadPanelAsync();
   addListeners();
   selectionBar.instance.refresh();
@@ -108,7 +109,9 @@ async function tabOnChangedAsync(tabInfo) {
 async function loadPanelAsync() {
   let rootBookmarkId = await checkRootFolderAsync();
   let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
+  localStorageManager.cacheEnable = true;
   createItemsForSubTree(subTree);
+  localStorageManager.cacheEnable = false;
   browser.storage.onChanged.addListener(storageChanged_event);
   setContentHeight();
 }
@@ -164,7 +167,7 @@ async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
     }
   }
   let feedName = bookmarkItem.title;
-  let className = await getFeedItemClassAsync(storageObj, bookmarkItem.id, bookmarkItem.title);
+  let className = (await feed.new(bookmarkItem.id)).className;
   let feedLine = textTools.makeIndent(indent) +
   '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
   _html.push(feedLine);
@@ -173,7 +176,7 @@ async function createFeedItemAsync (storageObj, bookmarkItem, indent) {
 async function createFolderItemAsync (storageObj, bookmarkItem, indent, displayThisFolder) {
   let id = bookmarkItem.id;
   let folderName = bookmarkItem.title;
-  let storedFolder = getFolderFromStorageObj(storageObj, 'cb-' + id);
+  let storedFolder = await localStorageManager.getValue_async('cb-' + id, defaultStoredFolder('cb-' + id));
   let checked = storedFolder.checked ? 'checked' : '';
   let folderLine = '';
   if (displayThisFolder) {
@@ -233,11 +236,8 @@ async function feedClickedEvent(event) {
   event.preventDefault();
   try {
     topMenu.instance.animateCheckFeedButton(true);
-    let feedItem = event.currentTarget;
-    let id = feedItem.getAttribute('id');
-    let bookmarks = await browser.bookmarks.get(id);
-    statusBar.instance.text = 'Loading ' + bookmarks[0].title;
-    await openFeedItemAsync(bookmarks[0]);
+    let feedId = event.currentTarget.getAttribute('id');
+    feedManager.instance.openOneFeedToTab_async(feedId);
 
   }
   finally {
@@ -252,13 +252,6 @@ function folderChangedEvent(event) {
   let storedFolder = defaultStoredFolder(folderId);
   storedFolder.checked = folderItem.checked;
   localStorageManager.setValue_async(folderId, storedFolder);
-}
-//----------------------------------------------------------------------
-async function openFeedItemAsync(bookmarkItem){
-  let storedFeedObj = await getStoredFeedAsync(null, bookmarkItem.id, bookmarkItem.title);
-  let feedObj = {index:0, id:bookmarkItem.id, title:storedFeedObj.name, bookmark:bookmarkItem, pubDate:storedFeedObj.pubDate, feedText:null, error:null, newUrl: null};
-  let hash = await openFeedAsync(feedObj, false);
-  await updateFeedStatusAsync(feedObj.id, FeedStatusEnum.OLD, new Date(), feedObj.title, hash);
 }
 //----------------------------------------------------------------------
 function runtimeOnMessageEvent(request) {

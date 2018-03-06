@@ -1,4 +1,3 @@
-/*global */
 'use strict';
 class selectionBar { /*exported selectionBar*/
   static get instance() {

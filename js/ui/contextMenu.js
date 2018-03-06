@@ -1,5 +1,4 @@
-/*global  selectionBar*/
-/*global  checkFeedsForFolderAsync, OpenAllUpdatedFeedsAsync, MarkAllFeedsAsReadAsync, MarkAllFeedsAsUpdatedAsync*/
+/*global  selectionBar feedManager*/
 'use strict';
 class contextMenu { /*exported contextMenu*/
   static get instance() {
@@ -19,52 +18,58 @@ class contextMenu { /*exported contextMenu*/
     this._idComeFrom = null;
   }
 
+  hide(){
+    document.getElementById('contextMenuId').classList.remove('show');
+  }
+
   onClicked_event(event){
     let self = contextMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     self._idComeFrom = event.currentTarget.getAttribute('id');
     self._elContextMenu.classList.add('show');
-    let xMax  = Math.max(0, self._elContent.offsetWidth - self._elContextMenu.offsetWidth - 36);
-    let x = Math.min(xMax, event.clientX);
-    self._elContextMenu.style.left = x + 'px';
-
-    let rectTarget = event.currentTarget.getBoundingClientRect();
-    let yMax  = Math.max(0, self._elContent.offsetHeight - self._elContextMenu.offsetHeight + 60);
-    let y = Math.min(yMax, rectTarget.top+ 17);
-    self._elContextMenu.style.top = y + 'px';
+    self._setPosition(event.clientX, event.currentTarget.getBoundingClientRect().top);
     selectionBar.instance.put(event.currentTarget);
   }
 
-  hide(){
-    document.getElementById('contextMenuId').classList.remove('show');
+  _setPosition(xPos, yPos) {
+    let xMax  = Math.max(0, this._elContent.offsetWidth - this._elContextMenu.offsetWidth - 36);
+    let x = Math.min(xMax, xPos);
+
+    let yMax  = Math.max(0, this._elContent.offsetHeight - this._elContextMenu.offsetHeight + 60);
+    let y = Math.min(yMax, yPos + 17);
+
+    this._elContextMenu.style.left = x + 'px';
+    this._elContextMenu.style.top = y + 'px';
   }
 
   async _checkFeedsMenuClicked_event() {
     let self = contextMenu.instance;
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
-    checkFeedsForFolderAsync(self._idComeFrom);
+    let rootElement = document.getElementById(self._idComeFrom);
+    feedManager.instance.checkFeeds_async(rootElement);
   }
 
   async _openAllUpdatedFeedsMenuClicked_event() {
     let self = contextMenu.instance;
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
-    OpenAllUpdatedFeedsAsync(self._idComeFrom);
+    feedManager.instance.openAllUpdatedFeeds_async(self._idComeFrom);
   }
 
   async _markAllFeedsAsReadMenuClicked_event() {
     let self = contextMenu.instance;
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
-    MarkAllFeedsAsReadAsync(self._idComeFrom);
+    feedManager.instance.markAllFeedsAsRead_async(self._idComeFrom);
   }
 
   async _markAllFeedsAsUpdatedMenuClicked_event() {
     let self = contextMenu.instance;
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
-    MarkAllFeedsAsUpdatedAsync(self._idComeFrom);
+    feedManager.instance.markAllFeedsAsUpdated_async(self._idComeFrom);
   }
+
 }

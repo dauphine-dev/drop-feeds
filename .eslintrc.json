@@ -12,7 +12,7 @@
 
     "rules": {
         "indent": [
-            "error",
+            "warn",
             2,
             { "SwitchCase": 1 }
         ],
@@ -30,7 +30,7 @@
         ],
 
         "no-console": "warn",
-        "no-unused-vars": "error",
+        "no-unused-vars": "warn",
         "no-case-declarations": "off",
         "no-empty": "off"
     }

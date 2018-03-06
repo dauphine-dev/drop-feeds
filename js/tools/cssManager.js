@@ -1,23 +1,28 @@
 'use strict';
-//----------------------------------------------------------------------
+
+
 class cssManager { /*exported cssManager*/
+
   static _getSheetAndRuleIndex(styleName) {
+    let sheetAndRuleIndex = null;
     let styleNameLower = styleName.toLowerCase();
     let styleNumber = document.styleSheets.length;
     for (let sheetIndex = 0; sheetIndex<styleNumber; sheetIndex++) {
       let cssRuleList = document.styleSheets[sheetIndex].cssRules;
       for(let ruleIndex=0; ruleIndex<cssRuleList.length; ruleIndex++) {
         if(cssRuleList[ruleIndex].selectorText.toLowerCase() == styleNameLower) {
-          return { sheetIndex:sheetIndex, ruleIndex:ruleIndex };
+          sheetAndRuleIndex = { sheetIndex:sheetIndex, ruleIndex:ruleIndex };
+          break;
         }
       }
     }
-    return null;
+    return sheetAndRuleIndex;
   }
-  //----------------------------------------------------------------------
+
+
   static replaceStyle(styleName, styleText) {
-    let sheetAndRuleIndex = this._getSheetAndRuleIndex(styleName);
-    if (sheetAndRuleIndex==null) {
+    let sheetAndRuleIndex = cssManager._getSheetAndRuleIndex(styleName);
+    if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
       console.log('replaceStyle() styleName "' + styleName + '" not found!');
       /*eslint-enable no-console*/
@@ -27,9 +32,9 @@ class cssManager { /*exported cssManager*/
     styleSheetList.deleteRule(sheetAndRuleIndex.ruleIndex);
     styleSheetList.insertRule(styleName + '{' + styleText + '}', styleSheetList.cssRules.length);
   }
-  //----------------------------------------------------------------------
+
   static getStyleText(styleName) {
-    let sheetAndRuleIndex = this._getSheetAndRuleIndex(styleName);
+    let sheetAndRuleIndex = cssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
       console.log('getStyleText() styleName "' + styleName + '" not found!');
@@ -40,5 +45,4 @@ class cssManager { /*exported cssManager*/
     let style = cssRuleList[sheetAndRuleIndex.ruleIndex];
     return style.cssText;
   }
-  //----------------------------------------------------------------------
 }
