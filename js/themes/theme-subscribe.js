@@ -1,3 +1,3 @@
-/*global themeManager*/
+/*global ThemeManager*/
 'use strict';
-themeManager.instance.refreshAndApplyCss_async('subscribe.css');
+ThemeManager.instance.refreshAndApplyCss_async('subscribe.css');

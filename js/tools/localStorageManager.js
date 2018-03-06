@@ -1,6 +1,6 @@
 /*global browser*/
 'use strict';
-class localStorageManager { /*exported localStorageManager*/
+class LocalStorageManager { /*exported LocalStorageManager*/
   static async clean_async() {
     let keysToRemove = [];
     let storageItems = await browser.storage.local.get();

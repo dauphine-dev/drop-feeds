@@ -1,7 +1,7 @@
-/*global browser, themeManager*/
+/*global browser, ThemeManager*/
 'use strict';
 //----------------------------------------------------------------------
-class browserManager { /* exported browserManager*/
+class BrowserManager { /* exported BrowserManager*/
   static async isTabEmpty_async(tab) {
     let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
     return isEmpty;
@@ -15,7 +15,7 @@ class browserManager { /* exported browserManager*/
   static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.extension.getURL(themeManager.instance.iconDF96Url),
+      'iconUrl': browser.extension.getURL(ThemeManager.instance.iconDF96Url),
       'title': 'Drop feeds',
       'message': message
     });
@@ -27,6 +27,22 @@ class browserManager { /* exported browserManager*/
       result = (bookmarkItem.children.length > 0);
     }
     return result;
+  }
+
+  static setInnerHtmlByElement(element, innerHTML) {
+    element.innerHTML = innerHTML;
+  }
+
+  static setInnerHtmlById(id, innerHTML) {
+    document.getElementById(id).innerHTML = innerHTML;
+  }
+
+  static loadScript(url, callback){
+    let script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.onload = function(){ callback(); };
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
   }
 }
 //----------------------------------------------------------------------

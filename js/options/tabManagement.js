@@ -1,14 +1,14 @@
-/*global opmlExporter opmlImporter*/
+/*global OpmlExporter OpmlImporter*/
 'use strict';
-class tabManagement { /*exported tabManagement*/
+class TabManagement { /*exported TabManagement*/
   static init() {
-    document.getElementById('inputImportFile').addEventListener('change', tabManagement._importInputChanged_event);
-    document.getElementById('importButton').addEventListener('click', tabManagement._importButtonOnClicked_event);
-    document.getElementById('exportButton').addEventListener('click', tabManagement._exportButtonOnClicked_event);
+    document.getElementById('inputImportFile').addEventListener('change', TabManagement._importInputChanged_event);
+    document.getElementById('importButton').addEventListener('click', TabManagement._importButtonOnClicked_event);
+    document.getElementById('exportButton').addEventListener('click', TabManagement._exportButtonOnClicked_event);
   }
 
   static async _importInputChanged_event() {
-    opmlImporter.import_async();
+    OpmlImporter.import_async();
   }
 
   static async _importButtonOnClicked_event() {
@@ -16,6 +16,6 @@ class tabManagement { /*exported tabManagement*/
   }
 
   static async _exportButtonOnClicked_event() {
-    opmlExporter.instance.export_async();
+    OpmlExporter.instance.export_async();
   }
 }

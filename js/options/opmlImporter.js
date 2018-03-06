@@ -1,14 +1,14 @@
-/*global browser, localStorageManager, textTools, progressBar, dateTime*/
+/*global browser, LocalStorageManager, TextTools, ProgressBar, DateTime*/
 'use strict';
 const TagKindEnum = {
   OPENER: 'opener',
   CLOSER: 'closer',
   SINGLE: 'single'
 };
-class opmlImporter { /*exported opmlImporter*/
+class OpmlImporter { /*exported OpmlImporter*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new opmlImporter();
+      this._instance = new OpmlImporter();
     }
     return this._instance;
   }
@@ -21,17 +21,17 @@ class opmlImporter { /*exported opmlImporter*/
   }
 
   static async _fileReaderOnLoad_event(event) {
-    let self = opmlImporter.instance;
+    let self = OpmlImporter.instance;
     let opmlText = event.target.result;
-    self._progressBarImport = new progressBar('progressBarImport');
+    self._progressBarImport = new ProgressBar('progressBarImport');
     let isOpmlValid = self._opmlIsValid(opmlText);
     if (isOpmlValid) {
       await self._importOmplOutlinesAsync(opmlText);
-      localStorageManager.setValue_async('reloadPanel', Date.now());
+      LocalStorageManager.setValue_async('reloadPanel', Date.now());
     }
     else {
       self._progressBarImport.text = 'Invalid ompl file!';
-      await dateTime.delay_async(2000);
+      await DateTime.delay_async(2000);
       self._progressBarImport.hide();
     }
   }
@@ -45,16 +45,16 @@ class opmlImporter { /*exported opmlImporter*/
   }
 
   async _importOmplOutlinesAsync(opmlText) {
-    let folderId = await localStorageManager.getValue_async('rootBookmarkId');
+    let folderId = await LocalStorageManager.getValue_async('rootBookmarkId');
     await this._cleanBookmarkFolder_async(folderId);
-    await localStorageManager.clean_async();
-    let i1 = textTools.occurrences(opmlText, '<outline');
-    let i2 = textTools.occurrences(opmlText, '</outline');
+    await LocalStorageManager.clean_async();
+    let i1 = TextTools.occurrences(opmlText, '<outline');
+    let i2 = TextTools.occurrences(opmlText, '</outline');
     let itemNumber = i1 + i2;
     let index = 0;
     this._progressBarImport.show();
     try {
-      localStorageManager.setValue_async('importInProgress', true);
+      LocalStorageManager.setValue_async('importInProgress', true);
       for (let i=0; i<itemNumber; i++) {
         try {
           let perCent = (100*i) / itemNumber;
@@ -92,10 +92,10 @@ class opmlImporter { /*exported opmlImporter*/
         }
       }
       this._progressBarImport.value = 100;
-      await dateTime.delay_async(500);
+      await DateTime.delay_async(500);
     }
     finally {
-      localStorageManager.setValue_async('importInProgress', false);
+      LocalStorageManager.setValue_async('importInProgress', false);
       this._progressBarImport.hide();
     }
   }

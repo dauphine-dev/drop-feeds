@@ -1,7 +1,7 @@
 'use strict';
 
 
-class cssManager { /*exported cssManager*/
+class CssManager { /*exported CssManager*/
 
   static _getSheetAndRuleIndex(styleName) {
     let sheetAndRuleIndex = null;
@@ -21,7 +21,7 @@ class cssManager { /*exported cssManager*/
 
 
   static replaceStyle(styleName, styleText) {
-    let sheetAndRuleIndex = cssManager._getSheetAndRuleIndex(styleName);
+    let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
       console.log('replaceStyle() styleName "' + styleName + '" not found!');
@@ -34,7 +34,7 @@ class cssManager { /*exported cssManager*/
   }
 
   static getStyleText(styleName) {
-    let sheetAndRuleIndex = cssManager._getSheetAndRuleIndex(styleName);
+    let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
       console.log('getStyleText() styleName "' + styleName + '" not found!');

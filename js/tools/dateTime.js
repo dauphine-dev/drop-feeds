@@ -1,5 +1,5 @@
 'use strict';
-class dateTime { /*exported dateTime*/
+class DateTime { /*exported DateTime*/
   static get timeZoneList () {
     return  {'ACDT':'GMT+10:30', 'ACST':'GMT+9:30', 'ADT':'GMT−3', 'AEDT':'GMT+11', 'AEST':'GMT+10', 'AFT':'GMT+4:30', 'AKDT':'GMT−8',
       'AKST':'GMT−9', 'AMST':'GMT+5', 'AMT':'GMT+4', 'ART':'GMT−3', 'AST':'GMT−4', 'AWDT':'GMT+9',
@@ -43,13 +43,13 @@ class dateTime { /*exported dateTime*/
   }
 
   static timeZoneToGmt(dateTimeText) {
-    for(var keyTz in dateTime.timeZoneList) {
+    for(var keyTz in DateTime.timeZoneList) {
       if (dateTimeText.endsWith(' ' + keyTz)) {
-        dateTimeText = dateTimeText.replace(' ' + keyTz, ' ' + dateTime.timeZoneList[keyTz]);
+        dateTimeText = dateTimeText.replace(' ' + keyTz, ' ' + DateTime.timeZoneList[keyTz]);
         return dateTimeText;
       }
       if (dateTimeText.includes('(' + keyTz + ')')) {
-        dateTimeText = dateTimeText.replace('(' + keyTz + ')', ' ' + dateTime.timeZoneList[keyTz] + ' ');
+        dateTimeText = dateTimeText.replace('(' + keyTz + ')', ' ' + DateTime.timeZoneList[keyTz] + ' ');
         return dateTimeText;
       }
     }

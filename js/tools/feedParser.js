@@ -1,8 +1,8 @@
-/*global browser textTools dateTime themeManager*/
+/*global browser TextTools DateTime ThemeManager*/
 'use strict';
 const tagList = {
   RSS: ['?xml', 'rss'],
-  CHANNEL: ['channel', 'feed'],
+  CHANNEL: ['channel', 'Feed'],
   LASTBUILDDATE: ['lastBuildDate', 'pubDate'],
   ITEM: ['item', 'entry'],
   ID: ['guid', 'id'],
@@ -19,7 +19,7 @@ class feedParser { /*exported feedParser*/
   static parsePubdate(feedText) {
     if (!feedText) return null;
     let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
-    let itemNumber = textTools.occurrences(feedText, '</' + tagItem + '>');
+    let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let pubDateList=[];
 
     let itemText = feedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
@@ -149,10 +149,10 @@ class feedParser { /*exported feedParser*/
     if (dateTimeText) {
       dateTimeText = dateTimeText.replace(/\s+/g, ' ');
       extractedDateTime = new Date(dateTimeText);
-      if (!dateTime.isValid(extractedDateTime)) {
-        extractedDateTime = new Date(dateTime.timeZoneToGmt(dateTimeText));
-        if (!dateTime.isValid(dateTime)) {
-          //dateTime = new Date(null);
+      if (!DateTime.isValid(extractedDateTime)) {
+        extractedDateTime = new Date(DateTime.timeZoneToGmt(dateTimeText));
+        if (!DateTime.isValid(DateTime)) {
+          //DateTime = new Date(null);
           extractedDateTime = null;
         }
       }
@@ -164,22 +164,22 @@ class feedParser { /*exported feedParser*/
     let channel = {encoding: '', title: '', link: '', description: '', category : '', pubDate: '', htmlChannel: ''};
     channel.encoding =  feedParser._getEncoding(feedText);
     let tagChannel = feedParser._get1stUsedTag(feedText, tagList.CHANNEL);
-    let channelText = textTools.getInnerText(feedText, tagChannel, tagItem);
+    let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
     channel.link = feedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = feedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
     }
-    channel.title = textTools.decodeHtml(feedParser._extractValue(channelText, tagList.TITLE));
+    channel.title = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.TITLE));
     if (!channel.title) { channel.title = channel.link; }
-    channel.description = textTools.decodeHtml(feedParser._extractValue(channelText, tagList.DESC));
+    channel.description = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.DESC));
     channel.htmlChannel = feedParser._getHtmlChannel(channel);
     return channel;
 
   }
 
   static _getHtmlHead(channel) {
-    let iconUrl = browser.extension.getURL(themeManager.instance.iconDF32Url);
-    let cssUrl = browser.extension.getURL(themeManager.instance.getCssUrl('feed.css'));
+    let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
+    let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
     let encoding = channel.encoding ? channel.encoding : 'UTF-8';
     //if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }
     let htmlHead = '';
@@ -188,7 +188,7 @@ class feedParser { /*exported feedParser*/
     htmlHead                      += '    <meta http-equiv="Content-Type" content="text/html; charset=' + encoding + '">\n';
     htmlHead                      += '    <link rel="icon" type="image/png" href="' + iconUrl + '">\n';
     htmlHead                      += '    <link rel="stylesheet" type="text/css" href="' + cssUrl +  '">\n';
-    if (channel.title) { htmlHead += '    <title>' + channel.title + ' - Drop-feed</title>\n'; }
+    if (channel.title) { htmlHead += '    <title>' + channel.title + ' - Drop-Feed</title>\n'; }
     htmlHead                      += '  </head>\n';
     htmlHead                      += '  <body">\n';
     return htmlHead;
@@ -203,7 +203,7 @@ class feedParser { /*exported feedParser*/
 
   static _parseItemsToHtmlList(feedText, tagItem) {
     if (!feedText) return null;
-    let itemNumber = textTools.occurrences(feedText, '</' + tagItem + '>');
+    let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let htmlItemList=[];
     let item = {number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: ''};
     let itemText = feedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
@@ -214,11 +214,11 @@ class feedParser { /*exported feedParser*/
       if (! item.link) {
         item.link = feedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
       }
-      item.title = textTools.decodeHtml(feedParser._extractValue(itemText, tagList.TITLE));
+      item.title = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
-      item.description = textTools.decodeHtml(feedParser._extractValue(itemText, tagList.DESC));
+      item.description = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.DESC));
       item.category = feedParser._getItemCategory(itemText);
-      item.author = textTools.decodeHtml(feedParser._extractValue(itemText, tagList.AUTHOR));
+      item.author = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.AUTHOR));
       let pubDateText = feedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = feedParser._extractDateTime(pubDateText);
       let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
@@ -281,7 +281,7 @@ class feedParser { /*exported feedParser*/
     while (nextStartIndex && catCmpt < MAX_CAT) {
       let tmp = feedParser._extractValue(itemText, tagList.CAT, nextStartIndex, endIndexRef);
       if (tmp) {
-        category += (catCmpt==0 ? '' : ', ')  + textTools.decodeHtml(tmp);
+        category += (catCmpt==0 ? '' : ', ')  + TextTools.decodeHtml(tmp);
       }
       nextStartIndex = endIndexRef[0];
       catCmpt++;

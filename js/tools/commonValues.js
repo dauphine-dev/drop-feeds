@@ -1,9 +1,9 @@
-/*global browser, localStorageManager*/
+/*global browser, LocalStorageManager*/
 'use strict';
-class commonValues { /*exported commonValues*/
+class CommonValues { /*exported CommonValues*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new commonValues();
+      this._instance = new CommonValues();
     }
     return this._instance;
   }
@@ -14,7 +14,7 @@ class commonValues { /*exported commonValues*/
     this._timeOut= 10;
     this._displayRootFolder = true;
     this._rootBookmarkId = undefined;
-    this._subscribeHtmlUrl = '/html/subscribe.html';
+    this._subscribeHtmlUrl = '/html/Subscribe.html';
   }
 
   async init_async() {
@@ -23,18 +23,18 @@ class commonValues { /*exported commonValues*/
   }
 
   async reload_async() {
-    this._alwaysOpenNewTab = await localStorageManager.getValue_async('alwaysOpenNewTab', this.alwaysOpenNewTab);
-    this._openNewTabForeground = await localStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
-    this._timeOut = await localStorageManager.getValue_async('timeOut', this._timeOut);
+    this._alwaysOpenNewTab = await LocalStorageManager.getValue_async('alwaysOpenNewTab', this.alwaysOpenNewTab);
+    this._openNewTabForeground = await LocalStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
+    this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
     if (this._timeOut < 1 || this._timeOut >= 100) { this._timeOut = 10; }
-    this._displayRootFolder = await localStorageManager.getValue_async('displayRootFolder', this._displayRootFolder);
+    this._displayRootFolder = await LocalStorageManager.getValue_async('displayRootFolder', this._displayRootFolder);
     if (this._displayRootFolder == 'yes') { this._displayRootFolder = true; }
     if (this._displayRootFolder == 'no') { this._displayRootFolder = false; }
-    this._rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId', this._rootBookmarkId);
+    this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', this._rootBookmarkId);
   }
 
   _storageChanged_event(changes) {
-    let self = commonValues.instance;
+    let self = CommonValues.instance;
     //listen for values changed from another instance
     let changedItems = Object.keys(changes);
     if (changedItems.includes('alwaysOpenNewTab')) {
@@ -74,7 +74,7 @@ class commonValues { /*exported commonValues*/
   }
   set alwaysOpenNewTab(value) {
     this._alwaysOpenNewTab = value; //change value in local instance
-    localStorageManager.setValue_async('alwaysOpenNewTab', value); //change value in all instances
+    LocalStorageManager.setValue_async('alwaysOpenNewTab', value); //change value in all instances
   }
 
   get openNewTabForeground() {
@@ -82,7 +82,7 @@ class commonValues { /*exported commonValues*/
   }
   set openNewTabForeground(value) {
     this._openNewTabForeground = value;
-    localStorageManager.setValue_async('openNewTabForeground', value);
+    LocalStorageManager.setValue_async('openNewTabForeground', value);
   }
 
   get timeOut() {
@@ -90,7 +90,7 @@ class commonValues { /*exported commonValues*/
   }
   set timeOut(value) {
     this._timeOut = value;
-    localStorageManager.setValue_async('timeOut', this._timeOut);
+    LocalStorageManager.setValue_async('timeOut', this._timeOut);
   }
 
   get displayRootFolder() {
@@ -98,7 +98,7 @@ class commonValues { /*exported commonValues*/
   }
   set displayRootFolder(value) {
     this._displayRootFolder = value;
-    localStorageManager.setValue_async('displayRootFolder', value);
+    LocalStorageManager.setValue_async('displayRootFolder', value);
   }
 
   get rootBookmarkId() {
@@ -106,7 +106,7 @@ class commonValues { /*exported commonValues*/
   }
   set rootBookmarkId(value) {
     this._rootBookmarkId = value;
-    localStorageManager.setValue_async('rootBookmarkId', value);
+    LocalStorageManager.setValue_async('rootBookmarkId', value);
   }
 
   get subscribeHtmlUrl() {

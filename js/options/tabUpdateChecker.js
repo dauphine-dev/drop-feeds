@@ -1,14 +1,14 @@
-/*global commonValues*/
+/*global CommonValues*/
 'use strict';
-class tabUpdateChecker { /*exported tabUpdateChecker*/
+class TabUpdateChecker { /*exported TabUpdateChecker*/
   static async init() {
     let elTimeoutNumber = document.getElementById('timeoutNumber');
-    let timeOut = commonValues.instance.timeOut;
+    let timeOut = CommonValues.instance.timeOut;
     elTimeoutNumber.value = timeOut;
-    elTimeoutNumber.addEventListener('change', tabUpdateChecker._timeoutValueChanged_event);
+    elTimeoutNumber.addEventListener('change', TabUpdateChecker._timeoutValueChanged_event);
   }
 
   static async _timeoutValueChanged_event() {
-    commonValues.instance.timeOut = document.getElementById('timeoutNumber').value;
+    CommonValues.instance.timeOut = document.getElementById('timeoutNumber').value;
   }
 }

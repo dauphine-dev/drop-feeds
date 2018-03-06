@@ -1,10 +1,10 @@
-/*global commonValues themeManager tabControl*/
+/*global CommonValues ThemeManager TabControl*/
 'use strict';
-class options {
+class Options {
   static async new() {
-    await themeManager.instance.init_async();
-    await commonValues.instance.init_async();
-    tabControl.init();
+    await ThemeManager.instance.init_async();
+    await CommonValues.instance.init_async();
+    TabControl.init();
   }
 }
-options.new();
+Options.new();

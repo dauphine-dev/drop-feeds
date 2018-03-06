@@ -1,7 +1,7 @@
-/*global commonValues*/
+/*global CommonValues*/
 'use strict';
 //----------------------------------------------------------------------
-class transfer { /*exported transfer*/
+class Transfer { /*exported Transfer*/
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
@@ -40,7 +40,7 @@ class transfer { /*exported transfer*/
       }
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
-      xhr.timeout = transfer.timeoutMs;
+      xhr.timeout = Transfer.timeoutMs;
       xhr.ontimeout = function (e) {
         reject(e);
       };
@@ -49,7 +49,7 @@ class transfer { /*exported transfer*/
   }
 
   static get timeoutMs() {
-    return 1000 * commonValues.instance.timeOut;
+    return 1000 * CommonValues.instance.timeOut;
   }
 }
 //----------------------------------------------------------------------

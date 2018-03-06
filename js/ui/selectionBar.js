@@ -1,8 +1,8 @@
 'use strict';
-class selectionBar { /*exported selectionBar*/
+class SelectionBar { /*exported SelectionBar*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new selectionBar();
+      this._instance = new SelectionBar();
     }
     return this._instance;
   }

@@ -1,18 +1,18 @@
-/*global tabGeneral tabUpdateChecker tabContentArea tabManagement*/
+/*global TabGeneral TabUpdateChecker TabContentArea TabManagement*/
 'use strict';
-class tabControl { /*exported tabControl*/
+class TabControl { /*exported TabControl*/
   static init() {
-    tabControl._createTabLinks();
-    tabGeneral.instance.init();
-    tabUpdateChecker.init();
-    tabContentArea.init();
-    tabManagement.init();
+    TabControl._createTabLinks();
+    TabGeneral.instance.init();
+    TabUpdateChecker.init();
+    TabContentArea.init();
+    TabManagement.init();
   }
 
   static _createTabLinks() {
     let tabLinksList = document.getElementsByClassName('tabLinks');
     for (let tabLink of tabLinksList) {
-      tabLink.addEventListener('click', tabControl._openTabClicked_event);
+      tabLink.addEventListener('click', TabControl._openTabClicked_event);
     }
   }
 

@@ -1,4 +1,4 @@
-/*global browser textTools, tagList, transfer compute dateTime feedParser localStorageManager*/
+/*global browser TextTools, tagList, Transfer Compute DateTime feedParser LocalStorageManager*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -6,9 +6,9 @@ const feedStatus = {
   ERROR: 'error'
 };
 
-class feed { /*exported feed*/
+class Feed { /*exported Feed*/
   static async new(id) {
-    let feedItem = new feed(id);
+    let feedItem = new Feed(id);
     await feedItem._constructor_async();
     return feedItem;
   }
@@ -24,7 +24,7 @@ class feed { /*exported feed*/
 
   async _constructor_async() {
     this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
-    this._storedFeed = await localStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+    this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
     this._storedFeed.isFeedInfo = true;
     this._storedFeed.title = this._bookmark.title;
     this._updateStoredFeedVersion();
@@ -72,7 +72,7 @@ class feed { /*exported feed*/
 
 
   async save_async() {
-    await localStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
+    await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 
   async getDocUrl_async() {
@@ -124,7 +124,7 @@ class feed { /*exported feed*/
 
   async _manageRedirection_async() {
     if (this._feedText && this._feedText.includes('</redirect>') && this._feedText.includes('</newLocation>')) {
-      let newUrl = textTools.getInnerText(this._feedText, '<newLocation>', '</newLocation>').trim();
+      let newUrl = TextTools.getInnerText(this._feedText, '<newLocation>', '</newLocation>').trim();
       this._newUrl = newUrl;
       await this._download_async(true);
     }
@@ -136,7 +136,7 @@ class feed { /*exported feed*/
       url = this._newUrl;
     }
     try {
-      this._feedText = await transfer.downloadTextFileEx_async(url, urlNoCache);
+      this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
       if (this._feedText) {
         let tagRss = null;
         for (let tag of tagList.RSS) {
@@ -145,12 +145,12 @@ class feed { /*exported feed*/
           }
         }
         if (!tagRss) {
-          this._error = 'invalid feed';
+          this._error = 'invalid Feed';
         }
-        this._feedText = textTools.decodeHtml(this._feedText);
+        this._feedText = TextTools.decodeHtml(this._feedText);
       }
       else {
-        this._error = 'feed is empty';
+        this._error = 'Feed is empty';
       }
     }
     catch(e) {
@@ -167,7 +167,7 @@ class feed { /*exported feed*/
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {
-      if (dateTime.isValid(this._storedFeed.pubDate)) {
+      if (DateTime.isValid(this._storedFeed.pubDate)) {
         if ((this._storedFeed.pubDate > this._prevValues.pubDate) &&  (this._storedFeed.hash != this._prevValues.Hash)) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
@@ -180,7 +180,7 @@ class feed { /*exported feed*/
 
   _computeHashCode() {
     let feedBody = feedParser.getFeedBody(this._feedText);
-    this._storedFeed.hash = compute.hashCode(feedBody);
+    this._storedFeed.hash = Compute.hashCode(feedBody);
   }
 
   _updateStoredFeedVersion() {

@@ -1,10 +1,10 @@
-/*global localStorageManager*/
+/*global LocalStorageManager*/
 'use strict';
 //----------------------------------------------------------------------
-class themeManager { /*exported themeManager*/
+class ThemeManager { /*exported ThemeManager*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new themeManager();
+      this._instance = new ThemeManager();
     }
     return this._instance;
   }
@@ -23,7 +23,7 @@ class themeManager { /*exported themeManager*/
   }
 
   async reload_async() {
-    this._themeFolderName = await localStorageManager.getValue_async('themeFolderName', this._themeFolderName);
+    this._themeFolderName = await LocalStorageManager.getValue_async('themeFolderName', this._themeFolderName);
   }
 
   get themeFolderName() {
@@ -31,7 +31,7 @@ class themeManager { /*exported themeManager*/
   }
   set themeFolderName(value) {
     this._themeFolderName = value;
-    localStorageManager.setValue_async('themeFolderName', value);
+    LocalStorageManager.setValue_async('themeFolderName', value);
   }
 
 
@@ -51,7 +51,7 @@ class themeManager { /*exported themeManager*/
 
   async setThemeFolderName_async(themeFolderName) {
     this.themeFolderName = themeFolderName;
-    await localStorageManager.setValue_async('themeFolderName', themeFolderName);
+    await LocalStorageManager.setValue_async('themeFolderName', themeFolderName);
   }
 
   applyCssToCurrentDocument(cssName) {

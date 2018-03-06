@@ -1,9 +1,9 @@
-/*global browser, browserManager, localStorageManager, textTools*/
+/*global browser, BrowserManager, LocalStorageManager, TextTools*/
 'use strict';
-class opmlExporter { /*exported opmlExporter*/
+class OpmlExporter { /*exported OpmlExporter*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new opmlExporter();
+      this._instance = new OpmlExporter();
     }
     return this._instance;
   }
@@ -35,18 +35,18 @@ class opmlExporter { /*exported opmlExporter*/
     let headText = '<?xml version="1.0" encoding="UTF-8"?>\n';
     headText += '<opml version="1.0">\n';
     indentRef[0] += this._opmlIntentSize;
-    headText += textTools.makeIndent(indentRef[0]) + '<head>\n';
+    headText += TextTools.makeIndent(indentRef[0]) + '<head>\n';
     indentRef[0] += this._opmlIntentSize;
-    headText += textTools.makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
+    headText += TextTools.makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
     indentRef[0] -= this._opmlIntentSize;
-    headText += textTools.makeIndent(indentRef[0]) +'</head>\n';
-    headText += textTools.makeIndent(indentRef[0]) +'<body>\n';
+    headText += TextTools.makeIndent(indentRef[0]) +'</head>\n';
+    headText += TextTools.makeIndent(indentRef[0]) +'<body>\n';
     indentRef[0] += this._opmlIntentSize;
     return headText;
   }
 
   async _getOpmlBody_async(indentRef) {
-    let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
+    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId');
     let rootBookmarkItem = (await browser.bookmarks.getSubTree(rootBookmarkId))[0];
     await this._prepareOpmlItemsRecursively_async(rootBookmarkItem, indentRef, true);
     let opmlBody = this._opmlItemList.join('');
@@ -55,7 +55,7 @@ class opmlExporter { /*exported opmlExporter*/
 
   _getOpmlFoot(indentRef) {
     indentRef[0] -= this._opmlIntentSize;
-    let footText = textTools.makeIndent(indentRef[0]) + '</body>\n';
+    let footText = TextTools.makeIndent(indentRef[0]) + '</body>\n';
     footText += '</opml>';
     return footText;
   }
@@ -69,7 +69,7 @@ class opmlExporter { /*exported opmlExporter*/
     else {
       let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
       let url = escape(bookmarkItem.url);
-      let externalLine = textTools.makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
+      let externalLine = TextTools.makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
       this._opmlItemList.push(externalLine);
     }
   }
@@ -77,8 +77,8 @@ class opmlExporter { /*exported opmlExporter*/
   async _createOpmlInternalNodes_async (bookmarkItem, indentRef, isRoot) {
     let addClose = false;
     if (!isRoot) {
-      let internalLineOpen = textTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
-      if (browserManager.bookmarkHasChild(bookmarkItem)) {
+      let internalLineOpen = TextTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
+      if (BrowserManager.bookmarkHasChild(bookmarkItem)) {
         addClose = true;
         internalLineOpen += '>\n';
       }
@@ -89,7 +89,7 @@ class opmlExporter { /*exported opmlExporter*/
       indentRef[0] += this._opmlIntentSize;
     }
 
-    if (browserManager.bookmarkHasChild(bookmarkItem)) {
+    if (BrowserManager.bookmarkHasChild(bookmarkItem)) {
       for (let child of bookmarkItem.children) {
         await this._prepareOpmlItemsRecursively_async(child, indentRef, false);
       }
@@ -97,7 +97,7 @@ class opmlExporter { /*exported opmlExporter*/
     if (!isRoot) {
       indentRef[0] -= this._opmlIntentSize;
       if (addClose) {
-        let internalLineClose = textTools.makeIndent(indentRef[0]) + '</outline>\n';
+        let internalLineClose = TextTools.makeIndent(indentRef[0]) + '</outline>\n';
         this._opmlItemList.push(internalLineClose);
       }
     }

@@ -1,10 +1,10 @@
-/*global */
+/*global BrowserManager*/
 //----------------------------------------------------------------------
 'use strict';
-class statusBar { /*exported statusBar*/
+class StatusBar { /*exported StatusBar*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new statusBar();
+      this._instance = new StatusBar();
     }
     return this._instance;
   }
@@ -21,7 +21,6 @@ class statusBar { /*exported statusBar*/
   }
 
   set text(text) {
-    let elStatusBar = document.getElementById('statusText');
-    elStatusBar.innerHTML = text;
+    BrowserManager.setInnerHtmlById('statusText', text);
   }
 }

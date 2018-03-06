@@ -1,10 +1,10 @@
-/*global browser, localStorageManager, textTools*/
+/*global browser, LocalStorageManager, TextTools BrowserManager*/
 'use strict';
-class subscribe {
+class Subscribe {
 
   static get instance() {
     if (!this._instance) {
-      this._instance = new subscribe();
+      this._instance = new Subscribe();
     }
     return this._instance;
   }
@@ -17,9 +17,9 @@ class subscribe {
   }
 
   async init_async() {
-    let subscribeInfo = await localStorageManager.getValue_async('subscribeInfo');
+    let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
     if (subscribeInfo) {
-      localStorageManager.setValue_async('subscribeInfo', null);
+      LocalStorageManager.setValue_async('subscribeInfo', null);
       this._feedTitle = subscribeInfo.feedTitle;
       this._feedUrl = subscribeInfo.feedUrl;
     }
@@ -29,7 +29,7 @@ class subscribe {
       this._feedUrl = tabInfos[0].url;
     }
 
-    this._selectedId = await localStorageManager.getValue_async('rootBookmarkId');
+    this._selectedId = await LocalStorageManager.getValue_async('rootBookmarkId');
     this._loadFolderView_async( this._selectedId);
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('newFolderButton').addEventListener('click', this._newFolderButtonClicked_event);
@@ -40,7 +40,7 @@ class subscribe {
   }
 
   async _newFolderButtonClicked_event(event) {
-    let self = subscribe.instance;
+    let self = Subscribe.instance;
     event.stopPropagation();
     event.preventDefault();
     self._showNewFolderDialog();
@@ -53,7 +53,7 @@ class subscribe {
   }
 
   async _subscribeButtonClicked_event() {
-    let self = subscribe.instance;
+    let self = Subscribe.instance;
     try {
       let name = document.getElementById('inputName').value;
       await browser.bookmarks.create({parentId: self._selectedId, title: name, url: self._feedUrl});
@@ -67,14 +67,14 @@ class subscribe {
   }
 
   async _cancelNewFolderButtonClicked_event(event) {
-    let self = subscribe.instance;
+    let self = Subscribe.instance;
     event.stopPropagation();
     event.preventDefault();
     self._hideNewFolderDialog();
   }
 
   async _createNewFolderButtonClicked_event(event) {
-    let self = subscribe.instance;
+    let self = Subscribe.instance;
     event.stopPropagation();
     event.preventDefault();
     try {
@@ -114,7 +114,7 @@ class subscribe {
     elNewFolderDialog.style.top = y + 'px';
   }
   async _loadFolderView_async(idToSelect) {
-    let rootBookmarkId = await localStorageManager.getValue_async('rootBookmarkId');
+    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId');
     let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
     await this._createItemsForSubTree_async(subTree, idToSelect);
     this._addEventListenerOnFolders();
@@ -122,7 +122,7 @@ class subscribe {
   async _createItemsForSubTree_async(bookmarkItems, idToSelect) {
     this._html= [];
     await this._prepareSbItemsRecursively_async(bookmarkItems[0], 10, idToSelect);
-    document.getElementById('content').innerHTML = '\n' + this._html.join('');
+    BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
   }
   async _prepareSbItemsRecursively_async(bookmarkItem, indent, idToSelect) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
@@ -140,16 +140,16 @@ class subscribe {
     let selected = (idToSelect == id ? ' class="selected"' : '');
     let selected1 = (idToSelect == id ? ' class="selected1"' : '');
     let folderLine = '';
-    folderLine += textTools.makeIndent(indent) +
+    folderLine += TextTools.makeIndent(indent) +
     '<div id="dv-' + id + '" class="folder">\n';
     indent += 2;
-    folderLine += textTools.makeIndent(indent) +
+    folderLine += TextTools.makeIndent(indent) +
     '<li>' +
     '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
     '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' +
     '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' +
     '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
-    folderLine += textTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+    folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
     indent += 2;
     this._html.push(folderLine);
     if (bookmarkItem.children) {
@@ -158,10 +158,10 @@ class subscribe {
       }
     }
     indent -= 2;
-    this._html.push(textTools.makeIndent(indent) + '</ul>\n');
-    this._html.push(textTools.makeIndent(indent) + '</li>\n');
+    this._html.push(TextTools.makeIndent(indent) + '</ul>\n');
+    this._html.push(TextTools.makeIndent(indent) + '</li>\n');
     indent -= 2;
-    this._html.push(textTools.makeIndent(indent) + '</div>\n');
+    this._html.push(TextTools.makeIndent(indent) + '</div>\n');
   }
   _addEventListenerOnFolders() {
     let els = document.querySelectorAll('.folderLabel');
@@ -170,7 +170,7 @@ class subscribe {
     }
   }
   async _folderOnClicked_event(event) {
-    let self = subscribe.instance;
+    let self = Subscribe.instance;
     let elLabel = event.currentTarget;
     let id = elLabel.getAttribute('id').substring(4);
     self._selectedId = id;
@@ -191,4 +191,4 @@ class subscribe {
   }
 }
 
-subscribe.instance.init_async();
+Subscribe.instance.init_async();

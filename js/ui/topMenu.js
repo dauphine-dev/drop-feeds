@@ -1,12 +1,12 @@
-/*global browser selectionBar statusBar localStorageManager cssManager dateTime feedManager*/
+/*global browser SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager*/
 /*global defaultStoredFolder */
 //----------------------------------------------------------------------
 'use strict';
 //----------------------------------------------------------------------
-class topMenu  { /*exported topMenu*/
+class TopMenu  { /*exported TopMenu*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new topMenu();
+      this._instance = new TopMenu();
     }
     return this._instance;
   }
@@ -53,7 +53,7 @@ class topMenu  { /*exported topMenu*/
       document.getElementById('checkFeedsButton').classList.remove('checkFeedsButtonAnim');
     }
   //Todo: move it at the call level
-    statusBar.instance.workInProgress = animationEnable;
+    StatusBar.instance.workInProgress = animationEnable;
   }
 
   activateButton(buttonId, activated) {
@@ -73,30 +73,30 @@ class topMenu  { /*exported topMenu*/
   updatedFeedsSetVisibility() {
     this.activateButton('onlyUpdatedFeedsButton' , this._updatedFeedsVisible);
     let visibleValue = this._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
-    cssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
-    cssManager.replaceStyle('.feedRead', visibleValue);
-    cssManager.replaceStyle('.feedError', visibleValue);
-    localStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    CssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
+    CssManager.replaceStyle('.feedRead', visibleValue);
+    CssManager.replaceStyle('.feedError', visibleValue);
+    LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    selectionBar.instance.putAtRoot();
-    feedManager.instance.checkFeeds_async(document);
+    SelectionBar.instance.putAtRoot();
+    FeedManager.instance.checkFeeds_async(document);
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {
-    let self = topMenu.instance;
+    let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     self._updatedFeedsVisible = ! self._updatedFeedsVisible;
     self.updatedFeedsSetVisibility();
-    selectionBar.instance.putAtRoot();
+    SelectionBar.instance.putAtRoot();
   }
 
   async toggleFoldersButtonClicked_event(event) {
-    let self = topMenu.instance;
+    let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     self._foldersOpened = !self._foldersOpened;
@@ -109,33 +109,33 @@ class topMenu  { /*exported topMenu*/
       let storedFolder = defaultStoredFolder(folderId);
       folders[i].checked = self._foldersOpened;
       storedFolder.checked = self._foldersOpened;
-      localStorageManager.setValue_async(folderId, storedFolder);
+      LocalStorageManager.setValue_async(folderId, storedFolder);
     }
-    selectionBar.instance.putAtRoot();
+    SelectionBar.instance.putAtRoot();
   }
 
   async addFeedButtonClicked_event(event) {
-    let self = topMenu.instance;
+    let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
-    selectionBar.instance.putAtRoot();
+    SelectionBar.instance.putAtRoot();
   }
 
   async discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    statusBar.instance.text = 'not yet implemented!';
-    selectionBar.instance.putAtRoot();
-    await dateTime.delay_async(250);
-    statusBar.instance.text = '';
+    StatusBar.instance.text = 'not yet implemented!';
+    SelectionBar.instance.putAtRoot();
+    await DateTime.delay_async(250);
+    StatusBar.instance.text = '';
   }
 
   async optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
-    selectionBar.instance.putAtRoot();
+    SelectionBar.instance.putAtRoot();
   }
 }

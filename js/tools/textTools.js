@@ -1,12 +1,12 @@
 'use strict';
-class textTools { /* exported textTools*/
+class TextTools { /* exported TextTools*/
   static makeIndent(indentLength) {
     return ' '.repeat(indentLength);
   }
 
   static getInnerText(text, startPattern, endPattern) {
     let outputIndex = {};
-    let result = textTools.getInnerTextEx(text, startPattern, endPattern, 0, outputIndex, false);
+    let result = TextTools.getInnerTextEx(text, startPattern, endPattern, 0, outputIndex, false);
     return result;
   }
 

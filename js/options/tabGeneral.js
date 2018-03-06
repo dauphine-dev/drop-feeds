@@ -1,9 +1,9 @@
-/*global browser, commonValues, themeManager, transfer, localStorageManager, dateTime*/
+/*global browser CommonValues ThemeManager Transfer LocalStorageManager DateTime BrowserManager*/
 'use strict';
-class tabGeneral { /*exported tabGeneral*/
+class TabGeneral { /*exported TabGeneral*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new tabGeneral();
+      this._instance = new TabGeneral();
     }
     return this._instance;
   }
@@ -21,34 +21,38 @@ class tabGeneral { /*exported tabGeneral*/
 
   async _initFeedFolderDropdown_async() {
     let bookmarkItems = await browser.bookmarks.getTree();
-    await this._prepareOptionsRecursively_async(bookmarkItems[0], 0, commonValues.instance.rootBookmarkId);
+    await this._prepareOptionsRecursively_async(bookmarkItems[0], 0, CommonValues.instance.rootBookmarkId);
     let optionList =  this._optionFolderList.join('');
-    let feedFolderSelectHtml = '<select id="feedFolderSelect">\n' +  optionList + '</select>\n';
-    document.getElementById('feedList').innerHTML += feedFolderSelectHtml;
+    let elFeedList = document.getElementById('feedList');
+    let feedFolderSelectHtml = elFeedList.innerHTML + '<select id="feedFolderSelect">\n' +  optionList + '</select>\n';
+    BrowserManager.setInnerHtmlByElement(elFeedList, feedFolderSelectHtml);
+
+
     document.getElementById('feedFolderSelect').addEventListener('change', this._feedFolderSelectChanged_event);
     document.getElementById('applySelectedFeedButton').addEventListener('click', this._applySelectedFeedButtonClicked_event);
   }
 
   _initDisplayRootFolderCheckbox() {
-    let notDisplayRootFolder = ! commonValues.instance.displayRootFolder;
+    let notDisplayRootFolder = ! CommonValues.instance.displayRootFolder;
     let elNotDisplayRootFolderCheckBox = document.getElementById('notDisplayRootFolderCheckBox');
     elNotDisplayRootFolderCheckBox.checked = notDisplayRootFolder;
     elNotDisplayRootFolderCheckBox.addEventListener('click', this._notDisplayRootFolderCheckBoxClicked_event);
   }
 
   async _initThemeDropdown_async() {
-    let themeListHtml = await this._createThemeListHtml_async();
-    document.getElementById('themeList').innerHTML += themeListHtml;
+    let elThemeList = document.getElementById('themeList');
+    let themeListHtml = elThemeList.innerHTML + await this._createThemeListHtml_async();
+    BrowserManager.setInnerHtmlByElement(elThemeList, themeListHtml);
     document.getElementById('themeSelect').addEventListener('change', this._themeSelectChanged_event);
   }
 
   async _createThemeListHtml_async() {
     const folder_name = 0;
     const ui_name = 1;
-    let themeListUrl = browser.extension.getURL(themeManager.instance.themesListUrl);
-    let themeListText = await transfer.downloadTextFile_async(themeListUrl);
+    let themeListUrl = browser.extension.getURL(ThemeManager.instance.themesListUrl);
+    let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
     let themeList = themeListText.trim().split('\n');
-    let selectedThemeName = await themeManager.instance.themeFolderName;
+    let selectedThemeName = await ThemeManager.instance.themeFolderName;
 
     let optionList = [];
     themeList.shift();
@@ -75,7 +79,7 @@ class tabGeneral { /*exported tabGeneral*/
   async _createFolderOption_async (bookmarkItem, indent) {
     let indentString = '&nbsp;'.repeat(indent);
     let selected = '';
-    if (bookmarkItem.id == commonValues.instance.rootBookmarkId) {
+    if (bookmarkItem.id == CommonValues.instance.rootBookmarkId) {
       selected = ' selected';
     }
     let optionLine =  '<option value="' + bookmarkItem.id + '"' + selected + '>' +
@@ -92,8 +96,8 @@ class tabGeneral { /*exported tabGeneral*/
   }
 
   async _notDisplayRootFolderCheckBoxClicked_event() {
-    commonValues.instance.displayRootFolder = ! document.getElementById('notDisplayRootFolderCheckBox').checked;
-    await localStorageManager.setValue_async('reloadPanel', Date.now());
+    CommonValues.instance.displayRootFolder = ! document.getElementById('notDisplayRootFolderCheckBox').checked;
+    await LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
   async _feedFolderSelectChanged_event() {
@@ -102,16 +106,16 @@ class tabGeneral { /*exported tabGeneral*/
 
   async _applySelectedFeedButtonClicked_event() {
     let rootBookmarkId = document.getElementById('feedFolderSelect').value;
-    await localStorageManager.clean();
-    commonValues.instance.rootBookmarkId = rootBookmarkId;
-    await localStorageManager.setValue_async('reloadPanel', Date.now());
-    await dateTime.delay_async(100);
+    await LocalStorageManager.clean();
+    CommonValues.instance.rootBookmarkId = rootBookmarkId;
+    await LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    await DateTime.delay_async(100);
     document.getElementById('applySelectedFeedButton').style.display = 'none';
   }
 
   async _themeSelectChanged_event() {
     let themeName = document.getElementById('themeSelect').value;
-    await themeManager.instance.setThemeFolderName_async(themeName);
-    await localStorageManager.setValue_async('reloadPanelWindow', Date.now());
+    await ThemeManager.instance.setThemeFolderName_async(themeName);
+    await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
 }

@@ -1,5 +1,5 @@
 'use strict';
-class compute { /* exported compute*/
+class Compute { /* exported Compute*/
   static hashCode(text) {
     let hash = 0;
     if (!text || text.length == 0) {
