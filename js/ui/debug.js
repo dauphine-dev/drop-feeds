@@ -11,38 +11,38 @@ class Debug {
   }
 
   static async _localStorageToHtml_async() {
-    let LocalStorageManager = await browser.storage.local.get();
+    let localStorage = await browser.storage.local.get();
     let nodataList = [];
     let miscList = [];
     let folderStateList = [];
     let bookmarkList = [];
     //let keysToRemove = [];
 
-    for (let property in LocalStorageManager) {
-      if (LocalStorageManager.hasOwnProperty(property)) {
-        if(typeof LocalStorageManager[property] === 'undefined') {
-          nodataList.push([property, typeof LocalStorageManager[property], 'undefined']);
+    for (let property in localStorage) {
+      if (localStorage.hasOwnProperty(property)) {
+        if(typeof localStorage[property] === 'undefined') {
+          nodataList.push([property, typeof localStorage[property], 'undefined']);
           continue;
         }
         if (property.startsWith('cb-')) {
-          folderStateList.push([property, typeof LocalStorageManager[property], LocalStorageManager[property] ]);
+          folderStateList.push([property, typeof localStorage[property], localStorage[property] ]);
           continue;
         }
-        if (LocalStorageManager[property] !== null) {
-          if (LocalStorageManager[property].isFeedInfo || LocalStorageManager[property].isBkmrk || LocalStorageManager[property].bkmrkId) {
-            bookmarkList.push([property, typeof LocalStorageManager[property], LocalStorageManager[property] ]);
+        if (localStorage[property] !== null) {
+          if (localStorage[property].isFeedInfo || localStorage[property].isBkmrk || localStorage[property].bkmrkId) {
+            bookmarkList.push([property, typeof localStorage[property], localStorage[property] ]);
             continue;
           }
         }
-        if (LocalStorageManager[property] === null) {
-          nodataList.push([property, typeof LocalStorageManager[property], 'null']);
+        if (localStorage[property] === null) {
+          nodataList.push([property, typeof localStorage[property], 'null']);
         }
         else {
-          if (typeof LocalStorageManager[property] == 'object') {
+          if (typeof localStorage[property] == 'object') {
             //keysToRemove.push(property);
           }
           else {
-            miscList.push([property, typeof LocalStorageManager[property], LocalStorageManager[property].toString() ]);
+            miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
           }
         }
       }

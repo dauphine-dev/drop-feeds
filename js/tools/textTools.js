@@ -1,6 +1,7 @@
 'use strict';
 class TextTools { /* exported TextTools*/
   static makeIndent(indentLength) {
+    if (indentLength < 1) { return; }
     return ' '.repeat(indentLength);
   }
 
@@ -11,6 +12,7 @@ class TextTools { /* exported TextTools*/
   }
 
   static getInnerTextEx(text,  startPattern, endPattern, inputIndex, outputIndex, last) {
+    if (!text) { return text; }
     outputIndex = {inputIndex};
     let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
     if (startIndex == -1) return null;
@@ -23,6 +25,8 @@ class TextTools { /* exported TextTools*/
   }
 
   static occurrences(string, subString) {
+    if (!string) { return string; }
+    if (!subString) { return string; }
     return string.split(subString).length - 1;
   }
 

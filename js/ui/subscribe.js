@@ -1,4 +1,4 @@
-/*global browser LocalStorageManager TextTools BrowserManager*/
+/*global browser DefaultValues LocalStorageManager TextTools BrowserManager*/
 'use strict';
 class Subscribe {
 
@@ -13,7 +13,8 @@ class Subscribe {
     this._html = [];
     this._feedTitle = null;
     this._feedUrl = null;
-    this._selectedId = null;
+    this._rootBookmarkId = DefaultValues.rootBookmarkId;
+    this._selectedId = DefaultValues.rootBookmarkId;
   }
 
   async init_async() {
@@ -29,8 +30,9 @@ class Subscribe {
       this._feedUrl = tabInfos[0].url;
     }
 
-    this._selectedId = await LocalStorageManager.getValue_async('rootBookmarkId');
-    this._loadFolderView_async( this._selectedId);
+    this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', this._rootBookmarkId);
+    this._selectedId = this._rootBookmarkId;
+    this._loadFolderView_async();
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('newFolderButton').addEventListener('click', this._newFolderButtonClicked_event);
     document.getElementById('cancelButton').addEventListener('click', this._cancelButtonClicked_event);
@@ -113,17 +115,19 @@ class Subscribe {
     elNewFolderDialog.style.left = x + 'px';
     elNewFolderDialog.style.top = y + 'px';
   }
-  async _loadFolderView_async(idToSelect) {
-    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId');
-    let subTree = await browser.bookmarks.getSubTree(rootBookmarkId);
-    await this._createItemsForSubTree_async(subTree, idToSelect);
+
+  async _loadFolderView_async() {
+    let subTree = await browser.bookmarks.getSubTree(this._rootBookmarkId);
+    await this._createItemsForSubTree_async(subTree);
     this._addEventListenerOnFolders();
   }
-  async _createItemsForSubTree_async(bookmarkItems, idToSelect) {
+
+  async _createItemsForSubTree_async(bookmarkItems) {
     this._html= [];
-    await this._prepareSbItemsRecursively_async(bookmarkItems[0], 10, idToSelect);
+    await this._prepareSbItemsRecursively_async(bookmarkItems[0], 10, this._selectedId);
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
   }
+
   async _prepareSbItemsRecursively_async(bookmarkItem, indent, idToSelect) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
     let isFolder = (!bookmarkItem.url);

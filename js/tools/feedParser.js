@@ -2,7 +2,7 @@
 'use strict';
 const tagList = {
   RSS: ['?xml', 'rss'],
-  CHANNEL: ['channel', 'Feed'],
+  CHANNEL: ['channel', 'feed'],
   LASTBUILDDATE: ['lastBuildDate', 'pubDate'],
   ITEM: ['item', 'entry'],
   ID: ['guid', 'id'],
@@ -56,10 +56,11 @@ class feedParser { /*exported feedParser*/
     return feedBody;
   }
 
-  static async  parseFeedToHtml_async(feedText) {
+  static async  parseFeedToHtml_async(feedText, defaultTitle) {
+    if (!feedText) { return ''; }
     let feedHtml = '';
     let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
-    let channelObj = feedParser._parseChannelToObj(feedText, tagItem);
+    let channelObj = feedParser._parseChannelToObj(feedText, tagItem, defaultTitle);
     let htmlHead = feedParser._getHtmlHead(channelObj);
     feedHtml += htmlHead;
     feedHtml += channelObj.htmlChannel;
@@ -160,7 +161,7 @@ class feedParser { /*exported feedParser*/
     return extractedDateTime;
   }
 
-  static _parseChannelToObj(feedText, tagItem) {
+  static _parseChannelToObj(feedText, tagItem, defaultTitle) {
     let channel = {encoding: '', title: '', link: '', description: '', category : '', pubDate: '', htmlChannel: ''};
     channel.encoding =  feedParser._getEncoding(feedText);
     let tagChannel = feedParser._get1stUsedTag(feedText, tagList.CHANNEL);
@@ -170,6 +171,7 @@ class feedParser { /*exported feedParser*/
       channel.link = feedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
     }
     channel.title = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.TITLE));
+    if (!channel.title) { channel.title = defaultTitle; }
     if (!channel.title) { channel.title = channel.link; }
     channel.description = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.DESC));
     channel.htmlChannel = feedParser._getHtmlChannel(channel);

@@ -1,18 +1,20 @@
-/*global browser CommonValues BrowserManager SelectionBar TopMenu FeedManager StatusBar ContextMenu LocalStorageManager TextTools Feed BookmarkManager*/
+/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar ContextMenu LocalStorageManager TextTools Feed BookmarkManager*/
 'use strict';
 class TreeView { /*exported TreeView*/
   constructor() {
     this._html = null;
     this._is1stFolder = null;
+    this._displayRootFolder = DefaultValues.displayRootFolder;
   }
 
   async createAndShow() {
     this._html = [];
     this._is1stFolder = true;
-    let rootBookmarkId = await BookmarkManager.getRootFolderId_async();
+    let rootBookmarkId = await BookmarkManager.instance.getRootFolderId_async();
     let rootBookmark = (await browser.bookmarks.getSubTree(rootBookmarkId))[0];
-    let displayRootFolder = CommonValues.instance.displayRootFolder;
-    await this._computeHtmlTree_async(rootBookmark, 10, displayRootFolder);
+    let cacheLocalStorage = await LocalStorageManager.getCache_async();
+    this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
+    this._computeHtmlTree(cacheLocalStorage, rootBookmark, 10, this._displayRootFolder);
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
@@ -54,10 +56,10 @@ class TreeView { /*exported TreeView*/
     }
   }
 
-  _folderChanged_event(event) {
+  async _folderChanged_event(event) {
     let folderItem = event.currentTarget;
     let folderId = folderItem.getAttribute('id');
-    let storedFolder = BookmarkManager.getDefaultStoredFolder(folderId);
+    let storedFolder = DefaultValues.getStoredFolder(folderId);
     storedFolder.checked = folderItem.checked;
     LocalStorageManager.setValue_async(folderId, storedFolder);
   }
@@ -82,22 +84,22 @@ class TreeView { /*exported TreeView*/
     SelectionBar.instance.setRootElement(this._1stFolderDivId);
   }
 
-  async _computeHtmlTree_async(bookmarkItem, indent, displayThisFolder) {
+  _computeHtmlTree(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
     let isFolder = (!bookmarkItem.url);
     if (isFolder) {
-      await this._createTreeFolder_async(bookmarkItem, indent, displayThisFolder);
+      this._createTreeFolder(cacheLocalStorage, bookmarkItem, indent, displayThisFolder);
       indent += 2;
     } else {
-      await this.createTreeFeed_async(bookmarkItem, indent);
+      this._createTreeFeed(cacheLocalStorage, bookmarkItem, indent);
     }
     indent -=2;
   }
 
-  async _createTreeFolder_async (bookmarkItem, indent, displayThisFolder) {
+  _createTreeFolder (cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     let id = bookmarkItem.id;
     let folderName = bookmarkItem.title;
-    let storedFolder = await LocalStorageManager.getValue_async('cb-' + id, BookmarkManager.getDefaultStoredFolder('cb-' + id));
+    let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
     let checked = storedFolder.checked ? 'checked' : '';
     let folderLine = '';
     if (displayThisFolder) {
@@ -119,7 +121,7 @@ class TreeView { /*exported TreeView*/
     }
     if (bookmarkItem.children) {
       for (let child of bookmarkItem.children) {
-        await this._computeHtmlTree_async(child, indent, true);
+        this._computeHtmlTree(cacheLocalStorage, child, indent, true);
       }
     }
     indent -= 2;
@@ -129,12 +131,42 @@ class TreeView { /*exported TreeView*/
     this._html.push(TextTools.makeIndent(indent) + '</div>\n');
   }
 
-  async createTreeFeed_async (bookmarkItem, indent) {
+  _createTreeFeed (cacheLocalStorage, bookmarkItem, indent) {
     let feedName = bookmarkItem.title;
-    let className = (await Feed.new(bookmarkItem.id)).className;
+    let className = this._getFeedClassName(cacheLocalStorage, bookmarkItem.id);
     let feedLine = TextTools.makeIndent(indent) +
     '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
     this._html.push(feedLine);
   }
+
+  _getStoredFolder(cacheLocalStorage, folderId) {
+    let storedFolder = cacheLocalStorage['cb-' + folderId];
+    if (!storedFolder) {
+      storedFolder = DefaultValues.getStoredFolder('cb-' + folderId);
+    }
+    return storedFolder;
+  }
+
+  _getStoredFeed(cacheLocalStorage, feedId) {
+    let storedFeed = cacheLocalStorage[feedId];
+    if (!storedFeed) {
+      storedFeed = DefaultValues.getStoredFeed(feedId);
+    }
+    return storedFeed;
+  }
+
+  _getFeedClassName(cacheLocalStorage, feedId) {
+    let storedFeed = this._getStoredFeed(cacheLocalStorage, feedId);
+    return Feed.getClassName(storedFeed);
+  }
+
+  _getDisplayRootFolder(cacheLocalStorage) {
+    let displayRootFolder = cacheLocalStorage['displayRootFolder'];
+    if (displayRootFolder) {
+      displayRootFolder =  DefaultValues.displayRootFolder;
+    }
+    return displayRootFolder;
+  }
+
 
 }

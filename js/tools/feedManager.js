@@ -1,4 +1,4 @@
-/*global browser TopMenu StatusBar feedStatus BrowserManager CommonValues Feed*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager LocalStorageListener*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() {
@@ -12,6 +12,23 @@ class FeedManager { /*exported FeedManager*/
     this._feedCheckingInProgress = false;
     this._updatedFeeds = 0;
     this._feedsToCheckList = null;
+    this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
+    this._openNewTabForeground = DefaultValues.openNewTabForeground;
+  }
+
+  async init_async() {
+    this._alwaysOpenNewTab = await LocalStorageManager.getValue_async('alwaysOpenNewTab',  this._alwaysOpenNewTab);
+    LocalStorageListener.instance.subscribe('alwaysOpenNewTab', FeedManager.setAlwaysOpenNewTab_sbscrb);
+    this._openNewTabForeground = await LocalStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
+    LocalStorageListener.instance.subscribe('openNewTabForeground', FeedManager.setOpenNewTabForeground_sbscrb);
+  }
+
+  static setAlwaysOpenNewTab_sbscrb(value){
+    FeedManager.instance._alwaysOpenNewTab = value;
+  }
+
+  static setOpenNewTabForeground_sbscrb(value){
+    FeedManager.instance._openNewTabForeground = value;
   }
 
   async checkFeeds_async(rootElement) {
@@ -56,8 +73,8 @@ class FeedManager { /*exported FeedManager*/
     let feedHtmlUrl = await feed.getDocUrl_async();
     let activeTab = await BrowserManager.getActiveTab_async();
     let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
-    if(CommonValues.instance.alwaysOpenNewTab && !isEmptyActiveTab) {
-      await browser.tabs.create({url:feedHtmlUrl, active: CommonValues.instance.openNewTabForeground});
+    if(this._alwaysOpenNewTab && !isEmptyActiveTab) {
+      await browser.tabs.create({url:feedHtmlUrl, active: this._openNewTabForeground});
     } else {
       await browser.tabs.update(activeTab.id, {url: feedHtmlUrl});
     }

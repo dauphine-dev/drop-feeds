@@ -1,4 +1,4 @@
-/*global browser TextTools, tagList, Transfer Compute DateTime feedParser LocalStorageManager*/
+/*global browser DefaultValues TextTools, tagList, Transfer Compute DateTime feedParser LocalStorageManager*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -14,7 +14,7 @@ class Feed { /*exported Feed*/
   }
 
   constructor(id) {
-    this._storedFeed = { id: id, hash: null, pubDate: null, status: feedStatus.OLD, isFeedInfo: true, title: null };
+    this._storedFeed = DefaultValues.getStoredFeed(id);
     this._prevValues = {hash: null, pubDate: null};
     this._bookmark = null;
     this._feedText = null;
@@ -54,9 +54,9 @@ class Feed { /*exported Feed*/
     await this.save_async();
   }
 
-  get className() {
+  static getClassName(storedFeed) {
     let itemClass = null;
-    switch(this._storedFeed.status) {
+    switch(storedFeed.status) {
       case feedStatus.UPDATED:
         itemClass = 'feedUnread';
         break;
@@ -76,7 +76,7 @@ class Feed { /*exported Feed*/
   }
 
   async getDocUrl_async() {
-    let feedHtml = await feedParser.parseFeedToHtml_async(this._feedText);
+    let feedHtml = await feedParser.parseFeedToHtml_async(this._feedText, this._storedFeed.title);
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
@@ -163,7 +163,7 @@ class Feed { /*exported Feed*/
   }
 
   async _updateStatus() {
-    if (this._error) {
+    if (this._error != null) {
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {

@@ -1,9 +1,9 @@
-/*global browser, CommonValues, StatusBar, LocalStorageManager, DateTime*/
+/*global browser DefaultValues StatusBar LocalStorageManager DateTime LocalStorageListener*/
 'use strict';
-class BookmarksInfo {
+class BookmarkManager { /*exported BookmarkManager*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new BookmarksInfo();
+      this._instance = new BookmarkManager();
     }
     return this._instance;
   }
@@ -11,73 +11,85 @@ class BookmarksInfo {
   constructor() {
     this.lastCreatedBookmarkId = null;
     this.importInProgress = false;
+    LocalStorageListener.instance.subscribe('importInProgress', BookmarkManager.setImportInProgress_sbscrb);
   }
-}
-class BookmarkManager { /*exported BookmarkManager*/
-  static addListeners() {
+
+  async init_async() {
+    this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
+    LocalStorageListener.instance.subscribe('rootBookmarkId', BookmarkManager.setRootBookmarkId_sbscrb);
+  }
+
+  static setImportInProgress_sbscrb(value) {
+    BookmarkManager.instance._importInProgress = value;
+  }
+
+  static setRootBookmarkId_sbscrb(value) {
+    BookmarkManager.instance._rootBookmarkId = value;
+  }
+
+  addListeners() {
     browser.bookmarks.onCreated.addListener(BookmarkManager._bookmarkOnCreated_event);
     browser.bookmarks.onRemoved.addListener(BookmarkManager._bookmarkOnRemoved_event);
     browser.bookmarks.onChanged.addListener(BookmarkManager._bookmarkOnChanged_event);
     browser.bookmarks.onMoved.addListener(BookmarkManager._bookmarkOnMoved_event);
-  //browser.bookmarks.onChildrenReordered.addListener(bookmarkOnChildrenReorderedEvent);
-  //browser.bookmarks.onImportBegan.addListener(bookmarkImportBeganEvent);
-  //browser.bookmarks.onImportEnded.addListener(bookmarkImportEndedEvent);
+    //browser.bookmarks.onChildrenReordered.addListener(bookmarkOnChildrenReorderedEvent);
+    //browser.bookmarks.onImportBegan.addListener(bookmarkImportBeganEvent);
+    //browser.bookmarks.onImportEnded.addListener(bookmarkImportEndedEvent);
   }
 
-  static async getRootFolderId_async() {
-    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', undefined);
+  async getRootFolderId_async() {
     // is rootBookmarkId exist ?
-    if (rootBookmarkId == undefined)  {
+    if (this._rootBookmarkId == undefined)  {
     //no -> create a root folder
-      rootBookmarkId = await BookmarkManager._createRootFolder_async();
+      this._rootBookmarkId = await this._createRootFolder_async();
     }
     else {
     //yes -> try to get the root folder
       try {
-        await browser.bookmarks.getSubTree(rootBookmarkId);
+        await browser.bookmarks.getSubTree(this._rootBookmarkId);
       }
       catch(e) {
       //has failed then create a root folder
-        rootBookmarkId = await BookmarkManager._createRootFolder_async();
+        this._rootBookmarkId = await this._createRootFolder_async();
       }
     }
-    return rootBookmarkId;
-  }
-
-  static getDefaultStoredFolder(folderId) {
-    return {id: folderId, checked: true};
+    return this._rootBookmarkId;
   }
 
   static async _bookmarkOnCreated_event(id, bookmarkInfo) {
-    if (BookmarksInfo.instance.importInProgress) { return; }
-    BookmarksInfo.instance.lastCreatedBookmarkId = id;
-    let isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(bookmarkInfo.parentId);
+    let self = BookmarkManager.instance;
+    if (self._importInProgress) { return; }
+    self._lastCreatedBookmarkId = id;
+    let isChid =  await self._isDropfeedsChildBookmark_async(bookmarkInfo.parentId);
     if (!isChid) { return; }
     LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
   static async _bookmarkOnRemoved_event(id, removeInfo) {
-    if (BookmarksInfo.instance.importInProgress) { return; }
-    let isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(removeInfo.parentId);
+    let self = BookmarkManager.instance;
+    if (self._importInProgress) { return; }
+    let isChid =  await self._isDropfeedsChildBookmark_async(removeInfo.parentId);
     if (!isChid) { return; }
     LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
   static async _bookmarkOnChanged_event(id) {
-    if (BookmarksInfo.instance.importInProgress) { return; }
-    let isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(id);
+    let self = BookmarkManager.instance;
+    if (self.instance._importInProgress) { return; }
+    let isChid =  await self._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
     LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
   static async _bookmarkOnMoved_event(id, moveInfo) {
-    if (BookmarksInfo.instance.importInProgress) { return; }
-    let isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(moveInfo.parentId);
+    let self = BookmarkManager.instance;
+    if (self._importInProgress) { return; }
+    let isChid =  await self._isDropfeedsChildBookmark_async(moveInfo.parentId);
     if (!isChid) {
-      isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(moveInfo.oldParentId);
+      isChid =  await self._isDropfeedsChildBookmark_async(moveInfo.oldParentId);
     }
     if (!isChid) { return; }
-    if (id == BookmarksInfo.instance.lastCreatedBookmarkId) {
+    if (id == self._lastCreatedBookmarkId) {
       StatusBar.instance.text = 'To add a Feed use the button above !';
       await DateTime.delay_async(1);
       StatusBar.instance.text = '';
@@ -86,22 +98,23 @@ class BookmarkManager { /*exported BookmarkManager*/
   }
 
   static async _bookmarkOnChildrenReordered_event(id) {
-    if (BookmarksInfo.instance.importInProgress) { return; }
-    let isChid =  await BookmarkManager._isDropfeedsChildBookmark_async(id);
+    let self = BookmarkManager.instance;
+    if (self.instance._importInProgress) { return; }
+    let isChid =  await self._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
     LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
   static async _bookmarkImportBegan_event() {
-    BookmarksInfo.instance.importInProgress = true;
+    BookmarkManager.instance._importInProgress = true;
   }
 
   static async _bookmarkImportEnded_event() {
-    BookmarksInfo.instance.importInProgress = false;
+    BookmarkManager.instance._importInProgress = false;
     LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
-  static async _createRootFolder_async() {
+  async _createRootFolder_async() {
     let rootBookmarkId = null;
 
     let bookmarkItems = await browser.bookmarks.search({title: 'Drop feeds'});
@@ -112,31 +125,31 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
 
     if (!rootBookmarkId) {
-      rootBookmarkId = await BookmarkManager._createDefaultBookmark_async();
+      rootBookmarkId = await this._createDefaultBookmark_async();
     }
 
     await LocalStorageManager.setValue_async('rootBookmarkId', rootBookmarkId);
     return rootBookmarkId;
   }
 
-  static async _isDropfeedsChildBookmark_async(id) {
+  async _isDropfeedsChildBookmark_async(id) {
     let isChild = false;
-    if (id == CommonValues.instance.rootBookmarkId) { return true; }
-    let subTree = await browser.bookmarks.getSubTree(CommonValues.instance.rootBookmarkId);
+    if (id == this._rootBookmarkId) { return true; }
+    let subTree = await browser.bookmarks.getSubTree(this._rootBookmarkId);
     let children = subTree[0].children;
     if (children) {
-      isChild = BookmarkManager._isChildBookmark(children, id);
+      isChild = this._isChildBookmark(children, id);
     }
     return isChild;
   }
 
-  static _isChildBookmark(children, id) {
+  _isChildBookmark(children, id) {
     for (let chid of children) {
       if (chid.id == id) {
         return true;
       }
       if(chid.children) {
-        let isChild = BookmarkManager._isChildBookmark(chid.children, id);
+        let isChild = this._isChildBookmark(chid.children, id);
         if (isChild) {
           return true;
         }
@@ -145,7 +158,7 @@ class BookmarkManager { /*exported BookmarkManager*/
     return false;
   }
 
-  static async _createDefaultBookmark_async() {
+  async _createDefaultBookmark_async() {
     let rootBookmark = await browser.bookmarks.create({ title: 'Drop feeds' });
     await browser.bookmarks.create({
       parentId: rootBookmark.id,

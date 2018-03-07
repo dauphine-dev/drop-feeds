@@ -1,4 +1,4 @@
-/*global browser SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager BookmarkManager*/
+/*global browser DefaultValues SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -9,12 +9,16 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   constructor() {
-    this._updatedFeedsVisible = false;
-    this._foldersOpened = true;
+    this._updatedFeedsVisible = DefaultValues.updatedFeedsVisible;
+    this._foldersOpened = DefaultValues.foldersOpened;
     this._buttonAddFeedEnabled = false;
   }
 
   async init_async() {
+    this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
+    let rootFolderId = 'cb-' + SelectionBar.instance.getRootElementId().substring(3);
+    let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
+    this._foldersOpened = rootFolder.checked;
     this.updatedFeedsSetVisibility();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', this.checkFeedsButtonClicked_event);
@@ -55,13 +59,13 @@ class TopMenu  { /*exported TopMenu*/
     let el =  document.getElementById(buttonId);
     if (activated)
     {
-      el.classList.add('itemSelected');
-      el.classList.remove('item');
+      el.classList.add('topMenuItemSelected');
+      el.classList.remove('topMenuItem');
     }
     else
     {
-      el.classList.add('item');
-      el.classList.remove('itemSelected');
+      el.classList.add('topMenuItem');
+      el.classList.remove('topMenuItemSelected');
     }
   }
 
@@ -101,7 +105,7 @@ class TopMenu  { /*exported TopMenu*/
     self.activateButton('toggleFoldersButton' , self._foldersOpened);
     while (i--) {
       let folderId = folders[i].id;
-      let storedFolder = BookmarkManager.getDefaultStoredFolder(folderId);
+      let storedFolder = DefaultValues.getStoredFolder(folderId);
       folders[i].checked = self._foldersOpened;
       storedFolder.checked = self._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);

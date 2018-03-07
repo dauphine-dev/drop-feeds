@@ -1,4 +1,4 @@
-/*global browser, BrowserManager, LocalStorageManager, TextTools*/
+/*global browser DefaultValues BrowserManager LocalStorageManager TextTools*/
 'use strict';
 class OpmlExporter { /*exported OpmlExporter*/
   static get instance() {
@@ -46,7 +46,7 @@ class OpmlExporter { /*exported OpmlExporter*/
   }
 
   async _getOpmlBody_async(indentRef) {
-    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId');
+    let rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     let rootBookmarkItem = (await browser.bookmarks.getSubTree(rootBookmarkId))[0];
     await this._prepareOpmlItemsRecursively_async(rootBookmarkItem, indentRef, true);
     let opmlBody = this._opmlItemList.join('');

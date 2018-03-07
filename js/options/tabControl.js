@@ -1,11 +1,12 @@
 /*global TabGeneral TabUpdateChecker TabContentArea TabManagement*/
 'use strict';
 class TabControl { /*exported TabControl*/
-  static init() {
+
+  static async init_async() {
     TabControl._createTabLinks();
-    TabGeneral.instance.init();
+    TabGeneral.instance.init_async();
     TabUpdateChecker.init();
-    TabContentArea.init();
+    await TabContentArea.init_async();
     TabManagement.init();
   }
 

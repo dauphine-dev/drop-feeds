@@ -29,4 +29,8 @@ class LocalStorageManager { /*exported LocalStorageManager*/
   static async setValue_async(valueName, value) {
     await browser.storage.local.set({[valueName]: value});
   }
+
+  static async getCache_async() {
+    return await browser.storage.local.get();
+  }
 }

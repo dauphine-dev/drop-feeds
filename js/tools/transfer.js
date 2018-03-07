@@ -1,5 +1,31 @@
-/*global CommonValues*/
+/*global DefaultValues LocalStorageManager LocalStorageListener*/
 'use strict';
+class Timeout { /*exported Timeout*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new Timeout();
+    }
+    return this._instance;
+  }
+
+  constructor() {
+    this._timeOut = DefaultValues.timeOut;
+  }
+
+  async init_async() {
+    this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
+    LocalStorageListener.instance.subscribe('timeOut', Timeout.setTimeout_sbscrb);
+  }
+
+  get timeOutMs() {
+    return 1000 * this._timeOut;
+  }
+
+  static setTimeout_sbscrb(value) {
+    Timeout.instance._timeOut = value;
+  }
+}
+
 class Transfer { /*exported Transfer*/
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
@@ -39,15 +65,11 @@ class Transfer { /*exported Transfer*/
       }
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
-      xhr.timeout = Transfer.timeoutMs;
+      xhr.timeout = Timeout.instance.timeOutMs;
       xhr.ontimeout = function (e) {
         reject(e);
       };
       xhr.send();
     });
-  }
-
-  static get timeoutMs() {
-    return 1000 * CommonValues.instance.timeOut;
   }
 }

@@ -36,6 +36,10 @@ class SelectionBar { /*exported SelectionBar*/
     this._selectedRootElement = null;
   }
 
+  getRootElementId() {
+    return this._selectedRootElementId;
+  }
+
   _selectedElementOnScrollEvent() {
     this.put(this._selectedElement);
   }

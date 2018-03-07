@@ -1,4 +1,4 @@
-/*global LocalStorageManager*/
+/*global DefaultValues LocalStorageManager*/
 'use strict';
 class ThemeManager { /*exported ThemeManager*/
   static get instance() {
@@ -9,7 +9,7 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   constructor() {
-    this._themeFolderName = 'dauphine';
+    this._themeFolderName = DefaultValues.themeFolderName;
     this._themeBaseFolderUrl = '/resources/themes/';
     this._themesListUrl = '/resources/themes/themes.list';
     this._iconNoneUrl = '/resources/img/none.png';

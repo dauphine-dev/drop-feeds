@@ -1,4 +1,4 @@
-/*global browser CommonValues ThemeManager Transfer LocalStorageManager DateTime BrowserManager*/
+/*global browser DefaultValues ThemeManager Transfer LocalStorageManager DateTime BrowserManager*/
 'use strict';
 class TabGeneral { /*exported TabGeneral*/
   static get instance() {
@@ -13,15 +13,17 @@ class TabGeneral { /*exported TabGeneral*/
     this._optionSize = 4;
   }
 
-  init() {
-    this._initFeedFolderDropdown_async();
-    this._initDisplayRootFolderCheckbox();
-    this._initThemeDropdown_async();
+  async init_async() {
+    this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
+    await this._initFeedFolderDropdown_async();
+    await this._initDisplayRootFolderCheckbox_async();
+    await this._initThemeDropdown_async();
   }
 
   async _initFeedFolderDropdown_async() {
     let bookmarkItems = await browser.bookmarks.getTree();
-    await this._prepareOptionsRecursively_async(bookmarkItems[0], 0, CommonValues.instance.rootBookmarkId);
+
+    await this._prepareOptionsRecursively_async(bookmarkItems[0], 0);
     let optionList =  this._optionFolderList.join('');
     let elFeedList = document.getElementById('feedList');
     let feedFolderSelectHtml = elFeedList.innerHTML + '<select id="feedFolderSelect">\n' +  optionList + '</select>\n';
@@ -32,8 +34,8 @@ class TabGeneral { /*exported TabGeneral*/
     document.getElementById('applySelectedFeedButton').addEventListener('click', this._applySelectedFeedButtonClicked_event);
   }
 
-  _initDisplayRootFolderCheckbox() {
-    let notDisplayRootFolder = ! CommonValues.instance.displayRootFolder;
+  async _initDisplayRootFolderCheckbox_async() {
+    let notDisplayRootFolder = ! await LocalStorageManager.getValue_async('displayRootFolder', DefaultValues.displayRootFolder);
     let elNotDisplayRootFolderCheckBox = document.getElementById('notDisplayRootFolderCheckBox');
     elNotDisplayRootFolderCheckBox.checked = notDisplayRootFolder;
     elNotDisplayRootFolderCheckBox.addEventListener('click', this._notDisplayRootFolderCheckBoxClicked_event);
@@ -79,7 +81,7 @@ class TabGeneral { /*exported TabGeneral*/
   async _createFolderOption_async (bookmarkItem, indent) {
     let indentString = '&nbsp;'.repeat(indent);
     let selected = '';
-    if (bookmarkItem.id == CommonValues.instance.rootBookmarkId) {
+    if (bookmarkItem.id == this._rootBookmarkId) {
       selected = ' selected';
     }
     let optionLine =  '<option value="' + bookmarkItem.id + '"' + selected + '>' +
@@ -96,7 +98,7 @@ class TabGeneral { /*exported TabGeneral*/
   }
 
   async _notDisplayRootFolderCheckBoxClicked_event() {
-    CommonValues.instance.displayRootFolder = ! document.getElementById('notDisplayRootFolderCheckBox').checked;
+    await LocalStorageManager.setValue_async('displayRootFolder', ! document.getElementById('notDisplayRootFolderCheckBox').checked);
     await LocalStorageManager.setValue_async('reloadPanel', Date.now());
   }
 
@@ -107,7 +109,7 @@ class TabGeneral { /*exported TabGeneral*/
   async _applySelectedFeedButtonClicked_event() {
     let rootBookmarkId = document.getElementById('feedFolderSelect').value;
     await LocalStorageManager.clean();
-    CommonValues.instance.rootBookmarkId = rootBookmarkId;
+    await LocalStorageManager.setValue_async('rootBookmarkId', rootBookmarkId);
     await LocalStorageManager.setValue_async('reloadPanel', Date.now());
     await DateTime.delay_async(100);
     document.getElementById('applySelectedFeedButton').style.display = 'none';

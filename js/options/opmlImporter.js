@@ -1,4 +1,4 @@
-/*global browser, LocalStorageManager, TextTools, ProgressBar, DateTime*/
+/*global browser DefaultValues LocalStorageManager TextTools ProgressBar DateTime*/
 'use strict';
 const TagKindEnum = {
   OPENER: 'opener',
@@ -45,7 +45,7 @@ class OpmlImporter { /*exported OpmlImporter*/
   }
 
   async _importOmplOutlinesAsync(opmlText) {
-    let folderId = await LocalStorageManager.getValue_async('rootBookmarkId');
+    let folderId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     await this._cleanBookmarkFolder_async(folderId);
     await LocalStorageManager.clean_async();
     let i1 = TextTools.occurrences(opmlText, '<outline');
