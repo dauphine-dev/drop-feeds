@@ -72,6 +72,11 @@ tr>td {
   border: 1px solid #9d9d99;
 }
 
+.default{
+  padding: 4px 0 5px 0;
+  border: 1px solid #1d1d1d;
+}
+
 /* folders */
 input[type="checkbox"] {
   display: none;

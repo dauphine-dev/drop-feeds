@@ -1,16 +1,19 @@
 #!/bin/bash
 BRANCH=${PWD##*/}
-rm -rf ../$BRANCH-ext/
-cp -fr . ../$BRANCH-ext/
-rm -rf ../$BRANCH-ext/resources/resources-src/
-rm -rf ../$BRANCH-ext/dropfeeds.code-workspace
-rm -rf ../$BRANCH-ext/README.md
-rm -rf ../$BRANCH-ext/.git/
-rm -rf ../$BRANCH-ext/.vscode/
-rm -rf ../$BRANCH-ext/.eslintrc.json
-rm -rf ../$BRANCH-ext/.gitignore
-cd ../$BRANCH-ext/
-zip -r ../$BRANCH.zip *
+mkdir ../_ext/  >/dev/null
+cd ../_ext/
+rm -rf $BRANCH/
+cp -fr ../$BRANCH $BRANCH/
+cd ./$BRANCH/
+rm -rf resources/resources-src/
+rm -rf dropfeeds.code-workspace
+rm -rf README.md
+rm -rf makeExt.sh
+rm -rf .git/
+rm -rf .vscode/
+rm -rf .eslintrc.json
+rm -rf .gitignore
+zip -r ../$BRANCH.zip * >/dev/null
 cd ..
 cp -fr $BRANCH.zip drop-feeds.zip
-rm -rf $BRANCH-ext/
+cd ../$BRANCH/

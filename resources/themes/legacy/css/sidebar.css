@@ -324,6 +324,12 @@ li {
   visibility: visible;
 }
 
+.feedError:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
 /* context menu */
 .contextMenuStyle {
   display: none;

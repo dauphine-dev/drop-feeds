@@ -20,6 +20,7 @@
           <td><label>Name: </label></td>
           <td><input type="text" id="inputName" class="fieldText"></td>
         </tr>
+        <!-- folder treeview start -->
         <tr>
           <td class="atTop"><label>Folder: </label></td>
           <td>
@@ -29,6 +30,7 @@
             </div>
           </td>
         </tr>
+        <!-- folder treeview end -->
         <tr>
           <td></td>
           <td><button id="newFolderButton">New folder</button></td>
@@ -55,14 +57,17 @@
             <td>
               <div class="atRight">
                 <button id="cancelNewFolderButton">Cancel</button>
-                <button id="createNewFolderButton">Create</button>
+                <span class="default">
+                  <button id="createNewFolderButton">Create</button>
+                </span>
               </div>
             </td>
           </tr>
         </table>
       </div>
     </div>
-
-    <script src="/js/ui/subscribe.js"></script>
+    <script src="/js/ui/subscribe/newFolderDialog.js"></script>
+    <script src="/js/ui/subscribe/folderTreeView.js"></script>
+    <script src="/js/ui/subscribe/subscribe.js"></script>
   </body>
 </html>

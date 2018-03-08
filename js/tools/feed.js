@@ -1,4 +1,4 @@
-/*global browser DefaultValues TextTools, tagList, Transfer Compute DateTime feedParser LocalStorageManager*/
+/*global browser DefaultValues TextTools, Transfer Compute DateTime feedParser LocalStorageManager*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -33,7 +33,7 @@ class Feed { /*exported Feed*/
   async update_async() {
     this._savePrevValues();
     let ignoreRedirection = false;
-    await this._download_async(ignoreRedirection);
+    await this._download_async(ignoreRedirection, false);
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -69,7 +69,6 @@ class Feed { /*exported Feed*/
     }
     return itemClass;
   }
-
 
   async save_async() {
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
@@ -108,54 +107,76 @@ class Feed { /*exported Feed*/
     this._prevValues.pubDate = this._storedFeed.pubDate;
   }
 
-  async _download_async(ignoreRedirection) {
+  async _download_async(ignoreRedirection, forceHttp) {
     try {
       let urlNoCache = true;
-      await this._downloadEx_async(urlNoCache);
+      await this._downloadEx_async(urlNoCache, forceHttp);
     }
-    catch(e) {
-      let urlNoCache = false;
-      await this._downloadEx_async(urlNoCache);
+    catch(e1) {
+      try {
+        let urlNoCache = false;
+        await this._downloadEx_async(urlNoCache, forceHttp);
+      }
+      catch(e2) {
+        let retry = null;
+        if (e2 === 0) {
+          if (!forceHttp) {
+            if (this._bookmark.url.startsWith('https:')) {
+              try {
+                retry = true;
+                this._download_async(ignoreRedirection, true);
+              }
+              catch(e3) {
+                /*eslint-disable no-console*/
+                console.log(this._bookmark.url);
+                console.log(this._storedFeed.title + ': ' + e3);
+                /*eslint-enable no-console*/
+                this._error = e3;
+              }
+            }
+          }
+        }
+        if (!retry) {
+          /*eslint-disable no-console*/
+          console.log(this._bookmark.url);
+          console.log(this._storedFeed.title + ': ' + e2);
+          /*eslint-enable no-console*/
+          this._error = e2;
+        }
+      }
     }
     if (!ignoreRedirection) {
       await this._manageRedirection_async();
     }
   }
 
-  async _manageRedirection_async() {
+  async _manageRedirection_async(forceHttp) {
     if (this._feedText && this._feedText.includes('</redirect>') && this._feedText.includes('</newLocation>')) {
       let newUrl = TextTools.getInnerText(this._feedText, '<newLocation>', '</newLocation>').trim();
       this._newUrl = newUrl;
-      await this._download_async(true);
+      await this._download_async(true, forceHttp);
     }
   }
 
-  async _downloadEx_async(urlNoCache) {
+  async _downloadEx_async(urlNoCache, forceHttp) {
     let url = this._bookmark.url;
     if (this._newUrl) {
       url = this._newUrl;
     }
-    try {
-      this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
-      if (this._feedText) {
-        let tagRss = null;
-        for (let tag of tagList.RSS) {
-          if (this._feedText.includes('<' + tag)) {
-            tagRss = tag; break;
-          }
-        }
-        if (!tagRss) {
-          this._error = 'invalid Feed';
-        }
-        this._feedText = TextTools.decodeHtml(this._feedText);
-      }
-      else {
-        this._error = 'Feed is empty';
-      }
+    if (forceHttp) {
+      url = url.replace('https://', 'http://');
     }
-    catch(e) {
-      this._error = e;
+    this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
+    //console.log('this._feedText:', this._feedText);
+    this._validFeedText();
+  }
+
+  _validFeedText() {
+    let error = feedParser.isValidFeedText(this._feedText);
+    if (error) {
+      throw error;
     }
+    this._feedText = TextTools.decodeHtml(this._feedText);
   }
 
   _parsePubdate() {

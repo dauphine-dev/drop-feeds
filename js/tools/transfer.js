@@ -31,7 +31,7 @@ class Transfer { /*exported Transfer*/
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'text';
-      xhr.onreadystatechange = function() {
+      xhr.onloadend = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             resolve(xhr.responseText);
@@ -50,12 +50,13 @@ class Transfer { /*exported Transfer*/
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'text';
-      xhr.onreadystatechange = function() {
+      xhr.onloadend = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             resolve(xhr.responseText);
-          } else {
-            reject(xhr.status);
+          }
+          else {
+            reject(xhr.statusText + ' (' + xhr.status + ')-1');
           }
         }
       };
@@ -66,8 +67,11 @@ class Transfer { /*exported Transfer*/
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = Timeout.instance.timeOutMs;
-      xhr.ontimeout = function (e) {
-        reject(e);
+      xhr.ontimeout = function() {
+        reject('timeout');
+      };
+      xhr.onerror = function() {
+        reject(xhr.statusText + ' [' + xhr.status + ']');
       };
       xhr.send();
     });

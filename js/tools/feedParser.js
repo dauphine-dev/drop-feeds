@@ -56,16 +56,45 @@ class feedParser { /*exported feedParser*/
     return feedBody;
   }
 
-  static async  parseFeedToHtml_async(feedText, defaultTitle) {
-    if (!feedText) { return ''; }
+  static isValidFeedText(feedText) {
+    if (!feedText) {
+      return 'Feed is empty!';
+    }
+
+    let tagRss = null;
+    for (let tag of tagList.RSS) {
+      if (feedText.includes('<' + tag)) {
+        tagRss = tag;
+        break;
+      }
+    }
+    if (!tagRss) {
+      return 'RSS tags are missing';
+    }
+
+    let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
+    if (!tagItem) {
+      return 'Feed doesn\'t contain items';
+    }
+
+    let tagChannel = feedParser._get1stUsedTag(feedText, tagList.CHANNEL);
+    if (!tagChannel) {
+      return 'Feed has no channels';
+    }
+    return null;
+  }
+
+  static async parseFeedToHtml_async(feedText, defaultTitle) {
     let feedHtml = '';
     let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
     let channelObj = feedParser._parseChannelToObj(feedText, tagItem, defaultTitle);
     let htmlHead = feedParser._getHtmlHead(channelObj);
     feedHtml += htmlHead;
     feedHtml += channelObj.htmlChannel;
-    let htmlItemList = feedParser._parseItemsToHtmlList(feedText, tagItem);
-    feedHtml += htmlItemList.join('\n');
+    if (feedText) {
+      let htmlItemList = feedParser._parseItemsToHtmlList(feedText, tagItem);
+      feedHtml += htmlItemList.join('\n');
+    }
     feedHtml += feedParser._getHtmFoot();
     return feedHtml;
   }

@@ -71,6 +71,10 @@ tr>td {
 	background-color: #F2F2F2;
 }
 
+.default{
+  border: 1px solid #1d1d1d;
+}
+
 /* folders */
 input[type="checkbox"] {
   display: none;
