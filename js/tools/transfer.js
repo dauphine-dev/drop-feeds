@@ -56,7 +56,7 @@ class Transfer { /*exported Transfer*/
             resolve(xhr.responseText);
           }
           else {
-            reject(xhr.statusText + ' (' + xhr.status + ')-1');
+            reject(xhr.statusText + ' (' + xhr.status + ')');
           }
         }
       };
