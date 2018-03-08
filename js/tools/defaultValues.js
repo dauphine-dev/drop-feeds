@@ -2,7 +2,7 @@
 'use strict';
 class DefaultValues { /*exported DefaultValues*/
   static get timeOut() {
-    return 10;
+    return 60;
   }
 
   static get displayRootFolder() {
