@@ -11,7 +11,9 @@ class FeedManager { /*exported FeedManager*/
   constructor() {
     this._feedCheckingInProgress = false;
     this._updatedFeeds = 0;
-    this._feedsToCheckList = null;
+    this._feedNumberToCheck = 0;
+    this._feedsToCheckList = [];
+    this._feedsToWaitList = [];
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
     this._openNewTabForeground = DefaultValues.openNewTabForeground;
   }
@@ -39,13 +41,15 @@ class FeedManager { /*exported FeedManager*/
       TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;
       this._feedsToCheckList = [];
+      this._feedsToWaitList = [];
       let feedReadElementList = rootElement.querySelectorAll('.feedRead, .feedError');
+      this._feedNumberToCheck = feedReadElementList.length * 1;
       for (let i = 0; i < feedReadElementList.length; i++) {
         let feed = null;
         try {
           let feedId = feedReadElementList[i].getAttribute('id');
           feed = await Feed.new(feedId);
-          StatusBar.instance.text = 'preparing: ' + feed.title;
+          StatusBar.instance.text = 'checking: ' + feed.title;
           this._feedsToCheckList.push(feed);
         }
         catch(e) {
@@ -57,12 +61,6 @@ class FeedManager { /*exported FeedManager*/
       await this._checkFeedsInner_async();
     }
     finally {
-      StatusBar.instance.text = '';
-      TopMenu.instance.animateCheckFeedButton(false);
-      StatusBar.instance.workInProgress = false;
-      this._displayNotification();
-      this._updatedFeeds = 0;
-      this._feedCheckingInProgress = false;
     }
   }
 
@@ -108,35 +106,64 @@ class FeedManager { /*exported FeedManager*/
   async markAllFeedsAsRead_async(folderId) {
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedUnread, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
-      let feedId = feedElementList[i].getAttribute('id');
-      feedElementList[i].classList.remove('feedError');
-      feedElementList[i].classList.remove('feedUnread');
-      feedElementList[i].classList.add('feedRead');
-      let feed = await Feed.new(feedId);
-      await feed.setStatus_async(feedStatus.OLD);
+      let feedElement = feedElementList[i];
+      this.markFeedsAsRead_async(feedElement);
     }
+  }
+
+  async markFeedsAsRead_async(feedElement) {
+    let feedId = feedElement.getAttribute('id');
+    feedElement.classList.remove('feedError');
+    feedElement.classList.remove('feedUnread');
+    feedElement.classList.add('feedRead');
+    let feed = await Feed.new(feedId);
+    await feed.setStatus_async(feedStatus.OLD);
   }
 
   async markAllFeedsAsUpdated_async(folderId) {
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
-      let feedId = feedElementList[i].getAttribute('id');
-      feedElementList[i].classList.remove('feedError');
-      feedElementList[i].classList.remove('feedUnread');
-      feedElementList[i].classList.add('feedRead');
-      let feed = await Feed.new(feedId);
-      feed.setStatus_async(feedStatus.UPDATED);
+      let feedElement = feedElementList[i];
+      this._markFeedAsUpdated_async(feedElement);
     }
   }
 
+  async _markFeedAsUpdated_async(feedElement) {
+    let feedId = feedElement.getAttribute('id');
+    feedElement.classList.remove('feedError');
+    feedElement.classList.remove('feedUnread');
+    feedElement.classList.add('feedRead');
+    let feed = await Feed.new(feedId);
+    feed.setStatus_async(feedStatus.UPDATED);
+
+  }
+
+
   async _checkFeedsInner_async() {
+    this._feedNumberToCheck = this._feedsToCheckList.length;
     while (this._feedsToCheckList.length >0) {
       let feed = this._feedsToCheckList.shift();
-      StatusBar.instance.text = 'checking: ' + feed.title;
+      this._feedsUpdate_async(feed);
+    }
+  }
+
+  async _feedsUpdate_async(feed) {
+    try {
       await feed.update_async();
       await feed.updateUiStatus();
+      StatusBar.instance.text = feed.title + ' : received';
       if (feed.status == feedStatus.UPDATED) {
         this._updatedFeeds++;
+      }
+    }
+    finally {
+      if (--this._feedNumberToCheck == 0) {
+        StatusBar.instance.text = '';
+        TopMenu.instance.animateCheckFeedButton(false);
+        StatusBar.instance.workInProgress = false;
+        this._displayNotification();
+        this._updatedFeeds = 0;
+        this._feedCheckingInProgress = false;
       }
     }
   }
