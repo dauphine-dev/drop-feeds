@@ -13,6 +13,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxMnMarkAllAsRead').addEventListener('click', this._markAllFeedsAsReadMenuClicked_event);
     document.getElementById('ctxMnMarkAllAsUpdated').addEventListener('click', this._markAllFeedsAsUpdatedMenuClicked_event);
     document.getElementById('ctxMnOpenAllUpdated').addEventListener('click', this._openAllUpdatedFeedsMenuClicked_event);
+    document.getElementById('ctxMnOpenUpdatedAsUnified').addEventListener('click', this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event);
     this._elContent = document.getElementById('content');
     this._elContextMenu = document.getElementById('contextMenuId');
     this._idComeFrom = null;
@@ -45,8 +46,7 @@ class ContextMenu { /*exported ContextMenu*/
     let self = ContextMenu.instance;
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
-    let rootElement = document.getElementById(self._idComeFrom);
-    FeedManager.instance.checkFeeds_async(rootElement);
+    FeedManager.instance.checkFeeds_async(self._idComeFrom);
   }
 
   async _openAllUpdatedFeedsMenuClicked_event() {
@@ -54,6 +54,13 @@ class ContextMenu { /*exported ContextMenu*/
     let elContextMenu = document.getElementById('contextMenuId');
     elContextMenu.classList.remove('show');
     FeedManager.instance.openAllUpdatedFeeds_async(self._idComeFrom);
+  }
+
+  async _ctxMnOpenUpdatedAsUnifiedMenuClicked_event() {
+    let self = ContextMenu.instance;
+    let elContextMenu = document.getElementById('contextMenuId');
+    elContextMenu.classList.remove('show');
+    FeedManager.instance.openAsUnifiedFeed_async(self._idComeFrom);
   }
 
   async _markAllFeedsAsReadMenuClicked_event() {

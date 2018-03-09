@@ -21,7 +21,7 @@ class SideBar { /*exported SideBar*/
 
   async init_async() {
     SelectionBar.instance;
-    this._treeView = await this._treeView.createAndShow();
+    await this._treeView.createAndShow();
     await Timeout.instance.init_async();
     this._localStorageListener = new LocalStorageListener();
     LocalStorageListener.instance;
@@ -40,6 +40,10 @@ class SideBar { /*exported SideBar*/
     LocalStorageListener.instance.subscribe('reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb);
   }
 
+  get treeView() {
+    return this._treeView;
+  }
+
   reloadOnce() {
     //Workaround to have a clean display on 1st start.
     let doReload = ! sessionStorage.getItem('hasAlreadyReloaded');
@@ -56,7 +60,7 @@ class SideBar { /*exported SideBar*/
   static async reloadPanel_sbscrb() {
     let self = SideBar.instance;
     self._treeView = new TreeView();
-    self._treeView = await self._treeView.createAndShow();
+    await self._treeView.createAndShow();
     self._setContentHeight();
   }
 

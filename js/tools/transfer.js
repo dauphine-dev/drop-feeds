@@ -56,7 +56,9 @@ class Transfer { /*exported Transfer*/
             resolve(xhr.responseText);
           }
           else {
-            reject(xhr.statusText + ' (' + xhr.status + ')');
+            let statusText = xhr.statusText ? xhr.statusText : 'unknown error';
+            let statusCode = xhr.status ? ' (' + xhr.status + ')' : '';
+            reject(statusText + statusCode);
           }
         }
       };
@@ -71,7 +73,9 @@ class Transfer { /*exported Transfer*/
         reject('timeout');
       };
       xhr.onerror = function() {
-        reject(xhr.statusText + ' [' + xhr.status + ']');
+        let statusText = xhr.statusText ? xhr.statusText : 'unknown error';
+        let statusCode = xhr.status ? ' (' + xhr.status + ')' : '';
+        reject(statusText + statusCode);
       };
       xhr.send();
     });

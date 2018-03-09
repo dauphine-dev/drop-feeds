@@ -1,4 +1,4 @@
-/*global browser TextTools DateTime ThemeManager*/
+/*global browser TextTools DateTime ThemeManager DefaultValues Compute*/
 'use strict';
 const tagList = {
   RSS: ['?xml', 'rss'],
@@ -15,20 +15,20 @@ const tagList = {
   PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
 };
 
-class feedParser { /*exported feedParser*/
+class FeedParser { /*exported FeedParser*/
   static parsePubdate(feedText) {
     if (!feedText) return null;
-    let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
+    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let pubDateList=[];
 
-    let itemText = feedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
+    let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
     for (let i=0; i<itemNumber; i++) {
-      let itemId = feedParser._getItemId(itemText);
-      let pubDateText = feedParser._extractValue(itemText, tagList.PUBDATE);
-      let pubDate = feedParser._extractDateTime(pubDateText);
+      let itemId = FeedParser._getItemId(itemText);
+      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      let pubDate = FeedParser._extractDateTime(pubDateText);
       pubDateList.push(pubDate);
-      itemText = feedParser._getNextItem(feedText, itemId, tagItem);
+      itemText = FeedParser._getNextItem(feedText, itemId, tagItem);
     }
 
     pubDateList.sort((date1, date2) => {
@@ -38,15 +38,18 @@ class feedParser { /*exported feedParser*/
     });
     let pubDate = pubDateList[0];
     if (!pubDate || pubDate == new Date(null)) {
-      let lastBuildDateText = feedParser._extractValue(feedText, tagList.LASTBUILDDATE);
-      pubDate = feedParser._extractDateTime(lastBuildDateText);
+      /*
+      let lastBuildDateText = FeedParser._extractValue(feedText, tagList.LASTBUILDDATE);
+      pubDate = FeedParser._extractDateTime(lastBuildDateText);
+      */
+      pubDate = null;
     }
     return pubDate;
   }
 
   static getFeedBody(feedText) {
     let feedBody = feedText;
-    let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
+    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     if (tagItem) {
       let i = feedText.indexOf(tagItem);
       if (i >= 0) {
@@ -72,33 +75,74 @@ class feedParser { /*exported feedParser*/
       return 'RSS tags are missing';
     }
 
-    let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
+    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     if (!tagItem) {
       return 'Feed doesn\'t contain items';
     }
 
-    let tagChannel = feedParser._get1stUsedTag(feedText, tagList.CHANNEL);
+    let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
     if (!tagChannel) {
       return 'Feed has no channels';
     }
     return null;
   }
 
-  static async parseFeedToHtml_async(feedText, defaultTitle) {
-    let feedHtml = '';
-    let tagItem = feedParser._get1stUsedTag(feedText, tagList.ITEM);
-    let channelObj = feedParser._parseChannelToObj(feedText, tagItem, defaultTitle);
-    let htmlHead = feedParser._getHtmlHead(channelObj);
-    feedHtml += htmlHead;
-    feedHtml += channelObj.htmlChannel;
-    if (feedText) {
-      let htmlItemList = feedParser._parseItemsToHtmlList(feedText, tagItem);
-      feedHtml += htmlItemList.join('\n');
-    }
-    feedHtml += feedParser._getHtmFoot();
+  static parseFeedToHtml(feedText, defaultTitle) {
+    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle);
+    let feedHtml = FeedParser._feedInfoToHtml(feedInfo);
     return feedHtml;
   }
 
+  static _feedInfoToHtml(feedInfo) {
+    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
+    let feedHtml = '';
+    feedHtml += htmlHead;
+    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
+    let htmlItemList = [];
+    feedInfo.itemList.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<feedInfo.itemList.length; i++) {
+      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
+      htmlItemList.push(htmlItem);
+    }
+    feedHtml += htmlItemList.join('\n');
+    feedHtml += FeedParser._getHtmFoot();
+    return feedHtml;
+  }
+
+  static feedItemsListToUnifiedHtml(feedItems, unifiedChannelTitle) {
+    let unifiedChannel = DefaultValues.getDefaultChannelInfo();
+    unifiedChannel.title = unifiedChannelTitle;
+    unifiedChannel.description = 'Unified Feed';
+    let htmlHead = FeedParser._getHtmlHead(unifiedChannel);
+    let feedHtml = '';
+    feedHtml += htmlHead;
+    feedHtml += FeedParser._getHtmlChannel(unifiedChannel);
+    let htmlItemList = [];
+    feedItems.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<feedItems.length && i<DefaultValues.maxItemsInUnifiedView ; i++) {
+      let htmlItem = FeedParser._getHtmlItem(feedItems[i], i+1);
+      htmlItemList.push(htmlItem);
+    }
+    feedHtml += htmlItemList.join('\n');
+    feedHtml += FeedParser._getHtmFoot();
+    return feedHtml;
+  }
+
+  static getFeedInfo(feedText, defaultTitle) {
+    let feedInfo = DefaultValues.getDefaultFeedInfo();
+    feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+    feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
+    feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
+    return feedInfo;
+  }
   static _get1stUsedTag(text, tagArray) {
     if (!text) return null;
     for (let tag of tagArray) {
@@ -128,9 +172,9 @@ class feedParser { /*exported feedParser*/
 
   static _getItemId(itemText) {
     if (!itemText) { return null; }
-    let result = feedParser._extractValue(itemText, tagList.ID);
+    let result = FeedParser._extractValue(itemText, tagList.ID);
     if (!result) {
-      let hasIdTag = feedParser._get1stUsedTag(itemText, tagList.ID);
+      let hasIdTag = FeedParser._get1stUsedTag(itemText, tagList.ID);
       if (!hasIdTag) {
         let i = itemText.indexOf('>', 1);
         let j = itemText.lastIndexOf('<');
@@ -191,28 +235,25 @@ class feedParser { /*exported feedParser*/
   }
 
   static _parseChannelToObj(feedText, tagItem, defaultTitle) {
-    let channel = {encoding: '', title: '', link: '', description: '', category : '', pubDate: '', htmlChannel: ''};
-    channel.encoding =  feedParser._getEncoding(feedText);
-    let tagChannel = feedParser._get1stUsedTag(feedText, tagList.CHANNEL);
+    let channel = DefaultValues.getDefaultChannelInfo();
+    channel.encoding =  FeedParser._getEncoding(feedText);
+    let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
     let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
-    channel.link = feedParser._extractValue(channelText, tagList.LINK);
+    channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
-      channel.link = feedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
+      channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
     }
-    channel.title = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.TITLE));
+    channel.title = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.TITLE));
     if (!channel.title) { channel.title = defaultTitle; }
     if (!channel.title) { channel.title = channel.link; }
-    channel.description = TextTools.decodeHtml(feedParser._extractValue(channelText, tagList.DESC));
-    channel.htmlChannel = feedParser._getHtmlChannel(channel);
+    channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
-
   }
 
   static _getHtmlHead(channel) {
     let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
     let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
     let encoding = channel.encoding ? channel.encoding : 'UTF-8';
-    //if (encoding == 'iso-8859-15') { encoding = 'UTF-8'; }
     let htmlHead = '';
     htmlHead                      += '<html>\n';
     htmlHead                      += '  <head>\n';
@@ -232,34 +273,44 @@ class feedParser { /*exported feedParser*/
     return htmlFoot;
   }
 
-  static _parseItemsToHtmlList(feedText, tagItem) {
+  static _parseItems(feedText, tagItem) {
     if (!feedText) return null;
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
-    let htmlItemList=[];
-    let item = {number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: ''};
-    let itemText = feedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
+    let itemList = [];
+    let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
     for (let i=0; i<itemNumber; i++) {
-      let itemId = feedParser._getItemId(itemText);
+      let item = DefaultValues.getDefaultItem(null);
+      let itemIdRaw = FeedParser._getItemId(itemText);
+      item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
-      item.link = feedParser._extractValue(itemText, tagList.LINK);
+      item.link = FeedParser._extractValue(itemText, tagList.LINK);
       if (! item.link) {
-        item.link = feedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
+        item.link = FeedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
       }
-      item.title = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.TITLE));
+      item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
-      item.description = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.DESC));
-      item.category = feedParser._getItemCategory(itemText);
-      item.author = TextTools.decodeHtml(feedParser._extractValue(itemText, tagList.AUTHOR));
-      let pubDateText = feedParser._extractValue(itemText, tagList.PUBDATE);
-      item.pubDate = feedParser._extractDateTime(pubDateText);
+      item.description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
+      item.category = FeedParser._getItemCategory(itemText);
+      item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
+      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      item.pubDate = FeedParser._extractDateTime(pubDateText);
       let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
       item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateText;
-      let htmlItem = feedParser._getHtmlItem(item);
+      itemList.push(item);
+      itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
+    }
+    return itemList;
+  }
+
+  static _feedItemsToHtml(feedInfo) {
+    let htmlItemList = [];
+    for (let i=0; i<feedInfo.itemList.length; i++) {
+      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
       htmlItemList.push(htmlItem);
-      itemText = feedParser._getNextItem(feedText, itemId, tagItem);
     }
     return htmlItemList;
   }
+
 
   static _getEncoding(text) {
     if (!text) { return null; }
@@ -275,7 +326,7 @@ class feedParser { /*exported feedParser*/
 
   static _extractAttribute(text, tagList, attributeList) {
     if (!text) { return null; }
-    let textOpenTag = feedParser._extractOpenTag(text, tagList);
+    let textOpenTag = FeedParser._extractOpenTag(text, tagList);
     if (!textOpenTag) { return null; }
     for (let attribute of attributeList) {
       let attStart = attribute + '="';
@@ -310,7 +361,7 @@ class feedParser { /*exported feedParser*/
     let nextStartIndex = 1;
     const MAX_CAT = 10;
     while (nextStartIndex && catCmpt < MAX_CAT) {
-      let tmp = feedParser._extractValue(itemText, tagList.CAT, nextStartIndex, endIndexRef);
+      let tmp = FeedParser._extractValue(itemText, tagList.CAT, nextStartIndex, endIndexRef);
       if (tmp) {
         category += (catCmpt==0 ? '' : ', ')  + TextTools.decodeHtml(tmp);
       }
@@ -320,16 +371,16 @@ class feedParser { /*exported feedParser*/
     return category;
   }
 
-  static _getHtmlItem(item) {
+  static _getHtmlItem(item, itemNumber) {
     let htmlItem = '';
     let title = item.title;
     if (!title) { title = '(No Title)'; }
     htmlItem +=                         '    <div class="item">\n';
     htmlItem +=                         '      <h2 class="itemTitle">\n';
-    htmlItem +=                         '        <span class="itemNumber">' + item.number + '.</span>\n';
+    htmlItem +=                         '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number)+ '.</span>\n';
     htmlItem +=                         '        <a href="' + item.link + '">' + title + '</a>\n';
     htmlItem +=                         '      </h2>\n';
-    if (item.description) { htmlItem += '      <div class="itemDescription">' + feedParser._fixDescriptionTags(item.description) + ' </div>\n'; }
+    if (item.description) { htmlItem += '      <div class="itemDescription">' + FeedParser._fixDescriptionTags(item.description) + ' </div>\n'; }
     htmlItem +=                         '      <div class="itemInfo">\n';
     if (item.category) { htmlItem +=    '        <div class="itemCat">[' + item.category + ']</div>\n'; }
     if (item.author) { htmlItem +=      '        Posted by ' + item.author + '<br/>\n'; }

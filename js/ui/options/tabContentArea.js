@@ -4,7 +4,6 @@ class TabContentArea { /*exported TabContentArea*/
   static async init_async() {
     let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
     elAlwaysOpenNewTabCheckbox.checked =  await LocalStorageManager.getValue_async('alwaysOpenNewTab', DefaultValues.alwaysOpenNewTab);
-
     elAlwaysOpenNewTabCheckbox.addEventListener('click', TabContentArea._alwaysOpenNewTabCheckBoxClicked_event);
 
     let elOpenNewTabForegroundCheckbox = document.getElementById('openNewTabForegroundCheckbox');

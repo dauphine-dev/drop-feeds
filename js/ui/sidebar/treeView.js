@@ -5,19 +5,24 @@ class TreeView { /*exported TreeView*/
     this._html = null;
     this._is1stFolder = null;
     this._displayRootFolder = DefaultValues.displayRootFolder;
+    this._1stFolderDivId = null;
   }
 
   async createAndShow() {
     this._html = [];
     this._is1stFolder = true;
-    let rootBookmarkId = await BookmarkManager.instance.getRootFolderId_async();
-    let rootBookmark = (await browser.bookmarks.getSubTree(rootBookmarkId))[0];
+    let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
+    let rootBookmark = (await browser.bookmarks.getSubTree(rootFolderId))[0];
     let cacheLocalStorage = await LocalStorageManager.getCache_async();
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
     this._computeHtmlTree(cacheLocalStorage, rootBookmark, 10, this._displayRootFolder);
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
+  }
+
+  get rootFolderId() {
+    return this._1stFolderDivId;
   }
 
   _addEventListenerOnFeedItems() {
@@ -46,8 +51,7 @@ class TreeView { /*exported TreeView*/
       TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;
       let feedId = event.currentTarget.getAttribute('id');
-      FeedManager.instance.openOneFeedToTab_async(feedId);
-
+      FeedManager.instance.openOneFeedToTabById_async(feedId);
     }
     finally {
       StatusBar.instance.text = '';

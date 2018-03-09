@@ -387,6 +387,15 @@ li {
   display: inline-block;
 }
 
+#ctxMnOpenUpdatedAsUnified::before {
+  background-image: url(/resources/themes/legacy/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
 
 .menuSep {
   margin: 2px 0 2px 0;

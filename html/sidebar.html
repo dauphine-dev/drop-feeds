@@ -25,6 +25,8 @@
 
   <body>
     <div id="main">
+
+      <!-- Top menu -->
       <div class="topMenu">
         <span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
         <span id="discoverFeedsButton" tooltiptext="Discover feeds" class="topMenuItem toolTip"></span>
@@ -33,14 +35,18 @@
         <span id="addFeedButton" tooltiptext="Add a new feed" class="topMenuItem toolTip"></span>
         <span id="optionsMenuButton" tooltiptext="Open options tab" class="topMenuItem toolTip"></span>
       </div>
+
+      <!-- Status bar -->
       <div id="statusBar">
         <span id="statusButton" class="statusButton"></span>
         <span id="statusText" ></span>
       </div>
 
+      <!-- Tree view -->
       <ul class="contentHeight" id="content">
       </ul>
 
+      <!-- Context menu -->
       <div id="contextMenuId" class="contextMenuStyle">
         <ul>
           <li id="ctxMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
@@ -49,9 +55,13 @@
           <li id="ctxMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
           <li class="menuSep"></li>
           <li id="ctxMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
+          <li id="ctxMnOpenUpdatedAsUnified" class="ctxMenuItem">Open updated as a unified feed</li>
         </ul>
       </div>
+
+      <!-- selection bar -->
       <div id="selectionBar"></div>
+
     </div>
     <script src="/js/ui/sidebar/topMenu.js"></script>
     <script src="/js/ui/sidebar/statusBar.js"></script>

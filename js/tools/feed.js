@@ -1,4 +1,4 @@
-/*global browser DefaultValues TextTools, Transfer Compute DateTime feedParser LocalStorageManager*/
+/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -48,6 +48,10 @@ class Feed { /*exported Feed*/
     return this._storedFeed.status;
   }
 
+  get error() {
+    return this._error;
+  }
+
   async setStatus_async(status) {
     this._storedFeed.status = status;
     this.updateUiStatus();
@@ -74,11 +78,15 @@ class Feed { /*exported Feed*/
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 
-  async getDocUrl_async() {
-    let feedHtml = await feedParser.parseFeedToHtml_async(this._feedText, this._storedFeed.title);
+  get docUrl() {
+    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title);
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
+  }
+
+  get info() {
+    return FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
   }
 
   updateUiStatus() {
@@ -172,7 +180,7 @@ class Feed { /*exported Feed*/
   }
 
   _validFeedText() {
-    let error = feedParser.isValidFeedText(this._feedText);
+    let error = FeedParser.isValidFeedText(this._feedText);
     if (error) {
       throw error;
     }
@@ -180,7 +188,7 @@ class Feed { /*exported Feed*/
   }
 
   _parsePubdate() {
-    this._storedFeed.pubDate =  feedParser.parsePubdate(this._feedText);
+    this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
   }
 
   async _updateStatus() {
@@ -188,19 +196,20 @@ class Feed { /*exported Feed*/
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {
+      let storedFeedHash = this._storedFeed.hash.trim(); //fix a weird bug: string compare doesn't work this._storedFeed.hash but works on his copy storedFeedHash...
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if ((this._storedFeed.pubDate > this._prevValues.pubDate) &&  (this._storedFeed.hash != this._prevValues.Hash)) {
+        if ((this._storedFeed.pubDate > this._prevValues.pubDate) &&  (this._storedFeed.hash != storedFeedHash)) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
-      } else if(this._storedFeed.hash != this._prevValues.Hash) {
+      } else if(this._storedFeed.hash != storedFeedHash) {
         this._storedFeed.status = feedStatus.UPDATED;
       }
+
     }
-    return status;
   }
 
   _computeHashCode() {
-    let feedBody = feedParser.getFeedBody(this._feedText);
+    let feedBody = FeedParser.getFeedBody(this._feedText);
     this._storedFeed.hash = Compute.hashCode(feedBody);
   }
 

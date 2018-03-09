@@ -15,7 +15,7 @@ class Debug {
     let nodataList = [];
     let miscList = [];
     let folderStateList = [];
-    let bookmarkList = [];
+    let feedInfoList = [];
     //let keysToRemove = [];
 
     for (let property in localStorage) {
@@ -30,7 +30,7 @@ class Debug {
         }
         if (localStorage[property] !== null) {
           if (localStorage[property].isFeedInfo || localStorage[property].isBkmrk || localStorage[property].bkmrkId) {
-            bookmarkList.push([property, typeof localStorage[property], localStorage[property] ]);
+            feedInfoList.push([property, typeof localStorage[property], localStorage[property] ]);
             continue;
           }
         }
@@ -48,16 +48,16 @@ class Debug {
       }
     }
     //await browser.storage.local.remove(keysToRemove);
-
-    bookmarkList.sort(function(a, b) {
-      return new Date(b[1].pubDate) - new Date(a[1].pubDate);
+    feedInfoList.sort(function(a, b) {
+      return (new Date(b[2].pubDate) - new Date(a[2].pubDate));
     });
+
     let htmlText = '';
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);
     htmlText += '  ' + Debug._addSectionHtml('Feeds info');
-    htmlText += '  ' + Debug._listToHtml(bookmarkList);
+    htmlText += '  ' + Debug._listToHtml(feedInfoList);
     htmlText += '  ' + Debug._addSectionHtml('Folders state');
     htmlText += '  ' + Debug._listToHtml(folderStateList);
     return htmlText;

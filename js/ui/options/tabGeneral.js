@@ -108,7 +108,7 @@ class TabGeneral { /*exported TabGeneral*/
 
   async _applySelectedFeedButtonClicked_event() {
     let rootBookmarkId = document.getElementById('feedFolderSelect').value;
-    await LocalStorageManager.clean();
+    await LocalStorageManager.clean_async();
     await LocalStorageManager.setValue_async('rootBookmarkId', rootBookmarkId);
     await LocalStorageManager.setValue_async('reloadPanel', Date.now());
     await DateTime.delay_async(100);
