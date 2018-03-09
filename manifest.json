@@ -5,7 +5,7 @@
   "version": "0.3",
   "applications": {
     "gecko": {
-      "id": "dropfeeds@dauphine-dev",
+      "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
       "strict_min_version": "56.0"
     }
   },
