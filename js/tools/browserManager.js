@@ -33,7 +33,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static setInnerHtmlById(id, innerHTML) {
-    document.getElementById(id).innerHTML = innerHTML;
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), innerHTML);
   }
 
   static loadScript(url, callback){

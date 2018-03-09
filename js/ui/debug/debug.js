@@ -1,4 +1,4 @@
-/*global browser*/
+/*global browser BrowserManager*/
 'use strict';
 class Debug {
   static async init() {
@@ -7,7 +7,8 @@ class Debug {
     debugContent += await Debug._localStorageToHtml_async();
     debugContent += await Debug._allBookmarksToHtml_async();
     debugContent += '</table>\n';
-    document.getElementById('debugContent').innerHTML += debugContent;
+    let elDebugContent = document.getElementById('debugContent');
+    BrowserManager.setInnerHtmlByElement(elDebugContent, elDebugContent.innerHTML + debugContent);
   }
 
   static async _localStorageToHtml_async() {
