@@ -7,6 +7,7 @@ class TreeView { /*exported TreeView*/
     this._displayRootFolder = DefaultValues.displayRootFolder;
     this._1stFolderDivId = null;
     this._rootFolderId = DefaultValues.rootFolderId;
+
   }
 
   async createAndShow() {
@@ -29,7 +30,6 @@ class TreeView { /*exported TreeView*/
   get rootFolderId() {
     return this._rootFolderId;
   }
-
 
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
@@ -151,17 +151,19 @@ class TreeView { /*exported TreeView*/
 
   _getStoredFolder(cacheLocalStorage, folderId) {
     let storedFolder = cacheLocalStorage['cb-' + folderId];
-    if (!storedFolder) {
+    if (typeof storedFolder == 'undefined') {
       storedFolder = DefaultValues.getStoredFolder('cb-' + folderId);
     }
+
     return storedFolder;
   }
 
   _getStoredFeed(cacheLocalStorage, feedId) {
     let storedFeed = cacheLocalStorage[feedId];
-    if (!storedFeed) {
+    if (typeof storedFeed == 'undefined') {
       storedFeed = DefaultValues.getStoredFeed(feedId);
     }
+
     return storedFeed;
   }
 
@@ -172,11 +174,9 @@ class TreeView { /*exported TreeView*/
 
   _getDisplayRootFolder(cacheLocalStorage) {
     let displayRootFolder = cacheLocalStorage['displayRootFolder'];
-    if (!displayRootFolder) {
+    if (typeof displayRootFolder == 'undefined') {
       displayRootFolder =  DefaultValues.displayRootFolder;
     }
     return displayRootFolder;
   }
-
-
 }

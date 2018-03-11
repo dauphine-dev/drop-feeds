@@ -1,6 +1,9 @@
+0.3.2
+fix reading options during treeview loading
+
 0.3.1
 fix restore options values on loading
-fix hash
+fix hash compare
 fix default values on 1st usage
 
 0.3 (commit ...)
