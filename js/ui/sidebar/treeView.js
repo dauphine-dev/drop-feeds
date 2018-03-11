@@ -111,24 +111,26 @@ class TreeView { /*exported TreeView*/
     let folderName = bookmarkItem.title;
     let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
     let checked = storedFolder.checked ? 'checked' : '';
+    let display = displayThisFolder ? '' : ' class="displayNone ';
+
     let folderLine = '';
     if (displayThisFolder) {
       if (this._is1stFolder) {
         this._setAs1stFolder(id);
       }
-      folderLine += TextTools.makeIndent(indent) +
-      '<div id="dv-' + id + '" class="folder">\n';
-      indent += 2;
-      folderLine += TextTools.makeIndent(indent) +
-      '<li>' +
-      '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
-      '<label for="cb-' + id + '" class="folderClose"></label>' +
-      '<label for="cb-' + id + '" class="folderOpen"></label>' +
-      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
-      folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
-      indent += 2;
-      this._html.push(folderLine);
     }
+    folderLine += TextTools.makeIndent(indent) +
+    '<div id="dv-' + id + '" class="folder">\n';
+    indent += 2;
+    folderLine += TextTools.makeIndent(indent) +
+    '<li>' +
+    '<input type="checkbox" id=cb-' + id + ' ' + checked + display + '/>' +
+    '<label for="cb-' + id + '" class="folderClose"' + display + '></label>' +
+    '<label for="cb-' + id + '" class="folderOpen"' + display + '></label>' +
+    '<label for="cb-' + id + '" id="lbl-' + id + '"' + display + '>' + folderName + '</label>\n';
+    folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+    indent += 2;
+    this._html.push(folderLine);
     if (bookmarkItem.children) {
       for (let child of bookmarkItem.children) {
         this._computeHtmlTree(cacheLocalStorage, child, indent, true);
