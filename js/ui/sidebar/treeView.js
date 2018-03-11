@@ -6,13 +6,14 @@ class TreeView { /*exported TreeView*/
     this._is1stFolder = null;
     this._displayRootFolder = DefaultValues.displayRootFolder;
     this._1stFolderDivId = null;
+    this._rootFolderId = DefaultValues.rootFolderId;
   }
 
   async createAndShow() {
     this._html = [];
     this._is1stFolder = true;
-    let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
-    let rootBookmark = (await browser.bookmarks.getSubTree(rootFolderId))[0];
+    this._rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
+    let rootBookmark = (await browser.bookmarks.getSubTree(this._rootFolderId))[0];
     let cacheLocalStorage = await LocalStorageManager.getCache_async();
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
     this._computeHtmlTree(cacheLocalStorage, rootBookmark, 10, this._displayRootFolder);
@@ -21,9 +22,14 @@ class TreeView { /*exported TreeView*/
     this._addEventListenerOnFeedFolders();
   }
 
-  get rootFolderId() {
+  get rootFolderUiId() {
     return this._1stFolderDivId;
   }
+
+  get rootFolderId() {
+    return this._rootFolderId;
+  }
+
 
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
@@ -166,7 +172,7 @@ class TreeView { /*exported TreeView*/
 
   _getDisplayRootFolder(cacheLocalStorage) {
     let displayRootFolder = cacheLocalStorage['displayRootFolder'];
-    if (displayRootFolder) {
+    if (!displayRootFolder) {
       displayRootFolder =  DefaultValues.displayRootFolder;
     }
     return displayRootFolder;

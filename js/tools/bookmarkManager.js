@@ -11,12 +11,12 @@ class BookmarkManager { /*exported BookmarkManager*/
   constructor() {
     this.lastCreatedBookmarkId = null;
     this.importInProgress = false;
-    LocalStorageListener.instance.subscribe('importInProgress', BookmarkManager.setImportInProgress_sbscrb);
+    LocalStorageListener.instance.subscribe('importInProgress', BookmarkManager.setImportInProgress_sbscrb, true);
   }
 
   async init_async() {
     this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
-    LocalStorageListener.instance.subscribe('rootBookmarkId', BookmarkManager.setRootBookmarkId_sbscrb);
+    LocalStorageListener.instance.subscribe('rootBookmarkId', BookmarkManager.setRootBookmarkId_sbscrb, true);
   }
 
   static setImportInProgress_sbscrb(value) {
@@ -163,7 +163,7 @@ class BookmarkManager { /*exported BookmarkManager*/
     await browser.bookmarks.create({
       parentId: rootBookmark.id,
       title: 'The Mozilla Blog',
-      url: 'https://blog.mozilla.org/Feed/'
+      url: 'https://blog.mozilla.org/feed/'
     });
     return rootBookmark.id;
   }

@@ -1,4 +1,4 @@
-/*global browser*/
+/*global browser LocalStorageManager*/
 'use strict';
 class LocalStorageListener { /*exported LocalStorageListener*/
   static get instance() {
@@ -36,12 +36,23 @@ class LocalStorageListener { /*exported LocalStorageListener*/
     }
   }
 
-  subscribe(key, callback) {
+  subscribe(key, callback, fireOnSubscribe) {
     let subscriber = [key, callback];
     this._subscriberList.push(subscriber);
+    if (fireOnSubscribe) {
+      LocalStorageListener._fire(key, callback);
+    }
   }
 
   unsubscribe(key) {
     this._subscriberList = this._subscriberList.filter(subscriber => subscriber[0] !== key);
+  }
+
+  static _fire(key, callback) {
+    LocalStorageManager.getValue_async(key, undefined).then((newValue) => {
+      if (typeof newValue != 'undefined') {
+        callback(newValue);
+      }
+    });
   }
 }

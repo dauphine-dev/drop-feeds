@@ -16,10 +16,8 @@ class TopMenu  { /*exported TopMenu*/
 
   async init_async() {
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
-    let rootFolderId = 'cb-' + SelectionBar.instance.getRootElementId().substring(3);
-    let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
-    this._foldersOpened = rootFolder.checked;
     this.updatedFeedsSetVisibility();
+    await this._isRootFolderChecked_async();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', this.checkFeedsButtonClicked_event);
     let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
@@ -29,6 +27,14 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').addEventListener('click', this.toggleFoldersButtonClicked_event);
     document.getElementById('addFeedButton').addEventListener('click', this.addFeedButtonClicked_event);
     document.getElementById('optionsMenuButton').addEventListener('click', this.optionsMenuClicked_event);
+  }
+
+  async _isRootFolderChecked_async() {
+    try {
+      let rootFolderId = 'cb-' + SelectionBar.instance.getRootElementId().substring(3);
+      let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
+      this._foldersOpened = rootFolder.checked;
+    } catch(e) { }
   }
 
   enableAddFeedButton(isEnable) {
@@ -82,7 +88,7 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     SelectionBar.instance.putAtRoot();
-    FeedManager.instance.checkFeeds_async(SideBar.instance.treeView.rootFolderId);
+    FeedManager.instance.checkFeeds_async('dv-' + SideBar.instance.treeView.rootFolderId);
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {

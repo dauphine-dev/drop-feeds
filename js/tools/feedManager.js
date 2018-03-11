@@ -22,10 +22,10 @@ class FeedManager { /*exported FeedManager*/
 
   async init_async() {
     this._alwaysOpenNewTab = await LocalStorageManager.getValue_async('alwaysOpenNewTab',  this._alwaysOpenNewTab);
-    LocalStorageListener.instance.subscribe('alwaysOpenNewTab', FeedManager._setAlwaysOpenNewTab_sbscrb);
+    LocalStorageListener.instance.subscribe('alwaysOpenNewTab', FeedManager._setAlwaysOpenNewTab_sbscrb, true);
     this._openNewTabForeground = await LocalStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
-    LocalStorageListener.instance.subscribe('openNewTabForeground', FeedManager._setOpenNewTabForeground_sbscrb);
-    LocalStorageListener.instance.subscribe('asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb);
+    LocalStorageListener.instance.subscribe('openNewTabForeground', FeedManager._setOpenNewTabForeground_sbscrb, true);
+    LocalStorageListener.instance.subscribe('asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
   }
 
   async checkFeeds_async(folderId) {

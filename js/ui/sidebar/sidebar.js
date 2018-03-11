@@ -36,8 +36,8 @@ class SideBar { /*exported SideBar*/
     SelectionBar.instance.refresh();
     this._computeContentTop();
     await this._forceTabOnChanged_async();
-    LocalStorageListener.instance.subscribe('reloadPanel', SideBar.reloadPanel_sbscrb);
-    LocalStorageListener.instance.subscribe('reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb);
+    LocalStorageListener.instance.subscribe('reloadPanel', SideBar.reloadPanel_sbscrb, false);
+    LocalStorageListener.instance.subscribe('reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
   }
 
   get treeView() {

@@ -196,15 +196,20 @@ class Feed { /*exported Feed*/
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {
-      let storedFeedHash = this._storedFeed.hash.trim(); //fix a weird bug: string compare doesn't work this._storedFeed.hash but works on his copy storedFeedHash...
+      //fix a weird bug: string compare doesn't work this._prevValues.hash but works on his copy...
+      let prevFeedHash = null;
+      if (this._prevValues.hash) {
+        prevFeedHash = this._prevValues.hash.trim();
+      }
+      //...........................................................................................
+
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if ((this._storedFeed.pubDate > this._prevValues.pubDate) &&  (this._storedFeed.hash != storedFeedHash)) {
+        if ((this._storedFeed.pubDate > this._prevValues.pubDate &&  this._storedFeed.hash != prevFeedHash) || !this._prevValues.pubDate) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
-      } else if(this._storedFeed.hash != storedFeedHash) {
+      } else if(this._storedFeed.hash != prevFeedHash) {
         this._storedFeed.status = feedStatus.UPDATED;
       }
-
     }
   }
 

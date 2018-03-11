@@ -1,3 +1,8 @@
+0.3.1
+fix restore options values on loading
+fix hash
+fix default values on 1st usage
+
 0.3 (commit ...)
 Asynchronous feed checking
 Open feeds as unified

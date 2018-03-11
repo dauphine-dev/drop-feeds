@@ -7,7 +7,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     elTimeoutNumber.addEventListener('change', TabUpdateChecker._timeoutValueChanged_event);
 
     let elAsynchronousFeedCheckingCheckbox = document.getElementById('asynchronousFeedCheckingCheckbox');
-    elAsynchronousFeedCheckingCheckbox.checked =  await LocalStorageManager.getValue_async('alwaysOpenNewTab', DefaultValues.alwaysOpenNewTab);
+    elAsynchronousFeedCheckingCheckbox.checked =  await LocalStorageManager.getValue_async('asynchronousFeedChecking', DefaultValues.alwaysOpenNewTab);
     elAsynchronousFeedCheckingCheckbox.addEventListener('click', TabUpdateChecker._asynchronousFeedCheckingCheckboxClicked_event);
 
   }

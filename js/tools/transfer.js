@@ -14,7 +14,7 @@ class Timeout { /*exported Timeout*/
 
   async init_async() {
     this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
-    LocalStorageListener.instance.subscribe('timeOut', Timeout.setTimeout_sbscrb);
+    LocalStorageListener.instance.subscribe('timeOut', Timeout.setTimeout_sbscrb, true);
   }
 
   get timeOutMs() {
