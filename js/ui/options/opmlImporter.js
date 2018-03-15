@@ -27,7 +27,7 @@ class OpmlImporter { /*exported OpmlImporter*/
     let isOpmlValid = self._opmlIsValid(opmlText);
     if (isOpmlValid) {
       await self._importOmplOutlinesAsync(opmlText);
-      LocalStorageManager.setValue_async('reloadPanel', Date.now());
+      LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     }
     else {
       self._progressBarImport.text = 'Invalid ompl file!';

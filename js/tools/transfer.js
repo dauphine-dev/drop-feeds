@@ -1,4 +1,4 @@
-/*global DefaultValues LocalStorageManager LocalStorageListener*/
+/*global DefaultValues LocalStorageManager Listener ListenerProviders*/
 'use strict';
 class Timeout { /*exported Timeout*/
   static get instance() {
@@ -14,7 +14,7 @@ class Timeout { /*exported Timeout*/
 
   async init_async() {
     this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
-    LocalStorageListener.instance.subscribe('timeOut', Timeout.setTimeout_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', Timeout.setTimeout_sbscrb, true);
   }
 
   get timeOutMs() {

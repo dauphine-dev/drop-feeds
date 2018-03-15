@@ -1,3 +1,6 @@
+0.4
+rework treeview instance management
+
 0.3.3
 improve feed status management
 fix the 1st update of the day (on 1st update of the, the feed status wasn't set correctly)

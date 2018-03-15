@@ -350,6 +350,10 @@ li {
 .displayNone {
   display:none;
 }
+.displayNone::before {
+  display:none;
+}
+
 
 #ctxMnCheckFeeds::before {
   background-image: url(/resources/themes/legacy/img/check-feeds.png);

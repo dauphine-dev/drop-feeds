@@ -1,4 +1,4 @@
-/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager LocalStorageListener FeedParser*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager Listener ListenerProviders FeedParser*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() {
@@ -22,10 +22,10 @@ class FeedManager { /*exported FeedManager*/
 
   async init_async() {
     this._alwaysOpenNewTab = await LocalStorageManager.getValue_async('alwaysOpenNewTab',  this._alwaysOpenNewTab);
-    LocalStorageListener.instance.subscribe('alwaysOpenNewTab', FeedManager._setAlwaysOpenNewTab_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', FeedManager._setAlwaysOpenNewTab_sbscrb, true);
     this._openNewTabForeground = await LocalStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
-    LocalStorageListener.instance.subscribe('openNewTabForeground', FeedManager._setOpenNewTabForeground_sbscrb, true);
-    LocalStorageListener.instance.subscribe('asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', FeedManager._setOpenNewTabForeground_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
   }
 
   async checkFeeds_async(folderId) {

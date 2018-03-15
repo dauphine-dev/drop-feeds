@@ -1,4 +1,4 @@
-/*global browser DefaultValues SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager SideBar*/
+/*global browser DefaultValues SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager TreeView*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -88,7 +88,7 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     SelectionBar.instance.putAtRoot();
-    FeedManager.instance.checkFeeds_async('dv-' + SideBar.instance.treeView.rootFolderId);
+    FeedManager.instance.checkFeeds_async('dv-' + TreeView.instance.rootFolderId);
   }
 
   async onlyUpdatedFeedsButtonClicked_event(event) {

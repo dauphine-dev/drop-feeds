@@ -114,6 +114,8 @@ class Feed { /*exported Feed*/
   _savePrevValues() {
     this._prevValues.hash = this._storedFeed.hash;
     this._prevValues.pubDate = this._storedFeed.pubDate;
+    this._storedFeed.hash = null;
+    this._storedFeed.pubDate = null;
   }
 
   async _download_async(ignoreRedirection, forceHttp) {
@@ -136,16 +138,20 @@ class Feed { /*exported Feed*/
                 this._download_async(ignoreRedirection, true);
               }
               catch(e3) {
+                /*eslint-disable no-console*/
                 //console.log(this._bookmark.url);
                 //console.log(this._storedFeed.title + ': ' + e3);
+                /*eslint-enable no-console*/
                 this._error = e3;
               }
             }
           }
         }
         if (!retry) {
+          /*eslint-disable no-console*/
           //console.log(this._bookmark.url);
           //console.log(this._storedFeed.title + ': ' + e2);
+          /*eslint-enable no-console*/
           this._error = e2;
         }
       }

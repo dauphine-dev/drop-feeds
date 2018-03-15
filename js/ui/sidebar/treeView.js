@@ -1,16 +1,29 @@
-/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar ContextMenu LocalStorageManager TextTools Feed BookmarkManager*/
+/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
+ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
 class TreeView { /*exported TreeView*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new TreeView();
+    }
+    return this._instance;
+  }
+
   constructor() {
+    this._init();
+  }
+
+  _init() {
     this._html = null;
     this._is1stFolder = null;
     this._displayRootFolder = DefaultValues.displayRootFolder;
     this._1stFolderDivId = null;
     this._rootFolderId = DefaultValues.rootFolderId;
-
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', TreeView._reload_sbscrb, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', TreeView._reload_sbscrb, false);
   }
 
-  async createAndShow() {
+  async load_async() {
     this._html = [];
     this._is1stFolder = true;
     this._rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
@@ -23,12 +36,43 @@ class TreeView { /*exported TreeView*/
     this._addEventListenerOnFeedFolders();
   }
 
+  async reload_async() {
+    this._init();
+    await this.load_async();
+    SideBar.instance.setContentHeight();
+  }
+
   get rootFolderUiId() {
     return this._1stFolderDivId;
   }
 
   get rootFolderId() {
     return this._rootFolderId;
+  }
+
+  static async _reload_sbscrb() {
+    await TreeView.instance.reload_async();
+  }
+
+  get displayRootFolder() {
+    return this._displayRootFolder;
+  }
+
+  set displayRootFolder(value) {
+    this._displayRootFolder = value;
+    if (this._displayRootFolder) {
+      document.getElementById('cb-' + this._rootFolderId).classList.remove('displayNone');
+      let labelList = document.querySelectorAll('label[for="cb-' + this._rootFolderId + '"]');
+      for (let i = 0; i < labelList.length; i++) {
+        labelList[i].classList.remove('displayNone');
+      }
+    } else {
+      document.getElementById('cb-' + this._rootFolderId).classList.add('displayNone');
+      let labelList = document.querySelectorAll('label[for="cb-' + this._rootFolderId + '"]');
+      for (let i = 0; i < labelList.length; i++) {
+        labelList[i].classList.add('displayNone');
+      }
+    }
   }
 
   _addEventListenerOnFeedItems() {

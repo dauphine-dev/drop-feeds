@@ -1,5 +1,5 @@
 /*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView LocalStorageListener MessageManager BookmarkManager FeedManager*/
+DateTime ContextMenu TreeView Listener ListenerProviders MessageManager BookmarkManager FeedManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -14,34 +14,25 @@ class SideBar { /*exported SideBar*/
     console.log('Drop feeds loading...');
     /*eslint-enable no-console*/
     this._subscribeHtmlUrl = '/html/subscribe.html';
-    this._treeView = new TreeView();
     this._contentTop = null;
-    this._localStorageListener = null;
   }
 
   async init_async() {
     SelectionBar.instance;
-    await this._treeView.createAndShow();
+    await TreeView.instance.load_async();
     await Timeout.instance.init_async();
-    this._localStorageListener = new LocalStorageListener();
-    LocalStorageListener.instance;
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
     await FeedManager.instance.init_async();
     MessageManager.instance;
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
-    this._setContentHeight();
+    this.setContentHeight();
     this._addListeners();
     SelectionBar.instance.refresh();
     this._computeContentTop();
     await this._forceTabOnChanged_async();
-    LocalStorageListener.instance.subscribe('reloadPanel', SideBar.reloadPanel_sbscrb, false);
-    LocalStorageListener.instance.subscribe('reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
-  }
-
-  get treeView() {
-    return this._treeView;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
   }
 
   reloadOnce() {
@@ -55,13 +46,6 @@ class SideBar { /*exported SideBar*/
 
   static async reloadPanelWindow_sbscrb() {
     window.location.reload();
-  }
-
-  static async reloadPanel_sbscrb() {
-    let self = SideBar.instance;
-    self._treeView = new TreeView();
-    await self._treeView.createAndShow();
-    self._setContentHeight();
   }
 
   async openSubscribeDialog_async() {
@@ -95,7 +79,7 @@ class SideBar { /*exported SideBar*/
   }
 
   static async _windowOnResize_event() {
-    SideBar.instance._setContentHeight();
+    SideBar.instance.setContentHeight();
   }
 
   _computeContentTop() {
@@ -104,7 +88,7 @@ class SideBar { /*exported SideBar*/
     this._contentTop = rect.bottom + 1;
   }
 
-  _setContentHeight() {
+  setContentHeight() {
     let height = Math.max(window.innerHeight - this._contentTop, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }

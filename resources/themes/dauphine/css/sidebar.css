@@ -310,6 +310,9 @@ li.feedUnread {
 .displayNone {
   display:none;
 }
+.displayNone::before {
+  display:none;
+}
 
 #ctxMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
