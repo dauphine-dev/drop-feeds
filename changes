@@ -1,3 +1,7 @@
+0.3.3
+improve feed status management
+fix the 1st update of the day (on 1st update of the, the feed status wasn't set correctly)
+
 0.3.2
 fix reading options during treeview loading
 fix root folder visibility management in treeview

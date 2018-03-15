@@ -25,6 +25,7 @@ class Feed { /*exported Feed*/
   async _constructor_async() {
     this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
     this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+    if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
     this._storedFeed.isFeedInfo = true;
     this._storedFeed.title = this._bookmark.title;
     this._updateStoredFeedVersion();
@@ -135,20 +136,16 @@ class Feed { /*exported Feed*/
                 this._download_async(ignoreRedirection, true);
               }
               catch(e3) {
-                /*eslint-disable no-console*/
-                console.log(this._bookmark.url);
-                console.log(this._storedFeed.title + ': ' + e3);
-                /*eslint-enable no-console*/
+                //console.log(this._bookmark.url);
+                //console.log(this._storedFeed.title + ': ' + e3);
                 this._error = e3;
               }
             }
           }
         }
         if (!retry) {
-          /*eslint-disable no-console*/
-          console.log(this._bookmark.url);
-          console.log(this._storedFeed.title + ': ' + e2);
-          /*eslint-enable no-console*/
+          //console.log(this._bookmark.url);
+          //console.log(this._storedFeed.title + ': ' + e2);
           this._error = e2;
         }
       }
@@ -188,6 +185,7 @@ class Feed { /*exported Feed*/
   }
 
   _parsePubdate() {
+    if (this._error != null)  { return; }
     this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
   }
 
@@ -196,24 +194,19 @@ class Feed { /*exported Feed*/
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {
-      //fix a weird bug: string compare doesn't work this._prevValues.hash but works on his copy...
-      let prevFeedHash = null;
-      if (this._prevValues.hash) {
-        prevFeedHash = this._prevValues.hash.trim();
-      }
-      //...........................................................................................
-
+      this._storedFeed.status = feedStatus.OLD;
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if ((this._storedFeed.pubDate > this._prevValues.pubDate &&  this._storedFeed.hash != prevFeedHash) || !this._prevValues.pubDate) {
+        if (!this._prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
-      } else if(this._storedFeed.hash != prevFeedHash) {
+      } else if ((this._storedFeed.hash && !this._prevValues.hash) || (this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
         this._storedFeed.status = feedStatus.UPDATED;
       }
     }
   }
 
   _computeHashCode() {
+    if (this._error) { return; }
     let feedBody = FeedParser.getFeedBody(this._feedText);
     this._storedFeed.hash = Compute.hashCode(feedBody);
   }
