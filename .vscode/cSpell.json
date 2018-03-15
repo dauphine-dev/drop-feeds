@@ -7,10 +7,15 @@
     // words - list of words to be always considered correct
     "words": [
         "async",
+        "bkmrk",
         "dropdown",
+        "guid",
         "init",
+        "pubdate",
+        "refactory",
         "sbscrb",
-        "theme"
+        "theme",
+        "treeview"
     ],
     // flagWords - list of words to be always considered incorrect
     // This is useful for offensive words and common spelling errors.
