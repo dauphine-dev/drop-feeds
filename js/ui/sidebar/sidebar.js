@@ -1,5 +1,5 @@
 /*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView Listener ListenerProviders MessageManager BookmarkManager FeedManager*/
+DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -24,7 +24,6 @@ class SideBar { /*exported SideBar*/
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
     await FeedManager.instance.init_async();
-    MessageManager.instance;
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this.setContentHeight();
@@ -33,6 +32,7 @@ class SideBar { /*exported SideBar*/
     this._computeContentTop();
     await this._forceTabOnChanged_async();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
   }
 
   reloadOnce() {
@@ -48,9 +48,10 @@ class SideBar { /*exported SideBar*/
     window.location.reload();
   }
 
-  async openSubscribeDialog_async() {
+  static async openSubscribeDialog_async() {
+    let self = SideBar.instance;
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    let url = browser.extension.getURL(this._subscribeHtmlUrl);
+    let url = browser.extension.getURL(self._subscribeHtmlUrl);
     let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop Feed'};
     LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
     let win = await browser.windows.create(createData);
@@ -62,7 +63,6 @@ class SideBar { /*exported SideBar*/
   }
 
   _addListeners() {
-    BookmarkManager.instance.addListeners();
     window.onresize = SideBar._windowOnResize_event;
     browser.tabs.onActivated.addListener(SideBar._tabOnActivated_event);
     browser.tabs.onUpdated.addListener(SideBar._tabOnUpdated_event);
@@ -107,14 +107,13 @@ class SideBar { /*exported SideBar*/
   async _tabHasChanged_async(tabInfo) {
     let isFeed = false;
     try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {'req':'isFeed'});
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     } catch(e) { }
     TopMenu.instance.enableAddFeedButton(isFeed);
     if(isFeed) {
       browser.pageAction.show(tabInfo.id);
       let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
       browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
-      browser.tabs.sendMessage(tabInfo.id, {'req':'addSubscribeButton'});
     }
     else {
       browser.pageAction.hide(tabInfo.id);
