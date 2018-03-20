@@ -1,6 +1,7 @@
 0.4
 rework treeview instance management
 Create 'Listener' class to manage communication between Dropfeeds components
+Create a item panel (work in progress)
 
 0.3.3
 improve feed status management

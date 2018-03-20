@@ -6,6 +6,7 @@
     "language": "en",
     // words - list of words to be always considered correct
     "words": [
+        "anim",
         "async",
         "bkmrk",
         "dropdown",
@@ -15,6 +16,7 @@
         "refactory",
         "sbscrb",
         "theme",
+        "tooltips",
         "treeview"
     ],
     // flagWords - list of words to be always considered incorrect

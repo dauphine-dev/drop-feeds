@@ -2,6 +2,8 @@
 'use strict';
 class DefaultValues { /*exported DefaultValues*/
 
+  /*
+  */
   static get asynchronousFeedChecking() { return true; }
   static get timeOut()                  { return 60; }
   static get displayRootFolder()        { return true; }
@@ -12,8 +14,9 @@ class DefaultValues { /*exported DefaultValues*/
   static get updatedFeedsVisible()      { return false; }
   static get foldersOpened()            { return true; }
   static get maxItemsInUnifiedView()    { return 100; }
-
-
+  static get feedItemList()             { return false; }
+  static get feedItemListToolbar()      { return false; }
+  static get feedItemDescriptionTooltips() { return false; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};

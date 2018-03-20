@@ -19,6 +19,7 @@
     <div class="tab">
       <button class="tabLinks active" target="generalTab">General</button>
       <button class="tabLinks" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" target= "viewTab">View</button>
       <button class="tabLinks" target="contentsAreaTab">Contents area</button>
       <button class="tabLinks" target="managementTab">Management</button>
     </div>
@@ -79,6 +80,17 @@
             <td>&nbsp;</td>
             <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
           </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ~~~~~~ Tab view ~~~~~~ -->
+    <div id="viewTab" class="tabContent">
+      <table>
+        <tr>
+          <td><input type="checkbox" id="feedItemListCheckbox"><span class="checkboxText">Feed item list</span></td>
+          <td><input type="checkbox" id="feedItemListToolbarCheckbox"><span class="checkboxText">Feed item list toolbar</span></td>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span class="checkboxText">Description tooltips</span></td>
         </tr>
       </table>
     </div>

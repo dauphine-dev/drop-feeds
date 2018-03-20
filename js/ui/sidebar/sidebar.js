@@ -1,5 +1,5 @@
 /*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager*/
+DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager SplitterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -24,15 +24,16 @@ class SideBar { /*exported SideBar*/
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
     await FeedManager.instance.init_async();
+    SplitterBar.instance;
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
-    this.setContentHeight();
     this._addListeners();
     SelectionBar.instance.refresh();
     this._computeContentTop();
     await this._forceTabOnChanged_async();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
+    this.setContentHeight();
   }
 
   reloadOnce() {
@@ -89,7 +90,8 @@ class SideBar { /*exported SideBar*/
   }
 
   setContentHeight() {
-    let height = Math.max(window.innerHeight - this._contentTop, 0);
+    //let height = Math.max(window.innerHeight - this._contentTop, 0);
+    let height = Math.max(SplitterBar.instance.top - this._contentTop - 1, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
 
