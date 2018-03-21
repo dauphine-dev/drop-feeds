@@ -1,9 +1,9 @@
-/*global BrowserManager*/
+/*global BrowserManager FeedParser*/
 'use strict';
-class FeedsPanel { /*exported FeedsPanel*/
+class ItemsPanel { /*exported ItemsPanel*/
   static get instance() {
     if (!this._instance) {
-      this._instance = new FeedsPanel();
+      this._instance = new ItemsPanel();
     }
     return this._instance;
   }
@@ -11,18 +11,18 @@ class FeedsPanel { /*exported FeedsPanel*/
   constructor() {
   }
 
-  displayFeed(feed) {
-    this._setTitle(feed.info.channel);
-    this._displayItems(feed);
+  displayItems(itemsTitle, titleLink, items) {
+    this._setTitle(itemsTitle, titleLink);
+    this._displayItems(items);
   }
 
-  _setTitle(channel) {
-    let titleHtml = '<a href="' + channel.link + '">' + channel.title + '</a>';
+  _setTitle(title, titleLink) {
+    let titleHtml = FeedParser.parseItemsTitleToHtml(title, titleLink);
     BrowserManager.setInnerHtmlById('itemsTitle', titleHtml);
   }
 
-  _displayItems(feed) {
-    let feedsHtml = feed.getFeedItemsHtml();
-    BrowserManager.setInnerHtmlById('itemsPane', feedsHtml);
+  _displayItems(itemList) {
+    let itemsHtml = FeedParser.parseItemListToHtml(itemList);
+    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml);
   }
 }

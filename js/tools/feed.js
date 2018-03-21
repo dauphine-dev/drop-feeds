@@ -20,6 +20,7 @@ class Feed { /*exported Feed*/
     this._feedText = null;
     this._error = null;
     this._newUrl = null;
+    this._feedItems = null;
   }
 
   async _constructor_async() {
@@ -84,11 +85,6 @@ class Feed { /*exported Feed*/
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
-  }
-
-  getFeedItemsHtml() {
-    let itemsHtml = FeedParser.parseItemsHtml(this._feedText, this._storedFeed.title);
-    return itemsHtml;
   }
 
   get info() {
