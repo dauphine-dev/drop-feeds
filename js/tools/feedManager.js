@@ -1,4 +1,4 @@
-/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager Listener ListenerProviders FeedParser*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager Listener ListenerProviders FeedParser FeedsPanel*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() {
@@ -131,12 +131,15 @@ class FeedManager { /*exported FeedManager*/
       StatusBar.instance.text = 'Loading ' + feed.title;
       await feed.update_async();
       let feedHtmlUrl = feed.docUrl;
+      FeedsPanel.instance.displayFeed(feed);
       await self._openFeedTab_async(feedHtmlUrl, openNewTabForce);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus();
+      /*
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus();
+      */
     } finally {
       if (--self._feedsToProcessCounter == 0) {
         self._processFeedsFinished();

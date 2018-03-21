@@ -36,9 +36,9 @@ class SplitterBar { /*exported SplitterBar*/
     event = event || window.event;
     self._newPos = self._startPos - event.clientY;
     self._startPos = event.clientY;
-    let top = (self._elMainItemsPane.offsetTop - self._newPos) ;
+    let top = Math.max(Math.min(self._elMainItemsPane.offsetTop - self._newPos, window.innerHeight - 80), 125);
     self._elMainItemsPane.style.top = top + 'px';
-    let height = Math.max(window.innerHeight - top, 0);
+    let height = Math.max(window.innerHeight - top);
     self._elMainItemsPane.style.height = height + 'px';
     SideBar.instance.setContentHeight();
   }

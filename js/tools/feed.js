@@ -86,6 +86,11 @@ class Feed { /*exported Feed*/
     return feedHtmlUrl;
   }
 
+  getFeedItemsHtml() {
+    let itemsHtml = FeedParser.parseItemsHtml(this._feedText, this._storedFeed.title);
+    return itemsHtml;
+  }
+
   get info() {
     return FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
   }

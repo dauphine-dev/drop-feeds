@@ -93,6 +93,29 @@ class FeedParser { /*exported FeedParser*/
     return feedHtml;
   }
 
+  static parseItemsHtml(feedText, defaultTitle) {
+    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle);
+    let itemsHtml = FeedParser._feedInfoToItemsHtml(feedInfo);
+    return itemsHtml;
+  }
+
+  static _feedInfoToItemsHtml(feedInfo) {
+    let htmlItemList = [];
+    feedInfo.itemList.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<feedInfo.itemList.length; i++) {
+      let htmlItem = FeedParser._getHtmlItemLine(feedInfo.itemList[i], i+1);
+
+      htmlItemList.push(htmlItem);
+    }
+    let itemsHtml = htmlItemList.join('\n');
+    return itemsHtml;
+
+  }
+
   static _feedInfoToHtml(feedInfo) {
     let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
     let feedHtml = '';
@@ -302,16 +325,6 @@ class FeedParser { /*exported FeedParser*/
     return itemList;
   }
 
-  static _feedItemsToHtml(feedInfo) {
-    let htmlItemList = [];
-    for (let i=0; i<feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
-      htmlItemList.push(htmlItem);
-    }
-    return htmlItemList;
-  }
-
-
   static _getEncoding(text) {
     if (!text) { return null; }
     let pattern = 'encoding="';
@@ -388,6 +401,17 @@ class FeedParser { /*exported FeedParser*/
     htmlItem +=                         '      </div>\n';
     htmlItem +=                         '    </div>\n';
     return htmlItem;
+  }
+
+  static _getHtmlItemLine(item, itemNumber) {
+    let htmlItemLine = '';
+    let title = item.title;
+    if (!title) { title = '(No Title)'; }
+    htmlItemLine +='<span class="item">';
+    let num = (itemNumber ? itemNumber : item.number);
+    htmlItemLine +='<a href="' + item.link + '">' + num + '. ' + title + '</a><br/>';
+    htmlItemLine +='</span>';
+    return htmlItemLine;
   }
 
   static _extractOpenTag(text, tagList) {

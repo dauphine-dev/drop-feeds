@@ -456,7 +456,35 @@ li {
   border-width: 0 0 1px 0;
   border-color: #9D9D9D;
   height: 30px;
+  text-align: center;
 }
+
+#itemsTitle {
+  line-height: 30px;
+  vertical-align: middle;
+  color: #444444;
+  text-decoration-line: none;
+  cursor: pointer;
+}
+
+#itemsTitle a:link {
+  color: #444444;
+  text-decoration-line: none;
+}
+
+#itemsTitle a:visited {
+  color: #444444;
+  text-decoration-line: none;
+}
+
+#itemsTitle a:hover {
+  text-decoration: underline;
+}
+
+#itemsTitle a:active {
+  text-decoration: underline;
+}
+
 
 #itemsPaneToolBar {
   display: block;
@@ -471,9 +499,29 @@ li {
 
 #itemsPane {
   display: block;
-  background-color: #E8E8E8;
+  background-color: white;
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: #9D9D9D;
   height: 100%;
+}
+
+.item a:link {
+  color: #000000;
+  text-decoration-line: none;
+  line-height: 1.5em;
+  font-size: 110%
+}
+
+.item a:visited {
+  color: #888888;
+  text-decoration-line: none;
+}
+
+.item a:hover {
+  text-decoration: underline;
+}
+
+.item a:active {
+  text-decoration: underline;
 }
