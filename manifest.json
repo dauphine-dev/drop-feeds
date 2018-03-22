@@ -67,6 +67,7 @@
     "storage",
     "downloads",
     "tabs",
-    "notifications"
+    "notifications",
+    "history"
   ]
 }

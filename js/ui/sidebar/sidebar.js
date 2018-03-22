@@ -1,5 +1,5 @@
 /*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager SplitterBar*/
+DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -23,8 +23,9 @@ class SideBar { /*exported SideBar*/
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
-    await FeedManager.instance.init_async();
-    SplitterBar.instance;
+    FeedManager.instance;
+    ItemsPanel.instance;
+    ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this._addListeners();
@@ -90,8 +91,7 @@ class SideBar { /*exported SideBar*/
   }
 
   setContentHeight() {
-    //let height = Math.max(window.innerHeight - this._contentTop, 0);
-    let height = Math.max(SplitterBar.instance.top - this._contentTop - 1, 0);
+    let height = Math.max(ItemsPanel.instance.splitterBar.top - this._contentTop - 1, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
 

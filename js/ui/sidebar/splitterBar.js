@@ -1,4 +1,4 @@
-/*global SideBar*/
+/*global SideBar ItemsPanel*/
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
   static get instance() {
@@ -17,10 +17,15 @@ class SplitterBar { /*exported SplitterBar*/
   }
 
   get top() {
-    return this._elMainItemsPane.offsetTop;
+    return ItemsPanel.instance.top;
   }
 
-  _makeDraggableElement() {
+  set top(value) {
+    this._resizeElements(value);
+  }
+
+  get height() {
+    return this._elSplitterBar.offsetHeight;
   }
 
   static _dragMouseDown_event(event) {
@@ -36,16 +41,19 @@ class SplitterBar { /*exported SplitterBar*/
     event = event || window.event;
     self._newPos = self._startPos - event.clientY;
     self._startPos = event.clientY;
-    let top = Math.max(Math.min(self._elMainItemsPane.offsetTop - self._newPos, window.innerHeight - 80), 125);
-    self._elMainItemsPane.style.top = top + 'px';
-    let height = Math.max(window.innerHeight - top);
-    self._elMainItemsPane.style.height = height + 'px';
-    SideBar.instance.setContentHeight();
+    let top = Math.max(Math.min(ItemsPanel.instance.top - self._newPos, window.innerHeight - 80), 125);
+    self._resizeElements(top);
   }
 
   static _closeDragElement_event() {
     document.onmouseup = null;
     document.onmousemove = null;
+  }
+
+  _resizeElements(topSplitterBar) {
+    SideBar.instance.setContentHeight();
+    ItemsPanel.instance.top = topSplitterBar;
+    ItemsPanel.instance.setContentHeight();
   }
 }
 

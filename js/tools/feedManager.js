@@ -1,4 +1,4 @@
-/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed LocalStorageManager Listener ListenerProviders FeedParser ItemsPanel*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedParser ItemsPanel*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() {
@@ -15,22 +15,9 @@ class FeedManager { /*exported FeedManager*/
     this._feedsToProcessList = [];
     this._feedsToProcessCounter = 0;
     this._unifiedChannelTitle = '';
-    this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
-    this._openNewTabForeground = DefaultValues.openNewTabForeground;
     this._unifiedFeedItems = [];
     this._itemList = [];
-  }
-
-  async init_async() {
-    this._alwaysOpenNewTab = await LocalStorageManager.getValue_async('alwaysOpenNewTab',  this._alwaysOpenNewTab);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', FeedManager._setAlwaysOpenNewTab_sbscrb, true);
-    this._openNewTabForeground = await LocalStorageManager.getValue_async('openNewTabForeground', this._openNewTabForeground);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', FeedManager._setOpenNewTabForeground_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
-  }
-
-  get alwaysOpenNewTab() {
-    return this._alwaysOpenNewTab;
   }
 
   async checkFeeds_async(folderId) {
@@ -150,9 +137,9 @@ class FeedManager { /*exported FeedManager*/
       if (displayItems) {
         let title = isSingle ? feed.title : folderTitle;
         let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
-        ItemsPanel.instance.displayItems(title, titleLink, self._itemList);
+        await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
-      await self._openFeedTab_async(feedHtmlUrl, openNewTabForce);
+      await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus();
     } catch(e) {
@@ -187,7 +174,7 @@ class FeedManager { /*exported FeedManager*/
       if (--self._feedsToProcessCounter == 0) {
         let unifiedDocUrl = self._getUnifiedDocUrl();
         let openNewTabForce = false;
-        await self._openFeedTab_async(unifiedDocUrl, openNewTabForce);
+        await BrowserManager.instance.openTab_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
         self._processFeedsFinished();
       }
@@ -207,17 +194,6 @@ class FeedManager { /*exported FeedManager*/
       if (this._asynchronousFeedChecking) {
         StatusBar.instance.text = feed.title + ' : received';
       }
-    }
-  }
-
-  async _openFeedTab_async(feedHtmlUrl, openNewTabForce) {
-    let activeTab = await BrowserManager.getActiveTab_async();
-    let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
-    let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
-    if(openNewTab && !isEmptyActiveTab) {
-      await browser.tabs.create({url: feedHtmlUrl, active: this._openNewTabForeground});
-    } else {
-      await browser.tabs.update(activeTab.id, {url: feedHtmlUrl});
     }
   }
 
@@ -252,14 +228,6 @@ class FeedManager { /*exported FeedManager*/
       let feedElement = feedElementList[i];
       this._markFeedAsUpdated_async(feedElement);
     }
-  }
-
-  static _setAlwaysOpenNewTab_sbscrb(value){
-    FeedManager.instance._alwaysOpenNewTab = value;
-  }
-
-  static _setOpenNewTabForeground_sbscrb(value){
-    FeedManager.instance._openNewTabForeground = value;
   }
 
   static _setAsynchronousFeedChecking_sbscrb(value){

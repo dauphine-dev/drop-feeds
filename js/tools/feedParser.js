@@ -1,4 +1,4 @@
-/*global browser TextTools DateTime ThemeManager DefaultValues Compute FeedManager*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute*/
 'use strict';
 const tagList = {
   RSS: ['?xml', 'rss'],
@@ -98,7 +98,7 @@ class FeedParser { /*exported FeedParser*/
     return titleHtml;
   }
 
-  static parseItemListToHtml(itemList) {
+  static async parseItemListToHtml_async(itemList) {
     let htmlItemList = [];
     itemList.sort((item1, item2) => {
       if (item1.pubDate > item2.pubDate) return -1;
@@ -106,7 +106,7 @@ class FeedParser { /*exported FeedParser*/
       return 0;
     });
     for (let i=0; i<itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItemLine(itemList[i], i+1);
+      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
       htmlItemList.push(htmlItem);
     }
     let itemsHtml = htmlItemList.join('\n');
@@ -401,15 +401,13 @@ class FeedParser { /*exported FeedParser*/
     return htmlItem;
   }
 
-  static _getHtmlItemLine(item, itemNumber) {
-    let htmlItemLine = '';
+  static async _getHtmlItemLine_async(item, itemNumber) {
     let title = item.title;
     if (!title) { title = '(No Title)'; }
-    let target = FeedManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
+    let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
-    htmlItemLine +='<span class="item">';
-    htmlItemLine +='<a ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</a><br/>';
-    htmlItemLine +='</span>';
+    let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
+    let htmlItemLine ='<span class="item' + visited + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
     return htmlItemLine;
   }
 
