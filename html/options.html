@@ -70,17 +70,11 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-          <td>
-            <td><label>Timeout</label></td>
-            <td><input type="number" id="timeoutNumber" step="1" min="1" max="999"></td>
-            <td><span class="checkboxText">seconds</span></td>
-            <td>&nbsp;</td>
-          </td>
-          <td>
-            <td>&nbsp;</td>
-            <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
-          </td>
-        </tr>
+        <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>
+        &nbsp;&nbsp;
+        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
+        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>
+      </tr>
       </table>
     </div>
 

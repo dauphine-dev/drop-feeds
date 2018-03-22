@@ -17,6 +17,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get feedItemList()             { return false; }
   static get feedItemListToolbar()      { return false; }
   static get feedItemDescriptionTooltips() { return false; }
+  static get ifHttpsHasFailedRetryWithHttp() { return true; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};

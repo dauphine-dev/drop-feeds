@@ -21,11 +21,14 @@ class Feed { /*exported Feed*/
     this._error = null;
     this._newUrl = null;
     this._feedItems = null;
+    this._ifHttpsHAsFailedRetryWithHttp = DefaultValues.ifHttpsHasFailedRetryWithHttp;
+
   }
 
   async _constructor_async() {
     this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
     this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+    this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
     if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
     this._storedFeed.isFeedInfo = true;
     this._storedFeed.title = this._bookmark.title;
@@ -133,7 +136,7 @@ class Feed { /*exported Feed*/
         let retry = null;
         if (e2 === 0) {
           if (!forceHttp) {
-            if (this._bookmark.url.startsWith('https:')) {
+            if (this._ifHttpsHAsFailedRetryWithHttp && this._bookmark.url.startsWith('https:')) {
               try {
                 retry = true;
                 this._download_async(ignoreRedirection, true);
