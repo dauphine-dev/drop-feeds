@@ -402,12 +402,17 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static async _getHtmlItemLine_async(item, itemNumber) {
+    //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
     let title = item.title;
     if (!title) { title = '(No Title)'; }
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
     let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
-    let htmlItemLine ='<span class="item' + visited + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+
+    //<span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
+    let tooltiptext = BrowserManager.htmlToText(item.description);
+    let htmlItemLine ='<span class="item' + visited + ' toolTipItem toolTipItemVisibility" tooltiptext="' + tooltiptext +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+
     return htmlItemLine;
   }
 

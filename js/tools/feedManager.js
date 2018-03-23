@@ -22,6 +22,7 @@ class FeedManager { /*exported FeedManager*/
 
   async checkFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
+    TopMenu.instance.animateCheckFeedButton(true);
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', 'checking');
     await this._processFeedsFromList(folderId, this._feedsUpdate_async);
   }
@@ -49,7 +50,6 @@ class FeedManager { /*exported FeedManager*/
     this._feedProcessingInProgress = true;
     try {
       this._updatedFeeds = 0;
-      TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;
       this._feedsToProcessList = [];
       this._itemList = [];
@@ -142,12 +142,14 @@ class FeedManager { /*exported FeedManager*/
       await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus();
+
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus();
       /*eslint-disable no-console*/
       console.log(e);
       /*eslint-enable no-console*/
+
     } finally {
       if (--self._feedsToProcessCounter == 0) {
         self._processFeedsFinished();

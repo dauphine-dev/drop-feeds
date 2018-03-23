@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Drop feeds",
   "description": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
-  "version": "0.4",
+  "version": "0.4.1",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",

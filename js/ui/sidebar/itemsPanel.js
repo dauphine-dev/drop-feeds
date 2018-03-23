@@ -1,4 +1,4 @@
-/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar*/
+/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar CssManager*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() {
@@ -14,7 +14,9 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
     this._itemsPane = document.getElementById('itemsPane');
     this._feedItemList = DefaultValues.feedItemList;
+    this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', ItemsPanel._setFeedItemList_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', ItemsPanel._feedItemDescriptionTooltips_sbscrb, true);
   }
 
   get top() {
@@ -39,7 +41,6 @@ class ItemsPanel { /*exported ItemsPanel*/
     await this._displayItems_async(items);
     this._addItemClickEvents();
   }
-
 
   setContentHeight() {
     let toRemove = SplitterBar.instance.height + this._itemsPaneTitleBar.offsetHeight + this._itemsPaneToolBar.offsetHeight;
@@ -76,9 +77,20 @@ class ItemsPanel { /*exported ItemsPanel*/
     self._setVisibility();
   }
 
+  static _feedItemDescriptionTooltips_sbscrb(value) {
+    let self = ItemsPanel.instance;
+    self._feedItemDescriptionTooltips = value;
+    self._setTooltipsVisibility();
+  }
+
   _setVisibility() {
     this._mainItemsPane.style.display = this._feedItemList ? 'block' : 'none';
     SideBar.instance.setContentHeight();
+  }
+
+  _setTooltipsVisibility() {
+    let visibility = this._feedItemDescriptionTooltips ? 'visible' : 'hidden';
+    CssManager.replaceStyle('.toolTipItemVisibility:hover::before', '  visibility: ' + visibility + ';');
   }
 
 }

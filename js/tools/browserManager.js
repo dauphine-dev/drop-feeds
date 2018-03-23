@@ -75,11 +75,19 @@ class BrowserManager { /* exported BrowserManager*/
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 
+  static htmlToText(html) {
+    let tmpDiv = document.createElement('div');
+    tmpDiv.innerHTML = html;
+    let text = tmpDiv.textContent || tmpDiv.innerText || '';
+    return text;
+  }
+
   static async isVisitedLink_async(url) {
     var visits = await browser.history.getVisits({url: url});
     return (visits.length > 0);
   }
 
+  //private stuffs
   static _setAlwaysOpenNewTab_sbscrb(value){
     BrowserManager.instance._alwaysOpenNewTab = value;
   }
