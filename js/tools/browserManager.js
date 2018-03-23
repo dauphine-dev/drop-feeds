@@ -77,7 +77,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static htmlToText(html) {
     let tmpDiv = document.createElement('div');
-    tmpDiv.innerHTML = html;
+    BrowserManager.setInnerHtmlByElement(tmpDiv, html);
     let text = tmpDiv.textContent || tmpDiv.innerText || '';
     return text;
   }

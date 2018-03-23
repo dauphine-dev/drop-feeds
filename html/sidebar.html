@@ -19,6 +19,7 @@
     <script src="/js/tools/bookmarkManager.js"></script>
     <script src="/js/tools/feed.js"></script>
     <script src="/js/tools/listener.js"></script>
+    <script src="/js/tools/itemManager.js"></script>
     <script src="/js/themes/theme-sidebar.js"></script>
 
   </head>
@@ -43,7 +44,7 @@
       </div>
 
       <!-- selection bar -->
-      <div id="selectionBar"></div>
+      <div id="selectionBar" class="selectionBar"></div>
 
       <!-- Tree view -->
       <ul class="contentHeight" id="content">
@@ -59,7 +60,16 @@
         </div>
 
         <!-- items pane tool bar -->
-        <div id="itemsPaneToolBar"></div>
+        <div id="itemsPaneToolBar">
+          <span id="itemMarkAsReadButton" tooltiptext="Mark as read" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAsUnreadButton" tooltiptext="Mark as unread" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAllAsReadButton" tooltiptext="Mark all as read" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAllAsUnreadButton" tooltiptext="Mark all as unread" class="topMenuItem toolTip"></span>
+          <span id="itemOpenUnreadButton" tooltiptext="Open unread items in new tabs" class="topMenuItem toolTip"></span>
+        </div>
+
+        <!-- selection bar items -->
+        <div id="selectionBarItems" class="selectionBar"></div>
 
         <!-- items pane -->
         <div id="itemsPane"></div>
@@ -79,6 +89,8 @@
       </div>
     </div>
 
+    <script src="/js/ui/sidebar/SelectionBarItems.js"></script>
+    <script src="/js/ui/sidebar/itemsMenu.js"></script>
     <script src="/js/ui/sidebar/itemsPanel.js"></script>
     <script src="/js/ui/sidebar/splitterBar.js"></script>
     <script src="/js/ui/sidebar/topMenu.js"></script>

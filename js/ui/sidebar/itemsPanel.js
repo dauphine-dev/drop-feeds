@@ -1,4 +1,4 @@
-/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar CssManager*/
+/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar CssManager ItemsMenu ItemManager SelectionBarItems*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() {
@@ -9,14 +9,19 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   constructor() {
+    SplitterBar.instance;
+    ItemsMenu.instance.disableButtons();
+    this._selectionBarItems = new SelectionBarItems();
     this._mainItemsPane = document.getElementById('mainItemsPane');
     this._itemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
     this._itemsPane = document.getElementById('itemsPane');
     this._feedItemList = DefaultValues.feedItemList;
+    this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', ItemsPanel._setFeedItemList_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', ItemsPanel._feedItemDescriptionTooltips_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', ItemsPanel._feedItemListToolbar_sbscrb, true);
   }
 
   get top() {
@@ -36,10 +41,19 @@ class ItemsPanel { /*exported ItemsPanel*/
     return SplitterBar.instance;
   }
 
+  get itemsMenu() {
+    return ItemsMenu.instance;
+  }
+
+  get selectionBarItems() {
+    return this._selectionBarItems;
+  }
+
   async displayItems_async(itemsTitle, titleLink, items) {
+    this._selectionBarItems.hide();
     this._setTitle(itemsTitle, titleLink);
     await this._displayItems_async(items);
-    this._addItemClickEvents();
+    ItemManager.instance.addItemClickEvents();
   }
 
   setContentHeight() {
@@ -56,19 +70,13 @@ class ItemsPanel { /*exported ItemsPanel*/
   async _displayItems_async(itemList) {
     let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList);
     BrowserManager.setInnerHtmlById('itemsPane', itemsHtml);
-  }
-
-  _addItemClickEvents() {
-    let elItemList = document.getElementById('itemsPane').querySelectorAll('.item');
-    for (let elItem of elItemList) {
-      elItem.addEventListener('click', ItemsPanel._itemOnClick_event);
+    //itemsHtml.length > 0 ? ItemsMenu.instance.enableButtons() : ItemsMenu.instance.disableButtons();
+    if (itemsHtml.length > 0) {
+      ItemsMenu.instance.enableButtons();
     }
-  }
-
-  static _itemOnClick_event(event) {
-    let itemLink = event.target.getAttribute('href');
-    event.target.classList.add('visited');
-    BrowserManager.instance.openTab_async(itemLink);
+    else {
+      ItemsMenu.instance.disableButtons();
+    }
   }
 
   static _setFeedItemList_sbscrb(value) {
@@ -83,6 +91,12 @@ class ItemsPanel { /*exported ItemsPanel*/
     self._setTooltipsVisibility();
   }
 
+  static _feedItemListToolbar_sbscrb(value) {
+    let self = ItemsPanel.instance;
+    self._feedItemListToolbar = value;
+    self._setToolbarVisibility();
+  }
+
   _setVisibility() {
     this._mainItemsPane.style.display = this._feedItemList ? 'block' : 'none';
     SideBar.instance.setContentHeight();
@@ -91,6 +105,10 @@ class ItemsPanel { /*exported ItemsPanel*/
   _setTooltipsVisibility() {
     let visibility = this._feedItemDescriptionTooltips ? 'visible' : 'hidden';
     CssManager.replaceStyle('.toolTipItemVisibility:hover::before', '  visibility: ' + visibility + ';');
+  }
+
+  _setToolbarVisibility() {
+    this._itemsPaneToolBar.style.display = this._feedItemListToolbar ? 'block' : 'none';
   }
 
 }

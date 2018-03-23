@@ -1,4 +1,4 @@
-/*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
+/*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout
 DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -18,7 +18,6 @@ class SideBar { /*exported SideBar*/
   }
 
   async init_async() {
-    SelectionBar.instance;
     await TreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
@@ -29,7 +28,7 @@ class SideBar { /*exported SideBar*/
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this._addListeners();
-    SelectionBar.instance.refresh();
+    TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
     await this._forceTabOnChanged_async();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
@@ -72,7 +71,7 @@ class SideBar { /*exported SideBar*/
   }
 
   static async _contentOnScroll_event(){
-    SelectionBar.instance.refresh();
+    TreeView.instance.selectionBar.refresh();
   }
 
   async _forceTabOnChanged_async() {

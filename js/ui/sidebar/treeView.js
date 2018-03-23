@@ -14,6 +14,7 @@ class TreeView { /*exported TreeView*/
   }
 
   _init() {
+    this._selectionBar = new SelectionBar();
     this._html = null;
     this._is1stFolder = null;
     this._displayRootFolder = DefaultValues.displayRootFolder;
@@ -41,6 +42,11 @@ class TreeView { /*exported TreeView*/
     await this.load_async();
     SideBar.instance.setContentHeight();
   }
+
+  get selectionBar() {
+    return this._selectionBar;
+  }
+
 
   get rootFolderUiId() {
     return this._1stFolderDivId;
@@ -129,13 +135,13 @@ class TreeView { /*exported TreeView*/
 
 
   async _folderOnClicked_event(event){
-    SelectionBar.instance.put(event.currentTarget);
+    TreeView.instance._selectionBar.put(event.currentTarget);
   }
 
   _setAs1stFolder(id)  {
     this._is1stFolder = false;
     this._1stFolderDivId = 'dv-' + id;
-    SelectionBar.instance.setRootElement(this._1stFolderDivId);
+    this._selectionBar.setRootElementById(this._1stFolderDivId);
   }
 
   _computeHtmlTree(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
