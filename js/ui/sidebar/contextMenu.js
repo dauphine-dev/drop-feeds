@@ -1,4 +1,4 @@
-/*global  SelectionBar FeedManager*/
+/*global  TreeView FeedManager*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
   static get instance() {
@@ -28,7 +28,7 @@ class ContextMenu { /*exported ContextMenu*/
     self._idComeFrom = elFolder.getAttribute('id');
     self._elContextMenu.classList.add('show');
     self._setPosition(xPos, yPos);
-    SelectionBar.instance.put(elFolder);
+    TreeView.instance.selectionBar.put(elFolder);
   }
 
   _setPosition(xPos, yPos) {

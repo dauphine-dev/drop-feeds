@@ -1,4 +1,4 @@
-/*global browser TextTools DateTime ThemeManager DefaultValues Compute*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute*/
 'use strict';
 const tagList = {
   RSS: ['?xml', 'rss'],
@@ -91,6 +91,27 @@ class FeedParser { /*exported FeedParser*/
     let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle);
     let feedHtml = FeedParser._feedInfoToHtml(feedInfo);
     return feedHtml;
+  }
+
+  static parseItemsTitleToHtml(title, link) {
+    let titleHtml = '<a href="' + link + '">' + title + '</a>';
+    return titleHtml;
+  }
+
+  static async parseItemListToHtml_async(itemList) {
+    let htmlItemList = [];
+    itemList.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<itemList.length; i++) {
+      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
+      htmlItemList.push(htmlItem);
+    }
+    let itemsHtml = htmlItemList.join('\n');
+    return itemsHtml;
+
   }
 
   static _feedInfoToHtml(feedInfo) {
@@ -302,16 +323,6 @@ class FeedParser { /*exported FeedParser*/
     return itemList;
   }
 
-  static _feedItemsToHtml(feedInfo) {
-    let htmlItemList = [];
-    for (let i=0; i<feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
-      htmlItemList.push(htmlItem);
-    }
-    return htmlItemList;
-  }
-
-
   static _getEncoding(text) {
     if (!text) { return null; }
     let pattern = 'encoding="';
@@ -388,6 +399,21 @@ class FeedParser { /*exported FeedParser*/
     htmlItem +=                         '      </div>\n';
     htmlItem +=                         '    </div>\n';
     return htmlItem;
+  }
+
+  static async _getHtmlItemLine_async(item, itemNumber) {
+    //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
+    let title = item.title;
+    if (!title) { title = '(No Title)'; }
+    let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
+    let num = itemNumber ? itemNumber : item.number;
+    let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
+
+    //<span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
+    let tooltiptext = BrowserManager.htmlToText(item.description);
+    let htmlItemLine ='<span class="item' + visited + ' toolTipItem toolTipItemVisibility" tooltiptext="' + tooltiptext +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+
+    return htmlItemLine;
   }
 
   static _extractOpenTag(text, tagList) {

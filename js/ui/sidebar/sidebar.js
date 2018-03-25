@@ -1,5 +1,5 @@
-/*global browser ThemeManager SelectionBar TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView LocalStorageListener MessageManager BookmarkManager FeedManager*/
+/*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout
+DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -14,34 +14,26 @@ class SideBar { /*exported SideBar*/
     console.log('Drop feeds loading...');
     /*eslint-enable no-console*/
     this._subscribeHtmlUrl = '/html/subscribe.html';
-    this._treeView = new TreeView();
     this._contentTop = null;
-    this._localStorageListener = null;
   }
 
   async init_async() {
-    SelectionBar.instance;
-    await this._treeView.createAndShow();
+    await TreeView.instance.load_async();
     await Timeout.instance.init_async();
-    this._localStorageListener = new LocalStorageListener();
-    LocalStorageListener.instance;
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
-    await FeedManager.instance.init_async();
-    MessageManager.instance;
+    FeedManager.instance;
+    ItemsPanel.instance;
+    ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     BookmarkManager.instance.init_async();
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
-    this._setContentHeight();
     this._addListeners();
-    SelectionBar.instance.refresh();
+    TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
     await this._forceTabOnChanged_async();
-    LocalStorageListener.instance.subscribe('reloadPanel', SideBar.reloadPanel_sbscrb, false);
-    LocalStorageListener.instance.subscribe('reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
-  }
-
-  get treeView() {
-    return this._treeView;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
+    this.setContentHeight();
   }
 
   reloadOnce() {
@@ -57,16 +49,10 @@ class SideBar { /*exported SideBar*/
     window.location.reload();
   }
 
-  static async reloadPanel_sbscrb() {
+  static async openSubscribeDialog_async() {
     let self = SideBar.instance;
-    self._treeView = new TreeView();
-    await self._treeView.createAndShow();
-    self._setContentHeight();
-  }
-
-  async openSubscribeDialog_async() {
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    let url = browser.extension.getURL(this._subscribeHtmlUrl);
+    let url = browser.extension.getURL(self._subscribeHtmlUrl);
     let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop Feed'};
     LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
     let win = await browser.windows.create(createData);
@@ -78,7 +64,6 @@ class SideBar { /*exported SideBar*/
   }
 
   _addListeners() {
-    BookmarkManager.instance.addListeners();
     window.onresize = SideBar._windowOnResize_event;
     browser.tabs.onActivated.addListener(SideBar._tabOnActivated_event);
     browser.tabs.onUpdated.addListener(SideBar._tabOnUpdated_event);
@@ -86,7 +71,7 @@ class SideBar { /*exported SideBar*/
   }
 
   static async _contentOnScroll_event(){
-    SelectionBar.instance.refresh();
+    TreeView.instance.selectionBar.refresh();
   }
 
   async _forceTabOnChanged_async() {
@@ -95,7 +80,7 @@ class SideBar { /*exported SideBar*/
   }
 
   static async _windowOnResize_event() {
-    SideBar.instance._setContentHeight();
+    SideBar.instance.setContentHeight();
   }
 
   _computeContentTop() {
@@ -104,8 +89,8 @@ class SideBar { /*exported SideBar*/
     this._contentTop = rect.bottom + 1;
   }
 
-  _setContentHeight() {
-    let height = Math.max(window.innerHeight - this._contentTop, 0);
+  setContentHeight() {
+    let height = Math.max(ItemsPanel.instance.splitterBar.top - this._contentTop - 1, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
 
@@ -123,14 +108,13 @@ class SideBar { /*exported SideBar*/
   async _tabHasChanged_async(tabInfo) {
     let isFeed = false;
     try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {'req':'isFeed'});
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     } catch(e) { }
     TopMenu.instance.enableAddFeedButton(isFeed);
     if(isFeed) {
       browser.pageAction.show(tabInfo.id);
       let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
       browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
-      browser.tabs.sendMessage(tabInfo.id, {'req':'addSubscribeButton'});
     }
     else {
       browser.pageAction.hide(tabInfo.id);

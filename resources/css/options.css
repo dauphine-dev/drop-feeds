@@ -59,12 +59,15 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-td:first-child {
+
+td {
   white-space: nowrap;
 }
+
 td:last-child {
   width: 100%;
 }
+
 
 /*td {
   border: 1px solid red;

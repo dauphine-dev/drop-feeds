@@ -11,7 +11,7 @@
     <script src="/js/tools/dateTime.js"></script>
     <script src="/js/tools/transfer.js"></script>
     <script src="/js/tools/themeManager.js"></script>
-    <script src="/js/tools/localStorageListener.js"></script>
+    <script src="/js/tools/listener.js"></script>
   </head>
 
   <body>
@@ -19,6 +19,7 @@
     <div class="tab">
       <button class="tabLinks active" target="generalTab">General</button>
       <button class="tabLinks" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" target= "viewTab">View</button>
       <button class="tabLinks" target="contentsAreaTab">Contents area</button>
       <button class="tabLinks" target="managementTab">Management</button>
     </div>
@@ -69,18 +70,24 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-          <td>
-            <td><label>Timeout</label></td>
-            <td><input type="number" id="timeoutNumber" step="1" min="1" max="999"></td>
-            <td><span class="checkboxText">seconds</span></td>
-            <td>&nbsp;</td>
-          </td>
-          <td>
-            <td>&nbsp;</td>
-            <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
-          </td>
+        <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>
+        &nbsp;&nbsp;
+        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
+        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>
+      </tr>
+      </table>
+    </div>
+
+    <!-- ~~~~~~ Tab view ~~~~~~ -->
+    <div id="viewTab" class="tabContent">
+      <table>
+        <tr>
+          <td><input type="checkbox" id="feedItemListCheckbox"><span class="checkboxText">Feed item list</span></td>
+          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span class="checkboxText" >Feed item list toolbar<small>(*)</small></span></td>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span class="checkboxText">Description tooltips</span></td>
         </tr>
       </table>
+      <small><br/>(*) warning: mark read/unread features will impact your navigation history !</small>
     </div>
 
     <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
@@ -111,6 +118,7 @@
         </tr>
       </table>
     </div>
+    <script src="/js/ui/options/tabView.js"></script>
     <script src="/js/ui/options/progressBar.js"></script>
     <script src="/js/ui/options/opmlExporter.js"></script>
     <script src="/js/ui/options/opmlImporter.js"></script>

@@ -1,4 +1,4 @@
-/*global browser DefaultValues StatusBar LocalStorageManager DateTime LocalStorageListener*/
+/*global browser DefaultValues StatusBar LocalStorageManager DateTime Listener ListenerProviders bookmarkListeners*/
 'use strict';
 class BookmarkManager { /*exported BookmarkManager*/
   static get instance() {
@@ -11,12 +11,19 @@ class BookmarkManager { /*exported BookmarkManager*/
   constructor() {
     this.lastCreatedBookmarkId = null;
     this.importInProgress = false;
-    LocalStorageListener.instance.subscribe('importInProgress', BookmarkManager.setImportInProgress_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'importInProgress', BookmarkManager.setImportInProgress_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.created, BookmarkManager._bookmarkOnCreated_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.removed, BookmarkManager._bookmarkOnRemoved_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.changed, BookmarkManager._bookmarkOnChanged_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.moved, BookmarkManager._bookmarkOnMoved_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.childrenReordered, BookmarkManager.bookmarkOnChildrenReordered_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.importBegan, BookmarkManager.bookmarkImportBegan_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.importEnded, BookmarkManager.bookmarkImportEnded_sbscrb, true);
   }
 
   async init_async() {
     this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
-    LocalStorageListener.instance.subscribe('rootBookmarkId', BookmarkManager.setRootBookmarkId_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'rootBookmarkId', BookmarkManager.setRootBookmarkId_sbscrb, true);
   }
 
   static setImportInProgress_sbscrb(value) {
@@ -25,16 +32,6 @@ class BookmarkManager { /*exported BookmarkManager*/
 
   static setRootBookmarkId_sbscrb(value) {
     BookmarkManager.instance._rootBookmarkId = value;
-  }
-
-  addListeners() {
-    browser.bookmarks.onCreated.addListener(BookmarkManager._bookmarkOnCreated_event);
-    browser.bookmarks.onRemoved.addListener(BookmarkManager._bookmarkOnRemoved_event);
-    browser.bookmarks.onChanged.addListener(BookmarkManager._bookmarkOnChanged_event);
-    browser.bookmarks.onMoved.addListener(BookmarkManager._bookmarkOnMoved_event);
-    //browser.bookmarks.onChildrenReordered.addListener(bookmarkOnChildrenReorderedEvent);
-    //browser.bookmarks.onImportBegan.addListener(bookmarkImportBeganEvent);
-    //browser.bookmarks.onImportEnded.addListener(bookmarkImportEndedEvent);
   }
 
   async getRootFolderId_async() {
@@ -56,32 +53,32 @@ class BookmarkManager { /*exported BookmarkManager*/
     return this._rootBookmarkId;
   }
 
-  static async _bookmarkOnCreated_event(id, bookmarkInfo) {
+  static async _bookmarkOnCreated_sbscrb(id, bookmarkInfo) {
     let self = BookmarkManager.instance;
     if (self._importInProgress) { return; }
     self._lastCreatedBookmarkId = id;
     let isChid =  await self._isDropfeedsChildBookmark_async(bookmarkInfo.parentId);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
-  static async _bookmarkOnRemoved_event(id, removeInfo) {
+  static async _bookmarkOnRemoved_sbscrb(id, removeInfo) {
     let self = BookmarkManager.instance;
     if (self._importInProgress) { return; }
     let isChid =  await self._isDropfeedsChildBookmark_async(removeInfo.parentId);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
-  static async _bookmarkOnChanged_event(id) {
+  static async _bookmarkOnChanged_sbscrb(id) {
     let self = BookmarkManager.instance;
     if (self.instance._importInProgress) { return; }
     let isChid =  await self._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
-  static async _bookmarkOnMoved_event(id, moveInfo) {
+  static async _bookmarkOnMoved_sbscrb(id, moveInfo) {
     let self = BookmarkManager.instance;
     if (self._importInProgress) { return; }
     let isChid =  await self._isDropfeedsChildBookmark_async(moveInfo.parentId);
@@ -94,24 +91,24 @@ class BookmarkManager { /*exported BookmarkManager*/
       await DateTime.delay_async(1);
       StatusBar.instance.text = '';
     }
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
-  static async _bookmarkOnChildrenReordered_event(id) {
+  static async _bookmarkOnChildrenReordered_sbscrb(id) {
     let self = BookmarkManager.instance;
     if (self.instance._importInProgress) { return; }
     let isChid =  await self._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
-  static async _bookmarkImportBegan_event() {
+  static async _bookmarkImportBegan_sbscrb() {
     BookmarkManager.instance._importInProgress = true;
   }
 
-  static async _bookmarkImportEnded_event() {
+  static async _bookmarkImportEnded_sbscrb() {
     BookmarkManager.instance._importInProgress = false;
-    LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _createRootFolder_async() {

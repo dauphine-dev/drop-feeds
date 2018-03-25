@@ -3,12 +3,9 @@
 class ContentManager {
   static async runtimeOnMessageEvent(request) {
     let response = null;
-    switch (request.req) {
+    switch (request.key) {
       case 'isFeed':
         response = ContentManager._isFeed();
-        break;
-      case 'addSubscribeButton':
-        ContentManager._addSubscribeButton();
         break;
     }
     return Promise.resolve(response);
@@ -20,8 +17,9 @@ class ContentManager {
       feedHandler = document.getElementById('feedHandler').innerHTML;
     }
     catch(e) {}
-    let result = (feedHandler ? true : false);
-    return result;
+    let isFeed = (feedHandler ? true : false);
+    if (isFeed) { ContentManager._addSubscribeButton(); }
+    return isFeed;
   }
 
   static _addSubscribeButton() {
@@ -41,7 +39,7 @@ class ContentManager {
   static async _addSubscribeButtonOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    browser.runtime.sendMessage({'req':'openSubscribeDialog'});
+    browser.runtime.sendMessage({key:'openSubscribeDialog'});
   }
 }
 

@@ -1,4 +1,4 @@
-/*global browser DefaultValues SelectionBar StatusBar LocalStorageManager CssManager DateTime FeedManager SideBar*/
+/*global browser DefaultValues StatusBar LocalStorageManager CssManager DateTime FeedManager TreeView*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -23,15 +23,15 @@ class TopMenu  { /*exported TopMenu*/
     let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
     elDiscoverFeedsButton.addEventListener('click', this.discoverFeedsButtonClicked_event);
     elDiscoverFeedsButton.style.opacity = '0.2';
-    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', this.onlyUpdatedFeedsButtonClicked_event);
-    document.getElementById('toggleFoldersButton').addEventListener('click', this.toggleFoldersButtonClicked_event);
-    document.getElementById('addFeedButton').addEventListener('click', this.addFeedButtonClicked_event);
-    document.getElementById('optionsMenuButton').addEventListener('click', this.optionsMenuClicked_event);
+    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', TopMenu._onlyUpdatedFeedsButtonClicked_event);
+    document.getElementById('toggleFoldersButton').addEventListener('click', TopMenu._toggleFoldersButtonClicked_event);
+    document.getElementById('addFeedButton').addEventListener('click', TopMenu._addFeedButtonClicked_event);
+    document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
   }
 
   async _isRootFolderChecked_async() {
     try {
-      let rootFolderId = 'cb-' + SelectionBar.instance.getRootElementId().substring(3);
+      let rootFolderId = 'cb-' + TreeView.instance.selectionBar.getRootElementId().substring(3);
       let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
       this._foldersOpened = rootFolder.checked;
     } catch(e) { }
@@ -87,20 +87,20 @@ class TopMenu  { /*exported TopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    SelectionBar.instance.putAtRoot();
-    FeedManager.instance.checkFeeds_async('dv-' + SideBar.instance.treeView.rootFolderId);
+    TreeView.instance.selectionBar.putAtRoot();
+    FeedManager.instance.checkFeeds_async('dv-' + TreeView.instance.rootFolderId);
   }
 
-  async onlyUpdatedFeedsButtonClicked_event(event) {
+  static async _onlyUpdatedFeedsButtonClicked_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     self._updatedFeedsVisible = ! self._updatedFeedsVisible;
     self.updatedFeedsSetVisibility();
-    SelectionBar.instance.putAtRoot();
+    TreeView.instance.selectionBar.putAtRoot();
   }
 
-  async toggleFoldersButtonClicked_event(event) {
+  static async _toggleFoldersButtonClicked_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
@@ -116,31 +116,31 @@ class TopMenu  { /*exported TopMenu*/
       storedFolder.checked = self._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }
-    SelectionBar.instance.putAtRoot();
+    TreeView.instance.selectionBar.putAtRoot();
   }
 
-  async addFeedButtonClicked_event(event) {
+  static async _addFeedButtonClicked_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
-    SelectionBar.instance.putAtRoot();
+    TreeView.instance.selectionBar.putAtRoot();
   }
 
-  async discoverFeedsButtonClicked_event(event) {
+  static async _discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     StatusBar.instance.text = 'not yet implemented!';
-    SelectionBar.instance.putAtRoot();
+    TreeView.instance.selectionBar.putAtRoot();
     await DateTime.delay_async(250);
     StatusBar.instance.text = '';
   }
 
-  async optionsMenuClicked_event(event) {
+  static async _optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
-    SelectionBar.instance.putAtRoot();
+    TreeView.instance.selectionBar.putAtRoot();
   }
 }

@@ -1,12 +1,5 @@
 'use strict';
 class SelectionBar { /*exported SelectionBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SelectionBar();
-    }
-    return this._instance;
-  }
-
   constructor() {
     this._selectedRootElement = null;
     this._selectedRootElementId = null;
@@ -30,14 +23,10 @@ class SelectionBar { /*exported SelectionBar*/
     this.put(this._selectedRootElement);
   }
 
-  setRootElement(rootElementId) {
+  setRootElementById(rootElementId) {
     this._removeOld();
     this._selectedRootElementId = rootElementId;
     this._selectedRootElement = null;
-  }
-
-  getRootElementId() {
-    return this._selectedRootElementId;
   }
 
   _selectedElementOnScrollEvent() {
