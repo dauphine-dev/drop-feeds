@@ -57,9 +57,8 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   setContentHeight() {
-    let toRemove = SplitterBar.instance.height + this._itemsPaneTitleBar.offsetHeight + this._itemsPaneToolBar.offsetHeight;
-    let height = Math.max(window.innerHeight - this._mainItemsPane.offsetTop - toRemove, 0);
-    this._mainItemsPane.style.height = height + 'px';
+    let height = Math.max(window.innerHeight - this._mainItemsPane.offsetTop - this._itemsPane.offsetTop, 0);
+    this._itemsPane.style.height = height + 'px';
   }
 
   _setTitle(title, titleLink) {

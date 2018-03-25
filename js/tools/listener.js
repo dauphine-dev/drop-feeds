@@ -96,11 +96,11 @@ class Listener { /*exported Listener*/
       }
     }
     else {
-      let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[0]));
+      let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[_listenerFields.key]));
       for (let chgKey in changes) {
         let chg = changes[chgKey];
         if (subscriberKeyList.includes(chgKey)) {
-          let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[0] == chgKey);
+          let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == chgKey);
           subscriberEntry[_listenerFields.key][_listenerFields.callback](chg.newValue);
         }
       }
@@ -110,9 +110,9 @@ class Listener { /*exported Listener*/
   static async _runtimeOnMessage_event(request) {
     let self = Listener.instance;
     let response = null;
-    let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[0]));
+    let subscriberKeyList = self._messageSubscriberList.map(sb => (sb[_listenerFields.key]));
     if (subscriberKeyList.includes(request.key)) {
-      let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[0] == request.key);
+      let subscriberEntry = self._messageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == request.key);
       subscriberEntry[_listenerFields.key][_listenerFields.callback](request.value);
     }
     return Promise.resolve(response);
@@ -144,7 +144,7 @@ class Listener { /*exported Listener*/
     let self = Listener.instance;
     let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[0]));
     if (subscriberKeyList.includes(key)) {
-      let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[0] == key);
+      let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == key);
       subscriberEntry[_listenerFields.key][_listenerFields.callback](id, eventInfo);
     }
   }
