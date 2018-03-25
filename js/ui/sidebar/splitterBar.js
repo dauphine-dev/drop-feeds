@@ -11,7 +11,6 @@ class SplitterBar { /*exported SplitterBar*/
   constructor() {
     this._newPos = 0;
     this._startPos = 0;
-    this._elMainItemsPane = document.getElementById('mainItemsPane');
     this._elSplitterBar = document.getElementById('splitterBar');
     this._elSplitterBar.onmousedown = SplitterBar._dragMouseDown_event;
   }
