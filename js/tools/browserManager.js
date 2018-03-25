@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime*/
 'use strict';
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
@@ -85,6 +85,13 @@ class BrowserManager { /* exported BrowserManager*/
   static async isVisitedLink_async(url) {
     var visits = await browser.history.getVisits({url: url});
     return (visits.length > 0);
+  }
+
+  static async forcePopupToDisplayContent_async(win) {
+    //workaround to force to display content
+    browser.windows.update(win.id, {width: win.width - 1});
+    await DateTime.delay_async(100);
+    browser.windows.update(win.id, {width: win.width});
   }
 
   //private stuffs

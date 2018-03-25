@@ -1,5 +1,5 @@
-/*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout
-DateTime ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
+/*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
+ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -13,7 +13,6 @@ class SideBar { /*exported SideBar*/
     /*eslint-disable no-console*/
     console.log('Drop feeds loading...');
     /*eslint-enable no-console*/
-    this._subscribeHtmlUrl = '/html/subscribe.html';
     this._contentTop = null;
   }
 
@@ -50,17 +49,19 @@ class SideBar { /*exported SideBar*/
   }
 
   static async openSubscribeDialog_async() {
-    let self = SideBar.instance;
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    let url = browser.extension.getURL(self._subscribeHtmlUrl);
+    let url = browser.extension.getURL(Dialogs.subscribeUrl);
     let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true, titlePreface: 'Subscribe with Drop Feed'};
     LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
     let win = await browser.windows.create(createData);
+    BrowserManager.forcePopupToDisplayContent_async(win);
     //workaround to force to display content
+    /*
     await DateTime.delay_async(100);
     browser.windows.update(win.id, {width: 779});
     await DateTime.delay_async(100);
     browser.windows.update(win.id, {width: 780});
+    */
   }
 
   _addListeners() {

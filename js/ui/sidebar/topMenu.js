@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -130,6 +130,12 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     TreeView.instance.selectionBar.putAtRoot();
+
+    let url = browser.extension.getURL(Dialogs.discoverFeedsUrl);
+    let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true};
+    let win = await browser.windows.create(createData);
+
+
     let activeTab = await BrowserManager.getActiveTab_async();
     let feedLinkInfoList = await browser.tabs.sendMessage(activeTab.id, {key:'getFeedLinkInfoList'});
     //feedList: {'title': '', 'format': '', 'link': ''}
