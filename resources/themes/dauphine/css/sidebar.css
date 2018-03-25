@@ -405,10 +405,10 @@ li.feedUnread {
 #splitterBar {
   cursor: row-resize;
   width: 100%;
-  height: 8px;
-  background-color: #E8E8E8;
+  height: 14px;
+  background-color: #E0E0EF;
   border-style: solid;
-  border-width: 1px 0 1px 0;
+  border-width: 1px 0 6px 0;
   border-color: #9D9D9D;
 }
 
