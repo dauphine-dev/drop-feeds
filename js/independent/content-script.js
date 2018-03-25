@@ -7,6 +7,9 @@ class ContentManager {
       case 'isFeed':
         response = ContentManager._isFeed();
         break;
+      case 'getFeedLinkInfoList':
+        response = ContentManager._getFeedLinkInfoList();
+        break;
     }
     return Promise.resolve(response);
   }
@@ -40,6 +43,18 @@ class ContentManager {
     event.stopPropagation();
     event.preventDefault();
     browser.runtime.sendMessage({key:'openSubscribeDialog'});
+  }
+
+  static _getFeedLinkInfoList() {
+    let xPathExpression = '//*[local-name()="link"][contains(@rel, "alternate")][contains(@type, "atom") or contains(@type, "rss")]';
+    let xPathResults = document.evaluate(xPathExpression, document, null, 0, null);
+    let feedLinkInfoList = [];
+    let xPathResult = xPathResults.iterateNext();
+    while (xPathResult) {
+      feedLinkInfoList.push({'title': xPathResult.title, 'format': xPathResult.type, 'link': xPathResult.href});
+      xPathResult = xPathResults.iterateNext();
+    }
+    return feedLinkInfoList;
   }
 }
 

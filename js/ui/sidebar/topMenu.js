@@ -1,4 +1,4 @@
-/*global browser DefaultValues StatusBar LocalStorageManager CssManager DateTime FeedManager TreeView*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -19,10 +19,8 @@ class TopMenu  { /*exported TopMenu*/
     this.updatedFeedsSetVisibility();
     await this._isRootFolderChecked_async();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
-    document.getElementById('checkFeedsButton').addEventListener('click', this.checkFeedsButtonClicked_event);
-    let elDiscoverFeedsButton = document.getElementById('discoverFeedsButton');
-    elDiscoverFeedsButton.addEventListener('click', this.discoverFeedsButtonClicked_event);
-    elDiscoverFeedsButton.style.opacity = '0.2';
+    document.getElementById('checkFeedsButton').addEventListener('click', TopMenu.checkFeedsButtonClicked_event);
+    document.getElementById('discoverFeedsButton').addEventListener('click', TopMenu._discoverFeedsButtonClicked_event);
     document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', TopMenu._onlyUpdatedFeedsButtonClicked_event);
     document.getElementById('toggleFoldersButton').addEventListener('click', TopMenu._toggleFoldersButtonClicked_event);
     document.getElementById('addFeedButton').addEventListener('click', TopMenu._addFeedButtonClicked_event);
@@ -84,7 +82,7 @@ class TopMenu  { /*exported TopMenu*/
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
-  async checkFeedsButtonClicked_event(event) {
+  static async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     TreeView.instance.selectionBar.putAtRoot();
@@ -131,10 +129,15 @@ class TopMenu  { /*exported TopMenu*/
   static async _discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    StatusBar.instance.text = 'not yet implemented!';
     TreeView.instance.selectionBar.putAtRoot();
-    await DateTime.delay_async(250);
-    StatusBar.instance.text = '';
+    let activeTab = await BrowserManager.getActiveTab_async();
+    let feedLinkInfoList = await browser.tabs.sendMessage(activeTab.id, {key:'getFeedLinkInfoList'});
+    //feedList: {'title': '', 'format': '', 'link': ''}
+    if (feedLinkInfoList) {
+      for (let feedLinkInfo of feedLinkInfoList) {
+        console.log(feedLinkInfo);
+      }
+    }
   }
 
   static async _optionsMenuClicked_event(event) {
