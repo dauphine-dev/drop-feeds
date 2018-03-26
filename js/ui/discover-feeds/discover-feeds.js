@@ -1,4 +1,4 @@
-/*global browser BrowserManager LocalStorageManager*/
+/*global browser BrowserManager LocalStorageManager Feed*/
 'use strict';
 class FeedList {
   static get instance() {
@@ -11,11 +11,13 @@ class FeedList {
   constructor() {
     this._tabInfos = null;
     this._feedLinkList = [];
+    this._feedList;
   }
 
   async init_async() {
     await this._getDiscoverInfo_async();
     await this._getActiveTabFeedLinkList_async();
+    await this._getFeedList_async();
     this._displayFeedList();
   }
 
@@ -30,15 +32,26 @@ class FeedList {
     this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, {key:'getFeedLinkInfoList'});
   }
 
+  async _getFeedList_async() {
+    this._feedList = [];
+    for (let feedLink of this._feedLinkList) {
+      let feed = await Feed.newByUrl(feedLink);
+      await feed.update_async();
+      this._feedList.push(feed);
+    }
+
+  }
+
   _feedLinkInfoListToHtm() {
     let html = '';
-    for (let feedLink of this._feedLinkList) {
+    for (let feed of this._feedList) {
+      let feedInfo = feed.info;
       html += '<tr>';
-      html += '<td>' + '' + '</td>'; //title
+      html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>'; //title
       html += '<td>' + '' + '</td>'; //format
-      html += '<td>' + '' + '</td>'; //last update
-      html += '<td>' + '' + '</td>'; //items
-      html += '<td>' + feedLink + '</td>';
+      html += '<td>' + (feed.lastUpdate ? feed.lastUpdate : 'N/A') + '</td>'; //last update
+      html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length  : 0) + '</td>'; //items
+      html += '<td>' + feed.url + '</td>';
       html += '</tr>\n';
     }
     return html;

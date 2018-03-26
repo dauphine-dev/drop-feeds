@@ -260,6 +260,9 @@ class FeedParser { /*exported FeedParser*/
     channel.encoding =  FeedParser._getEncoding(feedText);
     let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
     let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
+    if (!channelText) {
+      channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
+    }
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
