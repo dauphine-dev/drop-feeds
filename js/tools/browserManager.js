@@ -87,11 +87,12 @@ class BrowserManager { /* exported BrowserManager*/
     return (visits.length > 0);
   }
 
-  static async forcePopupToDisplayContent_async(win) {
-    //workaround to force to display content
-    browser.windows.update(win.id, {width: win.width - 1});
-    await DateTime.delay_async(100);
-    browser.windows.update(win.id, {width: win.width});
+  static async openPopup_async(dialogsUrl, width, height, titlePreface) {
+    let url = browser.extension.getURL(dialogsUrl);
+    let createData = {url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface};
+    let win = await browser.windows.create(createData);
+    BrowserManager._forcePopupToDisplayContent_async(win.id, width);
+    return win;
   }
 
   //private stuffs
@@ -101,6 +102,13 @@ class BrowserManager { /* exported BrowserManager*/
 
   static _setOpenNewTabForeground_sbscrb(value){
     BrowserManager.instance._openNewTabForeground = value;
+  }
+
+  static async _forcePopupToDisplayContent_async(winId, winWidth) {
+    //workaround to force to display content
+    browser.windows.update(winId, {width: winWidth - 1});
+    await DateTime.delay_async(100);
+    browser.windows.update(winId, {width: winWidth});
   }
 
 }

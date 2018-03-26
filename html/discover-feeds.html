@@ -2,15 +2,18 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link id="cssLink" href="/resources/themes/dauphine/css/feed-list.css" rel="stylesheet">
+    <link id="cssLink" href="/resources/themes/dauphine/css/discover-feeds.css" rel="stylesheet">
+    <script src="/js/tools/themeManager.js"></script>
     <script src="/js/tools/defaultValues.js"></script>
-    <script src="/js/themes/discover-feeds.js"></script>
+    <script src="/js/tools/localStorageManager.js"></script>
+    <script src="/js/tools/browserManager.js"></script>
+    <script src="/js/themes/theme-discover-feeds.js"></script>
     <title>Discover Feeds</title>
   </head>
 
   <body>
     <table>
-      <caption id="caption">x feeds were discovered</caption>
+      <caption><span id="discoveredFeeds"></span></caption>
       <thead>
         <tr>
           <th>Title</th>
@@ -20,14 +23,13 @@
           <th>Url</th>
         </tr>
       </thead>
-      <tbody>
-        <span id="tableContent">
-          <tr><td>&nbsp;</td><td/><td/><td/><td/><td/></tr>
-        </span>
+      <tbody id="tableContent">
+        <tr><td>&nbsp;</td><td/><td/><td/></tr>
       </tbody>
-  </table>
-  <p/>
-  <button id="addFeedButton">Add feed</button>
-  <button id="closeButton">Close</button>
-</body>
+    </table>
+    <p/>
+    <button id="addFeedButton">Add feed</button>
+    <button id="closeButton">Close</button>
+    <script src="/js/ui/discover-feeds/discover-feeds.js"></script>
+  </body>
 </html>

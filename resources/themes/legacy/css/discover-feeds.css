@@ -2,12 +2,23 @@ html {
   font-family: sans-serif;
 }
 
+body{
+  width: 758px;
+  height: 480px;
+  background-color: #e8e8e7;
+  padding: 10px;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+	font-size: small;
+}
+
 table {
   border-collapse: collapse;
   border: 2px solid #c8c8c8;
   letter-spacing: 1px;
-  font-size: 0.8rem;
-  width: 100%;
+  width: 100vw;
+  background-color: #ffffff;
 }
 
 caption {
@@ -19,7 +30,7 @@ th {
   border: 1px solid #bebebe;
   padding: 1px 2px;
   text-align: left;
-  background-color: #ffffff;
+  background-color: #f3f3f3;
   font-weight: normal;
 }
 

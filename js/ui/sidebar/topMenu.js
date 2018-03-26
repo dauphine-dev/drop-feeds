@@ -130,20 +130,9 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     TreeView.instance.selectionBar.putAtRoot();
-
-    let url = browser.extension.getURL(Dialogs.discoverFeedsUrl);
-    let createData = {url: url, type: 'popup', width: 778, height: 500, allowScriptsToClose: true};
-    let win = await browser.windows.create(createData);
-
-
-    let activeTab = await BrowserManager.getActiveTab_async();
-    let feedLinkInfoList = await browser.tabs.sendMessage(activeTab.id, {key:'getFeedLinkInfoList'});
-    //feedList: {'title': '', 'format': '', 'link': ''}
-    if (feedLinkInfoList) {
-      for (let feedLinkInfo of feedLinkInfoList) {
-        console.log(feedLinkInfo);
-      }
-    }
+    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
+    LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
+    BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 778, 500, '');
   }
 
   static async _optionsMenuClicked_event(event) {

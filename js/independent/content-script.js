@@ -46,16 +46,19 @@ class ContentManager {
   }
 
   static _getFeedLinkInfoList() {
-    let xPathExpression = '//*[local-name()="link"][contains(@rel, "alternate")][contains(@type, "atom") or contains(@type, "rss")]';
-    let xPathResults = document.evaluate(xPathExpression, document, null, 0, null);
-    let feedLinkInfoList = [];
-    let xPathResult = xPathResults.iterateNext();
-    while (xPathResult) {
-      feedLinkInfoList.push({'title': xPathResult.title, 'format': xPathResult.type, 'link': xPathResult.href});
-      xPathResult = xPathResults.iterateNext();
+    let feedLinkList = [];
+    let elLinkList = Array.from(document.getElementsByTagName('link'));
+    elLinkList.push(... Array.from(document.getElementsByTagName('a')));
+    for (let elLink of elLinkList) {
+      if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
+        feedLinkList.push(elLink.href);
+      }
     }
-    return feedLinkInfoList;
+    //remove duplicates
+    feedLinkList = feedLinkList.filter((item, pos) => {
+      return feedLinkList.indexOf(item) == pos;
+    });
+    return feedLinkList;
   }
 }
-
 browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);
