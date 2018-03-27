@@ -1,4 +1,4 @@
-/*global browser BrowserManager LocalStorageManager Feed ProgressBar*/
+/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw*/
 'use strict';
 class DiscoverFeeds {
   static get instance() {
@@ -21,15 +21,12 @@ class DiscoverFeeds {
     this._progressBar = new ProgressBar('progressBar', true);
     this._progressBar.show();
     this._progressBar.value = 1;
-    console.log(1);
     await this._getDiscoverInfo_async();
-    console.log(2);
     await this._getActiveTabFeedLinkList_async();
-    console.log(3);
     await this._getFeedList_async();
-    console.log(4);
     await this._updateFeedList();
-    console.log(5);
+    document.getElementById('addFeedButton').addEventListener('click', DiscoverFeeds._addFeedButtonOnClicked_event);
+    document.getElementById('closeButton').addEventListener('click', DiscoverFeeds._closeButtonOnClicked_event);
   }
 
   async _getDiscoverInfo_async() {
@@ -61,10 +58,10 @@ class DiscoverFeeds {
       let feedInfo = feed.info;
       let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString()  + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
       html += '<tr>';
-      html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>'; //title
-      html += '<td>' + '' + '</td>'; //format
+      html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
+      html += '<td>' + (feedInfo.channel.feedFormat ? feedInfo.channel.feedFormat : 'N/A') + '</td>';
       html += '<td>' + lastUpdate + '</td>';
-      html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length  : 0) + '</td>'; //items
+      html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length  : 0) + '</td>';
       html += '<td>' + feed.url + '</td>';
       html += '</tr>\n';
     }
@@ -79,6 +76,8 @@ class DiscoverFeeds {
     BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
     let html = this._feedLinkInfoListToHtm();
     BrowserManager.setInnerHtmlById('tableContent', html);
+    let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
+    SelectionRaw.instance.put(fstLine);
   }
 
   _updateFeedList() {
@@ -112,13 +111,41 @@ class DiscoverFeeds {
     this._feedList.push(feed);
     let progressValue = Math.round(100 * this._feedList.length / this._feedsToProcessTotal);
     this._progressBar.value = progressValue;
-    console.log('progressValue:', progressValue);
   }
 
   _feedsUpdateDone() {
     this._progressBar.value = 100;
     this._progressBar.hide();
     this._displayFeedList();
+    this._addTableRawClickEvents();
   }
+
+  static _addFeedButtonOnClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    window.close();
+  }
+
+  static _closeButtonOnClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    window.close();
+  }
+
+  _addTableRawClickEvents() {
+    let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
+    //let elTrList = document.getElementById('tableContent').getElementsByTagName('tr');
+    console.log('elTrList:', elTrList);
+    for (let elTr of elTrList) {
+      console.log('elTr:', elTr);
+      elTr.addEventListener('click', DiscoverFeeds._tableRawOnClick_event);
+    }
+  }
+
+  static async _tableRawOnClick_event(event) {
+    console.log('event:', event.target.parentNode);
+    SelectionRaw.instance.put(event.target.parentNode);
+  }
+
 }
 DiscoverFeeds.instance.init_async();

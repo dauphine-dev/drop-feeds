@@ -1,7 +1,10 @@
 /*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute*/
 'use strict';
 const tagList = {
-  RSS: ['?xml', 'rss'],
+  FEED: ['?xml', 'rss', 'feed'],
+  RSS: ['rss'],
+  ATOM: ['feed'],
+  ATT_RSS_VERSION: ['version'],
   CHANNEL: ['channel', 'feed'],
   LASTBUILDDATE: ['lastBuildDate', 'pubDate'],
   ITEM: ['item', 'entry'],
@@ -64,15 +67,15 @@ class FeedParser { /*exported FeedParser*/
       return 'Feed is empty!';
     }
 
-    let tagRss = null;
-    for (let tag of tagList.RSS) {
+    let tagFeed = null;
+    for (let tag of tagList.FEED) {
       if (feedText.includes('<' + tag)) {
-        tagRss = tag;
+        tagFeed = tag;
         break;
       }
     }
-    if (!tagRss) {
-      return 'RSS tags are missing';
+    if (!tagFeed) {
+      return 'Feed tags are missing';
     }
 
     let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
@@ -114,26 +117,6 @@ class FeedParser { /*exported FeedParser*/
 
   }
 
-  static _feedInfoToHtml(feedInfo) {
-    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
-    let feedHtml = '';
-    feedHtml += htmlHead;
-    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
-    let htmlItemList = [];
-    feedInfo.itemList.sort((item1, item2) => {
-      if (item1.pubDate > item2.pubDate) return -1;
-      if (item1.pubDate < item2.pubDate) return 1;
-      return 0;
-    });
-    for (let i=0; i<feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
-      htmlItemList.push(htmlItem);
-    }
-    feedHtml += htmlItemList.join('\n');
-    feedHtml += FeedParser._getHtmFoot();
-    return feedHtml;
-  }
-
   static feedItemsListToUnifiedHtml(feedItems, unifiedChannelTitle) {
     let unifiedChannel = DefaultValues.getDefaultChannelInfo();
     unifiedChannel.title = unifiedChannelTitle;
@@ -164,6 +147,28 @@ class FeedParser { /*exported FeedParser*/
     feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
     return feedInfo;
   }
+
+  //private stuffs
+  static _feedInfoToHtml(feedInfo) {
+    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
+    let feedHtml = '';
+    feedHtml += htmlHead;
+    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
+    let htmlItemList = [];
+    feedInfo.itemList.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<feedInfo.itemList.length; i++) {
+      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
+      htmlItemList.push(htmlItem);
+    }
+    feedHtml += htmlItemList.join('\n');
+    feedHtml += FeedParser._getHtmFoot();
+    return feedHtml;
+  }
+
   static _get1stUsedTag(text, tagArray) {
     if (!text) return null;
     for (let tag of tagArray) {
@@ -238,6 +243,25 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
+  static _extractAttribute(text, tagList, attributeList) {
+    if (!text) { return null; }
+    let textOpenTag = FeedParser._extractOpenTag(text, tagList);
+    if (!textOpenTag) { return null; }
+    for (let attribute of attributeList) {
+      let attStart = attribute + '="';
+      let attEnd = '"';
+      let i = textOpenTag.indexOf(attStart);
+      if (i==-1) { continue; }
+      let valueStart = textOpenTag.indexOf('"', i);
+      if (valueStart==-1) { continue; }
+      let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
+      if (valueEnd==-1) { continue; }
+      let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
+      return result;
+    }
+    return null;
+  }
+
   static _extractDateTime(dateTimeText) {
     if (!dateTimeText) return null;
     let extractedDateTime = null;
@@ -263,6 +287,7 @@ class FeedParser { /*exported FeedParser*/
     if (!channelText) {
       channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
     }
+    channel.feedFormat =  FeedParser._getFeedFormat(tagChannel, feedText);
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
@@ -272,6 +297,24 @@ class FeedParser { /*exported FeedParser*/
     if (!channel.title) { channel.title = channel.link; }
     channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
+  }
+
+  static _getFeedFormat(tagChannel, feedText) {
+    if (!tagChannel || !feedText) { return null; }
+    let feedType = '';
+    let version = '';
+    switch (tagChannel.toLowerCase()) {
+      case 'channel':
+        feedType = 'RSS';
+        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
+        break;
+      case 'feed':
+        feedType = 'ATOM';
+        version = '';
+        break;
+    }
+    return feedType + version;
+
   }
 
   static _getHtmlHead(channel) {
@@ -336,25 +379,6 @@ class FeedParser { /*exported FeedParser*/
     let encoding = text.substring(encodingStart, encodingEnd);
     return encoding;
 
-  }
-
-  static _extractAttribute(text, tagList, attributeList) {
-    if (!text) { return null; }
-    let textOpenTag = FeedParser._extractOpenTag(text, tagList);
-    if (!textOpenTag) { return null; }
-    for (let attribute of attributeList) {
-      let attStart = attribute + '="';
-      let attEnd = '"';
-      let i = textOpenTag.indexOf(attStart);
-      if (i==-1) { continue; }
-      let valueStart = textOpenTag.indexOf('"', i);
-      if (valueStart==-1) { continue; }
-      let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
-      if (valueEnd==-1) { continue; }
-      let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
-      return result;
-    }
-    return null;
   }
 
   static _getHtmlChannel(channel) {

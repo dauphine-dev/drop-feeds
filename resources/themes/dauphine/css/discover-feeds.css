@@ -9,8 +9,14 @@ body{
   padding: 10px;
   font-weight: normal;
   white-space: nowrap;
-  overflow: auto;
+  overflow: hidden;
   color: #4F4545;
+  font-size: small;
+}
+
+#main {
+  width: 100vw;
+  height: 100vh;
 }
 
 #progressBarTotal {
@@ -18,7 +24,7 @@ body{
   border-radius:16px;
   color:#000;
   background-color:#d1d1d1;
-  width: 90vw;
+  width: 85%;
   padding-right: 32px;
 }
 
@@ -35,12 +41,20 @@ body{
   text-align: left;
 }
 
+#tableContainer {
+  overflow: auto;
+  width: 90%;
+  height: 65%;
+  border: 1px solid #ebebfa;
+}
+
 table {
   border-collapse: collapse;
   border: 2px solid #c8c8c8;
   letter-spacing: 1px;
-  width: 96vw;
   background-color: #ffffff;
+  font-size: x-small;
+  width: 100%;
 }
 
 
@@ -55,9 +69,13 @@ th {
 td {
   border: 1px solid #bebebe;
   padding: 2px 20px;
+  background-color: #ffffff00;
 }
-
 
 tbody {
   font-size: 90%;
+}
+
+.selectionRaw {
+  background-color: #60698f;
 }

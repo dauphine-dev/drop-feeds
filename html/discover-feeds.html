@@ -20,25 +20,31 @@
   </head>
 
   <body>
-    <div id="progressBarTotal"><div id = "progressBar" style="width:0">Discovering feeds</div></div>
-    <span id="discoveredFeeds"></span>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Format</th>
-          <th>Last update</th>
-          <th>Items</th>
-          <th>Url</th>
-        </tr>
-      </thead>
-      <tbody id="tableContent">
-        <tr><td>&nbsp;</td><td/><td/><td/></tr>
-      </tbody>
-    </table>
-    <p/>
-    <button id="addFeedButton">Add feed</button>
-    <button id="closeButton">Close</button>
+    <div id="main">
+      <div id="progressBarTotal"><div id = "progressBar" style="width:0">Discovering feeds</div></div>
+      <span id="discoveredFeeds"></span>
+      <div id="tableContainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Format</th>
+              <th>Last update</th>
+              <th>Items</th>
+              <th>Url</th>
+            </tr>
+          </thead>
+          <tbody id="tableContent">
+            <tr><td>&nbsp;</td><td/><td/><td/></tr>
+          </tbody>
+        </table>
+        <div id="selectionBar" ></div>
+      </div>
+      <p/>
+      <button id="addFeedButton">Add feed</button>
+      <button id="closeButton">Close</button>
+    </div>
+    <script src="/js/ui/discover-feeds/selectionBar.js"></script>
     <script src="/js/ui/discover-feeds/discover-feeds.js"></script>
   </body>
 </html>

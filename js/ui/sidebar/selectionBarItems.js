@@ -1,9 +1,10 @@
 /*global ItemsPanel ItemsMenu*/
+'use strict';
 class SelectionBarItems { /*exported SelectionBarItems*/
   constructor() {
-    this._electionBarItemsElement = document.getElementById('selectionBarItems');
+    this._selectionBarItemsElement = document.getElementById('selectionBar');
     this._selectedElement = null;
-    this._electionBarItemsElement.style.visibility = 'hidden';
+    this._selectionBarItemsElement.style.visibility = 'hidden';
   }
 
   put(targetElement) {
@@ -14,7 +15,7 @@ class SelectionBarItems { /*exported SelectionBarItems*/
   hide() {
     ItemsMenu.instance.disableButtonsForSingleElement();
     this._removeOld();
-    this._electionBarItemsElement.style.visibility = 'hidden';
+    this._selectionBarItemsElement.style.visibility = 'hidden';
     this._selectedElement = null;
   }
 
@@ -25,7 +26,7 @@ class SelectionBarItems { /*exported SelectionBarItems*/
   _removeOld() {
     if (! this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
-    this._electionBarItemsElement.style.top = '0px';
+    this._selectionBarItemsElement.style.top = '0px';
     this._selectedElement.style.color = '';
   }
 
@@ -34,7 +35,7 @@ class SelectionBarItems { /*exported SelectionBarItems*/
     if (! this._selectedElement) { return; }
     this._selectedElement.style.color = 'white';
     this._setTop();
-    this._electionBarItemsElement.style.visibility = 'visible';
+    this._selectionBarItemsElement.style.visibility = 'visible';
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
@@ -44,7 +45,7 @@ class SelectionBarItems { /*exported SelectionBarItems*/
 
   _setTop() {
     let rectTarget = this._selectedElement.getBoundingClientRect();
-    let elSelectionBar = this._electionBarItemsElement;
+    let elSelectionBar = this._selectionBarItemsElement;
     let y = Math.round(rectTarget.top) - ItemsPanel.instance.top + 6;
     elSelectionBar.style.top = y + 'px';
   }

@@ -9,8 +9,14 @@ body{
   padding: 10px;
   font-weight: normal;
   white-space: nowrap;
-  overflow: auto;
+  overflow: hidden;
 	font-size: small;
+}
+
+#main {
+  overflow: auto;
+  width: 96vw;
+  height: 72vh;
 }
 
 #progressBarTotal {
@@ -35,12 +41,20 @@ body{
   text-align: left;
 }
 
+#tableContainer {
+  overflow: auto;
+  width: 96vw;
+  height: 72vh;
+  border: 1px solid #f3f3f2;
+}
+
 table {
   border-collapse: collapse;
   border: 2px solid #c8c8c8;
   letter-spacing: 1px;
-  width: 96vw;
   background-color: #ffffff;
+  font-size: x-small;
+  width: 100%;
 }
 
 th {
@@ -54,9 +68,14 @@ th {
 td {
   border: 1px solid #bebebe;
   padding: 2px 20px;
+  background-color: #ffffff00;
 }
 
 
 tbody {
   font-size: 90%;
+}
+
+call selectionRaw {
+  background-color: #448bd6;
 }
