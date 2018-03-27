@@ -30,17 +30,19 @@ class Feed { /*exported Feed*/
     this._newUrl = null;
     this._feedItems = null;
     this._ifHttpsHAsFailedRetryWithHttp = DefaultValues.ifHttpsHasFailedRetryWithHttp;
-
+    this._info = {hash: '', info: ''};
   }
 
   async _constructor_async() {
-    this._bookmark =  this._storedFeed.id ? (await browser.bookmarks.get(this._storedFeed.id))[0] : null;
-    this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
-    this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
-    if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
-    this._storedFeed.isFeedInfo = true;
-    this._storedFeed.title =  this._bookmark ? this._bookmark.title : '';
-    this._updateStoredFeedVersion();
+    if (this._storedFeed.id) {
+      this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
+      this._storedFeed.title =  this._bookmark.title;
+      this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+      this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
+      if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
+      this._storedFeed.isFeedInfo = true;
+      this._updateStoredFeedVersion();
+    }
   }
 
   get title() {
@@ -63,7 +65,11 @@ class Feed { /*exported Feed*/
   }
 
   get info() {
-    return FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
+    if (this._info.hash != this._storedFeed.hash) {
+      this._info.hash = this._storedFeed.hash;
+      this._info.info = FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
+    }
+    return this._info.info;
   }
 
   get url() {

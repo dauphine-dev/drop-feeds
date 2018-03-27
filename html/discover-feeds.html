@@ -14,13 +14,15 @@
     <script src="/js/tools/feedParser.js"></script>
     <script src="/js/tools/feed.js"></script>
     <script src="/js/tools/listener.js"></script>
+    <script src="/js/tools/progressBar.js"></script>
     <script src="/js/themes/theme-discover-feeds.js"></script>
     <title>Discover Feeds</title>
   </head>
 
   <body>
+    <div id="progressBarTotal"><div id = "progressBar" style="width:0">Discovering feeds</div></div>
+    <span id="discoveredFeeds"></span>
     <table>
-      <caption><span id="discoveredFeeds"></span></caption>
       <thead>
         <tr>
           <th>Title</th>

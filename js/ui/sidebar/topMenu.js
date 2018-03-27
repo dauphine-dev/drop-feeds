@@ -12,6 +12,8 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = DefaultValues.updatedFeedsVisible;
     this._foldersOpened = DefaultValues.foldersOpened;
     this._buttonAddFeedEnabled = false;
+    this._buttonDiscoverFeedsEnabled = false;
+    this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
   }
 
   async init_async() {
@@ -27,12 +29,9 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
   }
 
-  async _isRootFolderChecked_async() {
-    try {
-      let rootFolderId = 'cb-' + TreeView.instance.selectionBar.getRootElementId().substring(3);
-      let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
-      this._foldersOpened = rootFolder.checked;
-    } catch(e) { }
+  set discoverFeedsButtonEnabled(value) {
+    this._buttonDiscoverFeedsEnabled = value;
+    document.getElementById('discoverFeedsButton').style.opacity = (value ? '1' : '0.2');
   }
 
   enableAddFeedButton(isEnable) {
@@ -89,6 +88,14 @@ class TopMenu  { /*exported TopMenu*/
     FeedManager.instance.checkFeeds_async('dv-' + TreeView.instance.rootFolderId);
   }
 
+  async _isRootFolderChecked_async() {
+    try {
+      let rootFolderId = 'cb-' + TreeView.instance.selectionBar.getRootElementId().substring(3);
+      let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
+      this._foldersOpened = rootFolder.checked;
+    } catch(e) { }
+  }
+
   static async _onlyUpdatedFeedsButtonClicked_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
@@ -127,12 +134,14 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   static async _discoverFeedsButtonClicked_event(event) {
+    let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
+    if (!self._buttonDiscoverFeedsEnabled) { return; }
     TreeView.instance.selectionBar.putAtRoot();
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
     LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
-    BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 778, 500, '');
+    BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
   }
 
   static async _optionsMenuClicked_event(event) {

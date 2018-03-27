@@ -1,5 +1,5 @@
 /*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
-ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel*/
+ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() {
@@ -25,11 +25,11 @@ class SideBar { /*exported SideBar*/
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     BookmarkManager.instance.init_async();
+    TabManager.instance;
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this._addListeners();
     TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
-    await this._forceTabOnChanged_async();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
     this.setContentHeight();
@@ -56,18 +56,11 @@ class SideBar { /*exported SideBar*/
 
   _addListeners() {
     window.onresize = SideBar._windowOnResize_event;
-    browser.tabs.onActivated.addListener(SideBar._tabOnActivated_event);
-    browser.tabs.onUpdated.addListener(SideBar._tabOnUpdated_event);
     document.getElementById('content').addEventListener('scroll', SideBar._contentOnScroll_event);
   }
 
   static async _contentOnScroll_event(){
     TreeView.instance.selectionBar.refresh();
-  }
-
-  async _forceTabOnChanged_async() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    this._tabHasChanged_async(tabInfos[0]);
   }
 
   static async _windowOnResize_event() {
@@ -83,33 +76,6 @@ class SideBar { /*exported SideBar*/
   setContentHeight() {
     let height = Math.max(ItemsPanel.instance.splitterBar.top - this._contentTop - 1, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
-  }
-
-  static async _tabOnActivated_event(activeInfo) {
-    let tabInfo = await browser.tabs.get(activeInfo.tabId);
-    SideBar.instance._tabHasChanged_async(tabInfo);
-  }
-
-  static _tabOnUpdated_event(tabId, changeInfo, tabInfo) {
-    if (changeInfo.status == 'complete') {
-      SideBar.instance._tabHasChanged_async(tabInfo);
-    }
-  }
-
-  async _tabHasChanged_async(tabInfo) {
-    let isFeed = false;
-    try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
-    } catch(e) { }
-    TopMenu.instance.enableAddFeedButton(isFeed);
-    if(isFeed) {
-      browser.pageAction.show(tabInfo.id);
-      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
-      browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
-    }
-    else {
-      browser.pageAction.hide(tabInfo.id);
-    }
   }
 }
 
