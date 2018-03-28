@@ -25,6 +25,14 @@ class SelectionRaw { /*exported SelectionRaw*/
     return this._selectedElement;
   }
 
+  get selectedRaw() {
+    let selectedRaw = null;
+    if (this._selectedElement) {
+      selectedRaw = this._selectedElement.getAttribute('pos');
+    }
+    return selectedRaw;
+  }
+
   _removeOld() {
     if (! this._selectedElement) { return; }
     this._selectedElement.style.color = '';

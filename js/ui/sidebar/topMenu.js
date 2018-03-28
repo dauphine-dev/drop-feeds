@@ -34,15 +34,9 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('discoverFeedsButton').style.opacity = (value ? '1' : '0.2');
   }
 
-  enableAddFeedButton(isEnable) {
-    if (isEnable) {
-      this._buttonAddFeedEnabled = true;
-      document.getElementById('addFeedButton').style.opacity = '1';
-    }
-    else {
-      this._buttonAddFeedEnabled = false;
-      document.getElementById('addFeedButton').style.opacity = '0.2';
-    }
+  set addFeedButtonEnable(value) {
+    this._buttonAddFeedEnabled = value;
+    document.getElementById('addFeedButton').style.opacity = (value ? '1' : '0.2');
   }
 
   animateCheckFeedButton(animationEnable) {

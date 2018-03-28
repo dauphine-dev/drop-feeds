@@ -143,12 +143,32 @@ class FeedParser { /*exported FeedParser*/
   static getFeedInfo(feedText, defaultTitle) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+    feedInfo.format =  FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
     feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
     return feedInfo;
   }
 
   //private stuffs
+
+  static _getFeedFormat(tagItem, feedText) {
+    if (!tagItem || !feedText) { return null; }
+    let feedType = '';
+    let version = '';
+    switch (tagItem.toLowerCase()) {
+      case 'item':
+        feedType = 'RSS';
+        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
+        break;
+      case 'entry':
+        feedType = 'ATOM';
+        version = '';
+        break;
+    }
+    return feedType + version;
+
+  }
+
   static _feedInfoToHtml(feedInfo) {
     let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
     let feedHtml = '';
@@ -287,7 +307,6 @@ class FeedParser { /*exported FeedParser*/
     if (!channelText) {
       channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
     }
-    channel.feedFormat =  FeedParser._getFeedFormat(tagChannel, feedText);
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
@@ -297,24 +316,6 @@ class FeedParser { /*exported FeedParser*/
     if (!channel.title) { channel.title = channel.link; }
     channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
-  }
-
-  static _getFeedFormat(tagChannel, feedText) {
-    if (!tagChannel || !feedText) { return null; }
-    let feedType = '';
-    let version = '';
-    switch (tagChannel.toLowerCase()) {
-      case 'channel':
-        feedType = 'RSS';
-        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
-        break;
-      case 'feed':
-        feedType = 'ATOM';
-        version = '';
-        break;
-    }
-    return feedType + version;
-
   }
 
   static _getHtmlHead(channel) {

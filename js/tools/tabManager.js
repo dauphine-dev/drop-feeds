@@ -39,7 +39,7 @@ class TabManager { /*exported TabManager*/
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     } catch(e) { }
-    TopMenu.instance.enableAddFeedButton(isFeed);
+    TopMenu.instance.addFeedButtonEnable = isFeed;
     if(isFeed) {
       browser.pageAction.show(tabInfo.id);
       let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');

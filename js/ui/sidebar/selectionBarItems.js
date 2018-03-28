@@ -2,7 +2,7 @@
 'use strict';
 class SelectionBarItems { /*exported SelectionBarItems*/
   constructor() {
-    this._selectionBarItemsElement = document.getElementById('selectionBar');
+    this._selectionBarItemsElement = document.getElementById('selectionBarItems');
     this._selectedElement = null;
     this._selectionBarItemsElement.style.visibility = 'hidden';
   }

@@ -1,4 +1,4 @@
-/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw*/
+/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs*/
 'use strict';
 class DiscoverFeeds {
   static get instance() {
@@ -15,6 +15,7 @@ class DiscoverFeeds {
     this._feedsToProcessList = [];
     this._feedsToProcessCounter = 0;
     this._feedsToProcessTotal = 0;
+    this._addFeedButtonEnabled = false;
   }
 
   async init_async() {
@@ -27,6 +28,20 @@ class DiscoverFeeds {
     await this._updateFeedList();
     document.getElementById('addFeedButton').addEventListener('click', DiscoverFeeds._addFeedButtonOnClicked_event);
     document.getElementById('closeButton').addEventListener('click', DiscoverFeeds._closeButtonOnClicked_event);
+    this.addFeedButtonEnabled = this._addFeedButtonEnabled;
+  }
+
+  get selectedFeed() {
+    let selectedFeed = null;
+    if (SelectionRaw.instance.selectedRaw) {
+      selectedFeed = this._feedList[SelectionRaw.instance.selectedRaw-1];
+    }
+    return selectedFeed;
+  }
+
+  set addFeedButtonEnabled(value) {
+    this._addFeedButtonEnabled = value;
+    document.getElementById('addFeedButton').style.opacity = (value ? '1' : '0.2');
   }
 
   async _getDiscoverInfo_async() {
@@ -54,12 +69,13 @@ class DiscoverFeeds {
 
   _feedLinkInfoListToHtm() {
     let html = '';
+    let pos = 1;
     for (let feed of this._feedList) {
       let feedInfo = feed.info;
       let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString()  + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
-      html += '<tr>';
+      html += '<tr pos="' + pos++ + '">';
       html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
-      html += '<td>' + (feedInfo.channel.feedFormat ? feedInfo.channel.feedFormat : 'N/A') + '</td>';
+      html += '<td>' + (feedInfo.format ? feedInfo.format : 'N/A') + '</td>';
       html += '<td>' + lastUpdate + '</td>';
       html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length  : 0) + '</td>';
       html += '<td>' + feed.url + '</td>';
@@ -77,7 +93,7 @@ class DiscoverFeeds {
     let html = this._feedLinkInfoListToHtm();
     BrowserManager.setInnerHtmlById('tableContent', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    SelectionRaw.instance.put(fstLine);
+    this._selectRaw(fstLine);
   }
 
   _updateFeedList() {
@@ -123,6 +139,7 @@ class DiscoverFeeds {
   static _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
+    DiscoverFeeds.instance._openSubscribeDialog();
     window.close();
   }
 
@@ -134,17 +151,23 @@ class DiscoverFeeds {
 
   _addTableRawClickEvents() {
     let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
-    //let elTrList = document.getElementById('tableContent').getElementsByTagName('tr');
-    console.log('elTrList:', elTrList);
     for (let elTr of elTrList) {
-      console.log('elTr:', elTr);
       elTr.addEventListener('click', DiscoverFeeds._tableRawOnClick_event);
     }
   }
 
   static async _tableRawOnClick_event(event) {
-    console.log('event:', event.target.parentNode);
-    SelectionRaw.instance.put(event.target.parentNode);
+    DiscoverFeeds.instance._selectRaw(event.target.parentNode);
+  }
+
+  _selectRaw(trElement) {
+    SelectionRaw.instance.put(trElement);
+    this.addFeedButtonEnabled = (this.selectedFeed.info.format != null);
+  }
+
+  async _openSubscribeDialog() {
+    LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: this.selectedFeed.info.channel.title, feedUrl: this.selectedFeed.url});
+    BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 
 }
