@@ -24,7 +24,7 @@ class DefaultValues { /*exported DefaultValues*/
   }
 
   static getStoredFeed(id) {
-    return { id: id, hash: null, pubDate: null, status: feedStatus.OLD, isFeedInfo: true, title: null };
+    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null };
   }
 
   static getDefaultItem(id) {

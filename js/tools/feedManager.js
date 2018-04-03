@@ -139,9 +139,13 @@ class FeedManager { /*exported FeedManager*/
         let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
         await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
+      StatusBar.instance.text = 'Loading ' + feed.title;
       await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
+      StatusBar.instance.text = 'Loading ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
+      StatusBar.instance.text = 'Loading ' + feed.title;
       feed.updateUiStatus();
+      StatusBar.instance.text = feed.title + ' ' + 'loaded';
 
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
@@ -151,7 +155,7 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
 
     } finally {
-      if (--self._feedsToProcessCounter == 0) {
+      if (--self._feedsToProcessCounter <= 0) {
         self._processFeedsFinished();
       }
     }

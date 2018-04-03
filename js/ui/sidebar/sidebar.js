@@ -50,7 +50,7 @@ class SideBar { /*exported SideBar*/
 
   static async openSubscribeDialog_async() {
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
+    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
     BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 

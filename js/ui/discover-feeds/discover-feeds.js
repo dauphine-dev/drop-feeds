@@ -56,6 +56,7 @@ class DiscoverFeeds {
       this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, {key:'getFeedLinkInfoList'});
     }
     catch(e) {}
+    if (!this._feedLinkList) { this._feedLinkList= []; }
   }
 
   async _getFeedList_async() {
@@ -65,6 +66,63 @@ class DiscoverFeeds {
       this._feedsToProcessList.push(feed);
     }
 
+  }
+
+  async _sortFeedList()  {
+    for (let feed of this._feedList) {
+      // feed.info is not evaluated during sort (but with a delay), then compute it and then store it in the feed object
+      feed.tmpInfo = feed.info;
+    }
+    this._feedList.sort((feed1, feed2) => {
+      let feed1Num = 0;
+      let feed2Num = 0;
+      let feedInfo1 = feed1.tmpInfo;
+      let feedInfo2 = feed2.tmpInfo;
+      //Sort 1st on have info
+      if (feedInfo1) { feed1Num += 32; }
+      if (feedInfo2) { feed2Num += 32; }
+      if (feedInfo1 && feedInfo1.format) { feed1Num += 16; }
+      if (feedInfo2 && feedInfo2.format) { feed2Num += 16; }
+      //Sort 2nd on have lastUpdate
+      if (feed1.lastUpdate > feed2.lastUpdate) { feed1Num += 8; }
+      if (feed1.lastUpdate < feed2.lastUpdate) { feed2Num +=8; }
+      //Sort 3rt on items number
+      let feed1ItemListLength = feedInfo1 && feedInfo1.itemList ? feedInfo1.itemList.length : -1;
+      let feed2ItemListLength = feedInfo2 && feedInfo2.itemList ? feedInfo2.itemList.length : -1;
+      if (feed1ItemListLength > feed2ItemListLength) { feed1Num += 4; }
+      if (feed1ItemListLength < feed2ItemListLength) { feed2Num += 4; }
+      //Sort 4th on title
+      let feed1Title = feedInfo1 && feedInfo1.channel ? feedInfo1.channel.title : null;
+      let feed2Title = feedInfo2 && feedInfo2.channel ? feedInfo2.channel.title : null;
+      feed1Title = feed1Title == '' ? null : feed1Title;
+      feed2Title = feed2Title == '' ? null : feed2Title;
+      if (feed1Title && feed2Title) {
+        if (feed1Title < feed2Title) { feed1Num += 2; }
+        if (feed1Title > feed2Title) { feed2Num += 2; }
+      }
+      else {
+        if (feed1Title && !feed2Title) { feed1Num += 2; }
+        if (!feed1Title && feed2Title) { feed2Num += 2; }
+      }
+      //Sort 5th on url
+      if (feed1.url > feed2.url) { feed1Num += 1; }
+      if (feed1.url < feed2.url) { feed1Num += 1; }
+      if (feed1Num > feed2Num) { return -1; }
+      if (feed1Num < feed2Num) { return 1; }
+      return 0;
+    });
+  }
+
+  _displayFeedList() {
+    let discoveredFeeds = 'No feeds have been discovered';
+    if (this._feedList.length > 0) {
+      discoveredFeeds = 'Discovered: ' + this._feedList.length + ' feeds';
+    }
+    BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
+    let html = this._feedLinkInfoListToHtm();
+    BrowserManager.setInnerHtmlById('tableContent', html);
+    let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
+    this._selectRaw(fstLine);
   }
 
   _feedLinkInfoListToHtm() {
@@ -82,18 +140,6 @@ class DiscoverFeeds {
       html += '</tr>\n';
     }
     return html;
-  }
-
-  _displayFeedList() {
-    let discoveredFeeds = 'No feeds have been discovered';
-    if (this._feedList.length > 0) {
-      discoveredFeeds = 'Discovered: ' + this._feedList.length + ' feeds';
-    }
-    BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
-    let html = this._feedLinkInfoListToHtm();
-    BrowserManager.setInnerHtmlById('tableContent', html);
-    let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    this._selectRaw(fstLine);
   }
 
   _updateFeedList() {
@@ -130,20 +176,22 @@ class DiscoverFeeds {
   }
 
   _feedsUpdateDone() {
-    this._progressBar.value = 100;
-    this._progressBar.hide();
+    this._progressBar.value = 99;
+    this._sortFeedList();
     this._displayFeedList();
     this._addTableRawClickEvents();
+    this._progressBar.value = 100;
+    this._progressBar.hide();
   }
 
-  static _addFeedButtonOnClicked_event(event) {
+  static async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    DiscoverFeeds.instance._openSubscribeDialog();
+    await DiscoverFeeds.instance._openSubscribeDialog_async();
     window.close();
   }
 
-  static _closeButtonOnClicked_event(event) {
+  static async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     window.close();
@@ -162,12 +210,12 @@ class DiscoverFeeds {
 
   _selectRaw(trElement) {
     SelectionRaw.instance.put(trElement);
-    this.addFeedButtonEnabled = (this.selectedFeed.info.format != null);
+    this.addFeedButtonEnabled = (this.selectedFeed && this.selectedFeed.info.format != null);
   }
 
-  async _openSubscribeDialog() {
-    LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: this.selectedFeed.info.channel.title, feedUrl: this.selectedFeed.url});
-    BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+  async _openSubscribeDialog_async() {
+    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: this.selectedFeed.info.channel.title, feedUrl: this.selectedFeed.url});
+    await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 
 }

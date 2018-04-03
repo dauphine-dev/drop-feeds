@@ -1,10 +1,17 @@
 'use strict';
 class SelectionBar { /*exported SelectionBar*/
   constructor() {
-    this._selectedRootElement = null;
-    this._selectedRootElementId = null;
+    this._selectionBarElement = document.getElementById('selectionBar');
     this._selectedElement = null;
     this._selectedElementId = null;
+    this._selectionBarElement.style.visibility = 'hidden';
+  }
+
+  hide() {
+    this._removeOld();
+    this._selectionBarElement.style.visibility = 'hidden';
+    this._selectedElementId = null;
+    this._selectedElement = null;
   }
 
   put(targetElement) {
@@ -16,18 +23,6 @@ class SelectionBar { /*exported SelectionBar*/
     this.put(this._selectedElement);
   }
 
-  putAtRoot() {
-    if (!this._selectedRootElement) {
-      this._selectedRootElement = document.getElementById(this._selectedRootElementId);
-    }
-    this.put(this._selectedRootElement);
-  }
-
-  setRootElementById(rootElementId) {
-    this._removeOld();
-    this._selectedRootElementId = rootElementId;
-    this._selectedRootElement = null;
-  }
 
   _selectedElementOnScrollEvent() {
     this.put(this._selectedElement);
@@ -36,7 +31,7 @@ class SelectionBar { /*exported SelectionBar*/
   _removeOld() {
     if (! this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
-    document.getElementById('selectionBar').style.top = '0px';
+    this._selectionBarElement.style.top = '0px';
     let prevElLabel = document.getElementById('lbl-' + this._selectedElementId);
     if (prevElLabel) {
       prevElLabel.style.color = '';
@@ -51,9 +46,9 @@ class SelectionBar { /*exported SelectionBar*/
     if (elLabel) {
       elLabel.style.color = 'white';
       let rectTarget = this._selectedElement.getBoundingClientRect();
-      let elSelectionBar = document.getElementById('selectionBar');
       let y = rectTarget.top + 5;
-      elSelectionBar.style.top = y + 'px';
+      this._selectionBarElement.style.top = y + 'px';
+      this._selectionBarElement.style.visibility = 'visible';
     }
   }
 }

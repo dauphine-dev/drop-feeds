@@ -78,8 +78,8 @@ class TopMenu  { /*exported TopMenu*/
   static async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    TreeView.instance.selectionBar.putAtRoot();
-    FeedManager.instance.checkFeeds_async('dv-' + TreeView.instance.rootFolderId);
+    TreeView.instance.putSelectionBarAtRoot();
+    FeedManager.instance.checkFeeds_async('content');
   }
 
   async _isRootFolderChecked_async() {
@@ -96,7 +96,7 @@ class TopMenu  { /*exported TopMenu*/
     event.preventDefault();
     self._updatedFeedsVisible = ! self._updatedFeedsVisible;
     self.updatedFeedsSetVisibility();
-    TreeView.instance.selectionBar.putAtRoot();
+    TreeView.instance.putSelectionBarAtRoot();
   }
 
   static async _toggleFoldersButtonClicked_event(event) {
@@ -115,7 +115,7 @@ class TopMenu  { /*exported TopMenu*/
       storedFolder.checked = self._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }
-    TreeView.instance.selectionBar.putAtRoot();
+    TreeView.instance.putSelectionBarAtRoot();
   }
 
   static async _addFeedButtonClicked_event(event) {
@@ -124,7 +124,7 @@ class TopMenu  { /*exported TopMenu*/
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
-    TreeView.instance.selectionBar.putAtRoot();
+    TreeView.instance.putSelectionBarAtRoot();
   }
 
   static async _discoverFeedsButtonClicked_event(event) {
@@ -132,9 +132,9 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonDiscoverFeedsEnabled) { return; }
-    TreeView.instance.selectionBar.putAtRoot();
+    TreeView.instance.putSelectionBarAtRoot();
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
+    await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
     BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
   }
 
@@ -142,6 +142,6 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
-    TreeView.instance.selectionBar.putAtRoot();
+    TreeView.instance.putSelectionBarAtRoot();
   }
 }

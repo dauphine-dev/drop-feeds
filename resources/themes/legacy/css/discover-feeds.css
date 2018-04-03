@@ -10,13 +10,13 @@ body{
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
-	font-size: small;
+  color: #4F4545;
+  font-size: small;
 }
 
 #main {
-  overflow: auto;
-  width: 96vw;
-  height: 72vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 #progressBarTotal {
@@ -24,7 +24,7 @@ body{
   border-radius:16px;
   color:#000;
   background-color:#d1d1d1;
-  width: 90vw;
+  width: 85%;
   padding-right: 32px;
 }
 
@@ -43,8 +43,8 @@ body{
 
 #tableContainer {
   overflow: auto;
-  width: 96vw;
-  height: 72vh;
+  width: 90%;
+  height: 65%;
   border: 1px solid #f3f3f2;
 }
 
@@ -56,6 +56,7 @@ table {
   font-size: x-small;
   width: 100%;
 }
+
 
 th {
   border: 1px solid #bebebe;
@@ -72,11 +73,10 @@ td {
   cursor: cell;
 }
 
-
 tbody {
   font-size: 90%;
 }
 
-call selectionRaw {
+.selectionRaw {
   background-color: #448bd6;
 }
