@@ -79,7 +79,6 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     FeedManager.instance.checkFeeds_async('content');
-//TreeView.instance.selectionBarRefresh();
   }
 
   async _isRootFolderChecked_async() {
