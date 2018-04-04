@@ -59,12 +59,8 @@ class TreeView { /*exported TreeView*/
     await TreeView.instance.reload_async();
   }
 
-  putSelectionBarAtRoot() {
-    if (!this._1stElement) {
-      this._1stElement = document.getElementById(this._1stFolderDivId);
-    }
-    this._selectionBar.put(this._1stElement);
-
+  selectionBarRefresh() {
+    this._selectionBar.refresh();
   }
 
   _addEventListenerOnFeedItems() {
@@ -89,6 +85,7 @@ class TreeView { /*exported TreeView*/
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
+    ContextMenu.instance.hide();
     try {
       TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;
@@ -104,6 +101,7 @@ class TreeView { /*exported TreeView*/
 
   async _folderChanged_event(event) {
     let folderItem = event.currentTarget;
+    ContextMenu.instance.hide();
     let folderId = folderItem.getAttribute('id');
     let storedFolder = DefaultValues.getStoredFolder(folderId);
     storedFolder.checked = folderItem.checked;
@@ -122,6 +120,7 @@ class TreeView { /*exported TreeView*/
 
   async _folderOnClicked_event(event){
     event.stopPropagation();
+    ContextMenu.instance.hide();
     TreeView.instance._selectionBar.put(event.currentTarget);
   }
 

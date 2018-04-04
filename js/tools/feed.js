@@ -1,4 +1,4 @@
-/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager*/
+/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -135,6 +135,7 @@ class Feed { /*exported Feed*/
         feedUiItem.classList.add('feedError');
         break;
     }
+    TreeView.instance.selectionBarRefresh();
   }
 
   //private stuff

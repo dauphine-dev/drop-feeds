@@ -3,6 +3,7 @@ Add discover feeds feature
 Improve messages in status bar during opening feeds
 Now, new feeds are added as unread
 Fix display selection bar on 1st folder
+Improve selectionBar management
 
 0.4.4
 fix item splitter bar (again)
