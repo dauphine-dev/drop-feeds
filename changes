@@ -5,6 +5,8 @@ Now, new feeds are added as unread
 Fix display selection bar on 1st folder
 Make empty folder easiest to select on Subscribe screen
 Improve selectionBar management
+Prevent a crash in _isDropfeedsChildBookmark_async() when the root bookmark is undefined
+Fix progressing updated feeds when there are not updated feeds
 
 0.4.4
 fix item splitter bar (again)

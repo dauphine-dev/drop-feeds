@@ -55,19 +55,24 @@ class FeedManager { /*exported FeedManager*/
       this._itemList = [];
       let rootElement = document.getElementById(folderId);
       let feedElementList = rootElement.querySelectorAll(querySelector);
-      for (let i = 0; i < feedElementList.length; i++) {
-        let feed = null;
-        try {
-          let feedId = feedElementList[i].getAttribute('id');
-          feed = await Feed.new(feedId);
-          StatusBar.instance.text = (this._asynchronousFeedChecking ? action + ': ' : 'preparing: ') + feed.title;
-          this._feedsToProcessList.push(feed);
+      if (feedElementList.length > 0) {
+        for (let i = 0; i < feedElementList.length; i++) {
+          let feed = null;
+          try {
+            let feedId = feedElementList[i].getAttribute('id');
+            feed = await Feed.new(feedId);
+            StatusBar.instance.text = (this._asynchronousFeedChecking ? action + ': ' : 'preparing: ') + feed.title;
+            this._feedsToProcessList.push(feed);
+          }
+          catch(e) {
+            /*eslint-disable no-console*/
+            console.log(e);
+            /*eslint-enable no-console*/
+          }
         }
-        catch(e) {
-          /*eslint-disable no-console*/
-          console.log(e);
-          /*eslint-enable no-console*/
-        }
+      }
+      else {
+        this._processFeedsFinished();
       }
     }
     finally {

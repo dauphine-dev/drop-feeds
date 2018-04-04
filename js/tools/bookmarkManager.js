@@ -132,10 +132,16 @@ class BookmarkManager { /*exported BookmarkManager*/
   async _isDropfeedsChildBookmark_async(id) {
     let isChild = false;
     if (id == this._rootBookmarkId) { return true; }
-    let subTree = await browser.bookmarks.getSubTree(this._rootBookmarkId);
-    let children = subTree[0].children;
-    if (children) {
-      isChild = this._isChildBookmark(children, id);
+    let subTree = null;
+    try {
+      subTree = await browser.bookmarks.getSubTree(this._rootBookmarkId);
+    }
+    catch(e) {}
+    if (subTree) {
+      let children = subTree[0].children;
+      if (children) {
+        isChild = this._isChildBookmark(children, id);
+      }
     }
     return isChild;
   }
