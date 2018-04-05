@@ -1,34 +1,66 @@
-/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar ContextMenu LocalStorageManager TextTools Feed BookmarkManager*/
+/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
+ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
 class TreeView { /*exported TreeView*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new TreeView();
+    }
+    return this._instance;
+  }
+
   constructor() {
+    this._init();
+  }
+
+  _init() {
+    this._selectionBar = new SelectionBar();
     this._html = null;
     this._is1stFolder = null;
+    this._1stElement = null;
     this._displayRootFolder = DefaultValues.displayRootFolder;
     this._1stFolderDivId = null;
     this._rootFolderId = DefaultValues.rootFolderId;
-
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', TreeView._reload_sbscrb, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', TreeView._reload_sbscrb, false);
   }
 
-  async createAndShow() {
+  async load_async() {
     this._html = [];
     this._is1stFolder = true;
     this._rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
     let rootBookmark = (await browser.bookmarks.getSubTree(this._rootFolderId))[0];
     let cacheLocalStorage = await LocalStorageManager.getCache_async();
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
+    //this._html.push('<div id="dv-content">');
     this._computeHtmlTree(cacheLocalStorage, rootBookmark, 10, this._displayRootFolder);
+    //this._html.push('</div>');
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
   }
 
+  async reload_async() {
+    this._init();
+    await this.load_async();
+    SideBar.instance.setContentHeight();
+  }
+
+  get selectionBar() {
+    return this._selectionBar;
+  }
+
+
   get rootFolderUiId() {
     return this._1stFolderDivId;
   }
 
-  get rootFolderId() {
-    return this._rootFolderId;
+  static async _reload_sbscrb() {
+    await TreeView.instance.reload_async();
+  }
+
+  selectionBarRefresh() {
+    this._selectionBar.refresh();
   }
 
   _addEventListenerOnFeedItems() {
@@ -46,13 +78,14 @@ class TreeView { /*exported TreeView*/
     let divItems = document.querySelectorAll('.folder');
     for (let i = 0; i < divItems.length; i++) {
       divItems[i].addEventListener('contextmenu', this._folderOnRightClicked_event);
-      divItems[i].addEventListener('click', this._folderOnClicked_event, true);
+      divItems[i].addEventListener('click', this._folderOnClicked_event);
     }
   }
 
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
+    ContextMenu.instance.hide();
     try {
       TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;
@@ -68,6 +101,7 @@ class TreeView { /*exported TreeView*/
 
   async _folderChanged_event(event) {
     let folderItem = event.currentTarget;
+    ContextMenu.instance.hide();
     let folderId = folderItem.getAttribute('id');
     let storedFolder = DefaultValues.getStoredFolder(folderId);
     storedFolder.checked = folderItem.checked;
@@ -85,13 +119,14 @@ class TreeView { /*exported TreeView*/
 
 
   async _folderOnClicked_event(event){
-    SelectionBar.instance.put(event.currentTarget);
+    event.stopPropagation();
+    ContextMenu.instance.hide();
+    TreeView.instance._selectionBar.put(event.currentTarget);
   }
 
   _setAs1stFolder(id)  {
     this._is1stFolder = false;
     this._1stFolderDivId = 'dv-' + id;
-    SelectionBar.instance.setRootElement(this._1stFolderDivId);
   }
 
   _computeHtmlTree(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
@@ -111,24 +146,27 @@ class TreeView { /*exported TreeView*/
     let folderName = bookmarkItem.title;
     let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
     let checked = storedFolder.checked ? 'checked' : '';
-    let display = displayThisFolder ? '' : ' class="displayNone ';
 
     let folderLine = '';
+    folderLine += TextTools.makeIndent(indent);
     if (displayThisFolder) {
       if (this._is1stFolder) {
         this._setAs1stFolder(id);
       }
     }
-    folderLine += TextTools.makeIndent(indent) +
-    '<div id="dv-' + id + '" class="folder">\n';
-    indent += 2;
-    folderLine += TextTools.makeIndent(indent) +
-    '<li>' +
-    '<input type="checkbox" id=cb-' + id + ' ' + checked + display + '/>' +
-    '<label for="cb-' + id + '" class="folderClose"' + display + '></label>' +
-    '<label for="cb-' + id + '" class="folderOpen"' + display + '></label>' +
-    '<label for="cb-' + id + '" id="lbl-' + id + '"' + display + '>' + folderName + '</label>\n';
-    folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
+    if (displayThisFolder) {
+      folderLine += TextTools.makeIndent(indent);
+      folderLine += '<div id="dv-' + id + '" class="folder">\n';
+      indent += 2;
+      folderLine += TextTools.makeIndent(indent) +
+      '<li>' +
+      '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
+      '<label for="cb-' + id + '" class="folderClose"></label>' +
+      '<label for="cb-' + id + '" class="folderOpen"></label>' +
+      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
+      let paddingLeft = displayThisFolder ? '' : 'style="padding-left: 22px;"';
+      folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '" ' +  paddingLeft + '>\n';
+    }
     indent += 2;
     this._html.push(folderLine);
     if (bookmarkItem.children) {

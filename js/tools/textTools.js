@@ -16,7 +16,7 @@ class TextTools { /* exported TextTools*/
     outputIndex = {inputIndex};
     let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
     if (startIndex == -1) return null;
-    startIndex += startPattern.length;
+    startIndex +=  startPattern ? startPattern.length : 0;
     let endIndex = text.indexOf(endPattern, startIndex);
     if (endIndex == -1) return null;
     let result = text.substring(startIndex, endIndex);

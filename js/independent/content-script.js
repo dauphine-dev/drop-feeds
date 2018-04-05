@@ -3,12 +3,12 @@
 class ContentManager {
   static async runtimeOnMessageEvent(request) {
     let response = null;
-    switch (request.req) {
+    switch (request.key) {
       case 'isFeed':
         response = ContentManager._isFeed();
         break;
-      case 'addSubscribeButton':
-        ContentManager._addSubscribeButton();
+      case 'getFeedLinkInfoList':
+        response = ContentManager._getFeedLinkInfoList();
         break;
     }
     return Promise.resolve(response);
@@ -20,8 +20,9 @@ class ContentManager {
       feedHandler = document.getElementById('feedHandler').innerHTML;
     }
     catch(e) {}
-    let result = (feedHandler ? true : false);
-    return result;
+    let isFeed = (feedHandler ? true : false);
+    if (isFeed) { ContentManager._addSubscribeButton(); }
+    return isFeed;
   }
 
   static _addSubscribeButton() {
@@ -41,8 +42,23 @@ class ContentManager {
   static async _addSubscribeButtonOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    browser.runtime.sendMessage({'req':'openSubscribeDialog'});
+    browser.runtime.sendMessage({key:'openSubscribeDialog'});
+  }
+
+  static _getFeedLinkInfoList() {
+    let feedLinkList = [];
+    let elLinkList = Array.from(document.getElementsByTagName('link'));
+    elLinkList.push(... Array.from(document.getElementsByTagName('a')));
+    for (let elLink of elLinkList) {
+      if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
+        feedLinkList.push(elLink.href);
+      }
+    }
+    //remove duplicates
+    feedLinkList = feedLinkList.filter((item, pos) => {
+      return feedLinkList.indexOf(item) == pos;
+    });
+    return feedLinkList;
   }
 }
-
 browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);

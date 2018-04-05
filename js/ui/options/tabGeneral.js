@@ -99,7 +99,7 @@ class TabGeneral { /*exported TabGeneral*/
 
   async _notDisplayRootFolderCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('displayRootFolder', ! document.getElementById('notDisplayRootFolderCheckBox').checked);
-    await LocalStorageManager.setValue_async('reloadPanel', Date.now());
+//await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _feedFolderSelectChanged_event() {
@@ -110,7 +110,7 @@ class TabGeneral { /*exported TabGeneral*/
     let rootBookmarkId = document.getElementById('feedFolderSelect').value;
     await LocalStorageManager.clean_async();
     await LocalStorageManager.setValue_async('rootBookmarkId', rootBookmarkId);
-    await LocalStorageManager.setValue_async('reloadPanel', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     await DateTime.delay_async(100);
     document.getElementById('applySelectedFeedButton').style.display = 'none';
   }

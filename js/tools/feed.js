@@ -1,4 +1,4 @@
-/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager*/
+/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
 'use strict';
 const feedStatus = {
   UPDATED: 'updated',
@@ -13,6 +13,14 @@ class Feed { /*exported Feed*/
     return feedItem;
   }
 
+  static async newByUrl(url) {
+    let feedItem = new Feed(null);
+    feedItem._tempUrl = url;
+    await feedItem._constructor_async();
+    return feedItem;
+  }
+
+
   constructor(id) {
     this._storedFeed = DefaultValues.getStoredFeed(id);
     this._prevValues = {hash: null, pubDate: null};
@@ -20,24 +28,21 @@ class Feed { /*exported Feed*/
     this._feedText = null;
     this._error = null;
     this._newUrl = null;
+    this._feedItems = null;
+    this._ifHttpsHAsFailedRetryWithHttp = DefaultValues.ifHttpsHasFailedRetryWithHttp;
+    this._info = {hash: '', info: ''};
   }
 
   async _constructor_async() {
-    this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
-    this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
-    this._storedFeed.isFeedInfo = true;
-    this._storedFeed.title = this._bookmark.title;
-    this._updateStoredFeedVersion();
-  }
-
-  async update_async() {
-    this._savePrevValues();
-    let ignoreRedirection = false;
-    await this._download_async(ignoreRedirection, false);
-    this._parsePubdate();
-    this._computeHashCode();
-    this._updateStatus();
-    await this.save_async();
+    if (this._storedFeed.id) {
+      this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
+      this._storedFeed.title =  this._bookmark.title;
+      this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+      this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
+      if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
+      this._storedFeed.isFeedInfo = true;
+      this._updateStoredFeedVersion();
+    }
   }
 
   get title() {
@@ -50,6 +55,39 @@ class Feed { /*exported Feed*/
 
   get error() {
     return this._error;
+  }
+
+  get docUrl() {
+    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title);
+    let feedBlob = new Blob([feedHtml]);
+    let feedHtmlUrl = URL.createObjectURL(feedBlob);
+    return feedHtmlUrl;
+  }
+
+  get info() {
+    if (this._info.hash != this._storedFeed.hash) {
+      this._info.hash = this._storedFeed.hash;
+      this._info.info = FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
+    }
+    return this._info.info;
+  }
+
+  get url() {
+    return (this._bookmark ? this._bookmark.url : this._tempUrl);
+  }
+
+  get lastUpdate() {
+    return this._storedFeed.pubDate;
+  }
+
+  async update_async() {
+    this._savePrevValues();
+    let ignoreRedirection = false;
+    await this._download_async(ignoreRedirection, false);
+    this._parsePubdate();
+    this._computeHashCode();
+    this._updateStatus();
+    await this.save_async();
   }
 
   async setStatus_async(status) {
@@ -78,17 +116,6 @@ class Feed { /*exported Feed*/
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 
-  get docUrl() {
-    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title);
-    let feedBlob = new Blob([feedHtml]);
-    let feedHtmlUrl = URL.createObjectURL(feedBlob);
-    return feedHtmlUrl;
-  }
-
-  get info() {
-    return FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
-  }
-
   updateUiStatus() {
     let feedUiItem = document.getElementById(this._storedFeed.id);
     switch(this.status) {
@@ -108,11 +135,16 @@ class Feed { /*exported Feed*/
         feedUiItem.classList.add('feedError');
         break;
     }
+    TreeView.instance.selectionBarRefresh();
   }
+
+  //private stuff
 
   _savePrevValues() {
     this._prevValues.hash = this._storedFeed.hash;
     this._prevValues.pubDate = this._storedFeed.pubDate;
+    this._storedFeed.hash = null;
+    this._storedFeed.pubDate = null;
   }
 
   async _download_async(ignoreRedirection, forceHttp) {
@@ -129,15 +161,15 @@ class Feed { /*exported Feed*/
         let retry = null;
         if (e2 === 0) {
           if (!forceHttp) {
-            if (this._bookmark.url.startsWith('https:')) {
+            if (this._ifHttpsHAsFailedRetryWithHttp && this.url.startsWith('https:')) {
               try {
                 retry = true;
                 this._download_async(ignoreRedirection, true);
               }
               catch(e3) {
                 /*eslint-disable no-console*/
-                console.log(this._bookmark.url);
-                console.log(this._storedFeed.title + ': ' + e3);
+                //console.log(this.url);
+                //console.log(this._storedFeed.title + ': ' + e3);
                 /*eslint-enable no-console*/
                 this._error = e3;
               }
@@ -146,8 +178,8 @@ class Feed { /*exported Feed*/
         }
         if (!retry) {
           /*eslint-disable no-console*/
-          console.log(this._bookmark.url);
-          console.log(this._storedFeed.title + ': ' + e2);
+          //console.log(this.url);
+          //console.log(this._storedFeed.title + ': ' + e2);
           /*eslint-enable no-console*/
           this._error = e2;
         }
@@ -167,7 +199,7 @@ class Feed { /*exported Feed*/
   }
 
   async _downloadEx_async(urlNoCache, forceHttp) {
-    let url = this._bookmark.url;
+    let url = this.url;
     if (this._newUrl) {
       url = this._newUrl;
     }
@@ -188,6 +220,7 @@ class Feed { /*exported Feed*/
   }
 
   _parsePubdate() {
+    if (this._error != null)  { return; }
     this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
   }
 
@@ -196,24 +229,19 @@ class Feed { /*exported Feed*/
       this._storedFeed.status = feedStatus.ERROR;
     }
     else {
-      //fix a weird bug: string compare doesn't work this._prevValues.hash but works on his copy...
-      let prevFeedHash = null;
-      if (this._prevValues.hash) {
-        prevFeedHash = this._prevValues.hash.trim();
-      }
-      //...........................................................................................
-
+      this._storedFeed.status = feedStatus.OLD;
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if ((this._storedFeed.pubDate > this._prevValues.pubDate &&  this._storedFeed.hash != prevFeedHash) || !this._prevValues.pubDate) {
+        if (!this._prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
-      } else if(this._storedFeed.hash != prevFeedHash) {
+      } else if ((this._storedFeed.hash && !this._prevValues.hash) || (this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
         this._storedFeed.status = feedStatus.UPDATED;
       }
     }
   }
 
   _computeHashCode() {
+    if (this._error) { return; }
     let feedBody = FeedParser.getFeedBody(this._feedText);
     this._storedFeed.hash = Compute.hashCode(feedBody);
   }

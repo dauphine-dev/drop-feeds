@@ -1,3 +1,38 @@
+0.5
+Add discover feeds feature
+Improve messages in status bar during opening feeds
+Now, new feeds are added as unread
+Fix display selection bar on 1st folder
+Make empty folder easiest to select on Subscribe screen
+Improve selectionBar management
+Prevent a crash in _isDropfeedsChildBookmark_async() when the root bookmark is undefined
+Fix progressing updated feeds when there are not updated feeds
+
+0.4.4
+fix item splitter bar (again)
+fix subscribe button
+
+0.4.3
+fix item splitter bar
+
+0.4.2
+Add items tools bar
+
+0.4.1
+Add item tooltips
+Fix update button animated on feed opening
+Rework feed panel Dauphiné theme
+
+0.4
+rework treeview instance management
+Create 'Listener' class to manage communication between Dropfeeds components
+Create a item panel (work in progress)
+Add an option to retry with http if https check has failed
+
+0.3.3
+improve feed status management
+fix the 1st update of the day (on 1st update of the, the feed status wasn't set correctly)
+
 0.3.2
 fix reading options during treeview loading
 fix root folder visibility management in treeview

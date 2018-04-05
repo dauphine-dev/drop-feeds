@@ -1,6 +1,37 @@
-/*global browser ThemeManager*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime*/
 'use strict';
 class BrowserManager { /* exported BrowserManager*/
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new BrowserManager();
+    }
+    return this._instance;
+  }
+
+  constructor() {
+    this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
+    this._openNewTabForeground = DefaultValues.openNewTabForeground;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
+  }
+
+  //non statics
+  get alwaysOpenNewTab() {
+    return this._alwaysOpenNewTab;
+  }
+
+  async openTab_async(url, openNewTabForce) {
+    let activeTab = await BrowserManager.getActiveTab_async();
+    let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
+    let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
+    if(openNewTab && !isEmptyActiveTab) {
+      await browser.tabs.create({url: url, active: this._openNewTabForeground});
+    } else {
+      await browser.tabs.update(activeTab.id, {url: url});
+    }
+  }
+
+  //statics
   static async isTabEmpty_async(tab) {
     let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
     return isEmpty;
@@ -43,4 +74,41 @@ class BrowserManager { /* exported BrowserManager*/
     script.src = url;
     document.getElementsByTagName('head')[0].appendChild(script);
   }
+
+  static htmlToText(html) {
+    let tmpDiv = document.createElement('div');
+    BrowserManager.setInnerHtmlByElement(tmpDiv, html);
+    let text = tmpDiv.textContent || tmpDiv.innerText || '';
+    return text;
+  }
+
+  static async isVisitedLink_async(url) {
+    var visits = await browser.history.getVisits({url: url});
+    return (visits.length > 0);
+  }
+
+  static async openPopup_async(dialogsUrl, width, height, titlePreface) {
+    let url = browser.extension.getURL(dialogsUrl);
+    let createData = {url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface};
+    let win = await browser.windows.create(createData);
+    BrowserManager._forcePopupToDisplayContent_async(win.id, width);
+    return win;
+  }
+
+  //private stuffs
+  static _setAlwaysOpenNewTab_sbscrb(value){
+    BrowserManager.instance._alwaysOpenNewTab = value;
+  }
+
+  static _setOpenNewTabForeground_sbscrb(value){
+    BrowserManager.instance._openNewTabForeground = value;
+  }
+
+  static async _forcePopupToDisplayContent_async(winId, winWidth) {
+    //workaround to force to display content
+    browser.windows.update(winId, {width: winWidth - 1});
+    await DateTime.delay_async(100);
+    browser.windows.update(winId, {width: winWidth});
+  }
+
 }

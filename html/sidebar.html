@@ -18,9 +18,12 @@
     <script src="/js/tools/feedParser.js"></script>
     <script src="/js/tools/bookmarkManager.js"></script>
     <script src="/js/tools/feed.js"></script>
-    <script src="/js/tools/messageManager.js"></script>
-    <script src="/js/tools/localStorageListener.js"></script>
+    <script src="/js/tools/listener.js"></script>
+    <script src="/js/tools/itemManager.js"></script>
+    <script src="/js/tools/dialogs.js"></script>
+    <script src="/js/tools/tabManager.js"></script>
     <script src="/js/themes/theme-sidebar.js"></script>
+
   </head>
 
   <body>
@@ -42,9 +45,39 @@
         <span id="statusText" ></span>
       </div>
 
+      <!-- selection bar -->
+      <div id="selectionBar" class="selectionBar"></div>
+
       <!-- Tree view -->
       <ul class="contentHeight" id="content">
       </ul>
+
+      <!-- Items panel -->
+      <div id ="mainItemsPane">
+        <!-- splitter bar -->
+        <div id="splitterBarFix">&nbsp;</div>
+        <div id="splitterBar"></div>
+
+        <!-- items title bar -->
+        <div id="itemsPaneTitleBar">
+          <span id="itemsTitle"></span>
+        </div>
+
+        <!-- items pane tool bar -->
+        <div id="itemsPaneToolBar">
+          <span id="itemMarkAsReadButton" tooltiptext="Mark as read" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAsUnreadButton" tooltiptext="Mark as unread" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAllAsReadButton" tooltiptext="Mark all as read" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAllAsUnreadButton" tooltiptext="Mark all as unread" class="topMenuItem toolTip"></span>
+          <span id="itemOpenUnreadButton" tooltiptext="Open unread items in new tabs" class="topMenuItem toolTip"></span>
+        </div>
+
+        <!-- selection bar items -->
+        <div id="selectionBarItems" class="selectionBar"></div>
+
+        <!-- items pane -->
+        <div id="itemsPane"></div>
+      </div>
 
       <!-- Context menu -->
       <div id="contextMenuId" class="contextMenuStyle">
@@ -58,11 +91,12 @@
           <li id="ctxMnOpenUpdatedAsUnified" class="ctxMenuItem">Open updated as a unified feed</li>
         </ul>
       </div>
-
-      <!-- selection bar -->
-      <div id="selectionBar"></div>
-
     </div>
+
+    <script src="/js/ui/sidebar/selectionBarItems.js"></script>
+    <script src="/js/ui/sidebar/itemsMenu.js"></script>
+    <script src="/js/ui/sidebar/itemsPanel.js"></script>
+    <script src="/js/ui/sidebar/splitterBar.js"></script>
     <script src="/js/ui/sidebar/topMenu.js"></script>
     <script src="/js/ui/sidebar/statusBar.js"></script>
     <script src="/js/ui/sidebar/contextMenu.js"></script>

@@ -49,7 +49,8 @@ class FolderTreeView { /*exported FolderTreeView*/
 
   async _createFolderSbItem_async (bookmarkItem, indent, idToSelect) {
     let id = bookmarkItem.id;
-    let folderName = bookmarkItem.title;
+    let folderName = bookmarkItem.title.trim();
+    if (folderName == '') { folderName = '&nbsp;&nbsp;'; }
     let selected = (idToSelect == id ? ' class="selected"' : '');
     let selected1 = (idToSelect == id ? ' class="selected1"' : '');
     let folderLine = '';

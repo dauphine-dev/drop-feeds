@@ -1,7 +1,10 @@
-/*global browser TextTools DateTime ThemeManager DefaultValues Compute*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute*/
 'use strict';
 const tagList = {
-  RSS: ['?xml', 'rss'],
+  FEED: ['?xml', 'rss', 'feed'],
+  RSS: ['rss'],
+  ATOM: ['feed'],
+  ATT_RSS_VERSION: ['version'],
   CHANNEL: ['channel', 'feed'],
   LASTBUILDDATE: ['lastBuildDate', 'pubDate'],
   ITEM: ['item', 'entry'],
@@ -64,15 +67,15 @@ class FeedParser { /*exported FeedParser*/
       return 'Feed is empty!';
     }
 
-    let tagRss = null;
-    for (let tag of tagList.RSS) {
+    let tagFeed = null;
+    for (let tag of tagList.FEED) {
       if (feedText.includes('<' + tag)) {
-        tagRss = tag;
+        tagFeed = tag;
         break;
       }
     }
-    if (!tagRss) {
-      return 'RSS tags are missing';
+    if (!tagFeed) {
+      return 'Feed tags are missing';
     }
 
     let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
@@ -93,24 +96,25 @@ class FeedParser { /*exported FeedParser*/
     return feedHtml;
   }
 
-  static _feedInfoToHtml(feedInfo) {
-    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
-    let feedHtml = '';
-    feedHtml += htmlHead;
-    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
+  static parseItemsTitleToHtml(title, link) {
+    let titleHtml = '<a href="' + link + '">' + title + '</a>';
+    return titleHtml;
+  }
+
+  static async parseItemListToHtml_async(itemList) {
     let htmlItemList = [];
-    feedInfo.itemList.sort((item1, item2) => {
+    itemList.sort((item1, item2) => {
       if (item1.pubDate > item2.pubDate) return -1;
       if (item1.pubDate < item2.pubDate) return 1;
       return 0;
     });
-    for (let i=0; i<feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
+    for (let i=0; i<itemList.length; i++) {
+      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
       htmlItemList.push(htmlItem);
     }
-    feedHtml += htmlItemList.join('\n');
-    feedHtml += FeedParser._getHtmFoot();
-    return feedHtml;
+    let itemsHtml = htmlItemList.join('\n');
+    return itemsHtml;
+
   }
 
   static feedItemsListToUnifiedHtml(feedItems, unifiedChannelTitle) {
@@ -139,10 +143,52 @@ class FeedParser { /*exported FeedParser*/
   static getFeedInfo(feedText, defaultTitle) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+    feedInfo.format =  FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
     feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
     return feedInfo;
   }
+
+  //private stuffs
+
+  static _getFeedFormat(tagItem, feedText) {
+    if (!tagItem || !feedText) { return null; }
+    let feedType = '';
+    let version = '';
+    switch (tagItem.toLowerCase()) {
+      case 'item':
+        feedType = 'RSS';
+        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
+        break;
+      case 'entry':
+        feedType = 'ATOM';
+        version = '';
+        break;
+    }
+    return feedType + version;
+
+  }
+
+  static _feedInfoToHtml(feedInfo) {
+    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
+    let feedHtml = '';
+    feedHtml += htmlHead;
+    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
+    let htmlItemList = [];
+    feedInfo.itemList.sort((item1, item2) => {
+      if (item1.pubDate > item2.pubDate) return -1;
+      if (item1.pubDate < item2.pubDate) return 1;
+      return 0;
+    });
+    for (let i=0; i<feedInfo.itemList.length; i++) {
+      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
+      htmlItemList.push(htmlItem);
+    }
+    feedHtml += htmlItemList.join('\n');
+    feedHtml += FeedParser._getHtmFoot();
+    return feedHtml;
+  }
+
   static _get1stUsedTag(text, tagArray) {
     if (!text) return null;
     for (let tag of tagArray) {
@@ -217,6 +263,25 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
+  static _extractAttribute(text, tagList, attributeList) {
+    if (!text) { return null; }
+    let textOpenTag = FeedParser._extractOpenTag(text, tagList);
+    if (!textOpenTag) { return null; }
+    for (let attribute of attributeList) {
+      let attStart = attribute + '="';
+      let attEnd = '"';
+      let i = textOpenTag.indexOf(attStart);
+      if (i==-1) { continue; }
+      let valueStart = textOpenTag.indexOf('"', i);
+      if (valueStart==-1) { continue; }
+      let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
+      if (valueEnd==-1) { continue; }
+      let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
+      return result;
+    }
+    return null;
+  }
+
   static _extractDateTime(dateTimeText) {
     if (!dateTimeText) return null;
     let extractedDateTime = null;
@@ -239,6 +304,9 @@ class FeedParser { /*exported FeedParser*/
     channel.encoding =  FeedParser._getEncoding(feedText);
     let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
     let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
+    if (!channelText) {
+      channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
+    }
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
@@ -302,16 +370,6 @@ class FeedParser { /*exported FeedParser*/
     return itemList;
   }
 
-  static _feedItemsToHtml(feedInfo) {
-    let htmlItemList = [];
-    for (let i=0; i<feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
-      htmlItemList.push(htmlItem);
-    }
-    return htmlItemList;
-  }
-
-
   static _getEncoding(text) {
     if (!text) { return null; }
     let pattern = 'encoding="';
@@ -322,25 +380,6 @@ class FeedParser { /*exported FeedParser*/
     let encoding = text.substring(encodingStart, encodingEnd);
     return encoding;
 
-  }
-
-  static _extractAttribute(text, tagList, attributeList) {
-    if (!text) { return null; }
-    let textOpenTag = FeedParser._extractOpenTag(text, tagList);
-    if (!textOpenTag) { return null; }
-    for (let attribute of attributeList) {
-      let attStart = attribute + '="';
-      let attEnd = '"';
-      let i = textOpenTag.indexOf(attStart);
-      if (i==-1) { continue; }
-      let valueStart = textOpenTag.indexOf('"', i);
-      if (valueStart==-1) { continue; }
-      let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
-      if (valueEnd==-1) { continue; }
-      let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
-      return result;
-    }
-    return null;
   }
 
   static _getHtmlChannel(channel) {
@@ -388,6 +427,21 @@ class FeedParser { /*exported FeedParser*/
     htmlItem +=                         '      </div>\n';
     htmlItem +=                         '    </div>\n';
     return htmlItem;
+  }
+
+  static async _getHtmlItemLine_async(item, itemNumber) {
+    //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
+    let title = item.title;
+    if (!title) { title = '(No Title)'; }
+    let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
+    let num = itemNumber ? itemNumber : item.number;
+    let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
+
+    //<span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
+    let tooltiptext = BrowserManager.htmlToText(item.description);
+    let htmlItemLine ='<span class="item' + visited + ' toolTipItem toolTipItemVisibility" tooltiptext="' + tooltiptext +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+
+    return htmlItemLine;
   }
 
   static _extractOpenTag(text, tagList) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link id="cssLink" href="/resources/themes/dauphine/css/discover-feeds.css" rel="stylesheet">
+    <script src="/js/tools/themeManager.js"></script>
+    <script src="/js/tools/defaultValues.js"></script>
+    <script src="/js/tools/localStorageManager.js"></script>
+    <script src="/js/tools/compute.js"></script>
+    <script src="/js/tools/textTools.js"></script>
+    <script src="/js/tools/dateTime.js"></script>
+    <script src="/js/tools/browserManager.js"></script>
+    <script src="/js/tools/transfer.js"></script>
+    <script src="/js/tools/feedParser.js"></script>
+    <script src="/js/tools/feed.js"></script>
+    <script src="/js/tools/listener.js"></script>
+    <script src="/js/tools/progressBar.js"></script>
+    <script src="/js/tools/dialogs.js"></script>
+    <script src="/js/themes/theme-discover-feeds.js"></script>
+    <title>Discover Feeds</title>
+  </head>
+
+  <body>
+    <div id="main">
+      <div id="progressBarTotal"><div id = "progressBar" style="width:0">Discovering feeds</div></div>
+      <span id="discoveredFeeds"></span>
+      <div id="tableContainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Format</th>
+              <th>Last update</th>
+              <th>Items</th>
+              <th>Url</th>
+            </tr>
+          </thead>
+          <tbody id="tableContent">
+            <tr><td>&nbsp;</td><td/><td/><td/></tr>
+          </tbody>
+        </table>
+        <div id="selectionBar" ></div>
+      </div>
+      <p/>
+      <button id="addFeedButton">Add feed</button>
+      <button id="closeButton">Close</button>
+    </div>
+    <script src="/js/ui/discover-feeds/selectionRaw.js"></script>
+    <script src="/js/ui/discover-feeds/discover-feeds.js"></script>
+  </body>
+</html>
