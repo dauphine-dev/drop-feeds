@@ -1,0 +1,11 @@
+{
+  "extensionDescription": {
+    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
+    "description": "Description of the extension."
+  },
+
+  "pageActionDefaultTitle": {
+    "message": "Subscribe with Drop feed",
+    "description": "Title of the page action."
+  }
+}
