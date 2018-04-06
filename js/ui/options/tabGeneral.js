@@ -99,7 +99,6 @@ class TabGeneral { /*exported TabGeneral*/
 
   async _notDisplayRootFolderCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('displayRootFolder', ! document.getElementById('notDisplayRootFolderCheckBox').checked);
-//await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _feedFolderSelectChanged_event() {
