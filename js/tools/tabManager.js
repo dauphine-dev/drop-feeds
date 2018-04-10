@@ -1,4 +1,4 @@
-/*global browser TopMenu ThemeManager*/
+/*global browser TopMenu ThemeManager BrowserManager*/
 'use strict';
 class TabManager { /*exported TabManager*/
   static get instance() {
@@ -51,8 +51,8 @@ class TabManager { /*exported TabManager*/
   }
 
   async _forceTabOnChanged_async() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    this._tabHasChanged_async(tabInfos[0]);
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    this._tabHasChanged_async(tabInfo);
   }
 
 }

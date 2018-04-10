@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager NewFolderDialog*/
+/*global browser FolderTreeView LocalStorageManager NewFolderDialog BrowserManager*/
 'use strict';
 class Subscribe {
 
@@ -23,9 +23,9 @@ class Subscribe {
       this._feedUrl = subscribeInfo.feedUrl;
     }
     else {
-      let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-      this._feedTitle = tabInfos[0].title;
-      this._feedUrl = tabInfos[0].url;
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      this._feedTitle = tabInfo.title;
+      this._feedUrl = tabInfo.url;
     }
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
