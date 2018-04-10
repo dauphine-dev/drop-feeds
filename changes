@@ -2,7 +2,7 @@
 Internationalization (many languages support)
 
 0.5.2
-Fix getting the active tab when many windows are open (will fix every Dropfeeds work with the active tab )
+Fix getting the active tab when many windows are open (will fix every where Drop feeds works with the active tab)
 
 0.5.1
 Restore the last active tab in the option view
