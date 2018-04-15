@@ -422,8 +422,8 @@ class FeedParser { /*exported FeedParser*/
     if (item.description) { htmlItem += '      <div class="itemDescription">' + FeedParser._fixDescriptionTags(item.description) + ' </div>\n'; }
     htmlItem +=                         '      <div class="itemInfo">\n';
     if (item.category) { htmlItem +=    '        <div class="itemCat">[' + item.category + ']</div>\n'; }
-    if (item.author) { htmlItem +=      '        Posted by ' + item.author + '<br/>\n'; }
-    if (item.pubDate) { htmlItem +=     '        ' + item.pubDateText + '<br/>\n'; }
+    if (item.author) { htmlItem +=      '        <div class="itemAuthor">Posted by ' + item.author + '</div>\n'; }
+    if (item.pubDate) { htmlItem +=     '        <div class="itemPubDate">' + item.pubDateText + '</div>\n'; }
     htmlItem +=                         '      </div>\n';
     htmlItem +=                         '    </div>\n';
     return htmlItem;
