@@ -330,7 +330,7 @@ class FeedParser { /*exported FeedParser*/
     htmlHead                      += '    <link rel="stylesheet" type="text/css" href="' + cssUrl +  '">\n';
     if (channel.title) { htmlHead += '    <title>' + channel.title + ' - Drop-Feed</title>\n'; }
     htmlHead                      += '  </head>\n';
-    htmlHead                      += '  <body">\n';
+    htmlHead                      += '  <body>\n';
     return htmlHead;
   }
 
