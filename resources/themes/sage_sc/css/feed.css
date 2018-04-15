@@ -10,18 +10,6 @@ body
   margin: 30px auto;
 }
 
-a {
-	color: #436A75;
-	font-weight: bold;
-	text-decoration: none;
-}
-a:visited {
-	color: #739Aa5;
-}
-a:hover {
-	text-decoration: underline;
-}
-
 img, video {
 	height: auto;
 	max-width: 100%;
@@ -30,21 +18,17 @@ img, video {
 .channelHead {
 	background: #E4ECEC !important;
 	margin: 0 0 32px 0;
-	moz-border-radius: 10px;
+	border-radius: 5px;
 	border: 1px solid #A7A6AA;
 	padding: 10px;
 }
 
-.channelLink  {
-	color: #D64203;
-	text-decoration: none;
-	font-weight: bold;
+h1.channelTitle {
 	margin: 0;
 }
 
-.channelLink a {
-	margin: 0 0 32px 0;
-	padding: 10px;
+a.channelLink  {
+	margin: 0;
 	color: #D64203;
 	text-decoration: none;
 	font-weight: bold;
@@ -61,22 +45,34 @@ img, video {
 }
 
 div.item {
-	display: block;
-	margin: 0 0 10px 2%;
-	border: 1px solid #8DAAB8;
-	padding: 0;
-	width: 47%;
-	min-width: 29em;
-	float: left;
-	overflow: hidden;
+	background: White;
+	border: 0; 
+	border: 1px solid #97969A;
+	-moz-border-radius: 10px;  
+	color: #333;
+	font-size: 12px;
+	margin-bottom: 15px;
+	padding: 0px 10px 15px 20px;
+	position: relative;
 }
 
-.itemTitle {
-	margin: 0px;
-	padding: 6px;
-	background-color: #D7E2E8;
-	font-size: small;
-	line-height: 1.2em;
+.itemTitle
+{
+	border-bottom: 1px solid #ddd;
+	color: #000; 
+	display: block;
+	font-family: arial, verdana, sans-serif; 
+	font-size: 18px;
+	font-weight: normal;
+	min-height: 1.3em;
+	padding: 0px 2.3em 0px 0px;
+}
+
+.itemTitle a
+{
+	color: #000;
+	text-decoration: none;
+	font-weight: normal;
 }
 
 .itemNumber {
@@ -85,10 +81,7 @@ div.item {
 }
 
 .itemDescription {
-	min-height: 6em;
-	font-size: small;
 	margin: 0px;
-	padding: 9px;
 }
 
 .itemInfo {
@@ -98,6 +91,25 @@ div.item {
 }
 
 .itemCat {
-	color: #7D7D7D;
+	display: none;
 }
 
+.itemAuthor {
+	display: none;
+}
+
+.itemPubDate {
+	background: #FAF4C8;
+	border: 1px solid #A7A6AA;
+	color : #777;
+	float: right;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 1.1em;
+	padding: 3px 5px 4px 5px;
+	position: absolute;
+	right: 1.5em;
+	text-align: center;
+	top: -1em;
+	width: 15em;
+}
