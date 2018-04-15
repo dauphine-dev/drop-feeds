@@ -11,7 +11,7 @@ class FeedManager { /*exported FeedManager*/
   constructor() {
     this._updatedFeeds = 0;
     this._asynchronousFeedChecking = DefaultValues.asynchronousFeedChecking;
-	this._showFeedUpdatePopup = DefaultValues.showFeedUpdatePopup;
+    this._showFeedUpdatePopup = DefaultValues.showFeedUpdatePopup;
     this._feedProcessingInProgress = false;
     this._feedsToProcessList = [];
     this._feedsToProcessCounter = 0;
