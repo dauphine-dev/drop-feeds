@@ -271,6 +271,7 @@ class FeedManager { /*exported FeedManager*/
         }
         if (this._updatedFeeds == 0) {
             BrowserManager.displayNotification('No Feed has been updated');
+        }
     }
 
     this._updatedFeeds = 0;

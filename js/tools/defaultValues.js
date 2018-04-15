@@ -19,6 +19,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get feedItemDescriptionTooltips() { return false; }
   static get ifHttpsHasFailedRetryWithHttp() { return true; }
   static get currentOptionTabName()          { return 'generalTab'; }
+  static get showFeedUpdatePopup()      { return true; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};
