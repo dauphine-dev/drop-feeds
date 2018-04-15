@@ -19,7 +19,7 @@ class FeedManager { /*exported FeedManager*/
     this._unifiedFeedItems = [];
     this._itemList = [];
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
-	Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
   }
 
   async checkFeeds_async(folderId) {
