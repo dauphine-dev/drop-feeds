@@ -41,7 +41,6 @@ class Subscribe {
     document.getElementById('title').textContent = browser.i18n.getMessage('subSubscribeWithDropFeed');
     document.getElementById('labelName').textContent = browser.i18n.getMessage('subName') + ': ';
     document.getElementById('labelFolder').textContent = browser.i18n.getMessage('subFolder') + ': ';
-
     document.getElementById('newFolderButton').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('cancelButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('subscribeButton').textContent = browser.i18n.getMessage('subSubscribe');

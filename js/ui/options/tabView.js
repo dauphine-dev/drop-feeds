@@ -1,7 +1,9 @@
-/*global DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager*/
 'strict';
 class TabView { /*exported TabView*/
   static async init_async() {
+    TabView._updateLocalizedStrings();
+
     let elFeedItemListCheckbox = document.getElementById('feedItemListCheckbox');
     elFeedItemListCheckbox.checked =  await LocalStorageManager.getValue_async('feedItemList', DefaultValues.feedItemList);
     elFeedItemListCheckbox.addEventListener('click', TabView._feedItemListCheckboxClicked_event);
@@ -13,6 +15,13 @@ class TabView { /*exported TabView*/
     let elFeedItemDescriptionTooltipsCheckbox = document.getElementById('feedItemDescriptionTooltipsCheckbox');
     elFeedItemDescriptionTooltipsCheckbox.checked =  await LocalStorageManager.getValue_async('feedItemDescriptionTooltips', DefaultValues.feedItemDescriptionTooltips);
     elFeedItemDescriptionTooltipsCheckbox.addEventListener('click', TabView._feedItemDescriptionTooltipsCheckboxClicked_event);
+  }
+
+  static _updateLocalizedStrings() {
+    document.getElementById('textFeedItemList').textContent = browser.i18n.getMessage('optFeedItemList');
+    document.getElementById('textFeedItemListToolbar').textContent = browser.i18n.getMessage('optFeedItemListToolbar');
+    document.getElementById('textDescriptionTooltips').textContent = browser.i18n.getMessage('optDescriptionTooltips');
+    document.getElementById('textNavigationHistoryWarning').textContent = browser.i18n.getMessage('optNavigationHistoryWarning');
   }
 
   static async _feedItemListCheckboxClicked_event() {

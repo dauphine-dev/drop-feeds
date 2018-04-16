@@ -1,7 +1,9 @@
-/*global DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager*/
 'use strict';
 class TabUpdateChecker { /*exported TabUpdateChecker*/
   static async init() {
+    TabUpdateChecker._updateLocalizedStrings();
+
     let elTimeoutNumber = document.getElementById('timeoutNumber');
     elTimeoutNumber.value = await LocalStorageManager.getValue_async('timeOut', DefaultValues.timeOut);
     elTimeoutNumber.addEventListener('change', TabUpdateChecker._timeoutValueChanged_event);
@@ -19,6 +21,14 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     elIfHttpsHasFailedRetryWithHttp.addEventListener('click', TabUpdateChecker._ifHttpsHasFailedRetryWithHttpCheckboxClicked_event);
   }
 
+  static _updateLocalizedStrings() {
+    document.getElementById('lblTimeout').textContent = browser.i18n.getMessage('optTimeout');
+    document.getElementById('txtSeconds').textContent = browser.i18n.getMessage('optSeconds');
+    document.getElementById('textAsynchronousFeedChecking').textContent = browser.i18n.getMessage('optAsynchronousFeedChecking');
+    document.getElementById('textShowNotifications').textContent = browser.i18n.getMessage('optShowNotifications');
+    document.getElementById('textRetryWithHttp').textContent = browser.i18n.getMessage('optRetryWithHttp');
+  }
+
   static async _timeoutValueChanged_event() {
     let timeOut = Number(document.getElementById('timeoutNumber').value);
     await LocalStorageManager.setValue_async('timeOut', timeOut);
@@ -31,7 +41,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
   static async _showFeedUpdatePopupCheckbox_event() {
     await LocalStorageManager.setValue_async('showFeedUpdatePopup', document.getElementById('showFeedUpdatePopupCheckbox').checked);
   }
-  
+
   static async _ifHttpsHasFailedRetryWithHttpCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('ifHttpsHasFailedRetryWithHttp', document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox').checked);
   }

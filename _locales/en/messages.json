@@ -193,6 +193,106 @@
 
   "comment5": {
     "message": "---Options strings---"
+  },
+
+  "optDropFeedsOptions": {
+    "message": "Drop feeds (options)"
+  },
+
+  "optGeneral": {
+    "message": "General"
+  },
+
+  "optUpdateChecker": {
+    "message": "Update checker"
+  },
+
+  "optView": {
+    "message": "View"
+  },
+
+  "optContentsArea": {
+    "message": "Contents area"
+  },
+
+  "optManagement": {
+    "message": "Management"
+  },
+
+  "optSelectFeedFolder": {
+    "message": "Select feed folder&nbsp;"
+  },
+
+  "optApply": {
+    "message": "Apply"
+  },
+
+  "optDoNotDisplayRootFolder": {
+    "message": "Do not display root folder"
+  },
+
+  "optSelectTheme": {
+    "message": "Select theme&nbsp;"
+  },
+
+  "optTimeout": {
+    "message": "Timeout"
+  },
+
+  "optSeconds": {
+    "message": "seconds"
+  },
+
+  "optAsynchronousFeedChecking": {
+    "message": "Asynchronous feed checking"
+  },
+
+  "optShowNotifications": {
+    "message": "Show notification popup after update"
+  },
+
+  "optRetryWithHttp": {
+    "message": "If https failed then retry with http"
+  },
+
+  "optFeedItemList": {
+    "message": "Feed item list"
+  },
+
+  "optFeedItemListToolbar": {
+    "message": "Feed item list toolbar"
+  },
+
+  "optDescriptionTooltips": {
+    "message": "Description tooltips"
+  },
+
+  "optNavigationHistoryWarning": {
+    "message": "(*) warning: mark read/unread features will impact your navigation history !"
+  },
+
+  "optAlwaysOpenNewTab": {
+    "message": "Always open new tab"
+  },
+
+  "optOpenNewTabForeground": {
+    "message": "Open new tab in foreground"
+  },
+
+  "optSelectOpmlFileToImport": {
+    "message": "Select the opml file to import"
+  },
+
+  "optImport": {
+    "message": "Import..."
+  },
+
+  "optSelectOpmlFileToExport": {
+    "message": "Select where to export the ompl file"
+  },
+
+  "optExport": {
+    "message": "Export..."
   }
 
 }
