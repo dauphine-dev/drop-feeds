@@ -1,3 +1,8 @@
+0.5.3
+Adding single column theme (from Jeff Thieleke)
+Adding item's author and item's pubDate (from Jeff Thieleke)
+Adding an option to show popup after feed update (from Jeff Thieleke)
+
 0.5.2
 Fix getting the active tab when many windows are open (will fix every where Drop feeds works with the active tab)
 
