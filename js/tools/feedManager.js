@@ -11,6 +11,7 @@ class FeedManager { /*exported FeedManager*/
   constructor() {
     this._updatedFeeds = 0;
     this._asynchronousFeedChecking = DefaultValues.asynchronousFeedChecking;
+    this._showFeedUpdatePopup = DefaultValues.showFeedUpdatePopup;
     this._feedProcessingInProgress = false;
     this._feedsToProcessList = [];
     this._feedsToProcessCounter = 0;
@@ -18,6 +19,7 @@ class FeedManager { /*exported FeedManager*/
     this._unifiedFeedItems = [];
     this._itemList = [];
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
   }
 
   async checkFeeds_async(folderId) {
@@ -245,6 +247,10 @@ class FeedManager { /*exported FeedManager*/
     FeedManager.instance._asynchronousFeedChecking = value;
   }
 
+  static _setShowFeedUpdatePopup(value) {
+    FeedManager.instance._showFeedUpdatePopup = value;
+  }
+
   async _markFeedAsUpdated_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
     feedElement.classList.remove('feedError');
@@ -256,15 +262,18 @@ class FeedManager { /*exported FeedManager*/
   }
 
   _displayUpdatedFeedsNotification() {
-    if (this._updatedFeeds > 1) {
-      BrowserManager.displayNotification(this._updatedFeeds + ' feeds updated');
+    if (this._showFeedUpdatePopup) {
+        if (this._updatedFeeds > 1) {
+           BrowserManager.displayNotification(this._updatedFeeds + ' feeds updated');
+        }
+        if (this._updatedFeeds == 1) {
+           BrowserManager.displayNotification('One feed updated');
+        }
+        if (this._updatedFeeds == 0) {
+            BrowserManager.displayNotification('No Feed has been updated');
+        }
     }
-    if (this._updatedFeeds == 1) {
-      BrowserManager.displayNotification('One feed updated');
-    }
-    if (this._updatedFeeds == 0) {
-      BrowserManager.displayNotification('No Feed has been updated');
-    }
+
     this._updatedFeeds = 0;
   }
 
