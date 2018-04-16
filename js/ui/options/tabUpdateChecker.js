@@ -7,8 +7,12 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     elTimeoutNumber.addEventListener('change', TabUpdateChecker._timeoutValueChanged_event);
 
     let elAsynchronousFeedCheckingCheckbox = document.getElementById('asynchronousFeedCheckingCheckbox');
-    elAsynchronousFeedCheckingCheckbox.checked =  await LocalStorageManager.getValue_async('asynchronousFeedChecking', DefaultValues.alwaysOpenNewTab);
+    elAsynchronousFeedCheckingCheckbox.checked =  await LocalStorageManager.getValue_async('asynchronousFeedChecking', DefaultValues.asynchronousFeedChecking);
     elAsynchronousFeedCheckingCheckbox.addEventListener('click', TabUpdateChecker._asynchronousFeedCheckingCheckboxClicked_event);
+
+    let elShowFeedUpdatePopupCheckbox = document.getElementById('showFeedUpdatePopupCheckbox');
+    elShowFeedUpdatePopupCheckbox.checked =  await LocalStorageManager.getValue_async('showFeedUpdatePopup', DefaultValues.showFeedUpdatePopup);
+    elShowFeedUpdatePopupCheckbox.addEventListener('click', TabUpdateChecker._showFeedUpdatePopupCheckbox_event);
 
     let elIfHttpsHasFailedRetryWithHttp = document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox');
     elIfHttpsHasFailedRetryWithHttp.checked =  await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
@@ -24,6 +28,10 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     await LocalStorageManager.setValue_async('asynchronousFeedChecking', document.getElementById('asynchronousFeedCheckingCheckbox').checked);
   }
 
+  static async _showFeedUpdatePopupCheckbox_event() {
+    await LocalStorageManager.setValue_async('showFeedUpdatePopup', document.getElementById('showFeedUpdatePopupCheckbox').checked);
+  }
+  
   static async _ifHttpsHasFailedRetryWithHttpCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('ifHttpsHasFailedRetryWithHttp', document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox').checked);
   }
