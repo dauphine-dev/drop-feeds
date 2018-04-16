@@ -1,0 +1,115 @@
+html {
+	margin: 0;
+	font-family: verdana, sans-serif;
+	background: -moz-Dialog;
+}
+
+body
+{
+  width: 95%;
+  margin: 30px auto;
+}
+
+img, video {
+	height: auto;
+	max-width: 100%;
+}
+
+.channelHead {
+	background: #E4ECEC !important;
+	margin: 0 0 32px 0;
+	border-radius: 5px;
+	border: 1px solid #A7A6AA;
+	padding: 10px;
+}
+
+h1.channelTitle {
+	margin: 0;
+}
+
+a.channelLink  {
+	margin: 0;
+	color: #D64203;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.channelDescription {
+	color: #405A5A;
+	font-size: 90%;
+	padding-left: 80px;
+	padding-right: 20px;
+	width: auto;
+	font-weight: bold;
+	margin: 0;
+}
+
+div.item {
+	background: White;
+	border: 0; 
+	border: 1px solid #97969A;
+	-moz-border-radius: 10px;  
+	color: #333;
+	font-size: 12px;
+	margin-bottom: 15px;
+	padding: 0px 10px 15px 20px;
+	position: relative;
+}
+
+.itemTitle
+{
+	border-bottom: 1px solid #ddd;
+	color: #000; 
+	display: block;
+	font-family: arial, verdana, sans-serif; 
+	font-size: 18px;
+	font-weight: normal;
+	min-height: 1.3em;
+	padding: 0px 2.3em 0px 0px;
+}
+
+.itemTitle a
+{
+	color: #000;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemNumber {
+	padding-right: 5px;
+	font-weight: normal;
+}
+
+.itemDescription {
+	margin: 0px;
+}
+
+.itemInfo {
+	margin: 10px;
+	font-size: x-small;
+	color: #242482;
+}
+
+.itemCat {
+	display: none;
+}
+
+.itemAuthor {
+	display: none;
+}
+
+.itemPubDate {
+	background: #FAF4C8;
+	border: 1px solid #A7A6AA;
+	color : #777;
+	float: right;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 1.1em;
+	padding: 3px 5px 4px 5px;
+	position: absolute;
+	right: 1.5em;
+	text-align: center;
+	top: -1em;
+	width: 15em;
+}
