@@ -1,4 +1,4 @@
-/*global  TreeView FeedManager*/
+/*global browser TreeView FeedManager*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
   static get instance() {
@@ -14,6 +14,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxMnMarkAllAsUpdated').addEventListener('click', this._markAllFeedsAsUpdatedMenuClicked_event);
     document.getElementById('ctxMnOpenAllUpdated').addEventListener('click', this._openAllUpdatedFeedsMenuClicked_event);
     document.getElementById('ctxMnOpenUpdatedAsUnified').addEventListener('click', this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event);
+    this._updateLocalizedStrings();
     this._elContent = document.getElementById('content');
     this._elContextMenu = document.getElementById('contextMenuId');
     this._idComeFrom = null;
@@ -29,6 +30,14 @@ class ContextMenu { /*exported ContextMenu*/
     self._elContextMenu.classList.add('show');
     self._setPosition(xPos, yPos);
     TreeView.instance.selectionBar.put(elFolder);
+  }
+
+  _updateLocalizedStrings() {
+    document.getElementById('ctxMnCheckFeeds').textContent = browser.i18n.getMessage('checkFeeds');
+    document.getElementById('ctxMnMarkAllAsRead').textContent = browser.i18n.getMessage('markAsRead');
+    document.getElementById('ctxMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('markAllAsUpdated');
+    document.getElementById('ctxMnOpenAllUpdated').textContent = browser.i18n.getMessage('openUpdatedFeeds');
+    document.getElementById('ctxMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('openUpdatedAsUnified');
   }
 
   _setPosition(xPos, yPos) {

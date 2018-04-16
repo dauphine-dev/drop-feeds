@@ -1,4 +1,4 @@
-/*global ItemManager ItemsPanel*/
+/*global browser ItemManager ItemsPanel*/
 'use strict';
 class ItemsMenu { /*exported ItemsMenu*/
   static get instance() {
@@ -11,6 +11,7 @@ class ItemsMenu { /*exported ItemsMenu*/
   constructor() {
     this._buttonsEnabled = false;
     this._buttonsForSingleElementEnabled = false;
+    this._updateLocalizedStrings();
     document.getElementById('itemMarkAsReadButton').addEventListener('click', ItemsMenu._itemMarkAsReadButtonClicked_event);
     document.getElementById('itemMarkAsUnreadButton').addEventListener('click', ItemsMenu._itemMarkAsUnreadButtonClicked_event);
     document.getElementById('itemMarkAllAsReadButton').addEventListener('click', ItemsMenu._itemMarkAllAsReadButtonClicked_event);
@@ -77,6 +78,15 @@ class ItemsMenu { /*exported ItemsMenu*/
       document.getElementById('itemMarkAsUnreadButton').style.opacity = '0.66';
     }
   }
+
+  _updateLocalizedStrings() {
+    document.getElementById('itemMarkAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAsRead'));
+    document.getElementById('itemMarkAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAsUnread'));
+    document.getElementById('itemMarkAllAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAllAsRead'));
+    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAllAsUnread'));
+    document.getElementById('itemOpenUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('openUnreadItemsInNewTabs'));
+  }
+
 
   static async _itemMarkAsReadButtonClicked_event(event) {
     event.stopPropagation();

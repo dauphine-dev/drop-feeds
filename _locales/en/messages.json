@@ -7,5 +7,93 @@
   "pageActionDefaultTitle": {
     "message": "Subscribe with Drop feed",
     "description": "Title of the page action."
+  },
+
+  "checkFeeds": {
+    "message": "Check feeds"
+  },
+
+  "discoverFeeds": {
+    "message": "Discover feeds"
+  },
+
+  "viewOnlyUpdatedFeeds": {
+    "message": "View only updated feeds"
+  },
+
+  "toggleFolders": {
+    "message": "Toggle folders (open/close)"
+  },
+
+  "addNewFeed": {
+    "message": "Add a new feed"
+  },
+
+  "openOptionsTab": {
+    "message": "Open options tab"
+  },
+
+  "markAsRead": {
+    "message": "Mark as read"
+  },
+
+  "markAsUnread": {
+    "message": "Mark as unread"
+  },
+
+  "markAllAsRead": {
+    "message": "Mark all as read"
+  },
+
+  "markAllAsUnread": {
+    "message": "Mark all as unread"
+  },
+
+  "openUnreadItemsInNewTabs": {
+    "message": "Open unread items in new tabs"
+  },
+
+  "markAllAsUpdated": {
+    "message": "Set all to"
+  },
+
+  "openUpdatedFeeds": {
+    "message": "Open updated feeds"
+  },
+
+  "openUpdatedAsUnified": {
+    "message": "Open updated as an unified feed"
+  },
+
+  "UseButtonAbove": {
+    "message": "To add a Feed use the button above !"
+  },
+
+  "checking": {
+    "message": "checking"
+  },
+
+  "opening": {
+    "message": "opening"
+  },
+
+  "loading": {
+    "message": "Loading"
+  },
+
+  "loaded": {
+    "message": "loaded"
+  },
+
+  "merging": {
+    "message": "Merging"
+  },
+
+  "computingUnifiedView": {
+    "message": "Computing unified view"
+  },
+
+  "received": {
+    "message": "received"
   }
 }

@@ -20,6 +20,7 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
     this.updatedFeedsSetVisibility();
     await this._isRootFolderChecked_async();
+    this._updateLocalizedStrings();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', TopMenu.checkFeedsButtonClicked_event);
     document.getElementById('discoverFeedsButton').addEventListener('click', TopMenu._discoverFeedsButtonClicked_event);
@@ -79,6 +80,15 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     FeedManager.instance.checkFeeds_async('content');
+  }
+
+  _updateLocalizedStrings() {
+    document.getElementById('checkFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('checkFeeds'));
+    document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('discoverFeeds'));
+    document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('viewOnlyUpdatedFeeds'));
+    document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('toggleFolders'));
+    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('addNewFeed'));
+    document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('openOptionsTab'));
   }
 
   async _isRootFolderChecked_async() {
