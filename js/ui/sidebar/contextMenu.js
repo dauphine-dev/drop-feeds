@@ -33,11 +33,11 @@ class ContextMenu { /*exported ContextMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('ctxMnCheckFeeds').textContent = browser.i18n.getMessage('checkFeeds');
-    document.getElementById('ctxMnMarkAllAsRead').textContent = browser.i18n.getMessage('markAsRead');
-    document.getElementById('ctxMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('markAllAsUpdated');
-    document.getElementById('ctxMnOpenAllUpdated').textContent = browser.i18n.getMessage('openUpdatedFeeds');
-    document.getElementById('ctxMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('openUpdatedAsUnified');
+    document.getElementById('ctxMnCheckFeeds').textContent = browser.i18n.getMessage('sbCheckFeeds');
+    document.getElementById('ctxMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
+    document.getElementById('ctxMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
+    document.getElementById('ctxMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');
+    document.getElementById('ctxMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
   }
 
   _setPosition(xPos, yPos) {

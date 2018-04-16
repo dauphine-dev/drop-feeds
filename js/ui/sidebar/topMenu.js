@@ -83,12 +83,12 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('checkFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('checkFeeds'));
-    document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('discoverFeeds'));
-    document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('viewOnlyUpdatedFeeds'));
-    document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('toggleFolders'));
-    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('addNewFeed'));
-    document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('openOptionsTab'));
+    document.getElementById('checkFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbCheckFeeds'));
+    document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbDiscoverFeeds'));
+    document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
+    document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbToggleFolders'));
+    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbAddNewFeed'));
+    document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenOptionsTab'));
   }
 
   async _isRootFolderChecked_async() {

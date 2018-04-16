@@ -25,7 +25,7 @@ class FeedManager { /*exported FeedManager*/
   async checkFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     TopMenu.instance.animateCheckFeedButton(true);
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('checking'));
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
     await this._processFeedsFromList(folderId, this._feedsUpdate_async);
   }
 
@@ -37,13 +37,13 @@ class FeedManager { /*exported FeedManager*/
 
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('opening'));
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
     await this._processFeedsFromList(folderId, this._openOneFeedToTab_async);
   }
 
   async openAsUnifiedFeed_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('opening'));
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
     this._unifiedChannelTitle = (await browser.bookmarks.getSubTree(folderId.substring(3)))[0].title;
     await this._processFeedsFromList(folderId, this._unifyingThenOpenProcessedFeedsInner_async);
   }
@@ -64,7 +64,7 @@ class FeedManager { /*exported FeedManager*/
             let feedId = feedElementList[i].getAttribute('id');
             feed = await Feed.new(feedId);
 
-            StatusBar.instance.text = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('preparing')) + ': ' + feed.title;
+            StatusBar.instance.text = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
             this._feedsToProcessList.push(feed);
           }
           catch(e) {
@@ -140,7 +140,7 @@ class FeedManager { /*exported FeedManager*/
     try {
 
 
-      StatusBar.instance.text = browser.i18n.getMessage('loading') + ' ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.update_async();
       let feedHtmlUrl = feed.docUrl;
       self._itemList.push(... feed.info.itemList);
@@ -149,13 +149,13 @@ class FeedManager { /*exported FeedManager*/
         let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
         await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
-      StatusBar.instance.text = browser.i18n.getMessage('loading') + ' ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
-      StatusBar.instance.text = browser.i18n.getMessage('loading') + ' ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
-      StatusBar.instance.text = browser.i18n.getMessage('loading') + ' ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       feed.updateUiStatus();
-      StatusBar.instance.text = feed.title + ' ' + browser.i18n.getMessage('loaded') + ' ';
+      StatusBar.instance.text = feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ';
 
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
@@ -174,12 +174,12 @@ class FeedManager { /*exported FeedManager*/
   async _unifyingThenOpenProcessedFeedsInner_async(feed) {
     let self = FeedManager.instance;
     try {
-      StatusBar.instance.text = browser.i18n.getMessage('merging') + ' ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
       self._unifiedFeedItems.push(...feed.info.itemList);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus();
-      StatusBar.instance.text = browser.i18n.getMessage('computingUnifiedView');
+      StatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus();
@@ -199,7 +199,7 @@ class FeedManager { /*exported FeedManager*/
 
   _statusMessageBeforeCheck(feed) {
     if (!this._asynchronousFeedChecking) {
-      StatusBar.instance.text = browser.i18n.getMessage('checking') + ': ' + feed.title;
+      StatusBar.instance.text = browser.i18n.getMessage('sbChecking') + ': ' + feed.title;
     }
   }
 
@@ -208,7 +208,7 @@ class FeedManager { /*exported FeedManager*/
       StatusBar.instance.text = feed.title + ' : ' + feed.error;
     } else {
       if (this._asynchronousFeedChecking) {
-        StatusBar.instance.text = feed.title + ' : ' + browser.i18n.getMessage('received');
+        StatusBar.instance.text = feed.title + ' : ' + browser.i18n.getMessage('sbReceived');
       }
     }
   }

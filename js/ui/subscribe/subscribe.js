@@ -29,10 +29,25 @@ class Subscribe {
     }
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
+    this._updateLocalizedStrings();
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('newFolderButton').addEventListener('click', Subscribe._newFolderButtonClicked_event);
     document.getElementById('cancelButton').addEventListener('click', Subscribe._cancelButtonClicked_event);
     document.getElementById('subscribeButton').addEventListener('click', Subscribe._subscribeButtonClicked_event);
+  }
+
+  _updateLocalizedStrings() {
+    document.title = browser.i18n.getMessage('subDropFeedsSubscribe');
+    document.getElementById('title').textContent = browser.i18n.getMessage('subSubscribeWithDropFeed');
+    document.getElementById('labelName').textContent = browser.i18n.getMessage('subName') + ': ';
+    document.getElementById('labelFolder').textContent = browser.i18n.getMessage('subFolder') + ': ';
+
+    document.getElementById('newFolderButton').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('cancelButton').textContent = browser.i18n.getMessage('subCancel');
+    document.getElementById('subscribeButton').textContent = browser.i18n.getMessage('subSubscribe');
+    document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
+    document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
   }
 
   static async _newFolderButtonClicked_event(event) {

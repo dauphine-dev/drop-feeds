@@ -80,11 +80,11 @@ class ItemsMenu { /*exported ItemsMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('itemMarkAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAsRead'));
-    document.getElementById('itemMarkAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAsUnread'));
-    document.getElementById('itemMarkAllAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAllAsRead'));
-    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('markAllAsUnread'));
-    document.getElementById('itemOpenUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('openUnreadItemsInNewTabs'));
+    document.getElementById('itemMarkAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAsRead'));
+    document.getElementById('itemMarkAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAsUnread'));
+    document.getElementById('itemMarkAllAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAllAsRead'));
+    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAllAsUnread'));
+    document.getElementById('itemOpenUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
   }
 
 

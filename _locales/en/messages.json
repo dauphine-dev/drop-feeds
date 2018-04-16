@@ -1,75 +1,84 @@
 {
-  "extensionDescription": {
+  "comment1": {
+    "message": "---Manifest strings---"
+  },
+
+  "manExtensionDescription": {
     "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
     "description": "Description of the extension."
   },
 
-  "pageActionDefaultTitle": {
+  "manPageActionDefaultTitle": {
     "message": "Subscribe with Drop feed",
     "description": "Title of the page action."
   },
 
-  "checkFeeds": {
+
+  "comment2": {
+    "message": "---Sidebar strings---"
+  },
+
+  "sbCheckFeeds": {
     "message": "Check feeds"
   },
 
-  "discoverFeeds": {
+  "sbDiscoverFeeds": {
     "message": "Discover feeds"
   },
 
-  "viewOnlyUpdatedFeeds": {
+  "sbViewOnlyUpdatedFeeds": {
     "message": "View only updated feeds"
   },
 
-  "toggleFolders": {
+  "sbToggleFolders": {
     "message": "Toggle folders (open/close)"
   },
 
-  "addNewFeed": {
+  "sbAddNewFeed": {
     "message": "Add a new feed"
   },
 
-  "openOptionsTab": {
+  "sbOpenOptionsTab": {
     "message": "Open options tab"
   },
 
-  "markAsRead": {
+  "sbMarkAsRead": {
     "message": "Mark as read"
   },
 
-  "markAsUnread": {
+  "sbMarkAsUnread": {
     "message": "Mark as unread"
   },
 
-  "markAllAsRead": {
+  "sbMarkAllAsRead": {
     "message": "Mark all as read"
   },
 
-  "markAllAsUnread": {
+  "sbMarkAllAsUnread": {
     "message": "Mark all as unread"
   },
 
-  "openUnreadItemsInNewTabs": {
+  "sbOpenUnreadItemsInNewTabs": {
     "message": "Open unread items in new tabs"
   },
 
-  "markAllAsUpdated": {
+  "sbMarkAllAsUpdated": {
     "message": "Set all to"
   },
 
-  "openUpdatedFeeds": {
+  "sbOpenUpdatedFeeds": {
     "message": "Open updated feeds"
   },
 
-  "openUpdatedAsUnified": {
+  "sbOpenUpdatedAsUnified": {
     "message": "Open updated as an unified feed"
   },
 
-  "UseButtonAbove": {
+  "sbUseButtonAbove": {
     "message": "To add a Feed use the button above !"
   },
 
-  "checking": {
+  "sbChecking": {
     "message": "checking"
   },
 
@@ -77,23 +86,113 @@
     "message": "opening"
   },
 
-  "loading": {
+  "sbLoading": {
     "message": "Loading"
   },
 
-  "loaded": {
+  "sbLoaded": {
     "message": "loaded"
   },
 
-  "merging": {
+  "sbMerging": {
     "message": "Merging"
   },
 
-  "computingUnifiedView": {
+  "sbComputingUnifiedView": {
     "message": "Computing unified view"
   },
 
-  "received": {
+  "sbReceived": {
     "message": "received"
+  },
+
+
+
+
+  "comment3": {
+    "message": "---Subscribe strings---"
+  },
+
+  "subDropFeedsSubscribe": {
+    "message": "Drop feeds (subscribe)"
+  },
+
+  "subSubscribeWithDropFeed": {
+    "message": "Subscribe with Drop feed"
+  },
+
+  "subName": {
+    "message": "Name"
+  },
+
+  "subFolder": {
+    "message": "Folder"
+  },
+
+  "subNewFolder": {
+    "message": "New folder"
+  },
+
+  "subCancel": {
+    "message": "Cancel"
+  },
+
+  "subSubscribe": {
+    "message": "Subscribe"
+  },
+
+  "subCreate": {
+    "message": "Create"
+  },
+
+
+
+
+  "comment4": {
+    "message": "---Discover strings---"
+  },
+
+  "disDiscoverFeeds": {
+    "message": "Discover feeds"
+  },
+
+  "disDiscoveringFeeds": {
+    "message": "Discovering feeds"
+  },
+
+  "disTitle": {
+    "message": "Title"
+  },
+
+  "disFormat": {
+    "message": "Format"
+  },
+
+  "disMastUpdate": {
+    "message": "Last update"
+  },
+
+  "disItems": {
+    "message": "Items"
+  },
+
+  "disUrl": {
+    "message": "Url"
+  },
+
+  "disAddFeed": {
+    "message": "Add feed"
+  },
+
+  "disClose": {
+    "message": "Close"
+  },
+
+
+
+
+  "comment5": {
+    "message": "---Options strings---"
   }
+
 }
