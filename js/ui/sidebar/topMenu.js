@@ -130,8 +130,8 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonDiscoverFeedsEnabled) { return; }
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfo});
     BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
   }
 

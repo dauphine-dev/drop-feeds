@@ -38,7 +38,8 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async getActiveTab_async() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
+    var windowInfo = await browser.windows.getLastFocused();
+    let tabInfos = await browser.tabs.query({active: true, windowId: windowInfo.id});
     return tabInfos[0];
   }
 
