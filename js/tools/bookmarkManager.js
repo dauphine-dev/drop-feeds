@@ -87,7 +87,7 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
     if (!isChid) { return; }
     if (id == self._lastCreatedBookmarkId) {
-      StatusBar.instance.text = 'To add a Feed use the button above !';
+      StatusBar.instance.text = browser.i18n.getMessage('sbUseButtonAbove');
       await DateTime.delay_async(1);
       StatusBar.instance.text = '';
     }

@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
+  "default_locale": "en",
   "name": "Drop feeds",
-  "description": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
-  "version": "",
+  "description": "__MSG_manExtensionDescription__",
+  "version": "0.6",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
@@ -38,7 +39,7 @@
   "page_action": {
     "browser_style": true,
     "default_icon": "resources/themes/dauphine/img/subscribe.png",
-    "default_title": "Subscribe with Drop feed",
+    "default_title": "__MSG_manPageActionDefaultTitle__",
     "default_popup": "html/subscribe.html"
   },
 

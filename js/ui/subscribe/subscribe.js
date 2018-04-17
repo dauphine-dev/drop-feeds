@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager NewFolderDialog*/
+/*global browser FolderTreeView LocalStorageManager NewFolderDialog BrowserManager*/
 'use strict';
 class Subscribe {
 
@@ -23,16 +23,31 @@ class Subscribe {
       this._feedUrl = subscribeInfo.feedUrl;
     }
     else {
-      let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-      this._feedTitle = tabInfos[0].title;
-      this._feedUrl = tabInfos[0].url;
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      this._feedTitle = tabInfo.title;
+      this._feedUrl = tabInfo.url;
     }
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
+    this._updateLocalizedStrings();
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('newFolderButton').addEventListener('click', Subscribe._newFolderButtonClicked_event);
     document.getElementById('cancelButton').addEventListener('click', Subscribe._cancelButtonClicked_event);
     document.getElementById('subscribeButton').addEventListener('click', Subscribe._subscribeButtonClicked_event);
+  }
+
+  _updateLocalizedStrings() {
+    document.title = browser.i18n.getMessage('subDropFeedsSubscribe');
+    document.getElementById('title').textContent = browser.i18n.getMessage('subSubscribeWithDropFeed');
+    document.getElementById('labelName').textContent = browser.i18n.getMessage('subName') + ': ';
+    document.getElementById('labelFolder').textContent = browser.i18n.getMessage('subFolder') + ': ';
+    document.getElementById('newFolderButton').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('cancelButton').textContent = browser.i18n.getMessage('subCancel');
+    document.getElementById('subscribeButton').textContent = browser.i18n.getMessage('subSubscribe');
+    document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
+    document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
+    document.getElementById('inputNewFolder').value = browser.i18n.getMessage('subNewFolder');
   }
 
   static async _newFolderButtonClicked_event(event) {

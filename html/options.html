@@ -18,11 +18,11 @@
   <body>
 
     <div class="tab">
-      <button class="tabLinks active" target="generalTab">General</button>
-      <button class="tabLinks" target= "updateCheckerTab">Update checker</button>
-      <button class="tabLinks" target= "viewTab">View</button>
-      <button class="tabLinks" target="contentsAreaTab">Contents area</button>
-      <button class="tabLinks" target="managementTab">Management</button>
+      <button class="tabLinks" id="generalTabButton" target="generalTab">General</button>
+      <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" id="viewTabButton" target= "viewTab">View</button>
+      <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">Contents area</button>
+      <button class="tabLinks" id="managementTabButton" target="managementTab">Management</button>
     </div>
 
     <!-- ~~~~~~ Tab General ~~~~~~ -->
@@ -30,7 +30,7 @@
       <table>
         <tr>
           <td>
-            <label>Select feed folder&nbsp;</label>
+            <label id="lblSelectFeedFolder">Select feed folder</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="feedList">
@@ -46,12 +46,12 @@
           </td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span class="checkboxText">Do not display root folder</span></td>
+          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">Do not display root folder</span></td>
           <td/><td/>
         </tr>
         <tr>
           <td>
-            <label>Select theme&nbsp;</label>
+            <label id="lblSelectTheme">Select theme</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="themeList">
@@ -71,11 +71,16 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-        <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>
-        &nbsp;&nbsp;
-        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
-        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>
-      </tr>
+          <td><label id="lblTimeout">Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">seconds</span></td>
+          &nbsp;&nbsp;
+          <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">Asynchronous feed checking</span></td>
+          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
+            <td></td>
+            <td></td>
+        </tr>
       </table>
     </div>
 
@@ -83,20 +88,21 @@
     <div id="viewTab" class="tabContent">
       <table>
         <tr>
-          <td><input type="checkbox" id="feedItemListCheckbox"><span class="checkboxText">Feed item list</span></td>
-          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span class="checkboxText" >Feed item list toolbar<small>(*)</small></span></td>
-          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span class="checkboxText">Description tooltips</span></td>
+          <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">Feed item list</span></td>
+          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span id="textFeedItemListToolbar" class="checkboxText" >Feed item list toolbar<small>(*)</small></span></td>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">Description tooltips</span></td>
         </tr>
       </table>
-      <small><br/>(*) warning: mark read/unread features will impact your navigation history !</small>
+      <small><br/></small>
+      <small id="textNavigationHistoryWarning">(*) warning: mark read/unread features will impact your navigation history !</small>
     </div>
 
     <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
     <div id="contentsAreaTab" class="tabContent">
       <table>
         <tr>
-          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span class="checkboxText">Always open new tab</span></td>
-          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span class="checkboxText">Open new tab in foreground</span></td>
+          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">Always open new tab</span></td>
+          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">Open new tab in foreground</span></td>
         </tr>
       </table>
     </div>
@@ -105,7 +111,7 @@
     <div id="managementTab" class="tabContent">
       <table>
         <tr>
-          <td><label>Select the opml file to import</label></td>
+          <td><label id="lblSelectOpmlFileToImport">Select the opml file to import</label></td>
           <td>
             <input type="file" accept=".opml" id="inputImportFile"/>
             <button id="importButton">Import...</button>
@@ -113,7 +119,7 @@
           <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>
         <tr>
-          <td><label>Select where to export the ompl file</label></td>
+          <td><label id="lblSelectOpmlFileToExport">Select where to export the ompl file</label></td>
           <td><button id="exportButton">Export...</button></td>
           <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>

@@ -1,7 +1,7 @@
 /* Misc. */
 body {
   font-size: 1.25rem;
-  color: #333;
+  color: #333333;
 }
 
 .checkboxText {
@@ -21,7 +21,7 @@ input[type="number"] {
 /* tabs */
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid #c0c0c0;
     background-color: #f1f1f1;
 }
 
@@ -31,7 +31,7 @@ input[type="number"] {
     /*border: none;*/
     border-width: 0 1px 0 0;
     border-style: solid;
-    border-color: #ccc;
+    border-color: #c0c0c0;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
@@ -40,17 +40,16 @@ input[type="number"] {
 }
 
 .tab button:hover {
-    background-color: #ddd;
+    background-color: #d0d0d0;
 }
-
 .tab button.active {
-    background-color: #ccc;
+  background-color: #b0b0b0;
 }
 
 .tabContent {
     display: none;
     padding: 20px 10px 20px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #c0c0c0;
     border-top: none;
 }
 
@@ -58,6 +57,10 @@ input[type="number"] {
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+tr {
+  height: 2.5em;
 }
 
 td {

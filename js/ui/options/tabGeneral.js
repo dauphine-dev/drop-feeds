@@ -14,10 +14,18 @@ class TabGeneral { /*exported TabGeneral*/
   }
 
   async init_async() {
+    this._updateLocalizedStrings();
     this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     await this._initFeedFolderDropdown_async();
     await this._initDisplayRootFolderCheckbox_async();
     await this._initThemeDropdown_async();
+  }
+
+  _updateLocalizedStrings() {
+    document.getElementById('lblSelectFeedFolder').textContent = browser.i18n.getMessage('optSelectFeedFolder');
+    document.getElementById('applySelectedFeedButton').textContent = browser.i18n.getMessage('optApply');
+    document.getElementById('textDoNotDisplayRootFolder').textContent = browser.i18n.getMessage('optDoNotDisplayRootFolder');
+    document.getElementById('lblSelectTheme').textContent = browser.i18n.getMessage('optSelectTheme');
   }
 
   async _initFeedFolderDropdown_async() {
@@ -99,7 +107,6 @@ class TabGeneral { /*exported TabGeneral*/
 
   async _notDisplayRootFolderCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('displayRootFolder', ! document.getElementById('notDisplayRootFolderCheckBox').checked);
-//await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _feedFolderSelectChanged_event() {

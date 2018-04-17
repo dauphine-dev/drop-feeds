@@ -19,6 +19,7 @@ class DiscoverFeeds {
   }
 
   async init_async() {
+    this._updateLocalizedStrings();
     this._progressBar = new ProgressBar('progressBar', true);
     this._progressBar.show();
     this._progressBar.value = 1;
@@ -42,6 +43,18 @@ class DiscoverFeeds {
   set addFeedButtonEnabled(value) {
     this._addFeedButtonEnabled = value;
     document.getElementById('addFeedButton').style.opacity = (value ? '1' : '0.2');
+  }
+
+  _updateLocalizedStrings() {
+    document.title = browser.i18n.getMessage('disDiscoverFeeds');
+    document.getElementById('progressBar').textContent = browser.i18n.getMessage('disDiscoveringFeeds');
+    document.getElementById('thTitle').textContent = browser.i18n.getMessage('disTitle');
+    document.getElementById('thFormat').textContent = browser.i18n.getMessage('disFormat');
+    document.getElementById('thLastUpdate').textContent = browser.i18n.getMessage('disLastUpdate');
+    document.getElementById('thItems').textContent = browser.i18n.getMessage('disItems');
+    document.getElementById('thUrl').textContent = browser.i18n.getMessage('disUrl');
+    document.getElementById('addFeedButton').textContent = browser.i18n.getMessage('disAddFeed');
+    document.getElementById('closeButton').textContent = browser.i18n.getMessage('disClose');
   }
 
   async _getDiscoverInfo_async() {
@@ -114,9 +127,10 @@ class DiscoverFeeds {
   }
 
   _displayFeedList() {
-    let discoveredFeeds = 'No feeds have been discovered';
+    let discoveredFeeds = browser.i18n.getMessage('disNoFeedsHaveBeenDiscovered');
     if (this._feedList.length > 0) {
-      discoveredFeeds = 'Discovered: ' + this._feedList.length + ' feeds';
+
+      discoveredFeeds = browser.i18n.getMessage('disDiscovered') + ': ' + this._feedList.length + ' ' + browser.i18n.getMessage('disFeeds');
     }
     BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
     let html = this._feedLinkInfoListToHtm();

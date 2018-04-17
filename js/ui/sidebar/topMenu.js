@@ -20,6 +20,7 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
     this.updatedFeedsSetVisibility();
     await this._isRootFolderChecked_async();
+    this._updateLocalizedStrings();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', TopMenu.checkFeedsButtonClicked_event);
     document.getElementById('discoverFeedsButton').addEventListener('click', TopMenu._discoverFeedsButtonClicked_event);
@@ -81,6 +82,15 @@ class TopMenu  { /*exported TopMenu*/
     FeedManager.instance.checkFeeds_async('content');
   }
 
+  _updateLocalizedStrings() {
+    document.getElementById('checkFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbCheckFeeds'));
+    document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbDiscoverFeeds'));
+    document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
+    document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbToggleFolders'));
+    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbAddNewFeed'));
+    document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenOptionsTab'));
+  }
+
   async _isRootFolderChecked_async() {
     try {
       let rootFolderId = 'cb-' + TreeView.instance.selectionBar.getRootElementId().substring(3);
@@ -130,8 +140,8 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonDiscoverFeedsEnabled) { return; }
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfos[0]});
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfo});
     BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
   }
 

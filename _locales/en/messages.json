@@ -1,0 +1,319 @@
+{
+  "comment1": {
+    "message": "---Manifest strings---"
+  },
+
+  "manExtensionDescription": {
+    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
+    "description": "Description of the extension."
+  },
+
+  "manPageActionDefaultTitle": {
+    "message": "Subscribe with Drop feed",
+    "description": "Title of the page action."
+  },
+
+
+  "comment2": {
+    "message": "---Sidebar strings---"
+  },
+
+  "sbCheckFeeds": {
+    "message": "Check feeds"
+  },
+
+  "sbDiscoverFeeds": {
+    "message": "Discover feeds"
+  },
+
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "View only updated feeds"
+  },
+
+  "sbToggleFolders": {
+    "message": "Toggle folders (open/close)"
+  },
+
+  "sbAddNewFeed": {
+    "message": "Add a new feed"
+  },
+
+  "sbOpenOptionsTab": {
+    "message": "Open options tab"
+  },
+
+  "sbMarkAsRead": {
+    "message": "Mark as read"
+  },
+
+  "sbMarkAsUnread": {
+    "message": "Mark as unread"
+  },
+
+  "sbMarkAllAsRead": {
+    "message": "Mark all as read"
+  },
+
+  "sbMarkAllAsUnread": {
+    "message": "Mark all as unread"
+  },
+
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "Open unread items in new tabs"
+  },
+
+  "sbMarkAllAsUpdated": {
+    "message": "Set all to updated"
+  },
+
+  "sbOpenUpdatedFeeds": {
+    "message": "Open updated feeds"
+  },
+
+  "sbOpenUpdatedAsUnified": {
+    "message": "Open updated as an unified feed"
+  },
+
+  "sbUseButtonAbove": {
+    "message": "To add a Feed use the button above !"
+  },
+
+  "sbChecking": {
+    "message": "checking"
+  },
+
+  "opening": {
+    "message": "opening"
+  },
+
+  "sbLoading": {
+    "message": "Loading"
+  },
+
+  "sbLoaded": {
+    "message": "loaded"
+  },
+
+  "sbMerging": {
+    "message": "Merging"
+  },
+
+  "sbComputingUnifiedView": {
+    "message": "Computing unified view"
+  },
+
+  "sbReceived": {
+    "message": "received"
+  },
+
+
+
+
+  "comment3": {
+    "message": "---Subscribe strings---"
+  },
+
+  "subDropFeedsSubscribe": {
+    "message": "Drop feeds (subscribe)"
+  },
+
+  "subSubscribeWithDropFeed": {
+    "message": "Subscribe with Drop feed"
+  },
+
+  "subName": {
+    "message": "Name"
+  },
+
+  "subFolder": {
+    "message": "Folder"
+  },
+
+  "subNewFolder": {
+    "message": "New folder"
+  },
+
+  "subCancel": {
+    "message": "Cancel"
+  },
+
+  "subSubscribe": {
+    "message": "Subscribe"
+  },
+
+  "subCreate": {
+    "message": "Create"
+  },
+
+
+
+
+  "comment4": {
+    "message": "---Discover strings---"
+  },
+
+  "disDiscoverFeeds": {
+    "message": "Discover feeds"
+  },
+
+  "disDiscoveringFeeds": {
+    "message": "Discovering feeds"
+  },
+
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "No feeds have been discovered"
+  },
+
+  "disDiscovered": {
+    "message": "Discovered"
+  },
+
+  "disFeeds": {
+    "message": "feeds"
+  },
+
+  "disTitle": {
+    "message": "Title"
+  },
+
+  "disFormat": {
+    "message": "Format"
+  },
+
+  "disMastUpdate": {
+    "message": "Last update"
+  },
+
+  "disItems": {
+    "message": "Items"
+  },
+
+  "disUrl": {
+    "message": "Url"
+  },
+
+  "disAddFeed": {
+    "message": "Add feed"
+  },
+
+  "disClose": {
+    "message": "Close"
+  },
+
+
+
+
+  "comment5": {
+    "message": "---Options strings---"
+  },
+
+  "optDropFeedsOptions": {
+    "message": "Drop feeds (options)"
+  },
+
+  "optGeneral": {
+    "message": "General"
+  },
+
+  "optUpdateChecker": {
+    "message": "Update checker"
+  },
+
+  "optView": {
+    "message": "View"
+  },
+
+  "optContentsArea": {
+    "message": "Contents area"
+  },
+
+  "optManagement": {
+    "message": "Management"
+  },
+
+  "optSelectFeedFolder": {
+    "message": "Select feed folder"
+  },
+
+  "optApply": {
+    "message": "Apply"
+  },
+
+  "optDoNotDisplayRootFolder": {
+    "message": "Do not display root folder"
+  },
+
+  "optSelectTheme": {
+    "message": "Select theme"
+  },
+
+  "optTimeout": {
+    "message": "Timeout"
+  },
+
+  "optSeconds": {
+    "message": "seconds"
+  },
+
+  "optAsynchronousFeedChecking": {
+    "message": "Asynchronous feed checking"
+  },
+
+  "optShowNotifications": {
+    "message": "Show notification popup after update"
+  },
+
+  "optRetryWithHttp": {
+    "message": "If https failed then retry with http"
+  },
+
+  "optFeedItemList": {
+    "message": "Feed item list"
+  },
+
+  "optFeedItemListToolbar": {
+    "message": "Feed item list toolbar (*)"
+  },
+
+  "optDescriptionTooltips": {
+    "message": "Description tooltips"
+  },
+
+  "optNavigationHistoryWarning": {
+    "message": "(*) warning: mark read/unread features will impact your navigation history !"
+  },
+
+  "optAlwaysOpenNewTab": {
+    "message": "Always open new tab"
+  },
+
+  "optOpenNewTabForeground": {
+    "message": "Open new tab in foreground"
+  },
+
+  "optSelectOpmlFileToImport": {
+    "message": "Select the opml file to import"
+  },
+
+  "optImport": {
+    "message": "Import..."
+  },
+
+  "optSelectOpmlFileToExport": {
+    "message": "Select where to export the ompl file"
+  },
+
+  "optExport": {
+    "message": "Export..."
+  },
+
+
+
+  "comment6": {
+    "message": "---Content script strings---"
+  },
+
+  "csSubscribeWithDropFeeds": {
+    "message": "Subscribe with Drop feeds"
+  }
+}

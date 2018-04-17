@@ -1,4 +1,4 @@
-/*global browser ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
+/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -49,8 +49,8 @@ class SideBar { /*exported SideBar*/
   }
 
   static async openSubscribeDialog_async() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfos[0].title, feedUrl: tabInfos[0].url});
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfo.title, feedUrl: tabInfo.url});
     BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 
