@@ -59,6 +59,10 @@ table {
   border-collapse: collapse;
 }
 
+tr {
+  height: 2.5em;
+}
+
 td {
   white-space: nowrap;
 }

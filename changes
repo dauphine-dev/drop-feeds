@@ -1,5 +1,6 @@
 0.6
 Internationalization (many languages support)
+Adding French language
 Adding single column theme (pull requests from Jeff Thieleke), I have reported it on 0.5 branch
 Adding item's author and item's pubDate (pull requests from Jeff Thieleke), I have reported it on 0.5 branch
 Adding an option to show popup after feed update (pull requests from Jeff Thieleke), I have reported it on 0.5 branch

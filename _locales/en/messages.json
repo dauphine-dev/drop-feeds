@@ -63,7 +63,7 @@
   },
 
   "sbMarkAllAsUpdated": {
-    "message": "Set all to"
+    "message": "Set all to updated"
   },
 
   "sbOpenUpdatedFeeds": {
@@ -160,6 +160,18 @@
     "message": "Discovering feeds"
   },
 
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "No feeds have been discovered"
+  },
+
+  "disDiscovered": {
+    "message": "Discovered"
+  },
+
+  "disFeeds": {
+    "message": "feeds"
+  },
+
   "disTitle": {
     "message": "Title"
   },
@@ -220,7 +232,7 @@
   },
 
   "optSelectFeedFolder": {
-    "message": "Select feed folder&nbsp;"
+    "message": "Select feed folder"
   },
 
   "optApply": {
@@ -232,7 +244,7 @@
   },
 
   "optSelectTheme": {
-    "message": "Select theme&nbsp;"
+    "message": "Select theme"
   },
 
   "optTimeout": {
@@ -260,7 +272,7 @@
   },
 
   "optFeedItemListToolbar": {
-    "message": "Feed item list toolbar"
+    "message": "Feed item list toolbar (*)"
   },
 
   "optDescriptionTooltips": {
@@ -293,6 +305,15 @@
 
   "optExport": {
     "message": "Export..."
-  }
+  },
 
+
+
+  "comment6": {
+    "message": "---Content script strings---"
+  },
+
+  "csSubscribeWithDropFeeds": {
+    "message": "Subscribe with Drop feeds"
+  }
 }

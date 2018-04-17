@@ -127,9 +127,10 @@ class DiscoverFeeds {
   }
 
   _displayFeedList() {
-    let discoveredFeeds = 'No feeds have been discovered';
+    let discoveredFeeds = browser.i18n.getMessage('disNoFeedsHaveBeenDiscovered');
     if (this._feedList.length > 0) {
-      discoveredFeeds = 'Discovered: ' + this._feedList.length + ' feeds';
+
+      discoveredFeeds = browser.i18n.getMessage('disDiscovered') + ': ' + this._feedList.length + ' ' + browser.i18n.getMessage('disFeeds');
     }
     BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
     let html = this._feedLinkInfoListToHtm();

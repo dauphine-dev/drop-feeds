@@ -1,0 +1,319 @@
+{
+  "comment1": {
+    "message": "---Manifest strings---"
+  },
+
+  "manExtensionDescription": {
+    "message": "Affiche une arborescence dans une barre latérale vous permettant de gérer vos flux RSS",
+    "description": "Description of the extension."
+  },
+
+  "manPageActionDefaultTitle": {
+    "message": "S'abonner avec Drop feed",
+    "description": "Title of the page action."
+  },
+
+
+  "comment2": {
+    "message": "---Sidebar strings---"
+  },
+
+  "sbCheckFeeds": {
+    "message": "Vérifier les flux"
+  },
+
+  "sbDiscoverFeeds": {
+    "message": "Découvrir de nouveaux flux"
+  },
+
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "Voir uniquement les flux à jour"
+  },
+
+  "sbToggleFolders": {
+    "message": "Basculer les dossiers (ouvert/fermé)"
+  },
+
+  "sbAddNewFeed": {
+    "message": "Ajouter un nouveau flux"
+  },
+
+  "sbOpenOptionsTab": {
+    "message": "Ouvrir l'onglet des options"
+  },
+
+  "sbMarkAsRead": {
+    "message": "Marquer comme lu"
+  },
+
+  "sbMarkAsUnread": {
+    "message": "Marquer comme non lu"
+  },
+
+  "sbMarkAllAsRead": {
+    "message": "Tout marquer comme lu"
+  },
+
+  "sbMarkAllAsUnread": {
+    "message": "Tout marquer comme non lu"
+  },
+
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "Ouvrir les items non lus dans de nouveaux onglets"
+  },
+
+  "sbMarkAllAsUpdated": {
+    "message": "Marquer comme à jour (non lu)"
+  },
+
+  "sbOpenUpdatedFeeds": {
+    "message": "Ouvrir les flux non lus"
+  },
+
+  "sbOpenUpdatedAsUnified": {
+    "message": "Ouvrir les flux non lus comme un flux unique"
+  },
+
+  "sbUseButtonAbove": {
+    "message": "Pour ajouter un nouveau flux, utilisez le button situé plus haut !"
+  },
+
+  "sbChecking": {
+    "message": "vérifie"
+  },
+
+  "opening": {
+    "message": "ouvrer"
+  },
+
+  "sbLoading": {
+    "message": "Chargement"
+  },
+
+  "sbLoaded": {
+    "message": "chargé"
+  },
+
+  "sbMerging": {
+    "message": "Fusionne"
+  },
+
+  "sbComputingUnifiedView": {
+    "message": "Préparation de la vue unifiée"
+  },
+
+  "sbReceived": {
+    "message": "reçu"
+  },
+
+
+
+
+  "comment3": {
+    "message": "---Subscribe strings---"
+  },
+
+  "subDropFeedsSubscribe": {
+    "message": "Drop feeds (s'abonner)"
+  },
+
+  "subSubscribeWithDropFeed": {
+    "message": "S'abonner avec Drop feed"
+  },
+
+  "subName": {
+    "message": "Nom"
+  },
+
+  "subFolder": {
+    "message": "Dossier"
+  },
+
+  "subNewFolder": {
+    "message": "Nouveau dossier"
+  },
+
+  "subCancel": {
+    "message": "Annuler"
+  },
+
+  "subSubscribe": {
+    "message": "S'abonner"
+  },
+
+  "subCreate": {
+    "message": "Créer"
+  },
+
+
+
+
+  "comment4": {
+    "message": "---Discover strings---"
+  },
+
+  "disDiscoverFeeds": {
+    "message": "Découverte de flux"
+  },
+
+  "disDiscoveringFeeds": {
+    "message": "Découverte de flux en cours"
+  },
+
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "Aucun flux n'a été découvert"
+  },
+
+  "disDiscovered": {
+    "message": "Découvert"
+  },
+
+  "disFeeds": {
+    "message": "flux"
+  },
+
+  "disTitle": {
+    "message": "Titre"
+  },
+
+  "disFormat": {
+    "message": "Format"
+  },
+
+  "disMastUpdate": {
+    "message": "Dernière mise à jour"
+  },
+
+  "disItems": {
+    "message": "Items"
+  },
+
+  "disUrl": {
+    "message": "Url"
+  },
+
+  "disAddFeed": {
+    "message": "Ajouter le flux"
+  },
+
+  "disClose": {
+    "message": "Fermer"
+  },
+
+
+
+
+  "comment5": {
+    "message": "---Options strings---"
+  },
+
+  "optDropFeedsOptions": {
+    "message": "Drop feeds (options)"
+  },
+
+  "optGeneral": {
+    "message": "Général"
+  },
+
+  "optUpdateChecker": {
+    "message": "Vérification des flux"
+  },
+
+  "optView": {
+    "message": "Affichage"
+  },
+
+  "optContentsArea": {
+    "message": "Contenu"
+  },
+
+  "optManagement": {
+    "message": "Gestion"
+  },
+
+  "optSelectFeedFolder": {
+    "message": "Sélectionner le dossier de stockage des flux"
+  },
+
+  "optApply": {
+    "message": "Appliquer"
+  },
+
+  "optDoNotDisplayRootFolder": {
+    "message": "Ne pas afficher le dossier racine"
+  },
+
+  "optSelectTheme": {
+    "message": "Theme"
+  },
+
+  "optTimeout": {
+    "message": "Délais d'expiration (timeout)"
+  },
+
+  "optSeconds": {
+    "message": "secondes"
+  },
+
+  "optAsynchronousFeedChecking": {
+    "message": "Vérification des flux asynchrone"
+  },
+
+  "optShowNotifications": {
+    "message": "Notifier une fois la vérification des flux terminée"
+  },
+
+  "optRetryWithHttp": {
+    "message": "Si échec https alors réessayer avec http"
+  },
+
+  "optFeedItemList": {
+    "message": "Activer la liste des items du flux"
+  },
+
+  "optFeedItemListToolbar": {
+    "message": "Afficher la barre d'outils des item de flux (*)"
+  },
+
+  "optDescriptionTooltips": {
+    "message": "Afficher les bulles de description"
+  },
+
+  "optNavigationHistoryWarning": {
+    "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
+  },
+
+  "optAlwaysOpenNewTab": {
+    "message": "Toujours ouvrir dans un nouvel onglet"
+  },
+
+  "optOpenNewTabForeground": {
+    "message": "Ouvrir les nouveaux onglets en avant plan"
+  },
+
+  "optSelectOpmlFileToImport": {
+    "message": "Sélectionnez le fichier opml à importer"
+  },
+
+  "optImport": {
+    "message": "Importer..."
+  },
+
+  "optSelectOpmlFileToExport": {
+    "message": "Sélectionnez l'emplacement où exporter le fichier opml"
+  },
+
+  "optExport": {
+    "message": "Exporter..."
+  },
+
+
+  "comment6": {
+    "message": "---Content script strings---"
+  },
+
+  "csSubscribeWithDropFeeds": {
+    "message": "S'abonner avec Drop feeds"
+  }
+
+}

@@ -30,7 +30,7 @@
       <table>
         <tr>
           <td>
-            <label id="lblSelectFeedFolder">Select feed folder&nbsp;</label>
+            <label id="lblSelectFeedFolder">Select feed folder</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="feedList">
@@ -51,7 +51,7 @@
         </tr>
         <tr>
           <td>
-            <label id="lblSelectTheme">Select theme&nbsp;</label>
+            <label id="lblSelectTheme">Select theme</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="themeList">
@@ -71,12 +71,16 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-        <td><label id="lblTimeout">Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">seconds</span></td>
-        &nbsp;&nbsp;
-        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">Asynchronous feed checking</span></td>
-        <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
-        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
-      </tr>
+          <td><label id="lblTimeout">Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">seconds</span></td>
+          &nbsp;&nbsp;
+          <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">Asynchronous feed checking</span></td>
+          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
+            <td></td>
+            <td></td>
+        </tr>
       </table>
     </div>
 

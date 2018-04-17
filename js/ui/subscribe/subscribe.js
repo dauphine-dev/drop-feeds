@@ -47,6 +47,7 @@ class Subscribe {
     document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
+    document.getElementById('inputNewFolder').value = browser.i18n.getMessage('subNewFolder');
   }
 
   static async _newFolderButtonClicked_event(event) {
