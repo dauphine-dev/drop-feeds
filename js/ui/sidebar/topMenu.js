@@ -83,12 +83,16 @@ class TopMenu  { /*exported TopMenu*/
       let automaticUpdatesEnabled = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
       if (!automaticUpdatesEnabled)
           return;
-  
-    await TopMenu.updateAutomaticUpdateInterval();
-    
-      try {
+
+      await TopMenu.updateAutomaticUpdateInterval();
+
+      try 
+      {
           await FeedManager.instance.checkFeeds_async('content');
-      } catch(e) {
+      } 
+      catch(e) 
+      {
+          console.log(e);
       }
   }
   
@@ -96,7 +100,7 @@ class TopMenu  { /*exported TopMenu*/
     let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
     let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
 
-    if(TopMenu.instance.autoUpdateInterval || TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
+    if(TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
     {
         TopMenu.instance.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
         
