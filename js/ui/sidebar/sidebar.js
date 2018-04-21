@@ -11,7 +11,7 @@ class SideBar { /*exported SideBar*/
 
   constructor() {
     /*eslint-disable no-console*/
-    console.log('Drop feeds loading...');
+    console.log('Drop Feeds loading...');
     /*eslint-enable no-console*/
     this._contentTop = null;
   }

@@ -47,7 +47,7 @@ class BrowserManager { /* exported BrowserManager*/
     browser.notifications.create({
       'type': 'basic',
       'iconUrl': browser.extension.getURL(ThemeManager.instance.iconDF96Url),
-      'title': 'Drop feeds',
+      'title': 'Drop Feeds',
       'message': message
     });
   }
