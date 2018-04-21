@@ -86,7 +86,6 @@ class TopMenu  { /*exported TopMenu*/
   
     await TopMenu.updateAutomaticUpdateInterval();
     
-    alert("Updating");
       try {
           await FeedManager.instance.checkFeeds_async('content');
       } catch(e) {
@@ -99,7 +98,6 @@ class TopMenu  { /*exported TopMenu*/
 
     if(TopMenu.instance.autoUpdateInterval || TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
     {
-        alert("Resetting auto update");
         TopMenu.instance.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
         
         if(TopMenu.instance.autoUpdateInterval)
