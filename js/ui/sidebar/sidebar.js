@@ -17,6 +17,7 @@ class SideBar { /*exported SideBar*/
   }
 
   async init_async() {
+    await BookmarkManager.instance.init_async();
     await TreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
@@ -24,7 +25,6 @@ class SideBar { /*exported SideBar*/
     FeedManager.instance;
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
-    BookmarkManager.instance.init_async();
     TabManager.instance;
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this._addListeners();
@@ -80,4 +80,4 @@ class SideBar { /*exported SideBar*/
 }
 
 SideBar.instance.init_async();
-SideBar.instance.reloadOnce();
+//SideBar.instance.reloadOnce();
