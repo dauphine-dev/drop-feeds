@@ -80,6 +80,8 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   async automaticFeedUpdate() {
+      await TopMenu.updateAutomaticUpdateInterval();
+      
       let automaticUpdatesEnabled = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
       if (!automaticUpdatesEnabled)
           return;
