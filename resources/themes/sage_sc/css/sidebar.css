@@ -194,16 +194,13 @@ body{
 .statusButtonUpdating::before {
   background-image: url(/resources/themes/sage_sc/img/updating.gif);
   background-size: 16px 16px;
-  background-position: center;
+  background-position: right;
   background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
+  margin: 0 0 0 -4px;
   display: inline-block;
-  border: solid 1px #00000000;
-  border-radius: 4px;
-  width: 34px;
-  height: 19px;
+  width: 18px;
+  height: 24px;
   content:"";
-  padding: 0;
 }
 
 #statusText {
