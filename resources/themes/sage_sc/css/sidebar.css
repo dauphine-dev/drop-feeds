@@ -53,7 +53,7 @@ body{
 
 .checkFeedsButton::before {
   background-image: url(/resources/themes/sage_sc/img/check-feeds.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -67,7 +67,7 @@ body{
 
 .checkFeedsButtonAnim::before {
   background-image: url(/resources/themes/sage_sc/img/check-feeds-animation.gif);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -81,7 +81,7 @@ body{
 
 #discoverFeedsButton::before {
   background-image: url(/resources/themes/sage_sc/img/magnify.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -95,7 +95,7 @@ body{
 
 #onlyUpdatedFeedsButton::before {
   background-image: url(/resources/themes/sage_sc/img/only-updated-feeds.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -109,7 +109,7 @@ body{
 
 #onlyErrorFeedsButton::before {
   background-image: url(/resources/themes/sage_sc/img/feed-error.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -122,7 +122,7 @@ body{
 }
 #toggleFoldersButton::before {
   background-image: url(/resources/themes/sage_sc/img/toggle-folders.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -135,7 +135,7 @@ body{
 }
 #addFeedButton::before {
   background-image: url(/resources/themes/sage_sc/img/subscribe.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -148,7 +148,7 @@ body{
 }
 #optionsMenuButton::before {
   background-image: url(/resources/themes/sage_sc/img/options.png);
-  background-size: 20px 20px;
+  background-size: 26px 24px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -193,7 +193,7 @@ body{
 
 .statusButtonUpdating::before {
   background-image: url(/resources/themes/sage_sc/img/updating.gif);
-  background-size: 20px 20px;
+  background-size: 16px 16px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -208,7 +208,7 @@ body{
 
 #statusText {
   line-height: 30px;
-  padding-left: 5px;
+  padding-left: 6px;
 }
 
 /* folders */
@@ -244,8 +244,9 @@ input:checked ~ .folderOpen {
   width: 16px;
   height: 16px;
   content:"";
-  padding-right: 1px;
-  margin-top: -1px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
 }
 
 .folderClose::before {
@@ -256,8 +257,9 @@ input:checked ~ .folderOpen {
   width: 16px;
   height: 16px;
   content:"";
-  padding-right: 1px;
-  margin-top: -1px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
 }
 
 ul {
@@ -273,14 +275,16 @@ li {
 
 .feedRead::before {
   background-image: url(/resources/themes/sage_sc/img/feed-read.png);
-  background-size: 12px 16px;
+  background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
-  width: 12px;
+  width: 16px;
   height: 16px;
   content:"";
-  padding-right: 5px;
-  margin-top: -1px;
+  padding-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
 }
 .feedRead {
   font-weight: normal;
@@ -297,14 +301,16 @@ li {
 }
 .feedUnread::before  {
   background-image: url(/resources/themes/sage_sc/img/feed-unread.png);
-  background-size: 12px 16px;
+  background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
-  width: 12px;
+  width: 16px;
   height: 16px;
   content:"";
-  padding-right: 5px;
-  margin-top: -1px;
+  padding-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
 }
 
 .feedUnread {
@@ -312,14 +318,14 @@ li {
 }
 .feedError::before {
   background-image: url(/resources/themes/sage_sc/img/feed-error.png);
-  background-size: 12px 16px;
+  background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
-  width: 12px;
+  width: 16px;
   height: 16px;
   content:"";
-  padding-right: 5px;
-  margin-top: -1px;
+  padding-right: 2px;
+  margin-bottom: 1px;
 }
 
 .feedError {
