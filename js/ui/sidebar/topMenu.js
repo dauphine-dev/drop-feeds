@@ -72,7 +72,7 @@ class TopMenu  { /*exported TopMenu*/
 
   updatedFeedsSetVisibility() {
     this.activateButton('onlyUpdatedFeedsButton' , this._updatedFeedsVisible);
-    let visibleValue = this._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
+    let visibleValue = this._updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
     CssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
     CssManager.replaceStyle('.feedRead', visibleValue);
     CssManager.replaceStyle('.feedError', visibleValue);
