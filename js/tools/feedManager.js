@@ -266,15 +266,16 @@ class FeedManager { /*exported FeedManager*/
 
   _displayUpdatedFeedsNotification() {
     if (this._showFeedUpdatePopup) {
-        if (this._updatedFeeds > 1) {
-           BrowserManager.displayNotification(this._updatedFeeds + ' feeds updated');
-        }
-        if (this._updatedFeeds == 1) {
-           BrowserManager.displayNotification('One feed updated');
-        }
-        if (this._updatedFeeds == 0) {
-            BrowserManager.displayNotification('No Feed has been updated');
-        }
+      if (this._updatedFeeds > 1) {
+        BrowserManager.displayNotification(this._updatedFeeds + ' '+ browser.i18n.getMessage('sbFeedsUpdated'));
+
+      }
+      if (this._updatedFeeds == 1) {
+        BrowserManager.displayNotification(browser.i18n.getMessage('sbOneFeedUpdated'));
+      }
+      if (this._updatedFeeds == 0) {
+        BrowserManager.displayNotification(browser.i18n.getMessage('sbNoFeedHasBeenUpdated'));
+      }
     }
 
     this._updatedFeeds = 0;

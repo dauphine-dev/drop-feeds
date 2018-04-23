@@ -106,6 +106,15 @@
     "message": "reçu"
   },
 
+  "sbFeedsUpdated": {
+    "message": "flux mise à jour"
+  },
+  "sbOneFeedUpdated": {
+    "message": "Un flux mis à jour"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "Aucun flux n'a été mis à jour"
+  },
 
 
 
@@ -114,7 +123,7 @@
   },
 
   "subDropFeedsSubscribe": {
-    "message": "Drop feeds (s'abonner)"
+    "message": "Drop Feeds (s'abonner)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -208,7 +217,7 @@
   },
 
   "optDropFeedsOptions": {
-    "message": "Drop feeds (options)"
+    "message": "Drop Feeds (options)"
   },
 
   "optGeneral": {
@@ -313,7 +322,7 @@
   },
 
   "csSubscribeWithDropFeeds": {
-    "message": "S'abonner avec Drop feeds"
+    "message": "S'abonner avec Drop Feeds"
   }
 
 }

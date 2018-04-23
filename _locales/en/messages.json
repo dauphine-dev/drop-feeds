@@ -105,6 +105,15 @@
   "sbReceived": {
     "message": "received"
   },
+  "sbFeedsUpdated": {
+    "message": "feeds updated"
+  },
+  "sbOneFeedUpdated": {
+    "message": "One feed updated"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "No Feed has been updated"
+  },
 
 
 
@@ -114,7 +123,7 @@
   },
 
   "subDropFeedsSubscribe": {
-    "message": "Drop feeds (subscribe)"
+    "message": "Drop Feeds (subscribe)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -208,7 +217,7 @@
   },
 
   "optDropFeedsOptions": {
-    "message": "Drop feeds (options)"
+    "message": "Drop Feeds (options)"
   },
 
   "optGeneral": {
@@ -314,6 +323,6 @@
   },
 
   "csSubscribeWithDropFeeds": {
-    "message": "Subscribe with Drop feeds"
+    "message": "Subscribe with Drop Feeds"
   }
 }
