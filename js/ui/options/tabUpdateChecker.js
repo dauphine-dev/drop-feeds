@@ -19,6 +19,14 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     let elIfHttpsHasFailedRetryWithHttp = document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox');
     elIfHttpsHasFailedRetryWithHttp.checked =  await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
     elIfHttpsHasFailedRetryWithHttp.addEventListener('click', TabUpdateChecker._ifHttpsHasFailedRetryWithHttpCheckboxClicked_event);
+    
+    let elAutomaticFeedUpdates = document.getElementById('automaticFeedUpdatesCheckbox');
+    elAutomaticFeedUpdates.checked =  await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
+    elAutomaticFeedUpdates.addEventListener('click', TabUpdateChecker._ifAutomaticFeedUpdatesCheckboxClicked_event);
+
+    let elAutomaticFeedUpdateMinutesNumber = document.getElementById('automaticFeedUpdateMinutesNumber');
+    elAutomaticFeedUpdateMinutesNumber.value = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
+    elAutomaticFeedUpdateMinutesNumber.addEventListener('change', TabUpdateChecker._automaticFeedUpdateMinutesNumberChanged_event);
   }
 
   static _updateLocalizedStrings() {
@@ -41,8 +49,17 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
   static async _showFeedUpdatePopupCheckbox_event() {
     await LocalStorageManager.setValue_async('showFeedUpdatePopup', document.getElementById('showFeedUpdatePopupCheckbox').checked);
   }
-
+  
   static async _ifHttpsHasFailedRetryWithHttpCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('ifHttpsHasFailedRetryWithHttp', document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox').checked);
+  }
+  
+   static async _ifAutomaticFeedUpdatesCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('automaticFeedUpdates', document.getElementById('automaticFeedUpdatesCheckbox').checked);
+  }
+  
+  static async _automaticFeedUpdateMinutesNumberChanged_event() {
+    let automaticFeedUpdateMinutes = Number(document.getElementById('automaticFeedUpdateMinutesNumber').value);
+    await LocalStorageManager.setValue_async('automaticFeedUpdateMinutes', automaticFeedUpdateMinutes);
   }
 }
