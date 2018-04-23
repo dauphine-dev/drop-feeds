@@ -30,7 +30,7 @@ class ContentManager {
       let feedSubscribeLine = document.getElementById('feedSubscribeLine');
       let subscribeButton = document.createElement('button');
       subscribeButton.id = 'subscribeWithDropFeedsButton';
-      subscribeButton.innerText = 'Subscribe with Drop feeds';
+      subscribeButton.innerText = 'Subscribe with Drop Feeds';
       subscribeButton.style.display = 'block';
       subscribeButton.style.marginInlineStart = 'auto';
       subscribeButton.style.marginTop = '0.5em';

@@ -114,7 +114,7 @@ class BookmarkManager { /*exported BookmarkManager*/
   async _createRootFolder_async() {
     let rootBookmarkId = null;
 
-    let bookmarkItems = await browser.bookmarks.search({title: 'Drop feeds'});
+    let bookmarkItems = await browser.bookmarks.search({title: 'Drop Feeds'});
     if (bookmarkItems) {
       if (bookmarkItems[0]) {
         rootBookmarkId = bookmarkItems[0].id;
@@ -162,7 +162,7 @@ class BookmarkManager { /*exported BookmarkManager*/
   }
 
   async _createDefaultBookmark_async() {
-    let rootBookmark = await browser.bookmarks.create({ title: 'Drop feeds' });
+    let rootBookmark = await browser.bookmarks.create({ title: 'Drop Feeds' });
     await browser.bookmarks.create({
       parentId: rootBookmark.id,
       title: 'The Mozilla Blog',

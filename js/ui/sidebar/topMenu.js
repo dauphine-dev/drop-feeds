@@ -14,6 +14,8 @@ class TopMenu  { /*exported TopMenu*/
     this._buttonAddFeedEnabled = false;
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
+    this.autoUpdateInterval = undefined;
+    this.automaticUpdatesMilliseconds = undefined;
   }
 
   async init_async() {
@@ -27,6 +29,8 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').addEventListener('click', TopMenu._toggleFoldersButtonClicked_event);
     document.getElementById('addFeedButton').addEventListener('click', TopMenu._addFeedButtonClicked_event);
     document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
+
+    setTimeout(this.automaticFeedUpdate, 2000);
   }
 
   set discoverFeedsButtonEnabled(value) {
@@ -68,13 +72,47 @@ class TopMenu  { /*exported TopMenu*/
 
   updatedFeedsSetVisibility() {
     this.activateButton('onlyUpdatedFeedsButton' , this._updatedFeedsVisible);
-    let visibleValue = this._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
+    let visibleValue = this._updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
     CssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
     CssManager.replaceStyle('.feedRead', visibleValue);
     CssManager.replaceStyle('.feedError', visibleValue);
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
+  async automaticFeedUpdate() {
+      await TopMenu.updateAutomaticUpdateInterval();
+      
+      let automaticUpdatesEnabled = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
+      if (!automaticUpdatesEnabled)
+          return;
+
+      await TopMenu.updateAutomaticUpdateInterval();
+
+      try 
+      {
+          await FeedManager.instance.checkFeeds_async('content');
+      } 
+      catch(e) 
+      {
+          console.log(e);
+      }
+  }
+  
+  static async updateAutomaticUpdateInterval() {
+    let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
+    let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
+
+    if(TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
+    {
+        TopMenu.instance.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
+        
+        if(TopMenu.instance.autoUpdateInterval)
+            clearInterval(TopMenu.instance.autoUpdateInterval);
+        
+        TopMenu.instance.autoUpdateInterval = setInterval(TopMenu.instance.automaticFeedUpdate, automaticUpdatesMilliseconds);
+    }
+  }
+  
   static async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -139,5 +177,9 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
+  }
+  
+  static async _automaticUpdateChanged_event(event) {
+    await TopMenu.updateAutomaticUpdateInterval()
   }
 }

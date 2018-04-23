@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link href="/resources/css/options.css" rel="stylesheet">
-    <title>Drop feeds (options)</title>
+    <title>Drop Feeds (options)</title>
     <script src="/js/tools/defaultValues.js"></script>
     <script src="/js/tools/browserManager.js"></script>
     <script src="/js/tools/textTools.js"></script>
@@ -71,12 +71,23 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-        <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>
-        &nbsp;&nbsp;
-        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
-        <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span class="checkboxText">Show notification popup after update</span></td>
-        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>
-      </tr>
+           <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>  
+        </tr>
+        <tr>
+           <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
+        </tr>
+        <tr>
+           <td>
+                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span class="checkboxText">Automatic feed updates every</span>
+                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span class="checkboxText">minutes</span>
+           </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span class="checkboxText">Show notification popup after update</span></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>           
+        </tr>
       </table>
     </div>
 
