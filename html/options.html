@@ -72,35 +72,24 @@
       <table>
         <tr>
           <td><label id="lblTimeout">Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">seconds</span></td>
-          &nbsp;&nbsp;
+        </tr>
+        <tr>
           <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">Asynchronous feed checking</span></td>
-          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
-        </tr>
-        <tr>
-            <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
-            <td></td>
-            <td></td>
-        </tr>
-           <td><label>Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span class="checkboxText">seconds</span></td>  
-        </tr>
-        <tr>
-           <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span class="checkboxText">Asynchronous feed checking</span></td>
         </tr>
         <tr>
            <td>
-                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span class="checkboxText">Automatic feed updates every</span>
-                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span class="checkboxText">minutes</span>
+                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span id="txtAutoFeedUpdatesEvery" class="checkboxText">Automatic feed updates every</span>
+                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span id="txtMinutes" class="checkboxText">minutes</span>
            </td>
         </tr>
         <tr>
-            <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span class="checkboxText">Show notification popup after update</span></td>
+          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
         </tr>
         <tr>
-            <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span class="checkboxText">If https failed then retry with http</span></td>           
+          <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
         </tr>
       </table>
     </div>
-
     <!-- ~~~~~~ Tab view ~~~~~~ -->
     <div id="viewTab" class="tabContent">
       <table>

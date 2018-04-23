@@ -1,3 +1,13 @@
+0.6.1
+Added automatic feed update feature. (from Jeff Thieleke)
+Capitalize "Feeds" (from Jeff Thieleke)
+Updated updateAutomaticUpdateInterval() to reset the interval timer even if it wasn't already set (from Jeff Thieleke)
+Improve the UX on "hide read feeds" by forcing the read item to disappear immediately (from Jeff Thieleke)
+Call BookmarkManager before TreeView so that non-default ("Drop Feeds") bookmark folder ids will be initialized correctly (from Jeff Thieleke)
+Move the interval timer setting code to the top of automaticFeedUpdate() so the timer will get started even if the option is disabled. This is a workaround - we should be resetting this as the settings change. (from Jeff Thieleke)
+Adding missing internationalization for notification strings
+Adding internationalization for automatic feed update feature.
+
 0.6
 Internationalization (many languages support)
 Adding French language

@@ -259,14 +259,20 @@
   "optTimeout": {
     "message": "Timeout"
   },
-
   "optSeconds": {
     "message": "seconds"
   },
-
   "optAsynchronousFeedChecking": {
     "message": "Asynchronous feed checking"
   },
+
+  "optAutoFeedUpdatesEvery": {
+    "message": "Automatic feed updates every"
+  },
+  "optMinutes": {
+    "message": "minutes"
+  },
+
 
   "optShowNotifications": {
     "message": "Show notification popup after update"
@@ -315,7 +321,6 @@
   "optExport": {
     "message": "Export..."
   },
-
 
 
   "comment6": {

@@ -107,7 +107,7 @@
   },
 
   "sbFeedsUpdated": {
-    "message": "flux mise à jour"
+    "message": "flux mis à jour"
   },
   "sbOneFeedUpdated": {
     "message": "Un flux mis à jour"
@@ -266,6 +266,13 @@
 
   "optAsynchronousFeedChecking": {
     "message": "Vérification des flux asynchrone"
+  },
+
+  "optAutoFeedUpdatesEvery": {
+    "message": "Mise à jour automatique des flux tous les"
+  },
+  "optMinutes": {
+    "message": "minutes"
   },
 
   "optShowNotifications": {
