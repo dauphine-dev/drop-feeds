@@ -1,4 +1,5 @@
 /*global browser DefaultValues ThemeManager Transfer LocalStorageManager DateTime BrowserManager*/
+/*cSpell:ignore nbsp */
 'use strict';
 class TabGeneral { /*exported TabGeneral*/
   static get instance() {

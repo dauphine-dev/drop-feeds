@@ -56,7 +56,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     await LocalStorageManager.setValue_async('ifHttpsHasFailedRetryWithHttp', document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox').checked);
   }
 
-   static async _ifAutomaticFeedUpdatesCheckboxClicked_event() {
+  static async _ifAutomaticFeedUpdatesCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('automaticFeedUpdates', document.getElementById('automaticFeedUpdatesCheckbox').checked);
   }
 

@@ -1,3 +1,5 @@
+/*cSpell:ignore ACDT, ACST, AEDT, AEST,AKDT, AKST, AWST, AMST, AWDT, AZOST, BIOT, CEDT, CEST, CHADT, CHAS, CHAST, CHST, CIST, CLST */
+/*cSpell:ignore EEDT, EEST, FKST, GALT, HADT, HAEC, IRKT, IRST, KRAT, LHST, MAGT,MEST, NZDT, NZST, OMST, PETT, PHOT, SAMT, SAST, TAHT */
 'use strict';
 class DateTime { /*exported DateTime*/
   static get timeZoneList () {
@@ -16,8 +18,6 @@ class DateTime { /*exported DateTime*/
       'NZST':'GMT+12', 'OMST':'GMT+6', 'PDT':'GMT−7', 'PETT':'GMT+12', 'PHOT':'GMT+13', 'PKT':'GMT+5', 'PST':'GMT−8', 'RET':'GMT+4',
       'SAMT':'GMT+4', 'SAST':'GMT+2', 'SBT':'GMT+11', 'SCT':'GMT+4', 'SGT':'GMT+8', 'SLT':'GMT+5:30', 'SST':'GMT+8', 'TAHT':'GMT−10', 'THA':'GMT+7'
     };
-    /*cSpell:ignore ACDT, ACST, AEDT, AEST,AKDT, AKST, AWST, AMST, AWDT, AZOST, BIOT, CEDT, CEST, CHADT, CHAS, CHAST, CHST, CIST, CLST */
-    /*cSpell:ignore EEDT, EEST, FKST, GALT, HADT, HAEC, IRKT, IRST, KRAT, LHST, MAGT,MEST, NZDT, NZST, OMST, PETT, PHOT, SAMT, SAST, TAHT */
   }
 
   static maxValue() {

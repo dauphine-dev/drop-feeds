@@ -232,6 +232,10 @@
     "message": "View"
   },
 
+  "optItems": {
+    "message": "Items"
+  },
+
   "optContentsArea": {
     "message": "Contents area"
   },
@@ -296,6 +300,10 @@
 
   "optNavigationHistoryWarning": {
     "message": "(*) warning: mark read/unread features will impact your navigation history !"
+  },
+
+  "optShowErrorsAsUnread": {
+    "message": "Show errors as unread"
   },
 
   "optAlwaysOpenNewTab": {

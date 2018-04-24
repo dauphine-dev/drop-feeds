@@ -20,6 +20,7 @@
     <div class="tab">
       <button class="tabLinks" id="generalTabButton" target="generalTab">General</button>
       <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">Update checker</button>
+      <button class="tabLinks" id="itemsTabButton" target= "viewItems">Items</button>
       <button class="tabLinks" id="viewTabButton" target= "viewTab">View</button>
       <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">Contents area</button>
       <button class="tabLinks" id="managementTabButton" target="managementTab">Management</button>
@@ -90,8 +91,8 @@
         </tr>
       </table>
     </div>
-    <!-- ~~~~~~ Tab view ~~~~~~ -->
-    <div id="viewTab" class="tabContent">
+    <!-- ~~~~~~ Tab Items ~~~~~~ -->
+    <div id="viewItems" class="tabContent">
       <table>
         <tr>
           <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">Feed item list</span></td>
@@ -102,7 +103,14 @@
       <small><br/></small>
       <small id="textNavigationHistoryWarning">(*) warning: mark read/unread features will impact your navigation history !</small>
     </div>
-
+    <!-- ~~~~~~ Tab view ~~~~~~ -->
+    <div id="viewTab" class="tabContent">
+      <table>
+        <tr>
+          <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">Show errors as unread</span></td>
+        </tr>
+      </table>
+    </div>
     <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
     <div id="contentsAreaTab" class="tabContent">
       <table>
@@ -132,6 +140,7 @@
       </table>
     </div>
     <script src="/js/ui/options/tabView.js"></script>
+    <script src="/js/ui/options/tabItems.js"></script>
     <script src="/js/ui/options/opmlExporter.js"></script>
     <script src="/js/ui/options/opmlImporter.js"></script>
     <script src="/js/ui/options/tabManagement.js"></script>

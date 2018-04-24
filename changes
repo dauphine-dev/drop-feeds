@@ -7,6 +7,9 @@ Call BookmarkManager before TreeView so that non-default ("Drop Feeds") bookmark
 Move the interval timer setting code to the top of automaticFeedUpdate() so the timer will get started even if the option is disabled. This is a workaround - we should be resetting this as the settings change. (from Jeff Thieleke)
 Adding missing internationalization for notification strings
 Adding internationalization for automatic feed update feature.
+Adding an option to choose to show errors as unread or not
+In options split tab "View" in to two tabs "Items" and "View"
+Fix some indents, typo, and linter warning...
 
 0.6
 Internationalization (many languages support)

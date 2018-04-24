@@ -232,6 +232,10 @@
     "message": "Affichage"
   },
 
+  "optItems": {
+    "message": "Items"
+  },
+
   "optContentsArea": {
     "message": "Contenu"
   },
@@ -297,6 +301,10 @@
 
   "optNavigationHistoryWarning": {
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
+  },
+
+  "optShowErrorsAsUnread": {
+    "message": "Afficher les erreurs comme non lues"
   },
 
   "optAlwaysOpenNewTab": {

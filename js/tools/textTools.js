@@ -1,3 +1,4 @@
+/*cSpell:ignore apos */
 'use strict';
 class TextTools { /* exported TextTools*/
   static makeIndent(indentLength) {
@@ -32,15 +33,19 @@ class TextTools { /* exported TextTools*/
 
   static decodeHtml(htmlText) {
     if (!htmlText) { return htmlText; }
+    /*eslint-disable quotes*/
     let listEncodedCars = {amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+    /*eslint-enable quotes*/
 
     let decodedText = htmlText.replace(/&([^;]+);/g, (l, c) => {
       let decodedCar =  listEncodedCars[c];
       decodedCar = decodedCar ? decodedCar : l;
       return decodedCar; });
 
-    // &#x3C; -> "<", &#x3e; -> ">", etc. 
-    let listHexEncodedChars = {"26": '&', "3C": '<', "3E": '>', "22": '"', "27": "'" };
+    // &#x3C; -> "<", &#x3e; -> ">", etc.
+    /*eslint-disable quotes*/
+    let listHexEncodedChars = {'26': '&', '3C': '<', '3E': '>', '22': '"', '27': "'" };
+    /*eslint-enable quotes*/
     decodedText = decodedText.replace(/&#x([^;]+);/gi, (l, c) => {
       let decodedChar = listHexEncodedChars[c];
       decodedChar = decodedChar ? decodedChar : l;
