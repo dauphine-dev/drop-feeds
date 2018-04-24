@@ -84,6 +84,8 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async isVisitedLink_async(url) {
+    if(!url)
+        return false;
     var visits = await browser.history.getVisits({url: url});
     return (visits.length > 0);
   }
