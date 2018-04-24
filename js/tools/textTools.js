@@ -32,12 +32,19 @@ class TextTools { /* exported TextTools*/
 
   static decodeHtml(htmlText) {
     if (!htmlText) { return htmlText; }
-    let listEncodedCars = {amp: '&', lt: '<', gt: '>', quot: '"' };
+    let listEncodedCars = {amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
 
     let decodedText = htmlText.replace(/&([^;]+);/g, (l, c) => {
       let decodedCar =  listEncodedCars[c];
       decodedCar = decodedCar ? decodedCar : l;
       return decodedCar; });
+
+    // &#x3C; -> "<", &#x3e; -> ">", etc. 
+    let listHexEncodedChars = {"26": '&', "3C": '<', "3E": '>', "22": '"', "27": "'" };
+    decodedText = decodedText.replace(/&#x([^;]+);/gi, (l, c) => {
+      let decodedChar = listHexEncodedChars[c];
+      decodedChar = decodedChar ? decodedChar : l;
+      return decodedChar; });
 
     decodedText = decodedText.replace(/&#(\d+);/g, function(match, dec) {
       let fromCharCode = String.fromCharCode(dec);

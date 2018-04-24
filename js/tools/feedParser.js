@@ -207,7 +207,10 @@ class FeedParser { /*exported FeedParser*/
     }
     if (idIndex < 0) idIndex = 0;
 
-    let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
+    // Search for "<item>" (without attributes) and "<item " (with attributes) 
+    let startNextItemIndex = feedText.indexOf('<' + tagItem + '>', idIndex + 1);
+    if (startNextItemIndex == -1)
+        startNextItemIndex = feedText.indexOf('<' + tagItem + ' ', idIndex + 1);
     if (startNextItemIndex == -1) return '';
     let tagItemEnd = '</' + tagItem + '>';
     let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);
