@@ -1,4 +1,4 @@
-/*global feedStatus*/
+/*global feedStatus itemSortOrder*/
 'use strict';
 class DefaultValues { /*exported DefaultValues*/
 
@@ -23,13 +23,14 @@ class DefaultValues { /*exported DefaultValues*/
   static get automaticFeedUpdates()          { return false; }
   static get automaticFeedUpdateMinutes()    { return 30; }
   static get showErrorsAsUnread()            { return false; }
+  static get itemSortOrder()             { return itemSortOrder.newerFirst; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};
   }
 
   static getStoredFeed(id) {
-    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null };
+    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null, prevValues: {hash: null, pubDate: null} };
   }
 
   static getDefaultItem(id) {

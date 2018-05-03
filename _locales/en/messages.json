@@ -260,6 +260,19 @@
     "message": "Select theme"
   },
 
+  "optFeedItemOrder": {
+    "message": "Feed item order"
+  },
+  "optNewerFirst": {
+    "message": "Newer first"
+  },
+  "optOlderFirst": {
+    "message": "Older first"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+
   "optTimeout": {
     "message": "Timeout"
   },

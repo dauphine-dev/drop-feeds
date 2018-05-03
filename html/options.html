@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link href="/resources/css/options.css" rel="stylesheet">
-    <title>Drop Feeds (options)</title>
+    <title>#Drop Feeds (options)</title>
     <script src="/js/tools/defaultValues.js"></script>
     <script src="/js/tools/browserManager.js"></script>
     <script src="/js/tools/textTools.js"></script>
@@ -13,17 +13,18 @@
     <script src="/js/tools/themeManager.js"></script>
     <script src="/js/tools/listener.js"></script>
     <script src="/js/tools/progressBar.js"></script>
+    <script src="/js/tools/itemSorter.js"></script>
   </head>
 
   <body>
 
     <div class="tab">
-      <button class="tabLinks" id="generalTabButton" target="generalTab">General</button>
-      <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">Update checker</button>
-      <button class="tabLinks" id="itemsTabButton" target= "viewItems">Items</button>
-      <button class="tabLinks" id="viewTabButton" target= "viewTab">View</button>
-      <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">Contents area</button>
-      <button class="tabLinks" id="managementTabButton" target="managementTab">Management</button>
+      <button class="tabLinks" id="generalTabButton" target="generalTab">#General</button>
+      <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">#Update checker</button>
+      <button class="tabLinks" id="itemsTabButton" target= "viewItems">#Items</button>
+      <button class="tabLinks" id="viewTabButton" target= "viewTab">#View</button>
+      <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
+      <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
     </div>
 
     <!-- ~~~~~~ Tab General ~~~~~~ -->
@@ -31,7 +32,7 @@
       <table>
         <tr>
           <td>
-            <label id="lblSelectFeedFolder">Select feed folder</label><span>&nbsp;</span>
+            <label id="lblSelectFeedFolder">#Select feed folder</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="feedList">
@@ -43,16 +44,16 @@
             </div>
           </td>
           <td>
-            <button id="applySelectedFeedButton" style="display:none">Apply</button>
+            <button id="applySelectedFeedButton" style="display:none">#Apply</button>
           </td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">Do not display root folder</span></td>
+          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">#Do not display root folder</span></td>
           <td/><td/>
         </tr>
         <tr>
           <td>
-            <label id="lblSelectTheme">Select theme</label><span>&nbsp;</span>
+            <label id="lblSelectTheme">#Select theme</label><span>&nbsp;</span>
           </td>
           <td>
             <div id ="themeList">
@@ -65,6 +66,20 @@
           </td>
           <td></td>
         </tr>
+
+        <tr>
+          <td>
+            <label id="feedItemOrder">#Feed item order</label><span>&nbsp;</span>
+          </td>
+          <td>
+            <select id="feedItemOrderSelect">
+              <option id="newerFirst" value="newerFirst">#Newer first</option>
+              <option id ="olderFirst" value="olderFirst">#Older first</option>
+              <option id ="original" value="original">#Original</option>
+            </select>
+          </td>
+          <td></td>
+        </tr>
       </table>
     </div>
 
@@ -72,22 +87,22 @@
     <div id="updateCheckerTab" class="tabContent">
       <table>
         <tr>
-          <td><label id="lblTimeout">Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">seconds</span></td>
+          <td><label id="lblTimeout">#Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">#seconds</span></td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">Asynchronous feed checking</span></td>
+          <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">#Asynchronous feed checking</span></td>
         </tr>
         <tr>
            <td>
-                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span id="txtAutoFeedUpdatesEvery" class="checkboxText">Automatic feed updates every</span>
-                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span id="txtMinutes" class="checkboxText">minutes</span>
+                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span id="txtAutoFeedUpdatesEvery" class="checkboxText">#Automatic feed updates every</span>
+                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span id="txtMinutes" class="checkboxText">#minutes</span>
            </td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">Show notification popup after update</span></td>
+          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">#Show notification popup after update</span></td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">If https failed then retry with http</span></td>
+          <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">#If https failed then retry with http</span></td>
         </tr>
       </table>
     </div>
@@ -95,19 +110,19 @@
     <div id="viewItems" class="tabContent">
       <table>
         <tr>
-          <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">Feed item list</span></td>
-          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span id="textFeedItemListToolbar" class="checkboxText" >Feed item list toolbar<small>(*)</small></span></td>
-          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">Description tooltips</span></td>
+          <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item list</span></td>
+          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span id="textFeedItemListToolbar" class="checkboxText" >#Feed item list toolbar<small>(*)</small></span></td>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span></td>
         </tr>
       </table>
       <small><br/></small>
-      <small id="textNavigationHistoryWarning">(*) warning: mark read/unread features will impact your navigation history !</small>
+      <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation history !</small>
     </div>
     <!-- ~~~~~~ Tab view ~~~~~~ -->
     <div id="viewTab" class="tabContent">
       <table>
         <tr>
-          <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">Show errors as unread</span></td>
+          <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">S#how errors as unread</span></td>
         </tr>
       </table>
     </div>
@@ -115,8 +130,8 @@
     <div id="contentsAreaTab" class="tabContent">
       <table>
         <tr>
-          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">Always open new tab</span></td>
-          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">Open new tab in foreground</span></td>
+          <td><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></td>
+          <td><input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">#Open new tab in foreground</span></td>
         </tr>
       </table>
     </div>
@@ -128,13 +143,13 @@
           <td><label id="lblSelectOpmlFileToImport">Select the opml file to import</label></td>
           <td>
             <input type="file" accept=".opml" id="inputImportFile"/>
-            <button id="importButton">Import...</button>
+            <button id="importButton">#Import...</button>
           </td>
           <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>
         <tr>
-          <td><label id="lblSelectOpmlFileToExport">Select where to export the ompl file</label></td>
-          <td><button id="exportButton">Export...</button></td>
+          <td><label id="lblSelectOpmlFileToExport">#Select where to export the ompl file</label></td>
+          <td><button id="exportButton">#Export...</button></td>
           <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
         </tr>
       </table>

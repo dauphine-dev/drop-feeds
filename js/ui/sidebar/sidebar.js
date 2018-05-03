@@ -1,4 +1,4 @@
-/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
+/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -22,6 +22,7 @@ class SideBar { /*exported SideBar*/
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
+    await ItemSorter.instance.init_async();
     FeedManager.instance;
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;

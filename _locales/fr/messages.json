@@ -260,6 +260,19 @@
     "message": "Theme"
   },
 
+  "optFeedItemOrder": {
+    "message": "Orde de tri des items"
+  },
+  "optNewerFirst": {
+    "message": "Les plus récents d'abord"
+  },
+  "optOlderFirst": {
+    "message": "Les plus anciens d'abord"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+
   "optTimeout": {
     "message": "Délais d'expiration (timeout)"
   },

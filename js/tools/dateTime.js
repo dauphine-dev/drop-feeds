@@ -1,6 +1,7 @@
 /*cSpell:ignore ACDT, ACST, AEDT, AEST,AKDT, AKST, AWST, AMST, AWDT, AZOST, BIOT, CEDT, CEST, CHADT, CHAS, CHAST, CHST, CIST, CLST */
 /*cSpell:ignore EEDT, EEST, FKST, GALT, HADT, HAEC, IRKT, IRST, KRAT, LHST, MAGT,MEST, NZDT, NZST, OMST, PETT, PHOT, SAMT, SAST, TAHT */
 'use strict';
+
 class DateTime { /*exported DateTime*/
   static get timeZoneList () {
     return  {'ACDT':'GMT+10:30', 'ACST':'GMT+9:30', 'ADT':'GMT−3', 'AEDT':'GMT+11', 'AEST':'GMT+10', 'AFT':'GMT+4:30', 'AKDT':'GMT−8',

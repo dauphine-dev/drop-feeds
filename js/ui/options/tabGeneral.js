@@ -17,9 +17,10 @@ class TabGeneral { /*exported TabGeneral*/
   async init_async() {
     this._updateLocalizedStrings();
     this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
-    await this._initFeedFolderDropdown_async();
     await this._initDisplayRootFolderCheckbox_async();
+    await this._initFeedItemOrderDropdown_async();
     await this._initThemeDropdown_async();
+    await this._initFeedFolderDropdown_async();
   }
 
   _updateLocalizedStrings() {
@@ -27,6 +28,11 @@ class TabGeneral { /*exported TabGeneral*/
     document.getElementById('applySelectedFeedButton').textContent = browser.i18n.getMessage('optApply');
     document.getElementById('textDoNotDisplayRootFolder').textContent = browser.i18n.getMessage('optDoNotDisplayRootFolder');
     document.getElementById('lblSelectTheme').textContent = browser.i18n.getMessage('optSelectTheme');
+    document.getElementById('feedItemOrder').textContent = browser.i18n.getMessage('optFeedItemOrder');
+
+    document.getElementById('newerFirst').textContent = browser.i18n.getMessage('optNewerFirst');
+    document.getElementById('olderFirst').textContent = browser.i18n.getMessage('optOlderFirst');
+    document.getElementById('original').textContent = browser.i18n.getMessage('optOriginal');
   }
 
   async _initFeedFolderDropdown_async() {
@@ -56,6 +62,15 @@ class TabGeneral { /*exported TabGeneral*/
     BrowserManager.setInnerHtmlByElement(elThemeList, themeListHtml);
     document.getElementById('themeSelect').addEventListener('change', this._themeSelectChanged_event);
   }
+
+  async _initFeedItemOrderDropdown_async() {
+    let itemSortOrder = await LocalStorageManager.getValue_async('itemSortOrder', DefaultValues.itemSortOrder);
+    itemSortOrder = Number.isInteger(itemSortOrder) ? itemSortOrder : DefaultValues.itemSortOrder;
+    let feedItemOrderSelectEl = document.getElementById('feedItemOrderSelect');
+    feedItemOrderSelectEl.options[itemSortOrder].selected = true;
+    feedItemOrderSelectEl.addEventListener('change', this._feedItemOrderSelectChanged_event);
+  }
+
 
   async _createThemeListHtml_async() {
     const folder_name = 0;
@@ -128,4 +143,10 @@ class TabGeneral { /*exported TabGeneral*/
     await ThemeManager.instance.setThemeFolderName_async(themeName);
     await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
+
+  async _feedItemOrderSelectChanged_event() {
+    let itemSortOrder = document.getElementById('feedItemOrderSelect').selectedIndex;
+    await LocalStorageManager.setValue_async('itemSortOrder', itemSortOrder);
+  }
+
 }
