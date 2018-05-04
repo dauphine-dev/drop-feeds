@@ -316,6 +316,9 @@
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
   },
 
+  "optShowUpdatedFeedCount": {
+    "message": "Afficher le compteur de flux non lus"
+  },
   "optShowErrorsAsUnread": {
     "message": "Afficher les erreurs comme non lues"
   },

@@ -23,7 +23,8 @@ class DefaultValues { /*exported DefaultValues*/
   static get automaticFeedUpdates()          { return false; }
   static get automaticFeedUpdateMinutes()    { return 30; }
   static get showErrorsAsUnread()            { return false; }
-  static get itemSortOrder()             { return itemSortOrder.newerFirst; }
+  static get itemSortOrder()                 { return itemSortOrder.newerFirst; }
+  static get showUpdatedFeedCount()          { return false; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};

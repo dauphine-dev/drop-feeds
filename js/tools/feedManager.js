@@ -116,14 +116,14 @@ class FeedManager { /*exported FeedManager*/
       self._statusMessageBeforeCheck(feed);
       await feed.update_async();
       self._statusMessageAfterCheck(feed);
-      await feed.updateUiStatus();
-      feed.updateUiStatus();
+      await feed.updateUiStatus_async();
+      feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
         self._updatedFeeds++;
       }
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus();
+      feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       console.log(e);
       /*eslint-enable no-console*/
@@ -154,12 +154,12 @@ class FeedManager { /*exported FeedManager*/
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      feed.updateUiStatus();
+      feed.updateUiStatus_async();
       StatusBar.instance.text = feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ';
 
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus();
+      feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       console.log(e);
       /*eslint-enable no-console*/
@@ -178,11 +178,11 @@ class FeedManager { /*exported FeedManager*/
       await feed.update_async();
       self._unifiedFeedItems.push(...feed.info.itemList);
       await feed.setStatus_async(feedStatus.OLD);
-      feed.updateUiStatus();
+      feed.updateUiStatus_async();
       StatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus();
+      feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       console.log(e);
       /*eslint-enable no-console*/

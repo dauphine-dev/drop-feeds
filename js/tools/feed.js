@@ -94,7 +94,7 @@ class Feed { /*exported Feed*/
 
   async setStatus_async(status) {
     this._storedFeed.status = status;
-    this.updateUiStatus();
+    this.updateUiStatus_async();
     await this.save_async();
   }
 
@@ -118,7 +118,7 @@ class Feed { /*exported Feed*/
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 
-  updateUiStatus() {
+  async updateUiStatus_async() {
     let feedUiItem = document.getElementById(this._storedFeed.id);
     switch(this.status) {
       case feedStatus.UPDATED:
@@ -138,6 +138,7 @@ class Feed { /*exported Feed*/
         break;
     }
     TreeView.instance.selectionBarRefresh();
+    TreeView.instance.updateAllFolderCount();
   }
 
   //private stuff

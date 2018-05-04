@@ -315,6 +315,9 @@
     "message": "(*) warning: mark read/unread features will impact your navigation history !"
   },
 
+  "optShowUpdatedFeedCount": {
+    "message": "Show updated feed count"
+  },
   "optShowErrorsAsUnread": {
     "message": "Show errors as unread"
   },
