@@ -1,4 +1,5 @@
 /*global browser DefaultValues LocalStorageManager TextTools ProgressBar DateTime*/
+/*cSpell:ignore parsererror */
 'use strict';
 const TagKindEnum = {
   OPENER: 'opener',

@@ -1,4 +1,4 @@
-/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager
+/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -11,20 +11,21 @@ class SideBar { /*exported SideBar*/
 
   constructor() {
     /*eslint-disable no-console*/
-    console.log('Drop feeds loading...');
+    console.log('Drop Feeds loading...');
     /*eslint-enable no-console*/
     this._contentTop = null;
   }
 
   async init_async() {
+    await BookmarkManager.instance.init_async();
     await TreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
     await TopMenu.instance.init_async();
+    await ItemSorter.instance.init_async();
     FeedManager.instance;
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
-    BookmarkManager.instance.init_async();
     TabManager.instance;
     document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
     this._addListeners();
@@ -80,4 +81,4 @@ class SideBar { /*exported SideBar*/
 }
 
 SideBar.instance.init_async();
-SideBar.instance.reloadOnce();
+//SideBar.instance.reloadOnce();

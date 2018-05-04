@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -14,11 +14,13 @@ class TopMenu  { /*exported TopMenu*/
     this._buttonAddFeedEnabled = false;
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
+    this.autoUpdateInterval = undefined;
+    this.automaticUpdatesMilliseconds = undefined;
   }
 
   async init_async() {
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
-    this.updatedFeedsSetVisibility();
+    await this.updatedFeedsSetVisibility_async();
     await this._isRootFolderChecked_async();
     this._updateLocalizedStrings();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
@@ -28,6 +30,8 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').addEventListener('click', TopMenu._toggleFoldersButtonClicked_event);
     document.getElementById('addFeedButton').addEventListener('click', TopMenu._addFeedButtonClicked_event);
     document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
+    setTimeout(this.automaticFeedUpdate, 2000);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', TopMenu.showErrorsAsUnread_sbscrb, false);
   }
 
   set discoverFeedsButtonEnabled(value) {
@@ -67,13 +71,51 @@ class TopMenu  { /*exported TopMenu*/
     }
   }
 
-  updatedFeedsSetVisibility() {
+  async updatedFeedsSetVisibility_async() {
     this.activateButton('onlyUpdatedFeedsButton' , this._updatedFeedsVisible);
-    let visibleValue = this._updatedFeedsVisible ? 'display:none;' : 'visibility:visible;';
-    CssManager.replaceStyle('.feedUnread', '  visibility: visible;\n  font-weight: bold;');
+    let visibleValue = this._updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
+    let unreadValue = '  visibility: visible;\n  font-weight: bold;';
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    CssManager.replaceStyle('.feedUnread', unreadValue);
     CssManager.replaceStyle('.feedRead', visibleValue);
-    CssManager.replaceStyle('.feedError', visibleValue);
+    CssManager.replaceStyle('.feedError',  showErrorsAsUnread ? unreadValue : visibleValue);
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+  }
+
+  async automaticFeedUpdate() {
+    await TopMenu.updateAutomaticUpdateInterval();
+
+    let automaticUpdatesEnabled = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
+    if (!automaticUpdatesEnabled)
+      return;
+
+    await TopMenu.updateAutomaticUpdateInterval();
+
+    try
+    {
+      await FeedManager.instance.checkFeeds_async('content');
+    }
+    catch(e)
+    {
+      /*eslint-disable no-console*/
+      console.log(e);
+      /*eslint-enable no-console*/
+    }
+  }
+
+  static async updateAutomaticUpdateInterval() {
+    let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
+    let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
+
+    if(TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
+    {
+      TopMenu.instance.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
+
+      if(TopMenu.instance.autoUpdateInterval)
+        clearInterval(TopMenu.instance.autoUpdateInterval);
+
+      TopMenu.instance.autoUpdateInterval = setInterval(TopMenu.instance.automaticFeedUpdate, automaticUpdatesMilliseconds);
+    }
   }
 
   static async checkFeedsButtonClicked_event(event) {
@@ -104,7 +146,7 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     self._updatedFeedsVisible = ! self._updatedFeedsVisible;
-    self.updatedFeedsSetVisibility();
+    await self.updatedFeedsSetVisibility_async();
     TreeView.instance.selectionBarRefresh();
   }
 
@@ -149,5 +191,13 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
+  }
+
+  static async _automaticUpdateChanged_event() {
+    await TopMenu.updateAutomaticUpdateInterval();
+  }
+
+  static async showErrorsAsUnread_sbscrb() {
+    TopMenu.instance.updatedFeedsSetVisibility_async();
   }
 }

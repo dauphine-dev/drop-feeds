@@ -264,6 +264,10 @@ ul {
   margin-left: -22px;
 }
 
+.countBold {
+  font-weight: bold;
+}
+
 /* feeds */
 li {
   display: block;

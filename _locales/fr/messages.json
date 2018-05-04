@@ -106,6 +106,15 @@
     "message": "reçu"
   },
 
+  "sbFeedsUpdated": {
+    "message": "flux mis à jour"
+  },
+  "sbOneFeedUpdated": {
+    "message": "Un flux mis à jour"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "Aucun flux n'a été mis à jour"
+  },
 
 
 
@@ -114,7 +123,7 @@
   },
 
   "subDropFeedsSubscribe": {
-    "message": "Drop feeds (s'abonner)"
+    "message": "Drop Feeds (s'abonner)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -208,7 +217,7 @@
   },
 
   "optDropFeedsOptions": {
-    "message": "Drop feeds (options)"
+    "message": "Drop Feeds (options)"
   },
 
   "optGeneral": {
@@ -221,6 +230,10 @@
 
   "optView": {
     "message": "Affichage"
+  },
+
+  "optItems": {
+    "message": "Items"
   },
 
   "optContentsArea": {
@@ -247,6 +260,19 @@
     "message": "Theme"
   },
 
+  "optFeedItemOrder": {
+    "message": "Orde de tri des items"
+  },
+  "optNewerFirst": {
+    "message": "Les plus récents d'abord"
+  },
+  "optOlderFirst": {
+    "message": "Les plus anciens d'abord"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+
   "optTimeout": {
     "message": "Délais d'expiration (timeout)"
   },
@@ -257,6 +283,13 @@
 
   "optAsynchronousFeedChecking": {
     "message": "Vérification des flux asynchrone"
+  },
+
+  "optAutoFeedUpdatesEvery": {
+    "message": "Mise à jour automatique des flux tous les"
+  },
+  "optMinutes": {
+    "message": "minutes"
   },
 
   "optShowNotifications": {
@@ -281,6 +314,13 @@
 
   "optNavigationHistoryWarning": {
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
+  },
+
+  "optShowUpdatedFeedCount": {
+    "message": "Afficher le compteur de flux non lus"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "Afficher les erreurs comme non lues"
   },
 
   "optAlwaysOpenNewTab": {
@@ -313,7 +353,7 @@
   },
 
   "csSubscribeWithDropFeeds": {
-    "message": "S'abonner avec Drop feeds"
+    "message": "S'abonner avec Drop Feeds"
   }
 
 }

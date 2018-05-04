@@ -23,7 +23,6 @@ class Feed { /*exported Feed*/
 
   constructor(id) {
     this._storedFeed = DefaultValues.getStoredFeed(id);
-    this._prevValues = {hash: null, pubDate: null};
     this._bookmark = null;
     this._feedText = null;
     this._error = null;
@@ -38,6 +37,9 @@ class Feed { /*exported Feed*/
       this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
       this._storedFeed.title =  this._bookmark.title;
       this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
+      if (this._storedFeed.prevValues == undefined) {
+        this._storedFeed.prevValues = {hash: null, pubDate: null};
+      }
       this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
       if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
       this._storedFeed.isFeedInfo = true;
@@ -92,7 +94,7 @@ class Feed { /*exported Feed*/
 
   async setStatus_async(status) {
     this._storedFeed.status = status;
-    this.updateUiStatus();
+    this.updateUiStatus_async();
     await this.save_async();
   }
 
@@ -116,7 +118,7 @@ class Feed { /*exported Feed*/
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 
-  updateUiStatus() {
+  async updateUiStatus_async() {
     let feedUiItem = document.getElementById(this._storedFeed.id);
     switch(this.status) {
       case feedStatus.UPDATED:
@@ -136,13 +138,14 @@ class Feed { /*exported Feed*/
         break;
     }
     TreeView.instance.selectionBarRefresh();
+    TreeView.instance.updateAllFolderCount();
   }
 
   //private stuff
 
   _savePrevValues() {
-    this._prevValues.hash = this._storedFeed.hash;
-    this._prevValues.pubDate = this._storedFeed.pubDate;
+    this._storedFeed.prevValues.hash = this._storedFeed.hash;
+    this._storedFeed.prevValues.pubDate = this._storedFeed.pubDate;
     this._storedFeed.hash = null;
     this._storedFeed.pubDate = null;
   }
@@ -231,10 +234,10 @@ class Feed { /*exported Feed*/
     else {
       this._storedFeed.status = feedStatus.OLD;
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if (!this._prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
+        if (!this._storedFeed.prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._storedFeed.prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
-      } else if ((this._storedFeed.hash && !this._prevValues.hash) || (this._storedFeed.hash.valueOf() != this._prevValues.hash.valueOf())) {
+      } else if ((this._storedFeed.hash && !this._storedFeed.prevValues.hash) || (this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
         this._storedFeed.status = feedStatus.UPDATED;
       }
     }

@@ -1,4 +1,5 @@
-/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter */
+/*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
   FEED: ['?xml', 'rss', 'feed'],
@@ -103,11 +104,7 @@ class FeedParser { /*exported FeedParser*/
 
   static async parseItemListToHtml_async(itemList) {
     let htmlItemList = [];
-    itemList.sort((item1, item2) => {
-      if (item1.pubDate > item2.pubDate) return -1;
-      if (item1.pubDate < item2.pubDate) return 1;
-      return 0;
-    });
+    itemList = ItemSorter.instance.sort(itemList);
     for (let i=0; i<itemList.length; i++) {
       let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
       htmlItemList.push(htmlItem);
@@ -169,17 +166,20 @@ class FeedParser { /*exported FeedParser*/
 
   }
 
-  static _feedInfoToHtml(feedInfo) {
+  static  _feedInfoToHtml(feedInfo) {
     let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
     let feedHtml = '';
     feedHtml += htmlHead;
     feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
     let htmlItemList = [];
+    /*
     feedInfo.itemList.sort((item1, item2) => {
       if (item1.pubDate > item2.pubDate) return -1;
       if (item1.pubDate < item2.pubDate) return 1;
       return 0;
     });
+    */
+    feedInfo.itemList = ItemSorter.instance.sort(feedInfo.itemList);
     for (let i=0; i<feedInfo.itemList.length; i++) {
       let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i+1);
       htmlItemList.push(htmlItem);
@@ -207,7 +207,10 @@ class FeedParser { /*exported FeedParser*/
     }
     if (idIndex < 0) idIndex = 0;
 
-    let startNextItemIndex = feedText.indexOf('<' + tagItem, idIndex + 1);
+    // Search for "<item>" (without attributes) and "<item " (with attributes)
+    let startNextItemIndex = feedText.indexOf('<' + tagItem + '>', idIndex + 1);
+    if (startNextItemIndex == -1)
+      startNextItemIndex = feedText.indexOf('<' + tagItem + ' ', idIndex + 1);
     if (startNextItemIndex == -1) return '';
     let tagItemEnd = '</' + tagItem + '>';
     let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);

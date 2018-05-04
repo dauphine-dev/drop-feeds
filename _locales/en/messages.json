@@ -105,6 +105,15 @@
   "sbReceived": {
     "message": "received"
   },
+  "sbFeedsUpdated": {
+    "message": "feeds updated"
+  },
+  "sbOneFeedUpdated": {
+    "message": "One feed updated"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "No Feed has been updated"
+  },
 
 
 
@@ -114,7 +123,7 @@
   },
 
   "subDropFeedsSubscribe": {
-    "message": "Drop feeds (subscribe)"
+    "message": "Drop Feeds (subscribe)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -208,7 +217,7 @@
   },
 
   "optDropFeedsOptions": {
-    "message": "Drop feeds (options)"
+    "message": "Drop Feeds (options)"
   },
 
   "optGeneral": {
@@ -221,6 +230,10 @@
 
   "optView": {
     "message": "View"
+  },
+
+  "optItems": {
+    "message": "Items"
   },
 
   "optContentsArea": {
@@ -247,17 +260,36 @@
     "message": "Select theme"
   },
 
+  "optFeedItemOrder": {
+    "message": "Feed item order"
+  },
+  "optNewerFirst": {
+    "message": "Newer first"
+  },
+  "optOlderFirst": {
+    "message": "Older first"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+
   "optTimeout": {
     "message": "Timeout"
   },
-
   "optSeconds": {
     "message": "seconds"
   },
-
   "optAsynchronousFeedChecking": {
     "message": "Asynchronous feed checking"
   },
+
+  "optAutoFeedUpdatesEvery": {
+    "message": "Automatic feed updates every"
+  },
+  "optMinutes": {
+    "message": "minutes"
+  },
+
 
   "optShowNotifications": {
     "message": "Show notification popup after update"
@@ -281,6 +313,13 @@
 
   "optNavigationHistoryWarning": {
     "message": "(*) warning: mark read/unread features will impact your navigation history !"
+  },
+
+  "optShowUpdatedFeedCount": {
+    "message": "Show updated feed count"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "Show errors as unread"
   },
 
   "optAlwaysOpenNewTab": {
@@ -308,12 +347,11 @@
   },
 
 
-
   "comment6": {
     "message": "---Content script strings---"
   },
 
   "csSubscribeWithDropFeeds": {
-    "message": "Subscribe with Drop feeds"
+    "message": "Subscribe with Drop Feeds"
   }
 }

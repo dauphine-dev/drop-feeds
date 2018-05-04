@@ -46,9 +46,10 @@ a.channelLink  {
 
 div.item {
 	background: White;
-	border: 0; 
+	border: 0;
 	border: 1px solid #97969A;
-	-moz-border-radius: 10px;  
+	/*-moz-border-radius: 10px;*/
+	border-radius: 10px;
 	color: #333;
 	font-size: 12px;
 	margin-bottom: 15px;
@@ -59,9 +60,9 @@ div.item {
 .itemTitle
 {
 	border-bottom: 1px solid #ddd;
-	color: #000; 
+	color: #000;
 	display: block;
-	font-family: arial, verdana, sans-serif; 
+	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
 	min-height: 1.3em;

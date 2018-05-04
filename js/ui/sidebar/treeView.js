@@ -1,6 +1,7 @@
 /*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
 ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
+
 class TreeView { /*exported TreeView*/
   static get instance() {
     if (!this._instance) {
@@ -21,21 +22,25 @@ class TreeView { /*exported TreeView*/
     this._displayRootFolder = DefaultValues.displayRootFolder;
     this._1stFolderDivId = null;
     this._rootFolderId = DefaultValues.rootFolderId;
+    this._rootBookmark = null;
+    this._showUpdatedFeedCount = DefaultValues.showUpdatedFeedCount;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', TreeView._reload_sbscrb, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', TreeView._reload_sbscrb, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', TreeView._showUpdatedFeedCount_sbscrb, true);
   }
 
   async load_async() {
     this._html = [];
     this._is1stFolder = true;
     this._rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
-    let rootBookmark = (await browser.bookmarks.getSubTree(this._rootFolderId))[0];
+    this._rootBookmark = (await browser.bookmarks.getSubTree(this._rootFolderId))[0];
     let cacheLocalStorage = await LocalStorageManager.getCache_async();
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
     //this._html.push('<div id="dv-content">');
-    this._computeHtmlTree(cacheLocalStorage, rootBookmark, 10, this._displayRootFolder);
+    this._computeHtmlTree(cacheLocalStorage, this._rootBookmark, 10, this._displayRootFolder);
     //this._html.push('</div>');
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
+    this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
   }
@@ -59,8 +64,60 @@ class TreeView { /*exported TreeView*/
     await TreeView.instance.reload_async();
   }
 
+  static async _showUpdatedFeedCount_sbscrb(value) {
+    let self = TreeView.instance;
+    self._showUpdatedFeedCount = value;
+    let force = true;
+    self.updateAllFolderCount(force);
+  }
+
   selectionBarRefresh() {
     this._selectionBar.refresh();
+  }
+
+  async updateAllFolderCount(force) {
+    if (this._showUpdatedFeedCount || force) {
+      this._updateFolderCount(this._rootBookmark);
+    }
+  }
+
+  _updateFolderCount(bookmarkItem) {
+    if (bookmarkItem.children) {
+      for (let child of bookmarkItem.children) {
+        if (!bookmarkItem.url) {
+          this._updateFolderCount(child);
+        }
+      }
+    }
+    let count = this._getFolderCount(bookmarkItem.id);
+
+    let countTextId = 'cpt-' + bookmarkItem.id;
+    let countTextEl = document.getElementById(countTextId);
+    if (countTextEl) {
+      if (count > 0) {
+        countTextEl.textContent = ' (' + count + ')';
+        countTextEl.classList.add('countBold');
+        document.getElementById('lbl-' + bookmarkItem.id).classList.add('countBold');
+      }
+      else
+      {
+        countTextEl.textContent = '';
+        countTextEl.classList.remove('countBold');
+        document.getElementById('lbl-' + bookmarkItem.id).classList.remove('countBold');
+      }
+    }
+
+  }
+  _getFolderCount(bookmarkItemId) {
+    if (!this._showUpdatedFeedCount) { return 0; }
+    let count = 0;
+    let divId = 'dv-' + bookmarkItemId;
+    let divEl = document.getElementById(divId);
+    if (divEl) {
+      let feedUnreadList = divEl.querySelectorAll('.feedUnread');
+      count = feedUnreadList.length;
+    }
+    return count;
   }
 
   _addEventListenerOnFeedItems() {
@@ -158,12 +215,13 @@ class TreeView { /*exported TreeView*/
       folderLine += TextTools.makeIndent(indent);
       folderLine += '<div id="dv-' + id + '" class="folder">\n';
       indent += 2;
+      //
       folderLine += TextTools.makeIndent(indent) +
       '<li>' +
       '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
       '<label for="cb-' + id + '" class="folderClose"></label>' +
       '<label for="cb-' + id + '" class="folderOpen"></label>' +
-      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '</label>\n';
+      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '<span id="cpt-' + id + '"></span></label>\n';
       let paddingLeft = displayThisFolder ? '' : 'style="padding-left: 22px;"';
       folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '" ' +  paddingLeft + '>\n';
     }

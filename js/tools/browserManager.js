@@ -47,7 +47,7 @@ class BrowserManager { /* exported BrowserManager*/
     browser.notifications.create({
       'type': 'basic',
       'iconUrl': browser.extension.getURL(ThemeManager.instance.iconDF96Url),
-      'title': 'Drop feeds',
+      'title': 'Drop Feeds',
       'message': message
     });
   }
@@ -84,6 +84,8 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async isVisitedLink_async(url) {
+    if(!url)
+      return false;
     var visits = await browser.history.getVisits({url: url});
     return (visits.length > 0);
   }

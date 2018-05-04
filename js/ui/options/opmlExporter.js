@@ -37,7 +37,7 @@ class OpmlExporter { /*exported OpmlExporter*/
     indentRef[0] += this._opmlIntentSize;
     headText += TextTools.makeIndent(indentRef[0]) + '<head>\n';
     indentRef[0] += this._opmlIntentSize;
-    headText += TextTools.makeIndent(indentRef[0]) + '<title>Drop feeds OPML Export</title>\n';
+    headText += TextTools.makeIndent(indentRef[0]) + '<title>Drop Feeds OPML Export</title>\n';
     indentRef[0] -= this._opmlIntentSize;
     headText += TextTools.makeIndent(indentRef[0]) +'</head>\n';
     headText += TextTools.makeIndent(indentRef[0]) +'<body>\n';
