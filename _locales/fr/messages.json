@@ -74,6 +74,22 @@
     "message": "Ouvrir les flux non lus comme un flux unique"
   },
 
+  "sbGetFeedTitle": {
+    "message": "Mettre à jour le titre"
+  },
+  "sbOpenFeed": {
+    "message": "Ouvrir"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "Marquer comme lu"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "Marquer comme non lu"
+  },
+  "sbDeleteFeed": {
+    "message": "Supprimer"
+  },
+
   "sbUseButtonAbove": {
     "message": "Pour ajouter un nouveau flux, utilisez le button situé plus haut !"
   },

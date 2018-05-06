@@ -74,9 +74,26 @@
     "message": "Open updated as an unified feed"
   },
 
+  "sbGetFeedTitle": {
+    "message": "Get feed title"
+  },
+  "sbOpenFeed": {
+    "message": "Open"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "Mark as read"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "Mark as unread"
+  },
+  "sbDeleteFeed": {
+    "message": "Delete"
+  },
+
   "sbUseButtonAbove": {
     "message": "To add a Feed use the button above !"
   },
+
 
   "sbChecking": {
     "message": "checking"

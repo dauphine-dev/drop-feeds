@@ -411,6 +411,47 @@ li {
   display: inline-block;
 }
 
+#ctxFdtMnGetFeedTitle::before {
+  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+#ctxFdMnOpenFeed::before {
+  background-image: url(/resources/themes/sage_sc/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsRead::before {
+  background-image: url(/resources/themes/sage_sc/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsUpdated::before {
+  background-image: url(/resources/themes/legacy/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdtMnDeleteFeed::before {
+  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
 
 .menuSep {
   margin: 2px 0 2px 0;

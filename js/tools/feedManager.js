@@ -22,6 +22,10 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
   }
 
+  async delete(feedId) {
+    await Feed.delete_async(feedId);
+  }
+
   async checkFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     TopMenu.instance.animateCheckFeedButton(true);
@@ -46,6 +50,13 @@ class FeedManager { /*exported FeedManager*/
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
     this._unifiedChannelTitle = (await browser.bookmarks.getSubTree(folderId.substring(3)))[0].title;
     await this._processFeedsFromList(folderId, this._unifyingThenOpenProcessedFeedsInner_async);
+  }
+
+
+  async updateFeedTitle_async(feedId) {
+    let feed = await Feed.new(feedId);
+    await feed.updateTitle_async();
+    feed.updateUiTitle();
   }
 
   async _preparingListOfFeedsToProcess_async(folderId, querySelector, action) {
@@ -225,11 +236,11 @@ class FeedManager { /*exported FeedManager*/
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedUnread, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      this.markFeedsAsRead_async(feedElement);
+      this.markFeedAsRead_async(feedElement);
     }
   }
 
-  async markFeedsAsRead_async(feedElement) {
+  async markFeedAsRead_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
     feedElement.classList.remove('feedError');
     feedElement.classList.remove('feedUnread');
@@ -238,11 +249,21 @@ class FeedManager { /*exported FeedManager*/
     await feed.setStatus_async(feedStatus.OLD);
   }
 
+  async markFeedAsReadById_async(feedId) {
+    let feedElement= document.getElementById(feedId);
+    feedElement.classList.remove('feedError');
+    feedElement.classList.remove('feedUnread');
+    feedElement.classList.add('feedRead');
+    let feed = await Feed.new(feedId);
+    await feed.setStatus_async(feedStatus.OLD);
+  }
+
+
   async markAllFeedsAsUpdated_async(folderId) {
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      this._markFeedAsUpdated_async(feedElement);
+      this.markFeedAsUpdated_async(feedElement);
     }
   }
 
@@ -254,15 +275,24 @@ class FeedManager { /*exported FeedManager*/
     FeedManager.instance._showFeedUpdatePopup = value;
   }
 
-  async _markFeedAsUpdated_async(feedElement) {
+  async markFeedAsUpdated_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
     feedElement.classList.remove('feedError');
     feedElement.classList.remove('feedUnread');
     feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     feed.setStatus_async(feedStatus.UPDATED);
-
   }
+
+  async markFeedAsUpdatedById_async(feedId) {
+    let feedElement= document.getElementById(feedId);
+    feedElement.classList.remove('feedError');
+    feedElement.classList.remove('feedUnread');
+    feedElement.classList.add('feedRead');
+    let feed = await Feed.new(feedId);
+    feed.setStatus_async(feedStatus.UPDATED);
+  }
+
 
   _displayUpdatedFeedsNotification() {
     if (this._showFeedUpdatePopup) {

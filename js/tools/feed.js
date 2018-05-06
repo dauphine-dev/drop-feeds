@@ -20,6 +20,9 @@ class Feed { /*exported Feed*/
     return feedItem;
   }
 
+  static delete_async(feedId) {
+    browser.bookmarks.remove(feedId);
+  }
 
   constructor(id) {
     this._storedFeed = DefaultValues.getStoredFeed(id);
@@ -92,6 +95,15 @@ class Feed { /*exported Feed*/
     await this.save_async();
   }
 
+  async updateTitle_async() {
+    let ignoreRedirection = false;
+    await this._download_async(ignoreRedirection, false);
+    this._parseTitle();
+    await this.save_async();
+    browser.bookmarks.update(this._storedFeed.id, {title: this._storedFeed.title});
+  }
+
+
   async setStatus_async(status) {
     this._storedFeed.status = status;
     this.updateUiStatus_async();
@@ -141,6 +153,13 @@ class Feed { /*exported Feed*/
     TreeView.instance.updateAllFolderCount();
   }
 
+  updateUiTitle() {
+    let feedUiItem = document.getElementById(this._storedFeed.id);
+    if (this._storedFeed.title) {
+      feedUiItem.textContent = this._storedFeed.title;
+    }
+  }
+
   //private stuff
 
   _savePrevValues() {
@@ -151,6 +170,7 @@ class Feed { /*exported Feed*/
   }
 
   async _download_async(ignoreRedirection, forceHttp) {
+    this._error = null;
     try {
       let urlNoCache = true;
       await this._downloadEx_async(urlNoCache, forceHttp);
@@ -225,6 +245,11 @@ class Feed { /*exported Feed*/
   _parsePubdate() {
     if (this._error != null)  { return; }
     this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
+  }
+
+  _parseTitle() {
+    if (this._error != null)  { return; }
+    this._storedFeed.title =  FeedParser.parseTitle(this._feedText);
   }
 
   async _updateStatus() {

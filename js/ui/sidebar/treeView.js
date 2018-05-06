@@ -81,6 +81,19 @@ class TreeView { /*exported TreeView*/
     }
   }
 
+  openFeed(feedId) {
+    try {
+      TopMenu.instance.animateCheckFeedButton(true);
+      StatusBar.instance.workInProgress = true;
+      FeedManager.instance.openOneFeedToTabById_async(feedId);
+    }
+    finally {
+      StatusBar.instance.text = '';
+      TopMenu.instance.animateCheckFeedButton(false);
+      StatusBar.instance.workInProgress = false;
+    }
+
+  }
   _updateFolderCount(bookmarkItem) {
     if (bookmarkItem.children) {
       for (let child of bookmarkItem.children) {
@@ -140,6 +153,7 @@ class TreeView { /*exported TreeView*/
     }
   }
 
+
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -155,17 +169,8 @@ class TreeView { /*exported TreeView*/
     event.preventDefault();
     ContextMenu.instance.hide();
     TreeView.instance._selectionBar.put(event.currentTarget);
-    try {
-      TopMenu.instance.animateCheckFeedButton(true);
-      StatusBar.instance.workInProgress = true;
-      let feedId = event.currentTarget.getAttribute('id');
-      FeedManager.instance.openOneFeedToTabById_async(feedId);
-    }
-    finally {
-      StatusBar.instance.text = '';
-      TopMenu.instance.animateCheckFeedButton(false);
-      StatusBar.instance.workInProgress = false;
-    }
+    let feedId = event.currentTarget.getAttribute('id');
+    TreeView.instance.openFeed(feedId);
   }
 
   async _folderChanged_event(event) {

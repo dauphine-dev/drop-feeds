@@ -366,6 +366,48 @@ li.feedUnread {
   display: inline-block;
 }
 
+#ctxFdtMnGetFeedTitle::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
+#ctxFdMnOpenFeed::before {
+  background-image: url(/resources/themes/dauphine/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsRead::before {
+  background-image: url(/resources/themes/dauphine/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdtMnDeleteFeed::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
 .menuSep {
   margin: 2px 0 2px 0;
   border-color: #999999;
