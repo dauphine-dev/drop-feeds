@@ -366,7 +366,7 @@ li {
 }
 
 
-#ctxMnCheckFeeds::before {
+#ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/sage_sc/img/check-feeds.png);
   background-size: 16px 16px;
   width: 16px;
@@ -375,7 +375,7 @@ li {
   display: inline-block;
 }
 
-#ctxMnMarkAllAsRead::before {
+#ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/sage_sc/img/feed-read.png);
   background-size: 16px 16px;
   width: 16px;
@@ -384,7 +384,7 @@ li {
   display: inline-block;
 }
 
-#ctxMnMarkAllAsUpdated::before {
+#ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/sage_sc/img/feed-unread.png);
   background-size: 16px 16px;
   width: 16px;
@@ -393,7 +393,7 @@ li {
   display: inline-block;
 }
 
-#ctxMnOpenAllUpdated::before {
+#ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/sage_sc/img/folder-open.png);
   background-size: 16px 16px;
   width: 16px;
@@ -402,7 +402,7 @@ li {
   display: inline-block;
 }
 
-#ctxMnOpenUpdatedAsUnified::before {
+#ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/sage_sc/img/folder-open.png);
   background-size: 16px 16px;
   width: 16px;

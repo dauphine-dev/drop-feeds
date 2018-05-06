@@ -123,6 +123,7 @@ class TreeView { /*exported TreeView*/
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
     for (let i = 0; i < feedItems.length; i++) {
+      feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
       feedItems[i].addEventListener('click', this._feedClicked_event);
     }
   }
@@ -139,10 +140,21 @@ class TreeView { /*exported TreeView*/
     }
   }
 
+  async _feedOnRightClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let elTarget = event.currentTarget;
+    let xPos = event.clientX;
+    let yPos = event.currentTarget.getBoundingClientRect().top;
+    ContextMenu.instance.show(xPos, yPos, elTarget);
+    //TreeView.instance._selectionBar.put(event.currentTarget);
+  }
+
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     ContextMenu.instance.hide();
+    TreeView.instance._selectionBar.put(event.currentTarget);
     try {
       TopMenu.instance.animateCheckFeedButton(true);
       StatusBar.instance.workInProgress = true;

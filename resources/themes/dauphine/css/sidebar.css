@@ -321,7 +321,7 @@ li.feedUnread {
   display:none;
 }
 
-#ctxMnCheckFeeds::before {
+#ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
   background-size: 16px 16px;
   width: 16px;
@@ -330,7 +330,7 @@ li.feedUnread {
   display: inline-block;
 }
 
-#ctxMnMarkAllAsRead::before {
+#ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/dauphine/img/feed-read.png);
   background-size: 16px 16px;
   width: 16px;
@@ -339,7 +339,7 @@ li.feedUnread {
   display: inline-block;
 }
 
-#ctxMnMarkAllAsUpdated::before {
+#ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-unread.png);
   background-size: 16px 16px;
   width: 16px;
@@ -348,7 +348,7 @@ li.feedUnread {
   display: inline-block;
 }
 
-#ctxMnOpenAllUpdated::before {
+#ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/dauphine/img/folder-open.png);
   background-size: 16px 16px;
   width: 16px;
@@ -357,7 +357,7 @@ li.feedUnread {
   display: inline-block;
 }
 
-#ctxMnOpenUpdatedAsUnified::before {
+#ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/dauphine/img/folder-open.png);
   background-size: 16px 16px;
   width: 16px;

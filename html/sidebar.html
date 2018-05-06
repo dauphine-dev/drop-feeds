@@ -80,16 +80,30 @@
         <div id="itemsPane"></div>
       </div>
 
-      <!-- Context menu -->
-      <div id="contextMenuId" class="contextMenuStyle">
+      <!-- Folder (fld)  context menu -->
+      <div id="folderContextMenuId" class="contextMenuStyle">
         <ul>
-          <li id="ctxMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
+          <li id="ctxFldMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
           <li class="menuSep"></li>
-          <li id="ctxMnMarkAllAsRead" class="ctxMenuItem">Set all to read</li>
-          <li id="ctxMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
+          <li id="ctxFldMnMarkAllAsRead" class="ctxMenuItem">Set all to read</li>
+          <li id="ctxFldMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
           <li class="menuSep"></li>
-          <li id="ctxMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
-          <li id="ctxMnOpenUpdatedAsUnified" class="ctxMenuItem">Open updated as a unified feed</li>
+          <li id="ctxFldMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
+          <li id="ctxFldMnOpenUpdatedAsUnified" class="ctxMenuItem">Open updated as a unified feed</li>
+        </ul>
+      </div>
+
+      <!-- Feed (fd) context menu -->
+      <div id="feedContextMenuId" class="contextMenuStyle">
+        <ul>
+          <li id="ctxFdtMnGetFeedTitle" class="ctxMenuItem">#Get feed title</li>
+          <li class="menuSep"></li>
+          <li id="ctxFdMnOpenAllUpdated" class="ctxMenuItem">#Open</li>
+          <li class="menuSep"></li>
+          <li id="ctxFdMnMarkAllAsRead" class="ctxMenuItem">#Mark as read</li>
+          <li id="ctxFdMnMarkAllAsUpdated" class="ctxMenuItem">#Mark as unread</li>
+          <li class="menuSep"></li>
+          <li id="ctxFdtMnOpenUpdatedAsUnified" class="ctxMenuItem">"#Delete</li>
         </ul>
       </div>
     </div>
