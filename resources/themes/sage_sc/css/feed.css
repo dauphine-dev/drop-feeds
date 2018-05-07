@@ -114,3 +114,7 @@ div.item {
 	top: -1em;
 	width: 15em;
 }
+
+.itemAudioPlayer audio {
+    width: 50%;
+}
