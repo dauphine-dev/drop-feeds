@@ -418,21 +418,25 @@ class FeedParser { /*exported FeedParser*/
     // RSS enclosure attributes 'url', 'type', 'length'
     let tag = 'enclosure';
     let url = FeedParser._extractAttribute(itemText, tag, ['url']);
-    let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-    let size = FeedParser._extractAttribute(itemText, tag, ['length']);
-    if(url && mimetype) {
-        let d = {'url': url, 'mimetype': mimetype, 'size': size};
-        return d;
+    if(url) {
+        let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+        if(mimetype) {
+            let size = FeedParser._extractAttribute(itemText, tag, ['length']);
+            let d = {'url': url, 'mimetype': mimetype, 'size': size};
+            return d;
+        }
     }
 
     // MediaRSS attributes 'url', 'type', 'fileSize'
     tag = 'media:content';
     url = FeedParser._extractAttribute(itemText, tag, ['url']);
-    mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-    size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
-    if(url && mimetype) {
-        let d = {'url': url, 'mimetype': mimetype, 'size': size};
-        return d;
+    if(url) {
+        let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+        if(mimetype) {
+            let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
+            let d = {'url': url, 'mimetype': mimetype, 'size': size};
+            return d;
+        }
     }
     
     return null;
