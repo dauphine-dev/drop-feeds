@@ -73,6 +73,12 @@
   "sbOpenUpdatedAsUnified": {
     "message": "Ouvrir les flux non lus comme un flux unique"
   },
+  "sbSortByName": {
+    "message": "Trier par nom"
+  },
+  "sbNewFolder": {
+    "message": "Nouveau dossier"
+  },
 
   "sbGetFeedTitle": {
     "message": "Mettre à jour le titre"

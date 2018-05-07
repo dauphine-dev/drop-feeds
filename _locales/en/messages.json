@@ -73,6 +73,12 @@
   "sbOpenUpdatedAsUnified": {
     "message": "Open updated as an unified feed"
   },
+  "sbSortByName": {
+    "message": "Sort by name"
+  },
+  "sbNewFolder": {
+    "message": "New folder"
+  },
 
   "sbGetFeedTitle": {
     "message": "Get feed title"

@@ -321,6 +321,7 @@ li.feedUnread {
   display:none;
 }
 
+
 #ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
   background-size: 16px 16px;
@@ -329,7 +330,6 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/dauphine/img/feed-read.png);
   background-size: 16px 16px;
@@ -338,7 +338,6 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-unread.png);
   background-size: 16px 16px;
@@ -347,7 +346,6 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/dauphine/img/folder-open.png);
   background-size: 16px 16px;
@@ -356,9 +354,24 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/dauphine/img/folder-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnSortByName::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnNewFolder::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
@@ -374,7 +387,6 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
-
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/dauphine/img/folder-open.png);
   background-size: 16px 16px;
@@ -393,6 +405,14 @@ li.feedUnread {
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnNewFolder::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
@@ -628,3 +648,12 @@ li.feedUnread {
 .toolTipItemVisibility:hover::before {
   visibility: hidden;
 }
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
+}
+

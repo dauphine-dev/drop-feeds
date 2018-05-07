@@ -1,4 +1,4 @@
-/*global browser TreeView FeedManager*/
+/*global browser TreeView FeedManager NewFolderDialog*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
   static get instance() {
@@ -14,11 +14,14 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnMarkAllAsUpdated').addEventListener('click', this._markAllFeedsAsUpdatedMenuClicked_event);
     document.getElementById('ctxFldMnOpenAllUpdated').addEventListener('click', this._openAllUpdatedFeedsMenuClicked_event);
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event);
+    document.getElementById('ctxFldMnSortByName').addEventListener('click', this._ctxMnSortByNameMenuClicked_event);
+    document.getElementById('ctxFldMnNewFolder').addEventListener('click', this._ctxMnNewFolderClicked_event);
 
     document.getElementById('ctxFdtMnGetFeedTitle').addEventListener('click', this._ctxMnGetFeedTitleMenuClicked_event);
     document.getElementById('ctxFdMnOpenFeed').addEventListener('click', this._ctxMnOpenFeedMenuClicked_event);
     document.getElementById('ctxFdMnMarkFeedAsRead').addEventListener('click', this._ctxMnMarkFeedAsReadMenuClicked_event);
     document.getElementById('ctxFdMnMarkFeedAsUpdated').addEventListener('click', this._ctxMnMarkFeedAsUpdatedMenuClicked_event);
+    document.getElementById('ctxFdMnNewFolder').addEventListener('click', this._ctxMnFdNewFolderClicked_event);
     document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', this._ctxMnDeleteFeedMenuClicked_event);
 
     this._updateLocalizedStrings();
@@ -56,11 +59,15 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
     document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
+    document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
+    document.getElementById('ctxFldMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
+
 
     document.getElementById('ctxFdtMnGetFeedTitle').textContent = browser.i18n.getMessage('sbGetFeedTitle');
     document.getElementById('ctxFdMnOpenFeed').textContent = browser.i18n.getMessage('sbOpenFeed');
     document.getElementById('ctxFdMnMarkFeedAsRead').textContent = browser.i18n.getMessage('sbMarkFeedAsRead');
     document.getElementById('ctxFdMnMarkFeedAsUpdated').textContent = browser.i18n.getMessage('sbMarkFeedAsUpdated');
+    document.getElementById('ctxFdMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
 
   }
@@ -92,6 +99,17 @@ class ContextMenu { /*exported ContextMenu*/
     let self = ContextMenu.instance;
     self.hide();
     FeedManager.instance.openAsUnifiedFeed_async(self._idComeFrom);
+  }
+
+  async _ctxMnSortByNameMenuClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+  }
+
+  async _ctxMnNewFolderClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+    NewFolderDialog.instance.show(self._idComeFrom);
   }
 
   async _markAllFeedsAsReadMenuClicked_event() {
@@ -128,6 +146,12 @@ class ContextMenu { /*exported ContextMenu*/
     let self = ContextMenu.instance;
     self.hide();
     FeedManager.instance.markFeedAsUpdatedById_async(self._idComeFrom);
+  }
+
+  async _ctxMnFdNewFolderClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+    NewFolderDialog.instance.show(self._idComeFrom);
   }
 
   async _ctxMnDeleteFeedMenuClicked_event() {

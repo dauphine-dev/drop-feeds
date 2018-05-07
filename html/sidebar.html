@@ -83,13 +83,16 @@
       <!-- Folder (fld)  context menu -->
       <div id="folderContextMenuId" class="contextMenuStyle">
         <ul>
-          <li id="ctxFldMnCheckFeeds" class="ctxMenuItem">Check feeds</li>
+          <li id="ctxFldMnCheckFeeds" class="ctxMenuItem">#Check feeds</li>
           <li class="menuSep"></li>
-          <li id="ctxFldMnMarkAllAsRead" class="ctxMenuItem">Set all to read</li>
+          <li id="ctxFldMnMarkAllAsRead" class="ctxMenuItem">#Set all to read</li>
           <li id="ctxFldMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
           <li class="menuSep"></li>
-          <li id="ctxFldMnOpenAllUpdated" class="ctxMenuItem">Open updated feeds</li>
-          <li id="ctxFldMnOpenUpdatedAsUnified" class="ctxMenuItem">Open updated as a unified feed</li>
+          <li id="ctxFldMnOpenAllUpdated" class="ctxMenuItem">#Open updated feeds</li>
+          <li id="ctxFldMnOpenUpdatedAsUnified" class="ctxMenuItem">#Open updated as a unified feed</li>
+          <li class="menuSep"></li>
+          <li id="ctxFldMnSortByName" class="ctxMenuItem">#Sort by name</li>
+          <li id="ctxFldMnNewFolder" class="ctxMenuItem">#New folder</li>
         </ul>
       </div>
 
@@ -103,11 +106,34 @@
           <li id="ctxFdMnMarkFeedAsRead" class="ctxMenuItem">#Mark as read</li>
           <li id="ctxFdMnMarkFeedAsUpdated" class="ctxMenuItem">#Mark as unread</li>
           <li class="menuSep"></li>
+          <li id="ctxFdMnNewFolder" class="ctxMenuItem">#New folder</li>
           <li id="ctxFdtMnDeleteFeed" class="ctxMenuItem">#Delete</li>
         </ul>
       </div>
     </div>
 
+      <!-- New folder dialog -->
+      <div id="newFolderDialog" class="hide">
+      <table>
+        <tr>
+          <td><label id="newFolderButtonDialog" >#New folder: </label></td>
+          <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div class="atRight">
+              <button id="cancelNewFolderButton">#Cancel</button>
+              <span class="default">
+                <button id="createNewFolderButton">#Create</button>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="/js/ui/sidebar/newFolderDialog.js"></script>
     <script src="/js/ui/sidebar/selectionBarItems.js"></script>
     <script src="/js/ui/sidebar/itemsMenu.js"></script>
     <script src="/js/ui/sidebar/itemsPanel.js"></script>

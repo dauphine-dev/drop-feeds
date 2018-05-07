@@ -369,7 +369,6 @@ li {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/legacy/img/feed-read.png);
   background-size: 16px 16px;
@@ -378,7 +377,6 @@ li {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-unread.png);
   background-size: 16px 16px;
@@ -387,7 +385,6 @@ li {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/legacy/img/folder-open.png);
   background-size: 16px 16px;
@@ -396,7 +393,6 @@ li {
   content: "";
   display: inline-block;
 }
-
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/legacy/img/folder-open.png);
   background-size: 16px 16px;
@@ -405,6 +401,23 @@ li {
   content: "";
   display: inline-block;
 }
+#ctxFldMnSortByName::before {
+  background-image: url(/resources/themes/legacy/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnNewFolder::before {
+  background-image: url(/resources/themes/legacy/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+
 
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/resources/themes/legacy/img/feed-error.png);
@@ -414,7 +427,6 @@ li {
   content: "";
   display: inline-block;
 }
-
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/legacy/img/folder-open.png);
   background-size: 16px 16px;
@@ -433,6 +445,14 @@ li {
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnNewFolder::before {
+  background-image: url(/resources/themes/legacy/img/feed-error.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
@@ -668,4 +688,12 @@ li {
 
 .toolTipItemVisibility:hover::before {
   visibility: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
 }
