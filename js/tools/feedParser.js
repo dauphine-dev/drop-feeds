@@ -419,48 +419,48 @@ class FeedParser { /*exported FeedParser*/
     let tag = 'enclosure';
     let url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if(url) {
-        let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-        if(mimetype) {
-            let size = FeedParser._extractAttribute(itemText, tag, ['length']);
-            let d = {'url': url, 'mimetype': mimetype, 'size': size};
-            return d;
-        }
+      let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+      if(mimetype) {
+        let size = FeedParser._extractAttribute(itemText, tag, ['length']);
+        let d = {'url': url, 'mimetype': mimetype, 'size': size};
+        return d;
+      }
     }
 
     // MediaRSS attributes 'url', 'type', 'fileSize'
     tag = 'media:content';
     url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if(url) {
-        let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-        if(mimetype) {
-            let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
-            let d = {'url': url, 'mimetype': mimetype, 'size': size};
-            return d;
-        }
+      let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+      if(mimetype) {
+        let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
+        let d = {'url': url, 'mimetype': mimetype, 'size': size};
+        return d;
+      }
     }
-    
+
     return null;
   }
-  
+
   static _getEnclosureHTML(item) {
-      if(!item || !item.enclosure)
-          return '';
-
-      if(item.enclosure.mimetype.startsWith('audio/')) {
-          let html = '<div class="itemAudioPlayer"><audio preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></audio></div>\n' + 
-                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n'; 
-          return html;
-      }
-
-      if(item.enclosure.mimetype.startsWith('video/')) {
-          let html = '<div class="itemVideoPlayer"><video width=640 height=480 preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></video></div>\n' + 
-                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n'; 
-          return html;
-      }
-
+    if(!item || !item.enclosure)
       return '';
+
+    if(item.enclosure.mimetype.startsWith('audio/')) {
+      let html = '<div class="itemAudioPlayer"><audio preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></audio></div>\n' +
+                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
+      return html;
+    }
+
+    if(item.enclosure.mimetype.startsWith('video/')) {
+      let html = '<div class="itemVideoPlayer"><video width=640 height=480 preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></video></div>\n' +
+                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
+      return html;
+    }
+
+    return '';
   }
-  
+
   static _getHtmlItem(item, itemNumber) {
     let htmlItem = '';
     let title = item.title;
