@@ -31,6 +31,12 @@ class BrowserManager { /* exported BrowserManager*/
     }
   }
 
+  async openInCurrentTab_async(url) {
+    let activeTab = await BrowserManager.getActiveTab_async();
+    await browser.tabs.update(activeTab.id, {url: url});
+  }
+
+
   //statics
   static async isTabEmpty_async(tab) {
     let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');

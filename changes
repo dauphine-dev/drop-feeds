@@ -1,3 +1,6 @@
+0.6.5
+Now 'Add new feed button' go  to the subscription page, and it is enable if a subscription link is detected, and it is renamed 'Go to subscription page'
+
 0.6.4
 Add Podcast Support (from Jeff Thieleke)
 
