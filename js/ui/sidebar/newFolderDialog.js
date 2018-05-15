@@ -1,4 +1,4 @@
-/*global browser FolderTreeView*/
+/*global browser TreeView*/
 'use strict';
 class NewFolderDialog { /*exported NewFolderDialog*/
   static get instance() {
@@ -34,11 +34,11 @@ class NewFolderDialog { /*exported NewFolderDialog*/
   }
 
   _setPosition() {
-    let elMainDiv = document.getElementById('mainDiv');
-    let elSelectedLabel = document.getElementById('lbl-' + this._selectedId);
-    let rectSelectedLabel = elSelectedLabel.getBoundingClientRect();
-    let x = Math.round(rectSelectedLabel.left);
-    let y = Math.round(rectSelectedLabel.bottom);
+    let elMainDiv = document.getElementById('main');
+    let elSelectedElement = document.getElementById(this._selectedId);
+    let rectSelectedElement = elSelectedElement.getBoundingClientRect();
+    let x = Math.round(rectSelectedElement.left);
+    let y = Math.round(rectSelectedElement.bottom);
     let xMax  = Math.max(0, elMainDiv.offsetWidth - this._elNewFolderDialog.offsetWidth + 18);
     let yMax  = Math.max(0, elMainDiv.offsetHeight - this._elNewFolderDialog.offsetHeight + 20);
     x = Math.min(xMax, x);
@@ -66,8 +66,17 @@ class NewFolderDialog { /*exported NewFolderDialog*/
     event.preventDefault();
     try {
       let folderName = document.getElementById('inputNewFolder').value;
-      let createBookmark = await browser.bookmarks.create({parentId: self._selectedId, title: folderName});
-      FolderTreeView.instance.load_async(createBookmark.id);
+      let folderId = null;
+      if (self._selectedId.startsWith('dv-')) {
+        folderId = self._selectedId.substring(3);
+      }
+      else {
+        let feedId = self._selectedId;
+        let bookmarks = await browser.bookmarks.get(feedId);
+        folderId = bookmarks[0].parentId;
+      }
+      await browser.bookmarks.create({parentId: folderId, title: folderName});
+      await TreeView.instance.reload_async();
     }
     catch(e) {
       /* eslint-disable no-console */
