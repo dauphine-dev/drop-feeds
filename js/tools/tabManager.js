@@ -26,12 +26,17 @@ class TabManager { /*exported TabManager*/
     }
     else {
       TopMenu.instance.discoverFeedsButtonEnabled = false;
+      TopMenu.instance.addFeedButtonEnable = false;
     }
   }
 
   async _tabHasChanged_async(tabInfo) {
     this._currentTabFeed_async(tabInfo);
     TopMenu.instance.discoverFeedsButtonEnabled = (tabInfo.status == 'complete');
+    if (tabInfo.status == 'complete') {
+      let activeTabFeedLinkList = await this.getActiveTabFeedLinkList_async();
+      TopMenu.instance.addFeedButtonEnable = (activeTabFeedLinkList.length >0);
+    }
   }
 
   async _currentTabFeed_async(tabInfo) {
@@ -39,7 +44,6 @@ class TabManager { /*exported TabManager*/
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     } catch(e) { }
-    TopMenu.instance.addFeedButtonEnable = isFeed;
     if(isFeed) {
       browser.pageAction.show(tabInfo.id);
       let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
@@ -53,6 +57,17 @@ class TabManager { /*exported TabManager*/
   async _forceTabOnChanged_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     this._tabHasChanged_async(tabInfo);
+  }
+
+  async getActiveTabFeedLinkList_async() {
+    let feedLinkList = [];
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    try {
+      feedLinkList = await browser.tabs.sendMessage(tabInfo.id, {key:'getFeedLinkInfoList'});
+    }
+    catch(e) {}
+    if (!feedLinkList) { feedLinkList= []; }
+    return feedLinkList;
   }
 
 }

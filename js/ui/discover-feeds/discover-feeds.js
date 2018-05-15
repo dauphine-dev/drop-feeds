@@ -66,7 +66,7 @@ class DiscoverFeeds {
 
   async _getActiveTabFeedLinkList_async() {
     try {
-      this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, {key:'getFeedLinkInfoList'});
+      this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, {key:'discoverFeedLinkInfoList'});
     }
     catch(e) {}
     if (!this._feedLinkList) { this._feedLinkList= []; }

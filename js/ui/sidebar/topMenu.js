@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -12,8 +12,10 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = DefaultValues.updatedFeedsVisible;
     this._foldersOpened = DefaultValues.foldersOpened;
     this._buttonAddFeedEnabled = false;
+    this.buttonAddFeedEnabled = this._buttonAddFeedEnabled;
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
+
     this.autoUpdateInterval = undefined;
     this.automaticUpdatesMilliseconds = undefined;
   }
@@ -169,13 +171,23 @@ class TopMenu  { /*exported TopMenu*/
     TreeView.instance.selectionBarRefresh();
   }
 
-  static async _addFeedButtonClicked_event(event) {
+  static async _addFeedButtonClickedOld_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
     browser.pageAction.openPopup();
   }
+
+  static async _addFeedButtonClicked_event(event) {
+    let self = TopMenu.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    if (!self._buttonAddFeedEnabled) { return; }
+    let feedList = await TabManager.instance.getActiveTabFeedLinkList_async();
+    await BrowserManager.instance.openInCurrentTab_async(feedList[0], false);
+  }
+
 
   static async _discoverFeedsButtonClicked_event(event) {
     let self = TopMenu.instance;
@@ -200,4 +212,5 @@ class TopMenu  { /*exported TopMenu*/
   static async showErrorsAsUnread_sbscrb() {
     TopMenu.instance.updatedFeedsSetVisibility_async();
   }
+
 }

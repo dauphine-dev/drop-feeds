@@ -127,6 +127,10 @@ class Feed { /*exported Feed*/
   }
 
   async save_async() {
+    if ( this._storedFeed.pubDate == null && this._storedFeed.hash == null) {
+      this._storedFeed.pubDate = this._storedFeed.prevValues.pubDate;
+      this._storedFeed.hash = this._storedFeed.prevValues.hash;
+    }
     await LocalStorageManager.setValue_async(this._storedFeed.id, this._storedFeed);
   }
 

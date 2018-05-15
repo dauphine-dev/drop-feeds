@@ -3,6 +3,15 @@ Adding selection bar management for feed entries
 Adding context menu for feed entries
 Completing context menu for folder entries
 
+0.6.5
+Now 'Add new feed button' go  to the subscription page, and it is enable if a subscription link is detected, and it is renamed 'Go to subscription page'
+
+0.6.4
+Add Podcast Support (from Jeff Thieleke)
+
+0.6.3
+Fix false updated
+
 0.6.2
 Adding item sort choose
 Adding feed updated count
