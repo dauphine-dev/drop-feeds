@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
 'use strict';
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
@@ -104,21 +104,6 @@ class BrowserManager { /* exported BrowserManager*/
     return win;
   }
 
-  //private stuffs
-  static _setAlwaysOpenNewTab_sbscrb(value){
-    BrowserManager.instance._alwaysOpenNewTab = value;
-  }
-
-  static _setOpenNewTabForeground_sbscrb(value){
-    BrowserManager.instance._openNewTabForeground = value;
-  }
-
-  static async _forcePopupToDisplayContent_async(winId, winWidth) {
-    //workaround to force to display content
-    browser.windows.update(winId, {width: winWidth - 2});
-    await DateTime.delay_async(100);
-    browser.windows.update(winId, {width: winWidth});
-  }
 
   static showPageAction(tabInfo, show) {
     if (show) {
@@ -144,6 +129,45 @@ class BrowserManager { /* exported BrowserManager*/
     catch(e) {}
     if (!feedLinkList) { feedLinkList= []; }
     return feedLinkList;
+  }
+
+  static async activeTabIsFeed_async() {
+    let isFeed = false;
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    try {
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
+    }
+    catch(e) {
+      //Workaround for Firefox 60
+      let result = tabInfo.url.match(/rss|feed|atom|syndicate/i);
+      if (result) {
+        isFeed = result.length > 0;
+      }
+      if (!isFeed) {
+        let feedText = await Transfer.downloadTextFileEx_async(tabInfo.url, false);
+        let error = FeedParser.isValidFeedText(feedText);
+        if (!error) {
+          isFeed = true;
+        }
+      }
+    }
+    return isFeed;
+  }
+
+  //private stuffs
+  static _setAlwaysOpenNewTab_sbscrb(value){
+    BrowserManager.instance._alwaysOpenNewTab = value;
+  }
+
+  static _setOpenNewTabForeground_sbscrb(value){
+    BrowserManager.instance._openNewTabForeground = value;
+  }
+
+  static async _forcePopupToDisplayContent_async(winId, winWidth) {
+    //workaround to force to display content
+    browser.windows.update(winId, {width: winWidth - 2});
+    await DateTime.delay_async(100);
+    browser.windows.update(winId, {width: winWidth});
   }
 
 }

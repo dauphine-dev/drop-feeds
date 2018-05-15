@@ -9,7 +9,16 @@ class FeedList {
   }
 
   async init_async() {
-    let feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
+    let feedLinkList = [];
+    let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
+    if (activeTabIsFeed) {
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      console.log('tabInfo:', tabInfo);
+      feedLinkList.push({title: tabInfo.title, link:tabInfo.url});
+    }
+    else {
+      feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
+    }
     let html = this._feedLinkInfoListToHtm(feedLinkList);
     BrowserManager.setInnerHtmlById('tableContent', html);
     this._addTableRawClickEvents();

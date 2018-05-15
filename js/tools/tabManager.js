@@ -34,8 +34,10 @@ class TabManager { /*exported TabManager*/
     TopMenu.instance.discoverFeedsButtonEnabled = (tabInfo.status == 'complete');
     if (tabInfo.status == 'complete') {
       let activeTabHasFeeds = ((await BrowserManager.getActiveTabFeedLinkList_async()).length > 0);
-      TopMenu.instance.addFeedButtonEnable = activeTabHasFeeds;
-      BrowserManager.showPageAction(tabInfo, activeTabHasFeeds);
+      let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
+      let subscriptionEnabled = activeTabHasFeeds || activeTabIsFeed;
+      TopMenu.instance.addFeedButtonEnable = subscriptionEnabled;
+      BrowserManager.showPageAction(tabInfo, subscriptionEnabled);
     }
   }
 
