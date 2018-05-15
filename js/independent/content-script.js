@@ -69,7 +69,7 @@ class ContentManager {
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     for (let elLink of elLinkList) {
       if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
-        feedLinkList.push(elLink.href);
+        feedLinkList.push({title:elLink.title, link:elLink.href});
       }
     }
     //remove duplicates
