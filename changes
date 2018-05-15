@@ -1,3 +1,9 @@
+0.6.7
+In Firefox 60, make subscribe works from feed page too.
+
+0.6.6
+Rework feed subscription to make it work with Firefox 60
+
 0.6.5
 Now 'Add new feed button' go  to the subscription page, and it is enable if a subscription link is detected, and it is renamed 'Go to subscription page'
 
