@@ -1,0 +1,43 @@
+html {
+  font-family: sans-serif;
+}
+
+body{
+  width: 280px;
+  height: 100%;
+  background-color: #e8e8e7;
+  padding: 0;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+#main {
+  width: 100vw;
+  /*height: 100vh;*/
+}
+
+
+table {
+  border-collapse: collapse;
+  border: none;
+  letter-spacing: 1px;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+td {
+  border: none;
+  padding: 5px 0 5px 30px;
+  cursor: cell;
+}
+
+td:hover {
+  background-color: #f0f0f0;
+}
+
+tbody {
+  font-size: 95%;
+}

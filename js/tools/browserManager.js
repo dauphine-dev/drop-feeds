@@ -115,9 +115,35 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {
     //workaround to force to display content
-    browser.windows.update(winId, {width: winWidth - 1});
+    browser.windows.update(winId, {width: winWidth - 2});
     await DateTime.delay_async(100);
     browser.windows.update(winId, {width: winWidth});
+  }
+
+  static showPageAction(tabInfo, show) {
+    if (show) {
+      browser.pageAction.show(tabInfo.id);
+      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
+      browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
+    }
+    else {
+      browser.pageAction.hide(tabInfo.id);
+    }
+  }
+
+  static openPageAction() {
+    browser.pageAction.openPopup();
+  }
+
+  static async getActiveTabFeedLinkList_async() {
+    let feedLinkList = [];
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    try {
+      feedLinkList = await browser.tabs.sendMessage(tabInfo.id, {key:'getFeedLinkInfoList'});
+    }
+    catch(e) {}
+    if (!feedLinkList) { feedLinkList= []; }
+    return feedLinkList;
   }
 
 }

@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -171,21 +171,14 @@ class TopMenu  { /*exported TopMenu*/
     TreeView.instance.selectionBarRefresh();
   }
 
-  static async _addFeedButtonClickedOld_event(event) {
-    let self = TopMenu.instance;
-    event.stopPropagation();
-    event.preventDefault();
-    if (!self._buttonAddFeedEnabled) { return; }
-    browser.pageAction.openPopup();
-  }
-
   static async _addFeedButtonClicked_event(event) {
     let self = TopMenu.instance;
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
-    let feedList = await TabManager.instance.getActiveTabFeedLinkList_async();
-    await BrowserManager.instance.openInCurrentTab_async(feedList[0], false);
+    //let feedList = await BrowserManager.getActiveTabFeedLinkList_async();
+    //await BrowserManager.instance.openInCurrentTab_async(feedList[0], false);
+    BrowserManager.openPageAction();
   }
 
 
