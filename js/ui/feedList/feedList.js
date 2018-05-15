@@ -13,7 +13,6 @@ class FeedList {
     let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
     if (activeTabIsFeed) {
       let tabInfo = await BrowserManager.getActiveTab_async();
-      console.log('tabInfo:', tabInfo);
       feedLinkList.push({title: tabInfo.title, link:tabInfo.url});
     }
     else {
