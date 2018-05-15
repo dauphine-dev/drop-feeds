@@ -1,4 +1,4 @@
-/*global browser TopMenu ThemeManager BrowserManager*/
+/*global browser TopMenu BrowserManager*/
 'use strict';
 class TabManager { /*exported TabManager*/
   static get instance() {
@@ -26,27 +26,18 @@ class TabManager { /*exported TabManager*/
     }
     else {
       TopMenu.instance.discoverFeedsButtonEnabled = false;
+      TopMenu.instance.addFeedButtonEnable = false;
     }
   }
 
   async _tabHasChanged_async(tabInfo) {
-    this._currentTabFeed_async(tabInfo);
     TopMenu.instance.discoverFeedsButtonEnabled = (tabInfo.status == 'complete');
-  }
-
-  async _currentTabFeed_async(tabInfo) {
-    let isFeed = false;
-    try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
-    } catch(e) { }
-    TopMenu.instance.addFeedButtonEnable = isFeed;
-    if(isFeed) {
-      browser.pageAction.show(tabInfo.id);
-      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
-      browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
-    }
-    else {
-      browser.pageAction.hide(tabInfo.id);
+    if (tabInfo.status == 'complete') {
+      let activeTabHasFeeds = ((await BrowserManager.getActiveTabFeedLinkList_async()).length > 0);
+      let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
+      let subscriptionEnabled = activeTabHasFeeds || activeTabIsFeed;
+      TopMenu.instance.addFeedButtonEnable = subscriptionEnabled;
+      BrowserManager.showPageAction(tabInfo, subscriptionEnabled);
     }
   }
 
@@ -54,6 +45,5 @@ class TabManager { /*exported TabManager*/
     let tabInfo = await BrowserManager.getActiveTab_async();
     this._tabHasChanged_async(tabInfo);
   }
-
 }
 

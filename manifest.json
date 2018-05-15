@@ -40,7 +40,7 @@
     "browser_style": true,
     "default_icon": "resources/themes/dauphine/img/subscribe.png",
     "default_title": "__MSG_manPageActionDefaultTitle__",
-    "default_popup": "html/subscribe.html"
+    "default_popup": "html/feedList.html"
   },
 
   "background": {

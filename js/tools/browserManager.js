@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
 'use strict';
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
@@ -30,6 +30,12 @@ class BrowserManager { /* exported BrowserManager*/
       await browser.tabs.update(activeTab.id, {url: url});
     }
   }
+
+  async openInCurrentTab_async(url) {
+    let activeTab = await BrowserManager.getActiveTab_async();
+    await browser.tabs.update(activeTab.id, {url: url});
+  }
+
 
   //statics
   static async isTabEmpty_async(tab) {
@@ -98,6 +104,56 @@ class BrowserManager { /* exported BrowserManager*/
     return win;
   }
 
+
+  static showPageAction(tabInfo, show) {
+    if (show) {
+      browser.pageAction.show(tabInfo.id);
+      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
+      browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
+    }
+    else {
+      browser.pageAction.hide(tabInfo.id);
+    }
+  }
+
+  static openPageAction() {
+    browser.pageAction.openPopup();
+  }
+
+  static async getActiveTabFeedLinkList_async() {
+    let feedLinkList = [];
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    try {
+      feedLinkList = await browser.tabs.sendMessage(tabInfo.id, {key:'getFeedLinkInfoList'});
+    }
+    catch(e) {}
+    if (!feedLinkList) { feedLinkList= []; }
+    return feedLinkList;
+  }
+
+  static async activeTabIsFeed_async() {
+    let isFeed = false;
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    try {
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
+    }
+    catch(e) {
+      //Workaround for Firefox 60
+      let result = tabInfo.url.match(/rss|feed|atom|syndicate/i);
+      if (result) {
+        isFeed = result.length > 0;
+      }
+      if (!isFeed) {
+        let feedText = await Transfer.downloadTextFileEx_async(tabInfo.url, false);
+        let error = FeedParser.isValidFeedText(feedText);
+        if (!error) {
+          isFeed = true;
+        }
+      }
+    }
+    return isFeed;
+  }
+
   //private stuffs
   static _setAlwaysOpenNewTab_sbscrb(value){
     BrowserManager.instance._alwaysOpenNewTab = value;
@@ -109,7 +165,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {
     //workaround to force to display content
-    browser.windows.update(winId, {width: winWidth - 1});
+    browser.windows.update(winId, {width: winWidth - 2});
     await DateTime.delay_async(100);
     browser.windows.update(winId, {width: winWidth});
   }

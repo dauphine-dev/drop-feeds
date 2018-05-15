@@ -12,8 +12,10 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = DefaultValues.updatedFeedsVisible;
     this._foldersOpened = DefaultValues.foldersOpened;
     this._buttonAddFeedEnabled = false;
+    this.buttonAddFeedEnabled = this._buttonAddFeedEnabled;
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
+
     this.autoUpdateInterval = undefined;
     this.automaticUpdatesMilliseconds = undefined;
   }
@@ -174,8 +176,11 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
-    browser.pageAction.openPopup();
+    //let feedList = await BrowserManager.getActiveTabFeedLinkList_async();
+    //await BrowserManager.instance.openInCurrentTab_async(feedList[0], false);
+    BrowserManager.openPageAction();
   }
+
 
   static async _discoverFeedsButtonClicked_event(event) {
     let self = TopMenu.instance;
@@ -200,4 +205,5 @@ class TopMenu  { /*exported TopMenu*/
   static async showErrorsAsUnread_sbscrb() {
     TopMenu.instance.updatedFeedsSetVisibility_async();
   }
+
 }

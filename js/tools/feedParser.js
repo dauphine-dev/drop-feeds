@@ -363,6 +363,7 @@ class FeedParser { /*exported FeedParser*/
       item.description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
+      item.enclosure = FeedParser._getEnclosure(itemText);
       let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = FeedParser._extractDateTime(pubDateText);
       let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour :'2-digit',  minute:'2-digit' };
@@ -413,6 +414,53 @@ class FeedParser { /*exported FeedParser*/
     return category;
   }
 
+  static _getEnclosure(itemText) {
+    // RSS enclosure attributes 'url', 'type', 'length'
+    let tag = 'enclosure';
+    let url = FeedParser._extractAttribute(itemText, tag, ['url']);
+    if(url) {
+      let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+      if(mimetype) {
+        let size = FeedParser._extractAttribute(itemText, tag, ['length']);
+        let d = {'url': url, 'mimetype': mimetype, 'size': size};
+        return d;
+      }
+    }
+
+    // MediaRSS attributes 'url', 'type', 'fileSize'
+    tag = 'media:content';
+    url = FeedParser._extractAttribute(itemText, tag, ['url']);
+    if(url) {
+      let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
+      if(mimetype) {
+        let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
+        let d = {'url': url, 'mimetype': mimetype, 'size': size};
+        return d;
+      }
+    }
+
+    return null;
+  }
+
+  static _getEnclosureHTML(item) {
+    if(!item || !item.enclosure)
+      return '';
+
+    if(item.enclosure.mimetype.startsWith('audio/')) {
+      let html = '<div class="itemAudioPlayer"><audio preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></audio></div>\n' +
+                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
+      return html;
+    }
+
+    if(item.enclosure.mimetype.startsWith('video/')) {
+      let html = '<div class="itemVideoPlayer"><video width=640 height=480 preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></video></div>\n' +
+                     '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
+      return html;
+    }
+
+    return '';
+  }
+
   static _getHtmlItem(item, itemNumber) {
     let htmlItem = '';
     let title = item.title;
@@ -427,6 +475,7 @@ class FeedParser { /*exported FeedParser*/
     if (item.category) { htmlItem +=    '        <div class="itemCat">[' + item.category + ']</div>\n'; }
     if (item.author) { htmlItem +=      '        <div class="itemAuthor">Posted by ' + item.author + '</div>\n'; }
     if (item.pubDate) { htmlItem +=     '        <div class="itemPubDate">' + item.pubDateText + '</div>\n'; }
+    if (item.enclosure) { htmlItem +=   '        <div class="itemEnclosure">' + FeedParser._getEnclosureHTML(item) + ' </div>\n'; }
     htmlItem +=                         '      </div>\n';
     htmlItem +=                         '    </div>\n';
     return htmlItem;

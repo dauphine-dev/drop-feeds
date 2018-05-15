@@ -7,6 +7,9 @@ class ContentManager {
       case 'isFeed':
         response = ContentManager._isFeed();
         break;
+      case 'discoverFeedLinkInfoList':
+        response = ContentManager._discoverFeedLinkInfoList();
+        break;
       case 'getFeedLinkInfoList':
         response = ContentManager._getFeedLinkInfoList();
         break;
@@ -45,7 +48,7 @@ class ContentManager {
     browser.runtime.sendMessage({key:'openSubscribeDialog'});
   }
 
-  static _getFeedLinkInfoList() {
+  static _discoverFeedLinkInfoList() {
     let feedLinkList = [];
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     elLinkList.push(... Array.from(document.getElementsByTagName('a')));
@@ -60,5 +63,21 @@ class ContentManager {
     });
     return feedLinkList;
   }
+
+  static _getFeedLinkInfoList() {
+    let feedLinkList = [];
+    let elLinkList = Array.from(document.getElementsByTagName('link'));
+    for (let elLink of elLinkList) {
+      if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
+        feedLinkList.push({title:elLink.title, link:elLink.href});
+      }
+    }
+    //remove duplicates
+    feedLinkList = feedLinkList.filter((item, pos) => {
+      return feedLinkList.indexOf(item) == pos;
+    });
+    return feedLinkList;
+  }
+
 }
 browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);

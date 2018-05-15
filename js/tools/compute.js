@@ -1,10 +1,11 @@
 'use strict';
 class Compute { /* exported Compute*/
   static hashCode(text) {
-    let hash = 0;
+    let hash = null;
     if (!text || text.length == 0) {
       return hash;
     }
+    hash = 0;
     for (var i = 0; i < text.length; i++) {
       let char = text.charCodeAt(i);
       hash = ((hash<<5)-hash)+char;

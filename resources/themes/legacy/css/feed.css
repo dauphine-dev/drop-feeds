@@ -88,3 +88,6 @@ div.item {
 	color: #7D7D7D;
 }
 
+.itemAudioPlayer audio {
+    width: 75%;
+}
