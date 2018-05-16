@@ -3,6 +3,7 @@ Adding a "Renders Feeds" option
 Adding selection bar management for feed entries
 Adding context menu for feed entries
 Completing context menu for folder entries
+Mouse middle-click  opens feed in a background new tab
 
 0.6.8
 Update subscription button tooltip

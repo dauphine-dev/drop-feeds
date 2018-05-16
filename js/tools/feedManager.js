@@ -35,10 +35,11 @@ class FeedManager { /*exported FeedManager*/
     await this._processFeedsFromList(folderId, this._feedsUpdate_async);
   }
 
-  async openOneFeedToTabById_async(feedId) {
+  async openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce) {
     let feed = await Feed.new(feedId);
     this._itemList = [];
-    this._openOneFeedToTab_async(feed, true, false, true);
+    let isSingle=true; let displayItems=true; let folderTitle=null;
+    this._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
   }
 
   async openAllUpdatedFeeds_async(folderId) {
@@ -148,7 +149,7 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
+  async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
     let self = FeedManager.instance;
     try {
 
@@ -163,7 +164,7 @@ class FeedManager { /*exported FeedManager*/
         await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce);
+      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -210,9 +211,9 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _openTabFeed_async(feedHtmlUrl, openNewTabForce) {
+  async _openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce) {
     if (this._renderFeed) {
-      await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
+      await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
     }
   }
 
