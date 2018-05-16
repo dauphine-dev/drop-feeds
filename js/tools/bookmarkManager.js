@@ -72,7 +72,7 @@ class BookmarkManager { /*exported BookmarkManager*/
 
   static async _bookmarkOnChanged_sbscrb(id) {
     let self = BookmarkManager.instance;
-    if (self.instance._importInProgress) { return; }
+    if (self._importInProgress) { return; }
     let isChid =  await self._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
     LocalStorageManager.setValue_async('reloadTreeView', Date.now());
