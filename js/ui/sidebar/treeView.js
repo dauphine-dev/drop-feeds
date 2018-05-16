@@ -205,6 +205,7 @@ class TreeView { /*exported TreeView*/
 
   _computeHtmlTree(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
+    if (!bookmarkItem) { return; }
     let isFolder = (!bookmarkItem.url);
     if (isFolder) {
       this._createTreeFolder(cacheLocalStorage, bookmarkItem, indent, displayThisFolder);

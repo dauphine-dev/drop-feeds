@@ -1,4 +1,4 @@
-/*global BrowserManager*/
+/*global BrowserManager TopMenu*/
 'use strict';
 class StatusBar { /*exported StatusBar*/
   static get instance() {
@@ -9,6 +9,7 @@ class StatusBar { /*exported StatusBar*/
   }
 
   set workInProgress(workInProgress) {
+    TopMenu.instance.workInProgress = workInProgress;
     if (workInProgress)
     {
       document.getElementById('statusButton').classList.add('statusButtonUpdating');

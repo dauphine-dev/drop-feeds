@@ -378,6 +378,14 @@ li.feedUnread {
   content: "";
   display: inline-block;
 }
+#ctxFldMnDeleteFolder::before {
+  background-image: url(/resources/themes/dauphine/img/feed-error.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+}
 
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/resources/themes/dauphine/img/feed-error.png);

@@ -67,6 +67,7 @@ class NewFolderDialog { /*exported NewFolderDialog*/
     try {
       let folderName = document.getElementById('inputNewFolder').value;
       let folderId = null;
+      let index = 0 ;
       if (self._selectedId.startsWith('dv-')) {
         folderId = self._selectedId.substring(3);
       }
@@ -74,8 +75,9 @@ class NewFolderDialog { /*exported NewFolderDialog*/
         let feedId = self._selectedId;
         let bookmarks = await browser.bookmarks.get(feedId);
         folderId = bookmarks[0].parentId;
+        index = bookmarks[0].index + 1;
       }
-      await browser.bookmarks.create({parentId: folderId, title: folderName});
+      await browser.bookmarks.create({parentId: folderId, title: folderName, index: index});
       await TreeView.instance.reload_async();
     }
     catch(e) {

@@ -11,6 +11,7 @@ class BookmarkManager { /*exported BookmarkManager*/
   constructor() {
     this.lastCreatedBookmarkId = null;
     this.importInProgress = false;
+    this._importInProgressCount = 0;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'importInProgress', BookmarkManager.setImportInProgress_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.created, BookmarkManager._bookmarkOnCreated_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.removed, BookmarkManager._bookmarkOnRemoved_sbscrb, true);
@@ -51,6 +52,44 @@ class BookmarkManager { /*exported BookmarkManager*/
       }
     }
     return this._rootBookmarkId;
+  }
+  async sortBookmarks_async(bookmarkId) {
+    try {
+      this._importInProgress = true;
+      StatusBar.instance.workInProgress(true);
+      await this._sortBookmarksCore_async(bookmarkId);
+    }
+    finally {
+      this._importInProgress = false;
+      StatusBar.instance.workInProgress(false);
+    }
+  }
+
+  async _sortBookmarksCore_async(bookmarkId) {
+    try {
+      let bookmarkList = (await browser.bookmarks.getSubTree(bookmarkId))[0].children;
+      if (bookmarkList.length > 0) {
+
+        bookmarkList.sort((bk1, bk2) => {
+          if (bk1.url && !bk2.url) return 1;
+          if (!bk1.url && bk2.url) return -1;
+          if (bk1.title.toLowerCase() > bk2.title.toLowerCase()) return 1;
+          if (bk1.title.toLowerCase() < bk2.title.toLowerCase()) return -1;
+          if (bk1.title > bk2.title) return 1;
+          if (bk1.title < bk2.title) return -1;
+          return 0;
+        });
+      }
+
+      for (let bk of bookmarkList) {
+        await browser.bookmarks.move(bk.id, {parentId: bookmarkId});
+        if (bk.children) {
+          await this._sortBookmarksCore_async(bk.id, true);
+          this._importInProgress = true;
+        }
+      }
+    }
+    finally {}
   }
 
   static async _bookmarkOnCreated_sbscrb(id, bookmarkInfo) {

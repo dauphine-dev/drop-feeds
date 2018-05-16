@@ -345,10 +345,13 @@
     "message": "Show errors as unread"
   },
 
+  "optRenderFeeds": {
+    "message": "Render feeds"
+  },
+
   "optAlwaysOpenNewTab": {
     "message": "Always open new tab"
   },
-
   "optOpenNewTabForeground": {
     "message": "Open new tab in foreground"
   },

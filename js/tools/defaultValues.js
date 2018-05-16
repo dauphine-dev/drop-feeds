@@ -2,8 +2,6 @@
 'use strict';
 class DefaultValues { /*exported DefaultValues*/
 
-  /*
-  */
   static get asynchronousFeedChecking()      { return true; }
   static get timeOut()                       { return 60; }
   static get displayRootFolder()             { return true; }
@@ -25,6 +23,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get showErrorsAsUnread()            { return false; }
   static get itemSortOrder()                 { return itemSortOrder.newerFirst; }
   static get showUpdatedFeedCount()          { return false; }
+  static get renderFeeds()                   { return true; }
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};

@@ -1,4 +1,4 @@
-/*global browser TreeView FeedManager NewFolderDialog*/
+/*global browser TreeView FeedManager NewFolderDialog BookmarkManager*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
   static get instance() {
@@ -16,6 +16,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event);
     document.getElementById('ctxFldMnSortByName').addEventListener('click', this._ctxMnSortByNameMenuClicked_event);
     document.getElementById('ctxFldMnNewFolder').addEventListener('click', this._ctxMnNewFolderClicked_event);
+    document.getElementById('ctxFldMnDeleteFolder').addEventListener('click', this._ctxMnDeleteFolderMenuClicked_event);
 
     document.getElementById('ctxFdtMnGetFeedTitle').addEventListener('click', this._ctxMnGetFeedTitleMenuClicked_event);
     document.getElementById('ctxFdMnOpenFeed').addEventListener('click', this._ctxMnOpenFeedMenuClicked_event);
@@ -61,6 +62,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
     document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
     document.getElementById('ctxFldMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
+    document.getElementById('ctxFldMnDeleteFolder').textContent = browser.i18n.getMessage('sbDeleteFeed');
 
 
     document.getElementById('ctxFdtMnGetFeedTitle').textContent = browser.i18n.getMessage('sbGetFeedTitle');
@@ -104,13 +106,29 @@ class ContextMenu { /*exported ContextMenu*/
   async _ctxMnSortByNameMenuClicked_event() {
     let self = ContextMenu.instance;
     self.hide();
+    let bookmarkId = self._idComeFrom.substring(3);
+    await BookmarkManager.instance.sortBookmarks_async(bookmarkId);
+    TreeView.instance.reload_async();
   }
+
+
 
   async _ctxMnNewFolderClicked_event() {
     let self = ContextMenu.instance;
     self.hide();
     NewFolderDialog.instance.show(self._idComeFrom);
   }
+
+  async _ctxMnDeleteFolderMenuClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+    let bookmarkId = self._idComeFrom.substring(3);
+    browser.bookmarks.removeTree(bookmarkId);
+    TreeView.instance.reload_async();
+  }
+
+
+
 
   async _markAllFeedsAsReadMenuClicked_event() {
     let self = ContextMenu.instance;

@@ -53,21 +53,26 @@ class ItemManager { /*exported ItemManager*/
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
-  openAllUnreadItems_async() {
+  async openAllUnreadItems_async() {
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item:not(.visited)');
     for (let elItem of elItemList) {
       let itemLink = elItem.getAttribute('href');
-      BrowserManager.instance.openTab_async(itemLink, true);
+      await this._openTabItem_async(itemLink, true);
       elItem.classList.add('visited');
     }
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
-  static _itemOnClick_event(event) {
+  static async _itemOnClick_event(event) {
     ItemsPanel.instance.selectionBarItems.put(event.target);
     let itemLink = event.target.getAttribute('href');
-    BrowserManager.instance.openTab_async(itemLink);
+    await ItemManager.instance._openTabItem_async(itemLink);
     event.target.classList.add('visited');
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
+
+  async _openTabItem_async(itemLink, openNewTabForce) {
+    await BrowserManager.instance.openTab_async(itemLink, openNewTabForce);
+  }
+
 }

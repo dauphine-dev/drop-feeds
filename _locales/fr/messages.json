@@ -345,6 +345,10 @@
     "message": "Afficher les erreurs comme non lues"
   },
 
+  "optRenderFeeds": {
+    "message": "Afficher les flux"
+  },
+
   "optAlwaysOpenNewTab": {
     "message": "Toujours ouvrir dans un nouvel onglet"
   },

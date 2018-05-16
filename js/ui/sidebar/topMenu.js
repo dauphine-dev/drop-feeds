@@ -15,7 +15,7 @@ class TopMenu  { /*exported TopMenu*/
     this.buttonAddFeedEnabled = this._buttonAddFeedEnabled;
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
-
+    this._workInProgress = false;
     this.autoUpdateInterval = undefined;
     this.automaticUpdatesMilliseconds = undefined;
   }
@@ -34,6 +34,10 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
     setTimeout(this.automaticFeedUpdate, 2000);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', TopMenu.showErrorsAsUnread_sbscrb, false);
+  }
+
+  set workInProgress(value) {
+    this._workInProgress = value;
   }
 
   set discoverFeedsButtonEnabled(value) {

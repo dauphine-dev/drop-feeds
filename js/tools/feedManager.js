@@ -12,6 +12,7 @@ class FeedManager { /*exported FeedManager*/
     this._updatedFeeds = 0;
     this._asynchronousFeedChecking = DefaultValues.asynchronousFeedChecking;
     this._showFeedUpdatePopup = DefaultValues.showFeedUpdatePopup;
+    this._renderFeed = DefaultValues.renderFeeds;
     this._feedProcessingInProgress = false;
     this._feedsToProcessList = [];
     this._feedsToProcessCounter = 0;
@@ -20,6 +21,7 @@ class FeedManager { /*exported FeedManager*/
     this._itemList = [];
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', FeedManager._setRenderFeeds_sbscrb, true);
   }
 
   async delete(feedId) {
@@ -161,7 +163,7 @@ class FeedManager { /*exported FeedManager*/
         await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
+      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -201,10 +203,16 @@ class FeedManager { /*exported FeedManager*/
       if (--self._feedsToProcessCounter == 0) {
         let unifiedDocUrl = self._getUnifiedDocUrl();
         let openNewTabForce = false;
-        await BrowserManager.instance.openTab_async(unifiedDocUrl, openNewTabForce);
+        await this._openTabFeed_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
         self._processFeedsFinished();
       }
+    }
+  }
+
+  async _openTabFeed_async(feedHtmlUrl, openNewTabForce) {
+    if (this._renderFeed) {
+      await BrowserManager.instance.openTab_async(feedHtmlUrl, openNewTabForce);
     }
   }
 
@@ -309,6 +317,10 @@ class FeedManager { /*exported FeedManager*/
     }
 
     this._updatedFeeds = 0;
+  }
+
+  static _setRenderFeeds_sbscrb(value){
+    FeedManager.instance._renderFeed = value;
   }
 
 }
