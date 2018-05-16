@@ -1,3 +1,9 @@
+0.6.8
+Update subscription button tooltip
+Fix locale strings
+Fix in bookmark management
+Adding favicon in html views
+
 0.6.7
 In Firefox 60, make subscribe works from feed page too.
 
