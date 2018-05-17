@@ -164,7 +164,7 @@ class FeedManager { /*exported FeedManager*/
         await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
       }
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
+      await self._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
