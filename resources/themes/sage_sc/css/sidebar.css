@@ -371,6 +371,7 @@ li {
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
@@ -379,6 +380,7 @@ li {
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
@@ -387,64 +389,72 @@ li {
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFldMnOpenAllUpdated::before {
-  background-image: url(/resources/themes/sage_sc/img/folder-open.png);
+  background-image: url(/resources/themes/sage_sc/img/feed-open.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFldMnOpenUpdatedAsUnified::before {
-  background-image: url(/resources/themes/sage_sc/img/folder-open.png);
+  background-image: url(/resources/themes/sage_sc/img/merge.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFldMnSortByName::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/sort.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFldMnNewFolder::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/folder-new.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFldMnDeleteFolder::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/delete.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 
 
 #ctxFdtMnGetFeedTitle::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/title.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFdMnOpenFeed::before {
-  background-image: url(/resources/themes/sage_sc/img/folder-open.png);
+  background-image: url(/resources/themes/sage_sc/img/feed-open.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
@@ -453,6 +463,7 @@ li {
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
@@ -461,22 +472,25 @@ li {
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFdMnNewFolder::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/folder-new.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 #ctxFdtMnDeleteFeed::before {
-  background-image: url(/resources/themes/sage_sc/img/feed-error.png);
+  background-image: url(/resources/themes/sage_sc/img/delete.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }

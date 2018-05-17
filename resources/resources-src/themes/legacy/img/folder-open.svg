@@ -17,7 +17,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="folder-open.svg">
+   sodipodi:docname="folder-open.svg"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/resources/themes/legacy/img/folder-open.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -114,8 +117,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="6.3197669"
-     inkscape:cx="17.86289"
-     inkscape:cy="33.286897"
+     inkscape:cx="44.220502"
+     inkscape:cy="32.97043"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -134,7 +137,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -143,29 +146,21 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-956.36216)">
-    <g
-       id="g4243"
-       transform="matrix(0.8293326,0,0,0.8293326,-0.73148892,171.65485)">
-      <g
-         transform="translate(0.55943855,-0.29297021)"
-         id="g4163">
-        <path
-           style="fill:url(#linearGradient5908);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5926)"
-           d="m 242.52,279.84221 0,80 130,0 0,-80.00001 -85.50622,-0.65985 0,-8.49465 c -16.40565,-1.68403 -26.7684,-1.79967 -44.49378,0.31567 -0.17398,3.37803 0,8.83884 0,8.83884"
-           id="path4140"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="cccccccc"
-           transform="matrix(0.62277751,0,0,0.7654389,-148.51747,763.53136)" />
-      </g>
-      <path
-         transform="matrix(0.61968787,0,0.01415675,0.83004736,-143.92553,678.99519)"
-         sodipodi:nodetypes="ccccc"
-         inkscape:connector-curvature="0"
-         inkscape:original-d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 z"
-         inkscape:path-effect="#path-effect4159-3"
-         id="path4157"
-         d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 -50.35714,50.17857 z"
-         style="fill:url(#linearGradient4161);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5882)" />
-    </g>
+    <path
+       style="fill:url(#linearGradient5908);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.49284678;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5926);stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 242.52,279.84221 0,80 130,0 0,-80.00001 -85.50622,-0.65985 0,-8.49465 c -16.40565,-1.68403 -26.7684,-1.79967 -44.49378,0.31567 -0.17398,3.37803 0,8.83884 0,8.83884"
+       id="path4140"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       transform="matrix(0.51648969,0,0,0.63480343,-123.43791,804.63333)" />
+    <path
+       style="fill:url(#linearGradient4161);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.36250798;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5882);stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 -50.35714,50.17857 z"
+       id="path4157"
+       inkscape:path-effect="#path-effect4159-3"
+       inkscape:original-d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       transform="matrix(0.51392735,0,0.01174065,0.68838534,-120.09362,734.7677)" />
   </g>
 </svg>
