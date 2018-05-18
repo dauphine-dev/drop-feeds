@@ -8,7 +8,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get alwaysOpenNewTab()              { return true; }
   static get openNewTabForeground()          { return true; }
   static get rootBookmarkId()                { return undefined; }
-  static get themeFolderName()               { return 'dauphine'; }
+  static get themeFolderName()               { return 'legacy'; }
   static get updatedFeedsVisible()           { return false; }
   static get foldersOpened()                 { return true; }
   static get maxItemsInUnifiedView()         { return 100; }

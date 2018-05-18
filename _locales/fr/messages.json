@@ -380,6 +380,28 @@
 
   "csSubscribeWithDropFeeds": {
     "message": "S'abonner avec Drop Feeds"
+  },
+
+  "ff56Text1": {
+    "message": "Pour que cette icône ouvre Drop Feeds dans la barre latérale mettez à jour Firefox en version 57 ou supérieure"
+  },
+  "ff56Text2": {
+    "message": "La WebApi permettant d'ouvrir les modules complémentaires"
+  },
+  "ff56Text3": {
+    "message": "dans la barre latérale n'est pas implémentée dans Firefox 56."
+  },
+  "ff56Text4": {
+    "message": "Pour utiliser Drop Feeds avec Firefox56:"
+  },
+  "ff56Text5": {
+    "message": "Vous devez cliquer dur l’icône 'Afficher les panneaux latéraux' de Firefox"
+  },
+  "ff56Text6": {
+    "message": "et sélectionner Drop feeds dans liste de ma barre latérale."
+  },
+  "ff56Text7": {
+    "message": "cliquez ici pour fermer"
   }
 
 }

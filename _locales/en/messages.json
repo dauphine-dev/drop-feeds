@@ -379,5 +379,27 @@
 
   "csSubscribeWithDropFeeds": {
     "message": "Subscribe with Drop Feeds"
+  },
+
+  "ff56Text1": {
+    "message": "To get this icon opens the Drop Feeds sidebar please update to Firefox 57 or higher"
+  },
+  "ff56Text2": {
+    "message": "On Firefox 56 the WebApi to open the addon-side bar is not implemented."
+  },
+  "ff56Text3": {
+    "message": ""
+  },
+  "ff56Text4": {
+    "message": "To use Drop Feeds in Firefox56:"
+  },
+  "ff56Text5": {
+    "message": "You have to click on the 'Show sidebars' Firefox icon"
+  },
+  "ff56Text6": {
+    "message": "and in select Drop feeds in the sidebar list"
+  },
+  "ff56Text7": {
+    "message": "click here to close"
   }
 }
