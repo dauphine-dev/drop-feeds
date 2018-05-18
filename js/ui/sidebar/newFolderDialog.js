@@ -11,6 +11,7 @@ class NewFolderDialog { /*exported NewFolderDialog*/
   constructor() {
     this._selectedId = null;
     this._elNewFolderDialog = document.getElementById('newFolderDialog');
+    this._updateLocalizedStrings();
   }
 
   async init_async() {
@@ -31,6 +32,13 @@ class NewFolderDialog { /*exported NewFolderDialog*/
     let elNewFolderDialog = document.getElementById('newFolderDialog');
     elNewFolderDialog.classList.remove('show');
     elNewFolderDialog.classList.add('hide');
+  }
+
+  _updateLocalizedStrings() {
+    document.title = browser.i18n.getMessage('subDropFeedsSubscribe');
+    document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
+    document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
   }
 
   _setPosition() {
