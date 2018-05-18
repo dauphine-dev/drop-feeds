@@ -81,6 +81,19 @@ class TreeView { /*exported TreeView*/
     }
   }
 
+  openFeed(feedId, openNewTabForce, openNewTabBackGroundForce) {
+    try {
+      TopMenu.instance.animateCheckFeedButton(true);
+      StatusBar.instance.workInProgress = true;
+      FeedManager.instance.openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce);
+    }
+    finally {
+      StatusBar.instance.text = '';
+      TopMenu.instance.animateCheckFeedButton(false);
+      StatusBar.instance.workInProgress = false;
+    }
+
+  }
   _updateFolderCount(bookmarkItem) {
     if (bookmarkItem.children) {
       for (let child of bookmarkItem.children) {
@@ -123,7 +136,9 @@ class TreeView { /*exported TreeView*/
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
     for (let i = 0; i < feedItems.length; i++) {
+      feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
       feedItems[i].addEventListener('click', this._feedClicked_event);
+      feedItems[i].addEventListener('mouseup', this._feedOnMouseUp_event);
     }
   }
 
@@ -139,20 +154,35 @@ class TreeView { /*exported TreeView*/
     }
   }
 
+  async _feedOnRightClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    ContextMenu.instance.hide();
+    let elTarget = event.currentTarget;
+    let xPos = event.clientX;
+    let yPos = event.currentTarget.getBoundingClientRect().top;
+    ContextMenu.instance.show(xPos, yPos, elTarget);
+  }
+
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     ContextMenu.instance.hide();
-    try {
-      TopMenu.instance.animateCheckFeedButton(true);
-      StatusBar.instance.workInProgress = true;
+    TreeView.instance._selectionBar.put(event.currentTarget);
+    let feedId = event.currentTarget.getAttribute('id');
+    let openNewTabForce=null; let openNewTabBackGroundForce=null;
+    TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+  }
+
+  async _feedOnMouseUp_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    if (event.button == 1) { //middle-click
+      ContextMenu.instance.hide();
+      TreeView.instance._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
-      FeedManager.instance.openOneFeedToTabById_async(feedId);
-    }
-    finally {
-      StatusBar.instance.text = '';
-      TopMenu.instance.animateCheckFeedButton(false);
-      StatusBar.instance.workInProgress = false;
+      let openNewTabForce=true; let openNewTabBackGroundForce=true;
+      TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
   }
 
@@ -188,6 +218,7 @@ class TreeView { /*exported TreeView*/
 
   _computeHtmlTree(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
+    if (!bookmarkItem) { return; }
     let isFolder = (!bookmarkItem.url);
     if (isFolder) {
       this._createTreeFolder(cacheLocalStorage, bookmarkItem, indent, displayThisFolder);

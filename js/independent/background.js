@@ -1,41 +1,57 @@
 /*global browser*/
 'use strict';
-const ICON_NONE_URL = '/resources/img/none.png';
 const SIDEBAR_URL = '/html/sidebar.html';
+const POPUP56_URL = '/html/browserActionFF56.html';
 const VERSION_ENUM = {
   MAJ : 0,
   MIN : 1,
   REV : 2
 };
-let _sidebarActionIsOpen = false;
 
 class BackgroundManager {
-  static async start() {
-    let version = await BackgroundManager._getBrowserVersionAsync();
-    if (version[VERSION_ENUM.MAJ] < 57) {
-      BackgroundManager._disableBrowserAction();
-      return;
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new this();
     }
-    _sidebarActionIsOpen = await BackgroundManager._sidebarActionIsOpenAsync();
-    browser.browserAction.onClicked.addListener(BackgroundManager._toggleDropFeedsPanelAsync);
-
+    return this._instance;
   }
 
-  static _disableBrowserAction() {
-    browser.browserAction.setIcon({path: ICON_NONE_URL});
-    browser.browserAction.disable();
-    browser.browserAction.setBadgeText({text: ''});
-    browser.browserAction.setTitle({title: ''});
+  constructor() {
+    this._version = null;
+    this._sidebarActionIsOpen = false;
   }
 
-  static async _getBrowserVersionAsync() {
+  async init_async() {
+    this._version = await this._getBrowserVersion_async();
+    if (this._version[VERSION_ENUM.MAJ] < 57) {
+      browser.browserAction.setPopup({popup: POPUP56_URL});
+    }
+    else {
+      this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
+      browser.browserAction.onClicked.addListener(BackgroundManager._toggleDropFeedsPanel_async);
+    }
+  }
+
+  async _getBrowserVersion_async() {
     let browserInfo = await browser.runtime.getBrowserInfo();
     let version = browserInfo.version.split('.');
     return version;
   }
 
-  static async _toggleDropFeedsPanelAsync(){
-    if (_sidebarActionIsOpen) {
+  async _sidebarActionIsOpen_async() {
+    let isOpen = false;
+    try {
+      isOpen = await browser.sidebarAction.isOpen();
+    }
+    catch(e) {
+      isOpen = ! this._sidebarActionIsOpen;
+    }
+    return isOpen;
+  }
+
+  static async _toggleDropFeedsPanel_async(){
+    let self = BackgroundManager.instance;
+    if (self._sidebarActionIsOpen) {
       browser.sidebarAction.close();
     }
     else {
@@ -43,19 +59,9 @@ class BackgroundManager {
       browser.sidebarAction.setPanel({panel: panelUrl});
       browser.sidebarAction.open();
     }
-    _sidebarActionIsOpen = await BackgroundManager._sidebarActionIsOpenAsync();
+    self._sidebarActionIsOpen = await self._sidebarActionIsOpen_async();
   }
 
-  static async _sidebarActionIsOpenAsync() {
-    let isOpen = false;
-    try {
-      isOpen = await browser.sidebarAction.isOpen();
-    }
-    catch(e) {
-      isOpen = ! _sidebarActionIsOpen;
-    }
-    return isOpen;
-  }
 }
 
-BackgroundManager.start();
+BackgroundManager.instance.init_async();

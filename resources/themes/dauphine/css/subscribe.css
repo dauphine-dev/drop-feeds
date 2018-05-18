@@ -95,10 +95,26 @@ input:checked ~ .folderOpen {
   display: inline;
 }
 .folderOpen::before {
-  content: url(/resources/themes/dauphine/img/folder-open.png);
+  background-image: url(/resources/themes/dauphine/img/folder-open.png);
+  background-size: 16px 12px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
 }
 .folderClose::before {
-  content: url(/resources/themes/dauphine/img/folder-closed.png);
+  background-image: url(/resources/themes/dauphine/img/folder-closed.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
 }
 ul {
   margin-left: -20px;

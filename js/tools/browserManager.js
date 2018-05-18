@@ -20,12 +20,13 @@ class BrowserManager { /* exported BrowserManager*/
     return this._alwaysOpenNewTab;
   }
 
-  async openTab_async(url, openNewTabForce) {
+  async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
     let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
     if(openNewTab && !isEmptyActiveTab) {
-      await browser.tabs.create({url: url, active: this._openNewTabForeground});
+      let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
+      await browser.tabs.create({url: url, active: openNewTabForeground});
     } else {
       await browser.tabs.update(activeTab.id, {url: url});
     }

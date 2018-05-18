@@ -17,7 +17,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="feed-error.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-freeds/sidebar/images/feed-error.png"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/resources/themes/legacy/img/feed-error.png"
    inkscape:export-xdpi="15.32"
    inkscape:export-ydpi="15.32">
   <defs
@@ -70,7 +70,8 @@
        y1="1035.0195"
        x2="95"
        y2="1004.3622"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.96808525,0,31.452723)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -79,9 +80,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.9375"
-     inkscape:cx="26.909091"
-     inkscape:cy="47.776224"
+     inkscape:zoom="6.3197669"
+     inkscape:cx="37.033413"
+     inkscape:cy="31.553355"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -112,30 +113,31 @@
      transform="translate(0,-956.36216)">
     <path
        style="fill:url(#linearGradient4171);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1,1051.3622 47,-94.00004 47,94.00004 -94,0"
-       id="path4149"
-       inkscape:path-effect="#path-effect4151"
-       inkscape:original-d="m 1,1051.3622 47,-94.00004 47,94.00004 -94,0"
+       d="m 0.36706523,1038.9154 c 7.49499797,17.3787 85.58469377,19.5943 95.27154777,-0.014 -6.556471,-30.4374 -25.386529,-72.25282 -46.6762,-82.17747 -22.55554,9.27549 -40.8610647,51.73177 -48.59534777,82.19097 z"
+       id="path4175"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/resources/themes/legacy/img/feed-error1.png"
+       inkscape:export-xdpi="15"
+       inkscape:export-ydpi="15" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Calque 2">
     <path
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 52,26 -8,0 2,50 4,0 2,-50 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.34780896px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 55.076112,15.08841 -13.835756,0 3.458938,52.51867 6.91788,0 3.458938,-52.51867 z"
        id="path5630"
        inkscape:path-effect="#path-effect5632"
-       inkscape:original-d="m 52,26 -8,0 2,50 4,0 z"
+       inkscape:original-d="m 55.076112,15.08841 -13.835756,0 3.458938,52.51867 6.91788,0 z"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <circle
-       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.45429552;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path5638"
-       cx="48"
-       cy="88.72728"
-       r="4.0279727" />
+       cx="47.841766"
+       cy="84.296738"
+       r="5.8578629" />
   </g>
 </svg>

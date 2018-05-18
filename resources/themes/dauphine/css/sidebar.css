@@ -321,47 +321,131 @@ li.feedUnread {
   display:none;
 }
 
-#ctxMnCheckFeeds::before {
+
+#ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnMarkAllAsRead::before {
+  background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnMarkAllAsUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnOpenAllUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/feed-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnOpenUpdatedAsUnified::before {
+  background-image: url(/resources/themes/dauphine/img/merge.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnSortByName::before {
+  background-image: url(/resources/themes/dauphine/img/sort.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnNewFolder::before {
+  background-image: url(/resources/themes/dauphine/img/folder-new.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnDeleteFolder::before {
+  background-image: url(/resources/themes/dauphine/img/delete.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 
-#ctxMnMarkAllAsRead::before {
-  background-image: url(/resources/themes/dauphine/img/feed-read.png);
+#ctxFdtMnGetFeedTitle::before {
+  background-image: url(/resources/themes/dauphine/img/title.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnMarkAllAsUpdated::before {
-  background-image: url(/resources/themes/dauphine/img/feed-unread.png);
+#ctxFdMnOpenFeed::before {
+  background-image: url(/resources/themes/dauphine/img/feed-open.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnOpenAllUpdated::before {
-  background-image: url(/resources/themes/dauphine/img/folder-open.png);
+#ctxFdMnMarkFeedAsRead::before {
+  background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnOpenUpdatedAsUnified::before {
-  background-image: url(/resources/themes/dauphine/img/folder-open.png);
+#ctxFdMnMarkFeedAsUpdated::before {
+  background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnNewFolder::before {
+  background-image: url(/resources/themes/dauphine/img/folder-new.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdtMnDeleteFeed::before {
+  background-image: url(/resources/themes/dauphine/img/delete.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
@@ -586,3 +670,24 @@ li.feedUnread {
 .toolTipItemVisibility:hover::before {
   visibility: hidden;
 }
+
+/* new folder dialog */
+#newFolderDialog {
+  background-color: #E0E0EF;
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  border: 1px solid #9d9d99;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 10px;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
+}
+

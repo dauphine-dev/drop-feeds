@@ -4,6 +4,7 @@ class SelectionBar { /*exported SelectionBar*/
     this._selectionBarElement = document.getElementById('selectionBar');
     this._selectedElement = null;
     this._selectedElementId = null;
+    this._selectedElementIsFolder = null;
     this._selectionBarElement.style.visibility = 'hidden';
   }
 
@@ -12,6 +13,7 @@ class SelectionBar { /*exported SelectionBar*/
     this._selectionBarElement.style.visibility = 'hidden';
     this._selectedElementId = null;
     this._selectedElement = null;
+    this._selectedElementIsFolder = null;
   }
 
   put(targetElement) {
@@ -32,7 +34,11 @@ class SelectionBar { /*exported SelectionBar*/
     if (! this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
     this._selectionBarElement.style.top = '0px';
-    let prevElLabel = document.getElementById('lbl-' + this._selectedElementId);
+    let selectedElementId = this._selectedElementId;
+    if (this._selectedElementIsFolder) {
+      selectedElementId = 'lbl-' + this._selectedElementId;
+    }
+    let prevElLabel = document.getElementById(selectedElementId);
     if (prevElLabel) {
       prevElLabel.style.color = '';
     }
@@ -41,14 +47,27 @@ class SelectionBar { /*exported SelectionBar*/
   _putNew(selectedElement) {
     this._selectedElement = selectedElement;
     if (! this._selectedElement) { return; }
-    this._selectedElementId = selectedElement.getAttribute('id').substring(3);
-    let elLabel = document.getElementById('lbl-' + this._selectedElementId);
-    if (elLabel) {
-      elLabel.style.color = 'white';
+    let targetElement = this._getTargetElement(selectedElement);
+    if (targetElement) {
+      targetElement.style.color = 'white';
       let rectTarget = this._selectedElement.getBoundingClientRect();
       let y = rectTarget.top + 5;
       this._selectionBarElement.style.top = y + 'px';
       this._selectionBarElement.style.visibility = 'visible';
     }
+  }
+
+  _getTargetElement(selectedElement) {
+    let selectedElementRawId = selectedElement.getAttribute('id');
+    this._selectedElementId = selectedElementRawId;
+    let idTargetElement = selectedElementRawId;
+    this._selectedElementIsFolder = false;
+    if (selectedElementRawId.startsWith('dv-')) {
+      this._selectedElementId = selectedElementRawId.substring(3);
+      idTargetElement = 'lbl-' + this._selectedElementId;
+      this._selectedElementIsFolder = true;
+    }
+    let elLabel = document.getElementById(idTargetElement);
+    return elLabel;
   }
 }

@@ -73,6 +73,28 @@
   "sbOpenUpdatedAsUnified": {
     "message": "Ouvrir les flux non lus comme un flux unique"
   },
+  "sbSortByName": {
+    "message": "Trier par nom"
+  },
+  "sbNewFolder": {
+    "message": "Nouveau dossier"
+  },
+
+  "sbGetFeedTitle": {
+    "message": "Mettre à jour le titre"
+  },
+  "sbOpenFeed": {
+    "message": "Ouvrir"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "Marquer comme lu"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "Marquer comme non lu"
+  },
+  "sbDeleteFeed": {
+    "message": "Supprimer"
+  },
 
   "sbUseButtonAbove": {
     "message": "Pour ajouter un nouveau flux, utilisez le button situé plus haut !"
@@ -323,6 +345,10 @@
     "message": "Afficher les erreurs comme non lues"
   },
 
+  "optRenderFeeds": {
+    "message": "Afficher les flux"
+  },
+
   "optAlwaysOpenNewTab": {
     "message": "Toujours ouvrir dans un nouvel onglet"
   },
@@ -354,6 +380,28 @@
 
   "csSubscribeWithDropFeeds": {
     "message": "S'abonner avec Drop Feeds"
+  },
+
+  "ff56Text1": {
+    "message": "Pour que cette icône ouvre Drop Feeds dans la barre latérale mettez à jour Firefox en version 57 ou supérieure"
+  },
+  "ff56Text2": {
+    "message": "La WebApi permettant d'ouvrir les modules complémentaires"
+  },
+  "ff56Text3": {
+    "message": "dans la barre latérale n'est pas implémentée dans Firefox 56."
+  },
+  "ff56Text4": {
+    "message": "Pour utiliser Drop Feeds avec Firefox56:"
+  },
+  "ff56Text5": {
+    "message": "Vous devez cliquer dur l’icône 'Afficher les panneaux latéraux' de Firefox"
+  },
+  "ff56Text6": {
+    "message": "et sélectionner Drop feeds dans liste de ma barre latérale."
+  },
+  "ff56Text7": {
+    "message": "cliquez ici pour fermer"
   }
 
 }

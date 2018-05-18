@@ -361,51 +361,134 @@ li {
 }
 
 
-#ctxMnCheckFeeds::before {
+#ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/legacy/img/check-feeds.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnMarkAllAsRead::before {
+#ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/legacy/img/feed-read.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnMarkAllAsUpdated::before {
+#ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-unread.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnOpenAllUpdated::before {
-  background-image: url(/resources/themes/legacy/img/folder-open.png);
+#ctxFldMnOpenAllUpdated::before {
+  background-image: url(/resources/themes/legacy/img/feed-open.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
-
-#ctxMnOpenUpdatedAsUnified::before {
-  background-image: url(/resources/themes/legacy/img/folder-open.png);
+#ctxFldMnOpenUpdatedAsUnified::before {
+  background-image: url(/resources/themes/legacy/img/merge.png);
   background-size: 16px 16px;
   width: 16px;
   height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnSortByName::before {
+  background-image: url(/resources/themes/legacy/img/sort.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnNewFolder::before {
+  background-image: url(/resources/themes/legacy/img/folder-new.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFldMnDeleteFolder::before {
+  background-image: url(/resources/themes/legacy/img/delete.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
   content: "";
   display: inline-block;
 }
 
+
+#ctxFdtMnGetFeedTitle::before {
+  background-image: url(/resources/themes/legacy/img/title.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnOpenFeed::before {
+  background-image: url(/resources/themes/legacy/img/feed-open.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsRead::before {
+  background-image: url(/resources/themes/legacy/img/feed-read.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnMarkFeedAsUpdated::before {
+  background-image: url(/resources/themes/legacy/img/feed-unread.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdMnNewFolder::before {
+  background-image: url(/resources/themes/legacy/img/folder-new.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
+#ctxFdtMnDeleteFeed::before {
+  background-image: url(/resources/themes/legacy/img/delete.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+}
 
 .menuSep {
   margin: 2px 0 2px 0;
@@ -627,4 +710,24 @@ li {
 
 .toolTipItemVisibility:hover::before {
   visibility: hidden;
+}
+
+/* new folder dialog */
+#newFolderDialog {
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  background-color: #e8e8e7;
+  border: 1px solid #9d9d99;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 10px;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
 }

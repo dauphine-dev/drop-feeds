@@ -51,6 +51,14 @@ class FeedParser { /*exported FeedParser*/
     return pubDate;
   }
 
+  static parseTitle(feedText) {
+    if (!feedText) return null;
+    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+    let channelText = FeedParser._getChannelText(feedText, tagItem);
+    let title = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.TITLE));
+    return title;
+  }
+
   static getFeedBody(feedText) {
     let feedBody = feedText;
     let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
@@ -166,7 +174,7 @@ class FeedParser { /*exported FeedParser*/
 
   }
 
-  static  _feedInfoToHtml(feedInfo) {
+  static _feedInfoToHtml(feedInfo) {
     let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
     let feedHtml = '';
     feedHtml += htmlHead;
@@ -305,11 +313,7 @@ class FeedParser { /*exported FeedParser*/
   static _parseChannelToObj(feedText, tagItem, defaultTitle) {
     let channel = DefaultValues.getDefaultChannelInfo();
     channel.encoding =  FeedParser._getEncoding(feedText);
-    let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
-    let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
-    if (!channelText) {
-      channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
-    }
+    let channelText = FeedParser._getChannelText(feedText, tagItem);
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
       channel.link = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
@@ -320,6 +324,16 @@ class FeedParser { /*exported FeedParser*/
     channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
   }
+
+  static _getChannelText(feedText, tagItem) {
+    let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
+    let channelText = TextTools.getInnerText(feedText, tagChannel, tagItem);
+    if (!channelText) {
+      channelText = TextTools.getInnerText(feedText, tagChannel, '</' + tagChannel);
+    }
+    return channelText;
+  }
+
 
   static _getHtmlHead(channel) {
     let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
