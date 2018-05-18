@@ -1,0 +1,380 @@
+{
+  "comment1": {
+    "message": "---Manifest strings---"
+  },
+
+  "manExtensionDescription": {
+    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
+    "description": "Description of the extension."
+  },
+
+  "manPageActionDefaultTitle": {
+    "message": "Subscribe with Drop feed",
+    "description": "Title of the page action."
+  },
+
+
+  "comment2": {
+    "message": "---Sidebar strings---"
+  },
+
+  "sbCheckFeeds": {
+    "message": "更新"
+  },
+
+  "sbDiscoverFeeds": {
+    "message": "検索
+  },
+
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "更新されたフィードのみ表示"
+  },
+
+  "sbToggleFolders": {
+    "message": "全てのフォルダの開閉"
+  },
+
+  "sbAddNewFeed": {
+    "message": "RSSを追加"
+  },
+
+  "sbOpenOptionsTab": {
+    "message": "オプションを開く"
+  },
+
+  "sbMarkAsRead": {
+    "message": "既読にする"
+  },
+
+  "sbMarkAsUnread": {
+    "message": "未読にする"
+  },
+
+  "sbMarkAllAsRead": {
+    "message": "全て既読"
+  },
+
+  "sbMarkAllAsUnread": {
+    "message": "全て未読"
+  },
+
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "未読を新しいタブで開く"
+  },
+
+  "sbMarkAllAsUpdated": {
+    "message": "全てを更新済みにする"
+  },
+
+  "sbOpenUpdatedFeeds": {
+    "message": "更新されたページを開く"
+  },
+
+  "sbOpenUpdatedAsUnified": {
+    "message": "更新されたページをまとめて開く"
+  },
+  "sbSortByName": {
+    "message": "名前から検索"
+  },
+  "sbNewFolder": {
+    "message": "新しいフォルダ"
+  },
+
+  "sbGetFeedTitle": {
+    "message": "フィードタイトルを収得"
+  },
+  "sbOpenFeed": {
+    "message": "開く"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "既読にする"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "未読にする"
+  },
+  "sbDeleteFeed": {
+    "message": "消去"
+  },
+
+  "sbUseButtonAbove": {
+    "message": "To add a Feed use the button above !"
+  },
+
+
+  "sbChecking": {
+    "message": "更新中"
+  },
+
+  "opening": {
+    "message": "開いています"
+  },
+
+  "sbLoading": {
+    "message": "読み込み中"
+  },
+
+  "sbLoaded": {
+    "message": "完了"
+  },
+
+  "sbMerging": {
+    "message": "マージ中"
+  },
+
+  "sbComputingUnifiedView": {
+    "message": "Computing unified view"
+  },
+
+  "sbReceived": {
+    "message": "received"
+  },
+  "sbFeedsUpdated": {
+    "message": "更新ずみ"
+  },
+  "sbOneFeedUpdated": {
+    "message": "一つ更新されています"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "更新はありません"
+  },
+
+
+
+
+  "comment3": {
+    "message": "---Subscribe strings---"
+  },
+
+  "subDropFeedsSubscribe": {
+    "message": "Drop Feeds (subscribe)"
+  },
+
+  "subSubscribeWithDropFeed": {
+    "message": "Subscribe with Drop feed"
+  },
+
+  "subName": {
+    "message": "名前"
+  },
+
+  "subFolder": {
+    "message": "フォルダ"
+  },
+
+  "subNewFolder": {
+    "message": "新しいフォルダ"
+  },
+
+  "subCancel": {
+    "message": "キャンセル"
+  },
+
+  "subSubscribe": {
+    "message": "Subscribe"
+  },
+
+  "subCreate": {
+    "message": "作成"
+  },
+
+
+
+
+  "comment4": {
+    "message": "---Discover strings---"
+  },
+
+  "disDiscoverFeeds": {
+    "message": "Discover feeds"
+  },
+
+  "disDiscoveringFeeds": {
+    "message": "Discovering feeds"
+  },
+
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "No feeds have been discovered"
+  },
+
+  "disDiscovered": {
+    "message": "Discovered"
+  },
+
+  "disFeeds": {
+    "message": "フィード"
+  },
+
+  "disTitle": {
+    "message": "タイトル"
+  },
+
+  "disFormat": {
+    "message": "フォーマット"
+  },
+
+  "disMastUpdate": {
+    "message": "Last update"
+  },
+
+  "disItems": {
+    "message": "Items"
+  },
+
+  "disUrl": {
+    "message": "Url"
+  },
+
+  "disAddFeed": {
+    "message": "追加"
+  },
+
+  "disClose": {
+    "message": "Close"
+  },
+
+
+
+
+  "comment5": {
+    "message": "---Options strings---"
+  },
+
+  "optDropFeedsOptions": {
+    "message": "Drop Feeds (options)"
+  },
+
+  "optGeneral": {
+    "message": "一般"
+  },
+
+  "optUpdateChecker": {
+    "message": "更新"
+  },
+
+  "optView": {
+    "message": "表示"
+  },
+
+  "optItems": {
+    "message": "Items"
+  },
+
+  "optContentsArea": {
+    "message": "コンテンツエリア"
+  },
+
+  "optManagement": {
+    "message": "インポート/エクスポート"
+  },
+
+  "optSelectFeedFolder": {
+    "message": "RSSフォルダ"
+  },
+
+  "optApply": {
+    "message": "決定"
+  },
+
+  "optDoNotDisplayRootFolder": {
+    "message": "ルートフォルダを表示しない"
+  },
+
+  "optSelectTheme": {
+    "message": "テーマ"
+  },
+
+  "optFeedItemOrder": {
+    "message": "Feed item order"
+  },
+  "optNewerFirst": {
+    "message": "新しい順"
+  },
+  "optOlderFirst": {
+    "message": "古い順"
+  },
+  "optOriginal": {
+    "message": "元のママ"
+  },
+
+  "optTimeout": {
+    "message": "タイムアウト"
+  },
+  "optSeconds": {
+    "message": "秒"
+  },
+  "optAsynchronousFeedChecking": {
+    "message": "フィードを同時にチェック"
+  },
+
+  "optAutoFeedUpdatesEvery": {
+    "message": "更新間隔"
+  },
+  "optMinutes": {
+    "message": "分"
+  },
+
+
+  "optShowNotifications": {
+    "message": "更新通知をポップアップで表示"
+  },
+
+  "optRetryWithHttp": {
+    "message": "httpsで失敗したらhttpを試す"
+  },
+
+  "optFeedItemList": {
+    "message": "項目リストを表示"
+  },
+
+  "optFeedItemListToolbar": {
+    "message": "項目リストにツールバーを表示r (*)"
+  },
+
+  "optDescriptionTooltips": {
+    "message": "ツールチップを表示しない"
+  },
+
+  "optNavigationHistoryWarning": {
+    "message": "(*) warning: mark read/unread features will impact your navigation history !"
+  },
+
+  "optShowUpdatedFeedCount": {
+    "message": "更新数を表示"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "エラーを表示"
+  },
+
+  "optAlwaysOpenNewTab": {
+    "message": "常に新しいタブで開く"
+  },
+
+  "optOpenNewTabForeground": {
+    "message": "新しいタブを手前で開く"
+  },
+
+  "optSelectOpmlFileToImport": {
+    "message": "opmlのインポート"
+  },
+
+  "optImport": {
+    "message": "インポート..."
+  },
+
+  "optSelectOpmlFileToExport": {
+    "message": "omplのエクスポート先"
+  },
+
+  "optExport": {
+    "message": "エクスポート..."
+  },
+
+
+  "comment6": {
+    "message": "---Content script strings---"
+  },
+
+  "csSubscribeWithDropFeeds": {
+    "message": "Subscribe with Drop Feeds"
+  }
+}

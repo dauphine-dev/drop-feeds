@@ -1,0 +1,62 @@
+0.1
+Sage++ like quick and dirty P.O.C.
+
+0.2
+UI improvement (improve themes look)
+Adding highlighting selection bar on folder items on the treeview
+Adding option "Do not display root folder"
+Adding option "Always open new tab"
+Adding option "Open new tab in foreground"
+Adding check feed timeout
+Adding "loading" messages in status bar
+Adding notification on feed update complete
+Adding Tabs in option view
+Reduce option view loading time
+
+0.3
+Code rewriting (replace quick and dirty code from P.O.C. by a new one
+Asynchronous feed checking 
+Open feeds as unified
+
+0.4
+Adding the bottom items panel 
+
+0.5
+Add discover feeds feature
+
+0.6
+Internationalization (many languages support)
+Adding French language
+Adding automatic feed update feature
+Adding an option to choose to show errors as unread or not
+Adding items sort choose
+Adding feed updated count option
+Adding Podcast Support
+Rework of feeds subscription
+
+0.7
+Adding context menu for feed entries
+Completing context menu for folder entries
+Adding new context menu icons, and little themes rework
+Adding highlighting selection bar on feed items on the treeview
+Adding a "Renders Feeds" option
+Mouse middle-click  opens feed in a background new tab
+
+0.7.x
+Support of drag a drop & move elements of the tree view (folder and feeds)
+
+0.8
+User scripts
+0.8.x
+Adding security filters
+
+
+0.9
+Better support for ATOM feeds
+0.9.x
+Best enclosure support
+0.99
+Release Candidate 
+
+1.0
+Same as Release Candidate with bugs fixed
