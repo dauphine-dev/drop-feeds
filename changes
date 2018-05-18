@@ -1,5 +1,7 @@
 0.7.3
 Fix new folder dialog texts
+Fix context menu management
+Rework some icons
 
 0.7.2
 Set the default theme to 'legacy'

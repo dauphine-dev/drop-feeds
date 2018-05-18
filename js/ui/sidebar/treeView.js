@@ -138,7 +138,7 @@ class TreeView { /*exported TreeView*/
     for (let i = 0; i < feedItems.length; i++) {
       feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
       feedItems[i].addEventListener('click', this._feedClicked_event);
-      feedItems[i].addEventListener('mousedown', this._feedOnmousedown_event);
+      feedItems[i].addEventListener('mouseup', this._feedOnMouseUp_event);
     }
   }
 
@@ -154,42 +154,36 @@ class TreeView { /*exported TreeView*/
     }
   }
 
-
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    console.log('event1:', event.button);
-    //TreeView.instance._selectionBar.put(event.currentTarget);
+    ContextMenu.instance.hide();
+    let elTarget = event.currentTarget;
+    let xPos = event.clientX;
+    let yPos = event.currentTarget.getBoundingClientRect().top;
+    ContextMenu.instance.show(xPos, yPos, elTarget);
   }
 
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    console.log('event2:', event.button);
+    ContextMenu.instance.hide();
+    TreeView.instance._selectionBar.put(event.currentTarget);
+    let feedId = event.currentTarget.getAttribute('id');
+    let openNewTabForce=null; let openNewTabBackGroundForce=null;
+    TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
   }
 
-  async _feedOnmousedown_event(event) {
+  async _feedOnMouseUp_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    ContextMenu.instance.hide();
-    let openNewTabForce = null;
-    let openNewTabBackGroundForce = null;
-    if (event.button == 0 || event.button == 1) { //left-click OR  middle-click
-      if (event.button == 1) { //middle-click
-        openNewTabForce = true;
-        openNewTabBackGroundForce = true;
-      }
+    if (event.button == 1) { //middle-click
+      ContextMenu.instance.hide();
       TreeView.instance._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
+      let openNewTabForce=true; let openNewTabBackGroundForce=true;
       TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
-    else if (event.button == 2) { //right-click
-      let elTarget = event.currentTarget;
-      let xPos = event.clientX;
-      let yPos = event.currentTarget.getBoundingClientRect().top;
-      ContextMenu.instance.show(xPos, yPos, elTarget);
-    }
-
   }
 
   async _folderChanged_event(event) {
