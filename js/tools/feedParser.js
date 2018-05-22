@@ -368,10 +368,7 @@ class FeedParser { /*exported FeedParser*/
       let itemIdRaw = FeedParser._getItemId(itemText);
       item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
-      item.link = FeedParser._extractValue(itemText, tagList.LINK);
-      if (! item.link) {
-        item.link = FeedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
-      }
+      item.link = FeedParser._getItemLink(itemText);
       item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
       item.description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
@@ -386,6 +383,27 @@ class FeedParser { /*exported FeedParser*/
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
     return itemList;
+  }
+
+  static _getItemLink(itemText) {
+    let itemLink = FeedParser._extractValue(itemText, tagList.LINK);
+    if (! itemLink) {
+      let inputIndex = 0;
+      let outputIndex = {value:0};
+      while (outputIndex.value != -1 && !itemLink) {
+        inputIndex = outputIndex.value;
+        let link = TextTools.getOuterTextEx(itemText, '<' + tagList.LINK, '/>',inputIndex, outputIndex, false);
+        if (link) {
+          if (link.includes('type="text/html"')) {
+            itemLink = FeedParser._extractAttribute(link, tagList.LINK, tagList.ATT_LINK);
+          }
+        }
+      }
+      if (!itemLink) {
+        itemLink = FeedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
+      }
+    }
+    return itemLink;
   }
 
   static _getEncoding(text) {

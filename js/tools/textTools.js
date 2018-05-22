@@ -14,16 +14,36 @@ class TextTools { /* exported TextTools*/
 
   static getInnerTextEx(text,  startPattern, endPattern, inputIndex, outputIndex, last) {
     if (!text) { return text; }
-    outputIndex = {inputIndex};
+    outputIndex.value = -1;
     let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
     if (startIndex == -1) return null;
     startIndex +=  startPattern ? startPattern.length : 0;
     let endIndex = text.indexOf(endPattern, startIndex);
     if (endIndex == -1) return null;
     let result = text.substring(startIndex, endIndex);
-    outputIndex = {endIndex};
+    outputIndex.value = endIndex;
     return result;
   }
+
+  static getOuterText(text, startPattern, endPattern) {
+    let outputIndex = {};
+    let result = TextTools.getOuterTextEx(text, startPattern, endPattern, 0, outputIndex, false);
+    return result;
+  }
+
+  static getOuterTextEx(text,  startPattern, endPattern, inputIndex, outputIndex, last) {
+    if (!text) { return text; }
+    outputIndex.value = -1;
+    let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
+    if (startIndex == -1) return null;
+    let endIndex = text.indexOf(endPattern, startIndex);
+    if (endIndex == -1) return null;
+    endIndex +=  endPattern ? endPattern.length : 0;
+    let result = text.substring(startIndex, endIndex);
+    outputIndex.value = endIndex;
+    return result;
+  }
+
 
   static occurrences(string, subString) {
     if (!string) { return string; }
