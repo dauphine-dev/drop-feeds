@@ -38,11 +38,18 @@ class BrowserManager { /* exported BrowserManager*/
   
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
-    let dfTab = await BrowserManager.findDropFeedsTab_async();
+    let dfTab = null;
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
     let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
     let reuseDropFeedsTab = this._reuseDropFeedsTab;
+    
+    if (BrowserManager.isDropFeedsTab(activeTab)) {
+        dfTab = activeTab;
+    }
+    else {
+        dfTab = await BrowserManager.findDropFeedsTab_async();
+    }
     
     // Open Tab Logic:
     //   1. "Always Open in New Tab" == True || openNewTabForce == True
@@ -79,7 +86,7 @@ class BrowserManager { /* exported BrowserManager*/
             doCreate = false;
         }
         else {
-            // Option 2b - Update the first DF tab
+            // Option 2b - Update the first or current DF tab
             if(dfTab) {
                 doCreate = false;
                 targetTabId = dfTab.id;
@@ -112,11 +119,16 @@ class BrowserManager { /* exported BrowserManager*/
     return isEmpty;
   }
 
+  static isDropFeedsTab(tab) {
+    let baseUrl = BrowserManager.instance.baseFeedUrl;
+    return tab.url.startsWith(baseUrl);
+  }
+
   static async getActiveTab_async() {
     let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
     return tabInfos[0];
   }
- 
+
   static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
@@ -224,11 +236,9 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async findDropFeedsTab_async() {
     let tabs = await browser.tabs.query({currentWindow: true}) 
-    if(tabs) {
-        let baseUrl = BrowserManager.instance.baseFeedUrl;
+    if (tabs) {
         for (var i = 0, len = tabs.length; i < len; i++) {
-            let url = tabs[i].url;
-            if(url.startsWith(baseUrl)) {
+            if (BrowserManager.isDropFeedsTab(tabs[i])) {
                 return tabs[i];
             }
         }
