@@ -7,6 +7,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get displayRootFolder()             { return true; }
   static get alwaysOpenNewTab()              { return true; }
   static get openNewTabForeground()          { return true; }
+  static get reuseDropFeedsTab()             { return false; }
   static get rootBookmarkId()                { return undefined; }
   static get themeFolderName()               { return 'legacy'; }
   static get updatedFeedsVisible()           { return false; }

@@ -11,8 +11,12 @@ class BrowserManager { /* exported BrowserManager*/
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
     this._openNewTabForeground = DefaultValues.openNewTabForeground;
+    this._reuseDropFeedsTab = DefaultValues.reuseDropFeedsTab;
+    this._baseFeedUrl = null;
+    
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', BrowserManager._setReuseDropFeedsTab_sbscrb, true);
   }
 
   //non statics
@@ -20,15 +24,86 @@ class BrowserManager { /* exported BrowserManager*/
     return this._alwaysOpenNewTab;
   }
 
+  get baseFeedUrl() {
+    // Returns the "blob:moz-extension://<Internal UUID>" feed base URL for this installation
+    if (this._baseFeedUrl) {
+        return this._baseFeedUrl;
+    }
+
+    let feedBlob = new Blob([]);
+    let feedUrl = new URL(URL.createObjectURL(feedBlob));
+    this._baseFeedUrl = feedUrl.protocol + feedUrl.origin;
+    return this._baseFeedUrl ;
+  }
+  
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
-    let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
+    let dfTab = null;
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
-    if(openNewTab && !isEmptyActiveTab) {
-      let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
-      await browser.tabs.create({url: url, active: openNewTabForeground});
-    } else {
-      await browser.tabs.update(activeTab.id, {url: url});
+    let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
+    let reuseDropFeedsTab = this._reuseDropFeedsTab;
+
+    if (BrowserManager.isDropFeedsTab(activeTab)) {
+        dfTab = activeTab;
+    }
+    else {
+        dfTab = await BrowserManager.findDropFeedsTab_async();
+    }
+
+    // Open Tab Logic:
+    //   1. "Always Open in New Tab" == True || openNewTabForce == True
+    //     a. "Reuse Drop Feed Tabs" == False
+    //        -> Open a new tab, unless the active tab is empty
+    //     b. "Reuse Drop Feed Tabs" == True
+    //        -> Open a new tab unless the active tab is empty or an existing DF tab
+    //   2. "Always Open in New Tab" == False
+    //     a. "Reuse Drop Feed Tabs" == False
+    //        -> Update the current active tab
+    //     b. "Reuse Drop Feed Tabs" == True && there is one or more DF tabs
+    //        -> Update the first Drop Feeds tab and make it active.
+    //     c. "Reuse Drop Feed Tabs" == True && no existing DF tab
+    //        -> Create new tab and make it active
+    let doCreate = this._alwaysOpenNewTab;
+    let targetTabId = activeTab.id;
+    let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
+
+    if(openNewTab) {
+        // Option 1 - (Usually) open a new tab
+        let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
+        if(!reuseDropFeedsTab) {
+            // Option 1a - New tab unless active tab is empty
+            doCreate = !isEmptyActiveTab;
+        }
+        else {
+            // Option 1b - New tab unless active tab is empty or DF tab
+            doCreate = !isEmptyActiveTab || !activeTabIsDfTab; 
+        }
+    }
+    else {
+        // Option 2 - (Usually) update an existing tab
+        if(!reuseDropFeedsTab) {
+            // Option 2a - Update the current active tab
+            doCreate = false;
+        }
+        else {
+            // Option 2b - Update the first or current DF tab
+            if(dfTab) {
+                doCreate = false;
+                targetTabId = dfTab.id;
+            }
+            else {
+                // Option 2c - Create a new tab and activate it
+                doCreate = true;
+                openNewTabForeground = true;
+            }
+        }
+    }
+
+    if(doCreate) {
+        await browser.tabs.create({url: url, active: openNewTabForeground});
+    }
+    else {
+        await browser.tabs.update(targetTabId, {url: url, active: openNewTabForeground});
     }
   }
 
@@ -44,9 +119,13 @@ class BrowserManager { /* exported BrowserManager*/
     return isEmpty;
   }
 
+  static isDropFeedsTab(tab) {
+    let baseUrl = BrowserManager.instance.baseFeedUrl;
+    return tab.url.startsWith(baseUrl);
+  }
+
   static async getActiveTab_async() {
-    var windowInfo = await browser.windows.getLastFocused();
-    let tabInfos = await browser.tabs.query({active: true, windowId: windowInfo.id});
+    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
     return tabInfos[0];
   }
 
@@ -155,6 +234,19 @@ class BrowserManager { /* exported BrowserManager*/
     return isFeed;
   }
 
+  static async findDropFeedsTab_async() {
+    let tabs = await browser.tabs.query({currentWindow: true}) 
+    if (tabs) {
+        for (var i = 0, len = tabs.length; i < len; i++) {
+            if (BrowserManager.isDropFeedsTab(tabs[i])) {
+                return tabs[i];
+            }
+        }
+    }
+
+    return null;
+  }
+  
   //private stuffs
   static _setAlwaysOpenNewTab_sbscrb(value){
     BrowserManager.instance._alwaysOpenNewTab = value;
@@ -162,6 +254,10 @@ class BrowserManager { /* exported BrowserManager*/
 
   static _setOpenNewTabForeground_sbscrb(value){
     BrowserManager.instance._openNewTabForeground = value;
+  }
+
+  static _setReuseDropFeedsTab_sbscrb(value) {
+    BrowserManager.instance._reuseDropFeedsTab = value;
   }
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {
