@@ -4,12 +4,12 @@
   },
 
   "manExtensionDescription": {
-    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
-    "description": "Description of the extension."
+    "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください",
+    "description": "拡張機能の説明"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "Subscribe with Drop feed",
+    "message": "Drop feedで購読",
     "description": "Title of the page action."
   },
 
@@ -23,7 +23,7 @@
   },
 
   "sbDiscoverFeeds": {
-    "message": "検索
+    "message": "検索"
   },
 
   "sbViewOnlyUpdatedFeeds": {
@@ -129,7 +129,7 @@
     "message": "received"
   },
   "sbFeedsUpdated": {
-    "message": "更新ずみ"
+    "message": "個のフィードが更新されています"
   },
   "sbOneFeedUpdated": {
     "message": "一つ更新されています"
@@ -150,7 +150,7 @@
   },
 
   "subSubscribeWithDropFeed": {
-    "message": "Subscribe with Drop feed"
+    "message": "Drop Feeds に追加"
   },
 
   "subName": {
@@ -170,7 +170,7 @@
   },
 
   "subSubscribe": {
-    "message": "Subscribe"
+    "message": "決定"
   },
 
   "subCreate": {
@@ -185,19 +185,19 @@
   },
 
   "disDiscoverFeeds": {
-    "message": "Discover feeds"
+    "message": "フィードを探す"
   },
 
   "disDiscoveringFeeds": {
-    "message": "Discovering feeds"
+    "message": "フィードを探しています"
   },
 
   "disNoFeedsHaveBeenDiscovered": {
-    "message": "No feeds have been discovered"
+    "message": "フィードが見つかりませんでした"
   },
 
   "disDiscovered": {
-    "message": "Discovered"
+    "message": "フィードを見つけました"
   },
 
   "disFeeds": {
@@ -213,11 +213,11 @@
   },
 
   "disMastUpdate": {
-    "message": "Last update"
+    "message": "最後の更新"
   },
 
   "disItems": {
-    "message": "Items"
+    "message": "項目"
   },
 
   "disUrl": {
@@ -256,7 +256,7 @@
   },
 
   "optItems": {
-    "message": "Items"
+    "message": "項目"
   },
 
   "optContentsArea": {
@@ -284,7 +284,7 @@
   },
 
   "optFeedItemOrder": {
-    "message": "Feed item order"
+    "message": "項目の並び順"
   },
   "optNewerFirst": {
     "message": "新しい順"
@@ -293,7 +293,7 @@
     "message": "古い順"
   },
   "optOriginal": {
-    "message": "元のママ"
+    "message": "元のまま"
   },
 
   "optTimeout": {
@@ -303,7 +303,7 @@
     "message": "秒"
   },
   "optAsynchronousFeedChecking": {
-    "message": "フィードを同時にチェック"
+    "message": "フィードのチェックを非同期にする"
   },
 
   "optAutoFeedUpdatesEvery": {
@@ -327,7 +327,7 @@
   },
 
   "optFeedItemListToolbar": {
-    "message": "項目リストにツールバーを表示r (*)"
+    "message": "項目リストにツールバーを表示(*)"
   },
 
   "optDescriptionTooltips": {
@@ -335,7 +335,7 @@
   },
 
   "optNavigationHistoryWarning": {
-    "message": "(*) warning: mark read/unread features will impact your navigation history !"
+    "message": "(*) 既読/未読は履歴に反映されます。"
   },
 
   "optShowUpdatedFeedCount": {
@@ -345,6 +345,10 @@
     "message": "エラーを表示"
   },
 
++  "optRenderFeeds": {
++    "message": "フィードを整形して表示する"
++  },
++
   "optAlwaysOpenNewTab": {
     "message": "常に新しいタブで開く"
   },
@@ -362,7 +366,7 @@
   },
 
   "optSelectOpmlFileToExport": {
-    "message": "omplのエクスポート先"
+    "message": "omplのエクスポート"
   },
 
   "optExport": {
@@ -370,6 +374,14 @@
   },
 
 
+  "comment6": {
+    "message": "---Content script strings---"
+  },
+
+  "csSubscribeWithDropFeeds": {
+    "message": "Drop Feedsで購読"
+  }
+}
   "comment6": {
     "message": "---Content script strings---"
   },
