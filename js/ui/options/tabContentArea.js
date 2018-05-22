@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager CssManager*/
 'strict';
 class TabContentArea { /*exported TabContentArea*/
   static async init_async() {
@@ -49,6 +49,8 @@ class TabContentArea { /*exported TabContentArea*/
   static _updateReuseDropFeedsCheckboxDisabled() {
     let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
     let elReuseDropFeedsTabCheckbox = document.getElementById('reuseDropFeedsTabCheckbox');
-    elReuseDropFeedsTabCheckbox.disabled = elAlwaysOpenNewTabCheckbox.checked;
+    let elReuseDropFeedsDisabled = elAlwaysOpenNewTabCheckbox.checked;
+    elReuseDropFeedsTabCheckbox.disabled = elReuseDropFeedsDisabled;
+    CssManager.setElementEnableById('textReuseDropFeedsTab', !elReuseDropFeedsDisabled);
   }
 }

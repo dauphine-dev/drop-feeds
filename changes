@@ -1,7 +1,8 @@
 0.7.5
-Fix extraction of ATOM2 typed links
+Fix extraction of ATOM typed links
 Adding reuse Drop Feeds Tab option (from Jeff Thieleke)
 Fix for Japanese language (from takepon1)
+Refactoring enabled/disabled elements management
 
 0.7.4
 Adding Japanese language (from takepon1)

@@ -1,4 +1,4 @@
-/*global browser ItemManager ItemsPanel*/
+/*global browser ItemManager ItemsPanel CssManager*/
 'use strict';
 class ItemsMenu { /*exported ItemsMenu*/
   static get instance() {
@@ -24,34 +24,26 @@ class ItemsMenu { /*exported ItemsMenu*/
     this._buttonsForSingleElementEnabled = false;
     let elButtonList = document.getElementById('itemsPaneToolBar').querySelectorAll('.topMenuItem');
     for (let elButton of elButtonList) {
-      elButton.style.filter = 'grayscale(100%)';
-      elButton.style.opacity = '0.66';
+      CssManager.disableElement(elButton);
     }
   }
 
   enableButtons() {
     this._buttonsEnabled = true;
-    document.getElementById('itemMarkAllAsReadButton').style.filter = '';
-    document.getElementById('itemMarkAllAsReadButton').style.opacity = '';
-    document.getElementById('itemMarkAllAsUnreadButton').style.filter = '';
-    document.getElementById('itemMarkAllAsUnreadButton').style.opacity = '';
-    document.getElementById('itemOpenUnreadButton').style.filter = '';
-    document.getElementById('itemOpenUnreadButton').style.opacity = '';
+    CssManager.enableElementById('itemMarkAllAsReadButton');
+    CssManager.enableElementById('itemMarkAllAsUnreadButton');
+    CssManager.enableElementById('itemOpenUnreadButton');
     let selectedElement = ItemsPanel.instance.selectionBarItems.selectedElement;
     if (selectedElement) {
-      document.getElementById('itemMarkAsReadButton').style.filter = '';
-      document.getElementById('itemMarkAsReadButton').style.opacity = '';
-      document.getElementById('itemMarkAsUnreadButton').style.filter = '';
-      document.getElementById('itemMarkAsUnreadButton').style.opacity = '';
+      CssManager.enableElementById('itemMarkAsReadButton');
+      CssManager.enableElementById('itemMarkAsUnreadButton');
     }
   }
 
   disableButtonsForSingleElement() {
     this._buttonsForSingleElementEnabled = false;
-    document.getElementById('itemMarkAsReadButton').style.filter = 'grayscale(100%)';
-    document.getElementById('itemMarkAsReadButton').style.opacity = '0.66';
-    document.getElementById('itemMarkAsUnreadButton').style.filter = 'grayscale(100%)';
-    document.getElementById('itemMarkAsUnreadButton').style.opacity = '0.66';
+    CssManager.disableElementById('itemMarkAsReadButton');
+    CssManager.disableElementById('itemMarkAsUnreadButton');
   }
 
   enableButtonsForSingleElement() {
@@ -60,22 +52,16 @@ class ItemsMenu { /*exported ItemsMenu*/
     if (selectedElement) {
       let isVisited = selectedElement.classList.contains('visited');
       if (isVisited) {
-        document.getElementById('itemMarkAsReadButton').style.filter = 'grayscale(100%)';
-        document.getElementById('itemMarkAsReadButton').style.opacity = '0.66';
-        document.getElementById('itemMarkAsUnreadButton').style.filter = '';
-        document.getElementById('itemMarkAsUnreadButton').style.opacity = '';
+        CssManager.disableElementById('itemMarkAsReadButton');
+        CssManager.enableElementById('itemMarkAsUnreadButton');
       } else {
-        document.getElementById('itemMarkAsReadButton').style.filter = '';
-        document.getElementById('itemMarkAsReadButton').style.opacity = '';
-        document.getElementById('itemMarkAsUnreadButton').style.filter = 'grayscale(100%)';
-        document.getElementById('itemMarkAsUnreadButton').style.opacity = '0.66';
+        CssManager.enableElementById('itemMarkAsReadButton');
+        CssManager.disableElementById('itemMarkAsUnreadButton');
       }
     }
     else {
-      document.getElementById('itemMarkAsReadButton').style.filter = 'grayscale(100%)';
-      document.getElementById('itemMarkAsReadButton').style.opacity = '0.66';
-      document.getElementById('itemMarkAsUnreadButton').style.filter = 'grayscale(100%)';
-      document.getElementById('itemMarkAsUnreadButton').style.opacity = '0.66';
+      CssManager.disableElementById('itemMarkAsReadButton');
+      CssManager.disableElementById('itemMarkAsUnreadButton');
     }
   }
 

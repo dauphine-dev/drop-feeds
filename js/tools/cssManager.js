@@ -41,4 +41,31 @@ class CssManager { /*exported CssManager*/
     let style = cssRuleList[sheetAndRuleIndex.ruleIndex];
     return style.cssText;
   }
+
+  static setElementEnableById(elementId, enabled) {
+    if (enabled) {
+      CssManager.enableElementById(elementId);
+    }
+    else {
+      CssManager.disableElementById(elementId);
+    }
+  }
+
+  static enableElementById(elementId) {
+    CssManager.enableElement(document.getElementById(elementId));
+  }
+
+  static enableElement(element) {
+    element.style.opacity = '';
+    element.style.filter = '';
+  }
+
+  static disableElementById(elementId) {
+    CssManager.disableElement(document.getElementById(elementId));
+  }
+
+  static disableElement(element) {
+    element.style.opacity = '0.66';
+    element.style.filter = 'grayscale(100%)';
+  }
 }

@@ -42,12 +42,13 @@ class TopMenu  { /*exported TopMenu*/
 
   set discoverFeedsButtonEnabled(value) {
     this._buttonDiscoverFeedsEnabled = value;
-    document.getElementById('discoverFeedsButton').style.opacity = (value ? '1' : '0.2');
+    CssManager.setElementEnableById('discoverFeedsButton', value);
+
   }
 
   set addFeedButtonEnable(value) {
     this._buttonAddFeedEnabled = value;
-    document.getElementById('addFeedButton').style.opacity = (value ? '1' : '0.2');
+    CssManager.setElementEnableById('addFeedButton', value);
   }
 
   animateCheckFeedButton(animationEnable) {
