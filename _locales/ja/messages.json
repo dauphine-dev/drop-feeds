@@ -356,6 +356,9 @@
   "optOpenNewTabForeground": {
     "message": "新しいタブを手前で開く"
   },
+  "optReuseDropFeedsTab": {
+    "message": "Reuse Drop Feeds tab"
+  },
 
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"

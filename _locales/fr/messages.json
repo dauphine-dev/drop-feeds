@@ -356,6 +356,9 @@
   "optOpenNewTabForeground": {
     "message": "Ouvrir les nouveaux onglets en avant plan"
   },
+  "optReuseDropFeedsTab": {
+    "message": "Reuse Drop Feeds tab"
+  },
 
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"
