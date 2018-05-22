@@ -139,6 +139,9 @@ class TreeView { /*exported TreeView*/
       feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
       feedItems[i].addEventListener('click', this._feedClicked_event);
       feedItems[i].addEventListener('mouseup', this._feedOnMouseUp_event);
+      feedItems[i].addEventListener('dragstart', this._feedOnDragStart_event);
+      feedItems[i].addEventListener('dragover', this._feedOnDragOver_event);
+      feedItems[i].addEventListener('drop', this._feedOnDrop_event);
     }
   }
 
@@ -151,6 +154,9 @@ class TreeView { /*exported TreeView*/
     for (let i = 0; i < divItems.length; i++) {
       divItems[i].addEventListener('contextmenu', this._folderOnRightClicked_event);
       divItems[i].addEventListener('click', this._folderOnClicked_event);
+      divItems[i].addEventListener('dragstart', this._folderOnDragStart_event);
+      divItems[i].addEventListener('dragover', this._folderOnDragOver_event);
+      divItems[i].addEventListener('drop', this._folderOnDrop_event);
     }
   }
 
@@ -211,6 +217,50 @@ class TreeView { /*exported TreeView*/
     TreeView.instance._selectionBar.put(event.currentTarget);
   }
 
+  async _folderOnDragStart_event(event){
+    event.stopPropagation();
+    event.dataTransfer.setData('text', event.target.id);
+  }
+
+  async _folderOnDragOver_event(event){
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  async _folderOnDrop_event(event){
+    event.stopPropagation();
+    event.preventDefault();
+    var sourceId = event.dataTransfer.getData('text');
+    let targetId = event.target.id;
+    if (!targetId) {
+      targetId = event.target.htmlFor;
+      targetId = 'dv-' + targetId.substring(3);
+    }
+    if (targetId.startsWith('lbl-')) {
+      targetId = 'dv-' + targetId.substring(4);
+    }
+    console.log('drag from:', sourceId, ' -> drop into:', targetId);
+  }
+
+  async _feedOnDragStart_event(event){
+    event.stopPropagation();
+    event.dataTransfer.setData('text', event.target.id);
+  }
+
+  async _feedOnDragOver_event(event){
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  async _feedOnDrop_event(event){
+    event.stopPropagation();
+    event.preventDefault();
+    var sourceId = event.dataTransfer.getData('text');
+    let targetId = event.target.id;
+    console.log('drag from:', sourceId, ' -> drop into:', targetId);
+  }
+
+
   _setAs1stFolder(id)  {
     this._is1stFolder = false;
     this._1stFolderDivId = 'dv-' + id;
@@ -244,9 +294,8 @@ class TreeView { /*exported TreeView*/
     }
     if (displayThisFolder) {
       folderLine += TextTools.makeIndent(indent);
-      folderLine += '<div id="dv-' + id + '" class="folder">\n';
+      folderLine += '<div id="dv-' + id + '" class="folder"  draggable="true">\n';
       indent += 2;
-      //
       folderLine += TextTools.makeIndent(indent) +
       '<li>' +
       '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
@@ -274,7 +323,7 @@ class TreeView { /*exported TreeView*/
     let feedName = bookmarkItem.title;
     let className = this._getFeedClassName(cacheLocalStorage, bookmarkItem.id);
     let feedLine = TextTools.makeIndent(indent) +
-    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '">' + feedName + '</li>\n';
+    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true">' + feedName + '</li>\n';
     this._html.push(feedLine);
   }
 
