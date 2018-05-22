@@ -30,15 +30,14 @@ class TreeView { /*exported TreeView*/
   }
 
   async load_async() {
-    this._html = [];
+    //console.log(new Error().stack);
     this._is1stFolder = true;
     this._rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
     this._rootBookmark = (await browser.bookmarks.getSubTree(this._rootFolderId))[0];
     let cacheLocalStorage = await LocalStorageManager.getCache_async();
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
-    //this._html.push('<div id="dv-content">');
+    this._html = [];
     this._computeHtmlTree(cacheLocalStorage, this._rootBookmark, 10, this._displayRootFolder);
-    //this._html.push('</div>');
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
     this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
@@ -219,7 +218,8 @@ class TreeView { /*exported TreeView*/
 
   async _folderOnDragStart_event(event){
     event.stopPropagation();
-    event.dataTransfer.setData('text', event.target.id);
+    let elementId = TreeView.instance._cleanId(event.target.id);
+    event.dataTransfer.setData('text', elementId);
   }
 
   async _folderOnDragOver_event(event){
@@ -230,21 +230,17 @@ class TreeView { /*exported TreeView*/
   async _folderOnDrop_event(event){
     event.stopPropagation();
     event.preventDefault();
-    var sourceId = event.dataTransfer.getData('text');
+    let sourceId = event.dataTransfer.getData('text');
     let targetId = event.target.id;
-    if (!targetId) {
-      targetId = event.target.htmlFor;
-      targetId = 'dv-' + targetId.substring(3);
-    }
-    if (targetId.startsWith('lbl-')) {
-      targetId = 'dv-' + targetId.substring(4);
-    }
-    console.log('drag from:', sourceId, ' -> drop into:', targetId);
+    if (!targetId) { targetId = event.target.htmlFor; }
+    let folderId = TreeView.instance._cleanId(targetId);
+    await BookmarkManager.instance.changeParentFolder(folderId, sourceId);
   }
 
   async _feedOnDragStart_event(event){
     event.stopPropagation();
-    event.dataTransfer.setData('text', event.target.id);
+    let elementId = TreeView.instance._cleanId(event.target.id);
+    event.dataTransfer.setData('text', elementId);
   }
 
   async _feedOnDragOver_event(event){
@@ -255,11 +251,22 @@ class TreeView { /*exported TreeView*/
   async _feedOnDrop_event(event){
     event.stopPropagation();
     event.preventDefault();
-    var sourceId = event.dataTransfer.getData('text');
-    let targetId = event.target.id;
-    console.log('drag from:', sourceId, ' -> drop into:', targetId);
+    var feedToMoveId = event.dataTransfer.getData('text');
+    let targetFeedId = TreeView.instance._cleanId(event.target.id);
+    await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
   }
 
+  _cleanId(elementId) {
+    let start = 0;
+    if (elementId.startsWith('cb-') || elementId.startsWith('ul-') || elementId.startsWith('dv-')) {
+      start = 3;
+    }
+    else if (elementId.startsWith('lbl-')) {
+      start = 4;
+    }
+    elementId = elementId.substring(start);
+    return elementId;
+  }
 
   _setAs1stFolder(id)  {
     this._is1stFolder = false;
