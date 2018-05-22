@@ -19,6 +19,7 @@ class TabContentArea { /*exported TabContentArea*/
     let elReuseDropFeedsTabCheckbox = document.getElementById('reuseDropFeedsTabCheckbox');
     elReuseDropFeedsTabCheckbox.checked =  await LocalStorageManager.getValue_async('reuseDropFeedsTab', DefaultValues.reuseDropFeedsTab);
     elReuseDropFeedsTabCheckbox.addEventListener('click', TabContentArea._reuseDropFeedsTabCheckboxClicked_event);
+    TabContentArea._updateReuseDropFeedsCheckboxDisabled();
   }
 
   static _updateLocalizedStrings() {
@@ -34,6 +35,7 @@ class TabContentArea { /*exported TabContentArea*/
 
   static async _alwaysOpenNewTabCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('alwaysOpenNewTab', document.getElementById('alwaysOpenNewTabCheckbox').checked);
+    TabContentArea._updateReuseDropFeedsCheckboxDisabled();
   }
 
   static async _openNewTabForegroundCheckboxClicked_event() {
@@ -42,5 +44,11 @@ class TabContentArea { /*exported TabContentArea*/
   
   static async _reuseDropFeedsTabCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('reuseDropFeedsTab', document.getElementById('reuseDropFeedsTabCheckbox').checked);
+  }
+  
+  static _updateReuseDropFeedsCheckboxDisabled() {
+    let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
+    let elReuseDropFeedsTabCheckbox = document.getElementById('reuseDropFeedsTabCheckbox');
+    elReuseDropFeedsTabCheckbox.disabled = elAlwaysOpenNewTabCheckbox.checked;
   }
 }
