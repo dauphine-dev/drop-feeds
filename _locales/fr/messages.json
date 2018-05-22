@@ -357,7 +357,7 @@
     "message": "Ouvrir les nouveaux onglets en avant plan"
   },
   "optReuseDropFeedsTab": {
-    "message": "Reuse Drop Feeds tab"
+    "message": "Toujours utiliser le même onglet pour ouvrir les flux"
   },
 
   "optSelectOpmlFileToImport": {
