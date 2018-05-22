@@ -355,7 +355,10 @@
   "optOpenNewTabForeground": {
     "message": "Open new tab in foreground"
   },
-
+  "optReuseDropFeedsTab": {
+    "message": "Reuse Drop Feeds tab"
+  },
+  
   "optSelectOpmlFileToImport": {
     "message": "Select the opml file to import"
   },

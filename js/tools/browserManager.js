@@ -11,11 +11,12 @@ class BrowserManager { /* exported BrowserManager*/
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
     this._openNewTabForeground = DefaultValues.openNewTabForeground;
-    this._reuseDropFeedTab = DefaultValues.reuseDropFeedTab;
+    this._reuseDropFeedsTab = DefaultValues.reuseDropFeedsTab;
     this._baseFeedUrl = null;
     
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', BrowserManager._setReuseDropFeedsTab_sbscrb, true);
   }
 
   //non statics
@@ -41,7 +42,7 @@ class BrowserManager { /* exported BrowserManager*/
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
     let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
-    let reuseDropFeedTab = this._reuseDropFeedTab;
+    let reuseDropFeedsTab = this._reuseDropFeedsTab;
     
     // Open Tab Logic:
     //   1. "Always Open in New Tab" == True || openNewTabForce == True
@@ -62,7 +63,7 @@ class BrowserManager { /* exported BrowserManager*/
     if(openNewTab) {
         // Option 1 - (Usually) open a new tab
         let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
-        if(!reuseDropFeedTab) {
+        if(!reuseDropFeedsTab) {
             // Option 1a - New tab unless active tab is empty
             doCreate = !isEmptyActiveTab;
         }
@@ -73,7 +74,7 @@ class BrowserManager { /* exported BrowserManager*/
     }        
     else {
         // Option 2 - (Usually) update an existing tab
-        if(!reuseDropFeedTab) {
+        if(!reuseDropFeedsTab) {
             // Option 2a - Update the current active tab
             doCreate = false;
         }
@@ -243,6 +244,10 @@ class BrowserManager { /* exported BrowserManager*/
 
   static _setOpenNewTabForeground_sbscrb(value){
     BrowserManager.instance._openNewTabForeground = value;
+  }
+
+  static _setReuseDropFeedsTab_sbscrb(value) {
+    BrowserManager.instance._reuseDropFeedsTab = value;
   }
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {
