@@ -345,19 +345,16 @@
     "message": "エラーを表示"
   },
 
-+  "optRenderFeeds": {
-+    "message": "フィードを整形して表示する"
-+  },
-+
+ "optRenderFeeds": {
+   "message": "フィードを整形して表示する"
+ },
+
   "optAlwaysOpenNewTab": {
     "message": "常に新しいタブで開く"
   },
 
   "optOpenNewTabForeground": {
     "message": "新しいタブを手前で開く"
-  },
-  "optReuseDropFeedsTab": {
-    "message": "Reuse Drop Feeds tab"
   },
 
   "optSelectOpmlFileToImport": {
@@ -383,13 +380,5 @@
 
   "csSubscribeWithDropFeeds": {
     "message": "Drop Feedsで購読"
-  }
-}
-  "comment6": {
-    "message": "---Content script strings---"
-  },
-
-  "csSubscribeWithDropFeeds": {
-    "message": "Subscribe with Drop Feeds"
   }
 }
