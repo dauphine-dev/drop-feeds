@@ -222,6 +222,7 @@ class BrowserManager { /* exported BrowserManager*/
     let tabInfo = await BrowserManager.getActiveTab_async();
     let isFeed = await BrowserManager._activeTabIsFeedCore_async(tabInfo);
     if(typeof isFeed == 'undefined') {
+      console.log('isFeed == undefined');
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
@@ -229,10 +230,12 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _activeTabIsFeedCore_async(tabInfo) {
     let isFeed = false;
+    if (tabInfo.url.startsWith('about:')) { return false; }
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     }
     catch(e) {
+      console.log(e);
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
@@ -242,17 +245,25 @@ class BrowserManager { /* exported BrowserManager*/
     //Workaround for Firefox 60
     let isFeed = false;
     if (url.startsWith('about:')) { return false; }
+    /*
     let result = url.match(/rss|feed|atom|syndicate/i);
     if (result) {
       isFeed = result.length > 0;
     }
-    if (!isFeed) {
-      let feedText = await Transfer.downloadTextFileEx_async(url, false);
+    */
+    //if (!isFeed) {
+    let feedText = null;
+    try {
+      feedText = await Transfer.downloadTextFileEx_async(url, false);
       let error = FeedParser.isValidFeedText(feedText);
       if (!error) {
         isFeed = true;
       }
     }
+    catch(e) {
+      isFeed = false;
+    }
+    //}
     return isFeed;
   }
 

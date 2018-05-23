@@ -40,7 +40,7 @@ class TabManager { /*exported TabManager*/
     let self = TabManager.instance;
     let enabled = (tabInfo.status == 'complete' && !tabInfo.url.startsWith('about:'));
     TopMenu.instance.discoverFeedsButtonEnabled = enabled;
-    TopMenu.instance.setFeedButton(enabled, subType.go);
+    TopMenu.instance.setFeedButton(false, subType.go);
     if (tabInfo.status == 'complete') {
       this._activeTabFeedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
