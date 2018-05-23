@@ -124,7 +124,6 @@ class ContextMenu { /*exported ContextMenu*/
     self.hide();
     let bookmarkId = self._idComeFrom.substring(3);
     browser.bookmarks.removeTree(bookmarkId);
-    TreeView.instance.reload_async();
   }
 
 
@@ -176,7 +175,6 @@ class ContextMenu { /*exported ContextMenu*/
     let self = ContextMenu.instance;
     self.hide();
     FeedManager.instance.delete(self._idComeFrom);
-    TreeView.instance.reload_async();
   }
 
 }
