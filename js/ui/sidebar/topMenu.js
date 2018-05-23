@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -46,9 +46,14 @@ class TopMenu  { /*exported TopMenu*/
 
   }
 
-  set addFeedButtonEnable(value) {
-    this._buttonAddFeedEnabled = value;
-    CssManager.setElementEnableById('addFeedButton', value);
+  setFeedButton(enabled, type) {
+    this._buttonAddFeedEnabled = enabled;
+    CssManager.setElementEnableById('addFeedButton', enabled);
+    let elAddFeedButton = document.getElementById('addFeedButton');
+    elAddFeedButton.classList.remove('subscribeAdd');
+    elAddFeedButton.classList.remove('subscribeGo');
+    elAddFeedButton.classList.add('subscribe'+  type);
+    elAddFeedButton.setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscription' + type));
   }
 
   animateCheckFeedButton(animationEnable) {
@@ -136,7 +141,7 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbDiscoverFeeds'));
     document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
     document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbToggleFolders'));
-    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbAddNewFeed'));
+    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscriptionGo'));
     document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenOptionsTab'));
   }
 
@@ -181,9 +186,13 @@ class TopMenu  { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!self._buttonAddFeedEnabled) { return; }
-    //let feedList = await BrowserManager.getActiveTabFeedLinkList_async();
-    //await BrowserManager.instance.openInCurrentTab_async(feedList[0], false);
-    BrowserManager.openPageAction();
+    let feedList = TabManager.instance.activeTabFeedLinkList;
+    if (feedList.length == 1) {
+      await browser.tabs.create({url: feedList[0].link, active: true});
+    }
+    else {
+      BrowserManager.openPageAction();
+    }
   }
 
 

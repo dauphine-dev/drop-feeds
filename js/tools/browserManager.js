@@ -1,5 +1,10 @@
 /*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
 'use strict';
+const subType = { /*exported subType */
+  add: 'Add',
+  go: 'Go'
+};
+
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
     if (!this._instance) {
@@ -185,11 +190,13 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
 
-  static showPageAction(tabInfo, show) {
+  static showPageAction(tabInfo, show, type) {
     if (show) {
       browser.pageAction.show(tabInfo.id);
-      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
+      let iconUrl = ThemeManager.instance.getImgUrl('subscribe-' + type.toLowerCase() + '.png');
+      let title = browser.i18n.getMessage('manPageAction' + type);
       browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
+      browser.pageAction.setTitle({tabId: tabInfo.id, title: title});
     }
     else {
       browser.pageAction.hide(tabInfo.id);
@@ -212,23 +219,38 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async activeTabIsFeed_async() {
-    let isFeed = false;
     let tabInfo = await BrowserManager.getActiveTab_async();
+    let isFeed = await BrowserManager._activeTabIsFeedCore_async(tabInfo);
+    if(typeof isFeed == 'undefined') {
+      isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
+    }
+    return isFeed;
+  }
+
+  static async _activeTabIsFeedCore_async(tabInfo) {
+    let isFeed = false;
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     }
     catch(e) {
-      //Workaround for Firefox 60
-      let result = tabInfo.url.match(/rss|feed|atom|syndicate/i);
-      if (result) {
-        isFeed = result.length > 0;
-      }
-      if (!isFeed) {
-        let feedText = await Transfer.downloadTextFileEx_async(tabInfo.url, false);
-        let error = FeedParser.isValidFeedText(feedText);
-        if (!error) {
-          isFeed = true;
-        }
+      isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
+    }
+    return isFeed;
+  }
+
+  static async _isFeedWorkaround_async(url) {
+    //Workaround for Firefox 60
+    let isFeed = false;
+    if (url.startsWith('about:')) { return false; }
+    let result = url.match(/rss|feed|atom|syndicate/i);
+    if (result) {
+      isFeed = result.length > 0;
+    }
+    if (!isFeed) {
+      let feedText = await Transfer.downloadTextFileEx_async(url, false);
+      let error = FeedParser.isValidFeedText(feedText);
+      if (!error) {
+        isFeed = true;
       }
     }
     return isFeed;

@@ -38,7 +38,7 @@
 
   "page_action": {
     "browser_style": true,
-    "default_icon": "resources/themes/legacy/img/subscribe.png",
+    "default_icon": "resources/themes/legacy/img/subscribe-go.png",
     "default_title": "__MSG_manPageActionDefaultTitle__",
     "default_popup": "html/feedList.html"
   },

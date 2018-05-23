@@ -134,8 +134,7 @@ body{
   padding: 0;
 }
 #addFeedButton::before {
-  background-image: url(/resources/themes/sage_sc/img/subscribe.png);
-  background-size: 26px 24px;
+  background-size: 18px 17px;
   background-position: center;
   background-repeat: no-repeat;
   margin: 0 0 0 -2px;
@@ -146,6 +145,13 @@ body{
   content:"";
   padding: 0;
 }
+.subscribeGo::before {
+  background-image: url(/resources/themes/sage_sc/img/subscribe-go.png);
+}
+.subscribeAdd::before {
+  background-image: url(/resources/themes/sage_sc/img/subscribe-add.png);
+}
+
 #optionsMenuButton::before {
   background-image: url(/resources/themes/sage_sc/img/options.png);
   background-size: 26px 24px;

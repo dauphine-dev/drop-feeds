@@ -4,15 +4,16 @@
   },
 
   "manExtensionDescription": {
-    "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください",
-    "description": "拡張機能の説明"
+    "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "Drop feedで購読",
-    "description": "Title of the page action."
+    "message": "Got to Subscription page"
   },
 
+  "manPageActionAdd": {
+    "message": "Drop feedで購読"
+  },
 
   "comment2": {
     "message": "---Sidebar strings---"
@@ -34,9 +35,14 @@
     "message": "全てのフォルダの開閉"
   },
 
-  "sbAddNewFeed": {
+  "sbSubscriptionGo": {
+    "message": "Go to subscription page"
+  },
+
+  "sbSubscriptionAdd": {
     "message": "RSSを追加"
   },
+
 
   "sbOpenOptionsTab": {
     "message": "オプションを開く"

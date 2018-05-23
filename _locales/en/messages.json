@@ -4,13 +4,19 @@
   },
 
   "manExtensionDescription": {
-    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view",
-    "description": "Description of the extension."
+    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "Subscribe with Drop feed",
-    "description": "Title of the page action."
+    "message": "Got to Subscription page"
+  },
+
+  "manPageActionGo": {
+    "message": "Got to Subscription page"
+  },
+
+  "manPageActionAdd": {
+    "message": "Subscribe with Drop feed"
   },
 
 
@@ -34,8 +40,12 @@
     "message": "Toggle folders (open/close)"
   },
 
-  "sbAddNewFeed": {
-    "message": "Add feed"
+  "sbSubscriptionGo": {
+    "message": "Go to subscription page"
+  },
+
+  "sbSubscriptionAdd": {
+    "message": "Subscribe"
   },
 
   "sbOpenOptionsTab": {
@@ -358,7 +368,7 @@
   "optReuseDropFeedsTab": {
     "message": "Reuse Drop Feeds tab"
   },
-  
+
   "optSelectOpmlFileToImport": {
     "message": "Select the opml file to import"
   },
