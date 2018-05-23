@@ -53,15 +53,34 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
     return this._rootBookmarkId;
   }
+
   async sortBookmarks_async(bookmarkId) {
     try {
       this._importInProgress = true;
-      StatusBar.instance.workInProgress(true);
+      StatusBar.instance.workInProgress = true;
       await this._sortBookmarksCore_async(bookmarkId);
     }
     finally {
       this._importInProgress = false;
-      StatusBar.instance.workInProgress(false);
+      StatusBar.instance.workInProgress = false;
+    }
+  }
+
+  async changeParentFolder(parentFolderId, bookmarkId) {
+    let bookmark = await browser.bookmarks.get(bookmarkId);
+    if (bookmark.parentId != parentFolderId) {
+      await browser.bookmarks.move(bookmarkId, {parentId: parentFolderId});
+    }
+  }
+
+  async moveAfterBookmark_async(idToMove, idToMoveAfter) {
+    let bookmarkToMove = (await browser.bookmarks.get(idToMove))[0];
+    let bookmarkToMoveAfter = (await browser.bookmarks.get(idToMoveAfter))[0];
+    if (bookmarkToMove.parentId != bookmarkToMoveAfter.parentId) {
+      await browser.bookmarks.move(idToMove, {parentId: bookmarkToMoveAfter.parentId, index: bookmarkToMoveAfter.index + 1});
+    }
+    else {
+      await browser.bookmarks.move(idToMove, {index: bookmarkToMoveAfter.index + 1});
     }
   }
 
