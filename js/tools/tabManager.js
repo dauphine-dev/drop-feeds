@@ -1,4 +1,4 @@
-/*global browser TopMenu BrowserManager subType*/
+/*global browser TopMenu BrowserManager subType Dialogs*/
 'use strict';
 class TabManager { /*exported TabManager*/
   static get instance() {
@@ -62,12 +62,13 @@ class TabManager { /*exported TabManager*/
   _subscriptionGoEnabled(tabInfo) {
     TopMenu.instance.setFeedButton(true, subType.go);
     BrowserManager.showPageAction(tabInfo, true, subType.go);
-    //browser.pageAction.setPopup({ tabId: tabInfo.tabId, popup: ''});
+    browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.feedListUrl});
   }
 
   _subscriptionAddEnabled(tabInfo) {
     TopMenu.instance.setFeedButton(true, subType.add);
     BrowserManager.showPageAction(tabInfo, true, subType.add);
+    browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.subscribeButtonUrl});
   }
 
   _subscriptionDisabled(tabInfo) {

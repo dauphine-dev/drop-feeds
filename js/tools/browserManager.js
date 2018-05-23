@@ -222,7 +222,6 @@ class BrowserManager { /* exported BrowserManager*/
     let tabInfo = await BrowserManager.getActiveTab_async();
     let isFeed = await BrowserManager._activeTabIsFeedCore_async(tabInfo);
     if(typeof isFeed == 'undefined') {
-      console.log('isFeed == undefined');
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
@@ -235,7 +234,6 @@ class BrowserManager { /* exported BrowserManager*/
       isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
     }
     catch(e) {
-      console.log(e);
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
