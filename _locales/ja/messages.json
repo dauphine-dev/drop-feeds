@@ -1,7 +1,5 @@
 {
-  "comment1": {
-    "message": "---Manifest strings---"
-  },
+  "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
     "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください"
@@ -15,9 +13,7 @@
     "message": "Drop feedで購読"
   },
 
-  "comment2": {
-    "message": "---Sidebar strings---"
-  },
+  "comment2": {"message": "------------------Sidebar strings------------------"},
 
   "sbCheckFeeds": {
     "message": "更新"
@@ -111,7 +107,7 @@
     "message": "更新中"
   },
 
-  "opening": {
+  "sbOpening": {
     "message": "開いています"
   },
 
@@ -147,9 +143,7 @@
 
 
 
-  "comment3": {
-    "message": "---Subscribe strings---"
-  },
+  "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
     "message": "Drop Feeds (subscribe)"
@@ -186,9 +180,7 @@
 
 
 
-  "comment4": {
-    "message": "---Discover strings---"
-  },
+  "comment4": {"message": "------------------Discover strings------------------"},
 
   "disDiscoverFeeds": {
     "message": "フィードを探す"
@@ -241,9 +233,7 @@
 
 
 
-  "comment5": {
-    "message": "---Options strings---"
-  },
+  "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
     "message": "Drop Feeds (options)"
@@ -380,11 +370,18 @@
   },
 
 
-  "comment6": {
-    "message": "---Content script strings---"
-  },
+  "comment6": {"message": "------------------Content script strings------------------"},
 
   "csSubscribeWithDropFeeds": {
     "message": "Drop Feedsで購読"
+  },
+
+  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "stfSubscribeUsing": {
+    "message": "Subscribe to this feed using"
+  },
+  "stfSubscribeNow": {
+    "message": "Subscribe now"
   }
+
 }

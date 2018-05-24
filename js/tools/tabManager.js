@@ -48,7 +48,7 @@ class TabManager { /*exported TabManager*/
         self._subscriptionGoEnabled(tabInfo);
       }
       else if (activeTabIsFeed) {
-        self._subscriptionAddEnabled(tabInfo);
+        self._subscriptionAddEnabled_async(tabInfo);
       }
       else {
         self._subscriptionDisabled(tabInfo);
@@ -65,10 +65,11 @@ class TabManager { /*exported TabManager*/
     browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.feedListUrl});
   }
 
-  _subscriptionAddEnabled(tabInfo) {
+  async _subscriptionAddEnabled_async(tabInfo) {
     TopMenu.instance.setFeedButton(true, subType.add);
     BrowserManager.showPageAction(tabInfo, true, subType.add);
-    browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.subscribeButtonUrl});
+    await browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.subscribeButtonUrl});
+    //browser.pageAction.openPopup();
   }
 
   _subscriptionDisabled(tabInfo) {

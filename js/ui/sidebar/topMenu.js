@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
   static get instance() {
@@ -48,12 +48,17 @@ class TopMenu  { /*exported TopMenu*/
 
   setFeedButton(enabled, type) {
     this._buttonAddFeedEnabled = enabled;
-    CssManager.setElementEnableById('addFeedButton', enabled);
+    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] < 57) {
+      this._buttonAddFeedEnabled = false;
+    }
+    CssManager.setElementEnableById('addFeedButton', this._buttonAddFeedEnabled);
     let elAddFeedButton = document.getElementById('addFeedButton');
     elAddFeedButton.classList.remove('subscribeAdd');
     elAddFeedButton.classList.remove('subscribeGo');
     elAddFeedButton.classList.add('subscribe'+  type);
-    elAddFeedButton.setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscription' + type));
+    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] >= 57) {
+      elAddFeedButton.setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscription' + type));
+    }
   }
 
   animateCheckFeedButton(animationEnable) {
@@ -142,6 +147,10 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
     document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbToggleFolders'));
     document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscriptionGo'));
+    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] < 57) {
+      document.getElementById('addFeedButton').setAttribute('tooltiptext', 'Not available in Firefox 56, please update');
+    }
+
     document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenOptionsTab'));
   }
 

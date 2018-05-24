@@ -17,6 +17,7 @@ class SideBar { /*exported SideBar*/
   }
 
   async init_async() {
+    await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await TreeView.instance.load_async();
     await Timeout.instance.init_async();

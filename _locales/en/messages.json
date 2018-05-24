@@ -1,7 +1,5 @@
 {
-  "comment1": {
-    "message": "---Manifest strings---"
-  },
+  "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
     "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view"
@@ -20,9 +18,7 @@
   },
 
 
-  "comment2": {
-    "message": "---Sidebar strings---"
-  },
+  "comment2": {"message": "------------------Sidebar strings------------------"},
 
   "sbCheckFeeds": {
     "message": "Check feeds"
@@ -115,7 +111,7 @@
     "message": "checking"
   },
 
-  "opening": {
+  "sbOpening": {
     "message": "opening"
   },
 
@@ -151,9 +147,7 @@
 
 
 
-  "comment3": {
-    "message": "---Subscribe strings---"
-  },
+  "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
     "message": "Drop Feeds (subscribe)"
@@ -190,9 +184,7 @@
 
 
 
-  "comment4": {
-    "message": "---Discover strings---"
-  },
+  "comment4": {"message": "------------------Discover strings------------------"},
 
   "disDiscoverFeeds": {
     "message": "Discover feeds"
@@ -245,9 +237,7 @@
 
 
 
-  "comment5": {
-    "message": "---Options strings---"
-  },
+  "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
     "message": "Drop Feeds (options)"
@@ -386,9 +376,7 @@
   },
 
 
-  "comment6": {
-    "message": "---Content script strings---"
-  },
+  "comment6": {"message": "------------------Content script strings------------------"},
 
   "csSubscribeWithDropFeeds": {
     "message": "Subscribe with Drop Feeds"
@@ -414,5 +402,15 @@
   },
   "ff56Text7": {
     "message": "click here to close"
+  },
+
+
+  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "stfSubscribeUsing": {
+    "message": "Subscribe to this feed using"
+  },
+  "stfSubscribeNow": {
+    "message": "Subscribe now"
   }
+
 }

@@ -1,7 +1,5 @@
 {
-  "comment1": {
-    "message": "---Manifest strings---"
-  },
+  "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
     "message": "Affiche une arborescence dans une barre latérale vous permettant de gérer vos flux RSS"
@@ -20,9 +18,7 @@
   },
 
 
-  "comment2": {
-    "message": "---Sidebar strings---"
-  },
+  "comment2": {"message": "------------------Sidebar strings------------------"},
 
   "sbCheckFeeds": {
     "message": "Vérifier les flux"
@@ -114,8 +110,8 @@
     "message": "vérifie"
   },
 
-  "opening": {
-    "message": "ouvrer"
+  "sbOpening": {
+    "message": "ouvre"
   },
 
   "sbLoading": {
@@ -150,9 +146,7 @@
 
 
 
-  "comment3": {
-    "message": "---Subscribe strings---"
-  },
+  "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
     "message": "Drop Feeds (s'abonner)"
@@ -189,9 +183,7 @@
 
 
 
-  "comment4": {
-    "message": "---Discover strings---"
-  },
+  "comment4": {"message": "------------------Discover strings------------------"},
 
   "disDiscoverFeeds": {
     "message": "Découverte de flux"
@@ -244,9 +236,7 @@
 
 
 
-  "comment5": {
-    "message": "---Options strings---"
-  },
+  "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
     "message": "Drop Feeds (options)"
@@ -387,9 +377,7 @@
   },
 
 
-  "comment6": {
-    "message": "---Content script strings---"
-  },
+  "comment6": {"message": "------------------Content script strings------------------"},
 
   "csSubscribeWithDropFeeds": {
     "message": "S'abonner avec Drop Feeds"
@@ -415,6 +403,14 @@
   },
   "ff56Text7": {
     "message": "cliquez ici pour fermer"
-  }
+  },
 
+
+  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "stfSubscribeUsing": {
+    "message": "S’abonner à ce flux en utilisant"
+  },
+  "stfSubscribeNow": {
+    "message": "S’abonner maintenant"
+  }
 }

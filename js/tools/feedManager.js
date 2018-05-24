@@ -152,17 +152,12 @@ class FeedManager { /*exported FeedManager*/
   async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
     let self = FeedManager.instance;
     try {
-
-
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.update_async();
       let feedHtmlUrl = feed.docUrl;
       self._itemList.push(... feed.info.itemList);
-      if (displayItems) {
-        let title = isSingle ? feed.title : folderTitle;
-        let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
-        await ItemsPanel.instance.displayItems_async(title, titleLink, self._itemList);
-      }
+      let isUnified = false;
+      await self._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await self._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -185,8 +180,8 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _unifyingThenOpenProcessedFeedsInner_async(feed) {
-    let self = FeedManager.instance;
+  async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
+let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
@@ -204,10 +199,21 @@ class FeedManager { /*exported FeedManager*/
       if (--self._feedsToProcessCounter == 0) {
         let unifiedDocUrl = self._getUnifiedDocUrl();
         let openNewTabForce = false;
-        await this._openTabFeed_async(unifiedDocUrl, openNewTabForce);
+        let isUnified=true; let feedNull = null;
+        await self._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
+        await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
         self._processFeedsFinished();
       }
+    }
+  }
+
+  async _displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle) {
+    if (displayItems) {
+      let title =  isUnified ? folderTitle : isSingle ? feed.title : folderTitle;
+      let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
+      let itemList = isUnified ? this._unifiedFeedItems : this._itemList;
+      await ItemsPanel.instance.displayItems_async(title, titleLink, itemList);
     }
   }
 

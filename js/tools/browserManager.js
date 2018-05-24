@@ -4,6 +4,11 @@ const subType = { /*exported subType */
   add: 'Add',
   go: 'Go'
 };
+const VERSION_ENUM = { /*exported VERSION_ENUM */
+  MAJ : 0,
+  MIN : 1,
+  REV : 2
+};
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
@@ -18,10 +23,15 @@ class BrowserManager { /* exported BrowserManager*/
     this._openNewTabForeground = DefaultValues.openNewTabForeground;
     this._reuseDropFeedsTab = DefaultValues.reuseDropFeedsTab;
     this._baseFeedUrl = null;
+    this._version = null;
 
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', BrowserManager._setReuseDropFeedsTab_sbscrb, true);
+  }
+
+  async init_async() {
+    this._version = await BrowserManager._getBrowserVersion_async();
   }
 
   //non statics
@@ -40,6 +50,11 @@ class BrowserManager { /* exported BrowserManager*/
     this._baseFeedUrl = feedUrl.protocol + feedUrl.origin;
     return this._baseFeedUrl ;
   }
+
+  get version() {
+    return this._version;
+  }
+
 
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
@@ -296,6 +311,12 @@ class BrowserManager { /* exported BrowserManager*/
     browser.windows.update(winId, {width: winWidth - 2});
     await DateTime.delay_async(100);
     browser.windows.update(winId, {width: winWidth});
+  }
+
+  static async _getBrowserVersion_async() {
+    let browserInfo = await browser.runtime.getBrowserInfo();
+    let version = browserInfo.version.split('.');
+    return version;
   }
 
 }

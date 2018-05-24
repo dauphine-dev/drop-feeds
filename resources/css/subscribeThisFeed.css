@@ -26,7 +26,11 @@ body {
   margin-right: 20px;
 }
 
-#text {
+#txtSubscribeUsing {
+  float: top;
+  vertical-align: top;
+}
+#txtSelect {
   float: top;
   vertical-align: top;
 }
