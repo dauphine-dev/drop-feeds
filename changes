@@ -3,6 +3,7 @@ Adding Drag and drop feature
 Fix duplicated treeview
 Improve feeds subscription
 Fix unified feeds view
+Fix possible infinite loop in extraction of ATOM typed links
 
 0.7.5
 Fix extraction of ATOM typed links

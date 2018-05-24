@@ -390,7 +390,8 @@ class FeedParser { /*exported FeedParser*/
     if (! itemLink) {
       let inputIndex = 0;
       let outputIndex = {value:0};
-      while (outputIndex.value != -1 && !itemLink) {
+      let i = 0;
+      while (outputIndex.value != -1 && !itemLink && i++ < 100) {
         inputIndex = outputIndex.value;
         let link = TextTools.getOuterTextEx(itemText, '<' + tagList.LINK, '/>',inputIndex, outputIndex, false);
         if (link) {
