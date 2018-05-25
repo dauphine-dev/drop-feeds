@@ -86,10 +86,10 @@ class BrowserManager { /* exported BrowserManager*/
     let doCreate = this._alwaysOpenNewTab;
     let targetTabId = activeTab.id;
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
+    let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
 
     if(openNewTab) {
       // Option 1 - (Usually) open a new tab
-      let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
       if(!reuseDropFeedsTab) {
         // Option 1a - New tab unless active tab is empty
         doCreate = !isEmptyActiveTab;
@@ -106,10 +106,10 @@ class BrowserManager { /* exported BrowserManager*/
         doCreate = false;
       }
       else {
-        // Option 2b - Update the first or current DF tab
-        if(dfTab) {
+        // Option 2b - Update the first or current DF or empty tab
+        if(dfTab || isEmptyActiveTab) {
           doCreate = false;
-          targetTabId = dfTab.id;
+          targetTabId = dfTab ? dfTab.id : activeTab.id;
         }
         else {
           // Option 2c - Create a new tab and activate it
