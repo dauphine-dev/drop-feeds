@@ -9,11 +9,13 @@ class InfoView { /*exported InfoView*/
   }
 
   constructor() {
-    document.getElementById('infoCloseButton').addEventListener('click', InfoView._closeButtonClicked_event);
-    this._updateLocalizedStrings();
-    this._elContent = document.getElementById('content');
     this._elInfoView = null;
     this._idComeFrom = null;
+    this._info = null;
+    this._elContent = document.getElementById('content');
+    this._updateLocalizedStrings();
+    document.getElementById('infoUpdateButton').addEventListener('click', InfoView._updateButtonClicked_event);
+    document.getElementById('infoCloseButton').addEventListener('click', InfoView._closeButtonClicked_event);
   }
 
   hide(){
@@ -34,14 +36,30 @@ class InfoView { /*exported InfoView*/
     document.getElementById('infoIdLbl').textContent = browser.i18n.getMessage('sbInfoIdLdl');
     document.getElementById('infoNameLbl').textContent = browser.i18n.getMessage('sbInfoNameLbl');
     document.getElementById('infoAddressLbl').textContent = browser.i18n.getMessage('sbInfoAddressLbl');
+    document.getElementById('infoUpdateButton').textContent = browser.i18n.getMessage('sbInfoUpdateButton');
     document.getElementById('infoCloseButton').textContent = browser.i18n.getMessage('sbInfoCloseButton');
   }
 
   async _populateInfoAndPos_async(xPos, yPos) {
-    let info = (await browser.bookmarks.get(this._idComeFrom))[0];
+    this._info = (await browser.bookmarks.get(this._idComeFrom))[0];
     document.getElementById('infoIdField').textContent = this._idComeFrom ? this._idComeFrom : ' ';
-    document.getElementById('infoNameField').textContent = info.title ? info.title : ' ';
-    document.getElementById('infoAddressField').textContent = info.url ? info.url : ' ';
+    document.getElementById('infoNameField').value = this._info.title ? this._info.title : '';
+    let elInfoAddressLbl = document.getElementById('infoAddressLbl');
+    let elInfoAddressField = document.getElementById('infoAddressField');
+    if (this._info.url) {
+      elInfoAddressField.value = this._info.url;
+      elInfoAddressField.classList.remove('hide');
+      elInfoAddressField.classList.add('show');
+      elInfoAddressLbl.classList.remove('hide');
+      elInfoAddressLbl.classList.add('show');
+    }
+    else {
+      elInfoAddressField.value = '';
+      elInfoAddressField.classList.remove('show');
+      elInfoAddressField.classList.add('hide');
+      elInfoAddressLbl.classList.remove('show');
+      elInfoAddressLbl.classList.add('hide');
+    }
     this._setPosition(xPos, yPos);
   }
 
@@ -54,6 +72,17 @@ class InfoView { /*exported InfoView*/
 
     this._elInfoView.style.left = x + 'px';
     this._elInfoView.style.top = y + 'px';
+  }
+
+  static async _updateButtonClicked_event(event) {
+    let self = InfoView.instance;
+    event.stopPropagation();
+    event.preventDefault();
+    let name = document.getElementById('infoNameField').value;
+    let url = document.getElementById('infoAddressField').value;
+    let changes = self._info.url ? {title: name, url:url} : {title: name};
+    browser.bookmarks.update(self._idComeFrom, changes);
+    self.hide();
   }
 
   static async _closeButtonClicked_event(event) {

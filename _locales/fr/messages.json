@@ -433,6 +433,9 @@
   "sbInfoAddressLbl": {
     "message": "Adresse"
   },
+  "sbInfoUpdateButton": {
+    "message": "Appliquer"
+  },
   "sbInfoCloseButton": {
     "message": "Fermer"
   }

@@ -15,6 +15,10 @@ body{
   height:100px;
 }
 
+.atRight {
+  float:right;
+}
+
 /* top menu */
 .topMenu {
   display: block;
@@ -330,164 +334,52 @@ li.feedUnread {
 
 #ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/dauphine/img/merge.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnSortByName::before {
   background-image: url(/resources/themes/dauphine/img/sort.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnDeleteFolder::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFldMnInfo::before {
   background-image: url(/resources/themes/dauphine/img/folder-info.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/resources/themes/dauphine/img/title.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 #ctxFdMnInfo::before {
   background-image: url(/resources/themes/dauphine/img/feed-info.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .menuSep {
@@ -503,6 +395,16 @@ li.feedUnread {
   line-height: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .ctxMenuItem:hover {
@@ -737,21 +639,24 @@ li.feedUnread {
   background-color: #f9f9f9;
   left: 80px;
   top: 200px;
-  font-size: 75%;
+  font-size: 99%;
   min-width: 160px;
   box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
   padding: 0;
   z-index: 1;
 }
 
-#infoViewInner {
-  padding: 10px 10px 30px 10px;
-}
-
 .infoTitle {
   text-align: center;
+  font-weight: bold;
+  color: #4f4545;
   background-color: #e4e4e4;
 }
+
+#infoViewInner {
+  padding: 10px 10px 10px 10px;
+}
+
 #infoViewTable {
   table-layout: fixed;
 }
@@ -759,8 +664,9 @@ li.feedUnread {
   width: 100%;
 }
 
-#infoCloseButton {
-  font-size: 75%;
+.infoLabel {
+  font-weight: bold;
+  color: #4f4545;
 }
 
 .infoField {
@@ -771,4 +677,8 @@ li.feedUnread {
   -webkit-user-select: text;
   -ms-user-select: text;
   user-select: text;
+}
+
+.infoButton {
+  font-size: 99%;
 }

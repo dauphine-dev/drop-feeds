@@ -432,6 +432,9 @@
   "sbInfoAddressLbl": {
     "message": "Address"
   },
+  "sbInfoUpdateButton": {
+    "message": "Update"
+  },
   "sbInfoCloseButton": {
     "message": "Close"
   }
