@@ -170,8 +170,11 @@ class FeedParser { /*exported FeedParser*/
         version = '';
         break;
     }
-    return feedType + version;
-
+    let feedFormat = feedType;
+    if (version) {
+      feedFormat =+ version;
+    }
+    return feedFormat + version;
   }
 
   static _feedInfoToHtml(feedInfo) {
