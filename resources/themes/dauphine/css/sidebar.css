@@ -336,6 +336,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
@@ -345,6 +346,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
@@ -354,6 +356,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
@@ -363,6 +366,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/dauphine/img/merge.png);
@@ -372,6 +376,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnSortByName::before {
   background-image: url(/resources/themes/dauphine/img/sort.png);
@@ -381,6 +386,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
@@ -390,6 +396,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFldMnDeleteFolder::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
@@ -399,6 +406,17 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
+}
+#ctxFldMnInfo::before {
+  background-image: url(/resources/themes/dauphine/img/folder-info.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #ctxFdtMnGetFeedTitle::before {
@@ -409,6 +427,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
@@ -418,6 +437,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
@@ -427,6 +447,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
@@ -436,6 +457,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFdMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
@@ -445,6 +467,7 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
 }
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
@@ -454,6 +477,17 @@ li.feedUnread {
   margin-right: 5px;
   content: "";
   display: inline-block;
+  vertical-align: middle;
+}
+#ctxFdMnInfo::before {
+  background-image: url(/resources/themes/dauphine/img/feed-info.png);
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .menuSep {
@@ -697,3 +731,44 @@ li.feedUnread {
   display:block;
 }
 
+/* info view */
+#infoView {
+  position: absolute;
+  background-color: #f9f9f9;
+  left: 80px;
+  top: 200px;
+  font-size: 75%;
+  min-width: 160px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  padding: 0;
+  z-index: 1;
+}
+
+#infoViewInner {
+  padding: 10px 10px 30px 10px;
+}
+
+.infoTitle {
+  text-align: center;
+  background-color: #e4e4e4;
+}
+#infoViewTable {
+  table-layout: fixed;
+}
+#infoViewTable td:last-child {
+  width: 100%;
+}
+
+#infoCloseButton {
+  font-size: 75%;
+}
+
+.infoField {
+  border: 1px inset #000000;
+  white-space: pre;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
