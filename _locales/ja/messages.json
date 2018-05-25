@@ -356,7 +356,9 @@
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
-
+  "optReuseDropFeedsTab": {
+    "message": "Drop Feedsのタブを使う"
+},
   "optImport": {
     "message": "インポート..."
   },
@@ -378,7 +380,7 @@
 
   "comment7": {"message": "------------------Subscribe this feed strings------------------"},
   "stfSubscribeUsing": {
-    "message": "購読するフィードを選択"
+    "message": "フィードリーダーを選択"
   },
   "stfSubscribeNow": {
     "message": "購読する"
