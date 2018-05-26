@@ -85,6 +85,12 @@
   "sbNewFolder": {
     "message": "New folder"
   },
+  "sbDeleteFolder": {
+    "message": "Delete"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
 
   "sbGetFeedTitle": {
     "message": "Get feed title"
@@ -100,6 +106,9 @@
   },
   "sbDeleteFeed": {
     "message": "Delete"
+  },
+  "sbFeedInfo": {
+    "message": "Info"
   },
 
   "sbUseButtonAbove": {
@@ -411,6 +420,22 @@
   },
   "stfSubscribeNow": {
     "message": "Subscribe now"
-  }
+  },
 
+  "comment8": {"message": "------------------Info view strings------------------"},
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Name"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Address"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Update"
+  },
+  "sbInfoCloseButton": {
+    "message": "Close"
+  }
 }

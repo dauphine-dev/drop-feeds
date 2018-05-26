@@ -95,6 +95,7 @@
           <li id="ctxFldMnSortByName" class="ctxMenuItem">#Sort by name</li>
           <li id="ctxFldMnNewFolder" class="ctxMenuItem">#New folder</li>
           <li id="ctxFldMnDeleteFolder" class="ctxMenuItem">#Delete</li>
+          <li id="ctxFldMnInfo" class="ctxMenuItem">#View folder info</li>
         </ul>
       </div>
 
@@ -110,6 +111,7 @@
           <li class="menuSep"></li>
           <li id="ctxFdMnNewFolder" class="ctxMenuItem">#New folder</li>
           <li id="ctxFdtMnDeleteFeed" class="ctxMenuItem">#Delete</li>
+          <li id="ctxFdMnInfo" class="ctxMenuItem">#View feed info</li>
         </ul>
       </div>
     </div>
@@ -135,6 +137,33 @@
       </table>
     </div>
 
+    <!-- Info view -->
+    <div id="infoView" class="hide">
+        <div class="infoTitle">Info</div>
+        <div id="infoViewInner">
+        <table id="infoViewTable">
+          <tr>
+            <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
+            <td><div id="infoIdField" class="infoField"></div></td>
+          </tr>
+          <tr>
+            <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
+            <td><input type="text" id="infoNameField" class="infoField" value=""></td>
+          </tr>
+          <tr>
+            <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
+            <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
+          </tr>
+        </table>
+        <p/>
+        <div class="atRight">
+            <button id="infoUpdateButton" class="infoButton">#Update</button>
+            <button id="infoCloseButton" class="infoButton">#Close</button>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+    <script src="/js/ui/sidebar/infoView.js"></script>
     <script src="/js/ui/sidebar/newFolderDialog.js"></script>
     <script src="/js/ui/sidebar/selectionBarItems.js"></script>
     <script src="/js/ui/sidebar/itemsMenu.js"></script>

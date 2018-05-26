@@ -94,6 +94,7 @@ class TreeView { /*exported TreeView*/
 
   }
   _updateFolderCount(bookmarkItem) {
+    if (!bookmarkItem) { return; }
     if (bookmarkItem.children) {
       for (let child of bookmarkItem.children) {
         if (!bookmarkItem.url) {

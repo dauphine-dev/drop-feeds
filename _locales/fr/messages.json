@@ -85,6 +85,12 @@
   "sbNewFolder": {
     "message": "Nouveau dossier"
   },
+  "sbDeleteFolder": {
+    "message": "Supprimer"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
 
   "sbGetFeedTitle": {
     "message": "Mettre à jour le titre"
@@ -100,6 +106,9 @@
   },
   "sbDeleteFeed": {
     "message": "Supprimer"
+  },
+  "sbFeedInfo": {
+    "message": "Info"
   },
 
   "sbUseButtonAbove": {
@@ -412,5 +421,23 @@
   },
   "stfSubscribeNow": {
     "message": "S’abonner maintenant"
+  },
+
+  "comment8": {"message": "------------------Info view strings------------------"},
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Nom"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Adresse"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Appliquer"
+  },
+  "sbInfoCloseButton": {
+    "message": "Fermer"
   }
+
 }

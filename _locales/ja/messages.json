@@ -81,6 +81,12 @@
   "sbNewFolder": {
     "message": "新しいフォルダ"
   },
+  "sbDeleteFolder": {
+    "message": "消去"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
 
   "sbGetFeedTitle": {
     "message": "フィードタイトルを収得"
@@ -96,6 +102,9 @@
   },
   "sbDeleteFeed": {
     "message": "消去"
+  },
+  "sbFeedInfo": {
+    "message": "Info"
   },
 
   "sbUseButtonAbove": {
@@ -385,5 +394,20 @@
   "stfSubscribeNow": {
     "message": "購読する"
   }
-
+  "comment8": {"message": "------------------Info view strings------------------"},
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Name"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Address"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Update"
+  },
+  "sbInfoCloseButton": {
+    "message": "Close"
+  }
 }

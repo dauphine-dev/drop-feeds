@@ -15,6 +15,10 @@ body{
   height:100px;
 }
 
+.atRight {
+  float:right;
+}
+
 /* top menu */
 .topMenu {
   display: block;
@@ -330,130 +334,52 @@ li.feedUnread {
 
 #ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/dauphine/img/check-feeds.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/dauphine/img/merge.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnSortByName::before {
   background-image: url(/resources/themes/dauphine/img/sort.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnDeleteFolder::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
+}
+#ctxFldMnInfo::before {
+  background-image: url(/resources/themes/dauphine/img/folder-info.png);
 }
 
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/resources/themes/dauphine/img/title.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/dauphine/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/dauphine/img/mark-as-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnNewFolder::before {
   background-image: url(/resources/themes/dauphine/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/resources/themes/dauphine/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
+}
+#ctxFdMnInfo::before {
+  background-image: url(/resources/themes/dauphine/img/feed-info.png);
 }
 
 .menuSep {
@@ -469,6 +395,16 @@ li.feedUnread {
   line-height: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .ctxMenuItem:hover {
@@ -697,3 +633,52 @@ li.feedUnread {
   display:block;
 }
 
+/* info view */
+#infoView {
+  position: absolute;
+  background-color: #f9f9f9;
+  left: 80px;
+  top: 200px;
+  font-size: 99%;
+  min-width: 160px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  padding: 0;
+  z-index: 1;
+}
+
+.infoTitle {
+  text-align: center;
+  font-weight: bold;
+  color: #4f4545;
+  background-color: #e4e4e4;
+}
+
+#infoViewInner {
+  padding: 10px 10px 10px 10px;
+}
+
+#infoViewTable {
+  table-layout: fixed;
+}
+#infoViewTable td:last-child {
+  width: 100%;
+}
+
+.infoLabel {
+  font-weight: bold;
+  color: #4f4545;
+}
+
+.infoField {
+  border: 1px inset #000000;
+  white-space: pre;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.infoButton {
+  font-size: 99%;
+}
