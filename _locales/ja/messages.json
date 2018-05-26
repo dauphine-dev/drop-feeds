@@ -2,11 +2,11 @@
   "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
-    "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください"
+    "message": "RSSフィードをサイドバーからフォルダツリーで管理します"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "Got to Subscription page"
+    "message": "RSS購読ページを表示"
   },
 
   "manPageActionAdd": {
@@ -32,7 +32,7 @@
   },
 
   "sbSubscriptionGo": {
-    "message": "Go to subscription page"
+    "message": "RSS購読ページを表示"
   },
 
   "sbSubscriptionAdd": {
@@ -108,7 +108,7 @@
   },
 
   "sbUseButtonAbove": {
-    "message": "To add a Feed use the button above !"
+    "message": "フィードを追加するにはこのボタンを使います"
   },
 
 
@@ -133,17 +133,17 @@
   },
 
   "sbComputingUnifiedView": {
-    "message": "Computing unified view"
+    "message": "一覧を作成中"
   },
 
   "sbReceived": {
-    "message": "received"
+    "message": "受信しました"
   },
   "sbFeedsUpdated": {
-    "message": "個のフィードが更新されています"
+    "message": "件更新されています"
   },
   "sbOneFeedUpdated": {
-    "message": "一つ更新されています"
+    "message": "1件更新されています"
   },
   "sbNoFeedHasBeenUpdated": {
     "message": "更新はありません"
@@ -155,7 +155,7 @@
   "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
-    "message": "Drop Feeds (subscribe)"
+    "message": "Drop Feeds (購読)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -236,7 +236,7 @@
   },
 
   "disClose": {
-    "message": "Close"
+    "message": "閉じる"
   },
 
 
@@ -245,7 +245,7 @@
   "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
-    "message": "Drop Feeds (options)"
+    "message": "Drop Feeds (オプション)"
   },
 
   "optGeneral": {
@@ -365,7 +365,9 @@
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
-
+  "optReuseDropFeedsTab": {
+    "message": "Drop Feedsのタブを使う"
+},
   "optImport": {
     "message": "インポート..."
   },
@@ -387,12 +389,11 @@
 
   "comment7": {"message": "------------------Subscribe this feed strings------------------"},
   "stfSubscribeUsing": {
-    "message": "Subscribe to this feed using"
+    "message": "フィードリーダーを選択"
   },
   "stfSubscribeNow": {
-    "message": "Subscribe now"
-  },
-
+    "message": "購読する"
+  }
   "comment8": {"message": "------------------Info view strings------------------"},
   "sbInfoIdLdl": {
     "message": "ID"
