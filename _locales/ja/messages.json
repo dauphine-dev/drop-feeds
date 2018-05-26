@@ -76,7 +76,7 @@
     "message": "更新されたページをまとめて開く"
   },
   "sbSortByName": {
-    "message": "名前から検索"
+    "message": "名前順に表示"
   },
   "sbNewFolder": {
     "message": "新しいフォルダ"
@@ -366,7 +366,7 @@
     "message": "opmlのインポート"
   },
   "optReuseDropFeedsTab": {
-    "message": "Drop Feedsのタブを使う"
+    "message": "Drop Feedsで開いたタブを使う"
 },
   "optImport": {
     "message": "インポート..."
@@ -399,15 +399,15 @@
     "message": "ID"
   },
   "sbInfoNameLbl": {
-    "message": "Name"
+    "message": "名前"
   },
   "sbInfoAddressLbl": {
-    "message": "Address"
+    "message": "アドレス"
   },
   "sbInfoUpdateButton": {
-    "message": "Update"
+    "message": "更新"
   },
   "sbInfoCloseButton": {
-    "message": "Close"
+    "message": "閉じる"
   }
 }
