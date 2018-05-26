@@ -159,11 +159,11 @@ class FeedParser { /*exported FeedParser*/
   static _getFeedFormat(tagItem, feedText) {
     if (!tagItem || !feedText) { return null; }
     let feedType = '';
-    let version = '';
+    let version = null;
     switch (tagItem.toLowerCase()) {
       case 'item':
         feedType = 'RSS';
-        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
+        version = FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
         break;
       case 'entry':
         feedType = 'ATOM';
@@ -172,9 +172,9 @@ class FeedParser { /*exported FeedParser*/
     }
     let feedFormat = feedType;
     if (version) {
-      feedFormat =+ version;
+      feedFormat += ' ' + version;
     }
-    return feedFormat + version;
+    return feedFormat;
   }
 
   static _feedInfoToHtml(feedInfo) {
