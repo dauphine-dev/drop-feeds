@@ -1,4 +1,4 @@
-/*global Listener ListenerProviders  */
+/*global Listener ListenerProviders  DefaultValues*/
 const itemSortOrder = { /*exported itemSortOrder */
   newerFirst: 0,
   olderFirst: 1,
@@ -14,7 +14,7 @@ class ItemSorter { /*exported ItemSorter */
   }
 
   constructor() {
-    this._sortOrder = null;
+    this._sortOrder = DefaultValues.itemSortOrder;
   }
 
   async init_async() {
@@ -23,19 +23,22 @@ class ItemSorter { /*exported ItemSorter */
 
   sort(itemList) {
     switch(this._sortOrder) {
-      case itemSortOrder.newerFirst:
+      case itemSortOrder.newerFirst: //0
         itemList.sort((item1, item2) => {
           if (item1.pubDate > item2.pubDate) return -1;
           if (item1.pubDate < item2.pubDate) return 1;
           return 0;
         });
         break;
-      case itemSortOrder.olderFirst:
+      case itemSortOrder.olderFirst: //1
         itemList.sort((item1, item2) => {
           if (item1.pubDate > item2.pubDate) return 1;
           if (item1.pubDate < item2.pubDate) return -1;
           return 0;
         });
+        break;
+      case itemSortOrder.original: //2
+        break;
     }
     return itemList;
   }

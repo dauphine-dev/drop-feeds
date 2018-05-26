@@ -7,6 +7,7 @@ Fix feed format in the discovering feeds view
 Fix context menu text alignment
 Fix subscribe window size
 Fix restore last tab option when tab item was was opened
+Fix items sort order
 
 0.7.7
 Mouse middle-click opens items in a background new tab
