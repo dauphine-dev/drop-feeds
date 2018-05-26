@@ -18,7 +18,7 @@ class TabControl { /*exported TabControl*/
   static _updateLocalizedStrings() {
     document.getElementById('generalTabButton').textContent = browser.i18n.getMessage('optGeneral');
     document.getElementById('updateCheckerTabButton').textContent = browser.i18n.getMessage('optUpdateChecker');
-    document.getElementById('itemsTabButton').textContent = browser.i18n.getMessage('optItems');
+    document.getElementById('viewItemsButton').textContent = browser.i18n.getMessage('optItems');
     document.getElementById('viewTabButton').textContent = browser.i18n.getMessage('optView');
     document.getElementById('contentsAreaTabButton').textContent = browser.i18n.getMessage('optContentsArea');
     document.getElementById('managementTabButton').textContent = browser.i18n.getMessage('optManagement');
