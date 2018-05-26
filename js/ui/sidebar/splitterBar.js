@@ -1,4 +1,4 @@
-/*global SideBar ItemsPanel*/
+/*global SideBar ItemsPanel LocalStorageManager*/
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
   static get instance() {
@@ -13,6 +13,14 @@ class SplitterBar { /*exported SplitterBar*/
     this._startPos = 0;
     this._elSplitterBar = document.getElementById('splitterBar');
     this._elSplitterBar.onmousedown = SplitterBar._dragMouseDown_event;
+
+  }
+
+  async init_async() {
+    let topSplitterBar =  await LocalStorageManager.getValue_async('splitterBarTop');
+    if (topSplitterBar) {
+      this._resizeElements(topSplitterBar);
+    }
   }
 
   get top() {
@@ -42,6 +50,7 @@ class SplitterBar { /*exported SplitterBar*/
     self._startPos = event.clientY;
     let top = Math.max(Math.min(ItemsPanel.instance.top - self._newPos, window.innerHeight - 80), 125);
     self._resizeElements(top);
+    LocalStorageManager.setValue_async('splitterBarTop', top);
   }
 
   static _closeDragElement_event() {

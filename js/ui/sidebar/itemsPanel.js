@@ -9,7 +9,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   constructor() {
-    SplitterBar.instance;
+    SplitterBar.instance.init_async();
     ItemsMenu.instance.disableButtons();
     this._selectionBarItems = new SelectionBarItems();
     this._mainItemsPane = document.getElementById('mainItemsPane');
