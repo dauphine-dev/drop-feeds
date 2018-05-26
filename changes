@@ -1,5 +1,7 @@
 0.7.8
 Add Info context menu
+"Reuse Drop Feeds tab" use active empty tab (from Jeff Thieleke)
+Update of the Japanese translation (from takepon1)
 Fix feed format in the discovering feeds view
 Fix context menu text alignment
 Fix subscribe window size
