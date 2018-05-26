@@ -1,4 +1,4 @@
-/*global browser TreeView*/
+/*global browser */
 'use strict';
 class NewFolderDialog { /*exported NewFolderDialog*/
   static get instance() {

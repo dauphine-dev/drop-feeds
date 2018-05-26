@@ -181,7 +181,7 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
-let self = FeedManager.instance;
+    let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
