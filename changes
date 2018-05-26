@@ -1,10 +1,12 @@
 0.7.8
 Add Info context menu
+Memorize and restore last items position
 "Reuse Drop Feeds tab" use active empty tab (from Jeff Thieleke)
 Update of the Japanese translation (from takepon1)
 Fix feed format in the discovering feeds view
 Fix context menu text alignment
 Fix subscribe window size
+Fix restore last tab option when tab item was was opened
 
 0.7.7
 Mouse middle-click opens items in a background new tab
