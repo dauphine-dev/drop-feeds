@@ -8,6 +8,7 @@ Fix context menu text alignment
 Fix subscribe window size
 Fix restore last tab option when tab item was was opened
 Fix items sort order
+Fix article item title extraction (this fix prevents multiple items tab opening)
 
 0.7.7
 Mouse middle-click opens items in a background new tab

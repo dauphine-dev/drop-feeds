@@ -76,4 +76,8 @@ class TextTools { /* exported TextTools*/
       return fromCharCode; });
     return decodedText;
   }
+
+  static replaceAll(text, substr, newSubstr) {
+    return text.split(substr).join(newSubstr);
+  }
 }

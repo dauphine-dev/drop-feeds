@@ -263,11 +263,9 @@ class FeedParser { /*exported FeedParser*/
       if (valueEnd==-1) { continue; }
 
       let result = text.substring(valueStart + 1, valueEnd).trim();
-      if(result.startsWith('<![CDATA[')) {
-        result = result.replace('<![CDATA[', '');
-        if (result.endsWith(']]>')) {
-          result = result.slice(0, -3);
-        }
+      if(result.includes('<![CDATA[')) {
+        result = TextTools.replaceAll(result, '<![CDATA[', '');
+        result = TextTools.replaceAll(result, ']]>', '');
         result = result.trim();
       }
       out_endIndex_optional[0] = valueEnd + tagEnd.length;
