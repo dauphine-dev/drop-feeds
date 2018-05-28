@@ -10,6 +10,8 @@ const VERSION_ENUM = { /*exported VERSION_ENUM */
   REV : 2
 };
 
+const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
+
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
     if (!this._instance) {
@@ -86,7 +88,7 @@ class BrowserManager { /* exported BrowserManager*/
     let doCreate = this._alwaysOpenNewTab;
     let targetTabId = activeTab.id;
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
-    let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
+    let isEmptyActiveTab = BrowserManager.isTabEmpty(activeTab);
 
     if(openNewTab) {
       // Option 1 - (Usually) open a new tab
@@ -134,9 +136,8 @@ class BrowserManager { /* exported BrowserManager*/
 
 
   //statics
-  static async isTabEmpty_async(tab) {
-    let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
-    return isEmpty;
+  static isTabEmpty(tab) {
+    return _emptyTabSet.has(tab.url) && tab.status == 'complete';
   }
 
   static isDropFeedsTab(tab) {
