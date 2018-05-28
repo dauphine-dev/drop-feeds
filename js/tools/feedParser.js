@@ -339,7 +339,7 @@ class FeedParser { /*exported FeedParser*/
   static _getHtmlHead(channel) {
     let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
     let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
-    let encoding = channel.encoding ? channel.encoding : 'UTF-8';
+    let encoding = 'utf-16'; // DOMString's default encoding - convertion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead                      += '<html>\n';
     htmlHead                      += '  <head>\n';
