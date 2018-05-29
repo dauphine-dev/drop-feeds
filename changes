@@ -1,3 +1,7 @@
+0.7.9
+Allow an about:home tab to be considered "empty" (by Jeff Thieleke)
+Fix for non UTF-8 encoded feeds (by Jeff Thieleke)
+
 0.7.8
 Add Info context menu
 Memorize and restore last items position
