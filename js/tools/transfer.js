@@ -1,4 +1,4 @@
-/*global DefaultValues LocalStorageManager Listener ListenerProviders*/
+/*global DefaultValues LocalStorageManager Listener ListenerProviders FeedParser*/
 'use strict';
 class Timeout { /*exported Timeout*/
   static get instance() {
@@ -49,11 +49,30 @@ class Transfer { /*exported Transfer*/
   static async downloadTextFileEx_async(url, urlNoCache) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
-      xhr.responseType = 'text';
+      xhr.responseType = 'arraybuffer';
       xhr.onloadend = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            resolve(xhr.responseText);
+            // Decode the response as UTF-8 then apply the feed's specified encoding (if present)
+            let defaultEncoding = 'utf-8';
+            let response = new DataView(xhr.response);
+            let utf8Decoder = new TextDecoder(defaultEncoding);
+            let utf8Content = utf8Decoder.decode(response);
+            try {
+              let encoding = FeedParser._getEncoding(utf8Content);
+              if (encoding && encoding != defaultEncoding) {
+                let decoder = new TextDecoder(encoding.toLowerCase());
+                let decodedContent = decoder.decode(response);
+                resolve(decodedContent);
+              }
+            }
+            catch(e) {
+              /*eslint-disable no-console*/
+              console.log('downloadTextFileEx_async encoding failed "' + e);
+              /*eslint-enable no-console*/
+            }
+            // Fallback to the default encoding
+            resolve(utf8Content);
           }
           else {
             let statusText = xhr.statusText ? xhr.statusText : 'unknown error';
