@@ -66,13 +66,12 @@ class ItemsMenu { /*exported ItemsMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('itemMarkAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAsRead'));
-    document.getElementById('itemMarkAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAsUnread'));
-    document.getElementById('itemMarkAllAsReadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAllAsRead'));
-    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbMarkAllAsUnread'));
-    document.getElementById('itemOpenUnreadButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
+    document.getElementById('itemMarkAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAsRead'));
+    document.getElementById('itemMarkAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAsUnread'));
+    document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsRead'));
+    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsUnread'));
+    document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
   }
-
 
   static async _itemMarkAsReadButtonClicked_event(event) {
     event.stopPropagation();
