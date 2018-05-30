@@ -266,7 +266,7 @@ class FeedParser { /*exported FeedParser*/
       if(result.includes('<![CDATA[')) {
         result = TextTools.replaceAll(result, '<![CDATA[', '');
         result = TextTools.replaceAll(result, ']]>', '');
-        result = result.trim();
+        result = '<![CDATA[' + result.trim() + ']]>';
       }
       out_endIndex_optional[0] = valueEnd + tagEnd.length;
 

@@ -1,5 +1,6 @@
 0.7.11
 Fix wrong 'div'  close tag count in description (avoids items in items)
+Fix CDATA management (was making some feeds always in errors)
 
 0.7.10
 Display tooltip by set description in 'title' attribute
