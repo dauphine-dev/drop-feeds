@@ -64,6 +64,15 @@ class ItemManager { /*exported ItemManager*/
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
+  static setTooltipVisibility(tooltipVisible) {
+    let attOldName = tooltipVisible ? 'title1' : 'title';
+    let attNewName = tooltipVisible ? 'title' : 'title1';
+    let elItemList = document.getElementById('itemsPane').querySelectorAll('.item');
+    for (let elItem of elItemList) {
+      BrowserManager.renameAttribute(elItem, attOldName, attNewName);
+    }
+  }
+
   static async _itemOnClick_event(event) {
     ItemsPanel.instance.selectionBarItems.put(event.target);
     let itemLink = event.target.getAttribute('href');

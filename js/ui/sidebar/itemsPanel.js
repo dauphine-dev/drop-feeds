@@ -1,4 +1,4 @@
-/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar CssManager ItemsMenu ItemManager SelectionBarItems*/
+/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() {
@@ -67,7 +67,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   async _displayItems_async(itemList) {
-    let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList);
+    let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
     BrowserManager.setInnerHtmlById('itemsPane', itemsHtml);
     //itemsHtml.length > 0 ? ItemsMenu.instance.enableButtons() : ItemsMenu.instance.disableButtons();
     if (itemsHtml.length > 0) {
@@ -102,8 +102,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   _setTooltipsVisibility() {
-    let visibility = this._feedItemDescriptionTooltips ? 'visible' : 'hidden';
-    CssManager.replaceStyle('.toolTipItemVisibility:hover::before', '  visibility: ' + visibility + ';');
+    ItemManager.setTooltipVisibility(this._feedItemDescriptionTooltips);
   }
 
   _setToolbarVisibility() {

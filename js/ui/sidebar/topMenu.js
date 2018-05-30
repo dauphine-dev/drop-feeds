@@ -142,16 +142,16 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('checkFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbCheckFeeds'));
-    document.getElementById('discoverFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbDiscoverFeeds'));
-    document.getElementById('onlyUpdatedFeedsButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
-    document.getElementById('toggleFoldersButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbToggleFolders'));
-    document.getElementById('addFeedButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscriptionGo'));
+    document.getElementById('checkFeedsButton').setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
+    document.getElementById('discoverFeedsButton').setAttribute('title', browser.i18n.getMessage('sbDiscoverFeeds'));
+    document.getElementById('onlyUpdatedFeedsButton').setAttribute('title', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
+    document.getElementById('toggleFoldersButton').setAttribute('title', browser.i18n.getMessage('sbToggleFolders'));
+    document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
     if (BrowserManager.instance.version[VERSION_ENUM.MAJ] < 57) {
-      document.getElementById('addFeedButton').setAttribute('tooltiptext', 'Not available in Firefox 56, please update');
+      document.getElementById('addFeedButton').setAttribute('title', 'Not available in Firefox 56, please update');
     }
 
-    document.getElementById('optionsMenuButton').setAttribute('tooltiptext', browser.i18n.getMessage('sbOpenOptionsTab'));
+    document.getElementById('optionsMenuButton').setAttribute('title', browser.i18n.getMessage('sbOpenOptionsTab'));
   }
 
   async _isRootFolderChecked_async() {

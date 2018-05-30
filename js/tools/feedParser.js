@@ -110,11 +110,11 @@ class FeedParser { /*exported FeedParser*/
     return titleHtml;
   }
 
-  static async parseItemListToHtml_async(itemList) {
+  static async parseItemListToHtml_async(itemList, tooltipsVisible) {
     let htmlItemList = [];
     itemList = ItemSorter.instance.sort(itemList);
     for (let i=0; i<itemList.length; i++) {
-      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
+      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1, tooltipsVisible);
       htmlItemList.push(htmlItem);
     }
     let itemsHtml = htmlItemList.join('\n');
@@ -339,7 +339,7 @@ class FeedParser { /*exported FeedParser*/
   static _getHtmlHead(channel) {
     let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
     let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
-    let encoding = 'utf-8'; // Convertion is now done in downloadTextFileEx_async()
+    let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead                      += '<html>\n';
     htmlHead                      += '  <head>\n';
@@ -515,17 +515,15 @@ class FeedParser { /*exported FeedParser*/
     return htmlItem;
   }
 
-  static async _getHtmlItemLine_async(item, itemNumber) {
+  static async _getHtmlItemLine_async(item, itemNumber, tooltipsVisible) {
     //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
     let title = item.title;
     if (!title) { title = '(No Title)'; }
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
     let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
-
-    //<span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
-    let tooltiptext = BrowserManager.htmlToText(item.description);
-    let htmlItemLine ='<span class="item' + visited + ' toolTipItem toolTipItemVisibility" tooltiptext="' + tooltiptext +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+    let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(item.description) + '"';
+    let htmlItemLine ='<span class="item' + visited + '" ' + tooltip +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
 
     return htmlItemLine;
   }

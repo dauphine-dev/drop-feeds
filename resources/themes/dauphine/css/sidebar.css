@@ -168,21 +168,6 @@ body{
   padding: 0;
 }
 
-.toolTip:hover:after{
-  position: absolute;
-  background: #333;
-  background: rgba(0,0,0,.8);
-  border-radius: 5px;
-  color: #fff;
-  content: attr(tooltiptext);
-  margin-top: 45px;
-  margin-left: -25px;
-  padding: 5px 5px;
-  height: 16px;
-  line-height: 16px;
-  opacity: 0.9;
-}
-
 /* status bar*/
 #statusBar {
   display: block;
@@ -587,30 +572,6 @@ li.feedUnread {
 
 .item:hover {
   text-decoration: underline;
-}
-
-.toolTipItem:hover::before {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  min-height: 1em;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  width: 90%;
-  background: #333;
-  background: rgba(0,0,0,.8);
-  border-radius: 5px;
-  color: #fff;
-  content: attr(tooltiptext);
-  padding: 5px 5px;
-  line-height: 16px;
-  opacity: 0.9;
-  margin-top: 25px;
-  margin-left: 1%;
-}
-
-.toolTipItemVisibility:hover::before {
-  visibility: hidden;
 }
 
 /* new folder dialog */

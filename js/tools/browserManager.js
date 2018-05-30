@@ -243,6 +243,15 @@ class BrowserManager { /* exported BrowserManager*/
     return isFeed;
   }
 
+  static async renameAttribute(element, attOldName, attNewName)
+  {
+    if (element.hasAttribute(attOldName)) {
+      let attValue = element.getAttribute(attOldName);
+      element.removeAttribute(attOldName);
+      element.setAttribute(attNewName, attValue);
+    }
+  }
+
   static async _activeTabIsFeedCore_async(tabInfo) {
     let isFeed = false;
     if (tabInfo.url.startsWith('about:')) { return false; }
