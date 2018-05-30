@@ -549,6 +549,14 @@ class FeedParser { /*exported FeedParser*/
     if (lastTtPos > lastGtPos) {
       text = text.concat('>');
     }
+    let divOpenCount1 = TextTools.occurrences(text, '<div>');
+    let divOpenCount2 = TextTools.occurrences(text, '<div ');
+    let divCloseCount = TextTools.occurrences(text, '</div> ');
+    let divOpenCount = divOpenCount1 + divOpenCount2;
+    let diff = divOpenCount - divCloseCount;
+    if (diff > 0) {
+      text += '</div>'.repeat(diff);
+    }
     return text;
   }
 
