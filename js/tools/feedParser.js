@@ -266,7 +266,8 @@ class FeedParser { /*exported FeedParser*/
       if(result.includes('<![CDATA[')) {
         result = TextTools.replaceAll(result, '<![CDATA[', '');
         result = TextTools.replaceAll(result, ']]>', '');
-        result = '<![CDATA[' + result.trim() + ']]>';
+        //result = '<![CDATA[' + result.trim() + ']]>';
+        result = result.trim();
       }
       out_endIndex_optional[0] = valueEnd + tagEnd.length;
 
@@ -544,20 +545,21 @@ class FeedParser { /*exported FeedParser*/
 
   static _fixDescriptionTags(text) {
     if (!text.includes('<')) { return text; }
+
     let lastTtPos = text.lastIndexOf('<');
     let lastGtPos = text.lastIndexOf('>');
     if (lastTtPos > lastGtPos) {
       text = text.concat('>');
     }
+
     let divOpenCount1 = TextTools.occurrences(text, '<div>');
     let divOpenCount2 = TextTools.occurrences(text, '<div ');
-    let divCloseCount = TextTools.occurrences(text, '</div> ');
     let divOpenCount = divOpenCount1 + divOpenCount2;
+    let divCloseCount = TextTools.occurrences(text, '</div>');
     let diff = divOpenCount - divCloseCount;
     if (diff > 0) {
       text += '</div>'.repeat(diff);
     }
     return text;
   }
-
 }
