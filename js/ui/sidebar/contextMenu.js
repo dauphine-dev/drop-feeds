@@ -1,4 +1,4 @@
-/*global browser TreeView FeedManager NewFolderDialog BookmarkManager*/
+/*global browser TreeView FeedManager NewFolderDialog BookmarkManager InfoView*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
   static get instance() {
@@ -17,6 +17,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnSortByName').addEventListener('click', this._ctxMnSortByNameMenuClicked_event);
     document.getElementById('ctxFldMnNewFolder').addEventListener('click', this._ctxMnNewFolderClicked_event);
     document.getElementById('ctxFldMnDeleteFolder').addEventListener('click', this._ctxMnDeleteFolderMenuClicked_event);
+    document.getElementById('ctxFldMnInfo').addEventListener('click', this._ctxMnInfoFolderMenuClicked_event);
 
     document.getElementById('ctxFdtMnGetFeedTitle').addEventListener('click', this._ctxMnGetFeedTitleMenuClicked_event);
     document.getElementById('ctxFdMnOpenFeed').addEventListener('click', this._ctxMnOpenFeedMenuClicked_event);
@@ -24,6 +25,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFdMnMarkFeedAsUpdated').addEventListener('click', this._ctxMnMarkFeedAsUpdatedMenuClicked_event);
     document.getElementById('ctxFdMnNewFolder').addEventListener('click', this._ctxMnFdNewFolderClicked_event);
     document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', this._ctxMnDeleteFeedMenuClicked_event);
+    document.getElementById('ctxFdMnInfo').addEventListener('click', this.ctxMnInfoFeedMenuClicked_event);
 
     this._updateLocalizedStrings();
     this._elContent = document.getElementById('content');
@@ -38,6 +40,8 @@ class ContextMenu { /*exported ContextMenu*/
 
   show(xPos, yPos, elTarget){
     let self = ContextMenu.instance;
+    self._xPosOri = xPos;
+    self._yPosOri = yPos;
     self._idComeFrom = elTarget.getAttribute('id');
     let contextMenuId = null;
     if (self._idComeFrom.startsWith('dv-')) {
@@ -62,7 +66,8 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
     document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
     document.getElementById('ctxFldMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
-    document.getElementById('ctxFldMnDeleteFolder').textContent = browser.i18n.getMessage('sbDeleteFeed');
+    document.getElementById('ctxFldMnDeleteFolder').textContent = browser.i18n.getMessage('sbDeleteFolder');
+    document.getElementById('ctxFldMnInfo').textContent = browser.i18n.getMessage('sbFolderInfo');
 
 
     document.getElementById('ctxFdtMnGetFeedTitle').textContent = browser.i18n.getMessage('sbGetFeedTitle');
@@ -71,6 +76,7 @@ class ContextMenu { /*exported ContextMenu*/
     document.getElementById('ctxFdMnMarkFeedAsUpdated').textContent = browser.i18n.getMessage('sbMarkFeedAsUpdated');
     document.getElementById('ctxFdMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
+    document.getElementById('ctxFdMnInfo').textContent = browser.i18n.getMessage('sbFeedInfo');
 
   }
 
@@ -124,7 +130,13 @@ class ContextMenu { /*exported ContextMenu*/
     self.hide();
     let bookmarkId = self._idComeFrom.substring(3);
     browser.bookmarks.removeTree(bookmarkId);
-    TreeView.instance.reload_async();
+  }
+
+  async _ctxMnInfoFolderMenuClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+    let bookmarkId = self._idComeFrom.substring(3);
+    InfoView.instance.show(self._xPosOri, self._yPosOri, bookmarkId);
   }
 
 
@@ -176,7 +188,11 @@ class ContextMenu { /*exported ContextMenu*/
     let self = ContextMenu.instance;
     self.hide();
     FeedManager.instance.delete(self._idComeFrom);
-    TreeView.instance.reload_async();
   }
 
+  async ctxMnInfoFeedMenuClicked_event() {
+    let self = ContextMenu.instance;
+    self.hide();
+    InfoView.instance.show(self._xPosOri, self._yPosOri, self._idComeFrom);
+  }
 }

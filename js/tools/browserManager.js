@@ -1,5 +1,17 @@
 /*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
 'use strict';
+const subType = { /*exported subType */
+  add: 'Add',
+  go: 'Go'
+};
+const VERSION_ENUM = { /*exported VERSION_ENUM */
+  MAJ : 0,
+  MIN : 1,
+  REV : 2
+};
+
+const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
+
 class BrowserManager { /* exported BrowserManager*/
   static get instance() {
     if (!this._instance) {
@@ -13,10 +25,15 @@ class BrowserManager { /* exported BrowserManager*/
     this._openNewTabForeground = DefaultValues.openNewTabForeground;
     this._reuseDropFeedsTab = DefaultValues.reuseDropFeedsTab;
     this._baseFeedUrl = null;
-    
+    this._version = null;
+
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', BrowserManager._setReuseDropFeedsTab_sbscrb, true);
+  }
+
+  async init_async() {
+    this._version = await BrowserManager._getBrowserVersion_async();
   }
 
   //non statics
@@ -27,7 +44,7 @@ class BrowserManager { /* exported BrowserManager*/
   get baseFeedUrl() {
     // Returns the "blob:moz-extension://<Internal UUID>" feed base URL for this installation
     if (this._baseFeedUrl) {
-        return this._baseFeedUrl;
+      return this._baseFeedUrl;
     }
 
     let feedBlob = new Blob([]);
@@ -35,7 +52,12 @@ class BrowserManager { /* exported BrowserManager*/
     this._baseFeedUrl = feedUrl.protocol + feedUrl.origin;
     return this._baseFeedUrl ;
   }
-  
+
+  get version() {
+    return this._version;
+  }
+
+
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
     let dfTab = null;
@@ -44,10 +66,10 @@ class BrowserManager { /* exported BrowserManager*/
     let reuseDropFeedsTab = this._reuseDropFeedsTab;
 
     if (BrowserManager.isDropFeedsTab(activeTab)) {
-        dfTab = activeTab;
+      dfTab = activeTab;
     }
     else {
-        dfTab = await BrowserManager.findDropFeedsTab_async();
+      dfTab = await BrowserManager.findDropFeedsTab_async();
     }
 
     // Open Tab Logic:
@@ -66,44 +88,44 @@ class BrowserManager { /* exported BrowserManager*/
     let doCreate = this._alwaysOpenNewTab;
     let targetTabId = activeTab.id;
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
+    let isEmptyActiveTab = BrowserManager.isTabEmpty(activeTab);
 
     if(openNewTab) {
-        // Option 1 - (Usually) open a new tab
-        let isEmptyActiveTab = await BrowserManager.isTabEmpty_async(activeTab);
-        if(!reuseDropFeedsTab) {
-            // Option 1a - New tab unless active tab is empty
-            doCreate = !isEmptyActiveTab;
-        }
-        else {
-            // Option 1b - New tab unless active tab is empty or DF tab
-            doCreate = !isEmptyActiveTab || !activeTabIsDfTab; 
-        }
+      // Option 1 - (Usually) open a new tab
+      if(!reuseDropFeedsTab) {
+        // Option 1a - New tab unless active tab is empty
+        doCreate = !isEmptyActiveTab;
+      }
+      else {
+        // Option 1b - New tab unless active tab is empty or DF tab
+        doCreate = !isEmptyActiveTab || !activeTabIsDfTab;
+      }
     }
     else {
-        // Option 2 - (Usually) update an existing tab
-        if(!reuseDropFeedsTab) {
-            // Option 2a - Update the current active tab
-            doCreate = false;
+      // Option 2 - (Usually) update an existing tab
+      if(!reuseDropFeedsTab) {
+        // Option 2a - Update the current active tab
+        doCreate = false;
+      }
+      else {
+        // Option 2b - Update the first or current DF or empty tab
+        if(dfTab || isEmptyActiveTab) {
+          doCreate = false;
+          targetTabId = dfTab ? dfTab.id : activeTab.id;
         }
         else {
-            // Option 2b - Update the first or current DF tab
-            if(dfTab) {
-                doCreate = false;
-                targetTabId = dfTab.id;
-            }
-            else {
-                // Option 2c - Create a new tab and activate it
-                doCreate = true;
-                openNewTabForeground = true;
-            }
+          // Option 2c - Create a new tab and activate it
+          doCreate = true;
+          openNewTabForeground = true;
         }
+      }
     }
 
     if(doCreate) {
-        await browser.tabs.create({url: url, active: openNewTabForeground});
+      await browser.tabs.create({url: url, active: openNewTabForeground});
     }
     else {
-        await browser.tabs.update(targetTabId, {url: url, active: openNewTabForeground});
+      await browser.tabs.update(targetTabId, {url: url, active: openNewTabForeground});
     }
   }
 
@@ -114,9 +136,8 @@ class BrowserManager { /* exported BrowserManager*/
 
 
   //statics
-  static async isTabEmpty_async(tab) {
-    let isEmpty = (tab.url == 'about:blank' || tab.url == 'about:newtab') && (tab.status == 'complete');
-    return isEmpty;
+  static isTabEmpty(tab) {
+    return _emptyTabSet.has(tab.url) && tab.status == 'complete';
   }
 
   static isDropFeedsTab(tab) {
@@ -185,11 +206,13 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
 
-  static showPageAction(tabInfo, show) {
+  static showPageAction(tabInfo, show, type) {
     if (show) {
       browser.pageAction.show(tabInfo.id);
-      let iconUrl = ThemeManager.instance.getImgUrl('subscribe.png');
+      let iconUrl = ThemeManager.instance.getImgUrl('subscribe-' + type.toLowerCase() + '.png');
+      let title = browser.i18n.getMessage('manPageAction' + type);
       browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
+      browser.pageAction.setTitle({tabId: tabInfo.id, title: title});
     }
     else {
       browser.pageAction.hide(tabInfo.id);
@@ -212,41 +235,74 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async activeTabIsFeed_async() {
-    let isFeed = false;
     let tabInfo = await BrowserManager.getActiveTab_async();
-    try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
-    }
-    catch(e) {
-      //Workaround for Firefox 60
-      let result = tabInfo.url.match(/rss|feed|atom|syndicate/i);
-      if (result) {
-        isFeed = result.length > 0;
-      }
-      if (!isFeed) {
-        let feedText = await Transfer.downloadTextFileEx_async(tabInfo.url, false);
-        let error = FeedParser.isValidFeedText(feedText);
-        if (!error) {
-          isFeed = true;
-        }
-      }
+    let isFeed = await BrowserManager._activeTabIsFeedCore_async(tabInfo);
+    if(typeof isFeed == 'undefined') {
+      isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
   }
 
+  static async renameAttribute(element, attOldName, attNewName)
+  {
+    if (element.hasAttribute(attOldName)) {
+      let attValue = element.getAttribute(attOldName);
+      element.removeAttribute(attOldName);
+      element.setAttribute(attNewName, attValue);
+    }
+  }
+
+  static async _activeTabIsFeedCore_async(tabInfo) {
+    let isFeed = false;
+    if (tabInfo.url.startsWith('about:')) { return false; }
+    try {
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
+    }
+    catch(e) {
+      isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
+    }
+    return isFeed;
+  }
+
+  static async _isFeedWorkaround_async(url) {
+    //Workaround for Firefox 60
+    let isFeed = false;
+    if (url.startsWith('about:')) { return false; }
+    /*
+    let result = url.match(/rss|feed|atom|syndicate/i);
+    if (result) {
+      isFeed = result.length > 0;
+    }
+    */
+    //if (!isFeed) {
+    let feedText = null;
+    try {
+      feedText = await Transfer.downloadTextFileEx_async(url, false);
+      let error = FeedParser.isValidFeedText(feedText);
+      if (!error) {
+        isFeed = true;
+      }
+    }
+    catch(e) {
+      isFeed = false;
+    }
+    //}
+    return isFeed;
+  }
+
   static async findDropFeedsTab_async() {
-    let tabs = await browser.tabs.query({currentWindow: true}) 
+    let tabs = await browser.tabs.query({currentWindow: true});
     if (tabs) {
-        for (var i = 0, len = tabs.length; i < len; i++) {
-            if (BrowserManager.isDropFeedsTab(tabs[i])) {
-                return tabs[i];
-            }
+      for (var i = 0, len = tabs.length; i < len; i++) {
+        if (BrowserManager.isDropFeedsTab(tabs[i])) {
+          return tabs[i];
         }
+      }
     }
 
     return null;
   }
-  
+
   //private stuffs
   static _setAlwaysOpenNewTab_sbscrb(value){
     BrowserManager.instance._alwaysOpenNewTab = value;
@@ -265,6 +321,12 @@ class BrowserManager { /* exported BrowserManager*/
     browser.windows.update(winId, {width: winWidth - 2});
     await DateTime.delay_async(100);
     browser.windows.update(winId, {width: winWidth});
+  }
+
+  static async _getBrowserVersion_async() {
+    let browserInfo = await browser.runtime.getBrowserInfo();
+    let version = browserInfo.version.split('.');
+    return version;
   }
 
 }

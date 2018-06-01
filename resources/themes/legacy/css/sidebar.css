@@ -16,6 +16,10 @@ body{
   height:100px;
 }
 
+.atRight {
+  float:right;
+}
+
 /* top menu */
 .topMenu {
   display: block;
@@ -134,7 +138,6 @@ body{
   padding: 0;
 }
 #addFeedButton::before {
-  background-image: url(/resources/themes/legacy/img/subscribe.png);
   background-size: 20px 20px;
   background-position: center;
   background-repeat: no-repeat;
@@ -146,6 +149,13 @@ body{
   content:"";
   padding: 0;
 }
+.subscribeGo::before {
+  background-image: url(/resources/themes/legacy/img/subscribe-go.png);
+}
+.subscribeAdd::before {
+  background-image: url(/resources/themes/legacy/img/subscribe-add.png);
+}
+
 #optionsMenuButton::before {
   background-image: url(/resources/themes/legacy/img/options.png);
   background-size: 20px 20px;
@@ -158,21 +168,6 @@ body{
   height: 34px;
   content:"";
   padding: 0;
-}
-
-.toolTip:hover:after{
-  position: absolute;
-  background: #333;
-  background: rgba(0,0,0,.8);
-  border-radius: 5px;
-  color: #fff;
-  content: attr(tooltiptext);
-  margin-top: 45px;
-  margin-left: -25px;
-  padding: 5px 5px;
-  height: 16px;
-  line-height: 16px;
-  opacity: 0.9;
 }
 
 /* status bar*/
@@ -363,131 +358,53 @@ li {
 
 #ctxFldMnCheckFeeds::before {
   background-image: url(/resources/themes/legacy/img/check-feeds.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/resources/themes/legacy/img/feed-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/resources/themes/legacy/img/merge.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnSortByName::before {
   background-image: url(/resources/themes/legacy/img/sort.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnNewFolder::before {
   background-image: url(/resources/themes/legacy/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFldMnDeleteFolder::before {
   background-image: url(/resources/themes/legacy/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
+}
+#ctxFldMnInfo::before {
+  background-image: url(/resources/themes/legacy/img/folder-info.png);
 }
 
 
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/resources/themes/legacy/img/title.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnOpenFeed::before {
   background-image: url(/resources/themes/legacy/img/feed-open.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/resources/themes/legacy/img/feed-read.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/resources/themes/legacy/img/feed-unread.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdMnNewFolder::before {
   background-image: url(/resources/themes/legacy/img/folder-new.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
 }
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/resources/themes/legacy/img/delete.png);
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
+}
+#ctxFdMnInfo::before {
+  background-image: url(/resources/themes/legacy/img/feed-info.png);
 }
 
 .menuSep {
@@ -499,11 +416,22 @@ li {
   margin-bottom: 0;
 }
 
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .ctxMenuItem {
   line-height: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
+
 
 .ctxMenuItem:hover {
   background-color: #999999;
@@ -688,30 +616,6 @@ li {
   text-decoration: underline;
 }
 
-.toolTipItem:hover::before {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  min-height: 1em;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  width: 95%;
-  background: #333;
-  background: rgba(0,0,0,.8);
-  border-radius: 5px;
-  color: #fff;
-  content: attr(tooltiptext);
-  padding: 5px 5px;
-  line-height: 16px;
-  opacity: 0.9;
-  margin-top: 25px;
-  margin-left: 1%;
-}
-
-.toolTipItemVisibility:hover::before {
-  visibility: hidden;
-}
-
 /* new folder dialog */
 #newFolderDialog {
   position: absolute;
@@ -730,4 +634,54 @@ li {
 
 .show {
   display:block;
+}
+
+/* info view */
+#infoView {
+  position: absolute;
+  background-color: #f9f9f9;
+  left: 80px;
+  top: 200px;
+  font-size: 99%;
+  min-width: 160px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  padding: 0;
+  z-index: 1;
+}
+
+.infoTitle {
+  text-align: center;
+  font-weight: bold;
+  color: #4f4545;
+  background-color: #e4e4e4;
+}
+
+#infoViewInner {
+  padding: 10px 10px 10px 10px;
+}
+
+#infoViewTable {
+  table-layout: fixed;
+}
+#infoViewTable td:last-child {
+  width: 100%;
+}
+
+.infoLabel {
+  font-weight: bold;
+  color: #4f4545;
+}
+
+.infoField {
+  border: 1px inset #000000;
+  white-space: pre;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.infoButton {
+  font-size: 99%;
 }

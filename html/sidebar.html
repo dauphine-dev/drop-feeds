@@ -32,13 +32,13 @@
     <div id="main">
 
       <!-- Top menu -->
-      <div class="topMenu">
-        <span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
-        <span id="discoverFeedsButton" tooltiptext="Discover feeds" class="topMenuItem toolTip"></span>
-        <span id="onlyUpdatedFeedsButton" tooltiptext="View only updated feeds" class="topMenuItem toolTip"></span>
-        <span id="toggleFoldersButton" tooltiptext="Toggle folders (open/close)" class="topMenuItem toolTip"></span>
-        <span id="addFeedButton" tooltiptext="Add a new feed" class="topMenuItem toolTip"></span>
-        <span id="optionsMenuButton" tooltiptext="Open options tab" class="topMenuItem toolTip"></span>
+      <div id="topMenu" class="topMenu">
+        <span id="checkFeedsButton" title="#Check feeds" class="checkFeedsButton topMenuItem"></span>
+        <span id="discoverFeedsButton" title="#Discover feeds" class="topMenuItem"></span>
+        <span id="onlyUpdatedFeedsButton" title="#View only updated feeds" class="topMenuItem"></span>
+        <span id="toggleFoldersButton" title="#Toggle folders (open/close)" class="topMenuItem"></span>
+        <span id="addFeedButton" title="#Add a new feed" class="topMenuItem subscribeGo"></span>
+        <span id="optionsMenuButton" title="#Open options tab" class="topMenuItem"></span>
       </div>
 
       <!-- Status bar -->
@@ -67,11 +67,11 @@
 
         <!-- items pane tool bar -->
         <div id="itemsPaneToolBar">
-          <span id="itemMarkAsReadButton" tooltiptext="Mark as read" class="topMenuItem toolTip"></span>
-          <span id="itemMarkAsUnreadButton" tooltiptext="Mark as unread" class="topMenuItem toolTip"></span>
-          <span id="itemMarkAllAsReadButton" tooltiptext="Mark all as read" class="topMenuItem toolTip"></span>
-          <span id="itemMarkAllAsUnreadButton" tooltiptext="Mark all as unread" class="topMenuItem toolTip"></span>
-          <span id="itemOpenUnreadButton" tooltiptext="Open unread items in new tabs" class="topMenuItem toolTip"></span>
+          <span id="itemMarkAsReadButton" title="#Mark as read" class="topMenuItem"></span>
+          <span id="itemMarkAsUnreadButton" title="#Mark as unread" class="topMenuItem"></span>
+          <span id="itemMarkAllAsReadButton" title="#Mark all as read" class="topMenuItem"></span>
+          <span id="itemMarkAllAsUnreadButton" title="#Mark all as unread" class="topMenuItem"></span>
+          <span id="itemOpenUnreadButton" title="#Open unread items in new tabs" class="topMenuItem"></span>
         </div>
 
         <!-- selection bar items -->
@@ -95,6 +95,7 @@
           <li id="ctxFldMnSortByName" class="ctxMenuItem">#Sort by name</li>
           <li id="ctxFldMnNewFolder" class="ctxMenuItem">#New folder</li>
           <li id="ctxFldMnDeleteFolder" class="ctxMenuItem">#Delete</li>
+          <li id="ctxFldMnInfo" class="ctxMenuItem">#View folder info</li>
         </ul>
       </div>
 
@@ -110,6 +111,7 @@
           <li class="menuSep"></li>
           <li id="ctxFdMnNewFolder" class="ctxMenuItem">#New folder</li>
           <li id="ctxFdtMnDeleteFeed" class="ctxMenuItem">#Delete</li>
+          <li id="ctxFdMnInfo" class="ctxMenuItem">#View feed info</li>
         </ul>
       </div>
     </div>
@@ -135,6 +137,33 @@
       </table>
     </div>
 
+    <!-- Info view -->
+    <div id="infoView" class="hide">
+        <div class="infoTitle">Info</div>
+        <div id="infoViewInner">
+        <table id="infoViewTable">
+          <tr>
+            <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
+            <td><div id="infoIdField" class="infoField"></div></td>
+          </tr>
+          <tr>
+            <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
+            <td><input type="text" id="infoNameField" class="infoField" value=""></td>
+          </tr>
+          <tr>
+            <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
+            <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
+          </tr>
+        </table>
+        <p/>
+        <div class="atRight">
+            <button id="infoUpdateButton" class="infoButton">#Update</button>
+            <button id="infoCloseButton" class="infoButton">#Close</button>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+    <script src="/js/ui/sidebar/infoView.js"></script>
     <script src="/js/ui/sidebar/newFolderDialog.js"></script>
     <script src="/js/ui/sidebar/selectionBarItems.js"></script>
     <script src="/js/ui/sidebar/itemsMenu.js"></script>

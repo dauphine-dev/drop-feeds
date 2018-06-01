@@ -1,22 +1,19 @@
 {
-  "comment1": {
-    "message": "---Manifest strings---"
-  },
+  "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
-    "message": "サイドバーを開いてフォルダーツリーでRSSフィードを管理してください",
-    "description": "拡張機能の説明"
+    "message": "RSSフィードをサイドバーからフォルダツリーで管理します"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "Drop feedで購読",
-    "description": "Title of the page action."
+    "message": "RSS購読ページを表示"
   },
 
-
-  "comment2": {
-    "message": "---Sidebar strings---"
+  "manPageActionAdd": {
+    "message": "Drop feedで購読"
   },
+
+  "comment2": {"message": "------------------Sidebar strings------------------"},
 
   "sbCheckFeeds": {
     "message": "更新"
@@ -34,9 +31,14 @@
     "message": "全てのフォルダの開閉"
   },
 
-  "sbAddNewFeed": {
+  "sbSubscriptionGo": {
+    "message": "RSS購読ページを表示"
+  },
+
+  "sbSubscriptionAdd": {
     "message": "RSSを追加"
   },
+
 
   "sbOpenOptionsTab": {
     "message": "オプションを開く"
@@ -74,10 +76,16 @@
     "message": "更新されたページをまとめて開く"
   },
   "sbSortByName": {
-    "message": "名前から検索"
+    "message": "名前順に表示"
   },
   "sbNewFolder": {
     "message": "新しいフォルダ"
+  },
+  "sbDeleteFolder": {
+    "message": "消去"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
   },
 
   "sbGetFeedTitle": {
@@ -95,9 +103,12 @@
   "sbDeleteFeed": {
     "message": "消去"
   },
+  "sbFeedInfo": {
+    "message": "Info"
+  },
 
   "sbUseButtonAbove": {
-    "message": "To add a Feed use the button above !"
+    "message": "上のボタンでフィードを追加します"
   },
 
 
@@ -105,7 +116,7 @@
     "message": "更新中"
   },
 
-  "opening": {
+  "sbOpening": {
     "message": "開いています"
   },
 
@@ -122,17 +133,17 @@
   },
 
   "sbComputingUnifiedView": {
-    "message": "Computing unified view"
+    "message": "一覧を作成中"
   },
 
   "sbReceived": {
-    "message": "received"
+    "message": "受信しました"
   },
   "sbFeedsUpdated": {
-    "message": "個のフィードが更新されています"
+    "message": "件更新されています"
   },
   "sbOneFeedUpdated": {
-    "message": "一つ更新されています"
+    "message": "1件更新されています"
   },
   "sbNoFeedHasBeenUpdated": {
     "message": "更新はありません"
@@ -141,12 +152,10 @@
 
 
 
-  "comment3": {
-    "message": "---Subscribe strings---"
-  },
+  "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
-    "message": "Drop Feeds (subscribe)"
+    "message": "Drop Feeds (購読)"
   },
 
   "subSubscribeWithDropFeed": {
@@ -180,9 +189,7 @@
 
 
 
-  "comment4": {
-    "message": "---Discover strings---"
-  },
+  "comment4": {"message": "------------------Discover strings------------------"},
 
   "disDiscoverFeeds": {
     "message": "フィードを探す"
@@ -229,18 +236,16 @@
   },
 
   "disClose": {
-    "message": "Close"
+    "message": "閉じる"
   },
 
 
 
 
-  "comment5": {
-    "message": "---Options strings---"
-  },
+  "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
-    "message": "Drop Feeds (options)"
+    "message": "Drop Feeds (オプション)"
   },
 
   "optGeneral": {
@@ -360,7 +365,9 @@
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
-
+  "optReuseDropFeedsTab": {
+    "message": "Drop Feedsで開いたタブを使う"
+},
   "optImport": {
     "message": "インポート..."
   },
@@ -374,11 +381,33 @@
   },
 
 
-  "comment6": {
-    "message": "---Content script strings---"
-  },
+  "comment6": {"message": "------------------Content script strings------------------"},
 
   "csSubscribeWithDropFeeds": {
     "message": "Drop Feedsで購読"
+  },
+
+  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "stfSubscribeUsing": {
+    "message": "フィードリーダーを選択"
+  },
+  "stfSubscribeNow": {
+    "message": "購読する"
+  },
+  "comment8": {"message": "------------------Info view strings------------------"},
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "名前"
+  },
+  "sbInfoAddressLbl": {
+    "message": "アドレス"
+  },
+  "sbInfoUpdateButton": {
+    "message": "更新"
+  },
+  "sbInfoCloseButton": {
+    "message": "閉じる"
   }
 }

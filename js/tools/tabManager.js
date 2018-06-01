@@ -1,9 +1,10 @@
-/*global browser TopMenu BrowserManager*/
+/*global browser TopMenu BrowserManager subType Dialogs*/
 'use strict';
 class TabManager { /*exported TabManager*/
   static get instance() {
     if (!this._instance) {
       this._instance = new TabManager();
+      this._activeTabFeedLinkList = [];
     }
     return this._instance;
   }
@@ -12,6 +13,10 @@ class TabManager { /*exported TabManager*/
     browser.tabs.onActivated.addListener(TabManager._tabOnActivated_event);
     browser.tabs.onUpdated.addListener(TabManager._tabOnUpdated_event);
     this._forceTabOnChanged_async();
+  }
+
+  get activeTabFeedLinkList() {
+    return this._activeTabFeedLinkList;
   }
 
   static async _tabOnActivated_event(activeInfo) {
@@ -26,19 +31,50 @@ class TabManager { /*exported TabManager*/
     }
     else {
       TopMenu.instance.discoverFeedsButtonEnabled = false;
-      TopMenu.instance.addFeedButtonEnable = false;
+      TopMenu.instance.setFeedButton(false, subType.go);
     }
   }
 
   async _tabHasChanged_async(tabInfo) {
-    TopMenu.instance.discoverFeedsButtonEnabled = (tabInfo.status == 'complete');
+    this._activeTabFeedLinkList = [];
+    let self = TabManager.instance;
+    let enabled = (tabInfo.status == 'complete' && !tabInfo.url.startsWith('about:'));
+    TopMenu.instance.discoverFeedsButtonEnabled = enabled;
+    TopMenu.instance.setFeedButton(false, subType.go);
     if (tabInfo.status == 'complete') {
-      let activeTabHasFeeds = ((await BrowserManager.getActiveTabFeedLinkList_async()).length > 0);
+      this._activeTabFeedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
-      let subscriptionEnabled = activeTabHasFeeds || activeTabIsFeed;
-      TopMenu.instance.addFeedButtonEnable = subscriptionEnabled;
-      BrowserManager.showPageAction(tabInfo, subscriptionEnabled);
+      if (this._activeTabFeedLinkList.length > 0) {
+        self._subscriptionGoEnabled(tabInfo);
+      }
+      else if (activeTabIsFeed) {
+        self._subscriptionAddEnabled_async(tabInfo);
+      }
+      else {
+        self._subscriptionDisabled(tabInfo);
+      }
     }
+    else {
+      self._subscriptionDisabled(tabInfo);
+    }
+  }
+
+  _subscriptionGoEnabled(tabInfo) {
+    TopMenu.instance.setFeedButton(true, subType.go);
+    BrowserManager.showPageAction(tabInfo, true, subType.go);
+    browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.feedListUrl});
+  }
+
+  async _subscriptionAddEnabled_async(tabInfo) {
+    TopMenu.instance.setFeedButton(true, subType.add);
+    BrowserManager.showPageAction(tabInfo, true, subType.add);
+    await browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.subscribeButtonUrl});
+    //browser.pageAction.openPopup();
+  }
+
+  _subscriptionDisabled(tabInfo) {
+    TopMenu.instance.setFeedButton(false, subType.go);
+    BrowserManager.showPageAction(tabInfo, false, subType.go);
   }
 
   async _forceTabOnChanged_async() {

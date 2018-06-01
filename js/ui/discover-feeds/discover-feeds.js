@@ -1,4 +1,4 @@
-/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs*/
+/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs CssManager*/
 'use strict';
 class DiscoverFeeds {
   static get instance() {
@@ -42,7 +42,7 @@ class DiscoverFeeds {
 
   set addFeedButtonEnabled(value) {
     this._addFeedButtonEnabled = value;
-    document.getElementById('addFeedButton').style.opacity = (value ? '1' : '0.2');
+    CssManager.setElementEnableById('addFeedButton', value);
   }
 
   _updateLocalizedStrings() {

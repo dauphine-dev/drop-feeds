@@ -110,11 +110,11 @@ class FeedParser { /*exported FeedParser*/
     return titleHtml;
   }
 
-  static async parseItemListToHtml_async(itemList) {
+  static async parseItemListToHtml_async(itemList, tooltipsVisible) {
     let htmlItemList = [];
     itemList = ItemSorter.instance.sort(itemList);
     for (let i=0; i<itemList.length; i++) {
-      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1);
+      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i+1, tooltipsVisible);
       htmlItemList.push(htmlItem);
     }
     let itemsHtml = htmlItemList.join('\n');
@@ -159,19 +159,22 @@ class FeedParser { /*exported FeedParser*/
   static _getFeedFormat(tagItem, feedText) {
     if (!tagItem || !feedText) { return null; }
     let feedType = '';
-    let version = '';
+    let version = null;
     switch (tagItem.toLowerCase()) {
       case 'item':
         feedType = 'RSS';
-        version = ' ' + FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
+        version = FeedParser._extractAttribute(feedText, tagList.RSS, tagList.ATT_RSS_VERSION);
         break;
       case 'entry':
         feedType = 'ATOM';
         version = '';
         break;
     }
-    return feedType + version;
-
+    let feedFormat = feedType;
+    if (version) {
+      feedFormat += ' ' + version;
+    }
+    return feedFormat;
   }
 
   static _feedInfoToHtml(feedInfo) {
@@ -260,11 +263,10 @@ class FeedParser { /*exported FeedParser*/
       if (valueEnd==-1) { continue; }
 
       let result = text.substring(valueStart + 1, valueEnd).trim();
-      if(result.startsWith('<![CDATA[')) {
-        result = result.replace('<![CDATA[', '');
-        if (result.endsWith(']]>')) {
-          result = result.slice(0, -3);
-        }
+      if(result.includes('<![CDATA[')) {
+        result = TextTools.replaceAll(result, '<![CDATA[', '');
+        result = TextTools.replaceAll(result, ']]>', '');
+        //result = '<![CDATA[' + result.trim() + ']]>';
         result = result.trim();
       }
       out_endIndex_optional[0] = valueEnd + tagEnd.length;
@@ -338,7 +340,7 @@ class FeedParser { /*exported FeedParser*/
   static _getHtmlHead(channel) {
     let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
     let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
-    let encoding = channel.encoding ? channel.encoding : 'UTF-8';
+    let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead                      += '<html>\n';
     htmlHead                      += '  <head>\n';
@@ -368,10 +370,7 @@ class FeedParser { /*exported FeedParser*/
       let itemIdRaw = FeedParser._getItemId(itemText);
       item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
-      item.link = FeedParser._extractValue(itemText, tagList.LINK);
-      if (! item.link) {
-        item.link = FeedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
-      }
+      item.link = FeedParser._getItemLink(itemText);
       item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
       item.description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
@@ -386,6 +385,28 @@ class FeedParser { /*exported FeedParser*/
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
     return itemList;
+  }
+
+  static _getItemLink(itemText) {
+    let itemLink = FeedParser._extractValue(itemText, tagList.LINK);
+    if (! itemLink) {
+      let inputIndex = 0;
+      let outputIndex = {value:0};
+      let i = 0;
+      while (outputIndex.value != -1 && !itemLink && i++ < 100) {
+        inputIndex = outputIndex.value;
+        let link = TextTools.getOuterTextEx(itemText, '<' + tagList.LINK, '/>',inputIndex, outputIndex, false);
+        if (link) {
+          if (link.includes('type="text/html"')) {
+            itemLink = FeedParser._extractAttribute(link, tagList.LINK, tagList.ATT_LINK);
+          }
+        }
+      }
+      if (!itemLink) {
+        itemLink = FeedParser._extractAttribute(itemText, tagList.LINK, tagList.ATT_LINK);
+      }
+    }
+    return itemLink;
   }
 
   static _getEncoding(text) {
@@ -495,17 +516,15 @@ class FeedParser { /*exported FeedParser*/
     return htmlItem;
   }
 
-  static async _getHtmlItemLine_async(item, itemNumber) {
+  static async _getHtmlItemLine_async(item, itemNumber, tooltipsVisible) {
     //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
     let title = item.title;
     if (!title) { title = '(No Title)'; }
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
     let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
-
-    //<span id="checkFeedsButton" tooltiptext="Check feeds" class="checkFeedsButton topMenuItem toolTip"></span>
-    let tooltiptext = BrowserManager.htmlToText(item.description);
-    let htmlItemLine ='<span class="item' + visited + ' toolTipItem toolTipItemVisibility" tooltiptext="' + tooltiptext +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+    let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(item.description) + '"';
+    let htmlItemLine ='<span class="item' + visited + '" ' + tooltip +  '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
 
     return htmlItemLine;
   }
@@ -526,12 +545,21 @@ class FeedParser { /*exported FeedParser*/
 
   static _fixDescriptionTags(text) {
     if (!text.includes('<')) { return text; }
+
     let lastTtPos = text.lastIndexOf('<');
     let lastGtPos = text.lastIndexOf('>');
     if (lastTtPos > lastGtPos) {
       text = text.concat('>');
     }
+
+    let divOpenCount1 = TextTools.occurrences(text, '<div>');
+    let divOpenCount2 = TextTools.occurrences(text, '<div ');
+    let divOpenCount = divOpenCount1 + divOpenCount2;
+    let divCloseCount = TextTools.occurrences(text, '</div>');
+    let diff = divOpenCount - divCloseCount;
+    if (diff > 0) {
+      text += '</div>'.repeat(diff);
+    }
     return text;
   }
-
 }

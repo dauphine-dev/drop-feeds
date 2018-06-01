@@ -1,6 +1,6 @@
 #!/bin/bash
 BRANCH=${PWD##*/}
-mkdir ../_ext/  >/dev/null
+mkdir ../_ext/ > /dev/null 2>&1
 cd ../_ext/
 rm -rf $BRANCH/
 cp -fr ../$BRANCH $BRANCH/
@@ -17,3 +17,4 @@ zip -r ../$BRANCH.zip * >/dev/null
 cd ..
 cp -fr $BRANCH.zip drop-feeds.zip
 cd ../$BRANCH/
+echo "Extension created"

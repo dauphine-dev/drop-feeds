@@ -1,4 +1,4 @@
-/*global browser TreeView*/
+/*global browser */
 'use strict';
 class NewFolderDialog { /*exported NewFolderDialog*/
   static get instance() {
@@ -86,7 +86,6 @@ class NewFolderDialog { /*exported NewFolderDialog*/
         index = bookmarks[0].index + 1;
       }
       await browser.bookmarks.create({parentId: folderId, title: folderName, index: index});
-      await TreeView.instance.reload_async();
     }
     catch(e) {
       /* eslint-disable no-console */

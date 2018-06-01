@@ -1,4 +1,4 @@
-/*global BrowserManager LocalStorageManager Dialogs*/
+/*global browser BrowserManager LocalStorageManager Dialogs*/
 'use strict';
 class FeedList {
   static get instance() {
@@ -8,15 +8,23 @@ class FeedList {
     return this._instance;
   }
 
+  constructor() {
+    this._activeTabIsFeed = null;
+  }
+
   async init_async() {
     let feedLinkList = [];
-    let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
-    if (activeTabIsFeed) {
+    this._activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
+    if (this._activeTabIsFeed) {
       let tabInfo = await BrowserManager.getActiveTab_async();
       feedLinkList.push({title: tabInfo.title, link:tabInfo.url});
     }
     else {
       feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
+      if(feedLinkList.length == 1) {
+        await browser.tabs.create({url: feedLinkList[0].link, active: true});
+        return;
+      }
     }
     let html = this._feedLinkInfoListToHtm(feedLinkList);
     BrowserManager.setInnerHtmlById('tableContent', html);
@@ -43,10 +51,15 @@ class FeedList {
   }
 
   static async _tableRawOnClick_event(event) {
-    let feedTitle = event.target.parentNode.cells[0].innerHTML;
     let feedUrl = event.target.parentNode.cells[1].innerHTML;
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: feedTitle, feedUrl: feedUrl});
-    await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+    if (FeedList.instance._activeTabIsFeed) {
+      let feedTitle = event.target.parentNode.cells[0].innerHTML;
+      await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: feedTitle, feedUrl: feedUrl});
+      await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+    }
+    else {
+      await browser.tabs.create({url: feedUrl, active: true});
+    }
   }
 }
 

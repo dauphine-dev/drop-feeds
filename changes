@@ -1,3 +1,42 @@
+0.7.11
+Fix wrong 'div'  close tag count in description (avoids items in items)
+
+0.7.10
+Display tooltip by set description in 'title' attribute
+
+0.7.9
+Allow an about:home tab to be considered "empty" (by Jeff Thieleke)
+Fix for non UTF-8 encoded feeds (by Jeff Thieleke)
+
+0.7.8
+Add Info context menu
+Memorize and restore last items position
+"Reuse Drop Feeds tab" use active empty tab (from Jeff Thieleke)
+Update of the Japanese translation (from takepon1)
+Fix feed format in the discovering feeds view
+Fix context menu text alignment
+Fix subscribe window size
+Fix restore last tab option when tab item was was opened
+Fix items sort order
+Fix article item title extraction (this fix prevents multiple items tab opening)
+
+0.7.7
+Mouse middle-click opens items in a background new tab
+Fix discovering feeds view
+
+0.7.6
+Adding Drag and drop feature
+Fix duplicated treeview
+Improve feeds subscription
+Fix unified feeds view
+Fix possible infinite loop in extraction of ATOM typed links
+
+0.7.5
+Fix extraction of ATOM typed links
+Adding reuse Drop Feeds Tab option (from Jeff Thieleke)
+Fix for Japanese language (from takepon1)
+Refactoring enabled/disabled elements management
+
 0.7.4
 Adding Japanese language (from takepon1)
 

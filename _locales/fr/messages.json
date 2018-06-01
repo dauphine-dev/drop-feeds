@@ -1,22 +1,24 @@
 {
-  "comment1": {
-    "message": "---Manifest strings---"
-  },
+  "comment1": {"message": "------------------Manifest strings------------------"},
 
   "manExtensionDescription": {
-    "message": "Affiche une arborescence dans une barre latérale vous permettant de gérer vos flux RSS",
-    "description": "Description of the extension."
+    "message": "Affiche une arborescence dans une barre latérale vous permettant de gérer vos flux RSS"
   },
 
   "manPageActionDefaultTitle": {
-    "message": "S'abonner avec Drop feed",
-    "description": "Title of the page action."
+    "message": "Aller sur la page d'abonnement"
+  },
+
+  "manPageActionGo": {
+    "message": "Aller sur la page d'abonnement"
+  },
+
+  "manPageActionAdd": {
+    "message": "S'abonner avec Drop feed"
   },
 
 
-  "comment2": {
-    "message": "---Sidebar strings---"
-  },
+  "comment2": {"message": "------------------Sidebar strings------------------"},
 
   "sbCheckFeeds": {
     "message": "Vérifier les flux"
@@ -34,7 +36,11 @@
     "message": "Basculer les dossiers (ouvert/fermé)"
   },
 
-  "sbAddNewFeed": {
+  "sbSubscriptionGo": {
+    "message": "Aller sur la page d'abonnement"
+  },
+
+  "sbSubscriptionAdd": {
     "message": "S'abonner"
   },
 
@@ -79,6 +85,12 @@
   "sbNewFolder": {
     "message": "Nouveau dossier"
   },
+  "sbDeleteFolder": {
+    "message": "Supprimer"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
 
   "sbGetFeedTitle": {
     "message": "Mettre à jour le titre"
@@ -95,6 +107,9 @@
   "sbDeleteFeed": {
     "message": "Supprimer"
   },
+  "sbFeedInfo": {
+    "message": "Info"
+  },
 
   "sbUseButtonAbove": {
     "message": "Pour ajouter un nouveau flux, utilisez le button situé plus haut !"
@@ -104,8 +119,8 @@
     "message": "vérifie"
   },
 
-  "opening": {
-    "message": "ouvrer"
+  "sbOpening": {
+    "message": "ouvre"
   },
 
   "sbLoading": {
@@ -140,9 +155,7 @@
 
 
 
-  "comment3": {
-    "message": "---Subscribe strings---"
-  },
+  "comment3": {"message": "------------------Subscribe strings------------------"},
 
   "subDropFeedsSubscribe": {
     "message": "Drop Feeds (s'abonner)"
@@ -179,9 +192,7 @@
 
 
 
-  "comment4": {
-    "message": "---Discover strings---"
-  },
+  "comment4": {"message": "------------------Discover strings------------------"},
 
   "disDiscoverFeeds": {
     "message": "Découverte de flux"
@@ -234,9 +245,7 @@
 
 
 
-  "comment5": {
-    "message": "---Options strings---"
-  },
+  "comment5": {"message": "------------------Options strings------------------"},
 
   "optDropFeedsOptions": {
     "message": "Drop Feeds (options)"
@@ -357,7 +366,7 @@
     "message": "Ouvrir les nouveaux onglets en avant plan"
   },
   "optReuseDropFeedsTab": {
-    "message": "Reuse Drop Feeds tab"
+    "message": "Toujours utiliser le même onglet pour ouvrir les flux"
   },
 
   "optSelectOpmlFileToImport": {
@@ -377,9 +386,7 @@
   },
 
 
-  "comment6": {
-    "message": "---Content script strings---"
-  },
+  "comment6": {"message": "------------------Content script strings------------------"},
 
   "csSubscribeWithDropFeeds": {
     "message": "S'abonner avec Drop Feeds"
@@ -405,6 +412,32 @@
   },
   "ff56Text7": {
     "message": "cliquez ici pour fermer"
+  },
+
+
+  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "stfSubscribeUsing": {
+    "message": "S’abonner à ce flux en utilisant"
+  },
+  "stfSubscribeNow": {
+    "message": "S’abonner maintenant"
+  },
+
+  "comment8": {"message": "------------------Info view strings------------------"},
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Nom"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Adresse"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Appliquer"
+  },
+  "sbInfoCloseButton": {
+    "message": "Fermer"
   }
 
 }
