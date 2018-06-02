@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_any/css/scripts.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <script src="/js/tools/browserManager.js"></script>
+  <title>Drop Feeds - Code editor</title>
+</head>
+
+<body>
+  <div id="mainScreen">
+    <div id="leftBox">
+      <div id="logoBox">
+        <span id="logoImg"></span>
+        <p/>
+        <span id="logoName">Drop Feeds</span>
+        <div class="titleBox">
+          <span id="titlePage">Script manager</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="rightBox">
+      <div style="position: unset;">
+        <!-- --------------- Script manager ----------------- -->
+        <div id="scriptManager" style="display: block;">
+          <div class="topMenu">
+            <span id="createNewScript" class="topButton" title="#Create a new script"></span>
+          </div>
+
+          <div id="scriptList">
+
+            <div id="scriptId1" class="scriptEntry">
+              <div class="logo"></div>
+              <div class="scriptLeftBlock">
+                <div class="scriptName">scriptName1</div>
+                <div class="scriptButtons">
+                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
+                  <span class="scriptButton enableScriptButton" title="#Enable/disable script"></span>
+                  <span class="scriptButton infoScriptButton" title="..."></span>
+                </div>
+              </div>
+              <div class="scriptRightBlock">
+                <div class="lastEdit">1 min</div>
+                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
+              </div>
+            </div>
+
+            <div id="scriptId2" class="scriptEntry">
+              <span class="logo"></span>
+              <div class="scriptLeftBlock">
+                <div class="scriptName">scriptName2</div>
+                <div class="scriptButtons">
+                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
+                  <span class="scriptButton enableScriptButton" title="#Enable/disable script"></span>
+                  <span class="scriptButton infoScriptButton" title="..."></span>
+                </div>
+              </div>
+              <div class="scriptRightBlock">
+                <div class="lastEdit">1 min</div>
+                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
+              </div>
+            </div>
+
+            <div id="scriptId3" class="scriptEntry">
+              <span class="logo"></span>
+              <div class="scriptLeftBlock">
+                <div class="scriptName">scriptName3</div>
+                <div class="scriptButtons">
+                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
+                  <span class="scriptButton enableScriptButton" title="#Enable/disable script"></span>
+                  <span class="scriptButton infoScriptButton" title="..."></span>
+                </div>
+              </div>
+              <div class="scriptRightBlock">
+                <div class="lastEdit">1 min</div>
+                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- --------------- Script editor ----------------- -->
+        <div id="scriptEditor" style="display:none;">
+          <div class="topMenu">
+            <span id="id1" class="topButton" title="#button1"></span>
+          </div>
+          <div class="editorBox">
+            <textarea id="textArea">
+//Type your javascript code here
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="/js/ui/scripts/scripts.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+body {
+	margin: 0;
+	color: #000000;
+	font-family: monospace;
+	background-color: #FFFFFF;
+	/*font-size: small;*/
+	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
+}
+
+#leftBox {
+	border: 1px solid #6f6f6f;
+	background-color: #fafafa;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200px;
+	bottom: 0;
+}
+
+#logoBox {
+	position: relative;
+	top: 50px;
+	left: 0;
+  margin: 5px;
+  display: block;
+}
+
+#logoImg::before {
+  background-image: url(/themes/_any/img/drop-feeds-96.png);
+  background-size: 96px 96px;
+  width: 96px;
+  height: 96px;
+  content: "";
+  display: block;
+	margin-left:auto; margin-right:0;
+}
+
+#logoName {
+	font-size: x-large;
+	font-weight: bold;
+	margin-left:auto; margin-right:0;
+	display: block;
+	text-align: right;
+}
+
+.titleBox {
+	border-top: 1px solid gray;
+	float: right;
+}
+
+
+
+#rightBox {
+	border: 2px solid #6f6f6f;
+	position: absolute;
+	top: 0;
+	left: 200px;
+	bottom: 0;
+	right: 0;
+}
+
+/* --------------- Script manager ----------------- */
+.topMenu {
+	border: 1px solid #6f6f6f;
+	top: 0;
+	padding-top: 10px;
+	padding-left: 12px;
+	height: 40px;
+}
+
+.topButton::before {
+	background-size: 16px 16px;
+	background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+	vertical-align: middle;
+	margin: 5px;
+}
+
+.topButton {
+  display: inline-block;
+  border: 1px outset #00000000;
+  border-radius: 4px;
+}
+
+.topButton:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+
+#createNewScript::before {
+  background-image: url(/themes/_any/img/scripts-new.png);
+}
+
+#scriptList {
+	position: relative;
+	margin-top: 10px;
+}
+
+.scriptEntry {
+	background-color: #fefefe;
+	position: relative;
+  border: 1px outset #707070;
+	border-radius: 4px;
+	margin: 10px;
+	height: 64px;
+	vertical-align: center;
+}
+
+.logo::before {
+	position: relative;
+  background-image: url(/themes/_any/img/drop-feeds-32.png);
+	background-size: 32px 32px;
+  width: 32px;
+  height: 32px;
+  content: "";
+	display: block;
+	float: left;
+	top: 16px;
+	margin:0;
+}
+
+.scriptLeftBlock {
+	position: relative;
+	float: left;
+	top:0;
+	margin-left:5px;
+	width:auto;
+	height: 100%;
+}
+
+.scriptRightBlock {
+	position: relative;
+	float: right;
+	top:0;
+	width:100px;
+	height: 100%;
+	text-align: right;
+}
+
+.scriptName {
+	margin-top: 10px;
+}
+
+.lastEdit {
+	margin-top: 10px;
+}
+
+.scriptButton::before {
+  background-size: 16px 16px;
+  width: 16px;
+	height: 16px;
+	margin: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.scriptButton {
+  display: inline-block;
+	margin: 3px;
+  border: 1px outset #00000000;
+  border-radius: 4px;
+}
+
+.scriptButton:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+
+.editScriptButton::before {
+  background-image: url(/themes/_any/img/scripts-edit.png);
+}
+
+.enableScriptButton::before {
+  background-image: url(/themes/_any/img/scripts-enabled.png);
+}
+
+.disableScriptButton::before {
+  background-image: url(/themes/_any/img/scripts-disabled.png);
+}
+
+.infoScriptButton::before {
+  background-image: url(/themes/_any/img/scripts-info.png);
+}
+
+.deleteScriptButton::before {
+  background-image: url(/themes/_any/img/scripts-delete.png);
+}
+
+/* --------------- Script editor ----------------- */
+#scriptEditor {
+	position: absolute;
+	/*object-fit: cover;*/
+	margin: 10px;
+	top: 0; right: 0; left: 0;bottom: 0;
+}
+
+.editorBox {
+	position: absolute;
+	margin-top: 60px;
+	top: 0; right: 0; left: 0;bottom: 0;
+}
+
+#textArea {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}

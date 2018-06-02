@@ -10,11 +10,10 @@ class ThemeManager { /*exported ThemeManager*/
 
   constructor() {
     this._themeFolderName = DefaultValues.themeFolderName;
-    this._themeBaseFolderUrl = '/resources/themes/';
-    this._themesListUrl = '/resources/themes/themes.list';
-    this._iconNoneUrl = '/resources/img/none.png';
-    this._iconDF32Url = '/resources/img/drop-feeds-32.png';
-    this._iconDF96Url = '/resources/img/drop-feeds-96.png';
+    this._themeBaseFolderUrl = '/themes/';
+    this._themesListUrl = '/themes/themes.list';
+    this._iconDF32Url = '/themes/_any/img/drop-feeds-32.png';
+    this._iconDF96Url = '/themes/_any/img/drop-feeds-96.png';
   }
 
   async init_async() {
@@ -63,11 +62,6 @@ class ThemeManager { /*exported ThemeManager*/
     await this.reload_async();
     this.applyCssToCurrentDocument(cssName);
   }
-
-  get iconNoneUrl() {
-    return this._iconNoneUrl;
-  }
-
 
   get iconDF32Url() {
     return this._iconDF32Url;

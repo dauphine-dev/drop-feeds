@@ -5,7 +5,7 @@ cd ../_ext/
 rm -rf $BRANCH/
 cp -fr ../$BRANCH $BRANCH/
 cd ./$BRANCH/
-rm -rf resources/resources-src/
+rm -rf themes-src/
 rm -rf dropfeeds.code-workspace
 rm -rf README.md
 rm -rf makeExt.sh

@@ -1,4 +1,4 @@
-/*global browser TabGeneral TabUpdateChecker TabContentArea TabManagement TabView TabItems LocalStorageManager DefaultValues*/
+/*global browser TabGeneral TabUpdateChecker TabContentArea TabManagement TabView TabItems LocalStorageManager DefaultValues TabScripts*/
 'use strict';
 class TabControl { /*exported TabControl*/
 
@@ -11,8 +11,8 @@ class TabControl { /*exported TabControl*/
     TabManagement.init();
     TabView.init_async();
     TabItems.init_async();
+    TabScripts.init();
     TabControl._openLastTab_async();
-
   }
 
   static _updateLocalizedStrings() {
@@ -22,6 +22,7 @@ class TabControl { /*exported TabControl*/
     document.getElementById('viewTabButton').textContent = browser.i18n.getMessage('optView');
     document.getElementById('contentsAreaTabButton').textContent = browser.i18n.getMessage('optContentsArea');
     document.getElementById('managementTabButton').textContent = browser.i18n.getMessage('optManagement');
+    //document.getElementById('scriptsTabButton').textContent = browser.i18n.getMessage('optScripts');
   }
 
   static async _openLastTab_async() {
