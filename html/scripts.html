@@ -24,7 +24,7 @@
 
     <div id="rightBox">
       <div style="position: unset;">
-        <!-- --------------- Script manager ----------------- -->
+        <!-- - - - - - Script manager - - - - - -->
         <div id="scriptManager" style="display: block;">
           <div class="topMenu">
             <span id="createNewScript" class="topButton" title="#Create a new script"></span>
@@ -32,7 +32,8 @@
 
           <div id="scriptList">
 
-            <div id="scriptId1" class="scriptEntry">
+            <!-- scriptTemplate -->
+            <div id="scriptTemplate" class="scriptEntry" style="display: none;">
               <div class="logo"></div>
               <div class="scriptLeftBlock">
                 <div class="scriptName">scriptName1</div>
@@ -43,49 +44,19 @@
                 </div>
               </div>
               <div class="scriptRightBlock">
-                <div class="lastEdit">1 min</div>
+                <div created="" class="lastEdit">0 min</div>
                 <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
               </div>
             </div>
 
-            <div id="scriptId2" class="scriptEntry">
-              <span class="logo"></span>
-              <div class="scriptLeftBlock">
-                <div class="scriptName">scriptName2</div>
-                <div class="scriptButtons">
-                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
-                  <span class="scriptButton enableScriptButton" title="#Enable/disable script"></span>
-                  <span class="scriptButton infoScriptButton" title="..."></span>
-                </div>
-              </div>
-              <div class="scriptRightBlock">
-                <div class="lastEdit">1 min</div>
-                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
-              </div>
-            </div>
-
-            <div id="scriptId3" class="scriptEntry">
-              <span class="logo"></span>
-              <div class="scriptLeftBlock">
-                <div class="scriptName">scriptName3</div>
-                <div class="scriptButtons">
-                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
-                  <span class="scriptButton enableScriptButton" title="#Enable/disable script"></span>
-                  <span class="scriptButton infoScriptButton" title="..."></span>
-                </div>
-              </div>
-              <div class="scriptRightBlock">
-                <div class="lastEdit">1 min</div>
-                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- --------------- Script editor ----------------- -->
+        <!-- - - - - - Script editor - - - - - -->
         <div id="scriptEditor" style="display:none;">
           <div class="topMenu">
-            <span id="id1" class="topButton" title="#button1"></span>
+            <span id="saveButton" class="topButton" title="#Save"></span>
+            <span id="closeButton" class="topButton" title="#Close"></span>
           </div>
           <div class="editorBox">
             <textarea id="textArea">
@@ -97,7 +68,8 @@
     </div>
   </div>
 
-
+  <script src="/js/ui/scripts/scriptsEditor.js"></script>
+  <script src="/js/ui/scripts/scriptsManager.js"></script>
   <script src="/js/ui/scripts/scripts.js"></script>
 </body>
 
