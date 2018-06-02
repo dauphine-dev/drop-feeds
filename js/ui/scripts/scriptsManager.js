@@ -1,4 +1,4 @@
-/*global ScriptsEditor*/
+/*global ScriptsEditor LocalStorageManager*/
 class ScriptsManager { /* exported ScriptsManager */
   static get instance() {
     if (!this._instance) {
@@ -8,16 +8,26 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   constructor() {
+    this._scriptList = [];
     document.getElementById('createNewScript').addEventListener('click', ScriptsManager._createNewScriptClicked_event);
   }
 
   async init_async() {
+    this._loadScriptList_async();
+    this.display();
   }
 
   display() {
     document.getElementById('scriptEditor').style.display = 'none';
     document.getElementById('scriptManager').style.display = 'block';
     document.getElementById('titlePage').textContent = 'Script manager';
+  }
+
+  async _loadScriptList_async() {
+    this._scriptList = await LocalStorageManager.getValue_async('scriptList');
+    for(let scriptId of this._scriptList) {
+      ScriptsManager._createScriptHtmlNode(scriptId);
+    }
   }
 
   static _createScriptHtmlNode(scriptId) {
@@ -27,32 +37,24 @@ class ScriptsManager { /* exported ScriptsManager */
     newScriptNode.querySelector('.scriptName').textContent = 'script ' + scriptId;
     newScriptNode.querySelector('.lastEdit').setAttribute('created', Date.now());
     document.getElementById('scriptList').appendChild(newScriptNode);
-    return newScriptNode;
-  }
-
-  static _scriptId() {
-    //Fake id for the develop time. The real Id will come from storage API (I guess)
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    //return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    return s4();
-  }
-
-  static async _createNewScriptClicked_event() {
-    let scriptId = ScriptsManager._scriptId();
-    let newScriptNode = ScriptsManager._createScriptHtmlNode(scriptId);
     newScriptNode.querySelector('.editScriptButton').addEventListener('click', ScriptsManager._editScriptButtonClicked_event);
     newScriptNode.querySelector('.enableScriptButton').addEventListener('click', ScriptsManager._enableScriptButtonClicked_event);
     newScriptNode.querySelector('.infoScriptButton').addEventListener('click', ScriptsManager._infoScriptButtonClicked_event);
     newScriptNode.querySelector('.deleteScriptButton').addEventListener('click', ScriptsManager._deleteScriptButtonClicked_event);
+    return newScriptNode;
   }
 
+  static async _createNewScriptClicked_event() {
+    let self = ScriptsManager.instance;
+    let scriptId = document.querySelectorAll('.scriptEntry').length;
+    self._scriptList.push(scriptId);
+    await LocalStorageManager.setValue_async('scriptList', self._scriptList);
+    ScriptsManager._createScriptHtmlNode(scriptId);
+  }
 
-  static async _editScriptButtonClicked_event() {
-    ScriptsEditor.instance.display();
+  static async _editScriptButtonClicked_event(event) {
+    let scriptId = event.target.parentNode.parentNode.parentNode.getAttribute('id');
+    ScriptsEditor.instance.display_async(scriptId);
   }
 
   static async _enableScriptButtonClicked_event() {
