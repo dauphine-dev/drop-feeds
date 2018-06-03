@@ -1,4 +1,4 @@
-/*global browser BrowserManager ScriptsEditor LocalStorageManager*/
+/*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager*/
 const _scriptObjKey = 'scriptObj-';
 const _scriptListKey = 'scriptList';
 const _scriptType = {
@@ -55,39 +55,39 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   static _createScriptHtmlNode(scriptObj) {
-    let newScriptNode =  document.getElementById('scriptTemplate').cloneNode(true);
-    newScriptNode.setAttribute('id', scriptObj.id);
-    newScriptNode.style.display = 'block';
-    newScriptNode.querySelector('.scriptName').textContent = scriptObj.name;
-    ScriptsManager._setEnDisScriptButtonClass(newScriptNode.querySelector('.enDisScriptButton'), scriptObj.enabled);
-    newScriptNode.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
-    newScriptNode.querySelector('.lastEdit').textContent = ScriptsManager._getDateDiff(Date.now(), scriptObj.lastEdit);
-    newScriptNode.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
+    let newScriptEntry =  document.getElementById('scriptTemplate').cloneNode(true);
+    newScriptEntry.setAttribute('id', scriptObj.id);
+    newScriptEntry.style.display = 'block';
+    newScriptEntry.querySelector('.scriptName').textContent = scriptObj.name;
+    ScriptsManager._setEnDisScriptButtonClass(newScriptEntry, scriptObj.enabled);
+    newScriptEntry.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
+    newScriptEntry.querySelector('.lastEdit').textContent = DateTime.getDateDiff(Date.now(), scriptObj.lastEdit);
+    newScriptEntry.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
 
-    document.getElementById('scriptList').appendChild(newScriptNode);
+    document.getElementById('scriptList').appendChild(newScriptEntry);
 
-    newScriptNode.querySelector('.scriptName').addEventListener('keydown', ScriptsManager._scriptNameDivKeydown_event);
-    newScriptNode.querySelector('.scriptName').addEventListener('focus', ScriptsManager._scriptNameDivFocus_event);
-    newScriptNode.querySelector('.scriptName').addEventListener('blur', ScriptsManager._scriptNameDivBlur_event);
-    newScriptNode.querySelector('.editScriptButton').addEventListener('click', ScriptsManager._editScriptButtonClicked_event);
-    newScriptNode.querySelector('.enDisScriptButton').addEventListener('click', ScriptsManager._enDisScriptButtonClicked_event);
-    newScriptNode.querySelector('.scriptTypeSelect').addEventListener('change', ScriptsManager._scriptTypeChanged_event);
-    newScriptNode.querySelector('.deleteScriptButton').addEventListener('click', ScriptsManager._deleteScriptButtonClicked_event);
-    return newScriptNode;
+    newScriptEntry.querySelector('.scriptName').addEventListener('keydown', ScriptsManager._scriptNameDivKeydown_event);
+    newScriptEntry.querySelector('.scriptName').addEventListener('focus', ScriptsManager._scriptNameDivFocus_event);
+    newScriptEntry.querySelector('.scriptName').addEventListener('blur', ScriptsManager._scriptNameDivBlur_event);
+    newScriptEntry.querySelector('.editScriptButton').addEventListener('click', ScriptsManager._editScriptButtonClicked_event);
+    newScriptEntry.querySelector('.enDisScriptButton').addEventListener('click', ScriptsManager._enDisScriptButtonClicked_event);
+    newScriptEntry.querySelector('.scriptTypeSelect').addEventListener('change', ScriptsManager._scriptTypeChanged_event);
+    newScriptEntry.querySelector('.deleteScriptButton').addEventListener('click', ScriptsManager._deleteScriptButtonClicked_event);
+    return newScriptEntry;
   }
 
-  static _getDateDiff(date1, date2) {
-    return Math.round((date1 - date2) / 1000 / 60) + ' min.';
-  }
-
-  static _setEnDisScriptButtonClass(enDisScriptButton, isEnabled) {
+  static _setEnDisScriptButtonClass(scriptEntry, isEnabled) {
+    let enDisScriptButton = scriptEntry.querySelector('.enDisScriptButton');
     if (isEnabled) {
+      CssManager.enableElement(scriptEntry);
       enDisScriptButton.classList.remove('disabledScriptButton');
       enDisScriptButton.classList.add('enabledScriptButton');
     }
     else {
+      CssManager.disableElement(scriptEntry);
       enDisScriptButton.classList.remove('enabledScriptButton');
       enDisScriptButton.classList.add('disabledScriptButton');
+
     }
   }
   static async _createNewScriptClicked_event() {
@@ -163,7 +163,7 @@ class ScriptsManager { /* exported ScriptsManager */
   static async _enDisScriptButtonClicked_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let enabled = await ScriptsManager._updateScriptObj_async(currentScriptEntry, 'enabled', null, true);
-    ScriptsManager._setEnDisScriptButtonClass(event.target, enabled);
+    ScriptsManager._setEnDisScriptButtonClass(currentScriptEntry, enabled);
   }
 
   static async _updateScriptObj_async(scriptEntry, propertyName, value, toggle) {

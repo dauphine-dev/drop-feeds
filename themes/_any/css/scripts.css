@@ -81,7 +81,7 @@ body {
 
 .topButton {
   display: inline-block;
-  border: 1px outset #00000000;
+  border: 1px solid #dfdfdf;
   border-radius: 4px;
 }
 
@@ -107,6 +107,7 @@ body {
 	margin: 10px;
 	height: 64px;
 	vertical-align: center;
+	min-width: 475px;
 }
 
 .logo::before {
@@ -135,7 +136,7 @@ body {
 	position: relative;
 	float: right;
 	top:0;
-	width:100px;
+	width:200px;
 	height: 100%;
 	text-align: right;
 }
