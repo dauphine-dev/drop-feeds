@@ -47,7 +47,6 @@ td:last-child {
 
 td {
   padding-right: 10px;
-  /*border: 1px solid #ff0000;*/
 }
 
 tr>td {
@@ -64,7 +63,6 @@ tr>td {
 
 .atRight {
   float: right;
-  border: 1px solid red;
 }
 
 .selected {
@@ -83,8 +81,7 @@ tr>td {
 
 .default{
   padding: 4px 0 5px 0;
-  /*border: 1px solid #1d1d1d; */
-  border: 1px solid purple;
+  border: 1px solid #1d1d1d;
 }
 
 /* folders */
