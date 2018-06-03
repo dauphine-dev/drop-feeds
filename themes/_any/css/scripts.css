@@ -161,8 +161,16 @@ body {
 .scriptButton {
   display: inline-block;
 	margin: 3px;
-  border: 1px outset #00000000;
+  border: 1px solid #dfdfdf;
   border-radius: 4px;
+}
+
+.scriptTypeSelect {
+  display: inline-block;
+	margin: 3px;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+
 }
 
 .scriptButton:hover {
@@ -180,10 +188,6 @@ body {
 
 .disabledScriptButton::before {
   background-image: url(/themes/_any/img/scripts-disabled.png);
-}
-
-.infoScriptButton::before {
-  background-image: url(/themes/_any/img/scripts-info.png);
 }
 
 .deleteScriptButton::before {
@@ -212,9 +216,11 @@ body {
 }
 
 #saveButton::before {
-  background-image: url(/themes/_any/img/test.png);
+	background-image: url(/themes/_any/img/test.png);
+	filter: hue-rotate(0deg);
 }
 
 #closeButton::before {
-  background-image: url(/themes/_any/img/test.png);
+	background-image: url(/themes/_any/img/test.png);
+	filter: hue-rotate(90deg);
 }

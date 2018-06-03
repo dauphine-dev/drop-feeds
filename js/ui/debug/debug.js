@@ -17,18 +17,24 @@ class Debug {
     let miscList = [];
     let folderStateList = [];
     let feedInfoList = [];
+    let scriptsList = [];
     //let keysToRemove = [];
 
     for (let property in localStorage) {
       if (localStorage.hasOwnProperty(property)) {
+        // No data list
         if(typeof localStorage[property] === 'undefined') {
           nodataList.push([property, typeof localStorage[property], 'undefined']);
           continue;
         }
+
+        // Folder state list
         if (property.startsWith('cb-')) {
           folderStateList.push([property, typeof localStorage[property], localStorage[property] ]);
           continue;
         }
+
+        // Feed info list
         if (localStorage[property] !== null) {
           if (localStorage[property].isFeedInfo || localStorage[property].isBkmrk || localStorage[property].bkmrkId) {
             feedInfoList.push([property, typeof localStorage[property], localStorage[property] ]);
@@ -36,13 +42,22 @@ class Debug {
           }
         }
 
+        // Scripts list
+        if (property == 'scriptList' || property.startsWith('scriptObj-') || property.startsWith('scriptCode-')) {
+          scriptsList.push([property, typeof localStorage[property], localStorage[property] ]);
+          continue;
+        }
+
+        // No data list (again)
         if (localStorage[property] === null) {
           nodataList.push([property, typeof localStorage[property], 'null']);
         }
         else {
+          // Misc. list (object)
           if (typeof localStorage[property] == 'object') {
-            miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
+            miscList.push([property, typeof localStorage[property], localStorage[property] ]);
           }
+          // Misc. list
           else {
             miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
           }
@@ -58,6 +73,8 @@ class Debug {
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);
+    htmlText += '  ' + Debug._addSectionHtml('Scripts info');
+    htmlText += '  ' + Debug._listToHtml(scriptsList);
     htmlText += '  ' + Debug._addSectionHtml('Feeds info');
     htmlText += '  ' + Debug._listToHtml(feedInfoList);
     htmlText += '  ' + Debug._addSectionHtml('Folders state');

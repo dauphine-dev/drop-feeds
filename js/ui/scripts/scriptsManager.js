@@ -1,6 +1,10 @@
-/*global browser ScriptsEditor LocalStorageManager*/
+/*global browser BrowserManager ScriptsEditor LocalStorageManager*/
 const _scriptObjKey = 'scriptObj-';
 const _scriptListKey = 'scriptList';
+const _scriptType = {
+  feedTransformer: 0,
+  virtualFeed: 1
+};
 
 class ScriptsManager { /* exported ScriptsManager */
   static get instance() {
@@ -16,7 +20,7 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async init_async() {
-//await browser.storage.local.remove('aaaa');
+    //await browser.storage.local.remove('aaaa');
 
     this._loadScriptList_async();
     this.display();
@@ -26,8 +30,10 @@ class ScriptsManager { /* exported ScriptsManager */
     let scriptId = this._findNextScriptId();
     let newScript = {
       id: scriptId,
+      name: 'New script',
       enabled: true,
-      created: Date.now()
+      type: _scriptType.feedTransformer,
+      lastEdit: Date.now()
     };
     return newScript;
   }
@@ -52,16 +58,26 @@ class ScriptsManager { /* exported ScriptsManager */
     let newScriptNode =  document.getElementById('scriptTemplate').cloneNode(true);
     newScriptNode.setAttribute('id', scriptObj.id);
     newScriptNode.style.display = 'block';
+    newScriptNode.querySelector('.scriptName').textContent = scriptObj.name;
     ScriptsManager._setEnDisScriptButtonClass(newScriptNode.querySelector('.enDisScriptButton'), scriptObj.enabled);
-    newScriptNode.querySelector('.lastEdit').setAttribute('created', scriptObj.created);
+    newScriptNode.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
+    newScriptNode.querySelector('.lastEdit').textContent = ScriptsManager._getDateDiff(Date.now(), scriptObj.lastEdit);
+    newScriptNode.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
+
     document.getElementById('scriptList').appendChild(newScriptNode);
 
     newScriptNode.querySelector('.scriptName').addEventListener('keydown', ScriptsManager._scriptNameDivKeydown_event);
+    newScriptNode.querySelector('.scriptName').addEventListener('focus', ScriptsManager._scriptNameDivFocus_event);
+    newScriptNode.querySelector('.scriptName').addEventListener('blur', ScriptsManager._scriptNameDivBlur_event);
     newScriptNode.querySelector('.editScriptButton').addEventListener('click', ScriptsManager._editScriptButtonClicked_event);
     newScriptNode.querySelector('.enDisScriptButton').addEventListener('click', ScriptsManager._enDisScriptButtonClicked_event);
-    newScriptNode.querySelector('.infoScriptButton').addEventListener('click', ScriptsManager._infoScriptButtonClicked_event);
+    newScriptNode.querySelector('.scriptTypeSelect').addEventListener('change', ScriptsManager._scriptTypeChanged_event);
     newScriptNode.querySelector('.deleteScriptButton').addEventListener('click', ScriptsManager._deleteScriptButtonClicked_event);
     return newScriptNode;
+  }
+
+  static _getDateDiff(date1, date2) {
+    return Math.round((date1 - date2) / 1000 / 60) + ' min.';
   }
 
   static _setEnDisScriptButtonClass(enDisScriptButton, isEnabled) {
@@ -114,6 +130,18 @@ class ScriptsManager { /* exported ScriptsManager */
     return true;
   }
 
+  static async _scriptNameDivFocus_event(event) {
+    BrowserManager.selectAllText(event.target);
+  }
+
+  static async _scriptNameDivBlur_event(event) {
+    window.getSelection().removeAllRanges();
+    let currentScriptEntry = event.target.parentNode.parentNode;
+    let scriptName = event.target.textContent;
+    ScriptsManager._updateScriptObj_async(currentScriptEntry, 'name', scriptName);
+
+  }
+
   _goToNextScriptEntry(currentScriptEntry) {
     let nextScriptEntry = currentScriptEntry.nextSibling;
     if (nextScriptEntry) {
@@ -134,16 +162,27 @@ class ScriptsManager { /* exported ScriptsManager */
 
   static async _enDisScriptButtonClicked_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
-    let scriptId = parseInt(currentScriptEntry.getAttribute('id'));
-    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
-    if (scriptObj) {
-      scriptObj.enabled = !scriptObj.enabled;
-      ScriptsManager._setEnDisScriptButtonClass(event.target);
-      await LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
-    }
+    let enabled = await ScriptsManager._updateScriptObj_async(currentScriptEntry, 'enabled', null, true);
+    ScriptsManager._setEnDisScriptButtonClass(event.target, enabled);
   }
 
-  static async _infoScriptButtonClicked_event() {
+  static async _updateScriptObj_async(scriptEntry, propertyName, value, toggle) {
+    let scriptId = parseInt(scriptEntry.getAttribute('id'));
+    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
+    if (scriptObj) {
+      if (toggle) {
+        value = !scriptObj[propertyName];
+      }
+      scriptObj[propertyName] = value;
+      await LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
+    }
+    return value;
+  }
+
+  static async _scriptTypeChanged_event(event) {
+    let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
+    let type = event.target.selectedIndex;
+    ScriptsManager._updateScriptObj_async(currentScriptEntry, 'type', type);
   }
 
   static async _deleteScriptButtonClicked_event(event) {

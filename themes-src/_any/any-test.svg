@@ -19,10 +19,34 @@
    inkscape:version="0.91 r13725"
    sodipodi:docname="any-test.svg"
    inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,8/themes/_any/img/test.png"
-   inkscape:export-xdpi="21.559999"
-   inkscape:export-ydpi="21.559999">
+   inkscape:export-xdpi="21.5625"
+   inkscape:export-ydpi="21.5625">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4172">
+      <stop
+         style="stop-color:#84ea84;stop-opacity:1;"
+         offset="0"
+         id="stop4174" />
+      <stop
+         style="stop-color:#078407;stop-opacity:1"
+         offset="1"
+         id="stop4176" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4146">
+      <stop
+         style="stop-color:#00ff00;stop-opacity:1;"
+         offset="0"
+         id="stop4148" />
+      <stop
+         style="stop-color:#41be41;stop-opacity:1"
+         offset="1"
+         id="stop4150" />
+    </linearGradient>
     <inkscape:path-effect
        effect="spiro"
        id="path-effect5968"
@@ -72,6 +96,25 @@
        effect="spiro"
        id="path-effect4159-3"
        is_visible="true" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4146"
+       id="linearGradient4152"
+       x1="6.4170952"
+       y1="1004.3621"
+       x2="89.582905"
+       y2="1004.3621"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4172"
+       id="radialGradient4178"
+       cx="48"
+       cy="1004.3622"
+       fx="48"
+       fy="1004.3622"
+       r="47.373696"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -81,8 +124,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8.7708333"
-     inkscape:cx="48"
-     inkscape:cy="48"
+     inkscape:cx="23.60095"
+     inkscape:cy="47.771971"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -112,14 +155,14 @@
      id="layer1"
      transform="translate(0,-956.36216)">
     <rect
-       style="opacity:1;fill:#d0e5aa;fill-opacity:1;fill-rule:nonzero;stroke:#28370c;stroke-width:3.2650001;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:url(#radialGradient4178);fill-opacity:1;fill-rule:nonzero;stroke:#023802;stroke-width:3.2650001;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4151-3"
        width="91.482391"
        height="91.482391"
        x="2.2588043"
        y="958.62097" />
     <rect
-       style="opacity:1;fill:#66970d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.96799994;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:url(#linearGradient4152);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.96799994;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4151"
        width="83.16581"
        height="83.16581"

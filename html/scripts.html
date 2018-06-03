@@ -37,15 +37,18 @@
             <div id="scriptTemplate" class="scriptEntry" style="display: none;">
               <div class="logo"></div>
               <div class="scriptLeftBlock">
-                <div class="scriptName" contenteditable="true">New script</div>
+                <div class="scriptName" contenteditable="true"></div>
                 <div class="scriptButtons">
                   <span class="scriptButton editScriptButton" title="#Edit script"></span>
                   <span class="scriptButton enDisScriptButton enabledScriptButton" title="#Enable/disable script"></span>
-                  <span class="scriptButton infoScriptButton" title="..."></span>
+                  <select class="scriptTypeSelect" title="Script type">
+                    <option value="feedTransformer">Feed transformer</option>
+                    <option value="virtualFeed">Virtual feed</option>
+                  </select>
                 </div>
               </div>
               <div class="scriptRightBlock">
-                <div created="" class="lastEdit">0 min</div>
+                <div lastedit="" class="lastEdit" title="Last edition"></div>
                 <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
               </div>
             </div>

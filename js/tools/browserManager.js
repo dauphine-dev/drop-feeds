@@ -303,6 +303,18 @@ class BrowserManager { /* exported BrowserManager*/
     return null;
   }
 
+  static async selectAllText(element) {
+    let selection = window.getSelection();
+    if(selection.toString() == '') {
+      window.setTimeout(() => {
+        let range = document.createRange();
+        range.selectNodeContents(element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }, 1);
+    }
+  }
+
   //private stuffs
   static _setAlwaysOpenNewTab_sbscrb(value){
     BrowserManager.instance._alwaysOpenNewTab = value;
