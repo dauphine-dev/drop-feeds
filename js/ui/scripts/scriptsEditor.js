@@ -1,5 +1,8 @@
-/*global ScriptsManager LocalStorageManager*/
+/*global browser ScriptsManager LocalStorageManager*/
 'use strict';
+
+const _scriptCodeKey = 'scriptCode-';
+
 class ScriptsEditor { /*exported ScriptsEditor */
   static get instance() {
     if (!this._instance) {
@@ -25,22 +28,22 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   async _loadScript_async() {
-    let scriptCode = await LocalStorageManager.getValue_async('script-' + this._scriptId);
     let textArea = document.getElementById('textArea');
-    if (!scriptCode) {
-      scriptCode = textArea.getAttribute('defaultvalue');
-    }
+    let scriptCode = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, textArea.getAttribute('defaultvalue'));
     textArea.value = scriptCode;
   }
 
   static async _saveButtonClicked_event() {
     let self = ScriptsEditor.instance;
     let scriptCode = document.getElementById('textArea').value;
-    LocalStorageManager.setValue_async('script-' + self._scriptId, scriptCode);
+    LocalStorageManager.setValue_async(_scriptCodeKey + self._scriptId, scriptCode);
   }
 
   static async _closeButtonClicked_event() {
     ScriptsManager.instance.display();
   }
 
+  static async deleteScriptCode_async(scriptId) {
+    await browser.storage.local.remove(_scriptCodeKey + scriptId);
+  }
 }

@@ -35,12 +35,13 @@ class Debug {
             continue;
           }
         }
+
         if (localStorage[property] === null) {
           nodataList.push([property, typeof localStorage[property], 'null']);
         }
         else {
           if (typeof localStorage[property] == 'object') {
-            //keysToRemove.push(property);
+            miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
           }
           else {
             miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
