@@ -1,4 +1,4 @@
-/*global browser ScriptsManager LocalStorageManager*/
+/*global browser BrowserManager ScriptsManager LocalStorageManager SyntaxHighlighter*/
 'use strict';
 
 const _scriptCodeKey = 'scriptCode-';
@@ -21,7 +21,9 @@ class ScriptsEditor { /*exported ScriptsEditor */
     document.addEventListener('keyup', ScriptsEditor._documentKeyUpDown_event);
     document.getElementById('saveButton').addEventListener('click', ScriptsEditor._saveButtonClicked_event);
     document.getElementById('closeButton').addEventListener('click', ScriptsEditor._closeButtonClicked_event);
-    document.getElementById('textArea').addEventListener('keydown', ScriptsEditor._textAreaKeydown_event);
+    document.getElementById('highlightButton').addEventListener('click', ScriptsEditor._highlightButtonClicked_event);
+    document.getElementById('contentEditable').addEventListener('keydown', ScriptsEditor._contentEditableKeydown_event);
+
   }
   async init_async() {
   }
@@ -35,20 +37,25 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   async _loadScript_async() {
-    let textArea = document.getElementById('textArea');
-    let scriptCode = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, textArea.getAttribute('defaultvalue'));
-    textArea.value = scriptCode;
+    let contentEditable = document.getElementById('contentEditable');
+    let scriptCode = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, contentEditable.getAttribute('defaultvalue'));
+    BrowserManager.setInnerHtmlByElement(contentEditable, scriptCode);
   }
 
   static async _saveButtonClicked_event() {
     let self = ScriptsEditor.instance;
-    let scriptCode = document.getElementById('textArea').value;
+    let scriptCode = document.getElementById('contentEditable').innerHTML;
     LocalStorageManager.setValue_async(_scriptCodeKey + self._scriptId, scriptCode);
   }
 
   static async _closeButtonClicked_event() {
     ScriptsManager.instance.display();
   }
+
+  static async _highlightButtonClicked_event() {
+    SyntaxHighlighter.process();
+  }
+
 
   static _documentKeyUpDown_event(event) {
     let self = ScriptsEditor.instance;
@@ -60,7 +67,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
         self._ctrlPressed = !self._ctrlPressed;
     }
   }
-  static async _textAreaKeydown_event(event) {
+  static async _contentEditableKeydown_event(event) {
     let self = ScriptsEditor.instance;
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -74,18 +81,18 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   _addTab() {
-    let textarea = document.getElementById('textArea');
-    let value = textarea.value;
-    let start = textarea.selectionStart;
-    let end = textarea.selectionEnd;
-    textarea.value = value.substring(0, start) + this._tabChar + value.substring(end);
-    textarea.selectionStart = textarea.selectionEnd = start + this._tabSize;
+    let contenteditable = document.getElementById('contentEditable');
+    let value = contenteditable.textContent;
+    let start = contenteditable.selectionStart;
+    let end = contenteditable.selectionEnd;
+    contenteditable.textContent = value.substring(0, start) + this._tabChar + value.substring(end);
+    contenteditable.selectionStart = contenteditable.selectionEnd = start + this._tabSize;
   }
 
   _removeTab() {
-    let textarea = document.getElementById('textArea');
-    let curPos = textarea.selectionStart;
-    let lines = textarea.value.split('\n');
+    let contenteditable = document.getElementById('contentEditable');
+    let curPos = contenteditable.selectionStart;
+    let lines = contenteditable.textContent.split('\n');
     let newValue = '';
     let done = false;
     let cnt = 0;
@@ -111,10 +118,10 @@ class ScriptsEditor { /*exported ScriptsEditor */
     }
 
     // setting new value
-    textarea.value = newValue;
+    contenteditable.textContent = newValue;
 
     // putting cursor back to its original position
-    textarea.selectionStart = textarea.selectionEnd = curPos;
+    contenteditable.selectionStart = contenteditable.selectionEnd = curPos;
   }
 
   static async deleteScriptCode_async(scriptId) {

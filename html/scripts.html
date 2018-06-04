@@ -3,8 +3,10 @@
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <link href="/themes/_any/css/scripts.css" rel="stylesheet">
+  <link href="/themes/_any/css/scripts.css" rel="stylesheet" type="text/css">
+  <link href="/themes/_any/css/jsHighlight.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <script src="/js/tools/textTools.js"></script>
   <script src="/js/tools/browserManager.js"></script>
   <script src="/js/tools/localStorageManager.js"></script>
   <script src="/js/tools/cssManager.js"></script>
@@ -63,16 +65,20 @@
           <div class="topMenu">
             <span id="saveButton" class="topButton" title="#Save"></span>
             <span id="closeButton" class="topButton" title="#Close"></span>
+            <span id="highlightButton" class="topButton" title="#Highlight"></span>
           </div>
           <div class="editorBox">
-            <textarea id="textArea" defaultvalue="//Type your javascript code here">
-            </textarea>
+            <!--
+            <textarea id="textArea"></textarea>
+            -->
+            <div id="contentEditable"  contenteditable="true" defaultvalue="//Type your javascript code here"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="/js/ui/scripts/syntaxHighlighter.js"></script>
   <script src="/js/ui/scripts/scriptsEditor.js"></script>
   <script src="/js/ui/scripts/scriptsManager.js"></script>
   <script src="/js/ui/scripts/scripts.js"></script>

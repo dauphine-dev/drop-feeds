@@ -1,0 +1,18 @@
+.jsString {
+  color: blue;
+}
+
+.jsKeyword1 {
+  color: red;
+}
+.jsKeyword2 {
+  color: purple;
+}
+
+.jsKeyword3 {
+  color: orangered;
+}
+
+.jsComment {
+  color: green;
+}

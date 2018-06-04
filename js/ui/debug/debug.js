@@ -70,6 +70,8 @@ class Debug {
     });
 
     let htmlText = '';
+    htmlText += '  ' + Debug._addSectionHtml('Test button colors');
+    htmlText += '  ' + Debug._testButtonWithHueRotate();
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);
@@ -147,6 +149,34 @@ class Debug {
       return '[...]';
     }
     return value;
+  }
+
+  static _testButtonWithHueRotate() {
+    let buttonsHtml = '';
+    let i = 1;
+    for (let deg=0; deg<360; deg+=1, i++) {
+      let style = 'style="';
+      style += 'background-image: url(/themes/_any/img/test.png);';
+      style += 'background-repeat: no-repeat;';
+      style += 'background-size: 16px 16px;';
+      style += 'width: 16px;height: 16px;';
+      style += 'filter: hue-rotate(' + deg + 'deg);';
+      style += '"';
+      let degText = deg.toString().padStart(2, '-').padEnd(3, '-');
+      degText = degText.replace(/-/g, '&nbsp;');
+      buttonsHtml += '<span ' + style + '>' + degText + '&nbsp;</span>';
+      if (i % 40 == 0) {
+        buttonsHtml += '<br/><br/>';
+      }
+    }
+
+
+    let htmlText = '';
+    htmlText+= '<tr>';
+    htmlText+= '<td></td><td></td>';
+    htmlText+= '<td>' + buttonsHtml + '</td>';
+    htmlText+= '</tr>\n';
+    return htmlText;
   }
 }
 Debug.init();

@@ -1,4 +1,5 @@
 /*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
+
 'use strict';
 const subType = { /*exported subType */
   add: 'Add',
