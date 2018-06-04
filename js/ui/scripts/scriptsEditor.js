@@ -2,6 +2,17 @@
 'use strict';
 
 const _scriptCodeKey = 'scriptCode-';
+const _jsPairKeywordsClassList = [
+  { keywords: /\b(new|var|if|do|function|while|switch|for|foreach|in|continue|break)(?=[^\w])/g, class: 'jsKeyword1' },
+  {
+    keywords: /\b(catch|class|const|debugger|default|delete|else|export|extends|finally|import|instanceof|return|super|this|throw|try|typeof|void|with|yield|async|await)(?=[^\w])/g,
+    class: 'jsKeyword2'
+  },
+  { keywords: /\b(document|window|Array|String|Object|Number|\$)(?=[^\w])/g, class: 'jsKeyword3' },
+  { keywords: /(\/\*.*\*\/)/g, class: 'jsComment' },
+  { keywords: /(\/\/.*)/g, class: 'jsComment' },
+  { keywords: /'(.*?)'/g, class: 'jsString' }
+];
 
 class ScriptsEditor { /*exported ScriptsEditor */
   static get instance() {
@@ -17,6 +28,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     this._ctrlPressed = false;
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
+    this._jsHighlighter = new SyntaxHighlighter(_jsPairKeywordsClassList);
     document.addEventListener('keydown', ScriptsEditor._documentKeyUpDown_event);
     document.addEventListener('keyup', ScriptsEditor._documentKeyUpDown_event);
     document.getElementById('saveButton').addEventListener('click', ScriptsEditor._saveButtonClicked_event);
@@ -53,9 +65,11 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   static async _highlightButtonClicked_event() {
-    SyntaxHighlighter.process();
+    let self = ScriptsEditor.instance;
+    let contentEditable = document.getElementById('contentEditable');
+    let highlightedText = self._jsHighlighter.highlighText(contentEditable.innerText);
+    BrowserManager.setInnerHtmlByElement(contentEditable, highlightedText);
   }
-
 
   static _documentKeyUpDown_event(event) {
     let self = ScriptsEditor.instance;
