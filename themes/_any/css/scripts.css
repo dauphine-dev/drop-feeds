@@ -7,14 +7,18 @@ body {
 	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
 }
 
+#mainBox {
+	display: flex;
+	position: absolute;
+	flex-direction: raw;
+	width: 100%;
+	height: 100%;
+}
+
 #leftBox {
 	border: 1px solid #6f6f6f;
 	background-color: #fafafa;
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: 200px;
-	bottom: 0;
 }
 
 #logoBox {
@@ -52,15 +56,22 @@ body {
 
 #rightBox {
 	border: 2px solid #6f6f6f;
-	position: absolute;
-	top: 0;
-	left: 200px;
-	bottom: 0;
-	right: 0;
+	-moz-box-flex: 1;
+	flex: 1;
+	box-flex:1;
+}
+
+#rightBoxInner {
+	display: flex;
+	position: relative;
+	flex-direction: col;
+	width: 100%;
+	height: 100%;
 }
 
 /* --------------- Script manager ----------------- */
 .topMenu {
+	position: relative;
 	border-bottom: 1px solid #6f6f6f;
 	top: 0;
 	padding-top: 10px;
@@ -92,6 +103,10 @@ body {
 
 #createNewScript::before {
   background-image: url(/themes/_any/img/scripts-new.png);
+}
+
+#scriptManager {
+	flex: 1;
 }
 
 #scriptList {
@@ -198,15 +213,59 @@ body {
 /* --------------- Script editor ----------------- */
 #scriptEditor {
 	position: absolute;
-	/*object-fit: cover;*/
-	margin: 10px;
-	top: 0; right: 0; left: 0;bottom: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/*
+.topMenu {
+	position: relative;
+	border-bottom: 1px solid #6f6f6f;
+	top: 0;
+	padding-top: 10px;
+	padding-left: 12px;
+	height: 40px;
+}
+*/
+
+.settings {
+	position: relative;
+	margin-top: 0px;
+	border-bottom: 1px solid #6f6f6f;
+	height: 68px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+td:first-child {
+  white-space: nowrap;
+}
+td:last-child {
+  width: 100%;
+}
+td {
+	border: none;
+}
+
+.settingFieldName {
+	font-family: Arial;
+	font-size: small;
+}
+.settingFieldData {
+	width: 99%;
+	border: 1px solid #a7a7a7;
 }
 
 .editorBox {
 	position: absolute;
-	margin-top: 60px;
-	top: 0; right: 0; left: 0;bottom: 0;
+	bottom: 0;
+	top: 121px;
+	width: 100%;
+	height: calc(100% - 121px);
 }
 
 
@@ -221,6 +280,7 @@ body {
 	resize: none;
 
 	background-color: #ffffff00;
+
 	color: #ffffff00;
 	caret-color: red;
 
@@ -243,6 +303,9 @@ body {
 	font-family: monospace;
 	font-size: 10;
 	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
+
+	/*border: 1px solid blue;*/
+
 }
 
 #saveButton::before {

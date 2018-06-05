@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <div id="mainScreen">
+  <div id="mainBox">
     <div id="leftBox">
       <div id="logoBox">
         <span id="logoImg"></span>
@@ -29,7 +29,7 @@
     </div>
 
     <div id="rightBox">
-      <div style="position: unset;">
+      <div id="rightBoxInner">
         <!-- - - - - - Script manager - - - - - -->
         <div id="scriptManager" style="display: block;">
           <div class="topMenu">
@@ -63,19 +63,39 @@
 
         <!-- - - - - - Script editor - - - - - -->
         <div id="scriptEditor" style="display:none;">
+
           <div class="topMenu">
             <span id="saveButton" class="topButton" title="#Save"></span>
             <span id="closeButton" class="topButton" title="#Close"></span>
           </div>
+          <div class="settings">
+            <table>
+              <tr>
+                <td>
+                  <span class="settingFieldName">Url match patterns:</span>
+                </td>
+                <td>
+                  <input id="urlMatch" class="settingFieldData" type="text" value="&lt;all_urls&gt;">
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <small>
+                    <a target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Help for url match patterns</a>
+                  </small>
+                </td>
+              </tr>
+            </table>
+          </div>
           <div class="editorBox">
-              <div id="highlightedCode"></div>
-              <textarea id="textArea"></textarea>
+            <div id="highlightedCode"></div>
+            <textarea id="textArea"></textarea>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <script src="/js/ui/scripts/scriptsEditor.js"></script>
   <script src="/js/ui/scripts/scriptsManager.js"></script>
   <script src="/js/ui/scripts/scripts.js"></script>

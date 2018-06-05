@@ -2,6 +2,8 @@
 'use strict';
 
 const _scriptCodeKey = 'scriptCode-';
+const _urlMatchKey ='urlMatch-';
+
 const _pairPatternClassList = [
   { pattern: /\b(new|var|if|do|function|while|switch|for|foreach|in|continue|break)(?=[^\w])/g, class: 'jsKeyword1' },
   {
@@ -46,18 +48,24 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   async _loadScript_async() {
+    //load script code
     let highlightedCode = document.getElementById('highlightedCode');
     let textArea = document.getElementById('textArea');
     const defaultCode = '// Type your javascript here';
-    textArea.value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, defaultCode);
+    textArea.value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, 'defaultCode');
     let scriptCodeHighlighted = this._jsHighlighter.highlightText(textArea.value);
     BrowserManager.setInnerHtmlByElement(highlightedCode, scriptCodeHighlighted);
+    //load url match patterns
+    document.getElementById('urlMatch').value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, '<all_urls>');
   }
 
   static async _saveButtonClicked_event() {
     let self = ScriptsEditor.instance;
     let scriptCode = document.getElementById('textArea').value;
     LocalStorageManager.setValue_async(_scriptCodeKey + self._scriptId, scriptCode);
+    let urlMatch = document.getElementById('urlMatch').value;
+    LocalStorageManager.setValue_async(_urlMatchKey + self._scriptId, urlMatch);
+
   }
 
   static async _closeButtonClicked_event() {
