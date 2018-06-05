@@ -80,4 +80,9 @@ class TextTools { /* exported TextTools*/
   static replaceAll(text, substr, newSubstr) {
     return text.split(substr).join(newSubstr);
   }
+
+  static insertAt(text, substr, index) {
+    return text.substr(0, index) + substr + text.substr(index);
+  }
+
 }

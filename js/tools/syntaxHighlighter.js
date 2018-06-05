@@ -1,20 +1,31 @@
 /* global TextTools*/
 class SyntaxHighlighter { /*exported SyntaxHighlighter */
-  constructor(pairKeywordsClassList) {
-    this._pairKeywordsClassList = pairKeywordsClassList;
+  constructor(pairPatternClassList) {
+    /*
+    pairPatternClassList = [
+      { pattern: /\b(foo1|bar1|...)(?=[^\w])/g, class: 'class1' },
+      { pattern: /\b(foo2|bar2|...)(?=[^\w])/g, class: 'class2' },
+      ...
+    ];
+    */
+    this._pairPatternClassList = pairPatternClassList;
   }
 
-  highlighText(text) {
+  highlightText(text) {
+    text = TextTools.replaceAll(text, '&nbsp;', ' ');
     text = TextTools.replaceAll(text, '\n', '<br/>');
     text = TextTools.replaceAll(text, 'span class=', 'span_reserved=');
-    for (let kwCl of this._pairKeywordsClassList) {
-      text = this._highlighMatches(text, kwCl.keywords, kwCl.class);
+    for (let ptCl of this._pairPatternClassList) {
+      text = this._highlightMatches(text, ptCl.pattern, ptCl.class);
     }
+    text = TextTools.replaceAll(text, ' ', '&nbsp;');
     text = TextTools.replaceAll(text, 'span_reserved=', 'span class=');
+    text = TextTools.replaceAll(text, '<br/>', '<br/>\n');
+
     return text;
   }
 
-  _highlighMatches(text, regExString, cssClass) {
+  _highlightMatches(text, regExString, cssClass) {
     let matches = text.match(regExString);
     if (matches) {
       for (let m of matches) {

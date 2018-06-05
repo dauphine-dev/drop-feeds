@@ -15,11 +15,11 @@ Reduce option view loading time
 
 0.3
 Code rewriting (replace quick and dirty code from P.O.C. by a new one
-Asynchronous feed checking 
+Asynchronous feed checking
 Open feeds as unified
 
 0.4
-Adding the bottom items panel 
+Adding the bottom items panel
 
 0.5
 Add discover feeds feature
@@ -41,8 +41,6 @@ Adding new context menu icons, and little themes rework
 Adding highlighting selection bar on feed items on the treeview
 Adding a "Renders Feeds" option
 Mouse middle-click  opens feed in a background new tab
-
-0.7.x
 Support of drag a drop & move elements of the tree view (folder and feeds)
 
 0.8
@@ -56,9 +54,9 @@ Better support for ATOM feeds
 0.9.x
 Best enclosure support
 0.9.x
-Adding option to add custon theme
+Adding option to add custom theme
 0.99
-Release Candidate 
+Release Candidate
 
 1.0
 Same as Release Candidate with bugs fixed
