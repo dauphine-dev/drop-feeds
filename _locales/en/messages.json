@@ -347,6 +347,10 @@
     "message": "(*) warning: mark read/unread features will impact your navigation history !"
   },
 
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Mark all items as read before leaving feeds"
+  },
+
   "optShowUpdatedFeedCount": {
     "message": "Show updated feed count"
   },

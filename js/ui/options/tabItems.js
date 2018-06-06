@@ -15,6 +15,10 @@ class TabItems { /*exported TabItems*/
     let elFeedItemDescriptionTooltipsCheckbox = document.getElementById('feedItemDescriptionTooltipsCheckbox');
     elFeedItemDescriptionTooltipsCheckbox.checked =  await LocalStorageManager.getValue_async('feedItemDescriptionTooltips', DefaultValues.feedItemDescriptionTooltips);
     elFeedItemDescriptionTooltipsCheckbox.addEventListener('click', TabItems._feedItemDescriptionTooltipsCheckboxClicked_event);
+
+    let elFeedItemMarkAsReadOnLeaving = document.getElementById('feedItemMarkAsReadOnLeavingCheckbox');
+    elFeedItemMarkAsReadOnLeaving.checked =  await LocalStorageManager.getValue_async('feedItemMarkAsReadOnLeaving', DefaultValues.feedItemMarkAsReadOnLeaving);
+    elFeedItemMarkAsReadOnLeaving.addEventListener('click', TabItems._feedItemMarkAsReadOnLeavingCheckboxClicked_event);
   }
 
   static _updateLocalizedStrings() {
@@ -22,6 +26,7 @@ class TabItems { /*exported TabItems*/
     document.getElementById('textFeedItemListToolbar').textContent = browser.i18n.getMessage('optFeedItemListToolbar');
     document.getElementById('textDescriptionTooltips').textContent = browser.i18n.getMessage('optDescriptionTooltips');
     document.getElementById('textNavigationHistoryWarning').textContent = browser.i18n.getMessage('optNavigationHistoryWarning');
+    document.getElementById('textFeedItemMarkAsReadOnLeaving').textContent = browser.i18n.getMessage('optFeedItemMarkAsReadOnLeaving');
   }
 
   static async _feedItemListCheckboxClicked_event() {
@@ -35,4 +40,9 @@ class TabItems { /*exported TabItems*/
   static async _feedItemDescriptionTooltipsCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('feedItemDescriptionTooltips', document.getElementById('feedItemDescriptionTooltipsCheckbox').checked);
   }
+
+  static async _feedItemMarkAsReadOnLeavingCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('feedItemMarkAsReadOnLeaving', document.getElementById('feedItemMarkAsReadOnLeavingCheckbox').checked);
+  }
+
 }

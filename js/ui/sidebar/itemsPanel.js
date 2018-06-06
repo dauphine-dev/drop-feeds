@@ -19,9 +19,11 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._feedItemList = DefaultValues.feedItemList;
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
+    this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', ItemsPanel._setFeedItemList_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', ItemsPanel._feedItemDescriptionTooltips_sbscrb, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', ItemsPanel._feedItemListToolbar_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', ItemsPanel._feedItemMarkAsReadOnLeaving_sbscrb, true);
   }
 
   get top() {
@@ -52,6 +54,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   async displayItems_async(itemsTitle, titleLink, items) {
     this._selectionBarItems.hide();
     this._setTitle(itemsTitle, titleLink);
+    this._markAllIPreviousItemsAsRead();
     await this._displayItems_async(items);
     ItemManager.instance.addItemClickEvents();
   }
@@ -59,6 +62,12 @@ class ItemsPanel { /*exported ItemsPanel*/
   setContentHeight() {
     let height = Math.max(window.innerHeight - this._mainItemsPane.offsetTop - this._itemsPane.offsetTop, 0);
     this._itemsPane.style.height = height + 'px';
+  }
+
+  _markAllIPreviousItemsAsRead() {
+    if (this._feedItemMarkAsReadOnLeaving) {
+      ItemManager.instance.markAllItemsAsRead();
+    }
   }
 
   _setTitle(title, titleLink) {
@@ -94,6 +103,11 @@ class ItemsPanel { /*exported ItemsPanel*/
     let self = ItemsPanel.instance;
     self._feedItemListToolbar = value;
     self._setToolbarVisibility();
+  }
+
+  static _feedItemMarkAsReadOnLeaving_sbscrb(value) {
+    let self = ItemsPanel.instance;
+    self._feedItemMarkAsReadOnLeaving = value;
   }
 
   _setVisibility() {

@@ -27,7 +27,7 @@
   "commands": {
     "_execute_sidebar_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Z"
+        "default": "Ctrl+Shift+U"
       }
     }
   },

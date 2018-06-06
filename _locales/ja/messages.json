@@ -343,6 +343,10 @@
     "message": "(*) 既読/未読は履歴に反映されます。"
   },
 
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Mark all items as read before leaving feeds"
+  },
+
   "optShowUpdatedFeedCount": {
     "message": "更新数を表示"
   },

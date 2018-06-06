@@ -347,6 +347,11 @@
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
   },
 
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Marquer tous les items comme lus avant de quitter un flux"
+  },
+
+
   "optShowUpdatedFeedCount": {
     "message": "Afficher le compteur de flux non lus"
   },
