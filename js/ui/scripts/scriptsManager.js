@@ -1,4 +1,4 @@
-/*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager*/
+/*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager DefaultValues*/
 'use strict';
 const _scriptObjKey = 'scriptObj-';
 const _scriptListKey = 'scriptList';
@@ -6,6 +6,8 @@ const _scriptType = {
   feedTransformer: 0,
   virtualFeed: 1
 };
+//const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/(.*))$/i);
+const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 
 class ScriptsManager { /* exported ScriptsManager */
   static get instance() {
@@ -27,27 +29,77 @@ class ScriptsManager { /* exported ScriptsManager */
     this.display();
   }
 
-  newScriptObj() {
-    let scriptId = this._findNextScriptId();
-    let newScript = {
-      id: scriptId,
-      name: 'New script',
-      enabled: true,
-      type: _scriptType.feedTransformer,
-      lastEdit: Date.now()
-    };
-    return newScript;
-  }
-
   display() {
     document.getElementById('scriptEditor').style.display = 'none';
     document.getElementById('scriptManager').style.display = 'block';
     document.getElementById('titlePage').textContent = 'Script manager';
   }
 
+  newScriptObj() {
+    let scriptId = this._findNextScriptId();
+    let newScript = {
+      id: scriptId,
+      name: DefaultValues.userScriptName,
+      enabled: true,
+      type: _scriptType.feedTransformer,
+      urlMatch: DefaultValues.userScriptUrlMatch,
+      urlRegEx: ScriptsManager._matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
+      lastEdit: Date.now()
+    };
+    return newScript;
+  }
+
+  static async loadUrlMatch_async(scriptId) {
+    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
+    return scriptObj.urlMatch;
+  }
+
+  static async saveUrlMatch_async(scriptId, urlMatch) {
+    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
+    scriptObj.urlMatch = urlMatch;
+    scriptObj.urlRegEx = ScriptsManager._matchPatternToRegExp(urlMatch);
+    LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
+  }
+
+  static _matchPatternToRegExp(pattern) {
+    //Code from https://developer.mozilla.org/fr/Add-ons/WebExtensions/Match_patterns
+    if (pattern === '<all_urls>') {
+      return (/^(?:https?|file|ftp|app):\/\//);
+    }
+    const match = _matchPattern.exec(pattern);
+    if (!match) {
+      return null;
+    }
+    const [, scheme, host, path,] = match;
+
+    let regExpMatchPattern1 = new RegExp('^(?:'
+      + (scheme === '*' ? 'https?' : escape(scheme)) + '://'
+      + (host === '*' ? '[^/]+?' : escape(host).replace(/^\*\./g, '(?:[^/]+?.)?'))
+      + (path ? '/' + escape(path).replace(/\*/g, '.*') : '/?')
+      + ')$');
+    return regExpMatchPattern1;
+  }
+
+  _findNextScriptId() {
+    let newId = null;
+    if (this._scriptList.length > 0) {
+      let scriptList = this._scriptList.slice();
+      scriptList = scriptList.sort((a, b) => a - b);
+      let maxValue = Math.max(...scriptList) + 1;
+      for (let i = 1; i <= maxValue; i++) {
+        if (scriptList[i - 1] != i) {
+          newId = i;
+          break;
+        }
+      }
+    }
+    if (!newId) { newId = 1; }
+    return newId;
+  }
+
   async _loadScriptList_async() {
     this._scriptList = await LocalStorageManager.getValue_async(_scriptListKey, this._scriptList);
-    for(let scriptId of this._scriptList) {
+    for (let scriptId of this._scriptList) {
       let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
       if (scriptObj) {
         ScriptsManager._createScriptHtmlNode(scriptObj);
@@ -56,7 +108,7 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   static _createScriptHtmlNode(scriptObj) {
-    let newScriptEntry =  document.getElementById('scriptTemplate').cloneNode(true);
+    let newScriptEntry = document.getElementById('scriptTemplate').cloneNode(true);
     newScriptEntry.setAttribute('id', scriptObj.id);
     newScriptEntry.style.display = 'block';
     newScriptEntry.querySelector('.scriptName').textContent = scriptObj.name;
@@ -93,30 +145,11 @@ class ScriptsManager { /* exported ScriptsManager */
   }
   static async _createNewScriptClicked_event() {
     let self = ScriptsManager.instance;
-    let newScriptObj = self.newScriptObj();
-    ScriptsManager._createScriptHtmlNode(newScriptObj);
-    self._scriptList.push(newScriptObj.id);
+    let scriptObj = self.newScriptObj();
+    ScriptsManager._createScriptHtmlNode(scriptObj);
+    self._scriptList.push(scriptObj.id);
     await LocalStorageManager.setValue_async(_scriptListKey, self._scriptList);
-    await LocalStorageManager.setValue_async(_scriptObjKey + newScriptObj.id, newScriptObj);
-  }
-
-
-  _findNextScriptId() {
-    let newId = null;
-    if (this._scriptList.length > 0) {
-      let scriptList = this._scriptList.slice();
-      scriptList = scriptList.sort((a, b) => a - b);
-      let maxValue = Math.max(...scriptList) + 1;
-      for(let i=1;i<=maxValue;i++)
-      {
-        if(scriptList[i-1] != i){
-          newId = i;
-          break;
-        }
-      }
-    }
-    if (!newId) { newId = 1; }
-    return newId;
+    await LocalStorageManager.setValue_async(_scriptObjKey + scriptObj.id, scriptObj);
   }
 
   static async _scriptNameDivKeydown_event(event) {

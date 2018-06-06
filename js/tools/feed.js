@@ -1,4 +1,4 @@
-/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView UserScriptTools*/
 'use strict';
 
 const feedStatus = {
@@ -38,6 +38,7 @@ class Feed { /*exported Feed*/
 
   async _constructor_async() {
     if (this._storedFeed.id) {
+      await UserScriptTools.instance.init_async();
       this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
       this._storedFeed.title =  this._bookmark.title;
       this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
@@ -90,7 +91,7 @@ class Feed { /*exported Feed*/
     this._savePrevValues();
     let ignoreRedirection = false;
     await this._download_async(ignoreRedirection, false);
-    this._runUserScript();
+    await this._runUserScript_async();
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -253,8 +254,8 @@ class Feed { /*exported Feed*/
     this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
   }
 
-  _runUserScript() {
-    //this._feedText;
+  async _runUserScript_async() {
+    this._feedText = await UserScriptTools.instance.runFeedTransformerScripts_async(this.url, this._feedText);
   }
 
   _parseTitle() {

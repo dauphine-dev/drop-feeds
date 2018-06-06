@@ -1,9 +1,6 @@
-/*global browser BrowserManager ScriptsManager LocalStorageManager SyntaxHighlighter*/
+/*global browser BrowserManager ScriptsManager LocalStorageManager SyntaxHighlighter TextTools*/
 'use strict';
-
 const _scriptCodeKey = 'scriptCode-';
-const _urlMatchKey ='urlMatch-';
-
 const _pairPatternClassList = [
   { pattern: /\b(new|var|if|do|function|while|switch|for|foreach|in|continue|break)(?=[^\w])/g, class: 'jsKeyword1' },
   {
@@ -52,19 +49,20 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let highlightedCode = document.getElementById('highlightedCode');
     let textArea = document.getElementById('textArea');
     const defaultCode = '// Type your javascript here';
-    textArea.value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, 'defaultCode');
+    textArea.value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, defaultCode);
     let scriptCodeHighlighted = this._jsHighlighter.highlightText(textArea.value);
     BrowserManager.setInnerHtmlByElement(highlightedCode, scriptCodeHighlighted);
     //load url match patterns
-    document.getElementById('urlMatch').value = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, '<all_urls>');
+    document.getElementById('urlMatch').value = await ScriptsManager.loadUrlMatch_async(this._scriptId);
   }
 
   static async _saveButtonClicked_event() {
     let self = ScriptsEditor.instance;
     let scriptCode = document.getElementById('textArea').value;
-    LocalStorageManager.setValue_async(_scriptCodeKey + self._scriptId, scriptCode);
+    await LocalStorageManager.setValue_async(_scriptCodeKey + self._scriptId, scriptCode);
+
     let urlMatch = document.getElementById('urlMatch').value;
-    LocalStorageManager.setValue_async(_urlMatchKey + self._scriptId, urlMatch);
+    await ScriptsManager.saveUrlMatch_async(self._scriptId, urlMatch);
 
   }
 
@@ -74,11 +72,12 @@ class ScriptsEditor { /*exported ScriptsEditor */
 
   static async _textAreaKeydown_event(event) {
     //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+    let self = ScriptsEditor.instance;
     switch (event.key) {
       case 'Tab':
         event.stopPropagation();
         event.preventDefault();
-        ScriptsEditor._insertText(this._tabChar);
+        ScriptsEditor._insertText(self._tabChar);
         break;
       default:
     }
@@ -103,8 +102,15 @@ class ScriptsEditor { /*exported ScriptsEditor */
 
   _highlightText() {
     let plainText = document.getElementById('textArea').value;
+    plainText = ScriptsEditor._fixTextCode(plainText);
     let highlightedText = this._jsHighlighter.highlightText(plainText);
     BrowserManager.setInnerHtmlByElement(document.getElementById('highlightedCode'), highlightedText);
+  }
+
+  static _fixTextCode(text) {
+    text = TextTools.replaceAll(text, '<', '&lt;');
+    text = TextTools.replaceAll(text, '>', '&gt;');
+    return text;
   }
 
   static async deleteScriptCode_async(scriptId) {
