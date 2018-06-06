@@ -1,4 +1,5 @@
 /* global TextTools*/
+'use strict';
 class SyntaxHighlighter { /*exported SyntaxHighlighter */
   constructor(pairPatternClassList) {
     /*

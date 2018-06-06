@@ -1,5 +1,5 @@
 /*global browser DefaultValues LocalStorageManager*/
-'strict';
+'use strict';
 class TabView { /*exported TabView*/
   static async init_async() {
     TabView._updateLocalizedStrings();

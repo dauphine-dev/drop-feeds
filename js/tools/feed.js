@@ -1,5 +1,6 @@
-/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
 'use strict';
+
 const feedStatus = {
   UPDATED: 'updated',
   OLD: 'old',
@@ -89,6 +90,7 @@ class Feed { /*exported Feed*/
     this._savePrevValues();
     let ignoreRedirection = false;
     await this._download_async(ignoreRedirection, false);
+    this._runUserScript();
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -249,6 +251,10 @@ class Feed { /*exported Feed*/
   _parsePubdate() {
     if (this._error != null)  { return; }
     this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
+  }
+
+  _runUserScript() {
+    //this._feedText;
   }
 
   _parseTitle() {

@@ -1,4 +1,5 @@
 /*global Listener ListenerProviders  DefaultValues*/
+'use strict';
 const itemSortOrder = { /*exported itemSortOrder */
   newerFirst: 0,
   olderFirst: 1,

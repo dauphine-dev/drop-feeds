@@ -1,4 +1,5 @@
 /*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager*/
+'use strict';
 const _scriptObjKey = 'scriptObj-';
 const _scriptListKey = 'scriptList';
 const _scriptType = {

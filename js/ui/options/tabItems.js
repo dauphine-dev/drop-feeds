@@ -1,5 +1,5 @@
 /*global browser DefaultValues LocalStorageManager*/
-'strict';
+'use strict';
 class TabItems { /*exported TabItems*/
   static async init_async() {
     TabItems._updateLocalizedStrings();
