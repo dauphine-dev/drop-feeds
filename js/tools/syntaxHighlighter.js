@@ -1,15 +1,13 @@
-/* global TextTools*/
+/* global TextTools Transfer browser*/
 'use strict';
 class SyntaxHighlighter { /*exported SyntaxHighlighter */
-  constructor(pairPatternClassList) {
-    /*
-    pairPatternClassList = [
-      { pattern: /\b(foo1|bar1|...)(?=[^\w])/g, class: 'class1' },
-      { pattern: /\b(foo2|bar2|...)(?=[^\w])/g, class: 'class2' },
-      ...
-    ];
-    */
-    this._pairPatternClassList = pairPatternClassList;
+  constructor(syntaxFilePath) {
+    this._pairPatternClassList = [];
+    this._syntaxFilePath = syntaxFilePath;
+  }
+
+  async init_async() {
+    await this._loadSyntaxFile_async();
   }
 
   highlightText(text) {
@@ -26,8 +24,8 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
     return text;
   }
 
-  _highlightMatches(text, regExString, cssClass) {
-    let matches = text.match(regExString);
+  _highlightMatches(text, regExp, cssClass) {
+    let matches = text.match(regExp);
     if (matches) {
       for (let m of matches) {
         let parsed = '<span_reserved="' + cssClass + '">' + m + '</span>';
@@ -36,4 +34,27 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
     }
     return text;
   }
+
+  async _loadSyntaxFile_async() {
+    let syntaxFileUrl = browser.extension.getURL(this._syntaxFilePath);
+    let syntaxFileJsonText = await Transfer.downloadTextFile_async(syntaxFileUrl);
+    let jsonSyntaxFile = JSON.parse(syntaxFileJsonText);
+    this._pairPatternClassList = [];
+    for (let ptCl of jsonSyntaxFile) {
+      let regExpPattern = new RegExp(ptCl.pattern, 'g');
+      this._pairPatternClassList.push({ pattern: regExpPattern, class: ptCl.class });
+    }
+  }
+
+  static pairPatternClassListToJson(pairPatternClassList) {
+    let pairPatternClassListFixed = [];
+    for (let pairPatternClass of  pairPatternClassList) {
+      pairPatternClassListFixed.push({pattern: pairPatternClass.pattern.source, class: pairPatternClass.class});
+    }
+    let json = JSON.stringify(pairPatternClassListFixed);
+    /*eslint-disable no-console*/
+    console.log('json:\n', json);
+    /*eslint-enable no-console*/
+  }
+
 }

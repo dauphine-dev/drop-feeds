@@ -9,8 +9,8 @@ class Scripts {
   }
 
   async init_async() {
-    ScriptsManager.instance.init_async();
-    ScriptsEditor.instance.init_async();
+    await ScriptsManager.instance.init_async();
+    await ScriptsEditor.instance.init_async();
   }
 }
 Scripts.instance.init_async();

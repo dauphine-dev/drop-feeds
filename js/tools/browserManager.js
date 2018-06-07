@@ -6,9 +6,9 @@ const subType = { /*exported subType */
   go: 'Go'
 };
 const VERSION_ENUM = { /*exported VERSION_ENUM */
-  MAJ : 0,
-  MIN : 1,
-  REV : 2
+  MAJ: 0,
+  MIN: 1,
+  REV: 2
 };
 
 const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
@@ -51,7 +51,7 @@ class BrowserManager { /* exported BrowserManager*/
     let feedBlob = new Blob([]);
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     this._baseFeedUrl = feedUrl.protocol + feedUrl.origin;
-    return this._baseFeedUrl ;
+    return this._baseFeedUrl;
   }
 
   get version() {
@@ -91,9 +91,9 @@ class BrowserManager { /* exported BrowserManager*/
     let activeTabIsDfTab = dfTab && dfTab.id == activeTab.id;
     let isEmptyActiveTab = BrowserManager.isTabEmpty(activeTab);
 
-    if(openNewTab) {
+    if (openNewTab) {
       // Option 1 - (Usually) open a new tab
-      if(!reuseDropFeedsTab) {
+      if (!reuseDropFeedsTab) {
         // Option 1a - New tab unless active tab is empty
         doCreate = !isEmptyActiveTab;
       }
@@ -104,13 +104,13 @@ class BrowserManager { /* exported BrowserManager*/
     }
     else {
       // Option 2 - (Usually) update an existing tab
-      if(!reuseDropFeedsTab) {
+      if (!reuseDropFeedsTab) {
         // Option 2a - Update the current active tab
         doCreate = false;
       }
       else {
         // Option 2b - Update the first or current DF or empty tab
-        if(dfTab || isEmptyActiveTab) {
+        if (dfTab || isEmptyActiveTab) {
           doCreate = false;
           targetTabId = dfTab ? dfTab.id : activeTab.id;
         }
@@ -122,17 +122,17 @@ class BrowserManager { /* exported BrowserManager*/
       }
     }
 
-    if(doCreate) {
-      await browser.tabs.create({url: url, active: openNewTabForeground});
+    if (doCreate) {
+      await browser.tabs.create({ url: url, active: openNewTabForeground });
     }
     else {
-      await browser.tabs.update(targetTabId, {url: url, active: openNewTabForeground});
+      await browser.tabs.update(targetTabId, { url: url, active: openNewTabForeground });
     }
   }
 
   async openInCurrentTab_async(url) {
     let activeTab = await BrowserManager.getActiveTab_async();
-    await browser.tabs.update(activeTab.id, {url: url});
+    await browser.tabs.update(activeTab.id, { url: url });
   }
 
 
@@ -147,7 +147,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async getActiveTab_async() {
-    let tabInfos = await browser.tabs.query({active: true, currentWindow: true});
+    let tabInfos = await browser.tabs.query({ active: true, currentWindow: true });
     return tabInfos[0];
   }
 
@@ -176,10 +176,10 @@ class BrowserManager { /* exported BrowserManager*/
     BrowserManager.setInnerHtmlByElement(document.getElementById(id), innerHTML);
   }
 
-  static loadScript(url, callback){
+  static loadScript(url, callback) {
     let script = document.createElement('script');
     script.type = 'text/javascript';
-    script.onload = function(){ callback(); };
+    script.onload = function () { callback(); };
     script.src = url;
     document.getElementsByTagName('head')[0].appendChild(script);
   }
@@ -192,15 +192,15 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async isVisitedLink_async(url) {
-    if(!url)
+    if (!url)
       return false;
-    var visits = await browser.history.getVisits({url: url});
+    var visits = await browser.history.getVisits({ url: url });
     return (visits.length > 0);
   }
 
   static async openPopup_async(dialogsUrl, width, height, titlePreface) {
     let url = browser.extension.getURL(dialogsUrl);
-    let createData = {url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface};
+    let createData = { url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface };
     let win = await browser.windows.create(createData);
     BrowserManager._forcePopupToDisplayContent_async(win.id, width);
     return win;
@@ -212,8 +212,8 @@ class BrowserManager { /* exported BrowserManager*/
       browser.pageAction.show(tabInfo.id);
       let iconUrl = ThemeManager.instance.getImgUrl('subscribe-' + type.toLowerCase() + '.png');
       let title = browser.i18n.getMessage('manPageAction' + type);
-      browser.pageAction.setIcon({tabId: tabInfo.id, path: iconUrl});
-      browser.pageAction.setTitle({tabId: tabInfo.id, title: title});
+      browser.pageAction.setIcon({ tabId: tabInfo.id, path: iconUrl });
+      browser.pageAction.setTitle({ tabId: tabInfo.id, title: title });
     }
     else {
       browser.pageAction.hide(tabInfo.id);
@@ -228,24 +228,23 @@ class BrowserManager { /* exported BrowserManager*/
     let feedLinkList = [];
     let tabInfo = await BrowserManager.getActiveTab_async();
     try {
-      feedLinkList = await browser.tabs.sendMessage(tabInfo.id, {key:'getFeedLinkInfoList'});
+      feedLinkList = await browser.tabs.sendMessage(tabInfo.id, { key: 'getFeedLinkInfoList' });
     }
-    catch(e) {}
-    if (!feedLinkList) { feedLinkList= []; }
+    catch (e) { }
+    if (!feedLinkList) { feedLinkList = []; }
     return feedLinkList;
   }
 
   static async activeTabIsFeed_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     let isFeed = await BrowserManager._activeTabIsFeedCore_async(tabInfo);
-    if(typeof isFeed == 'undefined') {
+    if (typeof isFeed == 'undefined') {
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
   }
 
-  static async renameAttribute(element, attOldName, attNewName)
-  {
+  static async renameAttribute(element, attOldName, attNewName) {
     if (element.hasAttribute(attOldName)) {
       let attValue = element.getAttribute(attOldName);
       element.removeAttribute(attOldName);
@@ -257,9 +256,9 @@ class BrowserManager { /* exported BrowserManager*/
     let isFeed = false;
     if (tabInfo.url.startsWith('about:')) { return false; }
     try {
-      isFeed = await browser.tabs.sendMessage(tabInfo.id, {key:'isFeed'});
+      isFeed = await browser.tabs.sendMessage(tabInfo.id, { key: 'isFeed' });
     }
-    catch(e) {
+    catch (e) {
       isFeed = await BrowserManager._isFeedWorkaround_async(tabInfo.url);
     }
     return isFeed;
@@ -284,7 +283,7 @@ class BrowserManager { /* exported BrowserManager*/
         isFeed = true;
       }
     }
-    catch(e) {
+    catch (e) {
       isFeed = false;
     }
     //}
@@ -292,7 +291,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async findDropFeedsTab_async() {
-    let tabs = await browser.tabs.query({currentWindow: true});
+    let tabs = await browser.tabs.query({ currentWindow: true });
     if (tabs) {
       for (var i = 0, len = tabs.length; i < len; i++) {
         if (BrowserManager.isDropFeedsTab(tabs[i])) {
@@ -306,7 +305,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async selectAllText(element) {
     let selection = window.getSelection();
-    if(selection.toString() == '') {
+    if (selection.toString() == '') {
       window.setTimeout(() => {
         let range = document.createRange();
         range.selectNodeContents(element);
@@ -317,11 +316,11 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   //private stuffs
-  static _setAlwaysOpenNewTab_sbscrb(value){
+  static _setAlwaysOpenNewTab_sbscrb(value) {
     BrowserManager.instance._alwaysOpenNewTab = value;
   }
 
-  static _setOpenNewTabForeground_sbscrb(value){
+  static _setOpenNewTabForeground_sbscrb(value) {
     BrowserManager.instance._openNewTabForeground = value;
   }
 
@@ -331,9 +330,9 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {
     //workaround to force to display content
-    browser.windows.update(winId, {width: winWidth - 2});
+    browser.windows.update(winId, { width: winWidth - 2 });
     await DateTime.delay_async(100);
-    browser.windows.update(winId, {width: winWidth});
+    browser.windows.update(winId, { width: winWidth });
   }
 
   static async _getBrowserVersion_async() {

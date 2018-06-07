@@ -1,0 +1,26 @@
+[
+  {
+    "pattern": "\\b(new|var|if|do|function|while|switch|for|foreach|in|continue|break)(?=[^\\w])",
+    "class": "jsKeyword1"
+  },
+  {
+    "pattern": "\\b(catch|class|const|debugger|default|delete|else|export|extends|finally|import|instanceof|return|super|this|throw|try|typeof|void|with|yield|async|await)(?=[^\\w])",
+    "class": "jsKeyword2"
+  },
+  {
+    "pattern": "\\b(document|window|Array|String|Object|Number|\\$)(?=[^\\w])",
+    "class": "jsKeyword3"
+  },
+  {
+    "pattern": "(\\/\\*.*\\*\\/)",
+    "class": "jsComment"
+  },
+  {
+    "pattern": "(\\/\\/.*)",
+    "class": "jsComment"
+  },
+  {
+    "pattern": "'(.*?)'",
+    "class": "jsString"
+  }
+]
