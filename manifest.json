@@ -10,20 +10,16 @@
       "strict_min_version": "56.0"
     }
   },
-
   "icons": {
     "32": "themes/_any/img/drop-feeds-32.png",
     "48": "themes/_any/img/drop-feeds-48.png",
     "96": "themes/_any/img/drop-feeds-96.png"
   },
-
   "sidebar_action": {
     "default_icon": "themes/_any/img/drop-feeds-32.png",
-    "default_title" : "Drop Feeds",
+    "default_title": "Drop Feeds",
     "default_panel": "html/sidebar.html"
   },
-
-
   "commands": {
     "_execute_sidebar_action": {
       "suggested_key": {
@@ -31,36 +27,36 @@
       }
     }
   },
-
   "browser_action": {
     "default_icon": "themes/_any/img/drop-feeds-32.png"
   },
-
   "page_action": {
     "browser_style": true,
     "default_icon": "themes/legacy/img/subscribe-go.png",
     "default_title": "__MSG_manPageActionDefaultTitle__",
     "default_popup": "html/feedList.html"
   },
-
   "background": {
-    "scripts": ["js/independent/background.js"]
+    "scripts": [
+      "js/independent/background.js"
+    ]
   },
-
   "content_scripts": [
-  {
-    "matches": ["<all_urls>"],
-    "js": ["js/independent/content-script.js"],
-    "run_at": "document_end"
-  }],
-
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/independent/content-script.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
   "options_ui": {
     "page": "html/options.html",
     "browser_style": true
   },
-
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-
   "permissions": [
     "<all_urls>",
     "webRequest",

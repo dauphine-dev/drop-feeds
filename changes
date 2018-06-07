@@ -1,6 +1,10 @@
 0.8
 Script editor
 
+0.7.12
+Change sidebar shortcut to Ctrl+Shit+U
+Mark all items as read before leaving feeds
+
 0.7.11
 Fix wrong 'div'  close tag count in description (avoids items in items)
 

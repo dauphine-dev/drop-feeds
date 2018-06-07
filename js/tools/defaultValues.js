@@ -25,6 +25,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get itemSortOrder()                 { return itemSortOrder.newerFirst; }
   static get showUpdatedFeedCount()          { return false; }
   static get renderFeeds()                   { return true; }
+  static get feedItemMarkAsReadOnLeaving()   { return false; }
   static get userScriptName()                { return 'New script'; }
   static get userScriptUrlMatch()            { return '<all_urls>'; }
 
