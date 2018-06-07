@@ -1,5 +1,5 @@
 /*global browser DefaultValues LocalStorageManager CssManager*/
-'strict';
+'use strict';
 class TabContentArea { /*exported TabContentArea*/
   static async init_async() {
     TabContentArea._updateLocalizedStrings();
