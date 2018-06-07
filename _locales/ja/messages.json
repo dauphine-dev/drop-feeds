@@ -344,7 +344,7 @@
   },
 
   "optFeedItemMarkAsReadOnLeaving": {
-    "message": "Mark all items as read before leaving feeds"
+    "message": "フィードを離れる前に全て既読にする。"
   },
 
   "optShowUpdatedFeedCount": {
