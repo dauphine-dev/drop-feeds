@@ -260,48 +260,6 @@ td {
 	border: 1px solid #a7a7a7;
 }
 
-.editorBox {
-	position: absolute;
-	bottom: 0;
-	top: 121px;
-	width: 100%;
-	height: calc(100% - 121px);
-}
-
-
-#textArea {
-	position: absolute;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	border: 2px inset #70707000;
-	line-break: strict;
-	resize: none;
-	background-color: #ffffff00;
-	color: #00000040;
-	caret-color: red;
-
-	font-family: monospace;
-	font-size: 10;
-	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
-}
-
-#highlightedCode {
-	position: absolute;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	border: 2px inset #707070;
-	line-break: strict;
-	background-color: #c1c5da;
-
-	font-family: monospace;
-	font-size: 10;
-	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
-}
-
 #saveButton::before {
 	background-image: url(/themes/_any/img/test.png);
 	filter: hue-rotate(0deg);
@@ -310,4 +268,16 @@ td {
 #closeButton::before {
 	background-image: url(/themes/_any/img/test.png);
 	filter: hue-rotate(80deg);
+}
+
+.editorFrame {
+	border: none;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 121px;
+	width: 100%;
+	height: calc(100% - 121px);
+	display:block;
+
 }

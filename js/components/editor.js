@@ -1,19 +1,26 @@
-/*global BrowserManager ScriptsManager TextTools SyntaxHighlighter*/
+/*global BrowserManager TextTools SyntaxHighlighter*/
 'use strict';
 
-class Editor { /*exported Editor */
+class Editor {
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new Editor();
+    }
+    return this._instance;
+  }
 
-  constructor(syntaxFilePath) {
+  constructor() {
+console.log('TODO: load css for highlighted syntax dynamically');
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
     this._highlighter = null;
-    this._syntaxFilePath = syntaxFilePath;
     document.getElementById('textArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
-    document.getElementById('textArea').addEventListener('keypress', (e) => { this._textAreaKeypress_event(e); });
+    document.getElementById('textArea').addEventListener('keydown', (e) => { this._textAreaKey_event(e); });
+    document.getElementById('textArea').addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
   }
 
-  async init_async() {
-    this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
+  async init_async(syntaxFilePath) {
+    this._highlighter = new SyntaxHighlighter(syntaxFilePath);
     await this._highlighter.init_async();
   }
 
@@ -23,7 +30,6 @@ class Editor { /*exported Editor */
     textArea.value = text;
     let scriptCodeHighlighted = this._highlighter.highlightText(textArea.value);
     BrowserManager.setInnerHtmlByElement(highlightedCode, scriptCodeHighlighted);
-    document.getElementById('urlMatch').value = await ScriptsManager.loadUrlMatch_async(this._scriptId);
   }
 
   getText() {
@@ -48,6 +54,10 @@ class Editor { /*exported Editor */
     }
   }
 
+  async _textAreaKey_event() {
+    this._highlightText();
+  }
+
   _autoIndent() {
     let textArea = document.getElementById('textArea');
     let indent = textArea.value.substr(0, textArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
@@ -66,10 +76,6 @@ class Editor { /*exported Editor */
     textArea.selectionEnd = selectionStart + text.length;
   }
 
-  async _textAreaKeypress_event() {
-    this._highlightText();
-  }
-
   _highlightText() {
     let plainText = document.getElementById('textArea').value;
     plainText = this._fixText(plainText);
@@ -83,3 +89,4 @@ class Editor { /*exported Editor */
     return text;
   }
 }
+window.editor = Editor.instance;

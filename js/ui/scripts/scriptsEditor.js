@@ -1,6 +1,7 @@
-/*global browser ScriptsManager LocalStorageManager Editor*/
+/*global browser ScriptsManager LocalStorageManager */
 'use strict';
 const _scriptCodeKey = 'scriptCode-';
+const _jsHighlighterPath = 'resources/highlighters/javascript.json';
 
 class ScriptsEditor { /*exported ScriptsEditor */
   static get instance() {
@@ -16,13 +17,17 @@ class ScriptsEditor { /*exported ScriptsEditor */
     this._ctrlPressed = false;
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
-    this._jsHighlighter = null;
+    window.addEventListener('click', (e) => { this._loaded_event(e); });
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
   }
   async init_async() {
-    this._jsEditor = new Editor('resources/highlighters/javascript.json');
-    await this._jsEditor.init_async();
+  }
+
+  async _loaded_event() {
+    let editorWindow = document.getElementById('editorFrame').contentWindow;
+    this._jsEditor = editorWindow.editor;
+    await this._jsEditor.init_async(_jsHighlighterPath);
   }
 
   async display_async(scriptId) {

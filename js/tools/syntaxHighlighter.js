@@ -1,4 +1,4 @@
-/* global TextTools Transfer browser*/
+/* global browser TextTools Transfer*/
 'use strict';
 class SyntaxHighlighter { /*exported SyntaxHighlighter */
   constructor(syntaxFilePath) {
