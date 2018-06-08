@@ -119,7 +119,7 @@ class Editor { /*exported Editor*/
     event.target.scrollTop = editHighlightedCode.scrollTop; //workaround for when cursor in on max pos
 
     editHighlightedCode.scrollLeft = event.target.scrollLeft;
-    event.target.scrollLeft.editHighlightedCode.scrollLeft; //workaround for when cursor in on max pos
+    event.target.scrollLeft = editHighlightedCode.scrollLeft; //workaround for when cursor in on max pos
   }
 
 
