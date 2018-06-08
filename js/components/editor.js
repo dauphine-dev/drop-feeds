@@ -53,11 +53,9 @@ class Editor { /*exported Editor*/
   }
 
   async setText_async(text) {
-    let highlightedCode = document.getElementById('editHighlightedCode');
     let textArea = document.getElementById('editTextArea');
     textArea.value = text;
-    let scriptCodeHighlighted = this._highlighter.highlightText(textArea.value);
-    BrowserManager.setInnerHtmlByElement(highlightedCode, scriptCodeHighlighted);
+    this._highlightText();
   }
 
   getText() {
