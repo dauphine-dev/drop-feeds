@@ -4,7 +4,8 @@ body {
 	font-family: monospace;
 	background-color: #FFFFFF;
 	/*font-size: small;*/
-	font-family: "Lucida Console", "Courier New", "Georgia" ,"Times New Roman", "Georgia";
+	font-family: "Lucida Console", "Courier New", "Georgia", "Times New Roman", "Georgia";
+	overflow: hidden;
 }
 
 #mainBox {
@@ -25,24 +26,26 @@ body {
 	position: relative;
 	top: 50px;
 	left: 0;
-  margin: 5px;
-  display: block;
+	margin: 5px;
+	display: block;
 }
 
 #logoImg::before {
-  background-image: url(/themes/_any/img/drop-feeds-96.png);
-  background-size: 96px 96px;
-  width: 96px;
-  height: 96px;
-  content: "";
-  display: block;
-	margin-left:auto; margin-right:0;
+	background-image: url(/themes/_any/img/drop-feeds-96.png);
+	background-size: 96px 96px;
+	width: 96px;
+	height: 96px;
+	content: "";
+	display: block;
+	margin-left: auto;
+	margin-right: 0;
 }
 
 #logoName {
 	font-size: x-large;
 	font-weight: bold;
-	margin-left:auto; margin-right:0;
+	margin-left: auto;
+	margin-right: 0;
 	display: block;
 	text-align: right;
 }
@@ -52,13 +55,11 @@ body {
 	float: right;
 }
 
-
-
 #rightBox {
 	border: 2px solid #6f6f6f;
 	-moz-box-flex: 1;
 	flex: 1;
-	box-flex:1;
+	box-flex: 1;
 }
 
 #rightBoxInner {
@@ -70,6 +71,7 @@ body {
 }
 
 /* --------------- Script manager ----------------- */
+
 .topMenu {
 	position: relative;
 	border-bottom: 1px solid #6f6f6f;
@@ -82,27 +84,27 @@ body {
 .topButton::before {
 	background-size: 16px 16px;
 	background-repeat: no-repeat;
-  width: 16px;
-  height: 16px;
-  content: "";
-  display: inline-block;
+	width: 16px;
+	height: 16px;
+	content: "";
+	display: inline-block;
 	vertical-align: middle;
 	margin: 5px;
 }
 
 .topButton {
-  display: inline-block;
-  border: 1px solid #dfdfdf;
-  border-radius: 4px;
+	display: inline-block;
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
 }
 
 .topButton:hover {
-  border: 1px outset #707070;
-  border-radius: 4px;
+	border: 1px outset #707070;
+	border-radius: 4px;
 }
 
 #createNewScript::before {
-  background-image: url(/themes/_any/img/scripts-new.png);
+	background-image: url(/themes/_any/img/scripts-new.png);
 }
 
 #scriptManager {
@@ -117,7 +119,7 @@ body {
 .scriptEntry {
 	background-color: #fefefe;
 	position: relative;
-  border: 1px outset #707070;
+	border: 1px outset #707070;
 	border-radius: 4px;
 	margin: 10px;
 	height: 64px;
@@ -127,37 +129,48 @@ body {
 
 .logo::before {
 	position: relative;
-  background-image: url(/themes/_any/img/drop-feeds-32.png);
+	background-image: url(/themes/_any/img/drop-feeds-32.png);
 	background-size: 32px 32px;
-  width: 32px;
-  height: 32px;
-  content: "";
+	width: 32px;
+	height: 32px;
+	content: "";
 	display: block;
 	float: left;
 	top: 16px;
-	margin:0;
+	margin: 0;
 }
 
 .scriptLeftBlock {
 	position: relative;
 	float: left;
-	top:0;
-	margin-left:5px;
-	width:auto;
+	top: 0;
+	margin-left: 5px;
+	width: auto;
 	height: 100%;
 }
 
 .scriptRightBlock {
 	position: relative;
 	float: right;
-	top:0;
-	width:200px;
+	top: 0;
+	width: 200px;
 	height: 100%;
 	text-align: right;
 }
 
 .scriptName {
 	margin-top: 10px;
+	font-weight: bold;
+}
+
+.scriptInfo {
+	border: 1px solid gray;
+	padding: 2px;
+	font-size: small;
+}
+
+.scriptInfo:hover {
+	cursor: default;
 }
 
 .lastEdit {
@@ -165,52 +178,57 @@ body {
 }
 
 .scriptButton::before {
-  background-size: 16px 16px;
-  width: 16px;
+	background-size: 16px 16px;
+	width: 16px;
 	height: 16px;
 	margin: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .scriptButton {
-  display: inline-block;
+	display: inline-block;
 	margin: 3px;
-  border: 1px solid #dfdfdf;
-  border-radius: 4px;
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
 }
 
 .scriptTypeSelect {
-  display: inline-block;
+	display: inline-block;
 	margin: 3px;
-  border: 1px solid #dfdfdf;
-  border-radius: 4px;
-
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
 }
 
 .scriptButton:hover {
-  border: 1px outset #707070;
-  border-radius: 4px;
+	border: 1px outset #707070;
+	border-radius: 4px;
 }
 
 .editScriptButton::before {
-  background-image: url(/themes/_any/img/scripts-edit.png);
+	background-image: url(/themes/_any/img/scripts-edit.png);
 }
 
 .enabledScriptButton::before {
-  background-image: url(/themes/_any/img/scripts-enabled.png);
+	background-image: url(/themes/_any/img/scripts-enabled.png);
 }
 
 .disabledScriptButton::before {
-  background-image: url(/themes/_any/img/scripts-disabled.png);
+	background-image: url(/themes/_any/img/scripts-disabled.png);
 }
 
 .deleteScriptButton::before {
-  background-image: url(/themes/_any/img/scripts-delete.png);
+	background-image: url(/themes/_any/img/scripts-delete.png);
+}
+
+.subscribeScriptButton::before {
+	background-image: url(/themes/_any/img/test.png);
+	filter: hue-rotate(0deg);
 }
 
 /* --------------- Script editor ----------------- */
+
 #scriptEditor {
 	position: absolute;
 	width: 100%;
@@ -218,17 +236,6 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-
-/*
-.topMenu {
-	position: relative;
-	border-bottom: 1px solid #6f6f6f;
-	top: 0;
-	padding-top: 10px;
-	padding-left: 12px;
-	height: 40px;
-}
-*/
 
 .settings {
 	position: relative;
@@ -238,15 +245,18 @@ body {
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
+
 td:first-child {
-  white-space: nowrap;
+	white-space: nowrap;
 }
+
 td:last-child {
-  width: 100%;
+	width: 100%;
 }
+
 td {
 	border: none;
 }
@@ -255,6 +265,7 @@ td {
 	font-family: Arial;
 	font-size: small;
 }
+
 .settingFieldData {
 	width: 99%;
 	border: 1px solid #a7a7a7;
@@ -278,6 +289,5 @@ td {
 	top: 121px;
 	width: 100%;
 	height: calc(100% - 121px);
-	display:block;
-
+	display: block;
 }

@@ -19,7 +19,7 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
     }
     text = TextTools.replaceAll(text, ' ', '&nbsp;');
     text = TextTools.replaceAll(text, 'span_reserved=', 'span class=');
-    text = TextTools.replaceAll(text, '<br/>', '<br/>\n');
+    //text = TextTools.replaceAll(text, '<br/>', '<br/>\n');
 
     return text;
   }

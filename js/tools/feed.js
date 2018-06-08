@@ -1,4 +1,4 @@
-/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView UserScriptTools*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
 
 const feedStatus = {
@@ -33,17 +33,17 @@ class Feed { /*exported Feed*/
     this._newUrl = null;
     this._feedItems = null;
     this._ifHttpsHAsFailedRetryWithHttp = DefaultValues.ifHttpsHasFailedRetryWithHttp;
-    this._info = {hash: '', info: ''};
+    this._info = { hash: '', info: '' };
   }
 
   async _constructor_async() {
     if (this._storedFeed.id) {
       await UserScriptTools.instance.init_async();
-      this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
-      this._storedFeed.title =  this._bookmark.title;
+      this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
+      this._storedFeed.title = this._bookmark.title;
       this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
       if (this._storedFeed.prevValues == undefined) {
-        this._storedFeed.prevValues = {hash: null, pubDate: null};
+        this._storedFeed.prevValues = { hash: null, pubDate: null };
       }
       this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
       if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
@@ -103,7 +103,7 @@ class Feed { /*exported Feed*/
     await this._download_async(ignoreRedirection, false);
     this._parseTitle();
     await this.save_async();
-    browser.bookmarks.update(this._storedFeed.id, {title: this._storedFeed.title});
+    browser.bookmarks.update(this._storedFeed.id, { title: this._storedFeed.title });
   }
 
 
@@ -115,7 +115,7 @@ class Feed { /*exported Feed*/
 
   static getClassName(storedFeed) {
     let itemClass = null;
-    switch(storedFeed.status) {
+    switch (storedFeed.status) {
       case feedStatus.UPDATED:
         itemClass = 'feedUnread';
         break;
@@ -130,7 +130,7 @@ class Feed { /*exported Feed*/
   }
 
   async save_async() {
-    if ( this._storedFeed.pubDate == null && this._storedFeed.hash == null) {
+    if (this._storedFeed.pubDate == null && this._storedFeed.hash == null) {
       this._storedFeed.pubDate = this._storedFeed.prevValues.pubDate;
       this._storedFeed.hash = this._storedFeed.prevValues.hash;
     }
@@ -139,7 +139,7 @@ class Feed { /*exported Feed*/
 
   async updateUiStatus_async() {
     let feedUiItem = document.getElementById(this._storedFeed.id);
-    switch(this.status) {
+    switch (this.status) {
       case feedStatus.UPDATED:
         feedUiItem.classList.remove('feedError');
         feedUiItem.classList.remove('feedRead');
@@ -178,16 +178,17 @@ class Feed { /*exported Feed*/
 
   async _download_async(ignoreRedirection, forceHttp) {
     this._error = null;
+
     try {
       let urlNoCache = true;
       await this._downloadEx_async(urlNoCache, forceHttp);
     }
-    catch(e1) {
+    catch (e1) {
       try {
         let urlNoCache = false;
         await this._downloadEx_async(urlNoCache, forceHttp);
       }
-      catch(e2) {
+      catch (e2) {
         let retry = null;
         if (e2 === 0) {
           if (!forceHttp) {
@@ -196,7 +197,7 @@ class Feed { /*exported Feed*/
                 retry = true;
                 this._download_async(ignoreRedirection, true);
               }
-              catch(e3) {
+              catch (e3) {
                 /*eslint-disable no-console*/
                 //console.log(this.url);
                 //console.log(this._storedFeed.title + ': ' + e3);
@@ -230,14 +231,19 @@ class Feed { /*exported Feed*/
 
   async _downloadEx_async(urlNoCache, forceHttp) {
     let url = this.url;
-    if (this._newUrl) {
-      url = this._newUrl;
+
+    if (url.startsWith(scriptVirtualProtocol)) {
+      this._feedText = await UserScriptTools.instance.downloadVirtualFeed_async(url);
     }
-    if (forceHttp) {
-      url = url.replace('https://', 'http://');
+    else {
+      if (this._newUrl) {
+        url = this._newUrl;
+      }
+      if (forceHttp) {
+        url = url.replace('https://', 'http://');
+      }
+      this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
     }
-    this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
-    //console.log('this._feedText:', this._feedText);
     this._validFeedText();
   }
 
@@ -250,8 +256,8 @@ class Feed { /*exported Feed*/
   }
 
   _parsePubdate() {
-    if (this._error != null)  { return; }
-    this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
+    if (this._error != null) { return; }
+    this._storedFeed.pubDate = FeedParser.parsePubdate(this._feedText);
   }
 
   async _runUserScript_async() {
@@ -259,8 +265,8 @@ class Feed { /*exported Feed*/
   }
 
   _parseTitle() {
-    if (this._error != null)  { return; }
-    this._storedFeed.title =  FeedParser.parseTitle(this._feedText);
+    if (this._error != null) { return; }
+    this._storedFeed.title = FeedParser.parseTitle(this._feedText);
   }
 
   async _updateStatus() {
@@ -270,7 +276,7 @@ class Feed { /*exported Feed*/
     else {
       this._storedFeed.status = feedStatus.OLD;
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if (!this._storedFeed.prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._storedFeed.prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
+        if (!this._storedFeed.prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._storedFeed.prevValues.pubDate.valueOf() && this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
       } else if ((this._storedFeed.hash && !this._storedFeed.prevValues.hash) || (this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {

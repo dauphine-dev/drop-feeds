@@ -1,5 +1,6 @@
 /*global Listener ListenerProviders LocalStorageManager*/
 'use strict';
+const scriptVirtualProtocol = 'dropfeeds://';
 const scriptListKey = 'scriptList';
 const scriptObjKey = 'scriptObj-';
 const scriptCodeKey = 'scriptCode-';
@@ -37,6 +38,16 @@ class UserScriptTools { /* exported UserScriptTools */
     return feedText;
   }
 
+  async downloadVirtualFeed_async(url) {
+    let scriptId = url.substring(scriptVirtualProtocol.length).trim();
+    let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, null);
+    if (scriptCode) {
+      let virtualFeedScript = new Function(scriptCode);
+      let feedText = virtualFeedScript();
+      return feedText;
+    }
+  }
+
   async _runScript_async(scriptObj, feedText) {
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptObj.id, null);
     if (scriptCode) {
@@ -45,6 +56,7 @@ class UserScriptTools { /* exported UserScriptTools */
       return feedText;
     }
   }
+
 
   static async _updateScriptList_sbscrb(value) {
     let self = UserScriptTools.instance;

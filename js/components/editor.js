@@ -1,6 +1,11 @@
 /*global BrowserManager TextTools SyntaxHighlighter*/
 'use strict';
 const _cssEditorPath = '/themes/_any/css/editor.css';
+const _overflow = {
+  vertical: 0,
+  horizontal: 1
+};
+
 class Editor { /*exported Editor*/
   constructor(syntaxFilePath) {
     this._tabSize = 4;
@@ -21,15 +26,23 @@ class Editor { /*exported Editor*/
 
     editEditorBox.setAttribute('id', 'editEditorBox');
     editHighlightedCode.setAttribute('id', 'editHighlightedCode');
+    editHighlightedCode.style.overflowX = 'hidden';
+    editHighlightedCode.style.overflowY = 'hidden';
     editTextArea.setAttribute('id', 'editTextArea');
+
 
     editEditorBox.appendChild(editHighlightedCode);
     editEditorBox.appendChild(editTextArea);
     baseElement.appendChild(editEditorBox);
 
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
+    document.getElementById('editTextArea').addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('input', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
+
+    document.getElementById('editTextArea').addEventListener('overflow', (e) => { this._overflow_event(e); });
+    document.getElementById('editTextArea').addEventListener('underflow', (e) => { this._underflow_event(e); });
+    document.getElementById('editTextArea').addEventListener('scroll', (e) => { this._scroll_event(e); });
 
 
     let editorCss = document.createElement('link');
@@ -67,11 +80,50 @@ class Editor { /*exported Editor*/
         break;
       default:
     }
+    this._highlightText();
   }
 
   async _textAreaKey_event() {
     this._highlightText();
   }
+
+  async _overflow_event(event) {
+    let editHighlightedCode = document.getElementById('editHighlightedCode');
+    switch (event.detail) {
+      case _overflow.vertical:
+        editHighlightedCode.style.overflowY = 'scroll';
+        editHighlightedCode.scrollTop = event.target.scrollTop;
+        break;
+      case _overflow.horizontal:
+        editHighlightedCode.style.overflowX = 'scroll';
+        editHighlightedCode.scrollLeft = event.target.scrollLeft;
+        break;
+    }
+  }
+
+  async _underflow_event(event) {
+    let editHighlightedCode = document.getElementById('editHighlightedCode');
+    switch (event.detail) {
+      case _overflow.vertical:
+        editHighlightedCode.scrollTop = event.target.scrollTop;
+        editHighlightedCode.style.overflowY = 'hidden';
+        break;
+      case _overflow.horizontal:
+        editHighlightedCode.scrollLeft = event.target.scrollLeft;
+        editHighlightedCode.style.overflowX = 'hidden';
+        break;
+    }
+  }
+
+  async _scroll_event(event) {
+    let editHighlightedCode = document.getElementById('editHighlightedCode');
+    editHighlightedCode.scrollTop = event.target.scrollTop;
+    event.target.scrollTop = editHighlightedCode.scrollTop; //workaround for when cursor in on max pos
+
+    editHighlightedCode.scrollLeft = event.target.scrollLeft;
+    event.target.scrollLeft.editHighlightedCode.scrollLeft; //workaround for when cursor in on max pos
+  }
+
 
   _autoIndent() {
     let textArea = document.getElementById('editTextArea');

@@ -17,6 +17,7 @@
 	font-family: monospace;
 	font-size: 10;
 	font-family: "Lucida Console", "Courier New", "Georgia", "Times New Roman", "Georgia";
+	white-space: pre;
 }
 
 #editTextArea {
@@ -34,4 +35,5 @@
 	font-family: monospace;
 	font-size: 10;
 	font-family: "Lucida Console", "Courier New", "Georgia", "Times New Roman", "Georgia";
+	white-space: pre;
 }

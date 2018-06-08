@@ -5,11 +5,6 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link href="/themes/_any/css/scripts.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
-  <!--
-  <link href="/themes/_any/css/editor.css" rel="stylesheet" type="text/css">
-  <link href="/themes/_any/css/jsHighlight.css" rel="stylesheet" type="text/css">
-  -->
-
   <script src="/js/tools/textTools.js"></script>
   <script src="/js/tools/browserManager.js"></script>
   <script src="/js/tools/localStorageManager.js"></script>
@@ -18,6 +13,8 @@
   <script src="/js/tools/syntaxHighlighter.js"></script>
   <script src="/js/tools/defaultValues.js"></script>
   <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/compute.js"></script>
+  <script src="/js/tools/dialogs.js"></script>
   <title>Drop Feeds - Code editor</title>
 </head>
 
@@ -56,6 +53,8 @@
                     <option value="feedTransformer">Feed transformer</option>
                     <option value="virtualFeed">Virtual feed</option>
                   </select>
+                  <span class="scriptInfo urlMatchPatterns" title="#Url match patterns"></span>
+                  <span class="scriptButton subscribeScriptButton" title="#Subscribe"></span>
                 </div>
               </div>
               <div class="scriptRightBlock">
@@ -94,12 +93,6 @@
               </tr>
             </table>
           </div>
-          <!--
-
-          <iframe id="editorFrame" src="/iframes/editor.html" class="editorFrame" scrolling="no">
-            <p>Your browser does not support iframes.</p>
-          </iframe>
-          -->
           <div id="editor"></div>
         </div>
       </div>
