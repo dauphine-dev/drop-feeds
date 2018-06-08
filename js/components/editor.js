@@ -21,18 +21,23 @@ class Editor { /*exported Editor*/
 
   attach(baseElement) {
     let editEditorBox = document.createElement('div');
-    let editHighlightedCode = document.createElement('div');
-    let editTextArea = document.createElement('textarea');
-
     editEditorBox.setAttribute('id', 'editEditorBox');
+
+    let editHighlightedCode = document.createElement('div');
     editHighlightedCode.setAttribute('id', 'editHighlightedCode');
+    editHighlightedCode.classList.add('editTextZone');
+    editHighlightedCode.classList.add('font');
     editHighlightedCode.style.overflowX = 'hidden';
     editHighlightedCode.style.overflowY = 'hidden';
-    editTextArea.setAttribute('id', 'editTextArea');
-
-
     editEditorBox.appendChild(editHighlightedCode);
+
+    let editTextArea = document.createElement('textarea');
+    editTextArea.classList.add('editTextZone');
+    editTextArea.classList.add('font');
+    editTextArea.classList.add('cursor');
+    editTextArea.setAttribute('id', 'editTextArea');
     editEditorBox.appendChild(editTextArea);
+
     baseElement.appendChild(editEditorBox);
 
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });

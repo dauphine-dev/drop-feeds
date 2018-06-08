@@ -127,6 +127,11 @@ body {
 	min-width: 475px;
 }
 
+.scriptEntry:hover {
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
 .logo::before {
 	position: relative;
 	background-image: url(/themes/_any/img/drop-feeds-32.png);
@@ -200,7 +205,15 @@ body {
 	border: 1px solid #dfdfdf;
 	border-radius: 4px;
 }
+.scriptTypeSelect:hover {
+	border: 1px solid #000000;
+	border-radius: 4px;
 
+}
+
+.scriptName:hover {
+	border: 1px solid #707070;
+}
 .scriptButton:hover {
 	border: 1px outset #707070;
 	border-radius: 4px;

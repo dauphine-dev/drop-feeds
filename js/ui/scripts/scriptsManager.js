@@ -23,8 +23,6 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async init_async() {
-    //await browser.storage.local.remove('aaaa');
-
     this._loadScriptList_async();
     this.display();
   }
@@ -116,8 +114,8 @@ class ScriptsManager { /* exported ScriptsManager */
     newScriptEntry.querySelector('.scriptName').textContent = scriptObj.name;
     ScriptsManager._setEnDisScriptButtonClass(newScriptEntry, scriptObj.enabled);
     newScriptEntry.querySelector('.urlMatchPatterns').textContent = scriptObj.urlMatch;
-    newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == _scriptType.feedTransformer ? 'inline' : 'none');
-    newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == _scriptType.virtualFeed ? 'inline' : 'none');
+    newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == _scriptType.feedTransformer ? 'inline-block' : 'none');
+    newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == _scriptType.virtualFeed ? 'inline-block' : 'none');
     newScriptEntry.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
     newScriptEntry.querySelector('.lastEdit').textContent = DateTime.getDateDiff(Date.now(), scriptObj.lastEdit);
     newScriptEntry.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
@@ -177,7 +175,7 @@ class ScriptsManager { /* exported ScriptsManager */
     window.getSelection().removeAllRanges();
     let currentScriptEntry = event.target.parentNode.parentNode;
     let scriptName = event.target.textContent;
-    ScriptsManager._updateScriptObj_async(currentScriptEntry, 'name', scriptName);
+    this._updateScriptObj_async(currentScriptEntry, 'name', scriptName);
 
   }
 
@@ -201,7 +199,7 @@ class ScriptsManager { /* exported ScriptsManager */
 
   async _enDisScriptButtonClicked_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
-    let enabled = await ScriptsManager._updateScriptObj_async(currentScriptEntry, 'enabled', null, true);
+    let enabled = await this._updateScriptObj_async(currentScriptEntry, 'enabled', null, true);
     ScriptsManager._setEnDisScriptButtonClass(currentScriptEntry, enabled);
   }
 
@@ -221,9 +219,9 @@ class ScriptsManager { /* exported ScriptsManager */
   _scriptTypeChanged_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let type = event.target.selectedIndex;
-    ScriptsManager._updateScriptObj_async(currentScriptEntry, 'type', type);
-    currentScriptEntry.querySelector('.urlMatchPatterns').style.display = (type == _scriptType.feedTransformer ? 'inline' : 'none');
-    currentScriptEntry.querySelector('.subscribeScriptButton').style.display = (type == _scriptType.virtualFeed ? 'inline' : 'none');
+    this._updateScriptObj_async(currentScriptEntry, 'type', type);
+    currentScriptEntry.querySelector('.urlMatchPatterns').style.display = (type == _scriptType.feedTransformer ? 'inline-block' : 'none');
+    currentScriptEntry.querySelector('.subscribeScriptButton').style.display = (type == _scriptType.virtualFeed ? 'inline-block' : 'none');
   }
 
   async _subscribeScriptButton_event(event) {
@@ -231,7 +229,7 @@ class ScriptsManager { /* exported ScriptsManager */
     let scriptId = parseInt(currentScriptEntry.getAttribute('id'));
     let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
     if (scriptObj) {
-      await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: scriptObj.name, feedUrl: scriptObj.virtualUrl});
+      await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: scriptObj.name, feedUrl: scriptObj.virtualUrl });
       await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
     }
   }
