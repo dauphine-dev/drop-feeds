@@ -270,7 +270,7 @@ td {
 	filter: hue-rotate(80deg);
 }
 
-.editorFrame {
+#editor {
 	border: none;
 	position: absolute;
 	left: 0;

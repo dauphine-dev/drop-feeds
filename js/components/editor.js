@@ -1,39 +1,54 @@
 /*global BrowserManager TextTools SyntaxHighlighter*/
 'use strict';
-
-class Editor {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Editor();
-    }
-    return this._instance;
-  }
-
-  constructor() {
-console.log('TODO: load css for highlighted syntax dynamically');
+const _cssEditorPath = '/themes/_any/css/editor.css';
+class Editor { /*exported Editor*/
+  constructor(syntaxFilePath) {
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
     this._highlighter = null;
-    document.getElementById('textArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
-    document.getElementById('textArea').addEventListener('keydown', (e) => { this._textAreaKey_event(e); });
-    document.getElementById('textArea').addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
+    this._syntaxFilePath = syntaxFilePath;
   }
 
-  async init_async(syntaxFilePath) {
-    this._highlighter = new SyntaxHighlighter(syntaxFilePath);
+  async init_async() {
+    this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
   }
 
+  attach(baseElement) {
+    let editEditorBox = document.createElement('div');
+    let editHighlightedCode = document.createElement('div');
+    let editTextArea = document.createElement('textarea');
+
+    editEditorBox.setAttribute('id', 'editEditorBox');
+    editHighlightedCode.setAttribute('id', 'editHighlightedCode');
+    editTextArea.setAttribute('id', 'editTextArea');
+
+    editEditorBox.appendChild(editHighlightedCode);
+    editEditorBox.appendChild(editTextArea);
+    baseElement.appendChild(editEditorBox);
+
+    document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
+    document.getElementById('editTextArea').addEventListener('input', (e) => { this._textAreaKey_event(e); });
+    document.getElementById('editTextArea').addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
+
+
+    let editorCss = document.createElement('link');
+    editorCss.setAttribute('href', _cssEditorPath);
+    editorCss.setAttribute('rel', 'stylesheet');
+    editorCss.setAttribute('type', 'text/css');
+    document.head.appendChild(editorCss);
+  }
+
   async setText_async(text) {
-    let highlightedCode = document.getElementById('highlightedCode');
-    let textArea = document.getElementById('textArea');
+    let highlightedCode = document.getElementById('editHighlightedCode');
+    let textArea = document.getElementById('editTextArea');
     textArea.value = text;
     let scriptCodeHighlighted = this._highlighter.highlightText(textArea.value);
     BrowserManager.setInnerHtmlByElement(highlightedCode, scriptCodeHighlighted);
   }
 
   getText() {
-    let text = document.getElementById('textArea').value;
+    let text = document.getElementById('editTextArea').value;
     return text;
   }
 
@@ -59,13 +74,13 @@ console.log('TODO: load css for highlighted syntax dynamically');
   }
 
   _autoIndent() {
-    let textArea = document.getElementById('textArea');
+    let textArea = document.getElementById('editTextArea');
     let indent = textArea.value.substr(0, textArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
     this._insertText('\n' + indent);
   }
 
   _insertText(text) {
-    let textArea = document.getElementById('textArea');
+    let textArea = document.getElementById('editTextArea');
     let selectionStart = textArea.selectionStart;
     let selectionEnd = textArea.selectionEnd;
     let value = textArea.value;
@@ -77,10 +92,10 @@ console.log('TODO: load css for highlighted syntax dynamically');
   }
 
   _highlightText() {
-    let plainText = document.getElementById('textArea').value;
+    let plainText = document.getElementById('editTextArea').value;
     plainText = this._fixText(plainText);
     let highlightedText = this._highlighter.highlightText(plainText);
-    BrowserManager.setInnerHtmlByElement(document.getElementById('highlightedCode'), highlightedText);
+    BrowserManager.setInnerHtmlByElement(document.getElementById('editHighlightedCode'), highlightedText);
   }
 
   _fixText(text) {
@@ -89,4 +104,3 @@ console.log('TODO: load css for highlighted syntax dynamically');
     return text;
   }
 }
-window.editor = Editor.instance;

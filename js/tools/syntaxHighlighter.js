@@ -37,24 +37,35 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
 
   async _loadSyntaxFile_async() {
     let syntaxFileUrl = browser.extension.getURL(this._syntaxFilePath);
-    let syntaxFileJsonText = await Transfer.downloadTextFile_async(syntaxFileUrl);
-    let jsonSyntaxFile = JSON.parse(syntaxFileJsonText);
-    this._pairPatternClassList = [];
-    for (let ptCl of jsonSyntaxFile) {
-      let regExpPattern = new RegExp(ptCl.pattern, 'g');
-      this._pairPatternClassList.push({ pattern: regExpPattern, class: ptCl.class });
-    }
+    let syntaxJson = await Transfer.downloadTextFile_async(syntaxFileUrl);
+    let syntaxData = JSON.parse(syntaxJson);
+    this._loadSyntaxCss(syntaxData.cssPath);
+    this._pairPatternClassList = SyntaxHighlighter.unStringifyPairPatternClassList(syntaxData.pairPatternClassList);
   }
 
-  static pairPatternClassListToJson(pairPatternClassList) {
-    let pairPatternClassListFixed = [];
-    for (let pairPatternClass of  pairPatternClassList) {
-      pairPatternClassListFixed.push({pattern: pairPatternClass.pattern.source, class: pairPatternClass.class});
+  _loadSyntaxCss(cssSyntaxPath) {
+    let jsHighlightCss = document.createElement('link');
+    jsHighlightCss.setAttribute('href', cssSyntaxPath);
+    jsHighlightCss.setAttribute('rel', 'stylesheet');
+    jsHighlightCss.setAttribute('type', 'text/css');
+    document.head.appendChild(jsHighlightCss);
+  }
+
+  static stringifyPairPatternClassList(pairPatternClassList) {
+    let pairPatternClassListStringified = [];
+    for (let pairPatternClass of pairPatternClassList) {
+      pairPatternClassListStringified.push({ pattern: pairPatternClass.pattern.source, class: pairPatternClass.class });
     }
-    let json = JSON.stringify(pairPatternClassListFixed);
-    /*eslint-disable no-console*/
-    console.log('json:\n', json);
-    /*eslint-enable no-console*/
+    return pairPatternClassListStringified;
+  }
+
+  static unStringifyPairPatternClassList(pairPatternClassListStringified) {
+    let pairPatternClassList = [];
+    for (let ptCl of pairPatternClassListStringified) {
+      let regExpPattern = new RegExp(ptCl.pattern, 'g');
+      pairPatternClassList.push({ pattern: regExpPattern, class: ptCl.class });
+    }
+    return pairPatternClassList;
   }
 
 }

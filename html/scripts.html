@@ -5,6 +5,11 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link href="/themes/_any/css/scripts.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <!--
+  <link href="/themes/_any/css/editor.css" rel="stylesheet" type="text/css">
+  <link href="/themes/_any/css/jsHighlight.css" rel="stylesheet" type="text/css">
+  -->
+
   <script src="/js/tools/textTools.js"></script>
   <script src="/js/tools/browserManager.js"></script>
   <script src="/js/tools/localStorageManager.js"></script>
@@ -90,21 +95,17 @@
             </table>
           </div>
           <!--
-          <div class="editorBox">
-            <div id="highlightedCode"></div>
-            <textarea id="textArea"></textarea>
-          </div>
-          -->
+
           <iframe id="editorFrame" src="/iframes/editor.html" class="editorFrame" scrolling="no">
             <p>Your browser does not support iframes.</p>
           </iframe>
+          -->
+          <div id="editor"></div>
         </div>
       </div>
     </div>
   </div>
-  <!--
   <script src="/js/components/editor.js"></script>
-  -->
   <script src="/js/ui/scripts/scriptsEditor.js"></script>
   <script src="/js/ui/scripts/scriptsManager.js"></script>
   <script src="/js/ui/scripts/scripts.js"></script>
