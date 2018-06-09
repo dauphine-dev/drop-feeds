@@ -27,27 +27,27 @@ class FeedManager { /*exported FeedManager*/
     if (this._feedProcessingInProgress) { return; }
     TopMenu.instance.animateCheckFeedButton(true);
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
-    await this._processFeedsFromList(folderId, this._feedsUpdate_async);
+    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
 
   async openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce) {
     let feed = await Feed.new(feedId);
     this._itemList = [];
     let isSingle=true; let displayItems=true; let folderTitle=null;
-    this._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
+    FeedManager._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
   }
 
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
-    await this._processFeedsFromList(folderId, this._openOneFeedToTab_async);
+    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
   }
 
   async openAsUnifiedFeed_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
     this._unifiedChannelTitle = (await browser.bookmarks.getSubTree(folderId.substring(3)))[0].title;
-    await this._processFeedsFromList(folderId, this._unifyingThenOpenProcessedFeedsInner_async);
+    await this._processFeedsFromList(folderId, FeedManager._unifyingThenOpenProcessedFeedsInner_async);
   }
 
 
@@ -119,40 +119,41 @@ class FeedManager { /*exported FeedManager*/
     this._feedProcessingInProgress = false;
   }
 
-  async _feedsUpdate_async(feed) {
+  static async _feedsUpdate_async(feed) {
+    let self = FeedManager.instance;
     try {
-      this._statusMessageBeforeCheck(feed);
+      self._statusMessageBeforeCheck(feed);
       await feed.update_async();
-      this._statusMessageAfterCheck(feed);
+      self._statusMessageAfterCheck(feed);
       await feed.updateUiStatus_async();
       feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
-        this._updatedFeeds++;
+        self._updatedFeeds++;
       }
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
       /*eslint-disable no-console*/
-      console.log(e);
       /*eslint-enable no-console*/
     } finally {
-      if (--this._feedsToProcessCounter == 0) {
-        this._displayUpdatedFeedsNotification();
-        this._processFeedsFinished();
+      if (--self._feedsToProcessCounter == 0) {
+        self._displayUpdatedFeedsNotification();
+        self._processFeedsFinished();
       }
     }
   }
 
-  async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
+  static async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
+    let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.update_async();
       let feedHtmlUrl = feed.docUrl;
-      this._itemList.push(... feed.info.itemList);
+      self._itemList.push(... feed.info.itemList);
       let isUnified = false;
-      await this._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
+      await self._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
+      await self._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -167,17 +168,18 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
 
     } finally {
-      if (--this._feedsToProcessCounter <= 0) {
-        this._processFeedsFinished();
+      if (--self._feedsToProcessCounter <= 0) {
+        self._processFeedsFinished();
       }
     }
   }
 
-  async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
+  static async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
+    let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
-      this._unifiedFeedItems.push(...feed.info.itemList);
+      self._unifiedFeedItems.push(...feed.info.itemList);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus_async();
       StatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
@@ -188,14 +190,14 @@ class FeedManager { /*exported FeedManager*/
       console.log(e);
       /*eslint-enable no-console*/
     } finally {
-      if (--this._feedsToProcessCounter == 0) {
-        let unifiedDocUrl = this._getUnifiedDocUrl();
+      if (--self._feedsToProcessCounter == 0) {
+        let unifiedDocUrl = self._getUnifiedDocUrl();
         let openNewTabForce = false;
         let isUnified=true; let feedNull = null;
-        await this._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
-        await this._openTabFeed_async(unifiedDocUrl, openNewTabForce);
-        this._unifiedChannelTitle = '';
-        this._processFeedsFinished();
+        await self._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
+        await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
+        self._unifiedChannelTitle = '';
+        self._processFeedsFinished();
       }
     }
   }

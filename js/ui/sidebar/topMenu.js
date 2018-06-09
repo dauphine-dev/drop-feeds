@@ -27,7 +27,7 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').addEventListener('click', (e) => { this._toggleFoldersButtonClicked_event(e); });
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
-    setTimeout(this._automaticFeedUpdate, 2000);
+    setTimeout((() => { this._automaticFeedUpdate(); } ), 2000);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
   }
 
