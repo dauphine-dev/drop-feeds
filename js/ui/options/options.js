@@ -7,7 +7,7 @@ class Options {
     await ThemeManager.instance.init_async();
     await AllTabControl.instance.init_async();
     await Timeout.instance.init_async();
-    Options._updateLocalizedStrings();
+    Options.instance._updateLocalizedStrings();
   }
 
   _updateLocalizedStrings() {
