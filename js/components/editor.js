@@ -1,6 +1,9 @@
-/*global BrowserManager TextTools SyntaxHighlighter*/
+/*global BrowserManager TextTools SyntaxHighlighter FontManager*/
 'use strict';
 const _cssEditorPath = '/themes/_any/css/editor.css';
+const _fontSizeList = [
+  6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+  20, 22, 24, 26, 28, 32, 36, 40, 48, 56, 64, 72];
 const _overflow = {
   vertical: 0,
   horizontal: 1
@@ -20,9 +23,94 @@ class Editor { /*exported Editor*/
   }
 
   attach(baseElement) {
+    this._createElements(baseElement);
+    this._appendEventListeners();
+    this._appendCss();
+  }
+
+  _createElements(baseElement) {
+    /*
+    <div id="editEditorBox">
+      <!-- options elements -->
+      <!-- edition elements -->
+    </div>
+    */
     let editEditorBox = document.createElement('div');
     editEditorBox.setAttribute('id', 'editEditorBox');
 
+    //this._createOptionElements(editEditorBox);
+
+    this._createTextEditionElements(editEditorBox);
+
+    baseElement.appendChild(editEditorBox);
+
+  }
+
+  _createOptionElements(editEditorBox) {
+    /*
+    <div id="editOptions">
+      <div id="fontDiv" >
+        <span>Font</span>
+        <span>Family:</span>
+        <select>
+          <option value="serif">serif</option>
+          <option value="sans-serif">sans-serif</option>
+          <option value="monospace">monospace</option>
+        </select>
+        <span>Size:</span>
+        <select>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+      </div>
+    */
+    let fontDiv = document.createElement('div');
+    fontDiv.setAttribute('id', 'fontDiv');
+
+    let spanTitle = document.createElement('span');
+    spanTitle.textContent = '#Font';
+    fontDiv.appendChild(spanTitle);
+
+    let spanFamily = document.createElement('span');
+    spanFamily.textContent = '#Family';
+    fontDiv.appendChild(spanFamily);
+
+    let selectFamily = document.createElement('select');
+    let fontList = FontManager.instance.getAvailableFontList();
+    for (let font of fontList) {
+      let option = document.createElement('option');
+      option.text = font;
+      option.value = font;
+      selectFamily.appendChild(option);
+    }
+    fontDiv.appendChild(selectFamily);
+
+    let spanSize = document.createElement('span');
+    spanSize.textContent = '#Size';
+    fontDiv.appendChild(spanSize);
+
+
+    let selectSize = document.createElement('select');
+    for (let Size of _fontSizeList) {
+      let option = document.createElement('option');
+      option.text = Size;
+      option.value = Size;
+      selectSize.appendChild(option);
+    }
+    fontDiv.appendChild(selectSize);
+
+    editEditorBox.appendChild(fontDiv);
+
+  }
+
+  _createTextEditionElements(editEditorBox) {
+    /*
+    <div id="editHighlightedCode" class="editTextZone font" style="overflow-x: scroll; overflow-y: hidden;">
+      <span class="jsComment">//&nbsp;Type&nbsp;your&nbsp;javascript&nbsp;here</span>
+    </div>
+    <textarea class="editTextZone font cursor" id="editTextArea"></textarea>
+    */
     let editHighlightedCode = document.createElement('div');
     editHighlightedCode.setAttribute('id', 'editHighlightedCode');
     editHighlightedCode.classList.add('editTextZone');
@@ -38,8 +126,10 @@ class Editor { /*exported Editor*/
     editTextArea.setAttribute('id', 'editTextArea');
     editEditorBox.appendChild(editTextArea);
 
-    baseElement.appendChild(editEditorBox);
+  }
 
+
+  _appendEventListeners() {
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
     document.getElementById('editTextArea').addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('input', (e) => { this._textAreaKey_event(e); });
@@ -49,7 +139,9 @@ class Editor { /*exported Editor*/
     document.getElementById('editTextArea').addEventListener('underflow', (e) => { this._underflow_event(e); });
     document.getElementById('editTextArea').addEventListener('scroll', (e) => { this._scroll_event(e); });
 
+  }
 
+  _appendCss() {
     let editorCss = document.createElement('link');
     editorCss.setAttribute('href', _cssEditorPath);
     editorCss.setAttribute('rel', 'stylesheet');

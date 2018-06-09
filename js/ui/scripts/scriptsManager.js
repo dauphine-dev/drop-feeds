@@ -1,8 +1,9 @@
 /*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager DefaultValues Dialogs*/
 'use strict';
-const _scriptObjKey = 'scriptObj-';
-const _scriptListKey = 'scriptList';
-const _scriptType = {
+const scriptObjKey = 'scriptObj-';
+const scriptListKey = 'scriptList';
+const scriptCodeKey = 'scriptCode-'; /*exported scriptCodeKey*/
+const scriptType = {
   feedTransformer: 0,
   virtualFeed: 1
 };
@@ -34,7 +35,7 @@ class ScriptsManager { /* exported ScriptsManager */
       id: scriptId,
       name: DefaultValues.userScriptName + ' ' + scriptId,
       enabled: true,
-      type: _scriptType.feedTransformer,
+      type: scriptType.feedTransformer,
       urlMatch: DefaultValues.userScriptUrlMatch,
       urlRegEx: ScriptsManager._matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
       virtualUrl: browser.extension.getURL('dropfeeds://' + scriptId),
@@ -45,15 +46,15 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async loadUrlMatch_async(scriptId) {
-    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
     return scriptObj.urlMatch;
   }
 
   async saveUrlMatch_async(scriptId, urlMatch) {
-    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
     scriptObj.urlMatch = urlMatch;
     scriptObj.urlRegEx = this._matchPatternToRegExp(urlMatch);
-    LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
+    LocalStorageManager.setValue_async(scriptObjKey + scriptId, scriptObj);
   }
 
   _matchPatternToRegExp(pattern) {
@@ -93,9 +94,9 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async _loadScriptList_async() {
-    this._scriptList = await LocalStorageManager.getValue_async(_scriptListKey, this._scriptList);
+    this._scriptList = await LocalStorageManager.getValue_async(scriptListKey, this._scriptList);
     for (let scriptId of this._scriptList) {
-      let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
+      let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
       if (scriptObj) {
         this._createScriptHtmlNode(scriptObj);
       }
@@ -109,8 +110,8 @@ class ScriptsManager { /* exported ScriptsManager */
     newScriptEntry.querySelector('.scriptName').textContent = scriptObj.name;
     this._setEnDisScriptButtonClass(newScriptEntry, scriptObj.enabled);
     newScriptEntry.querySelector('.urlMatchPatterns').textContent = scriptObj.urlMatch;
-    newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == _scriptType.feedTransformer ? 'inline-block' : 'none');
-    newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == _scriptType.virtualFeed ? 'inline-block' : 'none');
+    newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == scriptType.feedTransformer ? 'inline-block' : 'none');
+    newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == scriptType.virtualFeed ? 'inline-block' : 'none');
     newScriptEntry.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
     newScriptEntry.querySelector('.lastEdit').textContent = DateTime.getDateDiff(Date.now(), scriptObj.lastEdit);
     newScriptEntry.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
@@ -147,8 +148,8 @@ class ScriptsManager { /* exported ScriptsManager */
     let scriptObj = this.newScriptObj();
     this._createScriptHtmlNode(scriptObj);
     this._scriptList.push(scriptObj.id);
-    await LocalStorageManager.setValue_async(_scriptListKey, this._scriptList);
-    await LocalStorageManager.setValue_async(_scriptObjKey + scriptObj.id, scriptObj);
+    await LocalStorageManager.setValue_async(scriptListKey, this._scriptList);
+    await LocalStorageManager.setValue_async(scriptObjKey + scriptObj.id, scriptObj);
   }
 
   async _scriptNameDivKeydown_event(event) {
@@ -200,13 +201,13 @@ class ScriptsManager { /* exported ScriptsManager */
 
   async _updateScriptObj_async(scriptEntry, propertyName, value, toggle) {
     let scriptId = parseInt(scriptEntry.getAttribute('id'));
-    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     if (scriptObj) {
       if (toggle) {
         value = !scriptObj[propertyName];
       }
       scriptObj[propertyName] = value;
-      await LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
+      await LocalStorageManager.setValue_async(scriptObjKey + scriptId, scriptObj);
     }
     return value;
   }
@@ -215,14 +216,14 @@ class ScriptsManager { /* exported ScriptsManager */
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let type = event.target.selectedIndex;
     this._updateScriptObj_async(currentScriptEntry, 'type', type);
-    currentScriptEntry.querySelector('.urlMatchPatterns').style.display = (type == _scriptType.feedTransformer ? 'inline-block' : 'none');
-    currentScriptEntry.querySelector('.subscribeScriptButton').style.display = (type == _scriptType.virtualFeed ? 'inline-block' : 'none');
+    currentScriptEntry.querySelector('.urlMatchPatterns').style.display = (type == scriptType.feedTransformer ? 'inline-block' : 'none');
+    currentScriptEntry.querySelector('.subscribeScriptButton').style.display = (type == scriptType.virtualFeed ? 'inline-block' : 'none');
   }
 
   async _subscribeScriptButton_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let scriptId = parseInt(currentScriptEntry.getAttribute('id'));
-    let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, null);
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     if (scriptObj) {
       await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: scriptObj.name, feedUrl: scriptObj.virtualUrl });
       await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
@@ -240,9 +241,9 @@ class ScriptsManager { /* exported ScriptsManager */
       this._scriptList.splice(scriptIdIndex, 1);
     }
     //Update script list in local storage
-    await LocalStorageManager.setValue_async(_scriptListKey, this._scriptList);
+    await LocalStorageManager.setValue_async(scriptListKey, this._scriptList);
     //Remove script obj from local storage
-    await browser.storage.local.remove(_scriptObjKey + scriptId);
+    await browser.storage.local.remove(scriptObjKey + scriptId);
     //Remove script code from local storage
     ScriptsEditor.instance.deleteScriptCode_async(scriptId);
   }
