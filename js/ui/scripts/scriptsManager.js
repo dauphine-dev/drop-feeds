@@ -44,19 +44,19 @@ class ScriptsManager { /* exported ScriptsManager */
     return newScript;
   }
 
-  static async loadUrlMatch_async(scriptId) {
+  async loadUrlMatch_async(scriptId) {
     let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
     return scriptObj.urlMatch;
   }
 
-  static async saveUrlMatch_async(scriptId, urlMatch) {
+  async saveUrlMatch_async(scriptId, urlMatch) {
     let scriptObj = await LocalStorageManager.getValue_async(_scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
     scriptObj.urlMatch = urlMatch;
-    scriptObj.urlRegEx = ScriptsManager._matchPatternToRegExp(urlMatch);
+    scriptObj.urlRegEx = this._matchPatternToRegExp(urlMatch);
     LocalStorageManager.setValue_async(_scriptObjKey + scriptId, scriptObj);
   }
 
-  static _matchPatternToRegExp(pattern) {
+  _matchPatternToRegExp(pattern) {
     //Code from https://developer.mozilla.org/fr/Add-ons/WebExtensions/Match_patterns
     if (pattern === '<all_urls>') {
       return (/^(?:https?|file|ftp|app):\/\//);
@@ -107,7 +107,7 @@ class ScriptsManager { /* exported ScriptsManager */
     newScriptEntry.setAttribute('id', scriptObj.id);
     newScriptEntry.style.display = 'block';
     newScriptEntry.querySelector('.scriptName').textContent = scriptObj.name;
-    ScriptsManager._setEnDisScriptButtonClass(newScriptEntry, scriptObj.enabled);
+    this._setEnDisScriptButtonClass(newScriptEntry, scriptObj.enabled);
     newScriptEntry.querySelector('.urlMatchPatterns').textContent = scriptObj.urlMatch;
     newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == _scriptType.feedTransformer ? 'inline-block' : 'none');
     newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == _scriptType.virtualFeed ? 'inline-block' : 'none');
@@ -128,7 +128,7 @@ class ScriptsManager { /* exported ScriptsManager */
     return newScriptEntry;
   }
 
-  static _setEnDisScriptButtonClass(scriptEntry, isEnabled) {
+  _setEnDisScriptButtonClass(scriptEntry, isEnabled) {
     let enDisScriptButton = scriptEntry.querySelector('.enDisScriptButton');
     if (isEnabled) {
       CssManager.enableElement(scriptEntry);
@@ -195,7 +195,7 @@ class ScriptsManager { /* exported ScriptsManager */
   async _enDisScriptButtonClicked_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let enabled = await this._updateScriptObj_async(currentScriptEntry, 'enabled', null, true);
-    ScriptsManager._setEnDisScriptButtonClass(currentScriptEntry, enabled);
+    this._setEnDisScriptButtonClass(currentScriptEntry, enabled);
   }
 
   async _updateScriptObj_async(scriptEntry, propertyName, value, toggle) {
@@ -244,6 +244,6 @@ class ScriptsManager { /* exported ScriptsManager */
     //Remove script obj from local storage
     await browser.storage.local.remove(_scriptObjKey + scriptId);
     //Remove script code from local storage
-    ScriptsEditor.deleteScriptCode_async(scriptId);
+    ScriptsEditor.instance.deleteScriptCode_async(scriptId);
   }
 }

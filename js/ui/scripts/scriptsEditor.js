@@ -35,7 +35,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let scriptCode = await LocalStorageManager.getValue_async(_scriptCodeKey + this._scriptId, defaultCode);
     await this._jsEditor.setText_async(scriptCode);
 
-    document.getElementById('urlMatch').value = await ScriptsManager.loadUrlMatch_async(this._scriptId);
+    document.getElementById('urlMatch').value = await ScriptsManager.instance.loadUrlMatch_async(this._scriptId);
   }
 
   async _saveButtonClicked_event() {
@@ -43,14 +43,14 @@ class ScriptsEditor { /*exported ScriptsEditor */
     await LocalStorageManager.setValue_async(_scriptCodeKey + this._scriptId, scriptCode);
 
     let urlMatch = document.getElementById('urlMatch').value;
-    await ScriptsManager.saveUrlMatch_async(this._scriptId, urlMatch);
+    await ScriptsManager.instance.saveUrlMatch_async(this._scriptId, urlMatch);
   }
 
   async _closeButtonClicked_event() {
     ScriptsManager.instance.display();
   }
 
-  static async deleteScriptCode_async(scriptId) {
+  async deleteScriptCode_async(scriptId) {
     await browser.storage.local.remove(_scriptCodeKey + scriptId);
   }
 }

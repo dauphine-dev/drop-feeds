@@ -14,7 +14,7 @@ class ItemSorter { /*exported ItemSorter */
   }
 
   async init_async() {
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemSortOrder', ItemSorter._setItemSortOrder_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemSortOrder', (v) => { this._setItemSortOrder_sbscrb(v); }, true);
   }
 
   sort(itemList) {
@@ -39,8 +39,8 @@ class ItemSorter { /*exported ItemSorter */
     return itemList;
   }
 
-  static _setItemSortOrder_sbscrb(value){
-    ItemSorter.instance._sortOrder = value;
+  _setItemSortOrder_sbscrb(value){
+    this._sortOrder = value;
   }
 
 }

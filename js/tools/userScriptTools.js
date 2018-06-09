@@ -18,7 +18,7 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async init_async() {
-    Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, UserScriptTools._updateScriptList_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, (v) => { this._updateScriptList_sbscrb(v); }, true);
   }
 
   async runFeedTransformerScripts_async(url, feedText) {
@@ -54,25 +54,23 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
 
-  static async _updateScriptList_sbscrb(value) {
-    let self = UserScriptTools.instance;
-    self._scriptList = value;
-    self._listenScriptObjListUpdate_async();
+  async _updateScriptList_sbscrb(value) {
+    this._scriptList = value;
+    this._listenScriptObjListUpdate_async();
   }
 
   async _listenScriptObjListUpdate_async() {
     for (let scriptId of this._scriptList) {
-      Listener.instance.subscribe(ListenerProviders.localStorage, scriptObjKey + scriptId, UserScriptTools._updateScriptObjList_sbscrb, true);
+      Listener.instance.subscribe(ListenerProviders.localStorage, scriptObjKey + scriptId, (v) => { this._updateScriptObjList_sbscrb(v); }, true);
     }
   }
 
-  static async _updateScriptObjList_sbscrb() {
-    let self = UserScriptTools.instance;
-    self._scriptObjList = [];
-    for (let scriptId of self._scriptList) {
+  async _updateScriptObjList_sbscrb() {
+    this._scriptObjList = [];
+    for (let scriptId of this._scriptList) {
       let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
       if (scriptObj) {
-        self._scriptObjList.push(scriptObj);
+        this._scriptObjList.push(scriptObj);
       }
     }
   }

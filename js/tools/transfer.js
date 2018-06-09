@@ -9,15 +9,15 @@ class Timeout { /*exported Timeout*/
 
   async init_async() {
     this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', Timeout.setTimeout_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', (v) => { this.setTimeout_sbscrb(v); }, true);
   }
 
   get timeOutMs() {
     return 1000 * this._timeOut;
   }
 
-  static setTimeout_sbscrb(value) {
-    Timeout.instance._timeOut = value;
+  setTimeout_sbscrb(value) {
+    this._timeOut = value;
   }
 }
 

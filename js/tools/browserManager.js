@@ -23,9 +23,9 @@ class BrowserManager { /* exported BrowserManager*/
     this._baseFeedUrl = null;
     this._version = null;
 
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', BrowserManager._setAlwaysOpenNewTab_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', BrowserManager._setOpenNewTabForeground_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', BrowserManager._setReuseDropFeedsTab_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', (v) => { this._setAlwaysOpenNewTab_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', (v) => { this._setOpenNewTabForeground_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', (v) => { this._setReuseDropFeedsTab_sbscrb(v); }, true);
   }
 
   async init_async() {
@@ -137,7 +137,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static isDropFeedsTab(tab) {
-    let baseUrl = BrowserManager.instance.baseFeedUrl;
+    let baseUrl = this.baseFeedUrl;
     return tab.url.startsWith(baseUrl);
   }
 
@@ -187,9 +187,10 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async isVisitedLink_async(url) {
-    if (!url)
+    if (!url) {
       return false;
-    var visits = await browser.history.getVisits({ url: url });
+    }
+    let visits = await browser.history.getVisits({ url: url });
     return (visits.length > 0);
   }
 
@@ -311,16 +312,16 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   //private stuffs
-  static _setAlwaysOpenNewTab_sbscrb(value) {
-    BrowserManager.instance._alwaysOpenNewTab = value;
+  _setAlwaysOpenNewTab_sbscrb(value) {
+    this._alwaysOpenNewTab = value;
   }
 
-  static _setOpenNewTabForeground_sbscrb(value) {
-    BrowserManager.instance._openNewTabForeground = value;
+  _setOpenNewTabForeground_sbscrb(value) {
+    this._openNewTabForeground = value;
   }
 
-  static _setReuseDropFeedsTab_sbscrb(value) {
-    BrowserManager.instance._reuseDropFeedsTab = value;
+  _setReuseDropFeedsTab_sbscrb(value) {
+    this._reuseDropFeedsTab = value;
   }
 
   static async _forcePopupToDisplayContent_async(winId, winWidth) {

@@ -28,8 +28,8 @@ class SideBar { /*exported SideBar*/
     this._addListeners();
     TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
     this.setContentHeight();
   }
 
@@ -42,18 +42,18 @@ class SideBar { /*exported SideBar*/
     }
   }
 
-  static async reloadPanelWindow_sbscrb() {
+  async reloadPanelWindow_sbscrb() {
     window.location.reload();
   }
 
-  static async openSubscribeDialog_async() {
+  async openSubscribeDialog_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfo.title, feedUrl: tabInfo.url});
     BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 
   _addListeners() {
-    window.onresize = SideBar._windowOnResize_event;
+    window.onresize = ((e) => { this._windowOnResize_event(e); });
     document.getElementById('content').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
@@ -61,8 +61,8 @@ class SideBar { /*exported SideBar*/
     TreeView.instance.selectionBar.refresh();
   }
 
-  static async _windowOnResize_event() {
-    SideBar.instance.setContentHeight();
+  async _windowOnResize_event() {
+    this.setContentHeight();
   }
 
   _computeContentTop() {
@@ -76,6 +76,4 @@ class SideBar { /*exported SideBar*/
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
 }
-
 SideBar.instance.init_async();
-//SideBar.instance.reloadOnce();

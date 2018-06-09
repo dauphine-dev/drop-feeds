@@ -165,15 +165,14 @@ class DiscoverFeeds {
     }
   }
 
-  static async _updateFeed_async(feed) {
-    let self = DiscoverFeeds.instance;
+  async _updateFeed_async(feed) {
     try {
       await feed.update_async();
     }
     finally {
-      self._feedReceived(feed);
-      if (--self._feedsToProcessCounter == 0) {
-        self._feedsUpdateDone();
+      this._feedReceived(feed);
+      if (--this._feedsToProcessCounter == 0) {
+        this._feedsUpdateDone();
       }
     }
   }
@@ -209,12 +208,12 @@ class DiscoverFeeds {
   _addTableRawClickEvents() {
     let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
     for (let elTr of elTrList) {
-      elTr.addEventListener('click', DiscoverFeeds._tableRawOnClick_event);
+      elTr.addEventListener('click', (e) => { this._tableRawOnClick_event(e); });
     }
   }
 
-  static async _tableRawOnClick_event(event) {
-    DiscoverFeeds.instance._selectRaw(event.target.parentNode);
+  async _tableRawOnClick_event(event) {
+    this._selectRaw(event.target.parentNode);
   }
 
   _selectRaw(trElement) {

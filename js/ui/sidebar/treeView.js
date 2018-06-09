@@ -19,9 +19,9 @@ class TreeView { /*exported TreeView*/
     this._rootFolderId = DefaultValues.rootFolderId;
     this._rootBookmark = null;
     this._showUpdatedFeedCount = DefaultValues.showUpdatedFeedCount;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', TreeView._reload_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', TreeView._reload_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', TreeView._showUpdatedFeedCount_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
   }
 
   async load_async() {
@@ -54,15 +54,14 @@ class TreeView { /*exported TreeView*/
     return this._1stFolderDivId;
   }
 
-  static async _reload_sbscrb() {
-    await TreeView.instance.reload_async();
+  async _reload_sbscrb() {
+    await this.reload_async();
   }
 
-  static async _showUpdatedFeedCount_sbscrb(value) {
-    let self = TreeView.instance;
-    self._showUpdatedFeedCount = value;
+  _showUpdatedFeedCount_sbscrb(value) {
+    this._showUpdatedFeedCount = value;
     let force = true;
-    self.updateAllFolderCount(force);
+    this.updateAllFolderCount(force);
   }
 
   selectionBarRefresh() {
@@ -169,10 +168,10 @@ class TreeView { /*exported TreeView*/
     event.stopPropagation();
     event.preventDefault();
     ContextMenu.instance.hide();
-    TreeView.instance._selectionBar.put(event.currentTarget);
+    this._selectionBar.put(event.currentTarget);
     let feedId = event.currentTarget.getAttribute('id');
     let openNewTabForce=null; let openNewTabBackGroundForce=null;
-    TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+    this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
   }
 
   async _feedOnMouseUp_event(event) {
@@ -180,10 +179,10 @@ class TreeView { /*exported TreeView*/
     event.preventDefault();
     if (event.button == 1) { //middle-click
       ContextMenu.instance.hide();
-      TreeView.instance._selectionBar.put(event.currentTarget);
+      this._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
       let openNewTabForce=true; let openNewTabBackGroundForce=true;
-      TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+      this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
   }
 
@@ -209,12 +208,12 @@ class TreeView { /*exported TreeView*/
   async _folderOnClicked_event(event){
     event.stopPropagation();
     ContextMenu.instance.hide();
-    TreeView.instance._selectionBar.put(event.currentTarget);
+    this._selectionBar.put(event.currentTarget);
   }
 
   async _folderOnDragStart_event(event){
     event.stopPropagation();
-    let elementId = TreeView.instance._cleanId(event.target.id);
+    let elementId = this._cleanId(event.target.id);
     event.dataTransfer.setData('text', elementId);
   }
 
@@ -229,13 +228,13 @@ class TreeView { /*exported TreeView*/
     let sourceId = event.dataTransfer.getData('text');
     let targetId = event.target.id;
     if (!targetId) { targetId = event.target.htmlFor; }
-    let folderId = TreeView.instance._cleanId(targetId);
+    let folderId = this._cleanId(targetId);
     await BookmarkManager.instance.changeParentFolder(folderId, sourceId);
   }
 
   async _feedOnDragStart_event(event){
     event.stopPropagation();
-    let elementId = TreeView.instance._cleanId(event.target.id);
+    let elementId = this._cleanId(event.target.id);
     event.dataTransfer.setData('text', elementId);
   }
 
@@ -248,7 +247,7 @@ class TreeView { /*exported TreeView*/
     event.stopPropagation();
     event.preventDefault();
     var feedToMoveId = event.dataTransfer.getData('text');
-    let targetFeedId = TreeView.instance._cleanId(event.target.id);
+    let targetFeedId = this._cleanId(event.target.id);
     await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
   }
 

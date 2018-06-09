@@ -27,8 +27,8 @@ class TopMenu  { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').addEventListener('click', (e) => { this._toggleFoldersButtonClicked_event(e); });
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
-    setTimeout(this.automaticFeedUpdate, 2000);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', TopMenu.showErrorsAsUnread_sbscrb, false);
+    setTimeout(this._automaticFeedUpdate, 2000);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
   }
 
   set workInProgress(value) {
@@ -94,14 +94,14 @@ class TopMenu  { /*exported TopMenu*/
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
-  async automaticFeedUpdate() {
-    await TopMenu.updateAutomaticUpdateInterval();
+  async _automaticFeedUpdate() {
+    await this.updateAutomaticUpdateInterval();
 
     let automaticUpdatesEnabled = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
     if (!automaticUpdatesEnabled)
       return;
 
-    await TopMenu.updateAutomaticUpdateInterval();
+    await this.updateAutomaticUpdateInterval();
 
     try
     {
@@ -115,7 +115,7 @@ class TopMenu  { /*exported TopMenu*/
     }
   }
 
-  static async updateAutomaticUpdateInterval() {
+  async updateAutomaticUpdateInterval() {
     let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
     let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
 
@@ -126,7 +126,7 @@ class TopMenu  { /*exported TopMenu*/
       if(this.autoUpdateInterval) {
         clearInterval(this.autoUpdateInterval);
       }
-      this.autoUpdateInterval = setInterval(this.automaticFeedUpdate, automaticUpdatesMilliseconds);
+      this.autoUpdateInterval = setInterval(() => (this._automaticFeedUpdate), automaticUpdatesMilliseconds);
     }
   }
 
@@ -213,7 +213,7 @@ class TopMenu  { /*exported TopMenu*/
   }
 
   async _automaticUpdateChanged_event() {
-    await TopMenu.updateAutomaticUpdateInterval();
+    await this.updateAutomaticUpdateInterval();
   }
 
   async showErrorsAsUnread_sbscrb() {

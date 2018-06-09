@@ -14,9 +14,9 @@ class FeedManager { /*exported FeedManager*/
     this._unifiedChannelTitle = '';
     this._unifiedFeedItems = [];
     this._itemList = [];
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', FeedManager._setRenderFeeds_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
   }
 
   async delete(feedId) {
@@ -120,15 +120,14 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _feedsUpdate_async(feed) {
-    let self = FeedManager.instance;
     try {
-      self._statusMessageBeforeCheck(feed);
+      this._statusMessageBeforeCheck(feed);
       await feed.update_async();
-      self._statusMessageAfterCheck(feed);
+      this._statusMessageAfterCheck(feed);
       await feed.updateUiStatus_async();
       feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
-        self._updatedFeeds++;
+        this._updatedFeeds++;
       }
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
@@ -137,24 +136,23 @@ class FeedManager { /*exported FeedManager*/
       console.log(e);
       /*eslint-enable no-console*/
     } finally {
-      if (--self._feedsToProcessCounter == 0) {
-        self._displayUpdatedFeedsNotification();
-        self._processFeedsFinished();
+      if (--this._feedsToProcessCounter == 0) {
+        this._displayUpdatedFeedsNotification();
+        this._processFeedsFinished();
       }
     }
   }
 
   async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
-    let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.update_async();
       let feedHtmlUrl = feed.docUrl;
-      self._itemList.push(... feed.info.itemList);
+      this._itemList.push(... feed.info.itemList);
       let isUnified = false;
-      await self._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
+      await this._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      await self._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
+      await this._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.setStatus_async(feedStatus.OLD);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -169,18 +167,17 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
 
     } finally {
-      if (--self._feedsToProcessCounter <= 0) {
-        self._processFeedsFinished();
+      if (--this._feedsToProcessCounter <= 0) {
+        this._processFeedsFinished();
       }
     }
   }
 
   async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
-    let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
-      self._unifiedFeedItems.push(...feed.info.itemList);
+      this._unifiedFeedItems.push(...feed.info.itemList);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus_async();
       StatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
@@ -191,14 +188,14 @@ class FeedManager { /*exported FeedManager*/
       console.log(e);
       /*eslint-enable no-console*/
     } finally {
-      if (--self._feedsToProcessCounter == 0) {
-        let unifiedDocUrl = self._getUnifiedDocUrl();
+      if (--this._feedsToProcessCounter == 0) {
+        let unifiedDocUrl = this._getUnifiedDocUrl();
         let openNewTabForce = false;
         let isUnified=true; let feedNull = null;
-        await self._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
-        await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
-        self._unifiedChannelTitle = '';
-        self._processFeedsFinished();
+        await this._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
+        await this._openTabFeed_async(unifiedDocUrl, openNewTabForce);
+        this._unifiedChannelTitle = '';
+        this._processFeedsFinished();
       }
     }
   }
@@ -277,12 +274,12 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  static _setAsynchronousFeedChecking_sbscrb(value){
-    FeedManager.instance._asynchronousFeedChecking = value;
+  _setAsynchronousFeedChecking_sbscrb(value){
+    this._asynchronousFeedChecking = value;
   }
 
-  static _setShowFeedUpdatePopup(value) {
-    FeedManager.instance._showFeedUpdatePopup = value;
+  _setShowFeedUpdatePopup_sbscrb(value) {
+    this._showFeedUpdatePopup = value;
   }
 
   async markFeedAsUpdated_async(feedElement) {
@@ -321,8 +318,8 @@ class FeedManager { /*exported FeedManager*/
     this._updatedFeeds = 0;
   }
 
-  static _setRenderFeeds_sbscrb(value){
-    FeedManager.instance._renderFeed = value;
+  _setRenderFeeds_sbscrb(value){
+    this._renderFeed = value;
   }
 
 }

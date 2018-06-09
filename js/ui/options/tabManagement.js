@@ -21,7 +21,7 @@ class TabManagement { /*exported TabManagement*/
   }
 
   async _importInputChanged_event() {
-    OpmlImporter.import_async();
+    OpmlImporter.instance.import_async();
   }
 
   async _importButtonOnClicked_event() {

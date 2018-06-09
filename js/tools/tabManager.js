@@ -4,8 +4,8 @@ class TabManager { /*exported TabManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    browser.tabs.onActivated.addListener(TabManager._tabOnActivated_event);
-    browser.tabs.onUpdated.addListener(TabManager._tabOnUpdated_event);
+    browser.tabs.onActivated.addListener((e) => { this._tabOnActivated_event(e); });
+    browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => { this._tabOnUpdated_event(tabId, changeInfo, tabInfo); });
     this._forceTabOnChanged_async();
   }
 
@@ -13,15 +13,14 @@ class TabManager { /*exported TabManager*/
     return this._activeTabFeedLinkList;
   }
 
-  static async _tabOnActivated_event(activeInfo) {
+  async _tabOnActivated_event(activeInfo) {
     let tabInfo = await browser.tabs.get(activeInfo.tabId);
-    TabManager.instance._tabHasChanged_async(tabInfo);
+    this._tabHasChanged_async(tabInfo);
   }
 
-  static _tabOnUpdated_event(tabId, changeInfo, tabInfo) {
-    let self = TabManager.instance;
+  _tabOnUpdated_event(tabId, changeInfo, tabInfo) {
     if (changeInfo.status == 'complete') {
-      self._tabHasChanged_async(tabInfo);
+      this._tabHasChanged_async(tabInfo);
     }
     else {
       TopMenu.instance.discoverFeedsButtonEnabled = false;
@@ -31,7 +30,6 @@ class TabManager { /*exported TabManager*/
 
   async _tabHasChanged_async(tabInfo) {
     this._activeTabFeedLinkList = [];
-    let self = TabManager.instance;
     let enabled = (tabInfo.status == 'complete' && !tabInfo.url.startsWith('about:'));
     TopMenu.instance.discoverFeedsButtonEnabled = enabled;
     TopMenu.instance.setFeedButton(false, subType.go);
@@ -39,17 +37,17 @@ class TabManager { /*exported TabManager*/
       this._activeTabFeedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
       if (this._activeTabFeedLinkList.length > 0) {
-        self._subscriptionGoEnabled(tabInfo);
+        this._subscriptionGoEnabled(tabInfo);
       }
       else if (activeTabIsFeed) {
-        self._subscriptionAddEnabled_async(tabInfo);
+        this._subscriptionAddEnabled_async(tabInfo);
       }
       else {
-        self._subscriptionDisabled(tabInfo);
+        this._subscriptionDisabled(tabInfo);
       }
     }
     else {
-      self._subscriptionDisabled(tabInfo);
+      this._subscriptionDisabled(tabInfo);
     }
   }
 

@@ -15,10 +15,10 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', ItemsPanel._setFeedItemList_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', ItemsPanel._feedItemDescriptionTooltips_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', ItemsPanel._feedItemListToolbar_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', ItemsPanel._feedItemMarkAsReadOnLeaving_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
   }
 
   get top() {
@@ -82,27 +82,23 @@ class ItemsPanel { /*exported ItemsPanel*/
     }
   }
 
-  static _setFeedItemList_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemList = value;
-    self._setVisibility();
+  _setFeedItemList_sbscrb(value) {
+    this._feedItemList = value;
+    this._setVisibility();
   }
 
-  static _feedItemDescriptionTooltips_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemDescriptionTooltips = value;
-    self._setTooltipsVisibility();
+  _feedItemDescriptionTooltips_sbscrb(value) {
+    this._feedItemDescriptionTooltips = value;
+    this._setTooltipsVisibility();
   }
 
-  static _feedItemListToolbar_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemListToolbar = value;
-    self._setToolbarVisibility();
+  _feedItemListToolbar_sbscrb(value) {
+    this._feedItemListToolbar = value;
+    this._setToolbarVisibility();
   }
 
-  static _feedItemMarkAsReadOnLeaving_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemMarkAsReadOnLeaving = value;
+  _feedItemMarkAsReadOnLeaving_sbscrb(value) {
+    this._feedItemMarkAsReadOnLeaving = value;
   }
 
   _setVisibility() {
@@ -111,7 +107,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   _setTooltipsVisibility() {
-    ItemManager.setTooltipVisibility(this._feedItemDescriptionTooltips);
+    ItemManager.instance.setTooltipVisibility(this._feedItemDescriptionTooltips);
   }
 
   _setToolbarVisibility() {

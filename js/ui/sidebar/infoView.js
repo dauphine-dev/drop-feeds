@@ -19,12 +19,11 @@ class InfoView { /*exported InfoView*/
   }
 
   show(xPos, yPos, idComeFrom){
-    let self = InfoView.instance;
-    self._idComeFrom = idComeFrom;
-    self._populateInfoAndPos_async(xPos, yPos);
-    self._elInfoView = document.getElementById('infoView');
-    self._elInfoView.classList.remove('hide');
-    self._elInfoView.classList.add('show');
+    this._idComeFrom = idComeFrom;
+    this._populateInfoAndPos_async(xPos, yPos);
+    this._elInfoView = document.getElementById('infoView');
+    this._elInfoView.classList.remove('hide');
+    this._elInfoView.classList.add('show');
   }
 
   _updateLocalizedStrings() {
@@ -70,20 +69,18 @@ class InfoView { /*exported InfoView*/
   }
 
   async _updateButtonClicked_event(event) {
-    let self = InfoView.instance;
     event.stopPropagation();
     event.preventDefault();
     let name = document.getElementById('infoNameField').value;
     let url = document.getElementById('infoAddressField').value;
-    let changes = self._info.url ? {title: name, url:url} : {title: name};
-    browser.bookmarks.update(self._idComeFrom, changes);
-    self.hide();
+    let changes = this._info.url ? {title: name, url:url} : {title: name};
+    browser.bookmarks.update(this._idComeFrom, changes);
+    this.hide();
   }
 
   async _closeButtonClicked_event(event) {
-    let self = InfoView.instance;
     event.stopPropagation();
     event.preventDefault();
-    self.hide();
+    this.hide();
   }
 }

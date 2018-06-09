@@ -82,14 +82,13 @@ class FolderTreeView { /*exported FolderTreeView*/
   }
 
   async _folderOnClicked_event(event) {
-    let self = FolderTreeView.instance;
     event.stopPropagation();
     //event.preventDefault();
     let element = event.currentTarget;
     let attributeId = element.getAttribute('id');
     let rawId  = attributeId ? attributeId : element.getAttribute('for');
     let id  = attributeId ? rawId.substring(4) : rawId.substring(3);
-    self._selectFolder(id);
+    this._selectFolder(id);
   }
 
   _selectFolder(folderId) {

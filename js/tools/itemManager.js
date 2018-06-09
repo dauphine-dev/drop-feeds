@@ -59,7 +59,7 @@ class ItemManager { /*exported ItemManager*/
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
-  static setTooltipVisibility(tooltipVisible) {
+  setTooltipVisibility(tooltipVisible) {
     let attOldName = tooltipVisible ? 'title1' : 'title';
     let attNewName = tooltipVisible ? 'title' : 'title1';
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item');
@@ -81,7 +81,7 @@ class ItemManager { /*exported ItemManager*/
       ItemsPanel.instance.selectionBarItems.put(event.target);
       let itemLink = event.target.getAttribute('href');
       let openNewTabBackGroundForce = true;
-      await this.instance._openTabItem_async(itemLink, null, openNewTabBackGroundForce);
+      await this._openTabItem_async(itemLink, null, openNewTabBackGroundForce);
       event.target.classList.add('visited');
       ItemsMenu.instance.enableButtonsForSingleElement();
     }
