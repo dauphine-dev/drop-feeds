@@ -1,16 +1,11 @@
 /*global browser*/
 'use strict';
 class browserActionFF56 {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new browserActionFF56();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._updateLocalizedStrings();
-    document.addEventListener('click', browserActionFF56._onclickEvent);
+    document.addEventListener('click', (e) => { this._onclickEvent(e); });
   }
 
   _updateLocalizedStrings() {
@@ -23,7 +18,7 @@ class browserActionFF56 {
     document.getElementById('txtFf56_7').textContent = browser.i18n.getMessage('ff56Text7');
   }
 
-  static _onclickEvent(event) {
+  _onclickEvent(event) {
     event.stopPropagation();
     event.preventDefault();
     window.close();

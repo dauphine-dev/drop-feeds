@@ -10,12 +10,7 @@ const scriptType = {
 };
 
 class UserScriptTools { /* exported UserScriptTools */
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new UserScriptTools();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._scriptList = [];
@@ -51,10 +46,11 @@ class UserScriptTools { /* exported UserScriptTools */
   async _runScript_async(scriptObj, feedText) {
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptObj.id, null);
     if (scriptCode) {
-      let userScript = new Function('__feedText__', scriptCode);
-      feedText = userScript(feedText);
-      return feedText;
+      let userScriptFunction = new Function('__feedText__', scriptCode);
+      let feedTextUpdated = userScriptFunction(feedText);
+      feedText = feedTextUpdated || feedText;
     }
+    return feedText;
   }
 
 

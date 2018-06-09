@@ -7,12 +7,7 @@ const TagKindEnum = {
   SINGLE: 'single'
 };
 class OpmlImporter { /*exported OpmlImporter*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new OpmlImporter();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   static async import_async() {
     let file = document.getElementById('inputImportFile').files[0];

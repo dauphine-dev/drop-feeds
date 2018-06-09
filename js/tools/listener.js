@@ -22,12 +22,7 @@ const _listenerFields = {
 };
 
 class Listener { /*exported Listener*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Listener();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._localStorageSubscriberList = [];

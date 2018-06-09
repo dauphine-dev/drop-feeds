@@ -3,12 +3,7 @@ ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed Bookma
 'use strict';
 
 class TreeView { /*exported TreeView*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new TreeView();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._init();
@@ -136,27 +131,27 @@ class TreeView { /*exported TreeView*/
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
     for (let i = 0; i < feedItems.length; i++) {
-      feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
-      feedItems[i].addEventListener('click', this._feedClicked_event);
-      feedItems[i].addEventListener('mouseup', this._feedOnMouseUp_event);
-      feedItems[i].addEventListener('dragstart', this._feedOnDragStart_event);
-      feedItems[i].addEventListener('dragover', this._feedOnDragOver_event);
-      feedItems[i].addEventListener('drop', this._feedOnDrop_event);
+      feedItems[i].addEventListener('contextmenu', (e) => { this._feedOnRightClicked_event(e); });
+      feedItems[i].addEventListener('click', (e) => { this._feedClicked_event(e); });
+      feedItems[i].addEventListener('mouseup', (e) => { this._feedOnMouseUp_event(e); });
+      feedItems[i].addEventListener('dragstart', (e) => { this._feedOnDragStart_event(e); });
+      feedItems[i].addEventListener('dragover', (e) => { this._feedOnDragOver_event(e); });
+      feedItems[i].addEventListener('drop', (e) => { this._feedOnDrop_event(e); });
     }
   }
 
   _addEventListenerOnFeedFolders() {
     let checkboxItems = document.querySelectorAll('[type="checkbox"]');
     for (let i = 0; i < checkboxItems.length; i++) {
-      checkboxItems[i].addEventListener('change', this._folderChanged_event);
+      checkboxItems[i].addEventListener('change', (e) => { this._folderChanged_event(e); });
     }
     let divItems = document.querySelectorAll('.folder');
     for (let i = 0; i < divItems.length; i++) {
-      divItems[i].addEventListener('contextmenu', this._folderOnRightClicked_event);
-      divItems[i].addEventListener('click', this._folderOnClicked_event);
-      divItems[i].addEventListener('dragstart', this._folderOnDragStart_event);
-      divItems[i].addEventListener('dragover', this._folderOnDragOver_event);
-      divItems[i].addEventListener('drop', this._folderOnDrop_event);
+      divItems[i].addEventListener('contextmenu', (e) => { this._folderOnRightClicked_event(e); });
+      divItems[i].addEventListener('click', (e) => { this._folderOnClicked_event(e); });
+      divItems[i].addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
+      divItems[i].addEventListener('dragover', (e) => { this._folderOnDragOver_event(e); });
+      divItems[i].addEventListener('drop', (e) => { this._folderOnDrop_event(e); });
     }
   }
 

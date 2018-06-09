@@ -1,12 +1,7 @@
 /*global browser */
 'use strict';
 class NewFolderDialog { /*exported NewFolderDialog*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new NewFolderDialog();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._selectedId = null;
@@ -15,9 +10,9 @@ class NewFolderDialog { /*exported NewFolderDialog*/
   }
 
   async init_async() {
-    document.getElementById('cancelNewFolderButton').addEventListener('click', NewFolderDialog._cancelButtonClicked_event);
-    document.getElementById('createNewFolderButton').addEventListener('click', NewFolderDialog._createButtonClicked_event);
-    document.getElementById('inputNewFolder').addEventListener('keyup', NewFolderDialog._inputNewFolderKeyup_event);
+    document.getElementById('cancelNewFolderButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
+    document.getElementById('createNewFolderButton').addEventListener('click', (e) => { this._createButtonClicked_event(e); });
+    document.getElementById('inputNewFolder').addEventListener('keyup', (e) => { this._inputNewFolderKeyup_event(e); });
   }
 
   show(selectedId) {
@@ -61,26 +56,24 @@ class NewFolderDialog { /*exported NewFolderDialog*/
     elInputNewFolder.focus();
   }
 
-  static async _cancelButtonClicked_event(event) {
-    let self = NewFolderDialog.instance;
+  async _cancelButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    self.hide();
+    this.hide();
   }
 
-  static async _createButtonClicked_event(event) {
-    let self = NewFolderDialog.instance;
+  async _createButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     try {
       let folderName = document.getElementById('inputNewFolder').value;
       let folderId = null;
       let index = 0 ;
-      if (self._selectedId.startsWith('dv-')) {
-        folderId = self._selectedId.substring(3);
+      if (this._selectedId.startsWith('dv-')) {
+        folderId = this._selectedId.substring(3);
       }
       else {
-        let feedId = self._selectedId;
+        let feedId = this._selectedId;
         let bookmarks = await browser.bookmarks.get(feedId);
         folderId = bookmarks[0].parentId;
         index = bookmarks[0].index + 1;
@@ -92,10 +85,10 @@ class NewFolderDialog { /*exported NewFolderDialog*/
       console.log(e);
       /* eslint-enable no-console */
     }
-    self.hide();
+    this.hide();
   }
 
-  static _inputNewFolderKeyup_event(event) {
+  _inputNewFolderKeyup_event(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
       document.getElementById('createNewFolderButton').click();

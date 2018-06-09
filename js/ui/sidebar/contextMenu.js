@@ -1,31 +1,26 @@
 /*global browser TreeView FeedManager NewFolderDialog BookmarkManager InfoView*/
 'use strict';
 class ContextMenu { /*exported ContextMenu*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ContextMenu();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    document.getElementById('ctxFldMnCheckFeeds').addEventListener('click', this._checkFeedsMenuClicked_event);
-    document.getElementById('ctxFldMnMarkAllAsRead').addEventListener('click', this._markAllFeedsAsReadMenuClicked_event);
-    document.getElementById('ctxFldMnMarkAllAsUpdated').addEventListener('click', this._markAllFeedsAsUpdatedMenuClicked_event);
-    document.getElementById('ctxFldMnOpenAllUpdated').addEventListener('click', this._openAllUpdatedFeedsMenuClicked_event);
-    document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event);
-    document.getElementById('ctxFldMnSortByName').addEventListener('click', this._ctxMnSortByNameMenuClicked_event);
-    document.getElementById('ctxFldMnNewFolder').addEventListener('click', this._ctxMnNewFolderClicked_event);
-    document.getElementById('ctxFldMnDeleteFolder').addEventListener('click', this._ctxMnDeleteFolderMenuClicked_event);
-    document.getElementById('ctxFldMnInfo').addEventListener('click', this._ctxMnInfoFolderMenuClicked_event);
+    document.getElementById('ctxFldMnCheckFeeds').addEventListener('click', (e) => { this._checkFeedsMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAllAsRead').addEventListener('click', (e) => { this._markAllFeedsAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAllAsUpdated').addEventListener('click', (e) => { this._markAllFeedsAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFldMnOpenAllUpdated').addEventListener('click', (e) => { this._openAllUpdatedFeedsMenuClicked_event(e); });
+    document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', (e) => { this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event(e); });
+    document.getElementById('ctxFldMnSortByName').addEventListener('click', (e) => { this._ctxMnSortByNameMenuClicked_event(e); });
+    document.getElementById('ctxFldMnNewFolder').addEventListener('click', (e) => { this._ctxMnNewFolderClicked_event(e); });
+    document.getElementById('ctxFldMnDeleteFolder').addEventListener('click', (e) => { this._ctxMnDeleteFolderMenuClicked_event(e); });
+    document.getElementById('ctxFldMnInfo').addEventListener('click', (e) => { this._ctxMnInfoFolderMenuClicked_event(e); });
 
-    document.getElementById('ctxFdtMnGetFeedTitle').addEventListener('click', this._ctxMnGetFeedTitleMenuClicked_event);
-    document.getElementById('ctxFdMnOpenFeed').addEventListener('click', this._ctxMnOpenFeedMenuClicked_event);
-    document.getElementById('ctxFdMnMarkFeedAsRead').addEventListener('click', this._ctxMnMarkFeedAsReadMenuClicked_event);
-    document.getElementById('ctxFdMnMarkFeedAsUpdated').addEventListener('click', this._ctxMnMarkFeedAsUpdatedMenuClicked_event);
-    document.getElementById('ctxFdMnNewFolder').addEventListener('click', this._ctxMnFdNewFolderClicked_event);
-    document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', this._ctxMnDeleteFeedMenuClicked_event);
-    document.getElementById('ctxFdMnInfo').addEventListener('click', this.ctxMnInfoFeedMenuClicked_event);
+    document.getElementById('ctxFdtMnGetFeedTitle').addEventListener('click', (e) => { this._ctxMnGetFeedTitleMenuClicked_event(e); });
+    document.getElementById('ctxFdMnOpenFeed').addEventListener('click', (e) => { this._ctxMnOpenFeedMenuClicked_event(e); });
+    document.getElementById('ctxFdMnMarkFeedAsRead').addEventListener('click', (e) => { this._ctxMnMarkFeedAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFdMnMarkFeedAsUpdated').addEventListener('click', (e) => { this._ctxMnMarkFeedAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFdMnNewFolder').addEventListener('click', (e) => { this._ctxMnFdNewFolderClicked_event(e); });
+    document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', (e) => { this._ctxMnDeleteFeedMenuClicked_event(e); });
+    document.getElementById('ctxFdMnInfo').addEventListener('click', (e) => { this.ctxMnInfoFeedMenuClicked_event(e); });
 
     this._updateLocalizedStrings();
     this._elContent = document.getElementById('content');
@@ -39,12 +34,11 @@ class ContextMenu { /*exported ContextMenu*/
   }
 
   show(xPos, yPos, elTarget){
-    let self = ContextMenu.instance;
-    self._xPosOri = xPos;
-    self._yPosOri = yPos;
-    self._idComeFrom = elTarget.getAttribute('id');
+    this._xPosOri = xPos;
+    this._yPosOri = yPos;
+    this._idComeFrom = elTarget.getAttribute('id');
     let contextMenuId = null;
-    if (self._idComeFrom.startsWith('dv-')) {
+    if (this._idComeFrom.startsWith('dv-')) {
       contextMenuId = 'folderContextMenuId';
       document.getElementById('feedContextMenuId').classList.remove('show');
     }
@@ -52,9 +46,9 @@ class ContextMenu { /*exported ContextMenu*/
       contextMenuId = 'feedContextMenuId';
       document.getElementById('folderContextMenuId').classList.remove('show');
     }
-    self._elContextMenu = document.getElementById(contextMenuId);
-    self._elContextMenu.classList.add('show');
-    self._setPosition(xPos, yPos);
+    this._elContextMenu = document.getElementById(contextMenuId);
+    this._elContextMenu.classList.add('show');
+    this._setPosition(xPos, yPos);
     TreeView.instance.selectionBar.put(elTarget);
   }
 
@@ -92,27 +86,23 @@ class ContextMenu { /*exported ContextMenu*/
   }
 
   async _checkFeedsMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.checkFeeds_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.checkFeeds_async(this._idComeFrom);
   }
 
   async _openAllUpdatedFeedsMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.openAllUpdatedFeeds_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.openAllUpdatedFeeds_async(this._idComeFrom);
   }
 
   async _ctxMnOpenUpdatedAsUnifiedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.openAsUnifiedFeed_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.openAsUnifiedFeed_async(this._idComeFrom);
   }
 
   async _ctxMnSortByNameMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    let bookmarkId = self._idComeFrom.substring(3);
+    this.hide();
+    let bookmarkId = this._idComeFrom.substring(3);
     await BookmarkManager.instance.sortBookmarks_async(bookmarkId);
     TreeView.instance.reload_async();
   }
@@ -120,79 +110,67 @@ class ContextMenu { /*exported ContextMenu*/
 
 
   async _ctxMnNewFolderClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    NewFolderDialog.instance.show(self._idComeFrom);
+    this.hide();
+    NewFolderDialog.instance.show(this._idComeFrom);
   }
 
   async _ctxMnDeleteFolderMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    let bookmarkId = self._idComeFrom.substring(3);
+    this.hide();
+    let bookmarkId = this._idComeFrom.substring(3);
     browser.bookmarks.removeTree(bookmarkId);
   }
 
   async _ctxMnInfoFolderMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    let bookmarkId = self._idComeFrom.substring(3);
-    InfoView.instance.show(self._xPosOri, self._yPosOri, bookmarkId);
+    this.hide();
+    let bookmarkId = this._idComeFrom.substring(3);
+    InfoView.instance.show(this._xPosOri, this._yPosOri, bookmarkId);
   }
 
 
 
 
   async _markAllFeedsAsReadMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.markAllFeedsAsRead_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.markAllFeedsAsRead_async(this._idComeFrom);
   }
 
   async _markAllFeedsAsUpdatedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.markAllFeedsAsUpdated_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.markAllFeedsAsUpdated_async(this._idComeFrom);
   }
 
   async _ctxMnGetFeedTitleMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.updateFeedTitle_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.updateFeedTitle_async(this._idComeFrom);
   }
 
   async _ctxMnOpenFeedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    TreeView.instance.openFeed(self._idComeFrom);
+    this.hide();
+    TreeView.instance.openFeed(this._idComeFrom);
   }
 
   async _ctxMnMarkFeedAsReadMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.markFeedAsReadById_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.markFeedAsReadById_async(this._idComeFrom);
   }
 
   async _ctxMnMarkFeedAsUpdatedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.markFeedAsUpdatedById_async(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.markFeedAsUpdatedById_async(this._idComeFrom);
   }
 
   async _ctxMnFdNewFolderClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    NewFolderDialog.instance.show(self._idComeFrom);
+    this.hide();
+    NewFolderDialog.instance.show(this._idComeFrom);
   }
 
   async _ctxMnDeleteFeedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    FeedManager.instance.delete(self._idComeFrom);
+    this.hide();
+    FeedManager.instance.delete(this._idComeFrom);
   }
 
   async ctxMnInfoFeedMenuClicked_event() {
-    let self = ContextMenu.instance;
-    self.hide();
-    InfoView.instance.show(self._xPosOri, self._yPosOri, self._idComeFrom);
+    this.hide();
+    InfoView.instance.show(this._xPosOri, this._yPosOri, this._idComeFrom);
   }
 }

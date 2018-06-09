@@ -1,12 +1,7 @@
 /*global DefaultValues LocalStorageManager Listener ListenerProviders FeedParser*/
 'use strict';
 class Timeout { /*exported Timeout*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Timeout();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._timeOut = DefaultValues.timeOut;

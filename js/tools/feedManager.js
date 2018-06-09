@@ -1,12 +1,7 @@
 /*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedParser ItemsPanel*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new FeedManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._updatedFeeds = 0;

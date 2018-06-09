@@ -1,12 +1,7 @@
 /*global SideBar ItemsPanel LocalStorageManager*/
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SplitterBar();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._newPos = 0;

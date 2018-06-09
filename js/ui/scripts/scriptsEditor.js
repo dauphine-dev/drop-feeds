@@ -4,12 +4,7 @@ const _scriptCodeKey = 'scriptCode-';
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
 
 class ScriptsEditor { /*exported ScriptsEditor */
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ScriptsEditor();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._scriptId = null;

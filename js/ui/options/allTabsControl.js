@@ -1,21 +1,22 @@
 /*global browser TabGeneral TabUpdateChecker TabContentArea TabManagement TabView TabItems LocalStorageManager DefaultValues TabScripts*/
 'use strict';
-class TabControl { /*exported TabControl*/
+class AllTabControl { /*exported AllTabControl*/
+  static get instance() { return (this._instance = this._instance || new this()); }
 
-  static async init_async() {
-    TabControl._updateLocalizedStrings();
-    TabControl._createTabLinks();
+  async init_async() {
+    this._updateLocalizedStrings();
+    this._createTabLinks();
     TabGeneral.instance.init_async();
-    TabUpdateChecker.init();
-    TabContentArea.init_async();
-    TabManagement.init();
-    TabView.init_async();
-    TabItems.init_async();
-    TabScripts.init();
-    TabControl._openLastTab_async();
+    TabUpdateChecker.instance.init();
+    TabContentArea.instance.init_async();
+    TabManagement.instance.init_async();
+    TabView.instance.init_async();
+    TabItems.instance.init_async();
+    TabScripts.instance.init_async();
+    this._openLastTab_async();
   }
 
-  static _updateLocalizedStrings() {
+  _updateLocalizedStrings() {
     document.getElementById('generalTabButton').textContent = browser.i18n.getMessage('optGeneral');
     document.getElementById('updateCheckerTabButton').textContent = browser.i18n.getMessage('optUpdateChecker');
     document.getElementById('viewItemsButton').textContent = browser.i18n.getMessage('optItems');
@@ -25,24 +26,24 @@ class TabControl { /*exported TabControl*/
     //document.getElementById('scriptsTabButton').textContent = browser.i18n.getMessage('optScripts');
   }
 
-  static async _openLastTab_async() {
+  async _openLastTab_async() {
     let currentOptionTabName = await LocalStorageManager.getValue_async('currentOptionTabName', DefaultValues.currentOptionTabName);
     let targetTabElement = document.getElementById(currentOptionTabName + 'Button');
-    TabControl._openTab_async(targetTabElement);
+    this._openTab_async(targetTabElement);
   }
 
-  static _createTabLinks() {
+  _createTabLinks() {
     let tabLinksList = document.getElementsByClassName('tabLinks');
     for (let tabLink of tabLinksList) {
-      tabLink.addEventListener('click', TabControl._openTabClicked_event);
+      tabLink.addEventListener('click', (e) => { this._openTabClicked_event(e); });
     }
   }
 
-  static async _openTabClicked_event(event) {
-    TabControl._openTab_async(event.target);
+  _openTabClicked_event(event) {
+    this._openTab_async(event.target);
   }
 
-  static async _openTab_async(targetTabElement) {
+  async _openTab_async(targetTabElement) {
     let tabName = targetTabElement.getAttribute('target');
     await LocalStorageManager.setValue_async('currentOptionTabName', tabName);
     let i, tabContent, tabLinks;

@@ -231,7 +231,6 @@ class Feed { /*exported Feed*/
 
   async _downloadEx_async(urlNoCache, forceHttp) {
     let url = this.url;
-
     if (url.startsWith(scriptVirtualProtocol)) {
       this._feedText = await UserScriptTools.instance.downloadVirtualFeed_async(url);
     }

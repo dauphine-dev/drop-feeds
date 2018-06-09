@@ -37,12 +37,12 @@ class ContentManager {
       subscribeButton.style.display = 'block';
       subscribeButton.style.marginInlineStart = 'auto';
       subscribeButton.style.marginTop = '0.5em';
-      subscribeButton.addEventListener('click', ContentManager._addSubscribeButtonOnClick_event);
+      subscribeButton.addEventListener('click', (e) => { this._addSubscribeButtonOnClick_event(e); });
       feedSubscribeLine.appendChild(subscribeButton);
     }
   }
 
-  static async _addSubscribeButtonOnClick_event(event) {
+  async _addSubscribeButtonOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
     browser.runtime.sendMessage({key:'openSubscribeDialog'});

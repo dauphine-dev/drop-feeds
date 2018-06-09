@@ -1,12 +1,7 @@
 /*global ScriptsManager ScriptsEditor*/
 'use strict';
 class Scripts {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Scripts();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   async init_async() {
     await ScriptsManager.instance.init_async();

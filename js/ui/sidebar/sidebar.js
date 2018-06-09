@@ -2,12 +2,7 @@
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SideBar();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     /*eslint-disable no-console*/
@@ -29,7 +24,7 @@ class SideBar { /*exported SideBar*/
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     TabManager.instance;
-    document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
+    document.getElementById('main').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
     this._addListeners();
     TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
@@ -59,10 +54,10 @@ class SideBar { /*exported SideBar*/
 
   _addListeners() {
     window.onresize = SideBar._windowOnResize_event;
-    document.getElementById('content').addEventListener('scroll', SideBar._contentOnScroll_event);
+    document.getElementById('content').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
-  static async _contentOnScroll_event(){
+  async _contentOnScroll_event(){
     TreeView.instance.selectionBar.refresh();
   }
 

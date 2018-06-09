@@ -1,12 +1,7 @@
 /*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs CssManager*/
 'use strict';
 class DiscoverFeeds {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new DiscoverFeeds();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._tabInfos = null;
@@ -27,8 +22,8 @@ class DiscoverFeeds {
     await this._getActiveTabFeedLinkList_async();
     await this._getFeedList_async();
     await this._updateFeedList();
-    document.getElementById('addFeedButton').addEventListener('click', DiscoverFeeds._addFeedButtonOnClicked_event);
-    document.getElementById('closeButton').addEventListener('click', DiscoverFeeds._closeButtonOnClicked_event);
+    document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
+    document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }
 
@@ -198,14 +193,14 @@ class DiscoverFeeds {
     this._progressBar.hide();
   }
 
-  static async _addFeedButtonOnClicked_event(event) {
+  async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await DiscoverFeeds.instance._openSubscribeDialog_async();
+    await this._openSubscribeDialog_async();
     window.close();
   }
 
-  static async _closeButtonOnClicked_event(event) {
+  async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     window.close();

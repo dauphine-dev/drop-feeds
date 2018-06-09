@@ -10,12 +10,7 @@ const _scriptType = {
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 
 class ScriptsManager { /* exported ScriptsManager */
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ScriptsManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._scriptList = [];

@@ -1,13 +1,7 @@
 /*global browser FolderTreeView LocalStorageManager NewFolderDialog BrowserManager*/
 'use strict';
 class Subscribe {
-
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Subscribe();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._feedTitle = null;
@@ -31,9 +25,9 @@ class Subscribe {
     NewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
     document.getElementById('inputName').value = this._feedTitle;
-    document.getElementById('newFolderButton').addEventListener('click', Subscribe._newFolderButtonClicked_event);
-    document.getElementById('cancelButton').addEventListener('click', Subscribe._cancelButtonClicked_event);
-    document.getElementById('subscribeButton').addEventListener('click', Subscribe._subscribeButtonClicked_event);
+    document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
+    document.getElementById('cancelButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
+    document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
   }
 
   _updateLocalizedStrings() {
@@ -50,23 +44,22 @@ class Subscribe {
     document.getElementById('inputNewFolder').value = browser.i18n.getMessage('subNewFolder');
   }
 
-  static async _newFolderButtonClicked_event(event) {
+  async _newFolderButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     NewFolderDialog.instance.show(FolderTreeView.instance.selectedId);
   }
 
-  static async _cancelButtonClicked_event(event) {
+  async _cancelButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     window.close();
   }
 
-  static async _subscribeButtonClicked_event() {
-    let self = Subscribe.instance;
+  async _subscribeButtonClicked_event() {
     try {
       let name = document.getElementById('inputName').value;
-      await browser.bookmarks.create({parentId: FolderTreeView.instance.selectedId, title: name, url: self._feedUrl});
+      await browser.bookmarks.create({parentId: FolderTreeView.instance.selectedId, title: name, url: this._feedUrl});
     }
     catch(e) {
       /* eslint-disable no-console */
@@ -77,5 +70,4 @@ class Subscribe {
   }
 
 }
-
 Subscribe.instance.init_async();

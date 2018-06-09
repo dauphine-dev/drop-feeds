@@ -1,19 +1,13 @@
 /*global browser*/
 'use strict';
 class SubscribeThisFeed {
-
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SubscribeThisFeed();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._feedTitle = null;
     this._feedUrl = null;
     this._updateLocalizedStrings();
-    document.getElementById('subscribeNow').addEventListener('click', SubscribeThisFeed._subscribeNowButtonOnClicked_event);
+    document.getElementById('subscribeNow').addEventListener('click', (e) => { this._subscribeNowButtonOnClicked_event(e); });
   }
 
   _updateLocalizedStrings() {
@@ -21,7 +15,7 @@ class SubscribeThisFeed {
     document.getElementById('subscribeNow').textContent = browser.i18n.getMessage('stfSubscribeNow');
   }
 
-  static async _subscribeNowButtonOnClicked_event(event) {
+  async _subscribeNowButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     browser.runtime.sendMessage({key:'openSubscribeDialog'});

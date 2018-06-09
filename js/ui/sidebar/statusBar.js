@@ -1,12 +1,7 @@
 /*global BrowserManager TopMenu*/
 'use strict';
 class StatusBar { /*exported StatusBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new StatusBar();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   set workInProgress(workInProgress) {
     TopMenu.instance.workInProgress = workInProgress;

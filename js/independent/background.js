@@ -9,12 +9,7 @@ const VERSION_ENUM = {
 };
 
 class BackgroundManager {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new this();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._version = null;

@@ -1,12 +1,7 @@
 /*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ItemsPanel();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     SplitterBar.instance.init_async();

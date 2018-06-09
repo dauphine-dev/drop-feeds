@@ -14,12 +14,7 @@ const VERSION_ENUM = { /*exported VERSION_ENUM */
 const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new BrowserManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;

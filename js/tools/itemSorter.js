@@ -7,12 +7,7 @@ const itemSortOrder = { /*exported itemSortOrder */
 };
 
 class ItemSorter { /*exported ItemSorter */
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ItemSorter();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._sortOrder = DefaultValues.itemSortOrder;

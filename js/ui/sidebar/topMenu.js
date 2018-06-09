@@ -1,12 +1,7 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM*/
 'use strict';
 class TopMenu  { /*exported TopMenu*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new TopMenu();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._updatedFeedsVisible = DefaultValues.updatedFeedsVisible;
@@ -26,12 +21,12 @@ class TopMenu  { /*exported TopMenu*/
     await this._isRootFolderChecked_async();
     this._updateLocalizedStrings();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
-    document.getElementById('checkFeedsButton').addEventListener('click', TopMenu.checkFeedsButtonClicked_event);
-    document.getElementById('discoverFeedsButton').addEventListener('click', TopMenu._discoverFeedsButtonClicked_event);
-    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', TopMenu._onlyUpdatedFeedsButtonClicked_event);
-    document.getElementById('toggleFoldersButton').addEventListener('click', TopMenu._toggleFoldersButtonClicked_event);
-    document.getElementById('addFeedButton').addEventListener('click', TopMenu._addFeedButtonClicked_event);
-    document.getElementById('optionsMenuButton').addEventListener('click', TopMenu._optionsMenuClicked_event);
+    document.getElementById('checkFeedsButton').addEventListener('click', (e) => { this.checkFeedsButtonClicked_event(e); });
+    document.getElementById('discoverFeedsButton').addEventListener('click', (e) => { this._discoverFeedsButtonClicked_event(e); });
+    document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', (e) => { this._onlyUpdatedFeedsButtonClicked_event(e); });
+    document.getElementById('toggleFoldersButton').addEventListener('click', (e) => { this._toggleFoldersButtonClicked_event(e); });
+    document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
+    document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
     setTimeout(this.automaticFeedUpdate, 2000);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', TopMenu.showErrorsAsUnread_sbscrb, false);
   }
@@ -124,18 +119,18 @@ class TopMenu  { /*exported TopMenu*/
     let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
     let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
 
-    if(TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
+    if(this.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
     {
-      TopMenu.instance.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
+      this.automaticUpdatesMilliseconds = automaticUpdatesMilliseconds;
 
-      if(TopMenu.instance.autoUpdateInterval)
-        clearInterval(TopMenu.instance.autoUpdateInterval);
-
-      TopMenu.instance.autoUpdateInterval = setInterval(TopMenu.instance.automaticFeedUpdate, automaticUpdatesMilliseconds);
+      if(this.autoUpdateInterval) {
+        clearInterval(this.autoUpdateInterval);
+      }
+      this.autoUpdateInterval = setInterval(this.automaticFeedUpdate, automaticUpdatesMilliseconds);
     }
   }
 
-  static async checkFeedsButtonClicked_event(event) {
+  async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     FeedManager.instance.checkFeeds_async('content');
@@ -162,39 +157,36 @@ class TopMenu  { /*exported TopMenu*/
     } catch(e) { }
   }
 
-  static async _onlyUpdatedFeedsButtonClicked_event(event) {
-    let self = TopMenu.instance;
+  async _onlyUpdatedFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    self._updatedFeedsVisible = ! self._updatedFeedsVisible;
-    await self.updatedFeedsSetVisibility_async();
+    this._updatedFeedsVisible = ! this._updatedFeedsVisible;
+    await this.updatedFeedsSetVisibility_async();
     TreeView.instance.selectionBarRefresh();
   }
 
-  static async _toggleFoldersButtonClicked_event(event) {
-    let self = TopMenu.instance;
+  async _toggleFoldersButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    self._foldersOpened = !self._foldersOpened;
-    let query = self._foldersOpened ? 'not(checked)' : 'checked';
+    this._foldersOpened = !this._foldersOpened;
+    let query = this._foldersOpened ? 'not(checked)' : 'checked';
     let folders = document.querySelectorAll('input[type=checkbox]:' + query);
     let i = folders.length;
-    self.activateButton('toggleFoldersButton' , self._foldersOpened);
+    this.activateButton('toggleFoldersButton' , this._foldersOpened);
     while (i--) {
       let folderId = folders[i].id;
       let storedFolder = DefaultValues.getStoredFolder(folderId);
-      folders[i].checked = self._foldersOpened;
-      storedFolder.checked = self._foldersOpened;
+      folders[i].checked = this._foldersOpened;
+      storedFolder.checked = this._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }
     TreeView.instance.selectionBarRefresh();
   }
 
-  static async _addFeedButtonClicked_event(event) {
-    let self = TopMenu.instance;
+  async _addFeedButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    if (!self._buttonAddFeedEnabled) { return; }
+    if (!this._buttonAddFeedEnabled) { return; }
     let feedList = TabManager.instance.activeTabFeedLinkList;
     if (feedList.length == 1) {
       await browser.tabs.create({url: feedList[0].link, active: true});
@@ -205,28 +197,27 @@ class TopMenu  { /*exported TopMenu*/
   }
 
 
-  static async _discoverFeedsButtonClicked_event(event) {
-    let self = TopMenu.instance;
+  async _discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    if (!self._buttonDiscoverFeedsEnabled) { return; }
+    if (!this._buttonDiscoverFeedsEnabled) { return; }
     let tabInfo = await BrowserManager.getActiveTab_async();
     await LocalStorageManager.setValue_async('discoverInfo', {tabInfos: tabInfo});
     BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
   }
 
-  static async _optionsMenuClicked_event(event) {
+  async _optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     await browser.runtime.openOptionsPage();
   }
 
-  static async _automaticUpdateChanged_event() {
+  async _automaticUpdateChanged_event() {
     await TopMenu.updateAutomaticUpdateInterval();
   }
 
-  static async showErrorsAsUnread_sbscrb() {
-    TopMenu.instance.updatedFeedsSetVisibility_async();
+  async showErrorsAsUnread_sbscrb() {
+    this.updatedFeedsSetVisibility_async();
   }
 
 }

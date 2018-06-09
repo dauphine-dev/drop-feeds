@@ -1,52 +1,54 @@
 /*global browser DefaultValues LocalStorageManager CssManager*/
 'use strict';
 class TabContentArea { /*exported TabContentArea*/
-  static async init_async() {
-    TabContentArea._updateLocalizedStrings();
+  static get instance() { return (this._instance = this._instance || new this()); }
+
+  async init_async() {
+    this._updateLocalizedStrings();
 
     let elRenderFeedsCheckbox = document.getElementById('renderFeedsCheckbox');
     elRenderFeedsCheckbox.checked =  await LocalStorageManager.getValue_async('renderFeeds', DefaultValues.renderFeeds);
-    elRenderFeedsCheckbox.addEventListener('click', TabContentArea._renderFeedsCheckBoxClicked_event);
+    elRenderFeedsCheckbox.addEventListener('click', (e) => { this._renderFeedsCheckBoxClicked_event(e); });
 
     let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
     elAlwaysOpenNewTabCheckbox.checked =  await LocalStorageManager.getValue_async('alwaysOpenNewTab', DefaultValues.alwaysOpenNewTab);
-    elAlwaysOpenNewTabCheckbox.addEventListener('click', TabContentArea._alwaysOpenNewTabCheckBoxClicked_event);
+    elAlwaysOpenNewTabCheckbox.addEventListener('click', (e) => { this._alwaysOpenNewTabCheckBoxClicked_event(e); });
     let elOpenNewTabForegroundCheckbox = document.getElementById('openNewTabForegroundCheckbox');
 
     elOpenNewTabForegroundCheckbox.checked =  await LocalStorageManager.getValue_async('openNewTabForeground', DefaultValues.openNewTabForeground);
-    elOpenNewTabForegroundCheckbox.addEventListener('click', TabContentArea._openNewTabForegroundCheckboxClicked_event);
+    elOpenNewTabForegroundCheckbox.addEventListener('click', (e) => { this._openNewTabForegroundCheckboxClicked_event(e); });
 
     let elReuseDropFeedsTabCheckbox = document.getElementById('reuseDropFeedsTabCheckbox');
     elReuseDropFeedsTabCheckbox.checked =  await LocalStorageManager.getValue_async('reuseDropFeedsTab', DefaultValues.reuseDropFeedsTab);
-    elReuseDropFeedsTabCheckbox.addEventListener('click', TabContentArea._reuseDropFeedsTabCheckboxClicked_event);
-    TabContentArea._updateReuseDropFeedsCheckboxDisabled();
+    elReuseDropFeedsTabCheckbox.addEventListener('click', (e) => { this._reuseDropFeedsTabCheckboxClicked_event(e); });
+    this._updateReuseDropFeedsCheckboxDisabled();
   }
 
-  static _updateLocalizedStrings() {
+  _updateLocalizedStrings() {
     document.getElementById('textRenderFeeds').textContent = browser.i18n.getMessage('optRenderFeeds');
     document.getElementById('textAlwaysOpenNewTab').textContent = browser.i18n.getMessage('optAlwaysOpenNewTab');
     document.getElementById('textOpenNewTabForeground').textContent = browser.i18n.getMessage('optOpenNewTabForeground');
     document.getElementById('textReuseDropFeedsTab').textContent = browser.i18n.getMessage('optReuseDropFeedsTab');
   }
 
-  static async _renderFeedsCheckBoxClicked_event() {
+  async _renderFeedsCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('renderFeeds', document.getElementById('renderFeedsCheckbox').checked);
   }
 
-  static async _alwaysOpenNewTabCheckBoxClicked_event() {
+  async _alwaysOpenNewTabCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('alwaysOpenNewTab', document.getElementById('alwaysOpenNewTabCheckbox').checked);
-    TabContentArea._updateReuseDropFeedsCheckboxDisabled();
+    this._updateReuseDropFeedsCheckboxDisabled();
   }
 
-  static async _openNewTabForegroundCheckboxClicked_event() {
+  async _openNewTabForegroundCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('openNewTabForeground', document.getElementById('openNewTabForegroundCheckbox').checked);
   }
 
-  static async _reuseDropFeedsTabCheckboxClicked_event() {
+  async _reuseDropFeedsTabCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('reuseDropFeedsTab', document.getElementById('reuseDropFeedsTabCheckbox').checked);
   }
 
-  static _updateReuseDropFeedsCheckboxDisabled() {
+  _updateReuseDropFeedsCheckboxDisabled() {
     let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
     let elReuseDropFeedsTabCheckbox = document.getElementById('reuseDropFeedsTabCheckbox');
     let elReuseDropFeedsDisabled = elAlwaysOpenNewTabCheckbox.checked;

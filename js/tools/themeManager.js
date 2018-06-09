@@ -1,12 +1,7 @@
 /*global DefaultValues LocalStorageManager*/
 'use strict';
 class ThemeManager { /*exported ThemeManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ThemeManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._themeFolderName = DefaultValues.themeFolderName;

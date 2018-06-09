@@ -1,13 +1,7 @@
 /*global browser TopMenu BrowserManager subType Dialogs*/
 'use strict';
 class TabManager { /*exported TabManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new TabManager();
-      this._activeTabFeedLinkList = [];
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     browser.tabs.onActivated.addListener(TabManager._tabOnActivated_event);

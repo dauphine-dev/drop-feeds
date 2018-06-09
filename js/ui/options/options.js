@@ -1,16 +1,18 @@
-/*global browser ThemeManager TabControl Timeout*/
+/*global browser ThemeManager AllTabControl Timeout*/
 'use strict';
 class Options {
-  static async new() {
+  static get instance() { return (this._instance = this._instance || new this()); }
+
+  async init_async() {
     await ThemeManager.instance.init_async();
-    await TabControl.init_async();
+    await AllTabControl.instance.init_async();
     await Timeout.instance.init_async();
     Options._updateLocalizedStrings();
   }
 
-  static _updateLocalizedStrings() {
+  _updateLocalizedStrings() {
     document.title = browser.i18n.getMessage('optDropFeedsOptions');
   }
 
 }
-Options.new();
+Options.instance.init_async();

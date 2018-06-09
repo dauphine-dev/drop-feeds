@@ -1,12 +1,7 @@
 /* global browser */
 'use strict';
 class InfoView { /*exported InfoView*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new InfoView();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._elInfoView = null;
@@ -14,8 +9,8 @@ class InfoView { /*exported InfoView*/
     this._info = null;
     this._elContent = document.getElementById('content');
     this._updateLocalizedStrings();
-    document.getElementById('infoUpdateButton').addEventListener('click', InfoView._updateButtonClicked_event);
-    document.getElementById('infoCloseButton').addEventListener('click', InfoView._closeButtonClicked_event);
+    document.getElementById('infoUpdateButton').addEventListener('click', (e) => { this._updateButtonClicked_event(e); });
+    document.getElementById('infoCloseButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
   }
 
   hide(){
@@ -74,7 +69,7 @@ class InfoView { /*exported InfoView*/
     this._elInfoView.style.top = y + 'px';
   }
 
-  static async _updateButtonClicked_event(event) {
+  async _updateButtonClicked_event(event) {
     let self = InfoView.instance;
     event.stopPropagation();
     event.preventDefault();
@@ -85,7 +80,7 @@ class InfoView { /*exported InfoView*/
     self.hide();
   }
 
-  static async _closeButtonClicked_event(event) {
+  async _closeButtonClicked_event(event) {
     let self = InfoView.instance;
     event.stopPropagation();
     event.preventDefault();

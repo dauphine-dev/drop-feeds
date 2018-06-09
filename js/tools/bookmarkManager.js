@@ -1,12 +1,7 @@
 /*global browser DefaultValues StatusBar LocalStorageManager DateTime Listener ListenerProviders bookmarkListeners*/
 'use strict';
 class BookmarkManager { /*exported BookmarkManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new BookmarkManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this.lastCreatedBookmarkId = null;
