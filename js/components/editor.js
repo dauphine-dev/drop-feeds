@@ -1,9 +1,6 @@
-/*global BrowserManager TextTools SyntaxHighlighter FontManager*/
+/*global BrowserManager TextTools SyntaxHighlighter EditorMenu LocalStorageManager DefaultValues*/
 'use strict';
 const _cssEditorPath = '/themes/_any/css/editor.css';
-const _fontSizeList = [
-  6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-  20, 22, 24, 26, 28, 32, 36, 40, 48, 56, 64, 72];
 const _overflow = {
   vertical: 0,
   horizontal: 1
@@ -13,11 +10,16 @@ class Editor { /*exported Editor*/
   constructor(syntaxFilePath) {
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
+    this._editorFontFamily = DefaultValues.editorFontFamily;
+    this._editorFontSize = DefaultValues.editorFontSize;
     this._highlighter = null;
     this._syntaxFilePath = syntaxFilePath;
   }
 
+
   async init_async() {
+    this._editorFontFamily =  await LocalStorageManager.getValue_async('editorFontFamily', this._editorFontFamily);
+    this._editorFontSize =  await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
     this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
   }
@@ -28,80 +30,40 @@ class Editor { /*exported Editor*/
     this._appendCss();
   }
 
+  get fontFamily() {
+    return this._editorFontFamily;
+  }
+
+  set fontFamily(value) {
+    this._editorFontFamily = value;
+    document.getElementById('editTextArea').style.fontFamily = value;
+    document.getElementById('editHighlightedCode').style.fontFamily = value;
+    LocalStorageManager.setValue_async('editorFontFamily', value);
+  }
+
+  get fontSize() {
+    return this._editorFontSize;
+  }
+
+  set fontSize(value) {
+    this._editorFontSize = value;
+    document.getElementById('editTextArea').style.fontSize = value + 'px';
+    document.getElementById('editHighlightedCode').style.fontSize = value + 'px';
+    LocalStorageManager.setValue_async('editorFontSize', value);
+  }
+
   _createElements(baseElement) {
     /*
     <div id="editEditorBox">
-      <!-- options elements -->
+      <!-- editor menu -->
       <!-- edition elements -->
     </div>
     */
     let editEditorBox = document.createElement('div');
     editEditorBox.setAttribute('id', 'editEditorBox');
-
-    //this._createOptionElements(editEditorBox);
-
+    (new EditorMenu(this)).attach(baseElement);
     this._createTextEditionElements(editEditorBox);
-
     baseElement.appendChild(editEditorBox);
-
-  }
-
-  _createOptionElements(editEditorBox) {
-    /*
-    <div id="editOptions">
-      <div id="fontDiv" >
-        <span>Font</span>
-        <span>Family:</span>
-        <select>
-          <option value="serif">serif</option>
-          <option value="sans-serif">sans-serif</option>
-          <option value="monospace">monospace</option>
-        </select>
-        <span>Size:</span>
-        <select>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
-      </div>
-    */
-    let fontDiv = document.createElement('div');
-    fontDiv.setAttribute('id', 'fontDiv');
-
-    let spanTitle = document.createElement('span');
-    spanTitle.textContent = '#Font';
-    fontDiv.appendChild(spanTitle);
-
-    let spanFamily = document.createElement('span');
-    spanFamily.textContent = '#Family';
-    fontDiv.appendChild(spanFamily);
-
-    let selectFamily = document.createElement('select');
-    let fontList = FontManager.instance.getAvailableFontList();
-    for (let font of fontList) {
-      let option = document.createElement('option');
-      option.text = font;
-      option.value = font;
-      selectFamily.appendChild(option);
-    }
-    fontDiv.appendChild(selectFamily);
-
-    let spanSize = document.createElement('span');
-    spanSize.textContent = '#Size';
-    fontDiv.appendChild(spanSize);
-
-
-    let selectSize = document.createElement('select');
-    for (let Size of _fontSizeList) {
-      let option = document.createElement('option');
-      option.text = Size;
-      option.value = Size;
-      selectSize.appendChild(option);
-    }
-    fontDiv.appendChild(selectSize);
-
-    editEditorBox.appendChild(fontDiv);
-
   }
 
   _createTextEditionElements(editEditorBox) {
@@ -114,20 +76,21 @@ class Editor { /*exported Editor*/
     let editHighlightedCode = document.createElement('div');
     editHighlightedCode.setAttribute('id', 'editHighlightedCode');
     editHighlightedCode.classList.add('editTextZone');
-    editHighlightedCode.classList.add('font');
     editHighlightedCode.style.overflowX = 'hidden';
     editHighlightedCode.style.overflowY = 'hidden';
+    editHighlightedCode.style.fontFamily = this._editorFontFamily;
+    editHighlightedCode.style.fontSize = this._editorFontSize + 'px';
     editEditorBox.appendChild(editHighlightedCode);
 
     let editTextArea = document.createElement('textarea');
     editTextArea.classList.add('editTextZone');
-    editTextArea.classList.add('font');
-    editTextArea.classList.add('cursor');
+    editTextArea.classList.add('caret');
     editTextArea.setAttribute('id', 'editTextArea');
+    editTextArea.style.fontFamily = this._editorFontFamily;
+    editTextArea.style.fontSize = this._editorFontSize + 'px';
     editEditorBox.appendChild(editTextArea);
 
   }
-
 
   _appendEventListeners() {
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
@@ -138,7 +101,6 @@ class Editor { /*exported Editor*/
     document.getElementById('editTextArea').addEventListener('overflow', (e) => { this._overflow_event(e); });
     document.getElementById('editTextArea').addEventListener('underflow', (e) => { this._underflow_event(e); });
     document.getElementById('editTextArea').addEventListener('scroll', (e) => { this._scroll_event(e); });
-
   }
 
   _appendCss() {

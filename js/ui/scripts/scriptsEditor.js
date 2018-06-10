@@ -1,4 +1,4 @@
-/*global browser ScriptsManager LocalStorageManager Editor*/
+/*global browser ScriptsManager LocalStorageManager Editor BrowserManager*/
 /*global scriptCodeKey scriptObjKey scriptType*/
 'use strict';
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
@@ -11,15 +11,28 @@ class ScriptsEditor { /*exported ScriptsEditor */
     this._ctrlPressed = false;
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
+    this._jsEditor = null;
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
-    this._jsEditor = new Editor(_jsHighlighterPath);
-    this._jsEditor.attach(document.getElementById('editor'));
+    this._loadEditorScripts();
+    window.onload = ((e) => { this._windowOnLoad_event(e); });
   }
 
   async init_async() {
-    await this._jsEditor.init_async();
   }
+
+  _loadEditorScripts() {
+    BrowserManager.appendScript('/js/tools/syntaxHighlighter.js', typeof SyntaxHighlighter);
+    BrowserManager.appendScript('/js/components/editorMenu.js', typeof EditorMenu);
+    BrowserManager.appendScript('/js/components/editor.js', typeof Editor);
+  }
+
+  async _windowOnLoad_event() {
+    this._jsEditor = new Editor(_jsHighlighterPath);
+    await this._jsEditor.init_async();
+    this._jsEditor.attach(document.getElementById('editor'));
+  }
+
   async display_async(scriptId) {
     this.scriptId = scriptId;
     await this._loadScript_async(scriptId);

@@ -28,6 +28,8 @@ class DefaultValues { /*exported DefaultValues*/
   static get feedItemMarkAsReadOnLeaving()   { return false; }
   static get userScriptName()                { return 'New script'; }
   static get userScriptUrlMatch()            { return '<all_urls>'; }
+  static get editorFontFamily()              { return '"monospace", "monospace"'; }
+  static get editorFontSize()                { return '14'; }
 
 
   static getStoredFolder(folderId) {

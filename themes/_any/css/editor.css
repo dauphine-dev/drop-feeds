@@ -1,3 +1,7 @@
+#editFieldsetFont {
+	font-size: small;
+}
+
 #editEditorBox {
 	left: 0;
 	top: 0;
@@ -26,12 +30,6 @@
 	color: #00000040;
 }
 
-.font {
-	font-family: monospace;
-	font-size: 8;
-	font-family: "Monaco", "Menlo", "Consolas", "Droid Sans Mono", "Inconsolata", "Courier New", "monospace (fallback)", "Lucida Console", "Georgia", "Times New Roman", "Georgia";
-}
-
 .caret {
-	caret-color: red;
+	caret-color: black;
 }

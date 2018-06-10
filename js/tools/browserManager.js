@@ -337,4 +337,11 @@ class BrowserManager { /* exported BrowserManager*/
     return version;
   }
 
+  static appendScript(path, typeToCheck) {
+    if (typeToCheck == 'undefined') {
+      let editorScript = document.createElement('script');
+      editorScript.setAttribute('src', path);
+      document.head.appendChild(editorScript);
+    }
+  }
 }
