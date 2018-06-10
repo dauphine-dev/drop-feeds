@@ -15,6 +15,13 @@
   <script src="/js/tools/compute.js"></script>
   <script src="/js/tools/dialogs.js"></script>
   <script src="/js/tools/fontManager.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/feedParser.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/ItemSorter.js"></script>
+  <script src="/js/tools/feed.js"></script>
+  <script src="/js/tools/userScriptTools.js"></script>
+  <script src="/js/tools/itemSorter.js"></script>
   <title>Drop Feeds - Code editor</title>
 </head>
 
@@ -73,8 +80,9 @@
             <span id="saveButton" class="topButton" title="#Save"></span>
             <span id="closeButton" class="topButton" title="#Close"></span>
           </div>
-          <div class="settings">
-            <table id="urlMatchSettings">
+          <fieldset id="feedTransformerTable" class="settings">
+            <legend>#Feed transformer script</legend>
+            <table>
               <tr>
                 <td>
                   <span class="settingFieldName">Url match patterns:</span>
@@ -82,17 +90,32 @@
                 <td>
                   <input id="urlMatch" class="settingFieldData" type="text" value="&lt;all_urls&gt;">
                 </td>
-              </tr>
-              <tr>
-                <td></td>
                 <td>
                   <small>
                     <a target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Help for url match patterns</a>
                   </small>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <span class="settingFieldName">Test feed url:</span>
+                </td>
+                <td>
+                  <input id="testUrl" class="settingFieldData" type="text" value="">
+                </td>
+                <td>
+                  <button type="button">Test..</button>
+                </td>
+              </tr>
             </table>
-          </div>
+          </fieldset>
+
+          <fieldset id="VirtualFeedTable" class="settings">
+            <legend>#Virtual feed script</legend>
+            <button id = "virtualTestScriptButton" type="button">Test..</button>
+            <button id ="virtualSubscribeScriptButton" type="button">Subscribe</button>
+          </fieldset>
+
           <div id="editor"></div>
         </div>
       </div>

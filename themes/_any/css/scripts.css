@@ -60,6 +60,8 @@ body {
 	-moz-box-flex: 1;
 	flex: 1;
 	box-flex: 1;
+	margin: 0;
+	padding: 0;
 }
 
 #rightBoxInner {
@@ -68,6 +70,8 @@ body {
 	flex-direction: col;
 	width: 100%;
 	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 /* --------------- Script manager ----------------- */
@@ -205,15 +209,16 @@ body {
 	border: 1px solid #dfdfdf;
 	border-radius: 4px;
 }
+
 .scriptTypeSelect:hover {
 	border: 1px solid #000000;
 	border-radius: 4px;
-
 }
 
 .scriptName:hover {
 	border: 1px solid #707070;
 }
+
 .scriptButton:hover {
 	border: 1px outset #707070;
 	border-radius: 4px;
@@ -252,9 +257,8 @@ body {
 
 .settings {
 	position: relative;
-	margin-top: 0px;
-	border-bottom: 1px solid #6f6f6f;
-	height: 68px;
+	font-size: small;
+	height: 65px;
 }
 
 table {
@@ -266,8 +270,12 @@ td:first-child {
 	white-space: nowrap;
 }
 
-td:last-child {
+td:nth-child(2) {
 	width: 100%;
+}
+
+td:last-child {
+	white-space: nowrap;
 }
 
 td {
@@ -299,8 +307,8 @@ td {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	top: 121px;
+	top: 135px;
 	width: 100%;
-	height: calc(100% - 121px);
+	height: calc(100% - 136px);
 	display: block;
 }

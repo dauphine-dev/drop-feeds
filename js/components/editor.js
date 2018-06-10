@@ -10,10 +10,12 @@ class Editor { /*exported Editor*/
   constructor(syntaxFilePath) {
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
+    this._baseElement = null;
     this._editorFontFamily = DefaultValues.editorFontFamily;
     this._editorFontSize = DefaultValues.editorFontSize;
     this._highlighter = null;
     this._syntaxFilePath = syntaxFilePath;
+    window.onresize = ((e) => { this._onWindowResize_event(e); });
   }
 
 
@@ -25,7 +27,8 @@ class Editor { /*exported Editor*/
   }
 
   attach(baseElement) {
-    this._createElements(baseElement);
+    this._baseElement = baseElement;
+    this._createElements();
     this._appendEventListeners();
     this._appendCss();
   }
@@ -52,7 +55,28 @@ class Editor { /*exported Editor*/
     LocalStorageManager.setValue_async('editorFontSize', value);
   }
 
-  _createElements(baseElement) {
+  async setText_async(text) {
+    let textArea = document.getElementById('editTextArea');
+    textArea.value = text;
+    this._highlightText();
+  }
+
+  getText() {
+    let text = document.getElementById('editTextArea').value;
+    return text;
+  }
+
+  resize() {
+    if (this._baseElement) {
+      let editEditorBox = document.getElementById('editEditorBox');
+      let height = Math.max(this._baseElement.offsetHeight - editEditorBox.offsetTop, 0) + 'px';
+      editEditorBox.style.height = height;
+      document.getElementById('editHighlightedCode').style.height = height;
+      document.getElementById('editTextArea').style.height = height;
+    }
+  }
+
+  _createElements() {
     /*
     <div id="editEditorBox">
       <!-- editor menu -->
@@ -61,9 +85,9 @@ class Editor { /*exported Editor*/
     */
     let editEditorBox = document.createElement('div');
     editEditorBox.setAttribute('id', 'editEditorBox');
-    (new EditorMenu(this)).attach(baseElement);
+    (new EditorMenu(this)).attach(this._baseElement);
     this._createTextEditionElements(editEditorBox);
-    baseElement.appendChild(editEditorBox);
+    this._baseElement.appendChild(editEditorBox);
   }
 
   _createTextEditionElements(editEditorBox) {
@@ -93,6 +117,7 @@ class Editor { /*exported Editor*/
   }
 
   _appendEventListeners() {
+
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
     document.getElementById('editTextArea').addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('input', (e) => { this._textAreaKey_event(e); });
@@ -111,15 +136,8 @@ class Editor { /*exported Editor*/
     document.head.appendChild(editorCss);
   }
 
-  async setText_async(text) {
-    let textArea = document.getElementById('editTextArea');
-    textArea.value = text;
-    this._highlightText();
-  }
-
-  getText() {
-    let text = document.getElementById('editTextArea').value;
-    return text;
+  async _onWindowResize_event() {
+    this.resize();
   }
 
   async _textAreaKeydown_event(event) {
@@ -212,4 +230,6 @@ class Editor { /*exported Editor*/
     text = TextTools.replaceAll(text, '>', '&gt;');
     return text;
   }
+
+
 }

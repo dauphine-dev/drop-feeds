@@ -1,13 +1,6 @@
 /*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager DefaultValues Dialogs*/
+/*global scriptObjKey scriptListKey scriptType*/
 'use strict';
-const scriptObjKey = 'scriptObj-';
-const scriptListKey = 'scriptList';
-const scriptCodeKey = 'scriptCode-'; /*exported scriptCodeKey*/
-const scriptType = {
-  feedTransformer: 0,
-  virtualFeed: 1
-};
-//const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/(.*))$/i);
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 
 class ScriptsManager { /* exported ScriptsManager */
@@ -59,11 +52,12 @@ class ScriptsManager { /* exported ScriptsManager */
 
   _matchPatternToRegExp(pattern) {
     //Code from https://developer.mozilla.org/fr/Add-ons/WebExtensions/Match_patterns
+    pattern = pattern.trim();
     if (pattern === '<all_urls>') {
       return (/^(?:https?|file|ftp|app):\/\//);
     }
     const match = _matchPattern.exec(pattern);
-    if (!match) {
+    if (!match || pattern === '<none>') {
       return null;
     }
     const [, scheme, host, path,] = match;
