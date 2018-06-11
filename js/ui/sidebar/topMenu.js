@@ -122,7 +122,8 @@ class TopMenu  { /*exported TopMenu*/
 
   static async updateAutomaticUpdateInterval() {
     let automaticUpdatesMinutes = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
-    let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
+    //let automaticUpdatesMilliseconds = Math.min(automaticUpdatesMinutes * 60000, 300000);
+    let automaticUpdatesMilliseconds = Math.max(automaticUpdatesMinutes * 60000, 300000);
 
     if(TopMenu.instance.automaticUpdatesMilliseconds != automaticUpdatesMilliseconds)
     {
