@@ -1,14 +1,13 @@
 /*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager DefaultValues Dialogs*/
 /*global scriptObjKey scriptListKey scriptType*/
 'use strict';
-const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 
 class ScriptsManager { /* exported ScriptsManager */
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._scriptList = [];
-    document.getElementById('createNewScript').addEventListener('click', ScriptsManager._createNewScriptClicked_event);
+    document.getElementById('createNewScript').addEventListener('click', (e) => { this._createNewScriptClicked_event(e); });
   }
 
   async init_async() {
@@ -38,36 +37,9 @@ class ScriptsManager { /* exported ScriptsManager */
     return newScript;
   }
 
-  async loadUrlMatch_async(scriptId) {
-    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
-    return scriptObj.urlMatch;
-  }
-
-  async saveUrlMatch_async(scriptId, urlMatch) {
-    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, DefaultValues.userScriptUrlMatch);
-    scriptObj.urlMatch = urlMatch;
-    scriptObj.urlRegEx = this._matchPatternToRegExp(urlMatch);
-    LocalStorageManager.setValue_async(scriptObjKey + scriptId, scriptObj);
-  }
-
-  _matchPatternToRegExp(pattern) {
-    //Code from https://developer.mozilla.org/fr/Add-ons/WebExtensions/Match_patterns
-    pattern = pattern.trim();
-    if (pattern === '<all_urls>') {
-      return (/^(?:https?|file|ftp|app):\/\//);
-    }
-    const match = _matchPattern.exec(pattern);
-    if (!match || pattern === '<none>') {
-      return null;
-    }
-    const [, scheme, host, path,] = match;
-
-    let regExpMatchPattern = new RegExp('^(?:'
-      + (scheme === '*' ? 'https?' : escape(scheme)) + '://'
-      + (host === '*' ? '[^/]+?' : escape(host).replace(/^\*\./g, '(?:[^/]+?.)?'))
-      + (path ? '/' + escape(path).replace(/\*/g, '.*') : '/?')
-      + ')$');
-    return regExpMatchPattern;
+  updateInfo(scriptId, infoClassName, infoValue) {
+    let scriptEntry = document.getElementById(scriptId);
+    scriptEntry.querySelector(infoClassName).textContent = infoValue;
   }
 
   _findNextScriptId() {

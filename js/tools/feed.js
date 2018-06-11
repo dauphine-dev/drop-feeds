@@ -37,8 +37,8 @@ class Feed { /*exported Feed*/
   }
 
   async _constructor_async() {
+    await UserScriptTools.instance.init_async();
     if (this._storedFeed.id) {
-      await UserScriptTools.instance.init_async();
       this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
       this._storedFeed.title = this._bookmark.title;
       this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);

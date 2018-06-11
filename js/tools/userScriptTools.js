@@ -22,8 +22,11 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async runFeedTransformerScripts_async(url, feedText) {
+    console.log('url:', url);
+    console.log('_scriptObjList:', this._scriptObjList);
     for (let scriptObj of this._scriptObjList) {
       if (scriptObj.type == scriptType.feedTransformer) {
+        console.log('urlRegEx:', scriptObj.urlRegEx);
         let matches = url.match(scriptObj.urlRegEx);
         if (matches) {
           feedText = await this._runScript_async(scriptObj, feedText);
