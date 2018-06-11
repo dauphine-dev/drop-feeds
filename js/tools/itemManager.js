@@ -15,6 +15,7 @@ class ItemManager { /*exported ItemManager*/
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item');
     for (let elItem of elItemList) {
       elItem.addEventListener('click', ItemManager._itemOnClick_event);
+      elItem.addEventListener('mousedown', ItemManager._itemOnMouseDown_event);
       elItem.addEventListener('mouseup', ItemManager._itemOnMouseUp_event);
     }
   }
@@ -36,9 +37,12 @@ class ItemManager { /*exported ItemManager*/
   markAllItemsAsRead() {
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item:not(.visited)');
     for (let elItem of elItemList) {
-      let itemLink = elItem.getAttribute('href');
-      browser.history.addUrl({url: itemLink});
-      elItem.classList.add('visited');
+      try {
+        let itemLink = elItem.getAttribute('href');
+        browser.history.addUrl({url: itemLink});
+        elItem.classList.add('visited');
+      }
+      catch(e) { }
     }
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
@@ -81,12 +85,16 @@ class ItemManager { /*exported ItemManager*/
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
+  static async _itemOnMouseDown_event (event) {
+    event.preventDefault();
+  }
+
   static async _itemOnMouseUp_event (event) {
     if (event.button == 1) { //middle-click
       ItemsPanel.instance.selectionBarItems.put(event.target);
       let itemLink = event.target.getAttribute('href');
-      let openNewTabBackGroundForce = true;
-      await ItemManager.instance._openTabItem_async(itemLink, null, openNewTabBackGroundForce);
+      let openNewTabForce = true, openNewTabBackGroundForce = true;
+      await ItemManager.instance._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
       event.target.classList.add('visited');
       ItemsMenu.instance.enableButtonsForSingleElement();
     }

@@ -63,7 +63,9 @@ class BrowserManager { /* exported BrowserManager*/
     let dfTab = null;
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
     let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
-    let reuseDropFeedsTab = this._reuseDropFeedsTab;
+    let feedUrlStartPattern = 'blob:' + browser.extension.getURL('');
+    let isFeed = url.startsWith(feedUrlStartPattern);
+    let reuseDropFeedsTab = isFeed && this._reuseDropFeedsTab;
 
     if (BrowserManager.isDropFeedsTab(activeTab)) {
       dfTab = activeTab;
