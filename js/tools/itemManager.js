@@ -10,20 +10,21 @@ class ItemManager { /*exported ItemManager*/
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item');
     for (let elItem of elItemList) {
       elItem.addEventListener('click', (e) => { this._itemOnClick_event(e); });
+      elItem.addEventListener('mousedown', (e) => { this._itemOnMouseDown_event(e); });
       elItem.addEventListener('mouseup', (e) => { this._itemOnMouseUp_event(e); });
     }
   }
 
   markItemAsRead(elItem) {
     let itemLink = elItem.getAttribute('href');
-    browser.history.addUrl({url: itemLink});
+    browser.history.addUrl({ url: itemLink });
     elItem.classList.add('visited');
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
   markItemAsUnread(elItem) {
     let itemLink = elItem.getAttribute('href');
-    browser.history.deleteUrl({url: itemLink});
+    browser.history.deleteUrl({ url: itemLink });
     elItem.classList.remove('visited');
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
@@ -31,19 +32,22 @@ class ItemManager { /*exported ItemManager*/
   markAllItemsAsRead() {
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.item:not(.visited)');
     for (let elItem of elItemList) {
-      let itemLink = elItem.getAttribute('href');
-      browser.history.addUrl({url: itemLink});
-      elItem.classList.add('visited');
+      try {
+        let itemLink = elItem.getAttribute('href');
+        browser.history.addUrl({ url: itemLink });
+        elItem.classList.add('visited');
+      }
+      catch (e) { }
     }
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
   markAllItemsAsUnread() {
     let elItemList = document.getElementById('itemsPane').querySelectorAll('.visited');
-    if(!elItemList) { return; }
+    if (!elItemList) { return; }
     for (let elItem of elItemList) {
       let itemLink = elItem.getAttribute('href');
-      browser.history.deleteUrl({url: itemLink});
+      browser.history.deleteUrl({ url: itemLink });
       elItem.classList.remove('visited');
     }
     ItemsMenu.instance.enableButtonsForSingleElement();
@@ -76,12 +80,16 @@ class ItemManager { /*exported ItemManager*/
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
-  async _itemOnMouseUp_event (event) {
+  async _itemOnMouseDown_event (event) {
+    event.preventDefault();
+  }
+
+  async _itemOnMouseUp_event(event) {
     if (event.button == 1) { //middle-click
       ItemsPanel.instance.selectionBarItems.put(event.target);
       let itemLink = event.target.getAttribute('href');
-      let openNewTabBackGroundForce = true;
-      await this._openTabItem_async(itemLink, null, openNewTabBackGroundForce);
+      let openNewTabForce = true, openNewTabBackGroundForce = true;
+      await this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
       event.target.classList.add('visited');
       ItemsMenu.instance.enableButtonsForSingleElement();
     }
