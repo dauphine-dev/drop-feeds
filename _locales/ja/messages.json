@@ -116,6 +116,10 @@
     "message": "更新中"
   },
 
+  "sbPreparing": {
+    "message": "preparing"
+  },
+
   "sbOpening": {
     "message": "開いています"
   },
