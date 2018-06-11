@@ -98,6 +98,9 @@
   "sbChecking": {
     "message": "vérifie"
   },
+  "sbPreparing": {
+    "message": "prépare"
+  },
   "sbOpening": {
     "message": "ouvre"
   },

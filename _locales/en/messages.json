@@ -98,6 +98,9 @@
   "sbChecking": {
     "message": "checking"
   },
+  "sbPreparing": {
+    "message": "preparing"
+  },
   "sbOpening": {
     "message": "opening"
   },
