@@ -96,7 +96,7 @@
     "message": "更新中"
   },
   "sbPreparing": {
-    "message": "preparing"
+    "message": "準備中"
   },
   "sbOpening": {
     "message": "開いています"
@@ -267,7 +267,7 @@
     "message": "項目リストにツールバーを表示(*)"
   },
   "optDescriptionTooltips": {
-    "message": "ツールチップを表示しない"
+    "message": "ツールチップを表示する"
   },
   "optNavigationHistoryWarning": {
     "message": "(*) 既読/未読は履歴に反映されます。"
