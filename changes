@@ -1,3 +1,6 @@
+0.7.14
+Fix double quote management in item fields. (It fixes missing item numbers in items panel, items can't be selected, and mark items as read do not work)
+
 0.7.13
 Enhance middle-click behavior
 Fix automatic update interval
