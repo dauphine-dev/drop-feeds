@@ -241,8 +241,7 @@ body {
 }
 
 .subscribeScriptButton::before {
-	background-image: url(/themes/_any/img/test.png);
-	filter: hue-rotate(0deg);
+	background-image: url(/themes/_any/img/scripts-subscribe.png);
 }
 
 /* --------------- Script editor ----------------- */
@@ -290,16 +289,6 @@ td {
 .settingFieldData {
 	width: 99%;
 	border: 1px solid #a7a7a7;
-}
-
-#saveButton::before {
-	background-image: url(/themes/_any/img/test.png);
-	filter: hue-rotate(0deg);
-}
-
-#closeButton::before {
-	background-image: url(/themes/_any/img/test.png);
-	filter: hue-rotate(80deg);
 }
 
 #editor {
