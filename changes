@@ -1,7 +1,8 @@
 0.7.13
-Fix automatic update interval
-Adding the missing 'preparing' message in language files
 Enhance middle-click behavior
+Fix automatic update interval
+Fix RSS GUID extraction
+Adding the missing 'preparing' message in language files
 Japanese translation updated (by  takepon1)
 
 0.7.12

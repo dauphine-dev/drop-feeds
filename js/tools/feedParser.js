@@ -232,7 +232,8 @@ class FeedParser { /*exported FeedParser*/
 
   static _getItemId(itemText) {
     if (!itemText) { return null; }
-    let result = FeedParser._extractValue(itemText, tagList.ID);
+    let noTrim = true;
+    let result = FeedParser._extractValue(itemText, tagList.ID, null, null, noTrim);
     if (!result) {
       let hasIdTag = FeedParser._get1stUsedTag(itemText, tagList.ID);
       if (!hasIdTag) {
@@ -246,7 +247,7 @@ class FeedParser { /*exported FeedParser*/
     return result;
   }
 
-  static _extractValue(text, tagList, startIndex_optional, out_endIndex_optional) {
+  static _extractValue(text, tagList, startIndex_optional, out_endIndex_optional, noTrim_optional) {
     if (!text) { return null; }
     if (!out_endIndex_optional) { out_endIndex_optional = []; }
     if (!startIndex_optional) { startIndex_optional = 0; }
@@ -262,12 +263,17 @@ class FeedParser { /*exported FeedParser*/
       let valueEnd = text.indexOf(tagEnd, valueStart);
       if (valueEnd==-1) { continue; }
 
-      let result = text.substring(valueStart + 1, valueEnd).trim();
+      let result = text.substring(valueStart + 1, valueEnd);
+      if (!noTrim_optional) {
+        result = result.trim();
+      }
+
       if(result.includes('<![CDATA[')) {
         result = TextTools.replaceAll(result, '<![CDATA[', '');
         result = TextTools.replaceAll(result, ']]>', '');
-        //result = '<![CDATA[' + result.trim() + ']]>';
-        result = result.trim();
+        if (!noTrim_optional) {
+          result = result.trim();
+        }
       }
       out_endIndex_optional[0] = valueEnd + tagEnd.length;
 
