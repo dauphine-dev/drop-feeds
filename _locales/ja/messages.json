@@ -117,7 +117,7 @@
   },
 
   "sbPreparing": {
-    "message": "preparing"
+    "message": "準備中"
   },
 
   "sbOpening": {
@@ -340,7 +340,7 @@
   },
 
   "optDescriptionTooltips": {
-    "message": "ツールチップを表示しない"
+    "message": "ツールチップを表示する"
   },
 
   "optNavigationHistoryWarning": {
