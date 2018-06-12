@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser TextTools*/
 'use strict';
 const subType = { /*exported subType */
   add: 'Add',
@@ -189,6 +189,9 @@ class BrowserManager { /* exported BrowserManager*/
     let tmpDiv = document.createElement('div');
     BrowserManager.setInnerHtmlByElement(tmpDiv, html);
     let text = tmpDiv.textContent || tmpDiv.innerText || '';
+    /*eslint-disable quotes*/
+    text = TextTools.replaceAll(text, '"', "'");
+    /*eslint-enable quotes*/
     return text;
   }
 
