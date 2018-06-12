@@ -201,7 +201,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _get1stUsedTag(text, tagArray) {
-    if (!text) return null;
+    if (!text) { return null; }
     for (let tag of tagArray) {
       if (text.includes('</' + tag + '>')) { return tag; }
     }
@@ -209,7 +209,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _getNextItem(feedText, itemId, tagItem) {
-    if (!feedText) return null;
+    if (!feedText) { return null; }
     let itemIdPattern = '>' + itemId + '<';
     let idIndex = feedText.indexOf(itemIdPattern);
     if (idIndex < 0) {
@@ -220,12 +220,13 @@ class FeedParser { /*exported FeedParser*/
 
     // Search for "<item>" (without attributes) and "<item " (with attributes)
     let startNextItemIndex = feedText.indexOf('<' + tagItem + '>', idIndex + 1);
-    if (startNextItemIndex == -1)
+    if (startNextItemIndex == -1) {
       startNextItemIndex = feedText.indexOf('<' + tagItem + ' ', idIndex + 1);
-    if (startNextItemIndex == -1) return '';
+    }
+    if (startNextItemIndex == -1) { return ''; }
     let tagItemEnd = '</' + tagItem + '>';
     let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);
-    if (endNextItemIndex < 1) return '';
+    if (endNextItemIndex < 1) { return ''; }
     let result = feedText.substring(startNextItemIndex, endNextItemIndex + tagItemEnd.length);
     return result;
   }

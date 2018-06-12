@@ -15,6 +15,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     this._jsEditor = null;
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
+    document.getElementById('saveAndCloseButton').addEventListener('click', (e) => { this._saveAndCloseButtonClicked_event(e); });
     document.getElementById('virtualSubscribeScriptButton').addEventListener('click', (e) => { this._virtualSubscribeScriptButton_event(e); });
     document.getElementById('feedTransformerTestScriptButton').addEventListener('click', (e) => { this._feedTransformerTestScriptButton_event(e); });
     document.getElementById('virtualTestScriptButton').addEventListener('click', (e) => { this._virtualTestScriptButton_event(e); });
@@ -56,28 +57,31 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, defaultCode);
     await this._jsEditor.setText_async(scriptCode);
     document.getElementById('feedTransformerTable').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
-    document.getElementById('urlMatch').value =  scriptObj ? scriptObj.urlMatch : DefaultValues.urlMatch;
+    document.getElementById('urlMatch').value = scriptObj ? scriptObj.urlMatch : DefaultValues.urlMatch;
 
     document.getElementById('VirtualFeedTable').style.display = (scriptObj.type == scriptType.virtualFeed ? '' : 'none');
-    document.getElementById('testUrl').value = scriptObj ? (scriptObj.testUrl || '')  : '';
+    document.getElementById('testUrl').value = scriptObj ? (scriptObj.testUrl || '') : '';
   }
 
   async _saveButtonClicked_event() {
+    this.save_async();
+  }
+
+  async save_async() {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     let urlMatch = document.getElementById('urlMatch').value;
     scriptObj.urlMatch = urlMatch;
     ScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
-    scriptObj.urlRegEx = this._matchPatternToRegExp(urlMatch);
+    scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch);
     scriptObj.testUrl = document.getElementById('testUrl').value;
     LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
 
     let scriptCode = this._jsEditor.getText();
     await LocalStorageManager.setValue_async(scriptCodeKey + this._scriptId, scriptCode);
-
   }
 
 
-  _matchPatternToRegExp(pattern) {
+  matchPatternToRegExp(pattern) {
     //Code from https://developer.mozilla.org/fr/Add-ons/WebExtensions/Match_patterns
     pattern = pattern.trim();
     if (pattern === '<all_urls>') {
@@ -97,16 +101,27 @@ class ScriptsEditor { /*exported ScriptsEditor */
     return regExpMatchPattern;
   }
 
+  async _saveAndCloseButtonClicked_event() {
+    await this.save_async();
+    this._close();
+  }
+
   async _closeButtonClicked_event() {
+    this._close();
+  }
+
+  _close() {
     ScriptsManager.instance.display();
   }
 
   async _feedTransformerTestScriptButton_event() {
+    await this.save_async();
     let feedTestUrl = document.getElementById('testUrl').value;
     this._TestScript_async(feedTestUrl);
   }
 
   async _virtualTestScriptButton_event() {
+    await this.save_async();
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
       this._TestScript_async(scriptObj.virtualUrl);
@@ -116,8 +131,10 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async _TestScript_async(feedTestUrl) {
     let feed = await Feed.newByUrl(feedTestUrl);
     await feed.update_async();
-    //await ItemsPanel.instance.displayItems_async(scriptObj.name, feed.info.channel.link, feed.info.itemList);
-    await BrowserManager.instance.openTab_async(feed.docUrl, true, false);
+    let displayItemsValue = {itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList};
+    await browser.runtime.sendMessage({key:'displayItems', value: displayItemsValue});
+    BrowserManager.instance.openTab_async(feed.docUrl, true, false);
+    this._displayItems_async(feed);
   }
 
   async _virtualSubscribeScriptButton_event() {

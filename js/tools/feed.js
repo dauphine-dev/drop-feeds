@@ -53,6 +53,9 @@ class Feed { /*exported Feed*/
   }
 
   get title() {
+    if (!this._storedFeed.title && this._feedText) {
+      this._parseTitle();
+    }
     return this._storedFeed.title;
   }
 

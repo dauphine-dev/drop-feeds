@@ -19,6 +19,7 @@ class ItemsPanel { /*exported ItemsPanel*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
   }
 
   get top() {
@@ -82,23 +83,27 @@ class ItemsPanel { /*exported ItemsPanel*/
     }
   }
 
-  _setFeedItemList_sbscrb(value) {
+  async _setFeedItemList_sbscrb(value) {
     this._feedItemList = value;
     this._setVisibility();
   }
 
-  _feedItemDescriptionTooltips_sbscrb(value) {
+  async _feedItemDescriptionTooltips_sbscrb(value) {
     this._feedItemDescriptionTooltips = value;
     this._setTooltipsVisibility();
   }
 
-  _feedItemListToolbar_sbscrb(value) {
+  async _feedItemListToolbar_sbscrb(value) {
     this._feedItemListToolbar = value;
     this._setToolbarVisibility();
   }
 
-  _feedItemMarkAsReadOnLeaving_sbscrb(value) {
+  async _feedItemMarkAsReadOnLeaving_sbscrb(value) {
     this._feedItemMarkAsReadOnLeaving = value;
+  }
+
+  async _displayItems_sbscrb(value) {
+    this.displayItems_async(value.itemsTitle, value.titleLink, value.items);
   }
 
   _setVisibility() {

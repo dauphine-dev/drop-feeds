@@ -11,6 +11,7 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async init_async() {
+    ScriptsEditor.instance.init_async();
     this._loadScriptList_async();
     this.display();
   }
@@ -29,7 +30,7 @@ class ScriptsManager { /* exported ScriptsManager */
       enabled: true,
       type: scriptType.feedTransformer,
       urlMatch: DefaultValues.userScriptUrlMatch,
-      urlRegEx: ScriptsManager._matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
+      urlRegEx: ScriptsEditor.instance.matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
       virtualUrl: browser.extension.getURL('dropfeeds://' + scriptId),
 
       lastEdit: Date.now()

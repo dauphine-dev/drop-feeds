@@ -22,18 +22,20 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async runFeedTransformerScripts_async(url, feedText) {
-    console.log('url:', url);
-    console.log('_scriptObjList:', this._scriptObjList);
-    for (let scriptObj of this._scriptObjList) {
-      if (scriptObj.type == scriptType.feedTransformer) {
-        console.log('urlRegEx:', scriptObj.urlRegEx);
-        let matches = url.match(scriptObj.urlRegEx);
-        if (matches) {
-          feedText = await this._runScript_async(scriptObj, feedText);
-        }
-      }
+    let scriptObjTransformerMatchedList = this._scriptObjList.filter(
+      so => so.type == scriptType.feedTransformer &&
+        so.enabled &&
+        this._isUrlMatch(so, url));
+
+    for (let scriptObj of scriptObjTransformerMatchedList) {
+      feedText = await this._runScript_async(scriptObj, feedText);
     }
     return feedText;
+  }
+
+  _isUrlMatch(scriptObj, url) {
+    let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
+    return isUrlMatch;
   }
 
   async downloadVirtualFeed_async(url) {
