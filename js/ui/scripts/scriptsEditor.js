@@ -52,7 +52,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   async _windowOnLoad_event() {
-    this._jsEditor = new Editor(_jsHighlighterPath);
+    this._jsEditor = new Editor(_jsHighlighterPath, () => { this.save_async(); });
     await this._jsEditor.init_async();
     this._jsEditor.attachEditor(document.getElementById('editor'));
     this._jsEditor.attachMenu(document.getElementById('fieldsetEditorBox'));
@@ -63,10 +63,13 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, defaultCode);
     await this._jsEditor.setText_async(scriptCode);
+    await this._jsEditor.console.clear();
     document.getElementById('fieldsetFeedTransformer').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
+    document.getElementById('fieldsetFeedTransformerHelp').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
     document.getElementById('urlMatch').value = scriptObj ? scriptObj.urlMatch : DefaultValues.urlMatch;
 
     document.getElementById('fieldsetVirtualFeed').style.display = (scriptObj.type == scriptType.virtualFeed ? '' : 'none');
+    document.getElementById('fieldsetVirtualFeedHelp').style.display = (scriptObj.type == scriptType.virtualFeed ? '' : 'none');
     document.getElementById('testUrl').value = scriptObj ? (scriptObj.testUrl || '') : '';
   }
 
@@ -124,7 +127,14 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async _feedTransformerTestScriptButton_event() {
     await this.save_async();
     let feedTestUrl = document.getElementById('testUrl').value;
+    await this.displayUrlMatchToConsole_async(feedTestUrl);
     this._TestScript_async(feedTestUrl);
+  }
+
+  async displayUrlMatchToConsole_async(url) {
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
+    let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
+    this._jsEditor.console.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? 'blue' : 'red');
   }
 
   async _virtualTestScriptButton_event() {
@@ -137,10 +147,21 @@ class ScriptsEditor { /*exported ScriptsEditor */
 
   async _TestScript_async(feedTestUrl) {
     let feed = await Feed.newByUrl(feedTestUrl);
-    await feed.update_async();
+    await feed.update_async((e) => { this._onScriptError(e); });
     let displayItemsValue = {itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList};
     await browser.runtime.sendMessage({key:'displayItems', value: displayItemsValue});
-    BrowserManager.instance.openTab_async(feed.docUrl, true, false);
+    let openNewTabForce = false, openNewTabBackGroundForce = true;
+    BrowserManager.instance.openTab_async(feed.docUrl, openNewTabForce, openNewTabBackGroundForce);
+    this._jsEditor.console.writeLine('script executed.');
+  }
+
+  _onScriptError(e) {
+    this._writeErrorToConsole(e);
+  }
+
+  _writeErrorToConsole(e) {
+    let errorText = '(' + Math.max(e.lineNumber - 2,0) + ', ' + e.columnNumber + ') ' + e.toString();
+    this._jsEditor.console.writeLine(errorText, 'red');
   }
 
   async _virtualSubscribeScriptButton_event() {

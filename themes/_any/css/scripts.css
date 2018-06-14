@@ -11,6 +11,11 @@ button {
 	margin: 5px;
 }
 
+select {
+	font-size: x-small;
+	margin: 5px;
+}
+
 .field {
 	font-size: x-small;
 	border: 2px double #9D9D99;
@@ -274,4 +279,10 @@ button {
 
 .subscribeScriptButton::before {
 	background-image: url(/themes/_any/img/scripts-subscribe.png);
+}
+
+.help {
+	font-size: x-small;
+	text-align: justify;
+	text-justify: inter-word;
 }

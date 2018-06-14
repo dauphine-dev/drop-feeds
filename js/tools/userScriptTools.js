@@ -18,17 +18,16 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async init_async() {
-    Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, (v) => { this._updateScriptList_sbscrb(v); }, true);
+    await Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, (v) => { this._updateScriptList_sbscrb(v); }, true);
   }
 
-  async runFeedTransformerScripts_async(url, feedText) {
+  async runFeedTransformerScripts_async(url, feedText, scriptErrorCallback) {
+    let testMode = Boolean(scriptErrorCallback);
+    if (testMode) { await this._loadScriptInfos_async(); }
     let scriptObjTransformerMatchedList = this._scriptObjList.filter(
-      so => so.type == scriptType.feedTransformer &&
-        so.enabled &&
-        this._isUrlMatch(so, url));
-
+      so => so.type == scriptType.feedTransformer && so.enabled && this._isUrlMatch(so, url));
     for (let scriptObj of scriptObjTransformerMatchedList) {
-      feedText = await this._runScript_async(scriptObj, feedText);
+      feedText = await this._runScript_async(scriptObj, feedText, scriptErrorCallback);
     }
     return feedText;
   }
@@ -38,21 +37,46 @@ class UserScriptTools { /* exported UserScriptTools */
     return isUrlMatch;
   }
 
-  async downloadVirtualFeed_async(url) {
+  async _loadScriptInfos_async() {
+    this._scriptObjList = await LocalStorageManager.getValue_async(scriptListKey, null);
+    for (let scriptId of this._scriptList) {
+      let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
+      if (scriptObj) {
+        this._scriptObjList.push(scriptObj);
+      }
+    }
+
+  }
+
+  async downloadVirtualFeed_async(url, scriptErrorCallback) {
     let scriptId = url.substring(scriptVirtualProtocol.length).trim();
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, null);
     if (scriptCode) {
       let virtualFeedScript = new Function(scriptCode);
-      let feedText = virtualFeedScript();
+      let feedText = null;
+      try {
+        feedText = virtualFeedScript();
+      }
+      catch (e) {
+        if (scriptErrorCallback) {
+          scriptErrorCallback(e);
+        }
+      }
       return feedText;
     }
   }
 
-  async _runScript_async(scriptObj, feedText) {
+  async _runScript_async(scriptObj, feedText, scriptErrorCallback) {
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptObj.id, null);
     if (scriptCode) {
       let userScriptFunction = new Function('__feedText__', scriptCode);
-      let feedTextUpdated = userScriptFunction(feedText);
+      let feedTextUpdated = null;
+      try {
+        feedTextUpdated = userScriptFunction(feedText);
+      }
+      catch (e) {
+        scriptErrorCallback(e);
+      }
       feedText = feedTextUpdated || feedText;
     }
     return feedText;

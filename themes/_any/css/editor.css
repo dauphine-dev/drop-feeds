@@ -81,22 +81,14 @@
 	white-space: pre;
 }
 
-#editHighlightedCode {
-	background-color: #c1c5da;
-	color: #000000;
-}
-
 #editTextArea {
 	resize: none;
 	background-color: #ffffff00;
 	color: #00000000;
 }
 
-.editCaret {
-	caret-color: black;
-}
-
-.editConsole {
+#editConsole {
+	overflow: auto;
 	height: 100px
 }
 

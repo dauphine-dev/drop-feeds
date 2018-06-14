@@ -6,8 +6,29 @@ const _overflow = {
   horizontal: 1
 };
 
+
+class EditorConsole { /*exported Console*/
+  write(text, color) {
+    let editConsole = document.getElementById('editConsole');
+    let style = '';
+    if (color) { style = 'style="color: ' + color + '"'; }
+    let html = '<span ' +  style + '>' + text + '</span>';
+    editConsole.insertAdjacentHTML('beforeend', html);
+    editConsole.scrollTop = editConsole.scrollHeight;
+  }
+
+  writeLine(text, color) {
+    this.write(text + '<br/>', color);
+  }
+
+  clear() {
+    let editConsole = document.getElementById('editConsole');
+    editConsole.textContent = '';
+  }
+}
+
 class Editor { /*exported Editor*/
-  constructor(syntaxFilePath) {
+  constructor(syntaxFilePath, saveCallback) {
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
     this._baseElement = null;
@@ -15,6 +36,8 @@ class Editor { /*exported Editor*/
     this._editorFontSize = DefaultValues.editorFontSize;
     this._highlighter = null;
     this._syntaxFilePath = syntaxFilePath;
+    this._saveCallback = saveCallback;
+    this._console = new EditorConsole();
   }
 
   async init_async() {
@@ -22,6 +45,10 @@ class Editor { /*exported Editor*/
     this._editorFontSize = await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
     this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
+  }
+
+  get console() {
+    return this._console;
   }
 
   attachEditor(baseElement) {
@@ -68,30 +95,28 @@ class Editor { /*exported Editor*/
   }
 
   _createElements() {
-    let editorHtml = '';
-    editorHtml += '<div class="editTableBox">';
-    editorHtml += '  <div class="editRowGroupBox">';
-    editorHtml += '    <div class="editRowBox">';
-    editorHtml += '      <div class="editCellBox editAutoHeight">';
-    editorHtml += '        top stuff...';
-    editorHtml += '      </div>';
-    editorHtml += '    </div>';
-    editorHtml += '    <div class="editRowBox">';
-    editorHtml += '      <div class="editCellBox editRelative100pc">';
-    editorHtml += '        <div id="editHighlightedCode" class="editTextZone editBorderTopBottom">';
-    editorHtml += '        </div>';
-    editorHtml += '        <textarea id="editTextArea" class="editTextZone editBorderTopBottom editCaret"></textarea>';
-    editorHtml += '      </div>';
-    editorHtml += '    </div>';
-    editorHtml += '    <div class="editRowBox">';
-    editorHtml += '      <div class="editCellBox editConsole">';
-    editorHtml += '        error messages...';
-    editorHtml += '      </div>';
-    editorHtml += '    </div>';
-    editorHtml += '  </div>';
-    editorHtml += '</div>';
+    let editorHtml = '\
+    <div class="editTableBox">\
+      <div class="editRowGroupBox">\
+        <div class="editRowBox">\
+          <div class="editCellBox editAutoHeight">\
+          </div>\
+        </div>\
+        <div class="editRowBox">\
+          <div class="editCellBox editRelative100pc">\
+            <div id="editHighlightedCode" class="editTextZone editBorderTopBottom editorText">\
+            </div>\
+            <textarea id="editTextArea" class="editTextZone editBorderTopBottom editorCaret"></textarea>\
+          </div>\
+        </div>\
+        <div class="editRowBox">\
+          <div class="editCellBox">\
+          <div id="editConsole"></div>\
+          </div>\
+        </div>\
+      </div>\
+    </div>';
     this._baseElement.insertAdjacentHTML('beforeend', editorHtml);
-
     let editHighlightedCode = document.getElementById('editHighlightedCode');
     editHighlightedCode.style.overflowX = 'hidden';
     editHighlightedCode.style.overflowY = 'hidden';
@@ -112,6 +137,7 @@ class Editor { /*exported Editor*/
   _appendEventListeners() {
 
     document.getElementById('editTextArea').addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
+    document.getElementById('editTextArea').addEventListener('keypress', (e) => { this._textAreaKeypress_event(e); });
     document.getElementById('editTextArea').addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('input', (e) => { this._textAreaKey_event(e); });
     document.getElementById('editTextArea').addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
@@ -145,6 +171,14 @@ class Editor { /*exported Editor*/
       default:
     }
     this._highlightText();
+  }
+
+  async _textAreaKeypress_event(event) {
+    if (event.key.toLowerCase() == 's' && event.ctrlKey) {
+      event.preventDefault();
+      this._saveCallback();
+      return false;
+    }
   }
 
   async _textAreaKey_event() {
