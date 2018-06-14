@@ -17,9 +17,13 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   display() {
-    document.getElementById('scriptEditor').style.display = 'none';
-    document.getElementById('scriptManager').style.display = 'block';
-    document.getElementById('titlePage').textContent = 'Script manager';
+    ScriptsEditor.instance.hide();
+    document.getElementById('scriptManagerRowBox').style.display = 'table-row';
+    document.getElementById('logoTitle').textContent = 'Script manager';
+  }
+
+  hide() {
+    document.getElementById('scriptManagerRowBox').style.display = 'none';
   }
 
   newScriptObj() {
@@ -83,7 +87,7 @@ class ScriptsManager { /* exported ScriptsManager */
     newScriptEntry.querySelector('.lastEdit').textContent = DateTime.getDateDiff(Date.now(), scriptObj.lastEdit);
     newScriptEntry.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
 
-    document.getElementById('scriptList').appendChild(newScriptEntry);
+    document.getElementById('scriptListBox').appendChild(newScriptEntry);
 
     newScriptEntry.querySelector('.scriptName').addEventListener('keydown', (e) => { this._scriptNameDivKeydown_event(e); });
     newScriptEntry.querySelector('.scriptName').addEventListener('focus', (e) => { this._scriptNameDivFocus_event(e); });

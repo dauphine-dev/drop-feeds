@@ -25,100 +25,100 @@
 </head>
 
 <body>
-  <div id="mainBox">
-    <!-- - - - - - leftBox - - - - - -->
-    <div id="leftBox">
-      <div id="logoBox">
-        <span id="logoImg"></span>
-        <p/>
-        <span id="logoName">Drop Feeds</span>
-        <div class="titleBox">
-          <span id="titlePage">Script manager</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- - - - - - rightBox - - - - - -->
-    <div id="rightBox">
-      <div id="rightBoxInner">
-        <!-- - - - - - Script manager - - - - - -->
-        <div id="scriptManager" style="display: block;">
-          <div class="topMenu">
-            <span id="createNewScript" class="topButton" title="#Create a new script"></span>
-          </div>
-
-          <div id="scriptList">
-
-            <!-- scriptTemplate -->
-            <div id="scriptTemplate" class="scriptEntry" style="display: none;">
-              <div class="logo"></div>
-              <div class="scriptLeftBlock">
-                <div class="scriptName" contenteditable="true"></div>
-                <div class="scriptButtons">
-                  <span class="scriptButton editScriptButton" title="#Edit script"></span>
-                  <span class="scriptButton enDisScriptButton enabledScriptButton" title="#Enable/disable script"></span>
-                  <select class="scriptTypeSelect" title="Script type">
-                    <option value="feedTransformer">Feed transformer</option>
-                    <option value="virtualFeed">Virtual feed</option>
-                  </select>
-                  <span class="scriptInfo urlMatchPatterns" title="#Url match patterns"></span>
-                  <span class="scriptButton subscribeScriptButton" title="#Subscribe"></span>
+  <div id="mainBox" class="tableBox">
+    <div class="rowGroupBox">
+      <!-- Left panel -->
+      <div class="rowBox">
+        <div id="leftBox" class="cellBox border">
+          <div class="tableBox">
+            <div class="rowGroupBox">
+              <div class="rowBox">
+                <div class="cellBox autoHeight logoBox">
+                  <div id="logoImg" class="right"></div>
+                  <div id="logoName" class="right">Drop Feeds</div>
+                  <div id="logoTitle" class="right">Script manager</div>
                 </div>
               </div>
-              <div class="scriptRightBlock">
-                <div lastedit="" class="lastEdit" title="Last edition"></div>
-                <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
+              <div class="rowBox">
+                <div id="fieldsetEditorBox" class="cellBox">
+                  <fieldset>
+                    <legend>#Commands</legend>
+                    <button id="saveButton" type="button">#Save</button>
+                    <button id="closeButton" type="button">#Close</button>
+                    <button id="saveAndCloseButton" type="button">#Save and close</button>
+                  </fieldset>
+                  <fieldset id="fieldsetFeedTransformer">
+                    <legend>#Feed transformer</legend>
+                    <span class="label">Url match patterns:</span>
+                    <input id="urlMatch" class="field" type="text" value="&lt;all_urls&gt;">
+                    <a target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" class="xSmall">#Help for url match patterns</a>
+                    <p/>
+                    <span class="label">Test feed url:</span>
+                    <input id="testUrl" class="field" type="url" value="">
+                    <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
+                  </fieldset>
+                  <fieldset id="fieldsetVirtualFeed">
+                    <legend>#Virtual feed</legend>
+                    <button id="virtualTestScriptButton" type="button">#Save and test...</button>
+                    <button id="virtualSubscribeScriptButton" type="button">#Save and subscribe...</button>
+                  </fieldset>
+                  <!-- fieldsetEditor comme here -->
+                </div>
               </div>
             </div>
-
           </div>
         </div>
+        <!-- Right panel -->
+        <div id="rightBox" class="cellBox border">
+          <div class="tableBox">
+            <div class="rowGroupBox">
+              <!-- Script manager -->
+              <div id="scriptManagerRowBox" class="rowBox">
+                <div class="cellBox">
+                  <div class="tableBox">
+                    <div class="rowGroupBox">
+                      <div class="rowBox">
+                        <div class="cellBox autoHeight borderHidden">
+                          <span id="createNewScript" class="pictureButton" title="#Create a new script"></span>
+                        </div>
+                      </div>
+                      <div class="rowBox">
+                        <div id="scriptListBox" class="cellBox borderTopBottom">
+                          <div id="scriptTemplate" class="scriptEntry" style="display: none;">
+                            <div class="logo"></div>
+                            <div class="scriptLeftBlock">
+                              <div class="scriptName" contenteditable="true"></div>
+                              <div class="scriptButtons">
+                                <span class="scriptButton editScriptButton" title="#Edit script"></span>
+                                <span class="scriptButton enDisScriptButton enabledScriptButton" title="#Enable/disable script"></span>
+                                <select class="scriptTypeSelect" title="Script type">
+                                  <option value="feedTransformer">Feed transformer</option>
+                                  <option value="virtualFeed">Virtual feed</option>
+                                </select>
+                                <span class="scriptInfo urlMatchPatterns" title="#Url match patterns"></span>
+                                <span class="scriptButton subscribeScriptButton" title="#Subscribe"></span>
+                              </div>
+                            </div>
+                            <div class="scriptRightBlock">
+                              <div lastedit="" class="lastEdit" title="Last edition"></div>
+                              <span class="scriptButton deleteScriptButton" title="#Delete script"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-        <!-- - - - - - Script editor - - - - - -->
-        <div id="scriptEditor" style="display:none;">
-
-          <div class="topMenu">
-            <button id="saveButton" type="button">#Save</button>
-            <button id="closeButton" type="button">#Close</button>
-            <button id="saveAndCloseButton" type="button">#Save and close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Script editor -->
+              <div id="editorRowBox" class="rowBox">
+                <div id="editor" class="cellBox">
+                  <!-- editTableBox come here -->
+                </div>
+              </div>
+            </div>
           </div>
-          <fieldset id="feedTransformerTable" class="settings">
-            <legend>#Feed transformer script</legend>
-            <table>
-              <tr>
-                <td>
-                  <span class="settingFieldName">#Url match patterns:</span>
-                </td>
-                <td>
-                  <input id="urlMatch" class="settingFieldData" type="text" value="&lt;all_urls&gt;">
-                </td>
-                <td>
-                  <small>
-                    <a target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">#Help for url match patterns</a>
-                  </small>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="settingFieldName">Test feed url:</span>
-                </td>
-                <td>
-                  <input id="testUrl" class="settingFieldData" type="url" value="">
-                </td>
-                <td>
-                  <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
-                </td>
-              </tr>
-            </table>
-          </fieldset>
-
-          <fieldset id="VirtualFeedTable" class="settings">
-            <legend>#Virtual feed script</legend>
-            <button id="virtualTestScriptButton" type="button">#Save and test...</button>
-            <button id="virtualSubscribeScriptButton" type="button">#Save and subscribe...</button>
-          </fieldset>
-
-          <div id="editor"></div>
         </div>
       </div>
     </div>

@@ -1,33 +1,105 @@
-body {
+html, body {
 	margin: 0;
-	color: #000000;
-	font-family: monospace;
-	background-color: #FFFFFF;
-	/*font-size: small;*/
-	font-family: "Lucida Console", "Courier New", "Georgia", "Times New Roman", "Georgia";
-	overflow: hidden;
+	padding: 0;
+	height: 100%;
+	font-family: "Courier New", "Courier", "Lucida Console", "Monaco", "monospace";
+	font-size: small;
 }
 
-#mainBox {
-	display: flex;
-	position: absolute;
-	flex-direction: raw;
+button {
+	font-size: x-small;
+	margin: 5px;
+}
+
+.field {
+	font-size: x-small;
+	border: 2px double #9D9D99;
+	border-radius: 3px;
+	width: 100%;
+}
+
+.field:focus {
+	border: 2px solid #4A90D9;
+}
+
+/*-- table box --*/
+
+.tableBox {
+	vertical-align: top;
+	display: table;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	width: 0;
 	width: 100%;
 	height: 100%;
 }
 
-#leftBox {
+.rowGroupBox {
+	vertical-align: top;
+	display: table-row-group;
+}
+
+.rowBox {
+	display: table-row;
+}
+
+.cellBox {
+	vertical-align: top;
+	display: table-cell;
+}
+
+.headerGroupBox {
+	vertical-align: top;
+	display: table-header-group;
+}
+
+.footerGroupBox {
+	vertical-align: top;
+	display: table-footer-group;
+}
+
+.autoHeight {
+	height: 0;
+}
+
+/*-- -- --*/
+
+.xSmall {
+	font-size: x-small;
+}
+
+.right {
+	text-align: right;
+}
+
+.border {
 	border: 1px solid #6f6f6f;
-	background-color: #fafafa;
+}
+
+.borderTopBottom {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #6f6f6f;
+	border-bottom: 1px solid #6f6f6f;
+}
+
+.borderHidden {
+	border: 1px solid #ffffff00;
+}
+
+.label {
+	min-width: 153px;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+#leftBox {
 	width: 200px;
 }
 
-#logoBox {
-	position: relative;
-	top: 50px;
-	left: 0;
-	margin: 5px;
-	display: block;
+.logoBox {
+	padding: 5px;
 }
 
 #logoImg::before {
@@ -44,48 +116,15 @@ body {
 #logoName {
 	font-size: x-large;
 	font-weight: bold;
-	margin-left: auto;
-	margin-right: 0;
-	display: block;
-	text-align: right;
+	text-decoration: underline;
 }
 
-.titleBox {
-	border-top: 1px solid gray;
-	float: right;
+#logoTitle {
+	font-size: medium;
+	margin-bottom: 10px;
 }
 
-#rightBox {
-	border: 2px solid #6f6f6f;
-	-moz-box-flex: 1;
-	flex: 1;
-	box-flex: 1;
-	margin: 0;
-	padding: 0;
-}
-
-#rightBoxInner {
-	display: flex;
-	position: relative;
-	flex-direction: col;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-/* --------------- Script manager ----------------- */
-
-.topMenu {
-	position: relative;
-	border-bottom: 1px solid #6f6f6f;
-	top: 0;
-	padding-top: 10px;
-	padding-left: 12px;
-	height: 40px;
-}
-
-.topButton::before {
+.pictureButton::before {
 	background-size: 16px 16px;
 	background-repeat: no-repeat;
 	width: 16px;
@@ -96,13 +135,13 @@ body {
 	margin: 5px;
 }
 
-.topButton {
+.pictureButton {
 	display: inline-block;
 	border: 1px solid #dfdfdf;
 	border-radius: 4px;
 }
 
-.topButton:hover {
+.pictureButton:hover {
 	border: 1px outset #707070;
 	border-radius: 4px;
 }
@@ -111,14 +150,7 @@ body {
 	background-image: url(/themes/_any/img/scripts-new.png);
 }
 
-#scriptManager {
-	flex: 1;
-}
-
-#scriptList {
-	position: relative;
-	margin-top: 10px;
-}
+/* --- script entries --- */
 
 .scriptEntry {
 	background-color: #fefefe;
@@ -242,62 +274,4 @@ body {
 
 .subscribeScriptButton::before {
 	background-image: url(/themes/_any/img/scripts-subscribe.png);
-}
-
-/* --------------- Script editor ----------------- */
-
-#scriptEditor {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
-.settings {
-	position: relative;
-	font-size: small;
-	height: 65px;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-td:first-child {
-	white-space: nowrap;
-}
-
-td:nth-child(2) {
-	width: 100%;
-}
-
-td:last-child {
-	white-space: nowrap;
-}
-
-td {
-	border: none;
-}
-
-.settingFieldName {
-	font-family: Arial;
-	font-size: small;
-}
-
-.settingFieldData {
-	width: 99%;
-	border: 1px solid #a7a7a7;
-}
-
-#editor {
-	border: none;
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	top: 135px;
-	width: 100%;
-	height: calc(100% - 136px);
-	display: block;
 }

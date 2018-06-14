@@ -1,27 +1,89 @@
+/*-- table box --*/
+
+.editTableBox {
+	vertical-align:top;
+	display: table;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	width: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.editRowGroupBox {
+	vertical-align:top;
+	display: table-row-group;
+}
+
+.editRowBox {
+	display: table-row;
+}
+
+.editCellBox {
+	vertical-align:top;
+	display: table-cell;
+}
+
+.editHeaderGroupBox {
+	vertical-align:top;
+	display: table-header-group;
+}
+
+.editFooterGroupBox {
+	vertical-align:top;
+	display: table-footer-group;
+}
+
+.editAutoHeight {
+	height: 0;
+}
+
+/*-- -- --*/
+
+.editBorder {
+	border: 1px solid #6f6f6f;
+}
+
+.editBorderTopBottom {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #6f6f6f;
+	border-bottom: 1px solid #6f6f6f;
+}
+
+.editBorderHidden {
+	border: 1px solid #ffffff00;
+}
+
+
 #editFieldsetFont {
 	font-size: small;
 }
 
+.editRelative100pc {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
 #editEditorBox {
-	left: 0;
-	top: 0;
+	position: relative;
 	width: 100%;
 	height: 100%;
 }
 
 .editTextZone {
 	position: absolute;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	width: 100%;
-	height: 50%;
-	border: none;
+	width: calc(100% - 1px);
+	height: calc(100% - 1px);
 	line-break: strict;
 	white-space: pre;
 }
 
 #editHighlightedCode {
 	background-color: #c1c5da;
+	color: #000000;
 }
 
 #editTextArea {
@@ -30,6 +92,15 @@
 	color: #00000000;
 }
 
-.caret {
+.editCaret {
 	caret-color: black;
+}
+
+.editConsole {
+	height: 100px
+}
+
+.editSelect {
+	font-size: x-small;
+	margin: 5px;
 }

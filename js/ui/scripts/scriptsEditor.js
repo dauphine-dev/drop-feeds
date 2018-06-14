@@ -29,10 +29,16 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async display_async(scriptId) {
     this._scriptId = scriptId;
     await this._loadScript_async(scriptId);
-    document.getElementById('scriptManager').style.display = 'none';
-    document.getElementById('scriptEditor').style.display = 'block';
-    document.getElementById('titlePage').textContent = 'Script editor';
-    this._jsEditor.resize();
+    ScriptsManager.instance.hide();
+    document.getElementById('editorRowBox').style.display = 'table-row';
+    document.getElementById('fieldsetEditorBox').style.display = 'block';
+    document.getElementById('logoTitle').textContent = 'Script editor';
+    //this._jsEditor.resize();
+  }
+
+  hide() {
+    document.getElementById('editorRowBox').style.display = 'none';
+    document.getElementById('fieldsetEditorBox').style.display = 'none';
   }
 
   async deleteScriptCode_async(scriptId) {
@@ -48,7 +54,8 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async _windowOnLoad_event() {
     this._jsEditor = new Editor(_jsHighlighterPath);
     await this._jsEditor.init_async();
-    this._jsEditor.attach(document.getElementById('editor'));
+    this._jsEditor.attachEditor(document.getElementById('editor'));
+    this._jsEditor.attachMenu(document.getElementById('fieldsetEditorBox'));
   }
 
   async _loadScript_async(scriptId) {
@@ -56,10 +63,10 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, defaultCode);
     await this._jsEditor.setText_async(scriptCode);
-    document.getElementById('feedTransformerTable').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
+    document.getElementById('fieldsetFeedTransformer').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
     document.getElementById('urlMatch').value = scriptObj ? scriptObj.urlMatch : DefaultValues.urlMatch;
 
-    document.getElementById('VirtualFeedTable').style.display = (scriptObj.type == scriptType.virtualFeed ? '' : 'none');
+    document.getElementById('fieldsetVirtualFeed').style.display = (scriptObj.type == scriptType.virtualFeed ? '' : 'none');
     document.getElementById('testUrl').value = scriptObj ? (scriptObj.testUrl || '') : '';
   }
 
@@ -134,7 +141,6 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let displayItemsValue = {itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList};
     await browser.runtime.sendMessage({key:'displayItems', value: displayItemsValue});
     BrowserManager.instance.openTab_async(feed.docUrl, true, false);
-    this._displayItems_async(feed);
   }
 
   async _virtualSubscribeScriptButton_event() {

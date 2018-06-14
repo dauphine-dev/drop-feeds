@@ -14,13 +14,16 @@
       "class": "jsKeyword3"
     },
     {
-      "pattern": "(\\/\\*.*\\*\\/)",
+      "pattern": "\\/\\*(.|\\s)*\\*\\/",
       "class": "jsComment"
     },
+
     {
       "pattern": "(\\/\\/.*)",
       "class": "jsComment"
     },
+
+
     {
       "pattern": "'(.*?)'",
       "class": "jsString"

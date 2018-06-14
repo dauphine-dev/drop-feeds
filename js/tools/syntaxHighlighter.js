@@ -12,7 +12,6 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
 
   highlightText(text) {
     text = TextTools.replaceAll(text, '&nbsp;', ' ');
-    text = TextTools.replaceAll(text, '\n', '<br/>');
     text = TextTools.replaceAll(text, 'span class=', 'span_reserved=');
     for (let ptCl of this._pairPatternClassList) {
       text = this._highlightMatches(text, ptCl.pattern, ptCl.class);

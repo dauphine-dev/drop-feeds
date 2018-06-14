@@ -15,22 +15,23 @@ class Editor { /*exported Editor*/
     this._editorFontSize = DefaultValues.editorFontSize;
     this._highlighter = null;
     this._syntaxFilePath = syntaxFilePath;
-    window.onresize = ((e) => { this._onWindowResize_event(e); });
   }
 
-
   async init_async() {
-    this._editorFontFamily =  await LocalStorageManager.getValue_async('editorFontFamily', this._editorFontFamily);
-    this._editorFontSize =  await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
+    this._editorFontFamily = await LocalStorageManager.getValue_async('editorFontFamily', this._editorFontFamily);
+    this._editorFontSize = await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
     this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
   }
 
-  attach(baseElement) {
+  attachEditor(baseElement) {
     this._baseElement = baseElement;
     this._createElements();
-    this._appendEventListeners();
     this._appendCss();
+  }
+
+  attachMenu(baseElement) {
+    (new EditorMenu(this)).attach(baseElement);
   }
 
   get fontFamily() {
@@ -66,55 +67,47 @@ class Editor { /*exported Editor*/
     return text;
   }
 
-  resize() {
-    if (this._baseElement) {
-      let editEditorBox = document.getElementById('editEditorBox');
-      let height = Math.max(this._baseElement.offsetHeight - editEditorBox.offsetTop, 0) + 'px';
-      editEditorBox.style.height = height;
-      document.getElementById('editHighlightedCode').style.height = height;
-      document.getElementById('editTextArea').style.height = height;
-    }
-  }
-
   _createElements() {
-    /*
-    <div id="editEditorBox">
-      <!-- editor menu -->
-      <!-- edition elements -->
-    </div>
-    */
-    let editEditorBox = document.createElement('div');
-    editEditorBox.setAttribute('id', 'editEditorBox');
-    (new EditorMenu(this)).attach(this._baseElement);
-    this._createTextEditionElements(editEditorBox);
-    this._baseElement.appendChild(editEditorBox);
-  }
+    let editorHtml = '';
+    editorHtml += '<div class="editTableBox">';
+    editorHtml += '  <div class="editRowGroupBox">';
+    editorHtml += '    <div class="editRowBox">';
+    editorHtml += '      <div class="editCellBox editAutoHeight">';
+    editorHtml += '        top stuff...';
+    editorHtml += '      </div>';
+    editorHtml += '    </div>';
+    editorHtml += '    <div class="editRowBox">';
+    editorHtml += '      <div class="editCellBox editRelative100pc">';
+    editorHtml += '        <div id="editHighlightedCode" class="editTextZone editBorderTopBottom">';
+    editorHtml += '        </div>';
+    editorHtml += '        <textarea id="editTextArea" class="editTextZone editBorderTopBottom editCaret"></textarea>';
+    editorHtml += '      </div>';
+    editorHtml += '    </div>';
+    editorHtml += '    <div class="editRowBox">';
+    editorHtml += '      <div class="editCellBox editConsole">';
+    editorHtml += '        error messages...';
+    editorHtml += '      </div>';
+    editorHtml += '    </div>';
+    editorHtml += '  </div>';
+    editorHtml += '</div>';
+    this._baseElement.insertAdjacentHTML('beforeend', editorHtml);
 
-  _createTextEditionElements(editEditorBox) {
-    /*
-    <div id="editHighlightedCode" class="editTextZone font" style="overflow-x: scroll; overflow-y: hidden;">
-      <span class="jsComment">//&nbsp;Type&nbsp;your&nbsp;javascript&nbsp;here</span>
-    </div>
-    <textarea class="editTextZone font cursor" id="editTextArea"></textarea>
-    */
-    let editHighlightedCode = document.createElement('div');
-    editHighlightedCode.setAttribute('id', 'editHighlightedCode');
-    editHighlightedCode.classList.add('editTextZone');
+    let editHighlightedCode = document.getElementById('editHighlightedCode');
     editHighlightedCode.style.overflowX = 'hidden';
     editHighlightedCode.style.overflowY = 'hidden';
     editHighlightedCode.style.fontFamily = this._editorFontFamily;
     editHighlightedCode.style.fontSize = this._editorFontSize + 'px';
-    editEditorBox.appendChild(editHighlightedCode);
 
-    let editTextArea = document.createElement('textarea');
+    let editTextArea = document.getElementById('editTextArea');
     editTextArea.classList.add('editTextZone');
     editTextArea.classList.add('caret');
     editTextArea.setAttribute('id', 'editTextArea');
     editTextArea.style.fontFamily = this._editorFontFamily;
     editTextArea.style.fontSize = this._editorFontSize + 'px';
-    editEditorBox.appendChild(editTextArea);
 
+    this._appendEventListeners();
   }
+
 
   _appendEventListeners() {
 
@@ -134,10 +127,6 @@ class Editor { /*exported Editor*/
     editorCss.setAttribute('rel', 'stylesheet');
     editorCss.setAttribute('type', 'text/css');
     document.head.appendChild(editorCss);
-  }
-
-  async _onWindowResize_event() {
-    this.resize();
   }
 
   async _textAreaKeydown_event(event) {
