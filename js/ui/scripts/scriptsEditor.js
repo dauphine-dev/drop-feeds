@@ -1,4 +1,4 @@
-/*global browser ScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues*/
+/*global browser ScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues EditorConsole*/
 /*global scriptCodeKey scriptObjKey scriptType*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
@@ -33,7 +33,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     document.getElementById('editorRowBox').style.display = 'table-row';
     document.getElementById('fieldsetEditorBox').style.display = 'block';
     document.getElementById('logoTitle').textContent = 'Script editor';
-    //this._jsEditor.resize();
+    this._jsEditor.resize();
   }
 
   hide() {
@@ -134,7 +134,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async displayUrlMatchToConsole_async(url) {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
-    this._jsEditor.console.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? 'blue' : 'red');
+    this._jsEditor.console.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? EditorConsole.messageType.ok : EditorConsole.messageType.error);
   }
 
   async _virtualTestScriptButton_event() {
@@ -147,11 +147,16 @@ class ScriptsEditor { /*exported ScriptsEditor */
 
   async _TestScript_async(feedTestUrl) {
     let feed = await Feed.newByUrl(feedTestUrl);
-    await feed.update_async((e) => { this._onScriptError(e); });
+
+    let scriptCallbacks = {executed: (v) => { this._onScriptExecuted(v); }, error: (e) => { this._onScriptError(e); }};
+    await feed.update_async(scriptCallbacks);
     let displayItemsValue = {itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList};
     await browser.runtime.sendMessage({key:'displayItems', value: displayItemsValue});
     let openNewTabForce = false, openNewTabBackGroundForce = true;
     BrowserManager.instance.openTab_async(feed.docUrl, openNewTabForce, openNewTabBackGroundForce);
+  }
+
+  _onScriptExecuted() {
     this._jsEditor.console.writeLine('script executed.');
   }
 
@@ -161,7 +166,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
 
   _writeErrorToConsole(e) {
     let errorText = '(' + Math.max(e.lineNumber - 2,0) + ', ' + e.columnNumber + ') ' + e.toString();
-    this._jsEditor.console.writeLine(errorText, 'red');
+    this._jsEditor.console.writeLine(errorText, EditorConsole.messageType.error);
   }
 
   async _virtualSubscribeScriptButton_event() {

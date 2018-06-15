@@ -2,28 +2,25 @@
   "cssPath": "/themes/_any/css/jsHighlight.css",
   "pairPatternClassList": [
     {
-      "pattern": "\\b(new|var|if|do|function|while|switch|for|foreach|in|continue|break)(?=[^\\w])",
-      "class": "jsKeyword1"
+      "pattern": "\\b(abstract|arguments|Array|async|boolean|byte|char|class|const|constructor|Date|debugger|delete|double|enum|eval|extends|false|final|float|function|goto|implements|implements|in|instanceof|int|interface|let|long|native|new|null|Number|Object|of|package|private|protected|prototype|public|short|static|String|super|this|true|typeof|undefined|var|void|yield)(?=[^\\w])",
+      "class": "jsDeclarationKeyword"
     },
     {
-      "pattern": "\\b(catch|class|const|debugger|default|delete|else|export|extends|finally|import|instanceof|return|super|this|throw|try|typeof|void|with|yield|async|await)(?=[^\\w])",
-      "class": "jsKeyword2"
+      "pattern": "\\b(await|break|case|catch|continue|default|do|else|export|finally|from|goto|if|import|return|switch|synchronized|throw|throws|transient|try|volatile|while|with)(?=[^\\w])",
+      "class": "jsControlFlowKeyword"
     },
     {
-      "pattern": "\\b(document|window|Array|String|Object|Number|\\$)(?=[^\\w])",
-      "class": "jsKeyword3"
+      "pattern": "\\b(alert|all|anchor|anchors|area|assign|blur|button|checkbox|clearInterval|clearTimeout|clientInformation|close|closed|confirm|constructor|crypto|decodeURI|decodeURIComponent|defaultStatus|document|element|elements|embed|embeds|encodeURI|encodeURIComponent|escape|event|fileUpload|focus|form|forms|frame|frameRate|frames|hasOwnProperty|hidden|history|image|images|Infinity|innerHeight|innerWidth|isFinite|isNaN|isPrototypeOf|layer|layers|length|link|location|Math|mimeTypes|name|navigate|navigator|offscreenBuffering|open|opener|option|outerHeight|outerWidth|packages|pageXOffset|pageYOffset|parent|parseFloat|parseInt|password|pkcs11|plugin|prompt|propertyIsEnum|radio|reset|screenX|screenY|scroll|secure|select|self|setInterval|setTimeout|status|submit|taint|textarea|top|toString|unescape|untaint|valueOf|window)(?=[^\\w])",
+      "class": "jsOtherKeyword"
     },
     {
       "pattern": "\\/\\*(.|\\s)*\\*\\/",
       "class": "jsComment"
     },
-
     {
       "pattern": "(\\/\\/.*)",
       "class": "jsComment"
     },
-
-
     {
       "pattern": "'(.*?)'",
       "class": "jsString"

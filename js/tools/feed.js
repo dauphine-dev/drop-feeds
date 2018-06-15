@@ -90,11 +90,11 @@ class Feed { /*exported Feed*/
     return this._storedFeed.pubDate;
   }
 
-  async update_async(scriptErrorCallback) {
+  async update_async(scriptCallbacks) {
     this._savePrevValues();
     let ignoreRedirection = false;
-    await this._download_async(ignoreRedirection, false, scriptErrorCallback);
-    await this._runUserScript_async(scriptErrorCallback);
+    await this._download_async(ignoreRedirection, false, scriptCallbacks);
+    await this._runUserScript_async(scriptCallbacks);
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -179,17 +179,17 @@ class Feed { /*exported Feed*/
     this._storedFeed.pubDate = null;
   }
 
-  async _download_async(ignoreRedirection, forceHttp, scriptErrorCallback) {
+  async _download_async(ignoreRedirection, forceHttp, scriptCallbacks) {
     this._error = null;
 
     try {
       let urlNoCache = true;
-      await this._downloadEx_async(urlNoCache, forceHttp, scriptErrorCallback);
+      await this._downloadEx_async(urlNoCache, forceHttp, scriptCallbacks);
     }
     catch (e1) {
       try {
         let urlNoCache = false;
-        await this._downloadEx_async(urlNoCache, forceHttp, scriptErrorCallback);
+        await this._downloadEx_async(urlNoCache, forceHttp, scriptCallbacks);
       }
       catch (e2) {
         let retry = null;
@@ -198,7 +198,7 @@ class Feed { /*exported Feed*/
             if (this._ifHttpsHAsFailedRetryWithHttp && this.url.startsWith('https:')) {
               try {
                 retry = true;
-                this._download_async(ignoreRedirection, true, scriptErrorCallback);
+                this._download_async(ignoreRedirection, true, scriptCallbacks);
               }
               catch (e3) {
                 /*eslint-disable no-console*/
@@ -220,22 +220,22 @@ class Feed { /*exported Feed*/
       }
     }
     if (!ignoreRedirection) {
-      await this._manageRedirection_async(forceHttp, scriptErrorCallback);
+      await this._manageRedirection_async(forceHttp, scriptCallbacks);
     }
   }
 
-  async _manageRedirection_async(forceHttp, scriptErrorCallback) {
+  async _manageRedirection_async(forceHttp, scriptCallbacks) {
     if (this._feedText && this._feedText.includes('</redirect>') && this._feedText.includes('</newLocation>')) {
       let newUrl = TextTools.getInnerText(this._feedText, '<newLocation>', '</newLocation>').trim();
       this._newUrl = newUrl;
-      await this._download_async(true, forceHttp, scriptErrorCallback);
+      await this._download_async(true, forceHttp, scriptCallbacks);
     }
   }
 
-  async _downloadEx_async(urlNoCache, forceHttp, scriptErrorCallback) {
+  async _downloadEx_async(urlNoCache, forceHttp, scriptCallbacks) {
     let url = this.url;
     if (url.startsWith(scriptVirtualProtocol)) {
-      this._feedText = await UserScriptTools.instance.downloadVirtualFeed_async(url, scriptErrorCallback);
+      this._feedText = await UserScriptTools.instance.downloadVirtualFeed_async(url, scriptCallbacks);
     }
     else {
       if (this._newUrl) {
@@ -262,8 +262,8 @@ class Feed { /*exported Feed*/
     this._storedFeed.pubDate = FeedParser.parsePubdate(this._feedText);
   }
 
-  async _runUserScript_async(scriptErrorCallback) {
-    this._feedText = await UserScriptTools.instance.runFeedTransformerScripts_async(this.url, this._feedText, scriptErrorCallback);
+  async _runUserScript_async(scriptCallbacks) {
+    this._feedText = await UserScriptTools.instance.runFeedTransformerScripts_async(this.url, this._feedText, scriptCallbacks);
   }
 
   _parseTitle() {

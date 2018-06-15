@@ -45,12 +45,24 @@
 	border: 1px solid #6f6f6f;
 }
 
+.editBorderNone {
+	border: none;
+}
+
 .editBorderTopBottom {
 	border-left: none;
 	border-right: none;
 	border-top: 1px solid #6f6f6f;
 	border-bottom: 1px solid #6f6f6f;
 }
+
+.editBorderTopBottomHidden {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #6f6f6f00;
+	border-bottom: 1px solid #6f6f6f00;
+}
+
 
 .editBorderHidden {
 	border: 1px solid #ffffff00;
@@ -75,6 +87,7 @@
 
 .editTextZone {
 	position: absolute;
+	padding-left: 4px ;
 	width: calc(100% - 1px);
 	height: calc(100% - 1px);
 	line-break: strict;
@@ -87,12 +100,30 @@
 	color: #00000000;
 }
 
+.editConsole {
+	height: 100px;
+}
+
 #editConsole {
+	height: 100px;
 	overflow: auto;
-	height: 100px
+}
+
+.editConsoleLeft {
+	border-right: 1px solid #e0e0e0;
 }
 
 .editSelect {
 	font-size: x-small;
 	margin: 5px;
+}
+
+#editLineNumber {
+	display: inline-block;
+	text-align: right;
+	border-right: 1px solid #ffffff;
+	height: 0px;
+	overflow-y : hidden;
+	padding-left: 2px;
+	padding-right: 2px;
 }
