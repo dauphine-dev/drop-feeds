@@ -202,6 +202,12 @@ class Editor { /*exported Editor*/
         event.preventDefault();
         this._insertText(this._tabChar);
         break;
+      case 'Backspace':
+        event.stopPropagation();
+        if (this._unIndent()) {
+          event.preventDefault();
+        }
+        break;
       case 'Enter':
         event.stopPropagation();
         event.preventDefault();
@@ -282,6 +288,21 @@ class Editor { /*exported Editor*/
     let textArea = document.getElementById('editTextArea');
     let indent = textArea.value.substr(0, textArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
     this._insertText('\n' + indent);
+  }
+
+  _unIndent() {
+    let editTextArea = document.getElementById('editTextArea');
+    let curCaretPosition = editTextArea.selectionStart;
+    let tabSizeMinOne = Math.max(this._tabSize - 0, 0);
+    let textToDelete = editTextArea.value.substring(Math.max(curCaretPosition - this._tabSize, 0), curCaretPosition);
+    if (textToDelete == this._tabChar) {
+      let newCaretPosition = Math.max(curCaretPosition - tabSizeMinOne, 0);
+      editTextArea.value = editTextArea.value.substring(0, newCaretPosition) + editTextArea.value.substring(curCaretPosition, editTextArea.value.length);
+      editTextArea.selectionStart = newCaretPosition;
+      editTextArea.selectionEnd = newCaretPosition;
+      return true;
+    }
+    return false;
   }
 
   _insertText(text) {

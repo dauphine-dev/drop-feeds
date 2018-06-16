@@ -50,8 +50,8 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
 
   static stringifyPairPatternClassList(pairPatternClassList) {
     let pairPatternClassListStringified = [];
-    for (let pairPatternClass of pairPatternClassList) {
-      pairPatternClassListStringified.push({ pattern: pairPatternClass.pattern.source, class: pairPatternClass.class });
+    for (let ptCl of pairPatternClassList) {
+      pairPatternClassListStringified.push({ pattern: ptCl.pattern.source, class: ptCl.class, enclosing: ptCl.enclosing });
     }
     return pairPatternClassListStringified;
   }
@@ -60,7 +60,7 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
     let pairPatternClassList = [];
     for (let ptCl of pairPatternClassListStringified) {
       let regExpPattern = new RegExp(ptCl.pattern, 'g');
-      pairPatternClassList.push({ pattern: regExpPattern, class: ptCl.class });
+      pairPatternClassList.push({ pattern: regExpPattern, class: ptCl.class, enclosing: Boolean(ptCl.enclosing)});
     }
     return pairPatternClassList;
   }
