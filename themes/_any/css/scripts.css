@@ -178,7 +178,7 @@ select {
 	margin: 10px;
 	height: 64px;
 	vertical-align: center;
-	min-width: 475px;
+	min-width: 900px;
 }
 
 .scriptEntry:hover {
@@ -206,13 +206,14 @@ select {
 	margin-left: 5px;
 	width: auto;
 	height: 100%;
+	max-width: 755px;
 }
 
 .scriptRightBlock {
 	position: relative;
 	float: right;
 	top: 0;
-	width: 200px;
+	min-width: 100px;
 	height: 100%;
 	text-align: right;
 }
@@ -225,6 +226,12 @@ select {
 
 .scriptName:hover {
 	border: 1px solid #707070;
+}
+
+.urlMatchPatterns {
+	max-width: 545px;
+	white-space: nowrap;
+	/*overflow: hidden;*/
 }
 
 .scriptInfo {
@@ -256,6 +263,7 @@ select {
 	margin: 3px;
 	border: 1px solid #dfdfdf;
 	border-radius: 4px;
+	max-width: 700px;
 }
 
 .scriptTypeSelect {
