@@ -13,12 +13,19 @@ class ScriptsEditor { /*exported ScriptsEditor */
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
     this._jsEditor = null;
+    this._isResizing = false;
+    this._lastDownX = 0;
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
     document.getElementById('saveAndCloseButton').addEventListener('click', (e) => { this._saveAndCloseButtonClicked_event(e); });
     document.getElementById('virtualSubscribeScriptButton').addEventListener('click', (e) => { this._virtualSubscribeScriptButton_event(e); });
     document.getElementById('feedTransformerTestScriptButton').addEventListener('click', (e) => { this._feedTransformerTestScriptButton_event(e); });
     document.getElementById('virtualTestScriptButton').addEventListener('click', (e) => { this._virtualTestScriptButton_event(e); });
+
+    document.addEventListener('mousemove', (e) => { this._resizeBarMousemove_event(e); });
+    document.addEventListener('mouseup', (e) => { this._resizeBarMouseup_event(e); });
+    document.getElementById('resizeBar').addEventListener('mousedown', (e) => { this._resizeBarMousedown_event(e); });
+
     this._loadEditorScripts();
     window.onload = ((e) => { this._windowOnLoad_event(e); });
   }
@@ -33,7 +40,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     document.getElementById('editorRowBox').style.display = 'table-row';
     document.getElementById('fieldsetEditorBox').style.display = 'block';
     document.getElementById('logoTitle').textContent = 'Script editor';
-    this._jsEditor.resize();
+    this._jsEditor.update();
   }
 
   hide() {
@@ -145,13 +152,33 @@ class ScriptsEditor { /*exported ScriptsEditor */
     }
   }
 
+  async _resizeBarMouseup_event() {
+    this._isResizing = false;
+  }
+
+  async _resizeBarMousedown_event(event) {
+    this._isResizing = true;
+    this._lastDownX = event.clientX;
+  }
+
+  async _resizeBarMousemove_event(event) {
+    if (!this._isResizing) { return; }
+    let delta = this._lastDownX - event.clientX;
+    this._lastDownX = event.clientX;
+
+    let leftBox = document.getElementById('leftBox');
+    leftBox.style.width = Math.max(leftBox.clientWidth - delta, 0) + 'px';
+    //console.log('delta:', delta, ' clientWidth:', leftBox.clientWidth);
+  }
+
+
   async _TestScript_async(feedTestUrl) {
     let feed = await Feed.newByUrl(feedTestUrl);
 
-    let scriptCallbacks = {executed: (v) => { this._onScriptExecuted(v); }, error: (e) => { this._onScriptError(e); }};
+    let scriptCallbacks = { executed: (v) => { this._onScriptExecuted(v); }, error: (e) => { this._onScriptError(e); } };
     await feed.update_async(scriptCallbacks);
-    let displayItemsValue = {itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList};
-    await browser.runtime.sendMessage({key:'displayItems', value: displayItemsValue});
+    let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList };
+    await browser.runtime.sendMessage({ key: 'displayItems', value: displayItemsValue });
     let openNewTabForce = false, openNewTabBackGroundForce = true;
     BrowserManager.instance.openTab_async(feed.docUrl, openNewTabForce, openNewTabBackGroundForce);
   }
@@ -165,7 +192,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   _writeErrorToConsole(e) {
-    let errorText = '(' + Math.max(e.lineNumber - 2,0) + ', ' + e.columnNumber + ') ' + e.toString();
+    let errorText = '(' + Math.max(e.lineNumber - 2, 0) + ', ' + e.columnNumber + ') ' + e.toString();
     this._jsEditor.console.writeLine(errorText, EditorConsole.messageType.error);
   }
 

@@ -100,10 +100,6 @@
 	color: #00000000;
 }
 
-.editConsole {
-	height: 100px;
-}
-
 #editConsole {
 	height: 100px;
 	overflow: auto;
@@ -127,3 +123,14 @@
 	padding-left: 2px;
 	padding-right: 2px;
 }
+
+.editResizeBar {
+	background-color: #6f6f6f;
+	border: none;
+	height: 4px;
+}
+
+.editResizeBar:hover {
+	cursor: row-resize
+}
+

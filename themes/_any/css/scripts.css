@@ -103,6 +103,7 @@ select {
 
 #leftBox {
 	width: 200px;
+	min-width: 200px;
 }
 
 .logoBox {
@@ -157,6 +158,16 @@ select {
 	background-image: url(/themes/_any/img/scripts-new.png);
 }
 
+#resizeBar {
+	background-color: #6f6f6f;
+	border: none;
+	width: 4px;
+}
+
+#resizeBar:hover {
+	cursor: col-resize;
+}
+
 /* --- script entries --- */
 
 .scriptEntry {
@@ -209,6 +220,11 @@ select {
 .scriptName {
 	margin-top: 10px;
 	font-weight: bold;
+	border: 1px solid #70707000;
+}
+
+.scriptName:hover {
+	border: 1px solid #707070;
 }
 
 .scriptInfo {
@@ -252,10 +268,6 @@ select {
 .scriptTypeSelect:hover {
 	border: 1px solid #000000;
 	border-radius: 4px;
-}
-
-.scriptName:hover {
-	border: 1px solid #707070;
 }
 
 .scriptButton:hover {
