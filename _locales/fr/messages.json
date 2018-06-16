@@ -308,6 +308,16 @@
   "optExport": {
     "message": "Exporter..."
   },
+  "optAdvanced": {
+    "message": "Avancé"
+  },
+  "optLblScriptManager": {
+    "message": "Ouvrir le gestionnaire de script"
+  },
+  "optScriptManagerButton": {
+    "message": "Gestionnaire de script..."
+  },
+
   "comment6": {
     "message": "------------------Content script strings------------------"
   },

@@ -23,7 +23,7 @@ class AllTabControl { /*exported AllTabControl*/
     document.getElementById('viewTabButton').textContent = browser.i18n.getMessage('optView');
     document.getElementById('contentsAreaTabButton').textContent = browser.i18n.getMessage('optContentsArea');
     document.getElementById('managementTabButton').textContent = browser.i18n.getMessage('optManagement');
-    //document.getElementById('scriptsTabButton').textContent = browser.i18n.getMessage('optScripts');
+    document.getElementById('scriptsTabButton').textContent = browser.i18n.getMessage('optAdvanced');
   }
 
   async _openLastTab_async() {

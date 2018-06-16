@@ -12,8 +12,8 @@ class TabAdvanced { /*exported TabAdvanced*/
   }
 
   _updateLocalizedStrings() {
-    //document.getElementById('lblScriptManager').textContent = browser.i18n.getMessage('optLblScriptManager');
-    //document.getElementById('scriptManagerButton').textContent = browser.i18n.getMessage('optScriptManagerButton');
+    document.getElementById('lblScriptManager').textContent = browser.i18n.getMessage('optLblScriptManager');
+    document.getElementById('scriptManagerButton').textContent = browser.i18n.getMessage('optScriptManagerButton');
   }
 
   async _scriptManagerButtonOnClicked_event() {
