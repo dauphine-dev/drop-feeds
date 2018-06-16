@@ -1,9 +1,10 @@
-/*global browser ScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues EditorConsole*/
+/*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues EditorConsole*/
 /*global scriptCodeKey scriptObjKey scriptType*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
-class ScriptsEditor { /*exported ScriptsEditor */
+
+class UserScriptsEditor { /*exported UserScriptsEditor */
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -36,7 +37,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
   async display_async(scriptId) {
     this._scriptId = scriptId;
     await this._loadScript_async(scriptId);
-    ScriptsManager.instance.hide();
+    UserScriptsManager.instance.hide();
     document.getElementById('editorRowBox').style.display = 'table-row';
     document.getElementById('fieldsetEditorBox').style.display = 'block';
     document.getElementById('logoTitle').textContent = 'Script editor';
@@ -88,7 +89,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     let urlMatch = document.getElementById('urlMatch').value;
     scriptObj.urlMatch = urlMatch;
-    ScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
+    UserScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
     scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch);
     scriptObj.testUrl = document.getElementById('testUrl').value;
     LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
@@ -128,7 +129,7 @@ class ScriptsEditor { /*exported ScriptsEditor */
   }
 
   _close() {
-    ScriptsManager.instance.display();
+    UserScriptsManager.instance.display();
   }
 
   async _feedTransformerTestScriptButton_event() {

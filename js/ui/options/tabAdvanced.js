@@ -1,6 +1,6 @@
 /*global browser */
 'use strict';
-class TabScripts { /*exported TabScripts*/
+class TabAdvanced { /*exported TabAdvanced*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -17,6 +17,6 @@ class TabScripts { /*exported TabScripts*/
   }
 
   async _scriptManagerButtonOnClicked_event() {
-    await browser.tabs.create({url: '/html/scripts.html', active: true});
+    await browser.tabs.create({url: '/html/userScripts.html', active: true});
   }
 }

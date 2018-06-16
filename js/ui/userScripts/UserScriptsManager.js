@@ -1,8 +1,8 @@
-/*global browser BrowserManager CssManager DateTime ScriptsEditor LocalStorageManager DefaultValues Dialogs*/
+/*global browser BrowserManager CssManager DateTime UserScriptsEditor LocalStorageManager DefaultValues Dialogs*/
 /*global scriptObjKey scriptListKey scriptType*/
 'use strict';
 
-class ScriptsManager { /* exported ScriptsManager */
+class UserScriptsManager { /* exported UserScriptsManager */
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -11,13 +11,13 @@ class ScriptsManager { /* exported ScriptsManager */
   }
 
   async init_async() {
-    ScriptsEditor.instance.init_async();
+    UserScriptsEditor.instance.init_async();
     this._loadScriptList_async();
     this.display();
   }
 
   display() {
-    ScriptsEditor.instance.hide();
+    UserScriptsEditor.instance.hide();
     document.getElementById('scriptManagerRowBox').style.display = 'table-row';
     document.getElementById('logoTitle').textContent = 'Script manager';
   }
@@ -34,7 +34,7 @@ class ScriptsManager { /* exported ScriptsManager */
       enabled: true,
       type: scriptType.feedTransformer,
       urlMatch: DefaultValues.userScriptUrlMatch,
-      urlRegEx: ScriptsEditor.instance.matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
+      urlRegEx: UserScriptsEditor.instance.matchPatternToRegExp(DefaultValues.userScriptUrlMatch),
       virtualUrl: browser.extension.getURL('dropfeeds://' + scriptId),
 
       lastEdit: Date.now()
@@ -161,7 +161,7 @@ class ScriptsManager { /* exported ScriptsManager */
 
   async _editScriptButtonClicked_event(event) {
     let scriptId = event.target.parentNode.parentNode.parentNode.getAttribute('id');
-    ScriptsEditor.instance.display_async(scriptId);
+    UserScriptsEditor.instance.display_async(scriptId);
   }
 
   async _enDisScriptButtonClicked_event(event) {
@@ -216,6 +216,6 @@ class ScriptsManager { /* exported ScriptsManager */
     //Remove script obj from local storage
     await browser.storage.local.remove(scriptObjKey + scriptId);
     //Remove script code from local storage
-    ScriptsEditor.instance.deleteScriptCode_async(scriptId);
+    UserScriptsEditor.instance.deleteScriptCode_async(scriptId);
   }
 }
