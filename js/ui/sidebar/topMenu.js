@@ -19,7 +19,7 @@ class TopMenu  { /*exported TopMenu*/
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility',  this._updatedFeedsVisible);
     await this.updatedFeedsSetVisibility_async();
     await this._isRootFolderChecked_async();
-    this._updateLocalizedStrings();
+    await this._updateLocalizedStrings_async();
     this.activateButton('toggleFoldersButton' , this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', (e) => { this.checkFeedsButtonClicked_event(e); });
     document.getElementById('discoverFeedsButton').addEventListener('click', (e) => { this._discoverFeedsButtonClicked_event(e); });
@@ -41,17 +41,18 @@ class TopMenu  { /*exported TopMenu*/
 
   }
 
-  setFeedButton(enabled, type) {
+  async setFeedButton_async(enabled, type) {
     this._buttonAddFeedEnabled = enabled;
-    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] < 57) {
+    let browserVersion = await BrowserManager.instance.getVersion_async();
+    if (browserVersion[VERSION_ENUM.MAJ] < 57) {
       this._buttonAddFeedEnabled = false;
     }
     CssManager.setElementEnableById('addFeedButton', this._buttonAddFeedEnabled);
     let elAddFeedButton = document.getElementById('addFeedButton');
     elAddFeedButton.classList.remove('subscribeAdd');
     elAddFeedButton.classList.remove('subscribeGo');
-    elAddFeedButton.classList.add('subscribe'+  type);
-    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] >= 57) {
+    elAddFeedButton.classList.add('subscribe' +  type);
+    if (browserVersion[VERSION_ENUM.MAJ] >= 57) {
       elAddFeedButton.setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscription' + type));
     }
   }
@@ -136,13 +137,14 @@ class TopMenu  { /*exported TopMenu*/
     FeedManager.instance.checkFeeds_async('content');
   }
 
-  _updateLocalizedStrings() {
+  async _updateLocalizedStrings_async() {
     document.getElementById('checkFeedsButton').setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
     document.getElementById('discoverFeedsButton').setAttribute('title', browser.i18n.getMessage('sbDiscoverFeeds'));
     document.getElementById('onlyUpdatedFeedsButton').setAttribute('title', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
     document.getElementById('toggleFoldersButton').setAttribute('title', browser.i18n.getMessage('sbToggleFolders'));
     document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
-    if (BrowserManager.instance.version[VERSION_ENUM.MAJ] < 57) {
+    let browserVersion = await BrowserManager.instance.getVersion_async();
+    if (browserVersion[VERSION_ENUM.MAJ] < 57) {
       document.getElementById('addFeedButton').setAttribute('title', 'Not available in Firefox 56, please update');
     }
 

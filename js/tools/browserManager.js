@@ -22,6 +22,7 @@ class BrowserManager { /* exported BrowserManager*/
     this._reuseDropFeedsTab = DefaultValues.reuseDropFeedsTab;
     this._baseFeedUrl = null;
     this._version = null;
+    this._uiLanguage = 'en';
 
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', (v) => { this._setAlwaysOpenNewTab_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', (v) => { this._setOpenNewTabForeground_sbscrb(v); }, true);
@@ -29,7 +30,8 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   async init_async() {
-    this._version = await BrowserManager._getBrowserVersion_async();
+    //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onlad event
+    this._uiLanguage = await  BrowserManager._getUILanguage_async();
   }
 
   //non statics
@@ -49,10 +51,17 @@ class BrowserManager { /* exported BrowserManager*/
     return this._baseFeedUrl;
   }
 
-  get version() {
+  async getVersion_async() {
+    if (!this._version) {
+      this._version = await BrowserManager._getBrowserVersion_async();
+    }
     return this._version;
   }
 
+
+  get uiLanguage() {
+    return this._uiLanguage;
+  }
 
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
@@ -131,7 +140,6 @@ class BrowserManager { /* exported BrowserManager*/
     let activeTab = await BrowserManager.getActiveTab_async();
     await browser.tabs.update(activeTab.id, { url: url });
   }
-
 
   //statics
   static isTabEmpty(tab) {
@@ -314,6 +322,14 @@ class BrowserManager { /* exported BrowserManager*/
     }
   }
 
+  static appendScript(path, typeToCheck) {
+    if (typeToCheck == 'undefined') {
+      let editorScript = document.createElement('script');
+      editorScript.setAttribute('src', path);
+      document.head.appendChild(editorScript);
+    }
+  }
+
   //private stuffs
   _setAlwaysOpenNewTab_sbscrb(value) {
     this._alwaysOpenNewTab = value;
@@ -340,11 +356,15 @@ class BrowserManager { /* exported BrowserManager*/
     return version;
   }
 
-  static appendScript(path, typeToCheck) {
-    if (typeToCheck == 'undefined') {
-      let editorScript = document.createElement('script');
-      editorScript.setAttribute('src', path);
-      document.head.appendChild(editorScript);
+  static async _getUILanguage_async() {
+    let uiLanguage = 'en';
+    let langListUrl = browser.extension.getURL('/help/helpLang.list');
+    let langListText = await Transfer.downloadTextFile_async(langListUrl);
+    let hepLangList = langListText.trim().split('\n');
+    let browserLanguage = browser.i18n.getUILanguage();
+    if (hepLangList.includes(browserLanguage)) {
+      uiLanguage = browserLanguage;
     }
+    return uiLanguage;
   }
 }

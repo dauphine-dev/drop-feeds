@@ -98,7 +98,7 @@ select {
 .label {
 	min-width: 153px;
 	display: inline-block;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 
 #leftBox {

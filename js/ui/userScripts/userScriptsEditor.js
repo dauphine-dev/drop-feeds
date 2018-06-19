@@ -29,7 +29,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     document.getElementById('resizeBar').addEventListener('mousedown', (e) => { this._resizeBarMousedown_event(e); });
 
     this._loadEditorScripts();
-    window.onload = ((e) => { this._windowOnLoad_event(e); });
+    window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });
   }
 
   async init_async() {
@@ -68,6 +68,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
     document.getElementById('feedTransformerInfoLegend').textContent = browser.i18n.getMessage('usUScriptInfo');
     document.getElementById('feedTransformerInfoHelp').textContent = browser.i18n.getMessage('usUScriptHelp');
+    document.getElementById('feedTransformerInfoHelp').setAttribute('href', '/help/' + BrowserManager.instance.uiLanguage + '/userScripts/feedTransformerHelp.html');
     document.getElementById('feedTransformerInfoExample').textContent = browser.i18n.getMessage('usUScriptExample');
 
     document.getElementById('virtualFeedLegend').textContent = browser.i18n.getMessage('usUScriptVirtualFeed');
@@ -76,6 +77,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
     document.getElementById('virtualFeedInfoLegend').textContent = browser.i18n.getMessage('usUScriptInfo');
     document.getElementById('virtualFeedInfoHelp').textContent = browser.i18n.getMessage('usUScriptHelp');
+    document.getElementById('virtualFeedInfoHelp').setAttribute('href', '/help/' + BrowserManager.instance.uiLanguage + '/userScripts/virtualFeedHelp.html');
     document.getElementById('virtualFeedInfoExample').textContent = browser.i18n.getMessage('usUScriptExample');
   }
 
