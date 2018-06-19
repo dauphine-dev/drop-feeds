@@ -455,11 +455,20 @@
   "comment12": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
+  "dtMany": {
+    "message": "s"
+  },
+  "dtSingle": {
+    "message": ""
+  },
   "dtYears": {
-    "message": "$years$ années",
+    "message": "$years$ an$plural$",
     "placeholders": {
       "years": {
         "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
       }
     }
   },
@@ -468,38 +477,53 @@
     "placeholders": {
       "months": {
         "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
       }
     }
   },
   "dtDays": {
-    "message": "$days$ jours",
+    "message": "$days$ jour$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
       }
     }
   },
   "dtHours": {
-    "message": "$hours$ heures",
+    "message": "$hours$ heure$plural$",
     "placeholders": {
       "hours": {
         "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
       }
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minutes",
+    "message": "$minutes$ minute$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
       }
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ secondes",
+    "message": "$seconds$ seconde$many$",
     "placeholders": {
       "seconds": {
         "content": "$1"
+      },
+      "many": {
+        "content": "$2"
       }
     }
   }

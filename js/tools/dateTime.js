@@ -63,26 +63,32 @@ class DateTime { /*exported DateTime*/
 
     let interval = Math.floor(seconds / 31536000);
 
-    if (interval > 1) {
-      return browser.i18n.getMessage('dtYears', interval);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtYears', [interval, plural]);
     }
     interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return browser.i18n.getMessage('dtMonths', interval);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtMonths', [interval, plural]);
     }
     interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return browser.i18n.getMessage('dtDays', interval);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtDays', [interval, plural]);
     }
     interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return browser.i18n.getMessage('dtHours', interval);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtHours', [interval, plural]);
     }
     interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return browser.i18n.getMessage('dtMinutes', interval);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtMinutes', [interval, plural]);
     }
     interval = Math.floor(seconds);
-    return browser.i18n.getMessage('dtSeconds', interval);
+    let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+    return browser.i18n.getMessage('dtSeconds', [interval, plural]);
   }
 }
