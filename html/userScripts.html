@@ -42,45 +42,45 @@
               <div class="rowBox">
                 <div id="fieldsetEditorBox" class="cellBox">
                   <fieldset>
-                    <legend>#Commands</legend>
+                    <legend id="commandsLegend">#Commands</legend>
                     <button id="saveButton" type="button">#Save</button>
                     <button id="closeButton" type="button">#Close</button>
                     <button id="saveAndCloseButton" type="button">#Save and close</button>
                   </fieldset>
                   <fieldset id="fieldsetFeedTransformer">
-                    <legend>#Feed transformer</legend>
-                    <span class="label">#Url match patterns:</span>
+                    <legend id="feedTransformerLegend">#Feed transformer</legend>
+                    <span id="urlMatchLabel" class="label">#Url match patterns:</span>
                     <input id="urlMatch" class="field" type="text" value="&lt;all_urls&gt;">
-                    <a target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" class="xSmall">#Help for url match patterns</a>
+                    <a id="urlMatchHelp" target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" class="xSmall">#Help for url match patterns</a>
                     <p/>
-                    <span class="label">#Test feed url:</span>
+                    <span id="testUrlLabel" class="label">#Test feed url:</span>
                     <input id="testUrl" class="field" type="url" value="">
                     <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
                   </fieldset>
                   <fieldset id="fieldsetFeedTransformerHelp">
-                    <legend>#Info</legend>
+                    <legend id="feedTransformerInfoLegend">#Info</legend>
                     <span class="info">
                       You get raw feed xml text in __feedText__ variable.
                       <br/> Do all modifications you want to, and return the updated feed xml text.
                       <br/>
-                      <a target="_blank" href="/help/userScripts/feedTransformerExample.html" class="xSmall">#help</a>&nbsp;
-                      <a target="_blank" href="/help/userScripts/feedTransformerExample.html" class="xSmall">#example</a>
+                      <a id="feedTransformerInfoHelp" target="_blank" href="/help/userScripts/feedTransformerExample.html" class="xSmall">#help</a>&nbsp;
+                      <a id="feedTransformerInfoExample" target="_blank" href="/help/userScripts/feedTransformerExample.html" class="xSmall">#example</a>
                       <br/>
                     </span>
                   </fieldset>
                   <fieldset id="fieldsetVirtualFeed">
-                    <legend>#Virtual feed</legend>
+                    <legend id="virtualFeedLegend">#Virtual feed</legend>
                     <button id="virtualTestScriptButton" type="button">#Save and test...</button>
                     <button id="virtualSubscribeScriptButton" type="button">#Save and subscribe...</button>
                   </fieldset>
                   <fieldset id="fieldsetVirtualFeedHelp">
-                    <legend>#Info</legend>
+                    <legend id="virtualFeedInfoLegend">#Info</legend>
                     <span class="info">
                       You create a raw feed xml text from scratch and you return it.
                       <br/> It is useful to create feed for site without this feature.
                       <br/>
-                      <a target="_blank" href="/help/userScripts/virtualFeedHelp.html" class="xSmall">#help</a>&nbsp;
-                      <a target="_blank" href="/help/userScripts/virtualFeedExample.html" class="xSmall">#example</a>
+                      <a id="virtualFeedInfoHelp" target="_blank" href="/help/userScripts/virtualFeedHelp.html" class="xSmall">#help</a>&nbsp;
+                      <a id="virtualFeedInfoExample" target="_blank" href="/help/userScripts/virtualFeedExample.html" class="xSmall">#example</a>
                       <br/>
                     </span>
                   </fieldset>
@@ -115,9 +115,9 @@
                               <div class="scriptButtons nowrap">
                                 <span class="scriptButton editScriptButton nowrap" title="#Edit script"></span>
                                 <span class="scriptButton enDisScriptButton enabledScriptButton nowrap" title="#Enable/disable script"></span>
-                                <select class="scriptTypeSelect nowrap" title="Script type">
-                                  <option value="feedTransformer">#Feed transformer</option>
-                                  <option value="virtualFeed">#Virtual feed</option>
+                                <select class="scriptTypeSelect nowrap" title="#Script type">
+                                  <option class="feedTransformerOption" value="feedTransformer">#Feed transformer</option>
+                                  <option class="virtualFeedOption" value="virtualFeed">#Virtual feed</option>
                                 </select>
                                 <span class="scriptInfo urlMatchPatterns nowrap" title="#Url match patterns"></span>
                                 <span class="scriptButton subscribeScriptButton nowrap" title="#Subscribe"></span>

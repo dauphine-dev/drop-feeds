@@ -317,7 +317,6 @@
   "optScriptManagerButton": {
     "message": "Script manager..."
   },
-
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
@@ -384,6 +383,9 @@
   "sbUScriptEnableDisable": {
     "message": "Enable/disable script"
   },
+  "sbUScriptType": {
+    "message": "Script type"
+  },
   "sbUScriptFeedTransformer": {
     "message": "Feed transformer"
   },
@@ -402,11 +404,9 @@
   "sbUScriptDelete": {
     "message": "Delete script"
   },
-
   "comment10": {
     "message": "------------------Script editor strings------------------"
   },
-
   "sbUScriptCommands": {
     "message": "Commands"
   },
@@ -425,7 +425,7 @@
   "sbUScriptTestFeedUrl": {
     "message": "Test feed url"
   },
-  "sbUScriptSaveAndTest...": {
+  "sbUScriptSaveAndTest": {
     "message": "Save and test..."
   },
   "sbUScriptInfo": {
@@ -437,13 +437,15 @@
   "sbUScriptExample": {
     "message": "example"
   },
-  "sbUScriptSaveAndSubscribe...": {
+  "sbUScriptSaveAndSubscribe": {
     "message": "Save and subscribe..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
   },
   "sbUScriptFont": {
     "message": "Font"
   },
-
   "sbUScriptFamily": {
     "message": "Family"
   },

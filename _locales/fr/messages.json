@@ -317,7 +317,6 @@
   "optScriptManagerButton": {
     "message": "Gestionnaire de script..."
   },
-
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
@@ -371,5 +370,86 @@
   },
   "sbInfoCloseButton": {
     "message": "Fermer"
+  },
+  "comment9": {
+    "message": "------------------Script manager strings------------------"
+  },
+  "sbUScriptCreateNew": {
+    "message": "Créer un nouveau script"
+  },
+  "sbUScriptEdit": {
+    "message": "Editer le script"
+  },
+  "sbUScriptEnableDisable": {
+    "message": "Activer/disactiver le script"
+  },
+  "sbUScriptType": {
+    "message": "Type de Script"
+  },
+  "sbUScriptFeedTransformer": {
+    "message": "Transformeur de flux"
+  },
+  "sbUScriptVirtualFeed": {
+    "message": "Flux virtuel"
+  },
+  "sbUScriptUrlMatchPatterns": {
+    "message": "Modèles de correspondance des URL"
+  },
+  "sbUScriptSubscribe": {
+    "message": "S'abonner"
+  },
+  "sbUScriptLastEdition": {
+    "message": "Dernière modification"
+  },
+  "sbUScriptDelete": {
+    "message": "Effacer le script"
+  },
+  "comment10": {
+    "message": "------------------Script editor strings------------------"
+  },
+  "sbUScriptCommands": {
+    "message": "Commandes"
+  },
+  "sbUScriptSave": {
+    "message": "Sauver"
+  },
+  "sbUScriptClose": {
+    "message": "Fermer"
+  },
+  "sbUScriptSaveAndClose": {
+    "message": "Sauver et fermer"
+  },
+  "sbUScriptUrlMatchPatternsHelp": {
+    "message": "Aide sur les modèles de correspondance des URL"
+  },
+  "sbUScriptTestFeedUrl": {
+    "message": "URL du flux de test"
+  },
+  "sbUScriptSaveAndTest": {
+    "message": "Sauver et tester..."
+  },
+  "sbUScriptInfo": {
+    "message": "Info"
+  },
+  "sbUScriptHelp": {
+    "message": "aide"
+  },
+  "sbUScriptExample": {
+    "message": "exemple"
+  },
+  "sbUScriptSaveAndSubscribe": {
+    "message": "Saver et s'abonner..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
+  },
+  "sbUScriptFont": {
+    "message": "Police"
+  },
+  "sbUScriptFamily": {
+    "message": "Famille"
+  },
+  "sbUScriptSize": {
+    "message": "Taille"
   }
 }

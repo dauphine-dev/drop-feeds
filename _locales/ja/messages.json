@@ -8,6 +8,9 @@
   "manPageActionDefaultTitle": {
     "message": "RSS購読ページを表示"
   },
+  "manPageActionGo": {
+    "message": "Go to Subscription page"
+  },
   "manPageActionAdd": {
     "message": "Drop feedで購読"
   },
@@ -290,11 +293,11 @@
   "optOpenNewTabForeground": {
     "message": "新しいタブを手前で開く"
   },
+  "optReuseDropFeedsTab": {
+    "message": "Reuse Drop Feeds tab"
+  },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
-  },
-  "optReuseDropFeedsTab": {
-    "message": "Drop Feedsで開いたタブを使う"
   },
   "optImport": {
     "message": "インポート..."
@@ -314,12 +317,32 @@
   "optScriptManagerButton": {
     "message": "Script manager..."
   },
-
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
   "csSubscribeWithDropFeeds": {
     "message": "Drop Feedsで購読"
+  },
+  "ff56Text1": {
+    "message": "To get this icon opens the Drop Feeds sidebar please update to Firefox 57 or higher"
+  },
+  "ff56Text2": {
+    "message": "On Firefox 56 the WebApi to open the addon-side bar is not implemented."
+  },
+  "ff56Text3": {
+    "message": ""
+  },
+  "ff56Text4": {
+    "message": "To use Drop Feeds in Firefox56:"
+  },
+  "ff56Text5": {
+    "message": "You have to click on the 'Show sidebars' Firefox icon"
+  },
+  "ff56Text6": {
+    "message": "and in select Drop feeds in the sidebar list"
+  },
+  "ff56Text7": {
+    "message": "click here to close"
   },
   "comment7": {
     "message": "------------------Subscribe this feed strings------------------"
@@ -347,5 +370,86 @@
   },
   "sbInfoCloseButton": {
     "message": "閉じる"
+  },
+  "comment9": {
+    "message": "------------------Script manager strings------------------"
+  },
+  "sbUScriptCreateNew": {
+    "message": "Create a new script"
+  },
+  "sbUScriptEdit": {
+    "message": "Edit script"
+  },
+  "sbUScriptEnableDisable": {
+    "message": "Enable/disable script"
+  },
+  "sbUScriptType": {
+    "message": "Script type"
+  },
+  "sbUScriptFeedTransformer": {
+    "message": "Feed transformer"
+  },
+  "sbUScriptVirtualFeed": {
+    "message": "Virtual feed"
+  },
+  "sbUScriptUrlMatchPatterns": {
+    "message": "Url match patterns"
+  },
+  "sbUScriptSubscribe": {
+    "message": "Subscribe"
+  },
+  "sbUScriptLastEdition": {
+    "message": "Last edition"
+  },
+  "sbUScriptDelete": {
+    "message": "Delete script"
+  },
+  "comment10": {
+    "message": "------------------Script editor strings------------------"
+  },
+  "sbUScriptCommands": {
+    "message": "Commands"
+  },
+  "sbUScriptSave": {
+    "message": "Save"
+  },
+  "sbUScriptClose": {
+    "message": "Close"
+  },
+  "sbUScriptSaveAndClose": {
+    "message": "Save and close"
+  },
+  "sbUScriptUrlMatchPatternsHelp": {
+    "message": "Help for url match patterns"
+  },
+  "sbUScriptTestFeedUrl": {
+    "message": "Test feed url"
+  },
+  "sbUScriptSaveAndTest": {
+    "message": "Save and test..."
+  },
+  "sbUScriptInfo": {
+    "message": "Info"
+  },
+  "sbUScriptHelp": {
+    "message": "help"
+  },
+  "sbUScriptExample": {
+    "message": "example"
+  },
+  "sbUScriptSaveAndSubscribe": {
+    "message": "Save and subscribe..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
+  },
+  "sbUScriptFont": {
+    "message": "Font"
+  },
+  "sbUScriptFamily": {
+    "message": "Family"
+  },
+  "sbUScriptSize": {
+    "message": "Size"
   }
 }

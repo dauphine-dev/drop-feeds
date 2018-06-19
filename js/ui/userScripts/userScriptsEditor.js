@@ -16,6 +16,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     this._jsEditor = null;
     this._isResizing = false;
     this._lastDownX = 0;
+    this._updateLocalizedStrings();
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
     document.getElementById('saveAndCloseButton').addEventListener('click', (e) => { this._saveAndCloseButtonClicked_event(e); });
@@ -52,6 +53,32 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async deleteScriptCode_async(scriptId) {
     await browser.storage.local.remove(scriptCodeKey + scriptId);
   }
+
+  _updateLocalizedStrings() {
+    document.getElementById('commandsLegend').textContent = browser.i18n.getMessage('sbUScriptCommands');
+    document.getElementById('saveButton').textContent = browser.i18n.getMessage('sbUScriptSave');
+    document.getElementById('closeButton').textContent = browser.i18n.getMessage('sbUScriptClose');
+    document.getElementById('saveAndCloseButton').textContent = browser.i18n.getMessage('sbUScriptSaveAndClose');
+
+    document.getElementById('feedTransformerLegend').textContent = browser.i18n.getMessage('sbUScriptFeedTransformer');
+    document.getElementById('urlMatchLabel').textContent = browser.i18n.getMessage('sbUScriptUrlMatchPatterns');
+    document.getElementById('urlMatchHelp').textContent = browser.i18n.getMessage('sbUScriptUrlMatchPatternsHelp');
+    document.getElementById('testUrlLabel').textContent = browser.i18n.getMessage('sbUScriptTestFeedUrl');
+    document.getElementById('feedTransformerTestScriptButton').textContent = browser.i18n.getMessage('sbUScriptSaveAndTest');
+
+    document.getElementById('feedTransformerInfoLegend').textContent = browser.i18n.getMessage('sbUScriptInfo');
+    document.getElementById('feedTransformerInfoHelp').textContent = browser.i18n.getMessage('sbUScriptHelp');
+    document.getElementById('feedTransformerInfoExample').textContent = browser.i18n.getMessage('sbUScriptExample');
+
+    document.getElementById('virtualFeedLegend').textContent = browser.i18n.getMessage('sbUScriptVirtualFeed');
+    document.getElementById('virtualTestScriptButton').textContent = browser.i18n.getMessage('sbUScriptSaveAndTest');
+    document.getElementById('virtualSubscribeScriptButton').textContent = browser.i18n.getMessage('sbUScriptSaveAndSubscribe');
+
+    document.getElementById('virtualFeedInfoLegend').textContent = browser.i18n.getMessage('sbUScriptInfo');
+    document.getElementById('virtualFeedInfoHelp').textContent = browser.i18n.getMessage('sbUScriptHelp');
+    document.getElementById('virtualFeedInfoExample').textContent = browser.i18n.getMessage('sbUScriptExample');
+  }
+
 
   _loadEditorScripts() {
     BrowserManager.appendScript('/js/tools/syntaxHighlighter.js', typeof SyntaxHighlighter);

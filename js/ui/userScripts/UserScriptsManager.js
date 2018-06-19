@@ -8,6 +8,7 @@ class UserScriptsManager { /* exported UserScriptsManager */
   constructor() {
     this._scriptList = [];
     document.getElementById('createNewScript').addEventListener('click', (e) => { this._createNewScriptClicked_event(e); });
+    this._updateLocalizedStrings();
   }
 
   async init_async() {
@@ -45,6 +46,20 @@ class UserScriptsManager { /* exported UserScriptsManager */
   updateInfo(scriptId, infoClassName, infoValue) {
     let scriptEntry = document.getElementById(scriptId);
     scriptEntry.querySelector(infoClassName).textContent = infoValue;
+  }
+
+  _updateLocalizedStrings() {
+    let scriptTemplate = document.getElementById('scriptTemplate');
+    document.getElementById('createNewScript').title = browser.i18n.getMessage('sbUScriptCreateNew');
+    scriptTemplate.querySelector('.editScriptButton').title = browser.i18n.getMessage('sbUScriptEdit');
+    scriptTemplate.querySelector('.enDisScriptButton').title = browser.i18n.getMessage('sbUScriptEnableDisable');
+    scriptTemplate.querySelector('.scriptTypeSelect').title = browser.i18n.getMessage('sbUScriptType');
+    scriptTemplate.querySelector('.feedTransformerOption').textContent = browser.i18n.getMessage('sbUScriptFeedTransformer');
+    scriptTemplate.querySelector('.virtualFeedOption').textContent = browser.i18n.getMessage('sbUScriptVirtualFeed');
+    scriptTemplate.querySelector('.urlMatchPatterns').title = browser.i18n.getMessage('sbUScriptUrlMatchPatterns');
+    scriptTemplate.querySelector('.subscribeScriptButton').title = browser.i18n.getMessage('sbUScriptSubscribe');
+    scriptTemplate.querySelector('.lastEdit').title = browser.i18n.getMessage('sbUScriptLastEdition');
+    scriptTemplate.querySelector('.deleteScriptButton').title = browser.i18n.getMessage('sbUScriptDelete');
   }
 
   _findNextScriptId() {
