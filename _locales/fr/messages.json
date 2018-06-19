@@ -374,82 +374,133 @@
   "comment9": {
     "message": "------------------Script manager strings------------------"
   },
-  "sbUScriptCreateNew": {
+  "usUScriptCreateNew": {
     "message": "Créer un nouveau script"
   },
-  "sbUScriptEdit": {
+  "usUScriptEdit": {
     "message": "Editer le script"
   },
-  "sbUScriptEnableDisable": {
+  "usUScriptEnableDisable": {
     "message": "Activer/disactiver le script"
   },
-  "sbUScriptType": {
+  "usUScriptType": {
     "message": "Type de Script"
   },
-  "sbUScriptFeedTransformer": {
+  "usUScriptFeedTransformer": {
     "message": "Transformeur de flux"
   },
-  "sbUScriptVirtualFeed": {
+  "usUScriptVirtualFeed": {
     "message": "Flux virtuel"
   },
-  "sbUScriptUrlMatchPatterns": {
+  "usUScriptUrlMatchPatterns": {
     "message": "Modèles de correspondance des URL"
   },
-  "sbUScriptSubscribe": {
+  "usUScriptSubscribe": {
     "message": "S'abonner"
   },
-  "sbUScriptLastEdition": {
+  "usUScriptLastEdition": {
     "message": "Dernière modification"
   },
-  "sbUScriptDelete": {
+  "usUScriptDelete": {
     "message": "Effacer le script"
   },
   "comment10": {
     "message": "------------------Script editor strings------------------"
   },
-  "sbUScriptCommands": {
+  "usUScriptCommands": {
     "message": "Commandes"
   },
-  "sbUScriptSave": {
+  "usUScriptSave": {
     "message": "Sauver"
   },
-  "sbUScriptClose": {
+  "usUScriptClose": {
     "message": "Fermer"
   },
-  "sbUScriptSaveAndClose": {
+  "usUScriptSaveAndClose": {
     "message": "Sauver et fermer"
   },
-  "sbUScriptUrlMatchPatternsHelp": {
+  "usUScriptUrlMatchPatternsHelp": {
     "message": "Aide sur les modèles de correspondance des URL"
   },
-  "sbUScriptTestFeedUrl": {
+  "usUScriptTestFeedUrl": {
     "message": "URL du flux de test"
   },
-  "sbUScriptSaveAndTest": {
+  "usUScriptSaveAndTest": {
     "message": "Sauver et tester..."
   },
-  "sbUScriptInfo": {
+  "usUScriptInfo": {
     "message": "Info"
   },
-  "sbUScriptHelp": {
+  "usUScriptHelp": {
     "message": "aide"
   },
-  "sbUScriptExample": {
+  "usUScriptExample": {
     "message": "exemple"
   },
-  "sbUScriptSaveAndSubscribe": {
+  "usUScriptSaveAndSubscribe": {
     "message": "Saver et s'abonner..."
   },
   "comment11": {
     "message": "------------------Text editor strings------------------"
   },
-  "sbUScriptFont": {
+  "usUScriptFont": {
     "message": "Police"
   },
-  "sbUScriptFamily": {
+  "usUScriptFamily": {
     "message": "Famille"
   },
-  "sbUScriptSize": {
+  "usUScriptSize": {
     "message": "Taille"
+  },
+  "comment12": {
+    "message": "------------------DateTime.getDateDiff strings------------------"
+  },
+  "dtYears": {
+    "message": "$years$ années",
+    "placeholders": {
+      "years": {
+        "content": "$1"
+      }
+    }
+  },
+  "dtMonths": {
+    "message": "$months$ mois",
+    "placeholders": {
+      "months": {
+        "content": "$1"
+      }
+    }
+  },
+  "dtDays": {
+    "message": "$days$ jours",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      }
+    }
+  },
+  "dtHours": {
+    "message": "$hours$ heures",
+    "placeholders": {
+      "hours": {
+        "content": "$1"
+      }
+    }
+  },
+  "dtMinutes": {
+    "message": "$minutes$ minutes",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      }
+    }
+  },
+  "dtSeconds": {
+    "message": "$seconds$ secondes",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
   }
 }

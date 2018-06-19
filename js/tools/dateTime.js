@@ -1,3 +1,4 @@
+/* global browser*/
 /*cSpell:ignore ACDT, ACST, AEDT, AEST,AKDT, AKST, AWST, AMST, AWDT, AZOST, BIOT, CEDT, CEST, CHADT, CHAS, CHAST, CHST, CIST, CLST */
 /*cSpell:ignore EEDT, EEST, FKST, GALT, HADT, HAEC, IRKT, IRST, KRAT, LHST, MAGT,MEST, NZDT, NZST, OMST, PETT, PHOT, SAMT, SAST, TAHT */
 'use strict';
@@ -58,30 +59,30 @@ class DateTime { /*exported DateTime*/
   }
 
   static getDateDiff(dateNew, dateOld) {
-    console.log('todo: locale strings');
     let seconds = Math.floor((dateNew - dateOld) / 1000);
 
     let interval = Math.floor(seconds / 31536000);
 
     if (interval > 1) {
-      return interval + ' years';
+      return browser.i18n.getMessage('dtYears', interval);
     }
     interval = Math.floor(seconds / 2592000);
     if (interval > 1) {
-      return interval + ' months';
+      return browser.i18n.getMessage('dtMonths', interval);
     }
     interval = Math.floor(seconds / 86400);
     if (interval > 1) {
-      return interval + ' days';
+      return browser.i18n.getMessage('dtDays', interval);
     }
     interval = Math.floor(seconds / 3600);
     if (interval > 1) {
-      return interval + ' hours';
+      return browser.i18n.getMessage('dtHours', interval);
     }
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
-      return interval + ' minutes';
+      return browser.i18n.getMessage('dtMinutes', interval);
     }
-    return Math.floor(seconds) + ' seconds';
+    interval = Math.floor(seconds);
+    return browser.i18n.getMessage('dtSeconds', interval);
   }
 }

@@ -50,16 +50,16 @@ class UserScriptsManager { /* exported UserScriptsManager */
 
   _updateLocalizedStrings() {
     let scriptTemplate = document.getElementById('scriptTemplate');
-    document.getElementById('createNewScript').title = browser.i18n.getMessage('sbUScriptCreateNew');
-    scriptTemplate.querySelector('.editScriptButton').title = browser.i18n.getMessage('sbUScriptEdit');
-    scriptTemplate.querySelector('.enDisScriptButton').title = browser.i18n.getMessage('sbUScriptEnableDisable');
-    scriptTemplate.querySelector('.scriptTypeSelect').title = browser.i18n.getMessage('sbUScriptType');
-    scriptTemplate.querySelector('.feedTransformerOption').textContent = browser.i18n.getMessage('sbUScriptFeedTransformer');
-    scriptTemplate.querySelector('.virtualFeedOption').textContent = browser.i18n.getMessage('sbUScriptVirtualFeed');
-    scriptTemplate.querySelector('.urlMatchPatterns').title = browser.i18n.getMessage('sbUScriptUrlMatchPatterns');
-    scriptTemplate.querySelector('.subscribeScriptButton').title = browser.i18n.getMessage('sbUScriptSubscribe');
-    scriptTemplate.querySelector('.lastEdit').title = browser.i18n.getMessage('sbUScriptLastEdition');
-    scriptTemplate.querySelector('.deleteScriptButton').title = browser.i18n.getMessage('sbUScriptDelete');
+    document.getElementById('createNewScript').title = browser.i18n.getMessage('usUScriptCreateNew');
+    scriptTemplate.querySelector('.editScriptButton').title = browser.i18n.getMessage('usUScriptEdit');
+    scriptTemplate.querySelector('.enDisScriptButton').title = browser.i18n.getMessage('usUScriptEnableDisable');
+    scriptTemplate.querySelector('.scriptTypeSelect').title = browser.i18n.getMessage('usUScriptType');
+    scriptTemplate.querySelector('.feedTransformerOption').textContent = browser.i18n.getMessage('usUScriptFeedTransformer');
+    scriptTemplate.querySelector('.virtualFeedOption').textContent = browser.i18n.getMessage('usUScriptVirtualFeed');
+    scriptTemplate.querySelector('.urlMatchPatterns').title = browser.i18n.getMessage('usUScriptUrlMatchPatterns');
+    scriptTemplate.querySelector('.subscribeScriptButton').title = browser.i18n.getMessage('usUScriptSubscribe');
+    scriptTemplate.querySelector('.lastEdit').title = browser.i18n.getMessage('usUScriptLastEdition');
+    scriptTemplate.querySelector('.deleteScriptButton').title = browser.i18n.getMessage('usUScriptDelete');
   }
 
   _findNextScriptId() {

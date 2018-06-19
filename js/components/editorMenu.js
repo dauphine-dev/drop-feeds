@@ -48,9 +48,9 @@ class EditorMenu { /*exported EditorMenu*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('editFontLegend').textContent = browser.i18n.getMessage('sbUScriptFont');
-    document.getElementById('editFontFamily').textContent = browser.i18n.getMessage('sbUScriptFamily');
-    document.getElementById('editFontSize').textContent = browser.i18n.getMessage('sbUScriptSize');
+    document.getElementById('editFontLegend').textContent = browser.i18n.getMessage('usUScriptFont');
+    document.getElementById('editFontFamily').textContent = browser.i18n.getMessage('usUScriptFamily');
+    document.getElementById('editFontSize').textContent = browser.i18n.getMessage('usUScriptSize');
   }
 
   _appendEventListeners() {
