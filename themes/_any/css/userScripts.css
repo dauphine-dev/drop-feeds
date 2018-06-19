@@ -228,12 +228,6 @@ select {
 	border: 1px solid #707070;
 }
 
-.urlMatchPatterns {
-	max-width: 545px;
-	white-space: nowrap;
-	/*overflow: hidden;*/
-}
-
 .scriptInfo {
 	border: 1px solid gray;
 	padding: 2px;
@@ -307,4 +301,8 @@ select {
 	font-size: x-small;
 	text-align: justify;
 	text-justify: inter-word;
+}
+
+.nowrap {
+	white-space: nowrap;
 }
