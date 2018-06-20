@@ -52,14 +52,17 @@ class UserScriptTools { /* exported UserScriptTools */
     let scriptId = url.substring(scriptVirtualProtocol.length).trim();
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, null);
     if (scriptCode) {
-      let feedText = null;
+      let feedText = null, scriptError = null;
       try {
-        let virtualFeedScript = new Function(scriptCode);
-        feedText = virtualFeedScript();
-        if (scriptCallbacks) { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
+        let virtualFeedScript = (new Function(scriptCode))();
+        feedText = await virtualFeedScript();
       }
       catch (e) {
-        if (scriptCallbacks) { if (scriptCallbacks.error) { scriptCallbacks.error(e); } }
+        scriptError = e;
+      }
+      if (scriptCallbacks) {
+        if (scriptError) { if (scriptCallbacks.error) { scriptCallbacks.error(scriptError); } }
+        else { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
       }
       return feedText;
     }
