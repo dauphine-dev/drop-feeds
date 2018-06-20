@@ -294,7 +294,7 @@
     "message": "新しいタブを手前で開く"
   },
   "optReuseDropFeedsTab": {
-    "message": "Reuse Drop Feeds tab"
+    "message": "Drop Feedsで開いたタブを使う"
   },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
@@ -309,13 +309,13 @@
     "message": "エクスポート..."
   },
   "optAdvanced": {
-    "message": "Advanced"
+    "message": "高度な設定"
   },
   "optLblScriptManager": {
-    "message": "Open script manager"
+    "message": "スクリプトマネージャーを開く"
   },
   "optScriptManagerButton": {
-    "message": "Script manager..."
+    "message": "スクリプトマネージャー..."
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
@@ -324,25 +324,25 @@
     "message": "Drop Feedsで購読"
   },
   "ff56Text1": {
-    "message": "To get this icon opens the Drop Feeds sidebar please update to Firefox 57 or higher"
+    "message": "このアイコンでDrop Feedsのサイドバーを開くにはFirefoxのバージョンを57以上にしてください"
   },
   "ff56Text2": {
-    "message": "On Firefox 56 the WebApi to open the addon-side bar is not implemented."
+    "message": "Firefox 56ではアドオンでサイドバーを開くWebApiが実装されていません。"
   },
   "ff56Text3": {
     "message": ""
   },
   "ff56Text4": {
-    "message": "To use Drop Feeds in Firefox56:"
+    "message": "TDrop FeedsをFirefox56で使うには:"
   },
   "ff56Text5": {
-    "message": "You have to click on the 'Show sidebars' Firefox icon"
+    "message": "Firefoxのサイドバーを開くボタンのアイコンをクリックして"
   },
   "ff56Text6": {
-    "message": "and in select Drop feeds in the sidebar list"
+    "message": "Drop feedsをサイドバーのリストから選択しなければなりません"
   },
   "ff56Text7": {
-    "message": "click here to close"
+    "message": "ここをクリックして閉じる"
   },
   "comment7": {
     "message": "------------------Subscribe this feed strings------------------"
@@ -375,58 +375,58 @@
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
-    "message": "Create a new script"
+    "message": "新しいスクリプトを作成"
   },
   "usUScriptEdit": {
-    "message": "Edit script"
+    "message": "スクリプトを編集"
   },
   "usUScriptEnableDisable": {
-    "message": "Enable/disable script"
+    "message": "スクリプトの有効化/無効化"
   },
   "usUScriptType": {
-    "message": "Script type"
+    "message": "スクリプトタイプ"
   },
   "usUScriptFeedTransformer": {
     "message": "Feed transformer"
   },
   "usUScriptVirtualFeed": {
-    "message": "Virtual feed"
+    "message": "仮想フィード"
   },
   "usUScriptUrlMatchPatterns": {
     "message": "Url match patterns"
   },
   "usUScriptSubscribe": {
-    "message": "Subscribe"
+    "message": "購読"
   },
   "usUScriptLastEdition": {
     "message": "Last edition"
   },
   "usUScriptDelete": {
-    "message": "Delete script"
+    "message": "スクリプトの削除"
   },
   "comment10": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
-    "message": "Commands"
+    "message": "コマンド"
   },
   "usUScriptSave": {
-    "message": "Save"
+    "message": "保存"
   },
   "usUScriptClose": {
-    "message": "Close"
+    "message": "閉じる"
   },
   "usUScriptSaveAndClose": {
-    "message": "Save and close"
+    "message": "セーブして閉じる"
   },
   "usUScriptUrlMatchPatternsHelp": {
     "message": "Help for url match patterns"
   },
   "usUScriptTestFeedUrl": {
-    "message": "Test feed url"
+    "message": "フィードURLのテスト"
   },
   "usUScriptSaveAndTest": {
-    "message": "Save and test..."
+    "message": "保存してテスト..."
   },
   "usUScriptInfo": {
     "message": "Info"
@@ -438,19 +438,19 @@
     "message": "example"
   },
   "usUScriptSaveAndSubscribe": {
-    "message": "Save and subscribe..."
+    "message": "保存して購読..."
   },
   "comment11": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
-    "message": "Font"
+    "message": "フォント"
   },
   "usUScriptFamily": {
     "message": "Family"
   },
   "usUScriptSize": {
-    "message": "Size"
+    "message": "サイズ"
   },
   "comment12": {
     "message": "------------------DateTime.getDateDiff strings------------------"
