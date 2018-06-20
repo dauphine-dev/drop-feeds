@@ -147,7 +147,7 @@ class Editor { /*exported Editor*/
           <div id="editLineNumber" class="editCellBox editorText editBorderTopBottom">&nbsp;&nbsp;</div>\
           <div id ="editEditor" class="editCellBox editRelative100pc editBorderTopBottom editorText">\
             <div id="editHighlightedCode" class="editTextZone editBorderNone"></div>\
-            <textarea id="editTextArea" class="editTextZone editBorderNone editorCaret caret"></textarea>\
+            <textarea id="editTextArea" class="editTextZone editBorderNone editorCaret caret" spellcheck="false"></textarea>\
           </div>\
         </div>\
         <div class="editRowBox">\
