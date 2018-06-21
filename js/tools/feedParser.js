@@ -13,7 +13,7 @@ const tagList = {
   TITLE: ['title'],
   LINK: ['link'],
   ATT_LINK: ['href'],
-  DESC: ['content:encoded', 'description', 'content', 'summary', 'subtitle'],
+  DESC: ['content:encoded', 'description', 'content', 'summary', 'subtitle', 'media:description'],
   CAT: ['category'],
   AUTHOR: ['author', 'dc:creator'],
   PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
