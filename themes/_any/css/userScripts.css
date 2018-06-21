@@ -177,7 +177,7 @@ select {
 	border-radius: 4px;
 	margin: 10px;
 	height: 64px;
-	vertical-align: center;
+	vertical-align: middle;
 	min-width: 900px;
 }
 

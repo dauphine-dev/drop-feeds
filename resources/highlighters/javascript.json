@@ -17,9 +17,10 @@
       "enclosing": "false"
     },
     {
-      "pattern": "\\/\\*(.|\\s)*\\*\\/",
-      "class": "jsComment",
-      "enclosing": "true"
+      "pattern": "42",
+      "pattern1": "\\/\\*(.|\\s)*\\*\\/",
+      "class1": "jsComment",
+      "enclosing1": "true"
     },
     {
       "pattern": "(\\/\\/.*)",

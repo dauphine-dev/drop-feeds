@@ -23,7 +23,7 @@ class USTools { /* exported USTools*/
   }
 
   //--------------------------------------------------------------------------
-  //Parsing methods
+  //Generic parsing methods
   static getInnerText(text, startPattern, endPattern) {
     let outputIndex = {};
     let result = USTools.getInnerTextEx(text, startPattern, endPattern, 0, outputIndex, false);
@@ -49,6 +49,16 @@ class USTools { /* exported USTools*/
     return string.split(subString).length - 1;
   }
 
+
+  //--------------------------------------------------------------------------
+  //Feed parsing methods
+  static get1stUsedTag(text, tagArray) {
+    if (!text) { return null; }
+    for (let tag of tagArray) {
+      if (text.includes('</' + tag + '>')) { return tag; }
+    }
+    return null;
+  }
 
   static getNextItem(feedText, itemId, tagItem) {
     if (!feedText) { return null; }
@@ -76,9 +86,9 @@ class USTools { /* exported USTools*/
   static getItemId(itemText, idTagList) {
     if (!itemText) { return null; }
     let noTrim = true;
-    let result = USTools._extractValue(itemText, idTagList, null, null, noTrim);
+    let result = USTools.extractValue(itemText, idTagList, null, null, noTrim);
     if (!result) {
-      let hasIdTag = USTools._get1stUsedTag(itemText, idTagList);
+      let hasIdTag = USTools.get1stUsedTag(itemText, idTagList);
       if (!hasIdTag) {
         let i = itemText.indexOf('>', 1);
         let j = itemText.lastIndexOf('<');
@@ -151,15 +161,4 @@ class USTools { /* exported USTools*/
     </rss>';
     return rssFooter;
   }
-
-  //--------------------------------------------------------------------------
-  //private stuffs
-  static _get1stUsedTag(text, tagArray) {
-    if (!text) { return null; }
-    for (let tag of tagArray) {
-      if (text.includes('</' + tag + '>')) { return tag; }
-    }
-    return null;
-  }
-
 }

@@ -90,7 +90,6 @@
 	padding-left: 4px ;
 	width: calc(100% - 1px);
 	height: calc(100% - 1px);
-	line-break: strict;
 	white-space: pre;
 }
 

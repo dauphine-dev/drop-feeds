@@ -19,6 +19,7 @@ class UserScriptTools { /* exported UserScriptTools */
 
   async init_async() {
     await Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, (v) => { this._updateScriptList_sbscrb(v); }, true);
+    await this._loadScriptInfos_async();
   }
 
   async runFeedTransformerScripts_async(url, feedText, scriptCallbacks) {
@@ -38,7 +39,8 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async _loadScriptInfos_async() {
-    this._scriptObjList = await LocalStorageManager.getValue_async(scriptListKey, null);
+    this._scriptList = await LocalStorageManager.getValue_async(scriptListKey, null);
+    this._scriptObjList = [];
     for (let scriptId of this._scriptList) {
       let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
       if (scriptObj) {
@@ -71,14 +73,17 @@ class UserScriptTools { /* exported UserScriptTools */
   async _runScript_async(scriptObj, feedText, scriptCallbacks) {
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptObj.id, null);
     if (scriptCode) {
-      let feedTextUpdated = null;
+      let feedTextUpdated = null, scriptError = null;
       try {
-        let userScriptFunction = new Function('__feedText__', scriptCode);
-        feedTextUpdated = userScriptFunction(feedText);
-        if (scriptCallbacks) { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
+        let userScriptFunction = (new Function(scriptCode))();
+        feedTextUpdated = await userScriptFunction(feedText);
       }
       catch (e) {
-        if (scriptCallbacks) { if (scriptCallbacks.error) { scriptCallbacks.error(e); } }
+        scriptError = e;
+      }
+      if (scriptCallbacks) {
+        if (scriptError) { if (scriptCallbacks.error) { scriptCallbacks.error(scriptError); } }
+        else { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
       }
       feedText = feedTextUpdated || feedText;
     }
@@ -93,7 +98,7 @@ class UserScriptTools { /* exported UserScriptTools */
 
   async _listenScriptObjListUpdate_async() {
     for (let scriptId of this._scriptList) {
-      Listener.instance.subscribe(ListenerProviders.localStorage, scriptObjKey + scriptId, (v) => { this._updateScriptObjList_sbscrb(v); }, true);
+      Listener.instance.subscribe(ListenerProviders.localStorage, scriptObjKey + scriptId, (v) => { this._updateScriptObjList_sbscrb(v); }, false);
     }
   }
 
