@@ -1,5 +1,8 @@
 'use strict';
 class USTools { /* exported USTools*/
+
+  //--------------------------------------------------------------------------
+  //Web request methods
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
@@ -19,6 +22,8 @@ class USTools { /* exported USTools*/
     });
   }
 
+  //--------------------------------------------------------------------------
+  //Parsing methods
   static getInnerText(text, startPattern, endPattern) {
     let outputIndex = {};
     let result = USTools.getInnerTextEx(text, startPattern, endPattern, 0, outputIndex, false);
@@ -38,6 +43,85 @@ class USTools { /* exported USTools*/
     return result;
   }
 
+  static occurrences(string, subString) {
+    if (!string) { return string; }
+    if (!subString) { return string; }
+    return string.split(subString).length - 1;
+  }
+
+
+  static getNextItem(feedText, itemId, tagItem) {
+    if (!feedText) { return null; }
+    let itemIdPattern = '>' + itemId + '<';
+    let idIndex = feedText.indexOf(itemIdPattern);
+    if (idIndex < 0) {
+      itemIdPattern = '><![CDATA[' + itemId + ']]><';
+      idIndex = feedText.indexOf(itemIdPattern);
+    }
+    if (idIndex < 0) idIndex = 0;
+
+    // Search for "<item>" (without attributes) and "<item " (with attributes)
+    let startNextItemIndex = feedText.indexOf('<' + tagItem + '>', idIndex + 1);
+    if (startNextItemIndex == -1) {
+      startNextItemIndex = feedText.indexOf('<' + tagItem + ' ', idIndex + 1);
+    }
+    if (startNextItemIndex == -1) { return ''; }
+    let tagItemEnd = '</' + tagItem + '>';
+    let endNextItemIndex = feedText.indexOf(tagItemEnd, startNextItemIndex);
+    if (endNextItemIndex < 1) { return ''; }
+    let result = feedText.substring(startNextItemIndex, endNextItemIndex + tagItemEnd.length);
+    return result;
+  }
+
+  static getItemId(itemText, idTagList) {
+    if (!itemText) { return null; }
+    let noTrim = true;
+    let result = USTools._extractValue(itemText, idTagList, null, null, noTrim);
+    if (!result) {
+      let hasIdTag = USTools._get1stUsedTag(itemText, idTagList);
+      if (!hasIdTag) {
+        let i = itemText.indexOf('>', 1);
+        let j = itemText.lastIndexOf('<');
+        if (i >= 0 && j >= 0) {
+          result = itemText.substring(i + 1, j);
+        }
+      }
+    }
+    return result;
+  }
+
+  static extractValue(text, tagList, startIndex_optional, out_endIndex_optional, noTrim_optional) {
+    if (!text) { return null; }
+    if (!out_endIndex_optional) { out_endIndex_optional = []; }
+    if (!startIndex_optional) { startIndex_optional = 0; }
+    out_endIndex_optional[0] = null;
+    for (let tag of tagList) {
+      let tagStart = '<' + tag;
+      let tagEnd = '</' + tag + '>';
+
+      let i = text.indexOf(tagStart, startIndex_optional);
+      if (i == -1) { continue; }
+      let valueStart = text.indexOf('>', i);
+      if (valueStart == -1) { continue; }
+      let valueEnd = text.indexOf(tagEnd, valueStart);
+      if (valueEnd == -1) { continue; }
+
+      let result = text.substring(valueStart + 1, valueEnd);
+      if (!noTrim_optional) { result = result.trim(); }
+      if (result.includes('<![CDATA[')) {
+        result = result.split('<![CDATA[').join('');
+        result = result.split(']]>').join('');
+        if (!noTrim_optional) { result = result.trim(); }
+      }
+      out_endIndex_optional[0] = valueEnd + tagEnd.length;
+
+      return result;
+    }
+    return null;
+  }
+
+  //--------------------------------------------------------------------------
+  //RSS generator methods
   static rssHeader(channelTitle, channelLink, channelDescription, channelImage) {
     let rssHeader = '<?xml version="1.0" encoding="utf-8"?>\
     <rss version="2.0">\
@@ -67,4 +151,15 @@ class USTools { /* exported USTools*/
     </rss>';
     return rssFooter;
   }
+
+  //--------------------------------------------------------------------------
+  //private stuffs
+  static _get1stUsedTag(text, tagArray) {
+    if (!text) { return null; }
+    for (let tag of tagArray) {
+      if (text.includes('</' + tag + '>')) { return tag; }
+    }
+    return null;
+  }
+
 }

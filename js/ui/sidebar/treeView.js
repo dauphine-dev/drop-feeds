@@ -246,7 +246,7 @@ class TreeView { /*exported TreeView*/
   async _feedOnDrop_event(event){
     event.stopPropagation();
     event.preventDefault();
-    var feedToMoveId = event.dataTransfer.getData('text');
+    let feedToMoveId = event.dataTransfer.getData('text');
     let targetFeedId = this._cleanId(event.target.id);
     await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
   }

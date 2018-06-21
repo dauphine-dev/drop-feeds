@@ -30,6 +30,7 @@
         ],
         "strict": ["error", "global"],
 
+        "no-var": "warn",
         "no-console": "warn",
         "no-unused-vars": "warn",
         "no-case-declarations": "off",

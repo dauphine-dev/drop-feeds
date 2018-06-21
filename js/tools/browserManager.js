@@ -31,7 +31,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   async init_async() {
     //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onlad event
-    this._uiLanguage = await  BrowserManager._getUILanguage_async();
+    this._uiLanguage = await BrowserManager._getUILanguage_async();
   }
 
   //non statics
@@ -300,7 +300,7 @@ class BrowserManager { /* exported BrowserManager*/
   static async findDropFeedsTab_async() {
     let tabs = await browser.tabs.query({ currentWindow: true });
     if (tabs) {
-      for (var i = 0, len = tabs.length; i < len; i++) {
+      for (let i = 0, len = tabs.length; i < len; i++) {
         if (BrowserManager.isDropFeedsTab(tabs[i])) {
           return tabs[i];
         }

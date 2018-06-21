@@ -45,7 +45,7 @@ class DateTime { /*exported DateTime*/
   }
 
   static timeZoneToGmt(dateTimeText) {
-    for(var keyTz in DateTime.timeZoneList) {
+    for(let keyTz in DateTime.timeZoneList) {
       if (dateTimeText.endsWith(' ' + keyTz)) {
         dateTimeText = dateTimeText.replace(' ' + keyTz, ' ' + DateTime.timeZoneList[keyTz]);
         return dateTimeText;
