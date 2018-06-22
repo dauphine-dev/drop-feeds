@@ -3,7 +3,7 @@ class USTools { /* exported USTools*/
 
   //--------------------------------------------------------------------------
   //Web request methods
-  static async downloadTextFile_async(url) {
+  static async downloadTextFile(url) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'text';

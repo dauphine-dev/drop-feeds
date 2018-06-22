@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link id="cssLink" href="/help/_any/userScripts/userScriptTools.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <title>User script tools - Help</title>
+</head>
+
+<body>
+  <h1>The user script tool box</h1>
+
+  Drop Feeds provide a tool box named <a href="#USTools"><span class="highlighted">USTools</span></a> (User script Tools) to help users to write user scripts.
+  But you it isn't mandatory to use it, you can write your tools.
+  <br/>
+  <h2 id="USTools">USTools</h2>
+  This tools box contains 4 kind of methods:
+  <p/>
+  <h3>Web request methods</h3>
+  <ul>
+    <li>
+      <a href="#downloadTextFile">USTools.downloadTextFile(url)</a>
+    </li>
+  </ul>
+  <h3>Generic parsing methods</h3>
+  <ul>
+    <li>
+      <a href="#getInnerText">USTools.getInnerText()</a>
+    </li>
+    <li>
+      <a href="#occurrences">USTools.occurrences()</a>
+    </li>
+  </ul>
+  <h3>Feed parsing methods</h3>
+  <ul>
+    <li>
+      <a href="#get1stUsedTag">USTools.get1stUsedTag()</a>
+    </li>
+    <li>
+      <a href="#getNextItem">USTools.getNextItem()</a>
+    </li>
+    <li>
+      <a href="#getItemId">USTools.getItemId()</a>
+    </li>
+    <li>
+      <a href="#extractValue">USTools.extractValue()</a>
+    </li>
+  </ul>
+  <h3>RSS generator methods</h3>
+  <ul>
+    <li>
+      <a href="#rssHeader">USTools.rssHeader()</a>
+    </li>
+    <li>
+      <a href="#rssItem">USTools.rssItem()</a>
+    </li>
+    <li>
+      <a href="#rssFooter">USTools.rssFooter()</a>
+    </li>
+  </ul>
+
+  <h2 id="downloadTextFile">The downloadTextFile() method</h2>
+  <div class="paragraph">
+      The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>downloadTextFile()</strong></span> method downloads a file as text, given its URL.
+      <p/>
+      This is an asynchronous function that returns a Promise.
+      <h4>Syntax</h4>
+        <pre class="syntax"><code>USTools.downloadTextFile(<var>url</var>)</code></pre>
+        <h3>Parameters</h3>
+        <p/><span class="highlighted"><strong><code><var>url</var></code></strong></span>
+        <div class="paragraph">A string representing the URL to download.</div>
+        <h3>Return value</h3>
+        <div class="paragraph">A Promise. If the download finished successfully,
+          the promise will be fulfilled with the downloaded text content.
+           Otherwise the promise will be rejected with an error message.</div>
+      <h4>Examples</h4>
+        <h3>Using downloadTextFile()</h3>
+        The following examples uses downloadTextFile() to download a webpage source html.
+        <pre class="code">
+        <code>function onSucceeded(text) {</code>
+        <code>  console.log('Succeeded: ' + text);</code>
+        <code>}</code>
+        <code></code>
+        <code>function onFailed(error) {</code>
+        <code>  console.log('Failed: ' + error);</code>
+        <code>}</code>
+        <code></code>
+        <code>let downloadUrl = "https://example.org"</code>
+        <code>let downloading = USTools.downloadTextFile(downloadUrl);</code>
+        <code>downloading.then(onSucceeded, onFailed);</code>
+      </pre>
+      <br/>
+      <pre class="code">
+        <code>try {</code>
+        <code>let downloadUrl = "https://example.org"</code>
+        <code>let htmlText = await USTools.downloadTextFile(downloadUrl);</code>
+        <code>  console.log('Succeeded: ' + htmlText);</code>
+        <code>}</code>
+        <code>catch(error) {</code>
+        <code>  console.log('Failed: ' + error);</code>
+        <code>}</code>
+      </pre>
+
+  </div>
+
+  <h2 id="getInnerText">The getInnerText() method</h2>
+  <div class="paragraph">
+    The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>getInnerText()</strong></span> method
+    returns the part of the string between the start and end endPatterns.
+    <h4>Syntax</h4>
+      <pre class="syntax"><code>USTools.getInnerText(<var>text</var>, <var>patternStart</var>, <var>patternEnd</var>)</code></pre>
+      <h3>Parameters</h3>
+      <p></p><span class="highlighted"><strong><code><var>patternStart</var></code></strong></span>
+      <div class="paragraph">A string representing the start pattern to search for.</div>
+      <p></p><span class="highlighted"><strong><code><var>patternEnd</var></code></strong></span>
+      <div class="paragraph">A string representing the end pattern to search for.</div>
+      <h3>Return value</h3>
+      <div class="paragraph">A new string containing the part  between patternStart and patternEnd of the given string.</div>
+    <h4>Examples</h4>
+      <h3>Using getInnerText()</h3>
+      The following example uses getInnerText() to extract text between
+      <span class="highlighted"><code><var>jsonData={</var></code></span> and
+      <span class="highlighted"><code><var>};</var></code></span>" for the string
+      <span class="highlighted"><code><var>&lt;html stuffs&gt; jsonData={"id": "1215-445fd", "name": "sky", data": "blue"}; &lt;other html stuffs&gt;</var></code></span>.
+      <pre class="code">
+        <code>let str = '&lt;html stuffs&gt;\</code>
+        <code>  jsonData={"id": "1215-445fd", "name": "sky", data": "blue"};\</code>
+        <code>  &lt;other html stuffs&gt;';</code>
+        <code></code>
+        <code>let result = '{' + USTools.getInnerText(text, patternStart, patternEnd) + '}';</code>
+        <code>console.log('Result: ' + result);</code>
+        <code>// logs Result: {"id": "1215-445fd", "name": "sky", data": "blue"}</code>
+      </pre>
+
+  </div>
+  <h2 id="occurrences">The occurrences() method</h2>
+  <h2 id="get1stUsedTag">The get1stUsedTag() method</h2>
+  <h2 id="getNextItem">The getNextItem() method</h2>
+  <h2 id="getItemId">The getItemId() method</h2>
+  <h2 id="extractValue">The extractValue() method</h2>
+  <h2 id="rssHeader">The rssHeader() method</h2>
+  <h2 id="rssItem">The rssItem() method</h2>
+  <h2 id="rssFooter">The rssFooter() method</h2>
+
+</body>
+
+</html>

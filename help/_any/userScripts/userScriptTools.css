@@ -1,0 +1,134 @@
+html {
+  color: #333;
+}
+
+body {
+  padding: 2% 8% 2% 8%;
+  line-height: 1.5;
+  font-family: "Open Sans", arial, x-locale-body, sans-serif;
+}
+
+a {
+  color: #3fa687;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-decoration: none;
+  text-decoration-color: currentcolor;
+  text-decoration-line: none;
+  text-decoration-style: solid;
+}
+
+a:active, a:focus, a:hover {
+  text-decoration: underline
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2::before, h4::before {
+  border-top: solid #3fa687;
+  content: '';
+  display: block;
+  top: -50px;
+  left: 0;
+  width: 100%;
+}
+
+h2::before {
+  border-top-width: 6px;
+}
+
+h4::before {
+  border-top-width: 3px;
+}
+
+h2, h4 {
+  position: relative;
+  font-size: 2.5rem;
+  margin: 70px 0 10px 0;
+  ;
+  font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, serif;
+  padding: 0;
+  border: 0;
+  line-height: 1.2;
+}
+
+h2 {
+  margin-top: 100px;
+}
+
+h4 {
+  position: relative;
+  margin-top: 25px;
+}
+
+h3 {
+  display: table;
+  background-color: #333333;
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 1.25;
+  padding: 6px 4px 2px 30px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.paragraph {
+  border: 0;
+  padding: 0 15% 0 4%;
+  text-align: justify;
+}
+
+.highlighted {
+  background-color: #dcdcdc;
+  padding: 0 3px 0 3px;
+}
+
+code {
+  line-height: 1.5;
+  font-family: consolas, "Liberation Mono", courier, monospace;
+  font-size: 1rem;
+}
+
+.syntax {
+  background-color: #e4f5f0;
+  padding: 15px;
+  border: 0 solid #3fa687;
+  border-left-width: 5px;
+  color: #111111;
+}
+
+pre.code {
+  white-space: pre-wrap;
+  background-color: #eeeeee;
+  padding: 10px 0 0 0;
+  margin: 20px 0 10px 0;
+  border: 0 solid #3fa687;
+  border-left-width: 5px;
+}
+
+pre.code:before {
+  counter-reset: listing;
+}
+
+pre.code code {
+  counter-increment: listing;
+}
+
+pre.code code::before {
+  padding: 0;
+  content: counter(listing) " ";
+  display: inline-block;
+  border-right: 2px solid #999999;
+  margin-right: 10px;
+  color: #999999;
+  text-align: right;
+  width: 2rem;
+  -webkit-user-select: none;
+}
