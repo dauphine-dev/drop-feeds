@@ -569,9 +569,9 @@ class FeedParser { /*exported FeedParser*/
 
     // Perform basic sanitization of the HTML content to disable unwanted content
     // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
-    let blackList = ['iframe', 'script', 'embed', 'object', 'link'];
+    let blackList = ['iframe', 'script', 'embed', 'object', 'link', 'audio', 'video'];
     for (let tag of blackList) {
-      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds');
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds style="display:none">');
     }
 
     return text;
