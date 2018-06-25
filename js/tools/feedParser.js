@@ -566,6 +566,14 @@ class FeedParser { /*exported FeedParser*/
     if (diff > 0) {
       text += '</div>'.repeat(diff);
     }
+
+    // Perform basic sanitization of the HTML content to disable unwanted content
+    // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
+    let blackList = ['iframe', 'script', 'embed', 'object', 'link'];
+    for (let tag of blackList) {
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds');
+    }
+
     return text;
   }
 }
