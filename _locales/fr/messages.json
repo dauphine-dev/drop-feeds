@@ -312,10 +312,10 @@
     "message": "Avancé"
   },
   "optLblSecurityFilter": {
-    "message": "Open security filter settings"
+    "message": "Ouvrir l'écran des filtres de sécurité"
   },
   "optSecurityFilterButton": {
-    "message": "Security filter settings..."
+    "message": "Filtre de sécurité..."
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
