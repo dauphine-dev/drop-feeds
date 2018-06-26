@@ -375,7 +375,7 @@ class FeedParser { /*exported FeedParser*/
       item.link = FeedParser._getItemLink(itemText);
       item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
-      item.description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
+      item.description = FeedParser._getDescription(itemText);
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
       item.enclosure = FeedParser._getEnclosure(itemText);
@@ -507,7 +507,7 @@ class FeedParser { /*exported FeedParser*/
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
     htmlItem += '        <a href="' + item.link + '">' + title + '</a>\n';
     htmlItem += '      </h2>\n';
-    if (item.description) { htmlItem += '      <div class="itemDescription">' + FeedParser._fixDescriptionTags(item.description) + ' </div>\n'; }
+    if (item.description) { htmlItem += '      <div class="itemDescription">' + item.description + ' </div>\n'; }
     htmlItem += '      <div class="itemInfo">\n';
     if (item.category) { htmlItem += '        <div class="itemCat">[' + item.category + ']</div>\n'; }
     if (item.author) { htmlItem += '        <div class="itemAuthor">Posted by ' + item.author + '</div>\n'; }
@@ -545,6 +545,13 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
+  static _getDescription(itemText) {
+    let description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
+    description = FeedParser._fixDescriptionTags(description);
+    description = FeedParser._applySecurityFilters(description);
+    return description;
+  }
+
   static _fixDescriptionTags(text) {
     if (!text.includes('<')) { return text; }
 
@@ -561,6 +568,30 @@ class FeedParser { /*exported FeedParser*/
     let diff = divOpenCount - divCloseCount;
     if (diff > 0) {
       text += '</div>'.repeat(diff);
+    }
+    return text;
+  }
+
+  static _applySecurityFilters(text) {
+    if (!text) { return; }
+    // Perform basic sanitization of the HTML content to disable unwanted content
+    // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
+    let hide = null;
+    let blackListShow = ['<blink', '<marquee'];
+    let whiteListTags = ['<a', '<b', '<blockquote', '<br', '<cite', '<code', '<del', '<div', '<em', '<font', '<h1', '<h2', '<h3', '<h4', '<h5', '<h6', '<hr', '<i', '<img', '<ins', '<li', '<ol', '<p', '<pre', '<q', '<s', '<span', '<strong', '<table', '<tbody', '<td', '<th', '<tr', '<u', '<ul'];
+    let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.trim());
+    let toBlackListTagList = [...new Set(textTagList.filter(x => !whiteListTags.includes(x)) || [])];
+    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => blackListShow.includes(x)))];
+    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !blackListShow.includes(x)))];
+    hide = false; text = FeedParser._disableTags(text, toBlackListAndShowTagList, hide);
+    hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
+    return text;
+  }
+
+  static _disableTags(text, tagToDisableList, hide) {
+    for (let tag of tagToDisableList) {
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
+      text = text.replace(new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
     }
     return text;
   }
