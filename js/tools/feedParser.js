@@ -576,17 +576,6 @@ class FeedParser { /*exported FeedParser*/
     return text;
   }
 
-  static _applySecurityFilters0(text) {
-    // Perform basic sanitization of the HTML content to disable unwanted content
-    // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
-    let hide = null;
-    let blackListShow = ['blink', 'marquee'];
-    let blackListHide = ['audio', 'canvas', 'embed', 'form', 'iframe', 'input', 'link', 'menu', 'object', 'script', 'video'];
-    hide = false; text = FeedParser._disableTags(text, blackListShow, hide);
-    hide = true; text = FeedParser._disableTags(text, blackListHide, hide);
-    return text;
-  }
-
   static _applySecurityFilters(text) {
     if (!text) { return; }
     // Perform basic sanitization of the HTML content to disable unwanted content
@@ -602,7 +591,6 @@ class FeedParser { /*exported FeedParser*/
     hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
     return text;
   }
-
 
   static _disableTags(text, tagToDisableList, hide) {
     for (let tag of tagToDisableList) {
