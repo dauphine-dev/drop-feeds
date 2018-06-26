@@ -19,7 +19,6 @@
   </head>
 
   <body>
-
     <div class="tab">
       <button class="tabLinks" id="generalTabButton" target="generalTab">#General</button>
       <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">#Update checker</button>
@@ -27,6 +26,7 @@
       <button class="tabLinks" id="viewTabButton" target= "viewTab">#View</button>
       <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
       <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
+      <button class="tabLinks" id="scriptsTabButton" target="scriptsTab">#Advanced</button>
     </div>
 
     <!-- ~~~~~~ Tab General ~~~~~~ -->
@@ -115,8 +115,7 @@
           <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item list</span></td>
           <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span id="textFeedItemListToolbar" class="checkboxText" >#Feed item list toolbar<small>(*)</small></span></td>
           <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span></td>
-          <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving feeds</span></td>
-        </tr>
+          <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving feeds</span></td>        </tr>
       </table>
       <small><br/></small>
       <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation history !</small>
@@ -172,6 +171,28 @@
         </tr>
       </table>
     </div>
+
+    <!-- ~~~~~~ Tab advanced ~~~~~~ -->
+    <div id="scriptsTab" class="tabContent">
+      <table>
+        <!--
+        <tr>
+          <td><label id="lblScriptManager">#Open script manager</label></td>
+          <td>
+            &nbsp;<button id="scriptManagerButton">#Script manager...</button>
+          </td>
+        </tr>
+        -->
+        <tr>
+          <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
+          <td>
+            &nbsp;<button id="securityFilterButton">#Security filter settings...</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="/js/ui/options/tabAdvanced.js"></script>
     <script src="/js/ui/options/tabView.js"></script>
     <script src="/js/ui/options/tabItems.js"></script>
     <script src="/js/ui/options/opmlExporter.js"></script>

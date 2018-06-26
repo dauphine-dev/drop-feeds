@@ -1,81 +1,64 @@
 {
-  "comment1": {"message": "------------------Manifest strings------------------"},
-
+  "comment1": {
+    "message": "------------------Manifest strings------------------"
+  },
   "manExtensionDescription": {
     "message": "Affiche une arborescence dans une barre latérale vous permettant de gérer vos flux RSS"
   },
-
   "manPageActionDefaultTitle": {
     "message": "Aller sur la page d'abonnement"
   },
-
   "manPageActionGo": {
     "message": "Aller sur la page d'abonnement"
   },
-
   "manPageActionAdd": {
     "message": "S'abonner avec Drop feed"
   },
-
-
-  "comment2": {"message": "------------------Sidebar strings------------------"},
-
+  "comment2": {
+    "message": "------------------Sidebar strings------------------"
+  },
   "sbCheckFeeds": {
     "message": "Vérifier les flux"
   },
-
   "sbDiscoverFeeds": {
     "message": "Découvrir de nouveaux flux"
   },
-
   "sbViewOnlyUpdatedFeeds": {
     "message": "Voir uniquement les flux à jour"
   },
-
   "sbToggleFolders": {
     "message": "Basculer les dossiers (ouvert/fermé)"
   },
-
   "sbSubscriptionGo": {
     "message": "Aller sur la page d'abonnement"
   },
-
   "sbSubscriptionAdd": {
     "message": "S'abonner"
   },
-
   "sbOpenOptionsTab": {
     "message": "Ouvrir l'onglet des options"
   },
-
   "sbMarkAsRead": {
     "message": "Marquer comme lu"
   },
-
   "sbMarkAsUnread": {
     "message": "Marquer comme non lu"
   },
-
   "sbMarkAllAsRead": {
     "message": "Tout marquer comme lu"
   },
-
   "sbMarkAllAsUnread": {
     "message": "Tout marquer comme non lu"
   },
-
   "sbOpenUnreadItemsInNewTabs": {
     "message": "Ouvrir les items non lus dans de nouveaux onglets"
   },
-
   "sbMarkAllAsUpdated": {
     "message": "Marquer comme à jour (non lu)"
   },
-
   "sbOpenUpdatedFeeds": {
     "message": "Ouvrir les flux non lus"
   },
-
   "sbOpenUpdatedAsUnified": {
     "message": "Ouvrir les flux non lus comme un flux unique"
   },
@@ -91,7 +74,6 @@
   "sbFolderInfo": {
     "message": "Info"
   },
-
   "sbGetFeedTitle": {
     "message": "Mettre à jour le titre"
   },
@@ -110,43 +92,33 @@
   "sbFeedInfo": {
     "message": "Info"
   },
-
   "sbUseButtonAbove": {
     "message": "Pour ajouter un nouveau flux, utilisez le button situé plus haut !"
   },
-
   "sbChecking": {
     "message": "vérifie"
   },
-
   "sbPreparing": {
     "message": "prépare"
   },
-
   "sbOpening": {
     "message": "ouvre"
   },
-
   "sbLoading": {
     "message": "Chargement"
   },
-
   "sbLoaded": {
     "message": "chargé"
   },
-
   "sbMerging": {
     "message": "Fusionne"
   },
-
   "sbComputingUnifiedView": {
     "message": "Préparation de la vue unifiée"
   },
-
   "sbReceived": {
     "message": "reçu"
   },
-
   "sbFeedsUpdated": {
     "message": "flux mis à jour"
   },
@@ -156,145 +128,108 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "Aucun flux n'a été mis à jour"
   },
-
-
-
-  "comment3": {"message": "------------------Subscribe strings------------------"},
-
+  "comment3": {
+    "message": "------------------Subscribe strings------------------"
+  },
   "subDropFeedsSubscribe": {
     "message": "Drop Feeds (s'abonner)"
   },
-
   "subSubscribeWithDropFeed": {
     "message": "S'abonner avec Drop feed"
   },
-
   "subName": {
     "message": "Nom"
   },
-
   "subFolder": {
     "message": "Dossier"
   },
-
   "subNewFolder": {
     "message": "Nouveau dossier"
   },
-
   "subCancel": {
     "message": "Annuler"
   },
-
   "subSubscribe": {
     "message": "S'abonner"
   },
-
   "subCreate": {
     "message": "Créer"
   },
-
-
-
-
-  "comment4": {"message": "------------------Discover strings------------------"},
-
+  "comment4": {
+    "message": "------------------Discover strings------------------"
+  },
   "disDiscoverFeeds": {
     "message": "Découverte de flux"
   },
-
   "disDiscoveringFeeds": {
     "message": "Découverte de flux en cours"
   },
-
   "disNoFeedsHaveBeenDiscovered": {
     "message": "Aucun flux n'a été découvert"
   },
-
   "disDiscovered": {
     "message": "Découvert"
   },
-
   "disFeeds": {
     "message": "flux"
   },
-
   "disTitle": {
     "message": "Titre"
   },
-
   "disFormat": {
     "message": "Format"
   },
-
   "disLastUpdate": {
     "message": "Dernière mise à jour"
   },
-
   "disItems": {
     "message": "Items"
   },
-
   "disUrl": {
     "message": "Url"
   },
-
   "disAddFeed": {
     "message": "Ajouter le flux"
   },
-
   "disClose": {
     "message": "Fermer"
   },
-
-
-
-
-  "comment5": {"message": "------------------Options strings------------------"},
-
+  "comment5": {
+    "message": "------------------Options strings------------------"
+  },
   "optDropFeedsOptions": {
     "message": "Drop Feeds (options)"
   },
-
   "optGeneral": {
     "message": "Général"
   },
-
   "optUpdateChecker": {
     "message": "Vérification des flux"
   },
-
   "optView": {
     "message": "Affichage"
   },
-
   "optItems": {
     "message": "Items"
   },
-
   "optContentsArea": {
     "message": "Contenu"
   },
-
   "optManagement": {
     "message": "Gestion"
   },
-
   "optSelectFeedFolder": {
     "message": "Sélectionner le dossier de stockage des flux"
   },
-
   "optApply": {
     "message": "Appliquer"
   },
-
   "optDoNotDisplayRootFolder": {
     "message": "Ne pas afficher le dossier racine"
   },
-
   "optSelectTheme": {
     "message": "Theme"
   },
-
   "optFeedItemOrder": {
     "message": "Orde de tri des items"
   },
@@ -307,100 +242,87 @@
   "optOriginal": {
     "message": "Original"
   },
-
   "optTimeout": {
     "message": "Délais d'expiration (timeout)"
   },
-
   "optSeconds": {
     "message": "secondes"
   },
-
   "optAsynchronousFeedChecking": {
     "message": "Vérification des flux asynchrone"
   },
-
   "optAutoFeedUpdatesEvery": {
     "message": "Mise à jour automatique des flux tous les"
   },
   "optMinutes": {
     "message": "minutes"
   },
-
   "optShowNotifications": {
     "message": "Notifier une fois la vérification des flux terminée"
   },
-
   "optRetryWithHttp": {
     "message": "Si échec https alors réessayer avec http"
   },
-
   "optFeedItemList": {
     "message": "Activer la liste des items du flux"
   },
-
   "optFeedItemListToolbar": {
     "message": "Afficher la barre d'outils des item de flux (*)"
   },
-
   "optDescriptionTooltips": {
     "message": "Afficher les bulles de description"
   },
-
   "optNavigationHistoryWarning": {
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
   },
-
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Marquer tous les items comme lus avant de quitter un flux"
   },
-
-
   "optShowUpdatedFeedCount": {
     "message": "Afficher le compteur de flux non lus"
   },
   "optShowErrorsAsUnread": {
     "message": "Afficher les erreurs comme non lues"
   },
-
   "optRenderFeeds": {
     "message": "Afficher les flux"
   },
-
   "optAlwaysOpenNewTab": {
     "message": "Toujours ouvrir dans un nouvel onglet"
   },
-
   "optOpenNewTabForeground": {
     "message": "Ouvrir les nouveaux onglets en avant plan"
   },
   "optReuseDropFeedsTab": {
     "message": "Toujours utiliser le même onglet pour ouvrir les flux"
   },
-
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"
   },
-
   "optImport": {
     "message": "Importer..."
   },
-
   "optSelectOpmlFileToExport": {
     "message": "Sélectionnez l'emplacement où exporter le fichier opml"
   },
-
   "optExport": {
     "message": "Exporter..."
   },
-
-
-  "comment6": {"message": "------------------Content script strings------------------"},
-
+  "optAdvanced": {
+    "message": "Avancé"
+  },
+  "optLblSecurityFilter": {
+    "message": "Open security filter settings"
+  },
+  "optSecurityFilterButton": {
+    "message": "Security filter settings..."
+  },
+  "comment6": {
+    "message": "------------------Content script strings------------------"
+  },
   "csSubscribeWithDropFeeds": {
     "message": "S'abonner avec Drop Feeds"
   },
-
   "ff56Text1": {
     "message": "Pour que cette icône ouvre Drop Feeds dans la barre latérale mettez à jour Firefox en version 57 ou supérieure"
   },
@@ -422,17 +344,18 @@
   "ff56Text7": {
     "message": "cliquez ici pour fermer"
   },
-
-
-  "comment7": {"message": "------------------Subscribe this feed strings------------------"},
+  "comment7": {
+    "message": "------------------Subscribe this feed strings------------------"
+  },
   "stfSubscribeUsing": {
     "message": "S’abonner à ce flux en utilisant"
   },
   "stfSubscribeNow": {
     "message": "S’abonner maintenant"
   },
-
-  "comment8": {"message": "------------------Info view strings------------------"},
+  "comment8": {
+    "message": "------------------Info view strings------------------"
+  },
   "sbInfoIdLdl": {
     "message": "ID"
   },
@@ -448,5 +371,4 @@
   "sbInfoCloseButton": {
     "message": "Fermer"
   }
-
 }
