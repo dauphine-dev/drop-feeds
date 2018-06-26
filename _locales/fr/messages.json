@@ -317,6 +317,12 @@
   "optScriptManagerButton": {
     "message": "Gestionnaire de script..."
   },
+  "optLblSecurityFilter": {
+    "message": "Ouvrir l'écran des filtres de sécurité"
+  },
+  "optSecurityFilterButton": {
+    "message": "Filtre de sécurité..."
+  },
   "comment6": {
     "message": "------------------Content script strings------------------"
   },

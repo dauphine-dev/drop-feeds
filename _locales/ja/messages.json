@@ -317,6 +317,12 @@
   "optScriptManagerButton": {
     "message": "スクリプトマネージャー..."
   },
+  "optLblSecurityFilter": {
+    "message": "Open security filter settings"
+  },
+  "optSecurityFilterButton": {
+    "message": "Security filter settings..."
+  },
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
