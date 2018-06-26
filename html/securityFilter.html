@@ -4,12 +4,77 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link href="/resources/css/options.css" rel="stylesheet">
+  <link href="/resources/css/securityFilter.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/resources/img/favicon.png" />
-  <title>#Drop Feeds (Security filters)</title>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <title>Drop Feeds (Security filters)</title>
 </head>
 
 <body>
+  <div class="tableBox">
+    <div class="rowGroupBox">
 
+      <div class="rowBox">
+        <div class="cellBox autoHeight">
+          <h1>Security filter settings</h1>
+        </div>
+      </div>
+
+      <div class="rowBox">
+        <div class="cellBox tab autoHeight a6">
+          <button class="tabLinks" id="htmlFilterTabButton" target="htmlFilterTab">#HTML Filter</button>
+        </div>
+      </div>
+
+
+      <div class="rowBox">
+        <!-- ~~~~~~ Tab HTML Filter ~~~~~~ -->
+        <div id="htmlFilterTab" class="cellBox tabContent filterTab">
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <strong>Allowed HTML elements (others are rejected)</strong>
+              <p/>
+            </div>
+          </div>
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <div class="colBox">
+
+                <div class="cellBox">
+                  <table class="secTableHead">
+                    <thead>
+                      <tr>
+                        <th>Elements</th>
+                      </tr>
+                    </thead>
+                  </table>
+                  <table class="secTableBody">
+                    <tbody id="allowedHtmlElements">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cellBox sepBox">
+                </div>
+
+                <div class="cellBox">
+                  <button id="htmlAddButton">#Add</button>
+                  <p/>
+                  <button id="htmlRemoveButton">#Remove</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/ui/securityFilter/tabHtmlFilter.js"></script>
+  <script src="/js/ui/securityFilter/allTabsControl.js"></script>
 </body>
 
 </html>

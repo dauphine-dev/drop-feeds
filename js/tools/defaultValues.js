@@ -26,17 +26,18 @@ class DefaultValues { /*exported DefaultValues*/
   static get showUpdatedFeedCount()          { return false; }
   static get renderFeeds()                   { return true; }
   static get feedItemMarkAsReadOnLeaving()   { return false; }
+  static get currentSecurityFilterTabName()  { return 'htmlFilterTab'; }
 
   static getStoredFolder(folderId) {
-    return {id: folderId, checked: true};
+    return { id: folderId, checked: true };
   }
 
   static getStoredFeed(id) {
-    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null, prevValues: {hash: null, pubDate: null} };
+    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null, prevValues: { hash: null, pubDate: null } };
   }
 
   static getDefaultItem(id) {
-    return { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
+    return { id: id, number: 0, title: '', link: '', description: '', category: '', author: '', pubDate: '', pubDateText: '' };
   }
 
   static getDefaultFeedInfo() {
@@ -44,7 +45,12 @@ class DefaultValues { /*exported DefaultValues*/
   }
 
   static getDefaultChannelInfo() {
-    return { encoding: '', title: '', link: '', description: '', category : '', pubDate: '' };
+    return { encoding: '', title: '', link: '', description: '', category: '', pubDate: '' };
+  }
+
+  static getAllowedTagList() {
+    return ['a', 'b', 'blockquote', 'br', 'cite', 'code', 'del', 'div', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
+      'i', 'img', 'ins', 'li', 'ol', 'p', 'pre', 'q', 's', 'span', 'strong', 'table', 'tbody', 'td', 'th', 'tr', 'u', 'ul'];
   }
 
 }
