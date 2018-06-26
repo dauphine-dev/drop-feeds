@@ -566,6 +566,19 @@ class FeedParser { /*exported FeedParser*/
     if (diff > 0) {
       text += '</div>'.repeat(diff);
     }
+
+    // Perform basic sanitization of the HTML content to disable unwanted content
+    // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
+    let blackListShow = ['blink', 'marquee'];
+    let blackListHide = ['audio', 'canvas', 'embed', 'form', 'iframe', 'input', 'link', 'menu', 'object', 'script', 'video'];    
+    for (let tag of blackListShow) {
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds>');
+    }
+    for (let tag of blackListHide) {
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds style="display:none">');
+      text = text.replace(new RegExp('<\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
+    }
+
     return text;
   }
 }
