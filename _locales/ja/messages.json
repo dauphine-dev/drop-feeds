@@ -314,6 +314,21 @@
   "optSecurityFilterButton": {
     "message": "Security filter settings..."
   },
+  "optSecurityFilterSettings": {
+    "message": "Security filter settings"
+  },
+  "optHtmlFilter": {
+    "message": "HTML Filter"
+  },
+  "optAllowedHtmlElements": {
+    "message": "Allowed HTML elements (others are rejected)"
+  },
+  "optHtmlFilterAddButton": {
+    "message": "Add"
+  },
+  "optHtmlRemoveAddButton": {
+    "message": "Remove"
+  },
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
