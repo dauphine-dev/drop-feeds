@@ -576,21 +576,23 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _applySecurityFilters(text) {
-
     // Perform basic sanitization of the HTML content to disable unwanted content
     // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
+    let hide = null;
     let blackListShow = ['blink', 'marquee'];
     let blackListHide = ['audio', 'canvas', 'embed', 'form', 'iframe', 'input', 'link', 'menu', 'object', 'script', 'video'];
-    for (let tag of blackListShow) {
-      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds>');
-    }
+    hide = false; text = FeedParser._disableTags(text, blackListShow, hide);
+    hide = true;  text = FeedParser._disableTags(text, blackListHide, hide);
+    return text;
+  }
+
+  static _disableTags(text, tagToDisableList, hide) {
     /*eslint-disable no-useless-escape*/
-    for (let tag of blackListHide) {
-      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds style="display:none">');
+    for (let tag of tagToDisableList) {
+      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
       text = text.replace(new RegExp('<\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
     }
     /*eslint-enable no-useless-escape*/
-
     return text;
   }
 }
