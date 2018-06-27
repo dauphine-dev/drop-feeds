@@ -17,12 +17,6 @@
       "enclosing": "false"
     },
     {
-      "pattern": "42",
-      "pattern1": "\\/\\*(.|\\s)*\\*\\/",
-      "class1": "jsComment",
-      "enclosing1": "true"
-    },
-    {
       "pattern": "(\\/\\/.*)",
       "class": "jsComment",
       "enclosing": "true"
@@ -30,6 +24,11 @@
     {
       "pattern": "'(.*?)'",
       "class": "jsString",
+      "enclosing": "true"
+    },
+    {
+      "pattern": "/\\*(?:.|[\\n\\r])*?\\*/",
+      "class": "jsComment",
       "enclosing": "true"
     }
   ]

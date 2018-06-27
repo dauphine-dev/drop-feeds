@@ -85,4 +85,10 @@ class TextTools { /* exported TextTools*/
     return text.substr(0, index) + substr + text.substr(index);
   }
 
+  static escapeRegExp(text) {
+    /*eslint-disable no-useless-escape*/
+    return text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+    /*eslint-enable no-useless-escape*/
+  }
+
 }
