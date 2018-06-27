@@ -332,6 +332,21 @@
   "optHtmlRemoveAddButton": {
     "message": "Retirer"
   },
+  "optHtmlFilterRestoreDefaultButton": {
+    "message": "Restaurer les valeurs par défaut"
+  },
+  "optHtmlFilterAddDialogTitle": {
+    "message": "Ajouter"
+  },
+  "optHtmlFilterAddDialogElementToAllow": {
+    "message": "Element à autoriser"
+  },
+  "optHtmlFilterAddDialogCancel": {
+    "message": "Annuler"
+  },
+  "optHtmlFilterAddDialogOk": {
+    "message": "Ok"
+  },
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
