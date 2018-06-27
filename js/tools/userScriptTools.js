@@ -39,7 +39,7 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   async _loadScriptInfos_async() {
-    this._scriptList = await LocalStorageManager.getValue_async(scriptListKey, null);
+    this._scriptList = await LocalStorageManager.getValue_async(scriptListKey, null) || [];
     this._scriptObjList = [];
     for (let scriptId of this._scriptList) {
       let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);

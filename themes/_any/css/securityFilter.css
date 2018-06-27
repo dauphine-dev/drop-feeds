@@ -1,0 +1,137 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 99%;
+}
+
+body {
+  margin: 0;
+  height: 99%;
+  font: 14px sans-serif;
+  padding: 10px;
+}
+
+/*-- table box --*/
+
+.tableBox {
+  vertical-align: top;
+  display: table;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  width: 0;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+}
+
+.rowGroupBox {
+  vertical-align: top;
+  display: table-row-group;
+}
+
+.rowBox {
+  display: table-row;
+}
+
+.cellBox {
+  vertical-align: top;
+  display: table-cell;
+}
+
+.headerGroupBox {
+  vertical-align: top;
+  display: table-header-group;
+}
+
+.footerGroupBox {
+  vertical-align: top;
+  display: table-footer-group;
+}
+
+.autoHeight {
+  height: 0;
+}
+
+.sepBox {
+  width: 10px;
+}
+
+/*-- -- --*/
+
+.secTableHead, .secTableHead tr, .secTableHead th {
+  background-color: #f0f0f0;
+  text-align: left;
+  font-weight: normal;
+  padding-left: 10px;
+  border: 1px solid #c0c0c0;
+  height: 1em;
+}
+
+.secTableBody {
+  display: block;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 500px;
+  margin-right: 16px;
+}
+
+.secTableBody tr {
+  display: block;
+  background-color: #ffffff;
+  border-top: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  border-bottom: none;
+  border-left: 1px solid #c0c0c0;
+  height: 1em;
+  padding-bottom: 3px;
+}
+
+.secTableBody td {
+  background-color: #ffffff00;
+  padding-left: 2px;
+  width: 90%;
+}
+
+.filterTab {
+  background-color: #f4f4f4;
+}
+
+.selectedRow {
+  background-color: #448bd6 !important;
+  color: #ffffff;
+}
+
+.secTableHTml, .secTableHTml tr, secTableHTml td {
+  min-width: 150px;
+}
+
+.secDialog {
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  background-color: #e8e8e7;
+  border: 1px solid #9d9d99;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 0;
+  z-index: 1;
+}
+
+.secDialog h1 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 120%;
+  background-color: #d8d8d7;
+}
+
+.secBodyDialog {
+  padding: 10px;
+  margin: 0;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
+}

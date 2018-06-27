@@ -1,4 +1,4 @@
-/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter */
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -575,11 +575,12 @@ class FeedParser { /*exported FeedParser*/
   static _applySecurityFilters(text) {
     if (!text) { return; }
     // Perform basic sanitization of the HTML content to disable unwanted content
-    // TODO: replace with a real sanitization code and/or a whitelist of allowed tags
+    // TODO: do a real sanitization code
     let hide = null;
-    let blackListShow = ['<blink', '<marquee'];
-    let whiteListTags = ['<a', '<b', '<blockquote', '<br', '<cite', '<code', '<del', '<div', '<em', '<font', '<h1', '<h2', '<h3', '<h4', '<h5', '<h6', '<hr', '<i', '<img', '<ins', '<li', '<ol', '<p', '<pre', '<q', '<s', '<span', '<strong', '<table', '<tbody', '<td', '<th', '<tr', '<u', '<ul'];
-    let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.trim());
+    let blackListShow = SecurityFilters.instance.blackListHtmlTagsTopShow;
+    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
+    whiteListTags.push('<!'); // avoid to have manage comments for now (but we will have to do)
+    let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
     let toBlackListTagList = [...new Set(textTagList.filter(x => !whiteListTags.includes(x)) || [])];
     let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => blackListShow.includes(x)))];
     let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !blackListShow.includes(x)))];

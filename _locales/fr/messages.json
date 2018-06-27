@@ -323,6 +323,36 @@
   "optSecurityFilterButton": {
     "message": "Filtre de sécurité..."
   },
+  "optSecurityFilterSettings": {
+    "message": "Réglage des filtres de sécurité"
+  },
+  "optHtmlFilter": {
+    "message": "Fitres HTML"
+  },
+  "optAllowedHtmlElements": {
+    "message": "Elements HTML autorisés (les autre sont rejetés)"
+  },
+  "optHtmlFilterAddButton": {
+    "message": "Ajouter"
+  },
+  "optHtmlRemoveAddButton": {
+    "message": "Retirer"
+  },
+  "optHtmlFilterRestoreDefaultButton": {
+    "message": "Restaurer les valeurs par défaut"
+  },
+  "optHtmlFilterAddDialogTitle": {
+    "message": "Ajouter"
+  },
+  "optHtmlFilterAddDialogElementToAllow": {
+    "message": "Element à autoriser"
+  },
+  "optHtmlFilterAddDialogCancel": {
+    "message": "Annuler"
+  },
+  "optHtmlFilterAddDialogOk": {
+    "message": "Ok"
+  },
   "comment6": {
     "message": "------------------Content script strings------------------"
   },
