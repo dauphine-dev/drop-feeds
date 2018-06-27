@@ -17,7 +17,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
   }
 
   async init_async() {
-    this._allowedTagList = await LocalStorageManager.getValue_async('allowedHtmlElementsList', DefaultValues.getAllowedTagList());
+    this._allowedTagList = await LocalStorageManager.getValue_async('allowedHtmlElementsList', DefaultValues.allowedTagList);
     this._allowedTagList.sort();
     this._updateHtmlTagsTable();
   }
@@ -82,7 +82,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
   }
 
   async _htmlFilterRestoreDefaultButtonOnClicked_event() {
-    this._allowedTagList = DefaultValues.getAllowedTagList();
+    this._allowedTagList = DefaultValues.allowedTagList;
     this._allowedTagList.sort();
     this._allowedTagList.sort();
     LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);

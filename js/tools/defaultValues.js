@@ -27,6 +27,10 @@ class DefaultValues { /*exported DefaultValues*/
   static get renderFeeds()                   { return true; }
   static get feedItemMarkAsReadOnLeaving()   { return false; }
   static get currentSecurityFilterTabName()  { return 'htmlFilterTab'; }
+  static get allowedTagList() {
+    return ['a', 'b', 'blockquote', 'br', 'cite', 'code', 'del', 'div', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
+      'i', 'img', 'ins', 'li', 'ol', 'p', 'pre', 'q', 's', 'span', 'strong', 'table', 'tbody', 'td', 'th', 'tr', 'u', 'ul'];
+  }
 
   static getStoredFolder(folderId) {
     return { id: folderId, checked: true };
@@ -47,10 +51,4 @@ class DefaultValues { /*exported DefaultValues*/
   static getDefaultChannelInfo() {
     return { encoding: '', title: '', link: '', description: '', category: '', pubDate: '' };
   }
-
-  static getAllowedTagList() {
-    return ['a', 'b', 'blockquote', 'br', 'cite', 'code', 'del', 'div', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
-      'i', 'img', 'ins', 'li', 'ol', 'p', 'pre', 'q', 's', 'span', 'strong', 'table', 'tbody', 'td', 'th', 'tr', 'u', 'ul'];
-  }
-
 }
