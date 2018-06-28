@@ -309,40 +309,40 @@
     "message": "高度な設定"
   },
   "optLblSecurityFilter": {
-    "message": "Open security filter settings"
+    "message": "セキュリティーフィルターの設定"
   },
   "optSecurityFilterButton": {
-    "message": "Security filter settings..."
+    "message": "セキュリティフィルター..."
   },
   "optSecurityFilterSettings": {
-    "message": "Security filter settings"
+    "message": "セキュリティフィルター"
   },
   "optHtmlFilter": {
-    "message": "HTML Filter"
+    "message": "HTMLフィルタ"
   },
   "optAllowedHtmlElements": {
-    "message": "Allowed HTML elements (others are rejected)"
+    "message": "許可されたHTML要素（他の要素は拒否されます）"
   },
   "optHtmlFilterAddButton": {
-    "message": "Add"
+    "message": "追加"
   },
   "optHtmlRemoveAddButton": {
-    "message": "Remove"
+    "message": "削除"
   },
   "optHtmlFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "初期設定に戻す"
   },
   "optHtmlFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "追加"
   },
   "optHtmlFilterAddDialogElementToAllow": {
-    "message": "Element to allow"
+    "message": "許可する要素"
   },
   "optHtmlFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "キャンセル"
   },
   "optHtmlFilterAddDialogOk": {
-    "message": "Ok"
+    "message": "追加"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
