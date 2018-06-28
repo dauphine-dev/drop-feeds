@@ -9,7 +9,7 @@
     "message": "RSS購読ページを表示"
   },
   "manPageActionGo": {
-    "message": "Go to Subscription page"
+    "message": "購読ページへ移動"
   },
   "manPageActionAdd": {
     "message": "Drop feedで購読"
@@ -318,40 +318,40 @@
     "message": "スクリプトマネージャー..."
   },
   "optLblSecurityFilter": {
-    "message": "Open security filter settings"
+    "message": "セキュリティーフィルターの設定"
   },
   "optSecurityFilterButton": {
-    "message": "Security filter settings..."
+    "message": "セキュリティフィルター..."
   },
   "optSecurityFilterSettings": {
-    "message": "Security filter settings"
+    "message": "セキュリティフィルター"
   },
   "optHtmlFilter": {
-    "message": "HTML Filter"
+    "message": "HTMLフィルタ"
   },
   "optAllowedHtmlElements": {
-    "message": "Allowed HTML elements (others are rejected)"
+    "message": "許可されたHTML要素（他の要素は拒否されます）"
   },
   "optHtmlFilterAddButton": {
-    "message": "Add"
+    "message": "追加"
   },
   "optHtmlRemoveAddButton": {
-    "message": "Remove"
+    "message": "削除"
   },
   "optHtmlFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "初期設定に戻す"
   },
   "optHtmlFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "追加"
   },
   "optHtmlFilterAddDialogElementToAllow": {
-    "message": "Element to allow"
+    "message": "許可する要素"
   },
   "optHtmlFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "キャンセル"
   },
   "optHtmlFilterAddDialogOk": {
-    "message": "Ok"
+    "message": "追加"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
@@ -423,13 +423,13 @@
     "message": "スクリプトタイプ"
   },
   "usUScriptFeedTransformer": {
-    "message": "Feed transformer"
+    "message": "フィードの変換"
   },
   "usUScriptVirtualFeed": {
     "message": "仮想フィード"
   },
   "usUScriptUrlMatchPatterns": {
-    "message": "Url match patterns"
+    "message": "Urlのマッチパターン"
   },
   "usUScriptSubscribe": {
     "message": "購読"
@@ -456,7 +456,7 @@
     "message": "セーブして閉じる"
   },
   "usUScriptUrlMatchPatternsHelp": {
-    "message": "Help for url match patterns"
+    "message": "マッチパターンのヘルプ"
   },
   "usUScriptTestFeedUrl": {
     "message": "フィードURLのテスト"
@@ -468,10 +468,10 @@
     "message": "Info"
   },
   "usUScriptHelp": {
-    "message": "help"
+    "message": "ヘルプ"
   },
   "usUScriptExample": {
-    "message": "example"
+    "message": "サンプル"
   },
   "usUScriptSaveAndSubscribe": {
     "message": "保存して購読..."
@@ -483,7 +483,7 @@
     "message": "フォント"
   },
   "usUScriptFamily": {
-    "message": "Family"
+    "message": "種類"
   },
   "usUScriptSize": {
     "message": "サイズ"
