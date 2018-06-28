@@ -12,12 +12,12 @@ class TextTools { /* exported TextTools*/
     return result;
   }
 
-  static getInnerTextEx(text,  startPattern, endPattern, inputIndex, outputIndex, last) {
+  static getInnerTextEx(text, startPattern, endPattern, inputIndex, outputIndex, last) {
     if (!text) { return text; }
     outputIndex.value = -1;
     let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
     if (startIndex == -1) return null;
-    startIndex +=  startPattern ? startPattern.length : 0;
+    startIndex += startPattern ? startPattern.length : 0;
     let endIndex = text.indexOf(endPattern, startIndex);
     if (endIndex == -1) return null;
     let result = text.substring(startIndex, endIndex);
@@ -31,14 +31,14 @@ class TextTools { /* exported TextTools*/
     return result;
   }
 
-  static getOuterTextEx(text,  startPattern, endPattern, inputIndex, outputIndex, last) {
+  static getOuterTextEx(text, startPattern, endPattern, inputIndex, outputIndex, last) {
     if (!text) { return text; }
     outputIndex.value = -1;
     let startIndex = last ? text.lastIndexOf(startPattern) : text.indexOf(startPattern, inputIndex);
     if (startIndex == -1) return null;
     let endIndex = text.indexOf(endPattern, startIndex);
     if (endIndex == -1) return null;
-    endIndex +=  endPattern ? endPattern.length : 0;
+    endIndex += endPattern ? endPattern.length : 0;
     let result = text.substring(startIndex, endIndex);
     outputIndex.value = endIndex;
     return result;
@@ -54,26 +54,29 @@ class TextTools { /* exported TextTools*/
   static decodeHtml(htmlText) {
     if (!htmlText) { return htmlText; }
     /*eslint-disable quotes*/
-    let listEncodedCars = {amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+    let listEncodedCars = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
     /*eslint-enable quotes*/
 
     let decodedText = htmlText.replace(/&([^;]+);/g, (l, c) => {
-      let decodedCar =  listEncodedCars[c];
+      let decodedCar = listEncodedCars[c];
       decodedCar = decodedCar ? decodedCar : l;
-      return decodedCar; });
+      return decodedCar;
+    });
 
     // &#x3C; -> "<", &#x3e; -> ">", etc.
     /*eslint-disable quotes*/
-    let listHexEncodedChars = {'26': '&', '3C': '<', '3E': '>', '22': '"', '27': "'" };
+    let listHexEncodedChars = { '26': '&', '3C': '<', '3E': '>', '22': '"', '27': "'" };
     /*eslint-enable quotes*/
     decodedText = decodedText.replace(/&#x([^;]+);/gi, (l, c) => {
       let decodedChar = listHexEncodedChars[c];
       decodedChar = decodedChar ? decodedChar : l;
-      return decodedChar; });
+      return decodedChar;
+    });
 
-    decodedText = decodedText.replace(/&#(\d+);/g, function(match, dec) {
+    decodedText = decodedText.replace(/&#(\d+);/g, function (match, dec) {
       let fromCharCode = String.fromCharCode(dec);
-      return fromCharCode; });
+      return fromCharCode;
+    });
     return decodedText;
   }
 
@@ -91,4 +94,7 @@ class TextTools { /* exported TextTools*/
     /*eslint-enable no-useless-escape*/
   }
 
+  static replaceAt(text, substr, newSubstr, index) {
+    return text.slice(0, index) + text.slice(index).replace(substr, newSubstr);
+  }
 }
