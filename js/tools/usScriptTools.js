@@ -143,12 +143,12 @@ class USTools { /* exported USTools*/
     return rssHeader;
   }
 
-  static rssItem(title, link, pubDate, description, itemPos) {
+  static rssItem(title, link, pubDate, description) {
     let rssItem = '\
     <item>\
       <title>' + title + '</title>\
       <link>' + link + '</link>\
-      <guid>' + link + itemPos + '</guid>\
+      <guid>' + link + '</guid>\
       <pubDate>' + pubDate + '</pubDate>\
       <description><![CDATA[' + description + ']]></description>\
     </item>';
