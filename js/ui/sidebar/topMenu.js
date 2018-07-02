@@ -11,12 +11,6 @@ class TopMenu { /*exported TopMenu*/
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
-
-    this._autoUpdateInterval = undefined;
-    this._automaticUpdatesOnStartDone = false;
-    this._automaticUpdatesOnStar = DefaultValues.automaticFeedUpdatesOnStart;
-    this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
-    this._automaticUpdatesMilliseconds = undefined;
   }
 
   async init_async() {
@@ -32,9 +26,6 @@ class TopMenu { /*exported TopMenu*/
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
   }
 
   set workInProgress(value) {
@@ -95,18 +86,6 @@ class TopMenu { /*exported TopMenu*/
     CssManager.replaceStyle('.feedRead', visibleValue);
     CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
-  }
-
-  async _automaticFeedUpdate_async() {
-    if (!this._automaticUpdatesEnabled) { return; }
-    try {
-      await FeedManager.instance.checkFeeds_async('content');
-    }
-    catch (e) {
-      /*eslint-disable no-console*/
-      console.log(e);
-      /*eslint-enable no-console*/
-    }
   }
 
   async checkFeedsButtonClicked_event(event) {
@@ -191,45 +170,7 @@ class TopMenu { /*exported TopMenu*/
     await browser.runtime.openOptionsPage();
   }
 
-  async _automaticUpdateChanged_event() {
-    await this.updateAutomaticUpdateInterval();
-  }
-
   async showErrorsAsUnread_sbscrb() {
     this.updatedFeedsSetVisibility_async();
-  }
-
-  async _setAutomaticUpdatesEnabled_sbscrb(value) {
-    this._automaticUpdatesEnabled = value;
-    this._setAutoUpdateInterval();
-  }
-
-  async _setAutomaticUpdatesOnStar_sbscrb(value) {
-    this._automaticUpdatesOnStar = value;
-  }
-
-  async _setAutomaticUpdatesMilliseconds_sbscrb(value) {
-    let newValueMilliseconds = Math.max(value * 60000, 30000);
-    if (this._automaticUpdatesMilliseconds != newValueMilliseconds) {
-      this._automaticUpdatesMilliseconds = newValueMilliseconds;
-      this._setAutoUpdateInterval();
-    }
-  }
-
-  _setAutoUpdateInterval() {
-    if (this._autoUpdateInterval) {
-      clearInterval(this._autoUpdateInterval);
-    }
-    if (this._automaticUpdatesEnabled && this._automaticUpdatesMilliseconds) {
-      this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
-      this._doAutomaticUpdatesOnStart();
-    }
-  }
-
-  _doAutomaticUpdatesOnStart() {
-    if (this._automaticUpdatesOnStar && !this._automaticUpdatesOnStartDone) {
-      this._automaticFeedUpdate_async();
-    }
-    this._automaticUpdatesOnStartDone = true;
   }
 }
