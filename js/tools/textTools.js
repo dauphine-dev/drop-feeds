@@ -97,4 +97,8 @@ class TextTools { /* exported TextTools*/
   static replaceAt(text, substr, newSubstr, index) {
     return text.slice(0, index) + text.slice(index).replace(substr, newSubstr);
   }
+
+  static toPlainText(html) {
+    return html.replace(/<(?:.|\n)*?>/gm, '');
+  }
 }
