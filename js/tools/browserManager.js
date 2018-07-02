@@ -68,8 +68,7 @@ class BrowserManager { /* exported BrowserManager*/
     let dfTab = null;
     let openNewTab = this._alwaysOpenNewTab || openNewTabForce;
     let openNewTabForeground = openNewTabBackGroundForce ? false : this._openNewTabForeground;
-    let feedUrlStartPattern = 'blob:' + browser.extension.getURL('');
-    let isFeed = url.startsWith(feedUrlStartPattern);
+    let isFeed = BrowserManager.isDropFeedsUrl(url);
     let reuseDropFeedsTab = isFeed && this._reuseDropFeedsTab;
 
     if (BrowserManager.isDropFeedsTab(activeTab)) {
@@ -147,6 +146,10 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static isDropFeedsTab(tab) {
+    return BrowserManager.isDropFeedsUrl(tab.url);
+  }
+
+  static isDropFeedsUrl(tab) {
     let baseUrl = this.baseFeedUrl;
     return tab.url.startsWith(baseUrl);
   }
