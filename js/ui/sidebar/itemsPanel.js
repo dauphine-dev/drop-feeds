@@ -53,6 +53,7 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._markAllIPreviousItemsAsRead();
     await this._displayItems_async(items);
     ItemManager.instance.addItemClickEvents();
+    this.setContentHeight();
   }
 
   setContentHeight() {
