@@ -6,6 +6,11 @@ body {
   padding: 2% 8% 2% 8%;
   line-height: 1.5;
   font-family: "Open Sans", arial, x-locale-body, sans-serif;
+  vertical-align: middle;
+}
+
+img {
+  vertical-align: middle;
 }
 
 a {
