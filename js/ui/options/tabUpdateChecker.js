@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager CssManager*/
 'use strict';
 class TabUpdateChecker { /*exported TabUpdateChecker*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -25,10 +25,18 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     let elAutomaticFeedUpdates = document.getElementById('automaticFeedUpdatesCheckbox');
     elAutomaticFeedUpdates.checked =  await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
     elAutomaticFeedUpdates.addEventListener('click', (e) => { this._ifAutomaticFeedUpdatesCheckboxClicked_event(e); });
+    this._automaticFeedUpdatesOnStartEnabled(elAutomaticFeedUpdates.checked);
 
     let elAutomaticFeedUpdateMinutesNumber = document.getElementById('automaticFeedUpdateMinutesNumber');
     elAutomaticFeedUpdateMinutesNumber.value = await LocalStorageManager.getValue_async('automaticFeedUpdateMinutes', DefaultValues.automaticFeedUpdateMinutes);
     elAutomaticFeedUpdateMinutesNumber.addEventListener('change', (e) => { this._automaticFeedUpdateMinutesNumberChanged_event(e); });
+
+    let elAutomaticFeedUpdatesOnStartCheckbox = document.getElementById('automaticFeedUpdatesOnStartCheckbox');
+    elAutomaticFeedUpdatesOnStartCheckbox.checked = await LocalStorageManager.getValue_async('automaticFeedUpdatesOnStart', DefaultValues.automaticFeedUpdatesOnStart);
+    elAutomaticFeedUpdatesOnStartCheckbox.addEventListener('click', (e) => { this._automaticFeedUpdatesOnStartClicked_event(e); });
+
+
+
   }
 
   _updateLocalizedStrings() {
@@ -36,6 +44,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     document.getElementById('txtSeconds').textContent = browser.i18n.getMessage('optSeconds');
     document.getElementById('textAsynchronousFeedChecking').textContent = browser.i18n.getMessage('optAsynchronousFeedChecking');
     document.getElementById('txtAutoFeedUpdatesEvery').textContent = browser.i18n.getMessage('optAutoFeedUpdatesEvery');
+    document.getElementById('txtAutoFeedUpdatesOnStart').textContent = browser.i18n.getMessage('optAutoFeedUpdatesOnStart');
     document.getElementById('txtMinutes').textContent = browser.i18n.getMessage('optMinutes');
     document.getElementById('textShowNotifications').textContent = browser.i18n.getMessage('optShowNotifications');
     document.getElementById('textRetryWithHttp').textContent = browser.i18n.getMessage('optRetryWithHttp');
@@ -59,11 +68,30 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
   }
 
   async _ifAutomaticFeedUpdatesCheckboxClicked_event() {
-    await LocalStorageManager.setValue_async('automaticFeedUpdates', document.getElementById('automaticFeedUpdatesCheckbox').checked);
+    let checked = document.getElementById('automaticFeedUpdatesCheckbox').checked;
+    await LocalStorageManager.setValue_async('automaticFeedUpdates', checked);
+    this._automaticFeedUpdatesOnStartEnabled(checked);
+
+  }
+
+  _automaticFeedUpdatesOnStartEnabled(enabled) {
+    document.getElementById('automaticFeedUpdatesOnStartCheckbox').disabled = !enabled;
+    CssManager.setElementEnableById('txtAutoFeedUpdatesOnStart', enabled);
   }
 
   async _automaticFeedUpdateMinutesNumberChanged_event() {
     let automaticFeedUpdateMinutes = Number(document.getElementById('automaticFeedUpdateMinutesNumber').value);
     await LocalStorageManager.setValue_async('automaticFeedUpdateMinutes', automaticFeedUpdateMinutes);
   }
+
+  async _automaticFeedUpdatesCheckboxClicked_event() {
+    let checked = document.getElementById('automaticFeedUpdatesCheckbox').checked;
+    await LocalStorageManager.setValue_async('automaticFeedUpdates', checked);
+    this._automaticFeedUpdatesOnStartEnabled(checked);
+  }
+
+  async _automaticFeedUpdatesOnStartClicked_event() {
+    await LocalStorageManager.setValue_async('automaticFeedUpdatesOnStart', document.getElementById('automaticFeedUpdatesOnStartCheckbox').checked);
+  }
+
 }

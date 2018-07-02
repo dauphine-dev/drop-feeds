@@ -11,11 +11,12 @@ class TopMenu { /*exported TopMenu*/
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
+
     this._autoUpdateInterval = undefined;
+    this._automaticUpdatesOnStartDone = false;
+    this._automaticUpdatesOnStar = DefaultValues.automaticFeedUpdatesOnStart;
     this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
     this._automaticUpdatesMilliseconds = undefined;
-    this._automaticUpdatesOnStar = true;
-    this._automaticUpdatesOnStartDone = false;
   }
 
   async init_async() {
@@ -31,8 +32,9 @@ class TopMenu { /*exported TopMenu*/
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
   }
 
   set workInProgress(value) {
@@ -174,7 +176,6 @@ class TopMenu { /*exported TopMenu*/
     }
   }
 
-
   async _discoverFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -201,6 +202,10 @@ class TopMenu { /*exported TopMenu*/
   async _setAutomaticUpdatesEnabled_sbscrb(value) {
     this._automaticUpdatesEnabled = value;
     this._setAutoUpdateInterval();
+  }
+
+  async _setAutomaticUpdatesOnStar_sbscrb(value) {
+    this._automaticUpdatesOnStar = value;
   }
 
   async _setAutomaticUpdatesMilliseconds_sbscrb(value) {

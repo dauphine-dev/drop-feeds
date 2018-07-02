@@ -257,6 +257,9 @@
   "optMinutes": {
     "message": "minutes"
   },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Run an automatic feed update on start"
+  },
   "optShowNotifications": {
     "message": "Show notification popup after update"
   },

@@ -257,6 +257,9 @@
   "optMinutes": {
     "message": "分"
   },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Run an automatic feed update on start"
+  },
   "optShowNotifications": {
     "message": "更新通知をポップアップで表示"
   },

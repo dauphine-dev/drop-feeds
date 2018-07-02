@@ -257,6 +257,9 @@
   "optMinutes": {
     "message": "minutes"
   },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Executer une mise à jour automatique des flux au démarrage"
+  },
   "optShowNotifications": {
     "message": "Notifier une fois la vérification des flux terminée"
   },
