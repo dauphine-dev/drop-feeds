@@ -483,6 +483,7 @@ li {
   border-color: #9D9D9D;
   height: 30px;
   text-align: center;
+  padding-left: 5px;
 }
 
 #itemsTitle {
