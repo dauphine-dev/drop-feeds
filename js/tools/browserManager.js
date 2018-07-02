@@ -149,9 +149,9 @@ class BrowserManager { /* exported BrowserManager*/
     return BrowserManager.isDropFeedsUrl(tab.url);
   }
 
-  static isDropFeedsUrl(tab) {
+  static isDropFeedsUrl(url) {
     let baseUrl = this.baseFeedUrl;
-    return tab.url.startsWith(baseUrl);
+    return url.startsWith(baseUrl);
   }
 
   static async getActiveTab_async() {
