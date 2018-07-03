@@ -21,7 +21,7 @@
     "message": "Vérifier les flux"
   },
   "sbStopAndRestart": {
-    "message": "Stop la vérification des flux et relancer Drop feeds"
+    "message": "Stopper la vérification des flux et relancer Drop feeds"
   },
   "sbDiscoverFeeds": {
     "message": "Découvrir de nouveaux flux"
