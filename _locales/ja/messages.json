@@ -21,7 +21,7 @@
     "message": "更新"
   },
   "sbStopAndRestart": {
-    "message": "Stop checking and restart Drop feeds"
+    "message": "更新をやめてDropFeedsを再起動する"
   },
   "sbDiscoverFeeds": {
     "message": "検索"
@@ -261,7 +261,7 @@
     "message": "分"
   },
   "optAutoFeedUpdatesOnStart": {
-    "message": "Run an automatic feed update on start"
+    "message": "起動と同時にチェックする"
   },
   "optShowNotifications": {
     "message": "更新通知をポップアップで表示"
