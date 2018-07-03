@@ -43,7 +43,8 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
         but do it only if there not including in enclosing syntax (comments or strings, ...)
         */
         let parsed = '<span_reserved' + enclosingMark + '="' + ptCl.class + '">' + enclosingFixed + '</span>';
-        let regex = new RegExp(TextTools.escapeRegExp(syntaxMatch), 'g');
+        let bound = (ptCl.enclosing ? '' : '\\b');
+        let regex = new RegExp(bound + TextTools.escapeRegExp(syntaxMatch) + bound, 'g');
         let match = null;
         while ((match = regex.exec(text))) {
           if (!this.isIncludeInEnclosing(text, match.index)) {
