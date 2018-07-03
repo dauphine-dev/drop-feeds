@@ -9,25 +9,26 @@
 </head>
 
 <body>
-  <h1>Virtual feed scripts</h1>
+  <h1>Script de flux virtuel<br/>
+    <small>Virtual feed scripts</small></h1>
   <div>
-    <h2>Purpose</h2>
+    <h2>Objectif</h2>
     <div>
       <br>
     </div>
-    <div>Virtual feed scripts are designed&nbsp; to allow users to generate theirs own feeds.
+    <div>Les scripts de type transformation de flux sont conçus pour permettre aux utilisateurs de générer leur propre flux.
       <br>
     </div>
     <div>
       <br>
     </div>
     <div>
-      <h2>Create a new script
+      <h2>Créer un nouveau script
         <br>
       </h2>
-      <div>Open the option view go in "Advanced" tab and click on "Script manager".</div>
-      <div>From the "Script manager" view click on&nbsp;
-        <img src="/themes/_any/img/scripts-new.png">&nbsp; then a new script is created.</div>
+      <div>Allez dans les options puis sur l'onglet "Avancé" et cliquez sur "Gestionnaire de script".</div>
+      <div>Depuis le "Gestionnaire de script" cliquez sur&nbsp;
+        <img src="/themes/_any/img/scripts-new.png">&nbsp;et un nouveau script est créé.</div>
       <div>
         <br>
       </div>
@@ -36,26 +37,26 @@
       <div>
         <br>
       </div>
-      <div>Then you can :
+      <div>Alors vous pouvez :
         <br>
       </div>
       <ul>
         <li>.&nbsp;
-          <b>New script 1</b> : change its name</li>
+          <b>New script 1</b> : changer son nom</li>
         <li>.
-          <img src="/themes/_any/img/scripts-edit.png"> : open the code editor </li>
+          <img src="/themes/_any/img/scripts-edit.png"> : ouvrir l'éditeur de code</li>
         <li>.
-          <img src="/themes/_any/img/scripts-enabled.png"> : enable / disable it (it will be apply executed or not when you update feed, but it is still available for edition)
+          <img src="/themes/_any/img/scripts-enabled.png"> : l'activer / le désactiver (il sera ou ne sera pas exécuté lors de la mise à jour des flux, mais il sera toujours disponible pour l’édition et les tests)
           <br>
         </li>
         <li>.&nbsp;
-          <img src="/help/_any/img/help-feed-type-open.png"> : select the type of script (Feed transformer or Virtual feed)</li>
+          <img src="/help/_any/img/help-feed-type-open.png"> : sélectionner le type de script (Transformeur de flux ou Flux virtuel)</li>
         <li>.
-          <img src="/themes/_any/img/scripts-subscribe.png"> : subscribe to the  virtual feed</li>
+          <img src="/themes/_any/img/scripts-subscribe.png"> : vous abonner au flux virtuel</li>
         <li>.
-          <img src="/themes/_any/img/scripts-delete.png"> : delete the script</li>
+          <img src="/themes/_any/img/scripts-delete.png"> : supprimer le script</li>
         <li>.&nbsp;&nbsp;
-          <img src="/help/_any/img/help-last-edition.png"> : see the last edition time</li>
+          <img src="/help/_any/img/help-last-edition.png"> : voir le temps écoulé depuis la dernière modification</li>
       </ul>
       <div>
         <br>
@@ -64,11 +65,11 @@
         <br>
       </div>
       <div>
-        <h2>The script editor</h2>
+        <h2>L'éditeur de script</h2>
         <div>
           <br>
         </div>
-        <div>To open the script editor click on&nbsp;"
+        <div>Pour ouvrir l'éditeur de script cliquez sur&nbsp;"
           <img src="/themes/_any/img/scripts-edit.png">"
         </div>
         <div>
@@ -81,14 +82,14 @@
         <br>
       </div>
       <ul>
-        <li>. From the "Commands" panel you can save scripts or close the script editor.</li>
-        <li>. From&nbsp; the "Virtual feed" panel you can:</li>
+        <li>. Depuis le panneau de "Commandes" vous pouvez sauver le script ou fermer l'éditeur.</li>
+        <li>. Depuis le panneau "Transformeur de flux" vous pouvez :</li>
       </ul>
       <blockquote>
         <div>
           <ul>
-            <li>- test the script.</li>
-            <li>- subscribe to the virtual feed
+            <li>- tester le script.</li>
+            <li>- vous abonner au flux virtuel
               <br>
             </li>
           </ul>
@@ -96,24 +97,26 @@
       </blockquote>
       <div>
         <ul>
-          <li>. From "Info" panel you can access to help and examples</li>
-          <li>. From "Font" panel you can change font settings</li>
-        </ul>You can write your code in the main panel on right side, and at bottom you can see a console with execution informations
-        like: the script has been executed, or execution errors.</div>
+          <li>. Depuis le panneau "Info" vous pouvez accéder à l’aide et aux exemples</li>
+          <li>. Vous pouvez écrire votre code dans le panneau principal sur la droite, et
+            en dessous il y a une console qui vous permet de voir les informations d'exécution
+            comme : le script a bien été exécuté, ou les erreurs d'exécution.
+          </li>
+      </div>
       <div>
         <br>
       </div>
       <div>
-        <h2>How to write a Virtual feed script</h2>
+        <h2>Comment écrire un script de Flux virtuel</h2>
       </div>
     </div>
-    <div>Don't forget to select the
-      <img src="/help/_any/img/help-feed-type-v.png" alt="Virtual feed"> type before to&nbsp; open the script editor.
+    <div>Pour commencer n'oubliez pas de sélectionner le type&nbsp;
+      <img src="/help/_any/img/help-feed-type-v.png" alt="Virtual feed">&nbsp; avant d'ouvrir éditeur de script.
     </div>
     <br>
-    <div>You have to write an
-      <font color="#000099">async</font> entry point function and return directly it from the code mode.
-      <br/> This function have to return a text xml feed (RSS or ATOM).
+    <div>Vous devez écrire une fonction point d'entré de type&nbsp;
+      <font color="#000099">async</font>&nbsp; et retourner directement cette fonction depuis le module.
+      <br/>Cette fonction doit  retourner un texte qui contient un flux au format xml  (RSS or ATOM).
       <br>
     </div>
     <div>
@@ -125,32 +128,32 @@
     <div>
       <br>
     </div>
-    <div>In this example:
+    <div>Dans cet exemple :
       <br>
     </div>
     <div>
       <ul>
         <li>
-          . the entry point function is
-          <font color="#33CCFF">main</font>, it is defined as
-          <font color="#000099">async</font>, and it is returned directly from the module on the <b>line 8</b>.
+          . la fonction point d'entré est
+          <font color="#33CCFF">main</font>, elle est définie comme
+          <font color="#000099">async</font>, et elle est retournée directement depuis le module à la <b>ligne 8</b>.
         </li>
         <li>
-          . the
-          <font color="#33CCFF">main</font> function from <b>line 3 to 5</b> creates a RSS text xml feed (see
-          <a href="http://">USTOOLS</a> for more details).
+          . de la <b>ligne 3</b> à la <b>ligne 5</b> la fonction
+          <font color="#33CCFF">main</font> crée un texte xml de flux RSS  (voir
+          <a href="http://">USTOOLS</a> pour plus de détails).
         </li>
-        <li>. and the RSS text xml feed (<font color="#FF6666">rssXmlTest</font>) is returned to Drop Feeds on <b>line 5</b>
+        <li>. et le texte xml de flux RSS  (<font color="#FF6666">rssXmlTest</font>) est retourné à Drop Feeds à la <b>ligne 6</b>
         </li>
       </ul>
-      <div>That's all.</div>
+      <div>C'est tout.</div>
       <div>
         <br>
       </div>
       <div>
-        <b>Drop Feed</b> helps you to write scripts with a library called
-        <a href="http://">USTOOLS</a> (User Script TOOLS), and you can take a look to the Feed transformer script
-        <a href="https://pastebin.com/ddZxUdtT">example</a>.
+        <b>Drop Feed</b> peut vous aider à écrire des scripts grâce à sa bibliothèque appelée
+        <a href="http://">USTOOLS</a> (User Script TOOLS), et vous pouvez aussi regarder l'
+        <a href="https://pastebin.com/W6HaFQQz">exemple</a> de Flux virtuel.
         <br>
       </div>
       <div>
