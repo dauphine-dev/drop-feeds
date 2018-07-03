@@ -5,6 +5,7 @@ Rework item tooltips to get something closer to Sage++
 Fix items panel vertical scroll bar
 Drag and drop the feed url in man window
 Stop checking by clicking 'Check feeds' button during checking
+Adding security filter settings
 
 0.7.12
 Change sidebar shortcut to Ctrl+Shit+U
