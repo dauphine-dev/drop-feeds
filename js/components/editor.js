@@ -251,7 +251,7 @@ class Editor { /*exported Editor*/
     let editTextArea = document.getElementById('editTextArea');
     let hasVerticalScrollbar = (editTextArea.scrollHeight > editTextArea.offsetHeight);
     this._setScrollBar(editTextArea, _overflow.vertical, hasVerticalScrollbar);
-    let hasHorizontalScrollbar = (editTextArea.scrollHeight > editTextArea.offsetHeight);
+    let hasHorizontalScrollbar = (editTextArea.scrollWidth > editTextArea.offsetWidth);
     this._setScrollBar(editTextArea, _overflow.horizontal, hasHorizontalScrollbar);
   }
 
