@@ -1,7 +1,7 @@
 /*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
 ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
-
+const _dropfeedsId = 'dropfeedsId=';
 class TreeView { /*exported TreeView*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -234,8 +234,9 @@ class TreeView { /*exported TreeView*/
 
   async _feedOnDragStart_event(event){
     event.stopPropagation();
-    let elementId = this._cleanId(event.target.id);
-    event.dataTransfer.setData('text', elementId);
+    let origin = event.target.getAttribute('origin');
+    let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
+    event.dataTransfer.setData('text', data);
   }
 
   async _feedOnDragOver_event(event){
@@ -246,7 +247,8 @@ class TreeView { /*exported TreeView*/
   async _feedOnDrop_event(event){
     event.stopPropagation();
     event.preventDefault();
-    let feedToMoveId = event.dataTransfer.getData('text');
+    let data = event.dataTransfer.getData('text');
+    let feedToMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let targetFeedId = this._cleanId(event.target.id);
     await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
   }
@@ -325,7 +327,7 @@ class TreeView { /*exported TreeView*/
     let feedName = bookmarkItem.title;
     let className = this._getFeedClassName(cacheLocalStorage, bookmarkItem.id);
     let feedLine = TextTools.makeIndent(indent) +
-    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true">' + feedName + '</li>\n';
+    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true" origin="' + bookmarkItem.url + '">' + feedName + '</li>\n';
     this._html.push(feedLine);
   }
 
