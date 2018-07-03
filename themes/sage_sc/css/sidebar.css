@@ -1,10 +1,11 @@
-body{
+body {
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
   background-color: white;
   line-height: 16px;
 }
+
 #content {
   margin-top: 1px;
   padding-top: 7px;
@@ -12,15 +13,17 @@ body{
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 .contentHeight {
-  height:100px;
+  height: 100px;
 }
 
 .atRight {
-  float:right;
+  float: right;
 }
 
 /* top menu */
+
 .topMenu {
   display: block;
   background-color: #E8E8E8;
@@ -41,10 +44,12 @@ body{
   border: 1px outset #70707000;
   border-radius: 4px;
 }
+
 .topMenuItem:hover {
   border: 1px outset #707070;
   border-radius: 4px;
 }
+
 .topMenuItemSelected {
   display: inline-block;
   margin-top: -1px;
@@ -65,8 +70,9 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
+  cursor: auto;
 }
 
 .checkFeedsButtonAnim::before {
@@ -79,8 +85,9 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
+  cursor: url(/themes/_any/img/restart.png), not-allowed;
 }
 
 #discoverFeedsButton::before {
@@ -93,7 +100,7 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -107,7 +114,7 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -121,9 +128,10 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
+
 #toggleFoldersButton::before {
   background-image: url(/themes/sage_sc/img/toggle-folders.png);
   background-size: 26px 24px;
@@ -134,9 +142,10 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
+
 #addFeedButton::before {
   background-size: 18px 17px;
   background-position: center;
@@ -146,12 +155,14 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
+
 .subscribeGo::before {
   background-image: url(/themes/sage_sc/img/subscribe-go.png);
 }
+
 .subscribeAdd::before {
   background-image: url(/themes/sage_sc/img/subscribe-add.png);
 }
@@ -166,11 +177,12 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
 /* status bar*/
+
 #statusBar {
   display: block;
   background-color: #E8E8E8;
@@ -195,7 +207,7 @@ body{
   display: inline-block;
   width: 18px;
   height: 24px;
-  content:"";
+  content: "";
 }
 
 #statusText {
@@ -204,27 +216,33 @@ body{
 }
 
 /* folders */
+
 input[type="checkbox"] {
   display: none;
 }
-input ~ ul {
+
+input~ul {
   display: none;
 }
-input ~ label {
+
+input~label {
   line-height: 18px;
   margin-bottom: 1px;
 }
 
-input:checked ~ ul {
+input:checked~ul {
   display: block;
 }
-input ~ .folderOpen {
+
+input~.folderOpen {
   display: none;
 }
-input:checked ~ .folderClose {
+
+input:checked~.folderClose {
   display: none;
 }
-input:checked ~ .folderOpen {
+
+input:checked~.folderOpen {
   display: inline;
 }
 
@@ -235,7 +253,7 @@ input:checked ~ .folderOpen {
   display: inline-block;
   width: 16px;
   height: 16px;
-  content:"";
+  content: "";
   margin-right: 2px;
   margin-bottom: 2px;
   vertical-align: text-bottom;
@@ -248,7 +266,7 @@ input:checked ~ .folderOpen {
   display: inline-block;
   width: 16px;
   height: 16px;
-  content:"";
+  content: "";
   margin-right: 2px;
   margin-bottom: 2px;
   vertical-align: text-bottom;
@@ -263,6 +281,7 @@ ul {
 }
 
 /* feeds */
+
 li {
   display: block;
   margin-top: -1px;
@@ -276,15 +295,17 @@ li {
   display: inline-block;
   width: 16px;
   height: 16px;
-  content:"";
+  content: "";
   padding-right: 2px;
   margin-top: 2px;
   margin-bottom: 2px;
   vertical-align: text-bottom;
 }
+
 .feedRead {
   font-weight: normal;
 }
+
 .feedRead:hover {
   display: block;
   text-decoration: underline;
@@ -295,14 +316,15 @@ li {
   text-decoration: underline;
   cursor: pointer;
 }
-.feedUnread::before  {
+
+.feedUnread::before {
   background-image: url(/themes/sage_sc/img/feed-unread.png);
   background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
   width: 16px;
   height: 16px;
-  content:"";
+  content: "";
   padding-right: 2px;
   margin-top: 2px;
   margin-bottom: 2px;
@@ -312,6 +334,7 @@ li {
 .feedUnread {
   font-weight: bold;
 }
+
 .feedError::before {
   background-image: url(/themes/sage_sc/img/feed-error.png);
   background-size: 16px 16px;
@@ -319,7 +342,7 @@ li {
   display: inline-block;
   width: 16px;
   height: 16px;
-  content:"";
+  content: "";
   padding-right: 2px;
   margin-top: 2px;
   margin-bottom: 2px;
@@ -335,79 +358,95 @@ li {
   cursor: pointer;
 }
 
-
 /* context menu */
+
 .contextMenuStyle {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
   padding-right: 20px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
   z-index: 1;
 }
 
 .show {
-  display:block;
+  display: block;
 }
+
 .visibilityVisible {
   visibility: visible;
 }
+
 .displayNone {
-  display:none;
-}
-.displayNone::before {
-  display:none;
+  display: none;
 }
 
+.displayNone::before {
+  display: none;
+}
 
 #ctxFldMnCheckFeeds::before {
   background-image: url(/themes/sage_sc/img/check-feeds.png);
 }
+
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/themes/sage_sc/img/feed-read.png);
 }
+
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/themes/sage_sc/img/feed-unread.png);
 }
+
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/themes/sage_sc/img/feed-open.png);
 }
+
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/themes/sage_sc/img/merge.png);
 }
+
 #ctxFldMnSortByName::before {
   background-image: url(/themes/sage_sc/img/sort.png);
 }
+
 #ctxFldMnNewFolder::before {
   background-image: url(/themes/sage_sc/img/folder-new.png);
 }
+
 #ctxFldMnDeleteFolder::before {
   background-image: url(/themes/sage_sc/img/delete.png);
 }
+
 #ctxFldMnInfo::before {
   background-image: url(/themes/sage_sc/img/folder-info.png);
 }
 
-
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/themes/sage_sc/img/title.png);
 }
+
 #ctxFdMnOpenFeed::before {
   background-image: url(/themes/sage_sc/img/feed-open.png);
 }
+
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/themes/sage_sc/img/feed-read.png);
 }
+
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/themes/sage_sc/img/feed-unread.png);
 }
+
 #ctxFdMnNewFolder::before {
   background-image: url(/themes/sage_sc/img/folder-new.png);
 }
+
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/themes/sage_sc/img/delete.png);
 }
+
 #ctxFdMnInfo::before {
   background-image: url(/themes/sage_sc/img/feed-info.png);
 }
@@ -425,7 +464,6 @@ li {
   line-height: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
-
 }
 
 .ctxMenuItem::before {
@@ -437,7 +475,6 @@ li {
   display: inline-block;
   vertical-align: middle;
 }
-
 
 .ctxMenuItem:hover {
   background-color: #999999;
@@ -455,6 +492,7 @@ li {
 }
 
 /* items pane */
+
 #mainItemsPane {
   display: none;
   background-color: #e8e8e8;
@@ -512,7 +550,6 @@ li {
   text-decoration: underline;
 }
 
-
 #itemsPaneToolBar {
   display: none;
   background-color: #e8e8e8;
@@ -534,7 +571,7 @@ li {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -548,7 +585,7 @@ li {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -562,7 +599,7 @@ li {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -576,10 +613,9 @@ li {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
-
 
 #itemOpenUnreadButton::before {
   background-image: url(/themes/sage_sc/img/itemOpenUnreadButton.png);
@@ -591,7 +627,7 @@ li {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -624,6 +660,7 @@ li {
 }
 
 /* new folder dialog */
+
 #newFolderDialog {
   position: absolute;
   left: 80px;
@@ -634,15 +671,17 @@ li {
   padding: 10px;
   z-index: 1;
 }
+
 .hide {
   display: none;
 }
 
 .show {
-  display:block;
+  display: block;
 }
 
 /* info view */
+
 #infoView {
   position: absolute;
   background-color: #f9f9f9;
@@ -650,7 +689,8 @@ li {
   top: 200px;
   font-size: 99%;
   min-width: 160px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
   padding: 0;
   z-index: 1;
 }
@@ -669,6 +709,7 @@ li {
 #infoViewTable {
   table-layout: fixed;
 }
+
 #infoViewTable td:last-child {
   width: 100%;
 }

@@ -11,6 +11,7 @@ class TopMenu { /*exported TopMenu*/
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
+    this._checkingFeeds = false;
   }
 
   async init_async() {
@@ -54,14 +55,18 @@ class TopMenu { /*exported TopMenu*/
     }
   }
 
-  animateCheckFeedButton(animationEnable) {
-    if (animationEnable) {
-      document.getElementById('checkFeedsButton').classList.add('checkFeedsButtonAnim');
-      document.getElementById('checkFeedsButton').classList.remove('checkFeedsButton');
+  animateCheckFeedButton(checkingFeeds) {
+    this._checkingFeeds = checkingFeeds;
+    let checkFeedsButton = document.getElementById('checkFeedsButton');
+    if (this._checkingFeeds) {
+      checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
+      checkFeedsButton.classList.add('checkFeedsButtonAnim');
+      checkFeedsButton.classList.remove('checkFeedsButton');
     }
     else {
-      document.getElementById('checkFeedsButton').classList.add('checkFeedsButton');
-      document.getElementById('checkFeedsButton').classList.remove('checkFeedsButtonAnim');
+      checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
+      checkFeedsButton.classList.add('checkFeedsButton');
+      checkFeedsButton.classList.remove('checkFeedsButtonAnim');
     }
   }
 
@@ -91,6 +96,10 @@ class TopMenu { /*exported TopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
+    if (this._checkingFeeds) {
+      await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+      return;
+    }
     FeedManager.instance.checkFeeds_async('content');
   }
 

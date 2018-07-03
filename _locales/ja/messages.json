@@ -20,6 +20,9 @@
   "sbCheckFeeds": {
     "message": "更新"
   },
+  "sbStopAndRestart": {
+    "message": "Stop checking and restart Drop feeds"
+  },
   "sbDiscoverFeeds": {
     "message": "検索"
   },

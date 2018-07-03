@@ -1,9 +1,10 @@
-body{
+body {
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
   background-color: #E0E0EF;
 }
+
 #content {
   margin-top: 1px;
   padding-top: 7px;
@@ -11,15 +12,17 @@ body{
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 .contentHeight {
-  height:100px;
+  height: 100px;
 }
 
 .atRight {
-  float:right;
+  float: right;
 }
 
 /* top menu */
+
 .topMenu {
   display: block;
   background-color: #E8E8E8;
@@ -40,10 +43,12 @@ body{
   border: 1px outset #70707000;
   border-radius: 4px;
 }
+
 .topMenuItem:hover {
   border: 1px outset #707070;
   border-radius: 4px;
 }
+
 .topMenuItemSelected {
   display: inline-block;
   margin-top: -1px;
@@ -64,9 +69,11 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
+  cursor: auto;
 }
+
 .checkFeedsButtonAnim::before {
   background-image: url(/themes/dauphine/img/check-feeds-animation.gif);
   background-size: 20px 20px;
@@ -77,9 +84,11 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
+  cursor: url(/themes/_any/img/restart.png), not-allowed;
 }
+
 #discoverFeedsButton::before {
   background-image: url(/themes/dauphine/img/magnify.png);
   background-size: 20px 20px;
@@ -90,7 +99,7 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -104,7 +113,7 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -118,7 +127,7 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -132,9 +141,10 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
+
 #addFeedButton::before {
   background-size: 20px 20px;
   background-position: center;
@@ -144,12 +154,14 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
+
 .subscribeGo::before {
   background-image: url(/themes/dauphine/img/subscribe-go.png);
 }
+
 .subscribeAdd::before {
   background-image: url(/themes/dauphine/img/subscribe-add.png);
 }
@@ -164,11 +176,12 @@ body{
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
 /* status bar*/
+
 #statusBar {
   display: block;
   background-color: #E8E8E8;
@@ -195,7 +208,7 @@ body{
   border-radius: 4px;
   width: 34px;
   height: 19px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -205,34 +218,44 @@ body{
 }
 
 /* folders */
+
 label {
   font-weight: bold;
   color: #4f4545;
 }
+
 input[type="checkbox"] {
   display: none;
 }
-input ~ ul {
+
+input~ul {
   display: none;
 }
-input:checked ~ ul {
+
+input:checked~ul {
   display: block;
 }
-input ~ .folderOpen {
+
+input~.folderOpen {
   display: none;
 }
-input:checked ~ .folderClose {
+
+input:checked~.folderClose {
   display: none;
 }
-input:checked ~ .folderOpen {
+
+input:checked~.folderOpen {
   display: inline;
 }
+
 .folderOpen::before {
   content: "-";
 }
+
 .folderClose::before {
   content: "+";
 }
+
 ul {
   margin-left: -20px;
 }
@@ -242,15 +265,18 @@ ul {
 }
 
 /* feeds */
+
 li {
   display: block;
   margin-top: -1px;
   margin-bottom: -1px;
   ;
 }
+
 li.feedRead {
   color: #7F7F70;
 }
+
 li.feedUnread {
   color: #44486E;
 }
@@ -259,11 +285,13 @@ li.feedUnread {
   content: '.';
   padding-left: 1px;
 }
+
 .feedRead:hover {
   display: block;
   text-decoration: underline;
   cursor: pointer;
 }
+
 .feedRead {
   margin: -10px 0 -10px 0;
 }
@@ -272,17 +300,21 @@ li.feedUnread {
   text-decoration: underline;
   cursor: pointer;
 }
-.feedUnread::before  {
+
+.feedUnread::before {
   padding-left: 1px;
   content: '.';
 }
+
 .feedUnread {
   font-weight: bold;
 }
+
 .feedError::before {
   content: url(/themes/dauphine/img/feed-error.png);
   padding-right: 5px;
 }
+
 .feedError {
   visibility: visible;
 }
@@ -293,54 +325,66 @@ li.feedUnread {
 }
 
 /* context menu */
+
 .contextMenuStyle {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
   padding-right: 20px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
   z-index: 1;
 }
 
 .show {
-  display:block;
+  display: block;
 }
+
 .visibilityVisible {
   visibility: visible;
 }
+
 .displayNone {
-  display:none;
-}
-.displayNone::before {
-  display:none;
+  display: none;
 }
 
+.displayNone::before {
+  display: none;
+}
 
 #ctxFldMnCheckFeeds::before {
   background-image: url(/themes/dauphine/img/check-feeds.png);
 }
+
 #ctxFldMnMarkAllAsRead::before {
   background-image: url(/themes/dauphine/img/mark-as-read.png);
 }
+
 #ctxFldMnMarkAllAsUpdated::before {
   background-image: url(/themes/dauphine/img/mark-as-unread.png);
 }
+
 #ctxFldMnOpenAllUpdated::before {
   background-image: url(/themes/dauphine/img/feed-open.png);
 }
+
 #ctxFldMnOpenUpdatedAsUnified::before {
   background-image: url(/themes/dauphine/img/merge.png);
 }
+
 #ctxFldMnSortByName::before {
   background-image: url(/themes/dauphine/img/sort.png);
 }
+
 #ctxFldMnNewFolder::before {
   background-image: url(/themes/dauphine/img/folder-new.png);
 }
+
 #ctxFldMnDeleteFolder::before {
   background-image: url(/themes/dauphine/img/delete.png);
 }
+
 #ctxFldMnInfo::before {
   background-image: url(/themes/dauphine/img/folder-info.png);
 }
@@ -348,21 +392,27 @@ li.feedUnread {
 #ctxFdtMnGetFeedTitle::before {
   background-image: url(/themes/dauphine/img/title.png);
 }
+
 #ctxFdMnOpenFeed::before {
   background-image: url(/themes/dauphine/img/feed-open.png);
 }
+
 #ctxFdMnMarkFeedAsRead::before {
   background-image: url(/themes/dauphine/img/mark-as-read.png);
 }
+
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: url(/themes/dauphine/img/mark-as-unread.png);
 }
+
 #ctxFdMnNewFolder::before {
   background-image: url(/themes/dauphine/img/folder-new.png);
 }
+
 #ctxFdtMnDeleteFeed::before {
   background-image: url(/themes/dauphine/img/delete.png);
 }
+
 #ctxFdMnInfo::before {
   background-image: url(/themes/dauphine/img/feed-info.png);
 }
@@ -408,6 +458,7 @@ li.feedUnread {
 }
 
 /* items pane */
+
 #mainItemsPane {
   display: none;
   position: absolute;
@@ -485,7 +536,7 @@ li.feedUnread {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -499,7 +550,7 @@ li.feedUnread {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -513,7 +564,7 @@ li.feedUnread {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -527,10 +578,9 @@ li.feedUnread {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
-
 
 #itemOpenUnreadButton::before {
   background-image: url(/themes/dauphine/img/itemOpenUnreadButton.png);
@@ -542,7 +592,7 @@ li.feedUnread {
   border: solid 1px #00000000;
   width: 34px;
   height: 34px;
-  content:"";
+  content: "";
   padding: 0;
 }
 
@@ -576,6 +626,7 @@ li.feedUnread {
 }
 
 /* new folder dialog */
+
 #newFolderDialog {
   background-color: #E0E0EF;
   position: absolute;
@@ -592,10 +643,11 @@ li.feedUnread {
 }
 
 .show {
-  display:block;
+  display: block;
 }
 
 /* info view */
+
 #infoView {
   position: absolute;
   background-color: #f9f9f9;
@@ -603,7 +655,8 @@ li.feedUnread {
   top: 200px;
   font-size: 99%;
   min-width: 160px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
   padding: 0;
   z-index: 1;
 }
@@ -622,6 +675,7 @@ li.feedUnread {
 #infoViewTable {
   table-layout: fixed;
 }
+
 #infoViewTable td:last-child {
   width: 100%;
 }

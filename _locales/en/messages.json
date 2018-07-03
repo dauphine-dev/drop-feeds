@@ -20,6 +20,9 @@
   "sbCheckFeeds": {
     "message": "Check feeds"
   },
+  "sbStopAndRestart": {
+    "message": "Stop checking and restart Drop feeds"
+  },
   "sbDiscoverFeeds": {
     "message": "Discover feeds"
   },
