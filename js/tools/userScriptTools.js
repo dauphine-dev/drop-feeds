@@ -22,13 +22,17 @@ class UserScriptTools { /* exported UserScriptTools */
     await this._loadScriptInfos_async();
   }
 
-  async runFeedTransformerScripts_async(url, feedText, scriptCallbacks) {
-    let testMode = Boolean(scriptCallbacks);
-    if (testMode) { await this._loadScriptInfos_async(); }
+  async runFeedTransformerScripts_async(url, feedText, scriptData) {
+    let testMode = Boolean(scriptData);
+    let testId = undefined;
+    if (testMode) {
+      await this._loadScriptInfos_async();
+      testId = scriptData.id;
+    }
     let scriptObjTransformerMatchedList = this._scriptObjList.filter(
-      so => so.type == scriptType.feedTransformer && so.enabled && this._isUrlMatch(so, url));
+      so => so.type == scriptType.feedTransformer && (so.enabled || testId == so.id)  && this._isUrlMatch(so, url));
     for (let scriptObj of scriptObjTransformerMatchedList) {
-      feedText = await this._runScript_async(scriptObj, feedText, scriptCallbacks);
+      feedText = await this._runScript_async(scriptObj, feedText, scriptData);
     }
     return feedText;
   }
@@ -47,11 +51,18 @@ class UserScriptTools { /* exported UserScriptTools */
         this._scriptObjList.push(scriptObj);
       }
     }
-
   }
 
-  async downloadVirtualFeed_async(url, scriptCallbacks) {
+  async downloadVirtualFeed_async(url, scriptData) {
+    let testMode = Boolean(scriptData);
+    let enabled = false;
+    let testId = undefined;
     let scriptId = url.substring(scriptVirtualProtocol.length).trim();
+    if (testMode) { testId = scriptData.id; }
+    let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
+    if (scriptObj) { enabled = scriptObj.enabled || scriptObj.id == testId;  }
+    if (!enabled) { return; }
+
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, null);
     if (scriptCode) {
       let feedText = null, scriptError = null;
@@ -62,15 +73,15 @@ class UserScriptTools { /* exported UserScriptTools */
       catch (e) {
         scriptError = e;
       }
-      if (scriptCallbacks) {
-        if (scriptError) { if (scriptCallbacks.error) { scriptCallbacks.error(scriptError); } }
-        else { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
+      if (scriptData) {
+        if (scriptError) { if (scriptData.errorCallback) { scriptData.errorCallback(scriptError); } }
+        else { if (scriptData.executedCallback) { scriptData.executedCallback(); } }
       }
       return feedText;
     }
   }
 
-  async _runScript_async(scriptObj, feedText, scriptCallbacks) {
+  async _runScript_async(scriptObj, feedText, scriptData) {
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptObj.id, null);
     if (scriptCode) {
       let feedTextUpdated = null, scriptError = null;
@@ -81,9 +92,9 @@ class UserScriptTools { /* exported UserScriptTools */
       catch (e) {
         scriptError = e;
       }
-      if (scriptCallbacks) {
-        if (scriptError) { if (scriptCallbacks.error) { scriptCallbacks.error(scriptError); } }
-        else { if (scriptCallbacks.executed) { scriptCallbacks.executed(); } }
+      if (scriptData) {
+        if (scriptError) { if (scriptData.errorCallback) { scriptData.errorCallback(scriptError); } }
+        else { if (scriptData.executedCallback) { scriptData.executedCallback(); } }
       }
       feedText = feedTextUpdated || feedText;
     }

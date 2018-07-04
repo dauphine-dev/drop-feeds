@@ -165,7 +165,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this.save_async();
     let feedTestUrl = document.getElementById('testUrl').value;
     await this.displayUrlMatchToConsole_async(feedTestUrl);
-    this._TestScript_async(feedTestUrl);
+    this._testScript_async(feedTestUrl);
   }
 
   async displayUrlMatchToConsole_async(url) {
@@ -178,7 +178,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this.save_async();
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
-      this._TestScript_async(scriptObj.virtualUrl);
+      this._testScript_async(scriptObj.virtualUrl);
     }
   }
 
@@ -201,12 +201,11 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     //console.log('delta:', delta, ' clientWidth:', leftBox.clientWidth);
   }
 
-
-  async _TestScript_async(feedTestUrl) {
+  async _testScript_async(feedTestUrl) {
     let feed = await Feed.newByUrl(feedTestUrl);
 
-    let scriptCallbacks = { executed: (v) => { this._onScriptExecuted(v); }, error: (e) => { this._onScriptError(e); } };
-    await feed.update_async(scriptCallbacks);
+    let scriptData = { id: this._scriptId, executedCallback: (v) => { this._onScriptExecuted(v); }, errorCallback: (e) => { this._onScriptError(e); } };
+    await feed.update_async(scriptData);
     let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList };
     await browser.runtime.sendMessage({ key: 'displayItems', value: displayItemsValue });
     let openNewTabForce = false, openNewTabBackGroundForce = true;
