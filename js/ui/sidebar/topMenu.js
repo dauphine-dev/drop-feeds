@@ -1,5 +1,6 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM*/
 'use strict';
+const _delayMsStopChecking = 500;
 class TopMenu { /*exported TopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -12,6 +13,7 @@ class TopMenu { /*exported TopMenu*/
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
     this._checkingFeeds = false;
+    this._checkingFeedsStartTime = new Date();
   }
 
   async init_async() {
@@ -57,16 +59,20 @@ class TopMenu { /*exported TopMenu*/
 
   animateCheckFeedButton(checkingFeeds) {
     this._checkingFeeds = checkingFeeds;
+    this._checkingFeedsStartTime = new Date();
     let checkFeedsButton = document.getElementById('checkFeedsButton');
     if (this._checkingFeeds) {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');
+      setTimeout(() => {checkFeedsButton.classList.add('checkFeedsButtonCursorRestart');}, _delayMsStopChecking);
+
     }
     else {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
       checkFeedsButton.classList.add('checkFeedsButton');
       checkFeedsButton.classList.remove('checkFeedsButtonAnim');
+      checkFeedsButton.classList.remove('checkFeedsButtonCursorRestart');
     }
   }
 
@@ -96,7 +102,8 @@ class TopMenu { /*exported TopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    if (this._checkingFeeds) {
+    let checkingFeedsStartTimeDelay  = new Date(this._checkingFeedsStartTime.getTime() + _delayMsStopChecking);
+    if (this._checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
       await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
       return;
     }

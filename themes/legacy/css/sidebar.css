@@ -87,6 +87,9 @@ body {
   height: 34px;
   content: "";
   padding: 0;
+}
+
+.checkFeedsButtonCursorRestart::before {
   cursor: url(/themes/_any/img/restart.png), not-allowed;
 }
 
