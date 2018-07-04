@@ -559,6 +559,7 @@ class FeedParser { /*exported FeedParser*/
 
   static _getDescription(itemText) {
     let description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
+    if (!description) { return ''; }
     description = FeedParser._fixDescriptionTags(description);
     description = FeedParser._applySecurityFilters(description);
     return description;
