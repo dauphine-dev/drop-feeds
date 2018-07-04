@@ -309,7 +309,7 @@
     "message": "Import..."
   },
   "optSelectOpmlFileToExport": {
-    "message": "Select where to export the ompl file"
+    "message": "Select where to export the opml file"
   },
   "optExport": {
     "message": "Export..."

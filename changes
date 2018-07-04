@@ -3,7 +3,7 @@ User scripts
 Add 'Run an automatic feed update on start' option
 Rework item tooltips to get something closer to Sage++
 Fix items panel vertical scroll bar
-Drag and drop the feed url in man window
+Drag and drop the feed url in main window
 Stop checking by clicking 'Check feeds' button during checking
 Adding security filter settings
 Youtube feeds detection

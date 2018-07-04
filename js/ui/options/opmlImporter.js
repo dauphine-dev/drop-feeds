@@ -21,11 +21,11 @@ class OpmlImporter { /*exported OpmlImporter*/
     this._progressBarImport = new ProgressBar('progressBarImport');
     let isOpmlValid = this._opmlIsValid(opmlText);
     if (isOpmlValid) {
-      await this._importOmplOutlinesAsync(opmlText);
+      await this._importOpmlOutlinesAsync(opmlText);
       LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     }
     else {
-      this._progressBarImport.text = 'Invalid ompl file!';
+      this._progressBarImport.text = 'Invalid opml file!';
       await DateTime.delay_async(2000);
       this._progressBarImport.hide();
     }
@@ -39,7 +39,7 @@ class OpmlImporter { /*exported OpmlImporter*/
 
   }
 
-  async _importOmplOutlinesAsync(opmlText) {
+  async _importOpmlOutlinesAsync(opmlText) {
     let folderId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     await this._cleanBookmarkFolder_async(folderId);
     await LocalStorageManager.clean_async();
