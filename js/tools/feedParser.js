@@ -524,7 +524,9 @@ class FeedParser { /*exported FeedParser*/
     if (!title) { title = '(No Title)'; }
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
-    let visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : '';
+    let visited = undefined;
+    try { visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : ''; }
+    catch(e) { }
     let tooltipText = FeedParser._getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
     let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
