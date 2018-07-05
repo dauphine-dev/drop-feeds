@@ -1,51 +1,10 @@
-/*global BrowserManager TextTools SyntaxHighlighter EditorMenu LocalStorageManager DefaultValues*/
+/*global BrowserManager TextTools SyntaxHighlighter EditorMenu LocalStorageManager DefaultValues TextConsole UndoRedoTextArea*/
 'use strict';
 const _cssEditorPath = '/themes/_any/css/editor.css';
 const _overflow = {
   vertical: 0,
   horizontal: 1
 };
-
-const _messageType = { default: 0, ok: 1, error: 2 };
-
-
-class EditorConsole { /*exported Console*/
-  static get messageType() {
-    return _messageType;
-  }
-
-  write(text, messageType) {
-    let editConsole = document.getElementById('editConsole');
-    let style = '';
-    let css = '';
-    if (!messageType) { messageType = _messageType.default; }
-    switch (messageType) {
-      case _messageType.default:
-        css = ' class="editorConsoleTextDefault" ';
-        break;
-      case _messageType.ok:
-        css = ' class="editorConsoleTextOk" ';
-        break;
-      case _messageType.error:
-        css = ' class="editorConsoleTextError" ';
-        break;
-      default:
-        style = ' style=' + messageType + ' ';
-    }
-    let html = '<span' + css + style + '>' + text + '</span>';
-    editConsole.insertAdjacentHTML('beforeend', html);
-    editConsole.scrollTop = editConsole.scrollHeight;
-  }
-
-  writeLine(text, messageType) {
-    this.write(text + '<br/>', messageType);
-  }
-
-  clear() {
-    let editConsole = document.getElementById('editConsole');
-    editConsole.textContent = '';
-  }
-}
 
 class Editor { /*exported Editor*/
   constructor(syntaxFilePath, saveCallback) {
@@ -59,7 +18,11 @@ class Editor { /*exported Editor*/
     this._saveCallback = saveCallback;
     this._isResizing = false;
     this._lastDownY = 0;
-    this._console = new EditorConsole();
+    this._editTextArea = undefined;
+    this._editHighlightedCode = undefined;
+    this._editorMenu = new EditorMenu(this);
+    this._textConsole = new TextConsole();
+    this._undoRedo = new UndoRedoTextArea();
   }
 
   async init_async() {
@@ -69,18 +32,23 @@ class Editor { /*exported Editor*/
     await this._highlighter.init_async();
   }
 
-  get console() {
-    return this._console;
+  get editorConsole() {
+    return this._textConsole;
   }
 
-  attachEditor(baseElement) {
+  attach(baseElement) {
     this._baseElement = baseElement;
     this._createElements();
+    this._undoRedo.attach(this._editTextArea);
     this._appendCss();
   }
 
   attachMenu(baseElement) {
-    (new EditorMenu(this)).attach(baseElement);
+    this._editorMenu.attach(baseElement);
+  }
+
+  attachConsole(consoleElement) {
+    this._textConsole.attach(consoleElement);
   }
 
   get fontFamily() {
@@ -89,9 +57,9 @@ class Editor { /*exported Editor*/
 
   set fontFamily(value) {
     this._editorFontFamily = value;
-    document.getElementById('editTextArea').style.fontFamily = value;
-    document.getElementById('editHighlightedCode').style.fontFamily = value;
-    document.getElementById('editLineNumber').style.fontFamily = value;
+    this._editTextArea.style.fontFamily = value;
+    this._editHighlightedCode.style.fontFamily = value;
+    this._editLineNumber.style.fontFamily = value;
     LocalStorageManager.setValue_async('editorFontFamily', value);
   }
 
@@ -101,16 +69,16 @@ class Editor { /*exported Editor*/
 
   set fontSize(value) {
     this._editorFontSize = value;
-    document.getElementById('editTextArea').style.fontSize = value + 'px';
-    document.getElementById('editHighlightedCode').style.fontSize = value + 'px';
-    document.getElementById('editLineNumber').style.fontSize = value + 'px';
+    this._editTextArea.style.fontSize = value + 'px';
+    this._editHighlightedCode.style.fontSize = value + 'px';
+    this._editLineNumber.style.fontSize = value + 'px';
     LocalStorageManager.setValue_async('editorFontSize', value);
   }
 
   async setText_async(text) {
-    let textArea = document.getElementById('editTextArea');
-    textArea.value = text;
+    this._editTextArea.value = text;
     this._highlightText();
+    this._undoRedo.reset();
   }
 
   update() {
@@ -119,7 +87,7 @@ class Editor { /*exported Editor*/
   }
 
   getText() {
-    let text = document.getElementById('editTextArea').value;
+    let text = this._editTextArea.value;
     return text;
   }
 
@@ -132,7 +100,7 @@ class Editor { /*exported Editor*/
     if (lineNum > 1) {
       lineNumberString += i;
     }
-    document.getElementById('editLineNumber').textContent = lineNumberString;
+    this._editLineNumber.textContent = lineNumberString;
   }
 
   _createElements() {
@@ -164,14 +132,15 @@ class Editor { /*exported Editor*/
     </div>\n';
 
     this._baseElement.insertAdjacentHTML('beforeend', editorHtml);
-    let editHighlightedCode = document.getElementById('editHighlightedCode');
-    editHighlightedCode.style.overflowX = 'hidden';
-    editHighlightedCode.style.overflowY = 'hidden';
+    this._editLineNumber = document.getElementById('editLineNumber');
 
-    let editTextArea = document.getElementById('editTextArea');
-    editTextArea.classList.add('editTextZone');
-    editTextArea.classList.add('caret');
-    editTextArea.setAttribute('id', 'editTextArea');
+    this._editHighlightedCode = document.getElementById('editHighlightedCode');
+    this._editHighlightedCode.style.overflowX = 'hidden';
+    this._editHighlightedCode.style.overflowY = 'hidden';
+
+    this._editTextArea = document.getElementById('editTextArea');
+    this._editTextArea.classList.add('editTextZone');
+    this._editTextArea.classList.add('caret');
 
     this.fontFamily = this._editorFontFamily;
     this.fontSize = this._editorFontSize;
@@ -182,16 +151,15 @@ class Editor { /*exported Editor*/
   _appendEventListeners() {
     window.onresize = (e) => { this._editEditorResize_event(e); };
 
-    let editTextArea = document.getElementById('editTextArea');
-    editTextArea.addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
-    editTextArea.addEventListener('keypress', (e) => { this._textAreaKeypress_event(e); });
-    editTextArea.addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
-    editTextArea.addEventListener('input', (e) => { this._textAreaKey_event(e); });
-    editTextArea.addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
+    this._editTextArea.addEventListener('keydown', (e) => { this._textAreaKeydown_event(e); });
+    this._editTextArea.addEventListener('keypress', (e) => { this._textAreaKeypress_event(e); });
+    this._editTextArea.addEventListener('keypress', (e) => { this._textAreaKey_event(e); });
+    this._editTextArea.addEventListener('input', (e) => { this._textAreaKey_event(e); });
+    this._editTextArea.addEventListener('keyup', (e) => { this._textAreaKey_event(e); });
 
-    editTextArea.addEventListener('overflow', (e) => { this._overflow_event(e); });
-    editTextArea.addEventListener('underflow', (e) => { this._underflow_event(e); });
-    editTextArea.addEventListener('scroll', (e) => { this._scroll_event(e); });
+    this._editTextArea.addEventListener('overflow', (e) => { this._overflow_event(e); });
+    this._editTextArea.addEventListener('underflow', (e) => { this._underflow_event(e); });
+    this._editTextArea.addEventListener('scroll', (e) => { this._scroll_event(e); });
 
     document.addEventListener('mousemove', (e) => { this._editResizeBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this._editResizeBarMouseup_event(e); });
@@ -217,6 +185,9 @@ class Editor { /*exported Editor*/
       case 'Tab':
         event.stopPropagation();
         event.preventDefault();
+        if (this._linesInSelection() > 1 ) {
+          return;
+        }
         this._insertText(this._tabChar);
         break;
       case 'Backspace':
@@ -235,10 +206,32 @@ class Editor { /*exported Editor*/
     this._highlightText();
   }
 
+  _linesInSelection() {
+    let selected = this._editTextArea.value.substring(this._editTextArea.selectionStart, this._editTextArea.selectionEnd);
+    let lines = selected.split('\n');
+    return lines.length;
+  }
+
   async _textAreaKeypress_event(event) {
-    if (event.key.toLowerCase() == 's' && event.ctrlKey) {
+    let key = event.key.toLowerCase();
+    if (event.ctrlKey && key == 's') {
       event.preventDefault();
       this._saveCallback();
+      return false;
+    }
+    else if (event.ctrlKey && key == 'z') {
+      this._undoRedo.undo();
+      event.preventDefault();
+      return false;
+    }
+    else if (event.ctrlKey && key == 'y') {
+      this._undoRedo.redo();
+      event.preventDefault();
+      return false;
+    }
+    else if (event.ctrlKey && (key == ',' || key == ',')) {
+      this._undoRedo.debug();
+      event.preventDefault();
       return false;
     }
   }
@@ -248,23 +241,21 @@ class Editor { /*exported Editor*/
   }
 
   _initScrollBar() {
-    let editTextArea = document.getElementById('editTextArea');
-    let hasVerticalScrollbar = (editTextArea.scrollHeight > editTextArea.offsetHeight);
-    this._setScrollBar(editTextArea, _overflow.vertical, hasVerticalScrollbar);
-    let hasHorizontalScrollbar = (editTextArea.scrollWidth > editTextArea.offsetWidth);
-    this._setScrollBar(editTextArea, _overflow.horizontal, hasHorizontalScrollbar);
+    let hasVerticalScrollbar = (this._editTextArea.scrollHeight > this._editTextArea.offsetHeight);
+    this._setScrollBar(this._editTextArea, _overflow.vertical, hasVerticalScrollbar);
+    let hasHorizontalScrollbar = (this._editTextArea.scrollWidth > this._editTextArea.offsetWidth);
+    this._setScrollBar(this._editTextArea, _overflow.horizontal, hasHorizontalScrollbar);
   }
 
   _setScrollBar(target, dir, hasScrollbar) {
-    let editHighlightedCode = document.getElementById('editHighlightedCode');
     switch (dir) {
       case _overflow.vertical:
-        editHighlightedCode.style.overflowY = (hasScrollbar ? 'scroll' : 'hidden');
-        editHighlightedCode.scrollTop = target.scrollTop;
+        this._editHighlightedCode.style.overflowY = (hasScrollbar ? 'scroll' : 'hidden');
+        this._editHighlightedCode.scrollTop = target.scrollTop;
         break;
       case _overflow.horizontal:
-        editHighlightedCode.style.overflowX = (hasScrollbar ? 'scroll' : 'hidden');
-        editHighlightedCode.scrollLeft = target.scrollLeft;
+        this._editHighlightedCode.style.overflowX = (hasScrollbar ? 'scroll' : 'hidden');
+        this._editHighlightedCode.scrollLeft = target.scrollLeft;
         break;
     }
 
@@ -279,29 +270,26 @@ class Editor { /*exported Editor*/
   }
 
   async _scroll_event(event) {
-    let editLineNumber = document.getElementById('editLineNumber');
-    let editHighlightedCode = document.getElementById('editHighlightedCode');
-    editHighlightedCode.scrollTop = event.target.scrollTop;
-    event.target.scrollTop = editHighlightedCode.scrollTop; //workaround for when cursor in on max pos
-    editLineNumber.scrollTop = editHighlightedCode.scrollTop;
+    this._editHighlightedCode.scrollTop = event.target.scrollTop;
+    event.target.scrollTop = this._editHighlightedCode.scrollTop; //workaround for when cursor in on max pos
+    this._editLineNumber.scrollTop = this._editHighlightedCode.scrollTop;
 
-    editHighlightedCode.scrollLeft = event.target.scrollLeft;
-    event.target.scrollLeft = editHighlightedCode.scrollLeft; //workaround for when cursor in on max pos
+    this._editHighlightedCode.scrollLeft = event.target.scrollLeft;
+    event.target.scrollLeft = this._editHighlightedCode.scrollLeft; //workaround for when cursor in on max pos
   }
 
   async _editEditorResize_event() {
     let i = 0;
     let editEditor = document.getElementById('editEditor');
-    let editLineNumber = document.getElementById('editLineNumber');
     let editEditorOffsetHeight = editEditor.offsetHeight;
     let editEditorOffsetHeightPrev = 0;
     //workaround to avoid weird resizing...
     while (editEditorOffsetHeight != editEditorOffsetHeightPrev && i++ < 100) {
       editEditorOffsetHeightPrev = editEditorOffsetHeight;
-      editLineNumber.style.height = (editEditorOffsetHeight - 5) + 'px';
+      this._editLineNumber.style.height = (editEditorOffsetHeight - 5) + 'px';
       editEditorOffsetHeight = editEditor.offsetHeight;
     }
-    editLineNumber.style.height = editEditorOffsetHeight + 'px';
+    this._editLineNumber.style.height = editEditorOffsetHeight + 'px';
   }
 
   async _editResizeBarMouseup_event() {
@@ -318,49 +306,47 @@ class Editor { /*exported Editor*/
     let delta = this._lastDownY - event.clientY;
     this._lastDownY = event.clientY;
     let editConsole = document.getElementById('editConsole');
-    let editLineNumber = document.getElementById('editLineNumber');
     editConsole.style.height = Math.max(editConsole.clientHeight + delta, 0) + 'px';
-    editLineNumber.style.height = Math.max(editLineNumber.clientHeight - delta, 0) + 'px';
+    this._editLineNumber.style.height = Math.max(this._editLineNumber.clientHeight - delta, 0) + 'px';
   }
 
   _autoIndent() {
-    let textArea = document.getElementById('editTextArea');
-    let indent = textArea.value.substr(0, textArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
+    let indent = this._editTextArea.value.substr(0, this._editTextArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
     this._insertText('\n' + indent);
   }
 
   _unIndent() {
-    let editTextArea = document.getElementById('editTextArea');
-    let curCaretPosition = editTextArea.selectionStart;
+    let curCaretPosition = this._editTextArea.selectionStart;
     let tabSizeMinOne = Math.max(this._tabSize - 0, 0);
-    let textToDelete = editTextArea.value.substring(Math.max(curCaretPosition - this._tabSize, 0), curCaretPosition);
+    let textToDelete = this._editTextArea.value.substring(Math.max(curCaretPosition - this._tabSize, 0), curCaretPosition);
     if (textToDelete == this._tabChar) {
       let newCaretPosition = Math.max(curCaretPosition - tabSizeMinOne, 0);
-      editTextArea.value = editTextArea.value.substring(0, newCaretPosition) + editTextArea.value.substring(curCaretPosition, editTextArea.value.length);
-      editTextArea.selectionStart = newCaretPosition;
-      editTextArea.selectionEnd = newCaretPosition;
+      this._editTextArea.value = this._editTextArea.value.substring(0, newCaretPosition) + this._editTextArea.value.substring(curCaretPosition, this._editTextArea.value.length);
+      this._editTextArea.selectionStart = newCaretPosition;
+      this._editTextArea.selectionEnd = newCaretPosition;
+      this._undoRedo.update();
       return true;
     }
     return false;
   }
 
   _insertText(text) {
-    let textArea = document.getElementById('editTextArea');
-    let selectionStart = textArea.selectionStart;
-    let selectionEnd = textArea.selectionEnd;
-    let value = textArea.value;
+    let selectionStart = this._editTextArea.selectionStart;
+    let selectionEnd = this._editTextArea.selectionEnd;
+    let value = this._editTextArea.value;
     let before = value.substring(0, selectionStart);
     let after = value.substring(selectionEnd, value.length);
-    textArea.value = (before + text + after);
-    textArea.selectionStart = selectionStart + text.length;
-    textArea.selectionEnd = selectionStart + text.length;
+    this._editTextArea.value = (before + text + after);
+    this._editTextArea.selectionStart = selectionStart + text.length;
+    this._editTextArea.selectionEnd = selectionStart + text.length;
+    this._undoRedo.update();
   }
 
   _highlightText() {
-    let plainText = document.getElementById('editTextArea').value;
+    let plainText = this._editTextArea.value;
     plainText = this._fixText(plainText);
     let highlightedText = this._highlighter.highlightText(plainText);
-    BrowserManager.setInnerHtmlByElement(document.getElementById('editHighlightedCode'), highlightedText);
+    BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText);
     this._updateLineNumbers(plainText);
   }
 

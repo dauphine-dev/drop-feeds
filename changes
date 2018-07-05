@@ -7,7 +7,7 @@ Drag and drop the feed url in main window
 Stop checking by clicking 'Check feeds' button during checking
 Adding security filter settings
 Youtube feeds detection
-Fix to avoid feed borken on no well formed item link
+Fix to avoid feed broken on no well formed item link
 Fix opml typos (patch from jinkama-san)
 Allow missing item description (patch from jinkama-san)
 

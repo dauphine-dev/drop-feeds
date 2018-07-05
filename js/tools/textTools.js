@@ -101,4 +101,8 @@ class TextTools { /* exported TextTools*/
   static toPlainText(html) {
     return html.replace(/<(?:.|\n)*?>/gm, '');
   }
+
+  static isNullOrEmpty(obj) {
+    return !(typeof obj === 'string' && obj.length > 0);
+  }
 }

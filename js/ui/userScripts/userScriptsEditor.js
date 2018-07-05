@@ -1,4 +1,4 @@
-/*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues EditorConsole*/
+/*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues TextConsole*/
 /*global scriptCodeKey scriptObjKey scriptType*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
@@ -85,14 +85,17 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   _loadEditorScripts() {
     BrowserManager.appendScript('/js/tools/syntaxHighlighter.js', typeof SyntaxHighlighter);
     BrowserManager.appendScript('/js/components/editorMenu.js', typeof EditorMenu);
+    BrowserManager.appendScript('/js/components/textConsole.js', typeof TextConsole);
+    BrowserManager.appendScript('/js/components/undoRedoTextArea.js', typeof UndoRedoTextArea);
     BrowserManager.appendScript('/js/components/editor.js', typeof Editor);
   }
 
   async _windowOnLoad_event() {
     this._jsEditor = new Editor(_jsHighlighterPath, () => { this.save_async(); });
     await this._jsEditor.init_async();
-    this._jsEditor.attachEditor(document.getElementById('editor'));
+    this._jsEditor.attach(document.getElementById('editor'));
     this._jsEditor.attachMenu(document.getElementById('fieldsetEditorBox'));
+    this._jsEditor.attachConsole(document.getElementById('editConsole'));
   }
 
   async _loadScript_async(scriptId) {
@@ -100,7 +103,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, defaultCode);
     await this._jsEditor.setText_async(scriptCode);
-    await this._jsEditor.console.clear();
+    await this._jsEditor.editorConsole.clear();
     document.getElementById('fieldsetFeedTransformer').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
     document.getElementById('fieldsetFeedTransformerHelp').style.display = (scriptObj.type == scriptType.feedTransformer ? '' : 'none');
     document.getElementById('urlMatch').value = scriptObj ? scriptObj.urlMatch : DefaultValues.urlMatch;
@@ -171,7 +174,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async displayUrlMatchToConsole_async(url) {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
-    this._jsEditor.console.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? EditorConsole.messageType.ok : EditorConsole.messageType.error);
+    this._jsEditor.editorConsole.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? TextConsole.messageType.ok : TextConsole.messageType.error);
   }
 
   async _virtualTestScriptButton_event() {
@@ -213,7 +216,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   _onScriptExecuted() {
-    this._jsEditor.console.writeLine('script executed.');
+    this._jsEditor.editorConsole.writeLine('script executed.');
   }
 
   _onScriptError(e) {
@@ -222,7 +225,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
   _writeErrorToConsole(e) {
     let errorText = '(' + Math.max(e.lineNumber - 2, 0) + ', ' + e.columnNumber + ') ' + e.toString();
-    this._jsEditor.console.writeLine(errorText, EditorConsole.messageType.error);
+    this._jsEditor.editorConsole.writeLine(errorText, TextConsole.messageType.error);
   }
 
   async _virtualSubscribeScriptButton_event() {
