@@ -185,14 +185,11 @@ class Editor { /*exported Editor*/
       case 'Tab':
         event.stopPropagation();
         event.preventDefault();
-        if (this._linesInSelection() > 1 ) {
-          return;
-        }
-        this._insertText(this._tabChar);
+        this._indent(event.shiftKey);
         break;
       case 'Backspace':
         event.stopPropagation();
-        if (this._unIndent()) {
+        if (this._backIndent()) {
           event.preventDefault();
         }
         break;
@@ -204,12 +201,6 @@ class Editor { /*exported Editor*/
       default:
     }
     this._highlightText();
-  }
-
-  _linesInSelection() {
-    let selected = this._editTextArea.value.substring(this._editTextArea.selectionStart, this._editTextArea.selectionEnd);
-    let lines = selected.split('\n');
-    return lines.length;
   }
 
   async _textAreaKeypress_event(event) {
@@ -310,12 +301,40 @@ class Editor { /*exported Editor*/
     this._editLineNumber.style.height = Math.max(this._editLineNumber.clientHeight - delta, 0) + 'px';
   }
 
+  _indent(backward) {
+    if (backward) { /*TODO*/ return; }
+    let selected = this._editTextArea.value.substring(this._editTextArea.selectionStart, this._editTextArea.selectionEnd);
+    let lineList = selected.split('\n');
+    if (lineList.length <= 1 ) {
+      this._insertText(this._tabChar);
+      return;
+    }
+    let selectionStart = this._editTextArea.selectionStart;
+    let selectionEnd = this._editTextArea.selectionEnd;
+    if (TextTools.isNullOrEmpty(lineList[lineList.length-1])) {
+      lineList.pop();
+      selectionEnd--;
+    }
+    let value = this._editTextArea.value;
+    let before = value.substring(0, selectionStart);
+    let after = value.substring(selectionEnd, value.length);
+
+    lineList = lineList.map(line => line = this._tabChar + line);
+
+
+    selected = lineList.join('\n');
+    this._editTextArea.value = (before + selected + after);
+    this._editTextArea.selectionStart = selectionStart;
+    this._editTextArea.selectionEnd = selectionStart + selected.length;
+    this._undoRedo.update();
+  }
+
   _autoIndent() {
     let indent = this._editTextArea.value.substr(0, this._editTextArea.selectionStart).split('\n').pop().match(/^\s*/)[0];
     this._insertText('\n' + indent);
   }
 
-  _unIndent() {
+  _backIndent() {
     let curCaretPosition = this._editTextArea.selectionStart;
     let tabSizeMinOne = Math.max(this._tabSize - 0, 0);
     let textToDelete = this._editTextArea.value.substring(Math.max(curCaretPosition - this._tabSize, 0), curCaretPosition);
