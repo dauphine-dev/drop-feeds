@@ -494,6 +494,9 @@
   "usUScriptSize": {
     "message": "サイズ"
   },
+  "usUScriptTabSize": {
+    "message": "Tab size"
+  },
   "comment12": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },

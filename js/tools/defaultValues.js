@@ -31,6 +31,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get userScriptUrlMatch()            { return '<none>'; }
   static get editorFontFamily()              { return '"monospace", "monospace"'; }
   static get editorFontSize()                { return '14'; }
+  static get editorTabSize()                 { return '4'; }
   static get allowedTagList() {
     return ['a', 'b', 'blockquote', 'br', 'cite', 'code', 'del', 'div', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
       'i', 'img', 'ins', 'li', 'ol', 'p', 'pre', 'q', 's', 'span', 'strong', 'table', 'tbody', 'td', 'th', 'tr', 'u', 'ul'];

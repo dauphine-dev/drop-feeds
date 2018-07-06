@@ -28,6 +28,8 @@ class Editor { /*exported Editor*/
   async init_async() {
     this._editorFontFamily = await LocalStorageManager.getValue_async('editorFontFamily', this._editorFontFamily);
     this._editorFontSize = await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
+    this.tabSize = await LocalStorageManager.getValue_async('editorTabSize', this._tabSize);
+
     this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
   }
@@ -73,6 +75,16 @@ class Editor { /*exported Editor*/
     this._editHighlightedCode.style.fontSize = value + 'px';
     this._editLineNumber.style.fontSize = value + 'px';
     LocalStorageManager.setValue_async('editorFontSize', value);
+  }
+
+  get tabSize() {
+    return this._tabSize;
+  }
+
+  set tabSize(value) {
+    this._tabSize = value;
+    this._tabChar = ' '.repeat(this._tabSize);
+    LocalStorageManager.setValue_async('editorTabSize', value);
   }
 
   async setText_async(text) {

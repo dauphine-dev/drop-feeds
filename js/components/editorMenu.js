@@ -12,17 +12,19 @@ class EditorMenu { /*exported EditorMenu*/
   }
 
   _createElements(baseElement) {
-    let htmlString = '\
-    <fieldset id="editFieldsetFont">\
-      <legend id="editFontLegend">#Font</legend>\
-      <span id="editFontFamily">#Family&nbsp;</span>\
-      <select id="editSelectFontFamily">\
-      </select>\
-      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>\
-      <span id="editFontSize">#Size&nbsp;</span>\
-      <select id="editSelectFontSize">\
-      </select>\
-    </fieldset>';
+    let htmlString = `
+    <fieldset id="editFieldsetFont">
+      <legend id="editFontLegend">#Font</legend>
+      <span id="editFontFamily">#Family</span>&nbsp;
+      <select id="editSelectFontFamily">
+      </select>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span id="editFontSize">#Size</span>&nbsp;
+      <select id="editSelectFontSize">
+      </select>
+      <span id="editTabSize">#Tab size</span>&nbsp;
+      <input id="editInputTabSize" step="1" min="1" max="99" type="number" size="2" value="4" style="width: 35px;">
+    </fieldset>`;
     baseElement.insertAdjacentHTML('beforeend', htmlString);
 
     //Add fonts family
@@ -51,11 +53,13 @@ class EditorMenu { /*exported EditorMenu*/
     document.getElementById('editFontLegend').textContent = browser.i18n.getMessage('usUScriptFont');
     document.getElementById('editFontFamily').textContent = browser.i18n.getMessage('usUScriptFamily');
     document.getElementById('editFontSize').textContent = browser.i18n.getMessage('usUScriptSize');
+    document.getElementById('editTabSize').textContent = browser.i18n.getMessage('usUScriptTabSize');
   }
 
   _appendEventListeners() {
     document.getElementById('editFieldsetFont').addEventListener('change', (e) => { this._editFieldsetFontChange_event(e); });
     document.getElementById('editSelectFontSize').addEventListener('change', (e) => { this._editSelectFontSizeChange_event(e); });
+    document.getElementById('editInputTabSize').addEventListener('change', (e) => { this._editInputTabSizeChange_event(e); });
   }
 
   async _editFieldsetFontChange_event(event) {
@@ -66,6 +70,11 @@ class EditorMenu { /*exported EditorMenu*/
   async _editSelectFontSizeChange_event(event) {
     event.stopPropagation();
     this._parentEditor.fontSize = event.target.value;
+  }
+
+  async _editInputTabSizeChange_event (event) {
+    event.stopPropagation();
+    this._parentEditor.tabSize = event.target.value;
   }
 
 }

@@ -11,8 +11,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     this._scriptId = null;
     this._shiftPressed = false;
     this._ctrlPressed = false;
-    this._tabSize = 4;
-    this._tabChar = ' '.repeat(this._tabSize);
     this._jsEditor = null;
     this._isResizing = false;
     this._lastDownX = 0;
