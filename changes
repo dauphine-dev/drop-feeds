@@ -1,6 +1,7 @@
 0.8.1
 Editor undo/redo
 Editor multi-lines tab management
+Give access to the editor console from user scripts (see USTools help)
 
 0.8
 User scripts
