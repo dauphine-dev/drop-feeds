@@ -35,21 +35,23 @@
           <div class="tableBox">
             <div class="rowGroupBox">
               <div class="rowBox">
+                <!-- Left panel logo -->
                 <div class="cellBox autoHeight logoBox">
                   <div id="logoImg" class="right"></div>
                   <div id="logoName" class="right">Drop Feeds</div>
                   <div id="logoTitle" class="right">Script manager</div>
                 </div>
               </div>
+                <!-- Left panel menus -->
               <div class="rowBox">
                 <div id="fieldsetEditorBox" class="cellBox">
-                  <fieldset>
+                  <fieldset class="editorMenu">
                     <legend id="commandsLegend">#Commands</legend>
                     <button id="saveButton" type="button">#Save</button>
                     <button id="closeButton" type="button">#Close</button>
                     <button id="saveAndCloseButton" type="button">#Save and close</button>
                   </fieldset>
-                  <fieldset id="fieldsetFeedTransformer">
+                  <fieldset id="fieldsetFeedTransformer" class="editorMenu">
                     <legend id="feedTransformerLegend">#Feed transformer</legend>
                     <span id="urlMatchLabel" class="label">#Url match patterns:</span>
                     <input id="urlMatch" class="field" type="text" value="&lt;all_urls&gt;">
@@ -60,7 +62,7 @@
                     <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
                   </fieldset>
                   <fieldset id="fieldsetFeedTransformerHelp">
-                    <legend id="feedTransformerInfoLegend">#Info</legend>
+                    <legend id="feedTransformerInfoLegend">#Feed transformer (info)</legend>
                     <span class="info">
                       You get raw feed xml text in __feedText__ variable.
                       <br/> Do all modifications you want to, and return the updated feed xml text.
@@ -70,13 +72,13 @@
                       <br/>
                     </span>
                   </fieldset>
-                  <fieldset id="fieldsetVirtualFeed">
+                  <fieldset id="fieldsetVirtualFeed" class="editorMenu">
                     <legend id="virtualFeedLegend">#Virtual feed</legend>
                     <button id="virtualTestScriptButton" type="button">#Save and test...</button>
                     <button id="virtualSubscribeScriptButton" type="button">#Save and subscribe...</button>
                   </fieldset>
                   <fieldset id="fieldsetVirtualFeedHelp">
-                    <legend id="virtualFeedInfoLegend">#Info</legend>
+                    <legend id="virtualFeedInfoLegend">#Virtual feed (info)</legend>
                     <span class="info">
                       You create a raw feed xml text from scratch and you return it.
                       <br/> It is useful to create feed for site without this feature.

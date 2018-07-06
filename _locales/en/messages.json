@@ -470,8 +470,11 @@
   "usUScriptSaveAndTest": {
     "message": "Save and test..."
   },
-  "usUScriptInfo": {
-    "message": "Info"
+  "usUScriptFtInfo": {
+    "message": "Feed transformer (info)"
+  },
+  "usUScriptVfInfo": {
+    "message": "Virtual feed (info)"
   },
   "usUScriptHelp": {
     "message": "help"

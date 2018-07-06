@@ -13,7 +13,7 @@ class EditorMenu { /*exported EditorMenu*/
 
   _createElements(baseElement) {
     let htmlString = `
-    <fieldset id="editFieldsetFont">
+    <fieldset id="editFieldsetFont" class="editorMenu">
       <legend id="editFontLegend">#Font</legend>
       <span id="editFontFamily">#Family</span>&nbsp;
       <select id="editSelectFontFamily">
@@ -26,6 +26,7 @@ class EditorMenu { /*exported EditorMenu*/
       <input id="editInputTabSize" step="1" min="1" max="99" type="number" size="2" value="4" style="width: 35px;">
     </fieldset>`;
     baseElement.insertAdjacentHTML('beforeend', htmlString);
+    document.getElementById('editFieldsetFont').style.display = 'none';
 
     //Add fonts family
     let editSelectFontFamily = document.getElementById('editSelectFontFamily');

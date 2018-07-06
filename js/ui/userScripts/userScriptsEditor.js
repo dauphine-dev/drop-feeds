@@ -38,14 +38,16 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this._loadScript_async(scriptId);
     UserScriptsManager.instance.hide();
     document.getElementById('editorRowBox').style.display = 'table-row';
-    document.getElementById('fieldsetEditorBox').style.display = 'block';
+    Array.from(document.getElementById('fieldsetEditorBox').querySelectorAll('.editorMenu')).map(el => el.style.display = 'block');
     document.getElementById('logoTitle').textContent = 'Script editor';
     this._jsEditor.update();
   }
 
   hide() {
     document.getElementById('editorRowBox').style.display = 'none';
-    document.getElementById('fieldsetEditorBox').style.display = 'none';
+    Array.from(document.getElementById('fieldsetEditorBox').querySelectorAll('.editorMenu')).map(el => el.style.display = 'none');
+    document.getElementById('fieldsetFeedTransformerHelp').style.display = '';
+    document.getElementById('fieldsetVirtualFeedHelp').style.display = '';
   }
 
   async deleteScriptCode_async(scriptId) {
@@ -64,7 +66,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     document.getElementById('testUrlLabel').textContent = browser.i18n.getMessage('usUScriptTestFeedUrl');
     document.getElementById('feedTransformerTestScriptButton').textContent = browser.i18n.getMessage('usUScriptSaveAndTest');
 
-    document.getElementById('feedTransformerInfoLegend').textContent = browser.i18n.getMessage('usUScriptInfo');
+    document.getElementById('feedTransformerInfoLegend').textContent = browser.i18n.getMessage('usUScriptFtInfo');
     document.getElementById('feedTransformerInfoHelp').textContent = browser.i18n.getMessage('usUScriptHelp');
     document.getElementById('feedTransformerInfoHelp').setAttribute('href', '/help/' + BrowserManager.instance.uiLanguage + '/userScripts/feedTransformerHelp.html');
     document.getElementById('feedTransformerInfoExample').textContent = browser.i18n.getMessage('usUScriptExample');
@@ -73,7 +75,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     document.getElementById('virtualTestScriptButton').textContent = browser.i18n.getMessage('usUScriptSaveAndTest');
     document.getElementById('virtualSubscribeScriptButton').textContent = browser.i18n.getMessage('usUScriptSaveAndSubscribe');
 
-    document.getElementById('virtualFeedInfoLegend').textContent = browser.i18n.getMessage('usUScriptInfo');
+    document.getElementById('virtualFeedInfoLegend').textContent = browser.i18n.getMessage('usUScriptVfInfo');
     document.getElementById('virtualFeedInfoHelp').textContent = browser.i18n.getMessage('usUScriptHelp');
     document.getElementById('virtualFeedInfoHelp').setAttribute('href', '/help/' + BrowserManager.instance.uiLanguage + '/userScripts/virtualFeedHelp.html');
     document.getElementById('virtualFeedInfoExample').textContent = browser.i18n.getMessage('usUScriptExample');

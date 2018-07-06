@@ -470,8 +470,11 @@
   "usUScriptSaveAndTest": {
     "message": "Sauver et tester..."
   },
-  "usUScriptInfo": {
-    "message": "Info"
+  "usUScriptFtInfo": {
+    "message": "Transformeur de flux (info)"
+  },
+  "usUScriptVfInfo": {
+    "message": "Flux virtuel (info)"
   },
   "usUScriptHelp": {
     "message": "aide"
