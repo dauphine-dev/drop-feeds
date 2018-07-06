@@ -302,16 +302,15 @@ class Editor { /*exported Editor*/
   }
 
   _indent(backward) {
-    if (backward) { /*TODO*/ return; }
     let selected = this._editTextArea.value.substring(this._editTextArea.selectionStart, this._editTextArea.selectionEnd);
     let lineList = selected.split('\n');
-    if (lineList.length <= 1 ) {
+    if (lineList.length <= 1) {
       this._insertText(this._tabChar);
       return;
     }
     let selectionStart = this._editTextArea.selectionStart;
     let selectionEnd = this._editTextArea.selectionEnd;
-    if (TextTools.isNullOrEmpty(lineList[lineList.length-1])) {
+    if (TextTools.isNullOrEmpty(lineList[lineList.length - 1])) {
       lineList.pop();
       selectionEnd--;
     }
@@ -319,8 +318,17 @@ class Editor { /*exported Editor*/
     let before = value.substring(0, selectionStart);
     let after = value.substring(selectionEnd, value.length);
 
-    lineList = lineList.map(line => line = this._tabChar + line);
-
+    if (backward) {
+      lineList = lineList.map(line => {
+        let pos1stNonSpaceChar = (/\S/.exec(line)).index;
+        line = (line.substring(pos1stNonSpaceChar - this._tabSize, pos1stNonSpaceChar) == this._tabChar ?
+          line.substring(0, pos1stNonSpaceChar - this._tabSize) : '') + line.substring(pos1stNonSpaceChar);
+        return line;
+      });
+    }
+    else {
+      lineList = lineList.map(line => line = this._tabChar + line);
+    }
 
     selected = lineList.join('\n');
     this._editTextArea.value = (before + selected + after);
