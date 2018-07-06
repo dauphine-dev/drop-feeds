@@ -1,6 +1,9 @@
+/* global UserScriptsEditor*/
 'use strict';
 class USTools { /* exported USTools*/
-
+  static get console() {
+    return UserScriptsEditor.instance.editorConsole;
+  }
   //--------------------------------------------------------------------------
   //Web request methods
   static async downloadTextFile(url) {

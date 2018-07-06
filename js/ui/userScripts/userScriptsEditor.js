@@ -54,6 +54,10 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await browser.storage.local.remove(scriptCodeKey + scriptId);
   }
 
+  get editorConsole() {
+    return this._jsEditor.editorConsole;
+  }
+
   _updateLocalizedStrings() {
     document.getElementById('commandsLegend').textContent = browser.i18n.getMessage('usUScriptCommands');
     document.getElementById('saveButton').textContent = browser.i18n.getMessage('usUScriptSave');
