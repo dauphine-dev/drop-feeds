@@ -1,11 +1,11 @@
 0.8.2
-Complete USTools help
-Add console context menu
-Fix editor menus display
+Complete USTools help (user scripts)
+Add console context menu (user scripts)
+Fix editor menus display (user scripts)
 
 0.8.1
-Editor undo/redo
-Editor multi-lines tab management
+Editor undo/redo (user scripts)
+Editor multi-lines tab management (user scripts)
 Give access to the editor console from user scripts (see USTools help)
 
 0.8
