@@ -501,6 +501,15 @@
     "message": "Largeur tab"
   },
   "comment12": {
+    "message": "------------------Editor console strings------------------"
+  },
+  "edConsoleClear": {
+    "message": "Effacer"
+  },
+  "edConsoleCopy": {
+    "message": "Copier le texte de la console"
+  },
+  "comment13": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {

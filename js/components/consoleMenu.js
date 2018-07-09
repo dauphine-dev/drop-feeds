@@ -24,8 +24,7 @@ class ConsoleMenu { /*exported ConsoleMenu*/
     let htmlString = `
     <ul>
       <li id="ctxConsoleClear" class="ctxMenuItem">#Clear</li>
-      <li id="ctxConsoleSelectAll" class="ctxMenuItem">#Select all</li>
-      <li id="ctxConsoleCopy" class="ctxMenuItem">#Copy</li>
+      <li id="ctxConsoleCopy" class="ctxMenuItem">#Copy text console</li>
     </ul>`;
 
     this._baseElement.insertAdjacentHTML('beforeend', htmlString);
@@ -33,18 +32,19 @@ class ConsoleMenu { /*exported ConsoleMenu*/
   }
 
   _updateLocalizedStrings() {
-    /*
-    document.getElementById('ctxConsoleClear').textContent = browser.i18n.getMessage('edConsoleCopy');
-    document.getElementById('ctxConsoleSelectAll').textContent = browser.i18n.getMessage('edConsoleSelectAll');
+    document.getElementById('ctxConsoleClear').textContent = browser.i18n.getMessage('edConsoleClear');
     document.getElementById('ctxConsoleCopy').textContent = browser.i18n.getMessage('edConsoleCopy');
-    */
   }
 
   _appendEventListeners() {
+    this._parentConsole.element.addEventListener('click', (e) => { this._ctxConsoleClicked_event(e); });
     this._parentConsole.element.addEventListener('contextmenu', (e) => { this._ctxConsoleContextMenu_event(e); });
     document.getElementById('ctxConsoleClear').addEventListener('click', (e) => { this._ctxConsoleClearClicked_event(e); });
-    document.getElementById('ctxConsoleSelectAll').addEventListener('click', (e) => { this._ctxConsoleSelectAllClicked_event(e); });
     document.getElementById('ctxConsoleCopy').addEventListener('click', (e) => { this._ctxConsoleCopyClicked_event(e); });
+  }
+
+  async _ctxConsoleClicked_event() {
+    this.hide();
   }
 
   async _ctxConsoleContextMenu_event(event) {
@@ -64,22 +64,16 @@ class ConsoleMenu { /*exported ConsoleMenu*/
     this._parentConsole.clear();
   }
 
-  async _ctxConsoleSelectAllClicked_event(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.hide();
-    let range = document.createRange();
-    range.selectNode(this._parentConsole.element);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-  }
-
   async _ctxConsoleCopyClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     this.hide();
-    this._parentConsole.element.select();
+    let tmpTextarea = document.createElement('textarea');
+    document.body.appendChild(tmpTextarea);
+    tmpTextarea.value = this._parentConsole.element.innerText;
+    tmpTextarea.select();
     document.execCommand('copy');
+    document.body.removeChild(tmpTextarea);
   }
 
 }
