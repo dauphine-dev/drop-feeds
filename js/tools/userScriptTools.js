@@ -38,7 +38,7 @@ class UserScriptTools { /* exported UserScriptTools */
   }
 
   _isUrlMatch(scriptObj, url) {
-    let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
+    let isUrlMatch = Boolean(url.match(new RegExp(scriptObj.urlRegEx)) || url == scriptObj.urlMatch);
     return isUrlMatch;
   }
 

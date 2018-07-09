@@ -128,7 +128,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     let urlMatch = document.getElementById('urlMatch').value;
     scriptObj.urlMatch = urlMatch;
     UserScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
-    scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch);
+    scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch).source;
     scriptObj.testUrl = document.getElementById('testUrl').value;
     LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
 
@@ -179,7 +179,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
   async displayUrlMatchToConsole_async(url) {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
-    let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
+    let isUrlMatch = Boolean(url.match(new RegExp(scriptObj.urlRegEx)) || url == scriptObj.urlMatch);
     this._jsEditor.editorConsole.writeLineEx('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? TextConsole.messageType.ok : TextConsole.messageType.error);
   }
 
