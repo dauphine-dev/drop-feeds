@@ -169,7 +169,7 @@
       <pre class="code">
         <code>let str = 'foo foo bar foo bar foo foo bar bar foo';</code>
         <code></code>
-        <code>let result = 'USTools.occurrences(str, 'bar');</code>
+        <code>let result = USTools.occurrences(str, 'bar');</code>
         <code>console.log('Result: ' + result);</code>
         <code>// logs Result: 4</code>
       </pre>
@@ -503,7 +503,7 @@
           <code>/* logs Result:</code>
           <code>Result:</code>
           <code>  &lt;/channel&gt;</code>
-          <code>&lt;/rss&gt;';</code>
+          <code>&lt;/rss&gt;</code>
           <code>*/</code>
         </pre>
     </div>
@@ -513,17 +513,84 @@
 
     <h2 id="console">The <a href="#console"><strong>console</strong></a> object</h2>
     <div class="paragraph">
-        The <a href="#USTools"><span class="highlighted">USTools</span></a>.<a href="#console"><span class="highlighted">console</span></a> object
-        allows to work with the editor console.
-        <h4>Methods</h4>
+      The <a href="#USTools"><span class="highlighted">USTools</span></a>.<a href="#console"><span class="highlighted">console</span></a> object
+      allows to work with the editor console.
+      <h4>Methods</h4>
+      <pre class="syntax"><code>USTools.console.clear()</code>
+<code>USTools.console.write(message)</code>
+<code>USTools.console.writeLine(message)</code></pre>
+
+      <h2 id="consoleClear">The console.clear() method</h2>
+      <div class="paragraph">
+        The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.clear()</strong></span> method
+        clears the console
+        <h4>Syntax</h4>
           <pre class="syntax"><code>USTools.console.clear()</code></pre>
-          <pre class="syntax"><code>USTools.console.write(message)</code></pre>
-          <pre class="syntax"><code>USTools.console.writeLine(message)</code></pre>
-          to be completed...
+          <h3>Parameters</h3>
+          <div class="paragraph">none.</div>
+          <h3>Return value</h3>
+          <div class="paragraph">none.</div>
+        <h4>Examples</h4>
+          <h3>Using console.clear()</h3>
+          The following example uses console.clear() to clear the console
+          <pre class="code">
+            <code>USTools.console.clear();</code>
+            <code></code>
+            <code>/* Now, the editor console is empty*/</code>
+          </pre>
       </div>
 
-      <p/>
-      Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
+      <h2 id="consoleWrite">The console.write() method</h2>
+      <div class="paragraph">
+          The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.write()</strong></span> method
+          writes the specified string (message) to the editor console
+          <h4>Syntax</h4>
+            <pre class="syntax"><code>USTools.console.write(<var>message</var>)</code></pre>
+            <h3>Parameters</h3>
+            <p></p><span class="highlighted"><strong><code><var>message</var></code></strong></span>
+            <div class="paragraph">The text to write on the editor console.</div>
+                <h3>Return value</h3>
+            <div class="paragraph">none.</div>
+          <h4>Examples</h4>
+            <h3>Using console.write()</h3>
+            The following example uses console.write() to write the message <span class="highlighted"><code><var>Hello word!</var></code></span> on the editor console
+            <pre class="code">
+              <code>USTools.console.write('Hello word!');</code>
+              <code></code>
+              <code>/* Hello word! has been displayed on the editor console*/</code>
+            </pre>
+        </div>
+
+        <h2 id="consoleWriteLine">The console.writeLine() method</h2>
+        <div class="paragraph">
+            The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.writeLine()</strong></span> method
+            writes the specified string (message) to the editor console followed by a next line character
+            <h4>Syntax</h4>
+              <pre class="syntax"><code>USTools.console.writeLine(<var>message</var>)</code></pre>
+              <h3>Parameters</h3>
+              <p></p><span class="highlighted"><strong><code><var>message</var></code></strong></span>
+              <div class="paragraph">The text to write on the editor console.</div>
+                  <h3>Return value</h3>
+              <div class="paragraph">none.</div>
+            <h4>Examples</h4>
+              <h3>Using console.writeLine()</h3>
+              The following example uses console.writeLine() to write the message <span class="highlighted"><code><var>Hello word!</var></code></span> on the editor console
+              <pre class="code">
+                <code>USTools.console.writeLine('Hello word!');</code>
+                <code></code>
+                <code>/* Hello word! has been displayed on the editor console*/</code>
+              </pre>
+          </div>
+
+
+    </div>
+
+    <p/>
+    Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
+
+
+
+
 
 
 </body>
