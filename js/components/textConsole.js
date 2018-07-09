@@ -10,7 +10,7 @@ class TextConsole { /*exported TextConsole*/
     this._consoleElement = consoleElement;
   }
 
-  write(text, messageType) {
+  writeEx(text, messageType) {
     let style = '';
     let css = '';
     if (!messageType) { messageType = _messageType.default; }
@@ -32,8 +32,16 @@ class TextConsole { /*exported TextConsole*/
     this._consoleElement.scrollTop = this._consoleElement.scrollHeight;
   }
 
-  writeLine(text, messageType) {
+  write(text) {
+    this.writeEx(text);
+  }
+
+  writeLineEx(text, messageType) {
     this.write(text + '<br/>', messageType);
+  }
+
+  writeLine(text) {
+    this.writeLineEx(text);
   }
 
   clear() {

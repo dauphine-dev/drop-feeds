@@ -178,7 +178,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async displayUrlMatchToConsole_async(url) {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     let isUrlMatch = Boolean(url.match(scriptObj.urlRegEx) || url == scriptObj.urlMatch);
-    this._jsEditor.editorConsole.writeLine('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? TextConsole.messageType.ok : TextConsole.messageType.error);
+    this._jsEditor.editorConsole.writeLineEx('url matches to pattern: ' + (isUrlMatch ? 'yes' : 'no'), isUrlMatch ? TextConsole.messageType.ok : TextConsole.messageType.error);
   }
 
   async _virtualTestScriptButton_event() {
@@ -220,7 +220,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   _onScriptExecuted() {
-    this._jsEditor.editorConsole.writeLine('script executed.');
+    this._jsEditor.editorConsole.writeLineEx('script executed.');
   }
 
   _onScriptError(e) {
@@ -229,7 +229,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
   _writeErrorToConsole(e) {
     let errorText = '(' + Math.max(e.lineNumber - 2, 0) + ', ' + e.columnNumber + ') ' + e.toString();
-    this._jsEditor.editorConsole.writeLine(errorText, TextConsole.messageType.error);
+    this._jsEditor.editorConsole.writeLineEx(errorText, TextConsole.messageType.error);
   }
 
   async _virtualSubscribeScriptButton_event() {
