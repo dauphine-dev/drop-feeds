@@ -35,11 +35,11 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
   async display_async(scriptId) {
     this._scriptId = scriptId;
-    await this._loadScript_async(scriptId);
     UserScriptsManager.instance.hide();
     document.getElementById('editorRowBox').style.display = 'table-row';
     Array.from(document.getElementById('fieldsetEditorBox').querySelectorAll('.editorMenu')).map(el => el.style.display = 'block');
     document.getElementById('logoTitle').textContent = 'Script editor';
+    await this._loadScript_async(scriptId);
     this._jsEditor.update();
   }
 
