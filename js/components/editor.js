@@ -49,8 +49,12 @@ class Editor { /*exported Editor*/
     this._editorMenu.attach(baseElement);
   }
 
-  attachConsole(consoleElement) {
-    this._textConsole.attach(consoleElement);
+  attachConsole() {
+    this._textConsole.attach(document.getElementById('editConsole'));
+  }
+
+  attachConsoleMenu() {
+    this._textConsole.attachMenu(document.getElementById('editConsoleMenu'));
   }
 
   get fontFamily() {
@@ -116,32 +120,33 @@ class Editor { /*exported Editor*/
   }
 
   _createElements() {
-    let editorHtml = '\
-    <div id="editMainTable" class="editTableBox">\
-      <div class="editRowGroupBox">\
-        <div class="editRowBox">\
-          <div class="editCellBox editAutoHeight"></div>\
-          <div class="editCellBox editAutoHeight"></div>\
-        </div>\
-        <div class="editRowBox">\
-          <div id="editLineNumber" class="editCellBox editorText editBorderTopBottom">&nbsp;&nbsp;</div>\
-          <div id ="editEditor" class="editCellBox editRelative100pc editBorderTopBottom editorText">\
-            <div id="editHighlightedCode" class="editTextZone editBorderNone"></div>\
-            <textarea id="editTextArea" class="editTextZone editBorderNone editorCaret caret" spellcheck="false"></textarea>\
-          </div>\
-        </div>\
-        <div class="editRowBox">\
-          <div class="editCellBox editResizeBar"></div>\
-          <div class="editCellBox editResizeBar"></div>\
-        </div>\
-        <div class="editRowBox">\
-        <div class="editCellBox editConsole editConsoleLeft editorConsoleLeft"></div>\
-        <div class="editCellBox editConsole editorConsole">\
-            <div id="editConsole"></div>\
-          </div>\
-        </div>\
-      </div>\
-    </div>\n';
+    let editorHtml = `
+    <div id="editMainTable" class="editTableBox">
+      <div class="editRowGroupBox">
+        <div class="editRowBox">
+          <div class="editCellBox editAutoHeight"></div>
+          <div class="editCellBox editAutoHeight"></div>
+        </div>
+        <div class="editRowBox">
+          <div id="editLineNumber" class="editCellBox editorText editBorderTopBottom">&nbsp;&nbsp;</div>
+          <div id ="editEditor" class="editCellBox editRelative100pc editBorderTopBottom editorText">
+            <div id="editHighlightedCode" class="editTextZone editBorderNone"></div>
+            <textarea id="editTextArea" class="editTextZone editBorderNone editorCaret caret" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="editRowBox">
+          <div class="editCellBox editResizeBar"></div>
+          <div class="editCellBox editResizeBar"></div>
+        </div>
+        <div class="editRowBox">
+          <div class="editCellBox editConsole editConsoleLeft editorConsoleLeft"></div>
+          <div class="editCellBox editConsole editorConsole">
+            <div id="editConsole"></div>
+            <div id="editConsoleMenu" class="contextMenuStyle" ></div>
+          </div>
+        </div>
+      </div>
+    </div>\n`;
 
     this._baseElement.insertAdjacentHTML('beforeend', editorHtml);
     this._editLineNumber = document.getElementById('editLineNumber');

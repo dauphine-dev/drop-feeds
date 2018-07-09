@@ -1,3 +1,4 @@
+/*global ConsoleMenu*/
 'use strict';
 const _messageType = { default: 0, ok: 1, error: 2 };
 
@@ -8,6 +9,18 @@ class TextConsole { /*exported TextConsole*/
 
   attach(consoleElement) {
     this._consoleElement = consoleElement;
+    let html = '<div id="consoleText" style="overflow: auto;"></div>';
+    this._consoleElement.insertAdjacentHTML('beforeend', html);
+    this._consoleTextElement = document.getElementById('consoleText');
+  }
+
+  attachMenu(consoleMenuElement) {
+    this._consoleMenu = new ConsoleMenu(this);
+    this._consoleMenu.attach(consoleMenuElement);
+  }
+
+  get element() {
+    return this._consoleElement;
   }
 
   writeEx(text, messageType) {
@@ -28,8 +41,8 @@ class TextConsole { /*exported TextConsole*/
         style = ' style=' + messageType + ' ';
     }
     let html = '<span' + css + style + '>' + text + '</span>';
-    this._consoleElement.insertAdjacentHTML('beforeend', html);
-    this._consoleElement.scrollTop = this._consoleElement.scrollHeight;
+    this._consoleTextElement.insertAdjacentHTML('beforeend', html);
+    this._consoleTextElement.scrollTop = this._consoleTextElement.scrollHeight;
   }
 
   write(text) {
@@ -37,7 +50,7 @@ class TextConsole { /*exported TextConsole*/
   }
 
   writeLineEx(text, messageType) {
-    this.write(text + '<br/>', messageType);
+    this.writeEx(text + '<br/>', messageType);
   }
 
   writeLine(text) {
@@ -45,6 +58,6 @@ class TextConsole { /*exported TextConsole*/
   }
 
   clear() {
-    this._consoleElement.textContent = '';
+    this._consoleTextElement.textContent = '';
   }
 }

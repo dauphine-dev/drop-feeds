@@ -306,3 +306,48 @@ select {
 .nowrap {
 	white-space: nowrap;
 }
+
+/* context menu */
+
+.contextMenuStyle {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  padding-right: 20px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+	left: 0;
+	top: 0;
+	z-index: 1;
+	cursor: default;
+}
+
+.contextMenuStyle ul {
+  margin-left: -22px;
+}
+
+.contextMenuStyle li {
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ctxMenuItem {
+  line-height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ctxMenuItem:hover {
+  background-color: #999999;
+  color: white;
+}

@@ -90,6 +90,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     BrowserManager.appendScript('/js/tools/syntaxHighlighter.js', typeof SyntaxHighlighter);
     BrowserManager.appendScript('/js/components/editorMenu.js', typeof EditorMenu);
     BrowserManager.appendScript('/js/components/textConsole.js', typeof TextConsole);
+    BrowserManager.appendScript('/js/components/consoleMenu.js', typeof ConsoleMenu);
     BrowserManager.appendScript('/js/components/undoRedoTextArea.js', typeof UndoRedoTextArea);
     BrowserManager.appendScript('/js/components/editor.js', typeof Editor);
   }
@@ -99,7 +100,8 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this._jsEditor.init_async();
     this._jsEditor.attach(document.getElementById('editor'));
     this._jsEditor.attachMenu(document.getElementById('fieldsetEditorBox'));
-    this._jsEditor.attachConsole(document.getElementById('editConsole'));
+    this._jsEditor.attachConsole();
+    this._jsEditor.attachConsoleMenu();
   }
 
   async _loadScript_async(scriptId) {
