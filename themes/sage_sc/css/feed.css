@@ -57,6 +57,10 @@ div.item {
 	position: relative;
 }
 
+.error {
+	background-color: #FF8888 !important;
+}
+
 .itemTitle
 {
 	border-bottom: 1px solid #ddd;

@@ -1,4 +1,4 @@
-/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters USTools*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -99,9 +99,21 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-  static parseFeedToHtml(feedText, defaultTitle) {
-    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle);
+  static parseFeedToHtml(feedText, defaultTitle, isError) {
+    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle, isError);
     let feedHtml = FeedParser._feedInfoToHtml(feedInfo);
+    return feedHtml;
+  }
+
+  static feedErrorToHtml(error, url, title) {
+    let feedHtml = USTools.rssHeader(title, url, 'Error');
+    let description = `<table>
+    <tr><td>Name: </td><td>` + title + `</td></tr>
+    <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
+    <tr><td>Error: </td><td>` + error + `</td></tr>
+    </table>`;
+    feedHtml += USTools.rssItem('Error: ' +  error, url, new Date(), description);
+    feedHtml += USTools.rssFooter();
     return feedHtml;
   }
 
@@ -145,8 +157,9 @@ class FeedParser { /*exported FeedParser*/
     return feedHtml;
   }
 
-  static getFeedInfo(feedText, defaultTitle) {
+  static getFeedInfo(feedText, defaultTitle, isError) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
+    feedInfo.isError = isError;
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     feedInfo.format = FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
@@ -181,18 +194,11 @@ class FeedParser { /*exported FeedParser*/
     let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
     let feedHtml = '';
     feedHtml += htmlHead;
-    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel);
+    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel, feedInfo.isError);
     let htmlItemList = [];
-    /*
-    feedInfo.itemList.sort((item1, item2) => {
-      if (item1.pubDate > item2.pubDate) return -1;
-      if (item1.pubDate < item2.pubDate) return 1;
-      return 0;
-    });
-    */
     feedInfo.itemList = ItemSorter.instance.sort(feedInfo.itemList);
     for (let i = 0; i < feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i + 1);
+      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i + 1, feedInfo.isError);
       htmlItemList.push(htmlItem);
     }
     feedHtml += htmlItemList.join('\n');
@@ -423,11 +429,12 @@ class FeedParser { /*exported FeedParser*/
 
   }
 
-  static _getHtmlChannel(channel) {
+  static _getHtmlChannel(channel, isError) {
     let htmlChannel = '';
     let title = channel.title;
     if (!title) { title = '(No Title)'; }
-    htmlChannel += '    <div class="channelHead">\n';
+    let error = (isError ?  'error' : '');
+    htmlChannel += '    <div class="channelHead ' + error + '">\n';
     if (channel.title) { htmlChannel += '      <h1 class="channelTitle"><a class="channelLink" href="' + channel.link + '">' + channel.title + '</a></h1>\n'; }
     if (channel.description) { htmlChannel += '      <p class="channelDescription">' + channel.description + '</p>\n'; } else { htmlChannel += '<p class="channelDescription"/>'; }
     htmlChannel += '    </div>\n';
@@ -498,12 +505,13 @@ class FeedParser { /*exported FeedParser*/
     return '';
   }
 
-  static _getHtmlItem(item, itemNumber) {
+  static _getHtmlItem(item, itemNumber, isError) {
     let htmlItem = '';
     let title = item.title;
     if (!title) { title = '(No Title)'; }
+    let error = (isError ?  'error' : '');
     htmlItem += '    <div class="item">\n';
-    htmlItem += '      <h2 class="itemTitle">\n';
+    htmlItem += '      <h2 class="itemTitle ' +  error + '">\n';
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
     htmlItem += '        <a href="' + item.link + '">' + title + '</a>\n';
     htmlItem += '      </h2>\n';

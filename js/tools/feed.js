@@ -68,11 +68,36 @@ class Feed { /*exported Feed*/
   }
 
   get docUrl() {
-    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title);
+    let feedHtml = this._getFeedHtml();
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
   }
+
+  _getFeedHtml() {
+    let feedHtml = '';
+    //if there is an error then get html from the error and return
+    if (this._error != null) {
+      feedHtml = this._getFeedHtmlFromError();
+      return feedHtml;
+    }
+
+    //there is no error then get html from feed parsing
+    try { feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title); }
+    catch (e) { this._error = e; }
+    //if an error has occurred  during feed parsing then get html from the error
+    if (this._error != null) {
+      feedHtml = this._getFeedHtmlFromError();
+    }
+    return feedHtml;
+  }
+
+  _getFeedHtmlFromError() {
+    this._feedText = FeedParser.feedErrorToHtml(this._error, this.url, this._storedFeed.title);
+    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title, true);
+    return feedHtml;
+  }
+
 
   get info() {
     if (this._info.hash != this._storedFeed.hash) {
@@ -201,20 +226,12 @@ class Feed { /*exported Feed*/
                 this._download_async(ignoreRedirection, true, scriptData);
               }
               catch (e3) {
-                /*eslint-disable no-console*/
-                //console.log(this.url);
-                //console.log(this._storedFeed.title + ': ' + e3);
-                /*eslint-enable no-console*/
                 this._error = e3;
               }
             }
           }
         }
         if (!retry) {
-          /*eslint-disable no-console*/
-          //console.log(this.url);
-          //console.log(this._storedFeed.title + ': ' + e2);
-          /*eslint-enable no-console*/
           this._error = e2;
         }
       }

@@ -56,6 +56,10 @@ div.item {
 	overflow: hidden;
 }
 
+.error {
+	background-color: #FF8888 !important;
+}
+
 .itemTitle {
 	margin: 0px;
 	padding: 6px;
