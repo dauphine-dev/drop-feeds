@@ -13,6 +13,7 @@ rm -rf .git/
 rm -rf .vscode/
 rm -rf .eslintrc.json
 rm -rf .gitignore
+rm -rf ../$BRANCH.zip
 zip -r ../$BRANCH.zip * >/dev/null
 cd ..
 cp -fr $BRANCH.zip drop-feeds.zip
