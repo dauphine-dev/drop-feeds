@@ -145,7 +145,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     }
     const match = _matchPattern.exec(pattern);
     if (!match || pattern === '<none>') {
-      return null;
+      return /a^/;
     }
     const [, scheme, host, path,] = match;
 
