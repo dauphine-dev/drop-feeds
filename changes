@@ -1,9 +1,9 @@
 0.8.2
-Complete USTools help (user scripts)
+Completes USTools help (user scripts)
 Add console context menu (user scripts)
 Fix editor menus display (user scripts)
 Fix save and restore for script  match pattern (user scripts)
-Fix options 'Items' tab
+Reworks options 'Items' tab
 Displays feed errors
 
 0.8.1
