@@ -148,7 +148,8 @@ class Editor { /*exported Editor*/
       </div>
     </div>\n`;
 
-    this._baseElement.insertAdjacentHTML('beforeend', editorHtml);
+    BrowserManager.insertAdjacentHTML(this._baseElement, 'beforeend', editorHtml);
+
     this._editLineNumber = document.getElementById('editLineNumber');
 
     this._editHighlightedCode = document.getElementById('editHighlightedCode');

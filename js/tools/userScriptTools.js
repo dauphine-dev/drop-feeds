@@ -1,4 +1,4 @@
-/*global Listener ListenerProviders LocalStorageManager*/
+/*global BrowserManager Listener ListenerProviders LocalStorageManager*/
 'use strict';
 const scriptVirtualProtocol = 'dropfeeds://';
 const scriptListKey = 'scriptList';
@@ -67,7 +67,8 @@ class UserScriptTools { /* exported UserScriptTools */
     if (scriptCode) {
       let feedText = null, scriptError = null;
       try {
-        let virtualFeedScript = (new Function(scriptCode))();
+        //let virtualFeedScript = (new Function(scriptCode))();
+let virtualFeedScript = (BrowserManager.newFunction(scriptCode))();
         feedText = await virtualFeedScript();
       }
       catch (e) {
@@ -86,7 +87,8 @@ class UserScriptTools { /* exported UserScriptTools */
     if (scriptCode) {
       let feedTextUpdated = null, scriptError = null;
       try {
-        let userScriptFunction = (new Function(scriptCode))();
+        //let userScriptFunction = (new Function(scriptCode))();
+let userScriptFunction = (BrowserManager.newFunction(scriptCode))();
         feedTextUpdated = await userScriptFunction(feedText);
       }
       catch (e) {

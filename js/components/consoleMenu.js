@@ -1,4 +1,4 @@
-/*global browser*/
+/*global browser BrowserManager*/
 'use strict';
 class ConsoleMenu { /*exported ConsoleMenu*/
   constructor(parentConsole) {
@@ -27,7 +27,7 @@ class ConsoleMenu { /*exported ConsoleMenu*/
       <li id="ctxConsoleCopy" class="ctxMenuItem">#Copy text console</li>
     </ul>`;
 
-    this._baseElement.insertAdjacentHTML('beforeend', htmlString);
+    BrowserManager.insertAdjacentHTML(this._baseElement, 'beforeend', htmlString);
     this.hide();
   }
 

@@ -1,4 +1,4 @@
-/*global browser FontManager*/
+/*global browser BrowserManager FontManager*/
 'use strict';
 class EditorMenu { /*exported EditorMenu*/
   constructor(parentEditor) {
@@ -25,7 +25,8 @@ class EditorMenu { /*exported EditorMenu*/
       <span id="editTabSize">#Tab size</span>&nbsp;
       <input id="editInputTabSize" step="1" min="1" max="99" type="number" size="2" value="4" style="width: 35px;">
     </fieldset>`;
-    baseElement.insertAdjacentHTML('beforeend', htmlString);
+    BrowserManager.insertAdjacentHTML(baseElement, 'beforeend', htmlString);
+
     document.getElementById('editFieldsetFont').style.display = 'none';
 
     //Add fonts family

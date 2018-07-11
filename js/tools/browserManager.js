@@ -184,6 +184,11 @@ class BrowserManager { /* exported BrowserManager*/
     BrowserManager.setInnerHtmlByElement(document.getElementById(id), innerHTML);
   }
 
+  static insertAdjacentHTML(element, position, text) {
+    element.insertAdjacentHTML(position, text);
+  }
+
+
   static loadScript(url, callback) {
     let script = document.createElement('script');
     script.type = 'text/javascript';
@@ -369,5 +374,9 @@ class BrowserManager { /* exported BrowserManager*/
       uiLanguage = browserLanguage;
     }
     return uiLanguage;
+  }
+
+  static newFunction(text) {
+    return new Function(text);
   }
 }

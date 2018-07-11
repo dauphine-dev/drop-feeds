@@ -1,4 +1,4 @@
-/*global ConsoleMenu*/
+/*global BrowserManager ConsoleMenu*/
 'use strict';
 const _messageType = { default: 0, ok: 1, error: 2 };
 
@@ -10,7 +10,7 @@ class TextConsole { /*exported TextConsole*/
   attach(consoleElement) {
     this._consoleElement = consoleElement;
     let html = '<div id="consoleText" style="overflow: auto;"></div>';
-    this._consoleElement.insertAdjacentHTML('beforeend', html);
+    BrowserManager.insertAdjacentHTML(this._consoleElement, 'beforeend', html);
     this._consoleTextElement = document.getElementById('consoleText');
   }
 
@@ -41,7 +41,7 @@ class TextConsole { /*exported TextConsole*/
         style = ' style=' + messageType + ' ';
     }
     let html = '<span' + css + style + '>' + text + '</span>';
-    this._consoleTextElement.insertAdjacentHTML('beforeend', html);
+    BrowserManager.insertAdjacentHTML(this._consoleTextElement, 'beforeend', html);
     this._consoleTextElement.scrollTop = this._consoleTextElement.scrollHeight;
   }
 
