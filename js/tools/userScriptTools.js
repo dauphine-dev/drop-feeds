@@ -30,7 +30,7 @@ class UserScriptTools { /* exported UserScriptTools */
       testId = scriptData.id;
     }
     let scriptObjTransformerMatchedList = this._scriptObjList.filter(
-      so => so.type == scriptType.feedTransformer && (so.enabled || testId == so.id)  && this._isUrlMatch(so, url));
+      so => so.type == scriptType.feedTransformer && (so.enabled || testId == so.id) && this._isUrlMatch(so, url));
     for (let scriptObj of scriptObjTransformerMatchedList) {
       feedText = await this._runScript_async(scriptObj, feedText, scriptData);
     }
@@ -60,15 +60,14 @@ class UserScriptTools { /* exported UserScriptTools */
     let scriptId = url.substring(scriptVirtualProtocol.length).trim();
     if (testMode) { testId = scriptData.id; }
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
-    if (scriptObj) { enabled = scriptObj.enabled || scriptObj.id == testId;  }
+    if (scriptObj) { enabled = scriptObj.enabled || scriptObj.id == testId; }
     if (!enabled) { return; }
 
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, null);
     if (scriptCode) {
       let feedText = null, scriptError = null;
       try {
-        //let virtualFeedScript = (new Function(scriptCode))();
-let virtualFeedScript = (BrowserManager.newFunction(scriptCode))();
+        let virtualFeedScript = (BrowserManager.newFunction(scriptCode))();
         feedText = await virtualFeedScript();
       }
       catch (e) {
@@ -87,8 +86,7 @@ let virtualFeedScript = (BrowserManager.newFunction(scriptCode))();
     if (scriptCode) {
       let feedTextUpdated = null, scriptError = null;
       try {
-        //let userScriptFunction = (new Function(scriptCode))();
-let userScriptFunction = (BrowserManager.newFunction(scriptCode))();
+        let userScriptFunction = (BrowserManager.newFunction(scriptCode))();
         feedTextUpdated = await userScriptFunction(feedText);
       }
       catch (e) {
