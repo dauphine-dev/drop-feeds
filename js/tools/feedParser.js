@@ -543,7 +543,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _getItemTooltipText(item, itemNumber) {
-    let tooltipText = TextTools.toPlainText(item.description).replace(/\W/g, ' ' ).replace(/\s\s+/g, ' ' );
+    let tooltipText = TextTools.toPlainText(item.description).replace(/\c/g, ' ' ).replace(/\s\s+/g, ' ' );
     if (tooltipText.length > 310) {
       tooltipText = tooltipText.substring(0, 310) + '...';
     }
