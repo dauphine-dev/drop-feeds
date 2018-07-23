@@ -157,7 +157,7 @@ class DiscoverFeeds {
     if (this._feedsToProcessList.length > 0) {
       while (this._feedsToProcessList.length > 0) {
         let feed = this._feedsToProcessList.shift();
-        DiscoverFeeds._updateFeed_async(feed);
+        this._updateFeed_async(feed);
       }
     }
     else {
