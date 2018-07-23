@@ -1,4 +1,4 @@
-0.8.2b
+0.8.2e
 Completes USTools help (user scripts)
 Add console context menu (user scripts)
 Fix editor menus display (user scripts)
@@ -7,6 +7,7 @@ Fix <none> match pattern (user scripts)
 Reworks options 'Items' tab
 Displays feed errors
 Fix item tooltips text (missing no english characters)
+Fix discovering feeds
 
 0.8.1
 Editor undo/redo (user scripts)
