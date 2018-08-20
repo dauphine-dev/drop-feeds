@@ -15,6 +15,7 @@ const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
+  static get baseFeedUrl() { return (this._baseFeedUrl = this._baseFeedUrl || BrowserManager._getBaseFeedUrl()); } 
 
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
@@ -37,18 +38,6 @@ class BrowserManager { /* exported BrowserManager*/
   //non statics
   get alwaysOpenNewTab() {
     return this._alwaysOpenNewTab;
-  }
-
-  get baseFeedUrl() {
-    // Returns the "blob:moz-extension://<Internal UUID>" feed base URL for this installation
-    if (this._baseFeedUrl) {
-      return this._baseFeedUrl;
-    }
-
-    let feedBlob = new Blob([]);
-    let feedUrl = new URL(URL.createObjectURL(feedBlob));
-    this._baseFeedUrl = feedUrl.protocol + feedUrl.origin;
-    return this._baseFeedUrl;
   }
 
   async getVersion_async() {
@@ -150,8 +139,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static isDropFeedsUrl(url) {
-    let baseUrl = this.baseFeedUrl;
-    return url.startsWith(baseUrl);
+    return url.startsWith(BrowserManager.baseFeedUrl);
   }
 
   static async getActiveTab_async() {
@@ -378,5 +366,12 @@ class BrowserManager { /* exported BrowserManager*/
 
   static newFunction(text) {
     return new Function(text);
+  }
+
+  static _getBaseFeedUrl() {
+    // Returns the "blob:moz-extension://<Internal UUID>" feed base URL for this installation
+    let feedBlob = new Blob([]);
+    let feedUrl = new URL(URL.createObjectURL(feedBlob));
+    return feedUrl.protocol + feedUrl.origin;
   }
 }
