@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM*/
 'use strict';
-const _delayMsStopChecking = 500;
+const _delayMsStopChecking = 1000;
 class TopMenu { /*exported TopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -12,7 +12,6 @@ class TopMenu { /*exported TopMenu*/
     this._buttonDiscoverFeedsEnabled = false;
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
-    this._checkingFeeds = false;
     this._checkingFeedsStartTime = new Date();
   }
 
@@ -57,11 +56,10 @@ class TopMenu { /*exported TopMenu*/
     }
   }
 
-  animateCheckFeedButton(checkingFeeds) {
-    this._checkingFeeds = checkingFeeds;
+  animateCheckFeedButton(forceAnimate) {
     this._checkingFeedsStartTime = new Date();
     let checkFeedsButton = document.getElementById('checkFeedsButton');
-    if (this._checkingFeeds) {
+    if (FeedManager.instance.checkingFeeds || forceAnimate) {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');
@@ -103,7 +101,7 @@ class TopMenu { /*exported TopMenu*/
     event.stopPropagation();
     event.preventDefault();
     let checkingFeedsStartTimeDelay  = new Date(this._checkingFeedsStartTime.getTime() + _delayMsStopChecking);
-    if (this._checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
+    if (FeedManager.instance.checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
       await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
       return;
     }

@@ -19,6 +19,7 @@ class FeedManager { /*exported FeedManager*/
     this._automaticUpdatesOnStar = DefaultValues.automaticFeedUpdatesOnStart;
     this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
     this._automaticUpdatesMilliseconds = undefined;
+    this._checkingFeeds = false;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
@@ -28,13 +29,18 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
   }
 
+  get checkingFeeds() {
+    return this._checkingFeeds;
+  }
+
   async delete(feedId) {
     await Feed.delete_async(feedId);
   }
 
   async checkFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    TopMenu.instance.animateCheckFeedButton(true);
+    this._checkingFeeds = true;
+    TopMenu.instance.animateCheckFeedButton(false);
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
     await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
@@ -125,6 +131,7 @@ class FeedManager { /*exported FeedManager*/
 
   _processFeedsFinished() {
     StatusBar.instance.text = '';
+    this._checkingFeeds = true;
     TopMenu.instance.animateCheckFeedButton(false);
     StatusBar.instance.workInProgress = false;
     this._feedProcessingInProgress = false;
