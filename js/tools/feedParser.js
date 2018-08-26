@@ -614,6 +614,8 @@ class FeedParser { /*exported FeedParser*/
 
   static _disableTags(text, tagToDisableList, hide) {
     for (let tag of tagToDisableList) {
+      if(!tag)
+          continue;
       text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
       text = text.replace(new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
     }
