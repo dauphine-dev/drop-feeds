@@ -131,7 +131,7 @@ class FeedManager { /*exported FeedManager*/
 
   _processFeedsFinished() {
     StatusBar.instance.text = '';
-    this._checkingFeeds = true;
+    this._checkingFeeds = false;
     TopMenu.instance.animateCheckFeedButton(false);
     StatusBar.instance.workInProgress = false;
     this._feedProcessingInProgress = false;
