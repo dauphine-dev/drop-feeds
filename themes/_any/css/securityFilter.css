@@ -58,16 +58,7 @@ body {
 
 /*-- -- --*/
 
-.secTableHead, .secTableHead tr, .secTableHead th {
-  background-color: #f0f0f0;
-  text-align: left;
-  font-weight: normal;
-  padding-left: 10px;
-  border: 1px solid #c0c0c0;
-  height: 1em;
-}
-
-.secTableBody {
+.secTable {
   display: block;
   overflow-y: auto;
   height: 100%;
@@ -75,8 +66,7 @@ body {
   margin-right: 16px;
 }
 
-.secTableBody tr {
-  display: block;
+.secTable tr {
   background-color: #ffffff;
   border-top: 1px solid #c0c0c0;
   border-right: 1px solid #c0c0c0;
@@ -86,10 +76,21 @@ body {
   padding-bottom: 3px;
 }
 
-.secTableBody td {
+.secTable th {
+  background-color: #f0f0f0;
+  text-align: left;
+  font-weight: normal;
+  padding-left: 10px;
+  border: 1px solid #c0c0c0;
+  height: 1em;
+}
+
+
+.secTable td {
   background-color: #ffffff00;
   padding-left: 2px;
-  width: 90%;
+  /*width: 90%;*/
+  border: 1px solid #c0c0c0;
 }
 
 .filterTab {

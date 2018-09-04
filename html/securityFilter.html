@@ -8,6 +8,7 @@
   <link rel="icon" type="image/png" href="/resources/img/favicon.png" />
   <script src="/js/tools/defaultValues.js"></script>
   <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/textTools.js"></script>
   <title>Drop Feeds (Security filters)</title>
 </head>
 
@@ -44,14 +45,13 @@
               <div class="colBox">
 
                 <div class="cellBox">
-                  <table class="secTableHead secTableHTml">
+                  <table class="secTable secTableHTml">
                     <thead>
                       <tr>
-                        <th>Elements</th>
+                        <th id="thElm">#Elements</th>
+                        <th id="thAtt">#Attributes</th>
                       </tr>
                     </thead>
-                  </table>
-                  <table class="secTableBody secTableHTml">
                     <tbody id="allowedHtmlElementsList">
                     </tbody>
                   </table>
@@ -62,6 +62,8 @@
 
                 <div class="cellBox">
                   <button id="htmlFilterAddButton">#Add</button>
+                  <p/>
+                  <button id="htmlFilterEditButton">#Edit</button>
                   <p/>
                   <button id="htmlFilterRemoveButton">#Remove</button>
                   <p/>
@@ -75,16 +77,30 @@
     </div>
   </div>
 
-
-  <div id="htmlFilterAddDialog" class="secDialog hide">
-    <h1 id="htmlFilterAddDialogTitle">#Add</h1>
+  <div id="htmlFilterDialog" class="secDialog hide">
+    <h1 id="htmlFilterDialogTitle">#Add</h1>
     <div class="secBodyDialog">
-      <label id="htmlFilterAddDialogElementToAllow">#Element to allow</label>
+      <come-from id="comeFrom"></come-from>
+      <initial-tag id="initialTag"></initial-tag>
+      <label id="htmlFilterDialogElementToAllow">#Element to allow</label>
       <br/>
-      <input type="text" id="htmlFilterAddDialogTag" class="fieldText" value="">
+      <input type="text" id="htmlFilterDialogTag" class="fieldText" value="">
       <p/>
-      <button id="htmlFilterAddDialogCancel">#Cancel</button>
-      <button id="htmlFilterAddDialogOk">#OK</button>
+      <label id="htmlFilterAddDialogAttributesToAllow">#Attributes to allow</label>
+      <br/>
+      <input type="text" id="htmlFilterDialogAtt" class="fieldText" value="">
+      <p/>
+      <button id="htmlFilterDialogCancel">#Cancel</button>
+      <button id="htmlFilterDialogOk">#OK</button>
+    </div>
+  </div>
+
+  <div id="messageDialog" class="secDialog hide">
+    <h1 id="messageDialogTitle">#Message</h1>
+    <div class="secBodyDialog">
+      <label id="messageDialogMsg">#...</label>
+      <p/>
+      <button id="messageDialogOk">#OK</button>
     </div>
   </div>
 

@@ -338,8 +338,17 @@
   "optAllowedHtmlElements": {
     "message": "許可されたHTML要素（他の要素は拒否されます）"
   },
+  "optHtmlFilterThElm": {
+    "message": "Elements"
+  },
+  "optHtmlFilterThAtt": {
+    "message": "Attributes"
+  },
   "optHtmlFilterAddButton": {
     "message": "追加"
+  },
+  "optHtmlFilterEditButton": {
+    "message": "Edit"
   },
   "optHtmlRemoveAddButton": {
     "message": "削除"
@@ -350,8 +359,14 @@
   "optHtmlFilterAddDialogTitle": {
     "message": "追加"
   },
+  "optHtmlFilterEditDialogTitle": {
+    "message": "Edit"
+  },
   "optHtmlFilterAddDialogElementToAllow": {
     "message": "許可する要素"
+  },
+  "optHtmlFilterAddDialogAttributesToAllow": {
+    "message": "Attributes to allow"
   },
   "optHtmlFilterAddDialogCancel": {
     "message": "キャンセル"

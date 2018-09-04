@@ -1,6 +1,6 @@
 /* global Listener ListenerProviders DefaultValues LocalStorageManager*/
 'use strict';
-const _blackListHtmlTagsTopShow = ['blink', 'marquee'];
+const _blackListHtmlTagsTopShow = [ {'blink': []}, {'marquee': []}];
 class SecurityFilters { /* exported SecurityFilters*/
   static get instance() { return (this._instance = this._instance || new this()); }
 

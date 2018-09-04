@@ -336,10 +336,19 @@
     "message": "Fitres HTML"
   },
   "optAllowedHtmlElements": {
-    "message": "Elements HTML autorisés (les autre sont rejetés)"
+    "message": "Eléments HTML autorisés (les autre sont rejetés)"
+  },
+  "optHtmlFilterThElm": {
+    "message": "Eléments"
+  },
+  "optHtmlFilterThAtt": {
+    "message": "Attributs"
   },
   "optHtmlFilterAddButton": {
     "message": "Ajouter"
+  },
+  "optHtmlFilterEditButton": {
+    "message": "Modifier"
   },
   "optHtmlRemoveAddButton": {
     "message": "Retirer"
@@ -350,8 +359,14 @@
   "optHtmlFilterAddDialogTitle": {
     "message": "Ajouter"
   },
+  "optHtmlFilterEditDialogTitle": {
+    "message": "Modifier"
+  },
   "optHtmlFilterAddDialogElementToAllow": {
     "message": "Element à autoriser"
+  },
+  "optHtmlFilterAddDialogAttributesToAllow": {
+    "message": "Attributes to allow"
   },
   "optHtmlFilterAddDialogCancel": {
     "message": "Annuler"

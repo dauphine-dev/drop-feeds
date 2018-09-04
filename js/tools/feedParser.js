@@ -602,14 +602,18 @@ class FeedParser { /*exported FeedParser*/
     let hide = null;
     let blackListShow = SecurityFilters.instance.blackListHtmlTagsTopShow;
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
-    whiteListTags.push('<!'); // avoid to have manage comments for now (but we will have to do)
+    whiteListTags.push({'<!': []}); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
-    let toBlackListTagList = [...new Set(textTagList.filter(x => !whiteListTags.includes(x)) || [])];
-    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => blackListShow.includes(x)))];
-    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !blackListShow.includes(x)))];
+    let toBlackListTagList = [...new Set(textTagList.filter(x => !FeedParser._tagListIncludes(whiteListTags, x)) || [])];
+    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => FeedParser._tagListIncludes(blackListShow, x)))];
+    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !FeedParser._tagListIncludes(blackListShow, x)))];
     hide = false; text = FeedParser._disableTags(text, toBlackListAndShowTagList, hide);
     hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
     return text;
+  }
+
+  static _tagListIncludes(tagList, x) {
+    return (tagList.findIndex(e => Object.keys(e) == x)) >=0;
   }
 
   static _disableTags(text, tagToDisableList, hide) {

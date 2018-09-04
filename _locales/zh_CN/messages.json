@@ -1,479 +1,602 @@
 {
-    "comment1": {
-        "message": "------------------Manifest strings------------------",
-        "hash": "3d1b60992a2bf3952a3c827f6fddb17b"
-    },
-    "manExtensionDescription": {
-        "message": "一个侧栏，使您可以在文件夹树视图中管理 RSS 源",
-        "hash": "756b8c2a889d903860d8d53fe4395794"
-    },
-    "manPageActionDefaultTitle": {
-        "message": "转至订阅页面",
-        "hash": "e221a7a70d0ac70190b9d14b8e72397e"
-    },
-    "manPageActionGo": {
-        "message": "转至订阅页面",
-        "hash": "e221a7a70d0ac70190b9d14b8e72397e"
-    },
-    "manPageActionAdd": {
-        "message": "使用 Drop feed 订阅",
-        "hash": "675f13b1057a3d6f950791e2699e2daf"
-    },
-    "comment2": {
-        "message": "------------------Sidebar strings------------------",
-        "hash": "6333079f3793daa3af9c5fa2cdc000fe"
-    },
-    "sbCheckFeeds": {
-        "message": "检查订阅点",
-        "hash": "1c5ae5d78ac2658d2a10fda584da7915"
-    },
-    "sbDiscoverFeeds": {
-        "message": "发现订阅点",
-        "hash": "427809a0adeac8aa33bc2e8cb00fab52"
-    },
-    "sbViewOnlyUpdatedFeeds": {
-        "message": "只查看更新的订阅点",
-        "hash": "ee2be5a3b0354ce2b846a59682061b87"
-    },
-    "sbToggleFolders": {
-        "message": "切换文件夹（打开/关闭）",
-        "hash": "9b30a51ad73f50f6b2cc79652e9b4bcc"
-    },
-    "sbSubscriptionGo": {
-        "message": "转至订阅页面",
-        "hash": "5f0230fe004b12e3f168071e0664701b"
-    },
-    "sbSubscriptionAdd": {
-        "message": "订阅",
-        "hash": "24e6f5d9566def4867e3249a78d5b29a"
-    },
-    "sbOpenOptionsTab": {
-        "message": "打开选项标签页",
-        "hash": "e48f616dc257b397112898038e62ac2a"
-    },
-    "sbMarkAsRead": {
-        "message": "标为已读",
-        "hash": "44e9754716aa7b9a458bb2921e8b9615"
-    },
-    "sbMarkAsUnread": {
-        "message": "标为未读",
-        "hash": "78e7a4c6c2ca8816825f4748893ed110"
-    },
-    "sbMarkAllAsRead": {
-        "message": "全部标为已读",
-        "hash": "b9dd67902a348e2f20cb2525fa68c151"
-    },
-    "sbMarkAllAsUnread": {
-        "message": "全部标为未读",
-        "hash": "bd405928eecffd571b256dc112f2877a"
-    },
-    "sbOpenUnreadItemsInNewTabs": {
-        "message": "新建标签页打开未读项目",
-        "hash": "13c9ca8da6ebed6ec916815c1c000d76"
-    },
-    "sbMarkAllAsUpdated": {
-        "message": "全部设为已更新",
-        "hash": "7973a0aed6c4026f8cc95cdf149f3134"
-    },
-    "sbOpenUpdatedFeeds": {
-        "message": "打开已更新订阅点",
-        "hash": "1adb2333db4ab7a7c9777a7acfb40d03"
-    },
-    "sbOpenUpdatedAsUnified": {
-        "message": "打开已更新为一个统一订阅点",
-        "hash": "cbebd773e2f55ee08264fbd8b0f47b51"
-    },
-    "sbSortByName": {
-        "message": "按名称排序",
-        "hash": "04d3c6ae5cd1b54cc9aa30255b1b1f1d"
-    },
-    "sbNewFolder": {
-        "message": "新建文件夹",
-        "hash": "c2c6032037e617ffd0fdc5b02599f7a2"
-    },
-    "sbDeleteFolder": {
-        "message": "删除",
-        "hash": "ba4d75c0e084b96aed007047d5d3f999"
-    },
-    "sbFolderInfo": {
-        "message": "信息",
-        "hash": "772b8e57e5d6623f1cf59d7d90ddaa47"
-    },
-    "sbGetFeedTitle": {
-        "message": "获取订阅点标题",
-        "hash": "9e0303541cb4dcbe49bf33a366134344"
-    },
-    "sbOpenFeed": {
-        "message": "打开",
-        "hash": "ef2153d2e5425b4d1f5e9c215c1eeb94"
-    },
-    "sbMarkFeedAsRead": {
-        "message": "标为已读",
-        "hash": "44e9754716aa7b9a458bb2921e8b9615"
-    },
-    "sbMarkFeedAsUpdated": {
-        "message": "标为未读",
-        "hash": "78e7a4c6c2ca8816825f4748893ed110"
-    },
-    "sbDeleteFeed": {
-        "message": "删除",
-        "hash": "ba4d75c0e084b96aed007047d5d3f999"
-    },
-    "sbFeedInfo": {
-        "message": "信息",
-        "hash": "772b8e57e5d6623f1cf59d7d90ddaa47"
-    },
-    "sbUseButtonAbove": {
-        "message": "使用上方的按钮添加订阅点！",
-        "hash": "c81d1251b564bb168a67da93a3129a6e"
-    },
-    "sbChecking": {
-        "message": "正在检查",
-        "hash": "864c2fd91f46bcba890692a1a33d6a39"
-    },
-    "sbOpening": {
-        "message": "正在打开",
-        "hash": "a7e09261bbf874597ab0320ec09af36e"
-    },
-    "sbLoading": {
-        "message": "正在加载",
-        "hash": "5e8e573f87a9c89e87684de2a985fe89"
-    },
-    "sbLoaded": {
-        "message": "已加载",
-        "hash": "435a4e9ed1aafcd071a940926ccf3707"
-    },
-    "sbMerging": {
-        "message": "正在合并",
-        "hash": "065979be5cba3ae00913acbabd940f93"
-    },
-    "sbComputingUnifiedView": {
-        "message": "正在计算统一视图",
-        "hash": "ec68a75849b3f9e32c2c54726132d17c"
-    },
-    "sbReceived": {
-        "message": "已接收",
-        "hash": "ca26ec2ce7ce389a5a6f4b7371d2c253"
-    },
-    "sbFeedsUpdated": {
-        "message": "个订阅点已更新",
-        "hash": "da978357723676ff9473bb3e42d3047e"
-    },
-    "sbOneFeedUpdated": {
-        "message": "一个订阅点已更新",
-        "hash": "1541210be96a2167047979d21b9b51fa"
-    },
-    "sbNoFeedHasBeenUpdated": {
-        "message": "没有订阅点有更新",
-        "hash": "166eb837fa59888fed403504e790bf1d"
-    },
-    "comment3": {
-        "message": "------------------Subscribe strings------------------",
-        "hash": "ec81ff241b8c9dab755e2a6ff79ef6f8"
-    },
-    "subDropFeedsSubscribe": {
-        "message": "Drop Feeds (定义)",
-        "hash": "ead371460cced57483a06df80d3b538b"
-    },
-    "subSubscribeWithDropFeed": {
-        "message": "使用 Drop feed 订阅",
-        "hash": "675f13b1057a3d6f950791e2699e2daf"
-    },
-    "subName": {
-        "message": "名称",
-        "hash": "ea749f1f2741f75bc9964303625ad41f"
-    },
-    "subFolder": {
-        "message": "文件夹",
-        "hash": "b25e1c74b1658568a0f8efaf2091a651"
-    },
-    "subNewFolder": {
-        "message": "新建文件夹",
-        "hash": "c2c6032037e617ffd0fdc5b02599f7a2"
-    },
-    "subCancel": {
-        "message": "取消",
-        "hash": "17aa19f18a894459ab6ff21156e8a341"
-    },
-    "subSubscribe": {
-        "message": "订阅",
-        "hash": "24e6f5d9566def4867e3249a78d5b29a"
-    },
-    "subCreate": {
-        "message": "创建",
-        "hash": "644b8edfc81e717199b0d30439c065ae"
-    },
-    "comment4": {
-        "message": "------------------Discover strings------------------",
-        "hash": "73c0eeeb8c7e5e4fa43978cfecda34de"
-    },
-    "disDiscoverFeeds": {
-        "message": "发现订阅点",
-        "hash": "427809a0adeac8aa33bc2e8cb00fab52"
-    },
-    "disDiscoveringFeeds": {
-        "message": "正在发现订阅点",
-        "hash": "a14329a7f95a97ede1b54efc0af25704"
-    },
-    "disNoFeedsHaveBeenDiscovered": {
-        "message": "没有发现到订阅点",
-        "hash": "a4a34b4cad8dcc18bf74cbc10165676d"
-    },
-    "disDiscovered": {
-        "message": "已发现",
-        "hash": "b218b31e3c2471ad3895e5bba2e83959"
-    },
-    "disFeeds": {
-        "message": "个订阅点",
-        "hash": "e333584f60f40054c10d5da1ca97f05a"
-    },
-    "disTitle": {
-        "message": "标题",
-        "hash": "12d52bb8985aafa17f2e0ae7b2dbe2cc"
-    },
-    "disFormat": {
-        "message": "格式",
-        "hash": "f38740d31ab107d70ae4178c150f9444"
-    },
-    "disLastUpdate": {
-        "message": "上次更新",
-        "hash": "64a43b32de5797b2e6042747c5182b0d"
-    },
-    "disItems": {
-        "message": "项目",
-        "hash": "05d193ac5bca794ffc16a5b4382fa5e2"
-    },
-    "disUrl": {
-        "message": "网址",
-        "hash": "ed2ab85b81ad9eb6e3c7315a7b26d039"
-    },
-    "disAddFeed": {
-        "message": "添加订阅点",
-        "hash": "9ed80c9113516c73b5d50151f617c823"
-    },
-    "disClose": {
-        "message": "关闭",
-        "hash": "45ac978b889df38efdc9563b8afd3ea9"
-    },
-    "comment5": {
-        "message": "------------------Options strings------------------",
-        "hash": "3dd161914e6e974ca5cac036db2b84f8"
-    },
-    "optDropFeedsOptions": {
-        "message": "Drop Feeds (选项)",
-        "hash": "027a38171d03216f56afabd7ada616ee"
-    },
-    "optGeneral": {
-        "message": "常规",
-        "hash": "e90d858c95232c95e34b4bb2f25b69e4"
-    },
-    "optUpdateChecker": {
-        "message": "更新检查器",
-        "hash": "f5926d26bc647df9eeef6d2adf03b6a3"
-    },
-    "optView": {
-        "message": "查看",
-        "hash": "3d4487384c2bb1545db2420c51fc79fc"
-    },
-    "optItems": {
-        "message": "项目",
-        "hash": "05d193ac5bca794ffc16a5b4382fa5e2"
-    },
-    "optContentsArea": {
-        "message": "内容区",
-        "hash": "5e25f8716a0dab6e2de63b4364a6f449"
-    },
-    "optManagement": {
-        "message": "管理",
-        "hash": "02ab0da07713abc27e0ccfa167e18859"
-    },
-    "optSelectFeedFolder": {
-        "message": "选择订阅点文件夹",
-        "hash": "563b30e34103f263c926823470ce6224"
-    },
-    "optApply": {
-        "message": "应用",
-        "hash": "93c55f93814b316cd3d6c072ffff92ff"
-    },
-    "optDoNotDisplayRootFolder": {
-        "message": "不显示根文件夹",
-        "hash": "5918f7f4c72b15f3094ae21df659010d"
-    },
-    "optSelectTheme": {
-        "message": "选择主题",
-        "hash": "c9c3c8f6710debb07d8705a1f2ee7aa8"
-    },
-    "optFeedItemOrder": {
-        "message": "订阅点项目顺序",
-        "hash": "1bf360b5f013f42ea418251cc6e91f12"
-    },
-    "optNewerFirst": {
-        "message": "新的优先",
-        "hash": "a6b9c47d9e141b63f1ad81e58e258cc1"
-    },
-    "optOlderFirst": {
-        "message": "旧的优先",
-        "hash": "a6b6a70b08cd8a85efe81889c005346b"
-    },
-    "optOriginal": {
-        "message": "原始",
-        "hash": "3e3be32e5db8a9f32bab353d55d00356"
-    },
-    "optTimeout": {
-        "message": "超时",
-        "hash": "6fe30302b3661b61de5b0672c95165c7"
-    },
-    "optSeconds": {
-        "message": "秒",
-        "hash": "db3bdc928c556712778b826411e15e8b"
-    },
-    "optAsynchronousFeedChecking": {
-        "message": "异步订阅点检查",
-        "hash": "2b1c2bfeb87621efd40f07c9a0b8a623"
-    },
-    "optAutoFeedUpdatesEvery": {
-        "message": "自动更新订阅点，每隔",
-        "hash": "5850c5e06fcbabd6d3d19ac52f3b2eff"
-    },
-    "optMinutes": {
-        "message": "分钟",
-        "hash": "f4ea5db97ec0862be67da7286b7b3b38"
-    },
-    "optShowNotifications": {
-        "message": "更新后显示通知",
-        "hash": "36a6e70407dbff8a37759bf6e8e3a02d"
-    },
-    "optRetryWithHttp": {
-        "message": "当 https 失败时用 http 重试",
-        "hash": "f2e95c995fc0e2553abb5dbd6acbd939"
-    },
-    "optFeedItemList": {
-        "message": "订阅点项目列表",
-        "hash": "2902354772a91a005e41fc6ea7934728"
-    },
-    "optFeedItemListToolbar": {
-        "message": "订阅点项目列表工具栏 (*)",
-        "hash": "bc27c77c8f7dd1e8c5503467b40c6d84"
-    },
-    "optDescriptionTooltips": {
-        "message": "工具提示显示描述",
-        "hash": "e82234c41022ab78500dca3a266e2667"
-    },
-    "optNavigationHistoryWarning": {
-        "message": "(*) 警告：标为已读/未读功能将修改您的浏览器历史记录！",
-        "hash": "6efeafa954397bec3dbd0ce428949613"
-    },
-    "optShowUpdatedFeedCount": {
-        "message": "显示已更新订阅点数量",
-        "hash": "e1302c11f2b298eda2c20f30ca756409"
-    },
-    "optShowErrorsAsUnread": {
-        "message": "将出错显示为未读",
-        "hash": "423a56a554eded2d2f0fc873090d02e3"
-    },
-    "optRenderFeeds": {
-        "message": "渲染订阅点",
-        "hash": "d287f362325157231571044494daa4ff"
-    },
-    "optAlwaysOpenNewTab": {
-        "message": "始终新建标签页打开",
-        "hash": "7340ced4bed780455a53e2bd41c66f82"
-    },
-    "optOpenNewTabForeground": {
-        "message": "前台打开新标签页",
-        "hash": "d72ae91684bce777d31ed3d0f4a8f9cc"
-    },
-    "optReuseDropFeedsTab": {
-        "message": "重用 Drop Feeds 标签页",
-        "hash": "8ea66de570d39e24be91a531cd36d5cd"
-    },
-    "optSelectOpmlFileToImport": {
-        "message": "打开 opml 文件以导入",
-        "hash": "982a4a191b47adc91723947af5024255"
-    },
-    "optImport": {
-        "message": "导入...",
-        "hash": "fec5ab4fe658ff07323e91c7106741b1"
-    },
-    "optSelectOpmlFileToExport": {
-        "message": "选择导出 ompl 文件的位置",
-        "hash": "a9377be8e93d1b6033f4baab105a1187"
-    },
-    "optExport": {
-        "message": "导出...",
-        "hash": "45b5bc116940225b8c6d4726fcfd2564"
-    },
-    "comment6": {
-        "message": "------------------Content script strings------------------",
-        "hash": "b1993ddabd5a73f4c61a8c26120e10cc"
-    },
-    "csSubscribeWithDropFeeds": {
-        "message": "使用 Drop Feeds 订阅",
-        "hash": "35ead1f34ce98efa6fb273b7c9dbca5d"
-    },
-    "ff56Text1": {
-        "message": "要使此图标打开 Drop Feeds 侧栏，请更新到 Firefox 57 或更高版本",
-        "hash": "820045f2e6cddccaef4dc20091656648"
-    },
-    "ff56Text2": {
-        "message": "在 Firefox 56 中，本扩展无法打开侧栏。",
-        "hash": "6c9b224e221bd5d8d6248e5e03f83724"
-    },
-    "ff56Text3": {
-        "message": ""
-    },
-    "ff56Text4": {
-        "message": "要在 Firefox 56 中使用 Drop Feeds：",
-        "hash": "b0a7b5f9f8cc2a2704e557f433682a75"
-    },
-    "ff56Text5": {
-        "message": "您必须点击 Firefox 提供的“显示侧栏”图标。",
-        "hash": "5908656730b4d90c5a68657dd86a24f8"
-    },
-    "ff56Text6": {
-        "message": "然后在侧栏列表中选择 Drop feeds",
-        "hash": "ee2dfe7b3fef29e51b7ea2c934d27837"
-    },
-    "ff56Text7": {
-        "message": "点击这里来关闭",
-        "hash": "ee727784fe2ddfec674ac239d6711067"
-    },
-    "comment7": {
-        "message": "------------------Subscribe this feed strings------------------",
-        "hash": "195b99cdf8a2ad85816ac62418114b0a"
-    },
-    "stfSubscribeUsing": {
-        "message": "订阅此订阅点，使用",
-        "hash": "c9f98dd74b61c8da55a045ef03befc59"
-    },
-    "stfSubscribeNow": {
-        "message": "立即订阅",
-        "hash": "be5eca32b9d1b6bc0b40771ab4b79e0b"
-    },
-    "comment8": {
-        "message": "------------------Info view strings------------------",
-        "hash": "25e0d2d690cac2c4a8234046ae4bbdaa"
-    },
-    "sbInfoIdLdl": {
-        "message": "ID",
-        "hash": "78214be962b051c11efb689f44fcbe58"
-    },
-    "sbInfoNameLbl": {
-        "message": "名称",
-        "hash": "ea749f1f2741f75bc9964303625ad41f"
-    },
-    "sbInfoAddressLbl": {
-        "message": "地址",
-        "hash": "dc5b15c07aa97cd147a735d0d141038c"
-    },
-    "sbInfoUpdateButton": {
-        "message": "更新",
-        "hash": "eb6223a666b89520b8e22963ac425eec"
-    },
-    "sbInfoCloseButton": {
-        "message": "关闭",
-        "hash": "45ac978b889df38efdc9563b8afd3ea9"
-    },
-
-    "__WET_LOCALE__": { "message": "zh-CN" }
+  "comment1": {
+    "message": "------------------Manifest strings------------------"
+  },
+  "manExtensionDescription": {
+    "message": "一个侧栏，使您可以在文件夹树视图中管理 RSS 源"
+  },
+  "manPageActionDefaultTitle": {
+    "message": "转至订阅页面"
+  },
+  "manPageActionGo": {
+    "message": "转至订阅页面"
+  },
+  "manPageActionAdd": {
+    "message": "使用 Drop feed 订阅"
+  },
+  "comment2": {
+    "message": "------------------Sidebar strings------------------"
+  },
+  "sbCheckFeeds": {
+    "message": "检查订阅点"
+  },
+  "sbStopAndRestart": {
+    "message": "Stop checking and restart Drop feeds"
+  },
+  "sbDiscoverFeeds": {
+    "message": "发现订阅点"
+  },
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "只查看更新的订阅点"
+  },
+  "sbToggleFolders": {
+    "message": "切换文件夹（打开/关闭）"
+  },
+  "sbSubscriptionGo": {
+    "message": "转至订阅页面"
+  },
+  "sbSubscriptionAdd": {
+    "message": "订阅"
+  },
+  "sbOpenOptionsTab": {
+    "message": "打开选项标签页"
+  },
+  "sbMarkAsRead": {
+    "message": "标为已读"
+  },
+  "sbMarkAsUnread": {
+    "message": "标为未读"
+  },
+  "sbMarkAllAsRead": {
+    "message": "全部标为已读"
+  },
+  "sbMarkAllAsUnread": {
+    "message": "全部标为未读"
+  },
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "新建标签页打开未读项目"
+  },
+  "sbMarkAllAsUpdated": {
+    "message": "全部设为已更新"
+  },
+  "sbOpenUpdatedFeeds": {
+    "message": "打开已更新订阅点"
+  },
+  "sbOpenUpdatedAsUnified": {
+    "message": "打开已更新为一个统一订阅点"
+  },
+  "sbSortByName": {
+    "message": "按名称排序"
+  },
+  "sbNewFolder": {
+    "message": "新建文件夹"
+  },
+  "sbDeleteFolder": {
+    "message": "删除"
+  },
+  "sbFolderInfo": {
+    "message": "信息"
+  },
+  "sbGetFeedTitle": {
+    "message": "获取订阅点标题"
+  },
+  "sbOpenFeed": {
+    "message": "打开"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "标为已读"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "标为未读"
+  },
+  "sbDeleteFeed": {
+    "message": "删除"
+  },
+  "sbFeedInfo": {
+    "message": "信息"
+  },
+  "sbUseButtonAbove": {
+    "message": "使用上方的按钮添加订阅点！"
+  },
+  "sbChecking": {
+    "message": "正在检查"
+  },
+  "sbPreparing": {
+    "message": "preparing"
+  },
+  "sbOpening": {
+    "message": "正在打开"
+  },
+  "sbLoading": {
+    "message": "正在加载"
+  },
+  "sbLoaded": {
+    "message": "已加载"
+  },
+  "sbMerging": {
+    "message": "正在合并"
+  },
+  "sbComputingUnifiedView": {
+    "message": "正在计算统一视图"
+  },
+  "sbReceived": {
+    "message": "已接收"
+  },
+  "sbFeedsUpdated": {
+    "message": "个订阅点已更新"
+  },
+  "sbOneFeedUpdated": {
+    "message": "一个订阅点已更新"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "没有订阅点有更新"
+  },
+  "comment3": {
+    "message": "------------------Subscribe strings------------------"
+  },
+  "subDropFeedsSubscribe": {
+    "message": "Drop Feeds (定义)"
+  },
+  "subSubscribeWithDropFeed": {
+    "message": "使用 Drop feed 订阅"
+  },
+  "subName": {
+    "message": "名称"
+  },
+  "subFolder": {
+    "message": "文件夹"
+  },
+  "subNewFolder": {
+    "message": "新建文件夹"
+  },
+  "subCancel": {
+    "message": "取消"
+  },
+  "subSubscribe": {
+    "message": "订阅"
+  },
+  "subCreate": {
+    "message": "创建"
+  },
+  "comment4": {
+    "message": "------------------Discover strings------------------"
+  },
+  "disDiscoverFeeds": {
+    "message": "发现订阅点"
+  },
+  "disDiscoveringFeeds": {
+    "message": "正在发现订阅点"
+  },
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "没有发现到订阅点"
+  },
+  "disDiscovered": {
+    "message": "已发现"
+  },
+  "disFeeds": {
+    "message": "个订阅点"
+  },
+  "disTitle": {
+    "message": "标题"
+  },
+  "disFormat": {
+    "message": "格式"
+  },
+  "disLastUpdate": {
+    "message": "上次更新"
+  },
+  "disItems": {
+    "message": "项目"
+  },
+  "disUrl": {
+    "message": "网址"
+  },
+  "disAddFeed": {
+    "message": "添加订阅点"
+  },
+  "disClose": {
+    "message": "关闭"
+  },
+  "comment5": {
+    "message": "------------------Options strings------------------"
+  },
+  "optDropFeedsOptions": {
+    "message": "Drop Feeds (选项)"
+  },
+  "optGeneral": {
+    "message": "常规"
+  },
+  "optUpdateChecker": {
+    "message": "更新检查器"
+  },
+  "optView": {
+    "message": "查看"
+  },
+  "optItems": {
+    "message": "项目"
+  },
+  "optContentsArea": {
+    "message": "内容区"
+  },
+  "optManagement": {
+    "message": "管理"
+  },
+  "optSelectFeedFolder": {
+    "message": "选择订阅点文件夹"
+  },
+  "optApply": {
+    "message": "应用"
+  },
+  "optDoNotDisplayRootFolder": {
+    "message": "不显示根文件夹"
+  },
+  "optSelectTheme": {
+    "message": "选择主题"
+  },
+  "optFeedItemOrder": {
+    "message": "订阅点项目顺序"
+  },
+  "optNewerFirst": {
+    "message": "新的优先"
+  },
+  "optOlderFirst": {
+    "message": "旧的优先"
+  },
+  "optOriginal": {
+    "message": "原始"
+  },
+  "optTimeout": {
+    "message": "超时"
+  },
+  "optSeconds": {
+    "message": "秒"
+  },
+  "optAsynchronousFeedChecking": {
+    "message": "异步订阅点检查"
+  },
+  "optAutoFeedUpdatesEvery": {
+    "message": "自动更新订阅点，每隔"
+  },
+  "optMinutes": {
+    "message": "分钟"
+  },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Run an automatic feed update on start"
+  },
+  "optShowNotifications": {
+    "message": "更新后显示通知"
+  },
+  "optRetryWithHttp": {
+    "message": "当 https 失败时用 http 重试"
+  },
+  "optFeedItemList": {
+    "message": "订阅点项目列表"
+  },
+  "optFeedItemListToolbar": {
+    "message": "订阅点项目列表工具栏 (*)"
+  },
+  "optDescriptionTooltips": {
+    "message": "工具提示显示描述"
+  },
+  "optNavigationHistoryWarning": {
+    "message": "(*) 警告：标为已读/未读功能将修改您的浏览器历史记录！"
+  },
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Mark all items as read before leaving feeds"
+  },
+  "optShowUpdatedFeedCount": {
+    "message": "显示已更新订阅点数量"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "将出错显示为未读"
+  },
+  "optRenderFeeds": {
+    "message": "渲染订阅点"
+  },
+  "optAlwaysOpenNewTab": {
+    "message": "始终新建标签页打开"
+  },
+  "optOpenNewTabForeground": {
+    "message": "前台打开新标签页"
+  },
+  "optReuseDropFeedsTab": {
+    "message": "重用 Drop Feeds 标签页"
+  },
+  "optSelectOpmlFileToImport": {
+    "message": "打开 opml 文件以导入"
+  },
+  "optImport": {
+    "message": "导入..."
+  },
+  "optSelectOpmlFileToExport": {
+    "message": "选择导出 ompl 文件的位置"
+  },
+  "optExport": {
+    "message": "导出..."
+  },
+  "optAdvanced": {
+    "message": "Advanced"
+  },
+  "optLblScriptManager": {
+    "message": "Open script manager"
+  },
+  "optScriptManagerButton": {
+    "message": "Script manager..."
+  },
+  "optLblSecurityFilter": {
+    "message": "Open security filter settings"
+  },
+  "optSecurityFilterButton": {
+    "message": "Security filter settings..."
+  },
+  "optSecurityFilterSettings": {
+    "message": "Security filter settings"
+  },
+  "optHtmlFilter": {
+    "message": "HTML Filter"
+  },
+  "optAllowedHtmlElements": {
+    "message": "Allowed HTML elements (others are rejected)"
+  },
+  "optHtmlFilterThElm": {
+    "message": "Elements"
+  },
+  "optHtmlFilterThAtt": {
+    "message": "Attributes"
+  },
+  "optHtmlFilterAddButton": {
+    "message": "Add"
+  },
+  "optHtmlFilterEditButton": {
+    "message": "Edit"
+  },
+  "optHtmlRemoveAddButton": {
+    "message": "Remove"
+  },
+  "optHtmlFilterRestoreDefaultButton": {
+    "message": "Restore default values"
+  },
+  "optHtmlFilterAddDialogTitle": {
+    "message": "Add"
+  },
+  "optHtmlFilterEditDialogTitle": {
+    "message": "Edit"
+  },
+  "optHtmlFilterAddDialogElementToAllow": {
+    "message": "Element to allow"
+  },
+  "optHtmlFilterAddDialogAttributesToAllow": {
+    "message": "Attributes to allow"
+  },
+  "optHtmlFilterAddDialogCancel": {
+    "message": "Cancel"
+  },
+  "optHtmlFilterAddDialogOk": {
+    "message": "Ok"
+  },
+  "comment6": {
+    "message": "------------------Content script strings------------------"
+  },
+  "csSubscribeWithDropFeeds": {
+    "message": "使用 Drop Feeds 订阅"
+  },
+  "ff56Text1": {
+    "message": "要使此图标打开 Drop Feeds 侧栏，请更新到 Firefox 57 或更高版本"
+  },
+  "ff56Text2": {
+    "message": "在 Firefox 56 中，本扩展无法打开侧栏。"
+  },
+  "ff56Text3": {
+    "message": ""
+  },
+  "ff56Text4": {
+    "message": "要在 Firefox 56 中使用 Drop Feeds："
+  },
+  "ff56Text5": {
+    "message": "您必须点击 Firefox 提供的“显示侧栏”图标。"
+  },
+  "ff56Text6": {
+    "message": "然后在侧栏列表中选择 Drop feeds"
+  },
+  "ff56Text7": {
+    "message": "点击这里来关闭"
+  },
+  "comment7": {
+    "message": "------------------Subscribe this feed strings------------------"
+  },
+  "stfSubscribeUsing": {
+    "message": "订阅此订阅点，使用"
+  },
+  "stfSubscribeNow": {
+    "message": "立即订阅"
+  },
+  "comment8": {
+    "message": "------------------Info view strings------------------"
+  },
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "名称"
+  },
+  "sbInfoAddressLbl": {
+    "message": "地址"
+  },
+  "sbInfoUpdateButton": {
+    "message": "更新"
+  },
+  "sbInfoCloseButton": {
+    "message": "关闭"
+  },
+  "comment9": {
+    "message": "------------------Script manager strings------------------"
+  },
+  "usUScriptCreateNew": {
+    "message": "Create a new script"
+  },
+  "usUScriptEdit": {
+    "message": "Edit script"
+  },
+  "usUScriptEnableDisable": {
+    "message": "Enable/disable script"
+  },
+  "usUScriptType": {
+    "message": "Script type"
+  },
+  "usUScriptFeedTransformer": {
+    "message": "Feed transformer"
+  },
+  "usUScriptVirtualFeed": {
+    "message": "Virtual feed"
+  },
+  "usUScriptUrlMatchPatterns": {
+    "message": "Url match patterns"
+  },
+  "usUScriptSubscribe": {
+    "message": "Subscribe"
+  },
+  "usUScriptLastEdition": {
+    "message": "Last edition"
+  },
+  "usUScriptDelete": {
+    "message": "Delete script"
+  },
+  "comment10": {
+    "message": "------------------Script editor strings------------------"
+  },
+  "usUScriptCommands": {
+    "message": "Commands"
+  },
+  "usUScriptSave": {
+    "message": "Save"
+  },
+  "usUScriptClose": {
+    "message": "Close"
+  },
+  "usUScriptSaveAndClose": {
+    "message": "Save and close"
+  },
+  "usUScriptUrlMatchPatternsHelp": {
+    "message": "Help for url match patterns"
+  },
+  "usUScriptTestFeedUrl": {
+    "message": "Test feed url"
+  },
+  "usUScriptSaveAndTest": {
+    "message": "Save and test..."
+  },
+  "usUScriptFtInfo": {
+    "message": "Feed transformer (info)"
+  },
+  "usUScriptVfInfo": {
+    "message": "Virtual feed (info)"
+  },
+  "usUScriptHelp": {
+    "message": "help"
+  },
+  "usUScriptExample": {
+    "message": "example"
+  },
+  "usUScriptSaveAndSubscribe": {
+    "message": "Save and subscribe..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
+  },
+  "usUScriptFont": {
+    "message": "Font"
+  },
+  "usUScriptFamily": {
+    "message": "Family"
+  },
+  "usUScriptSize": {
+    "message": "Size"
+  },
+  "usUScriptTabSize": {
+    "message": "Tab size"
+  },
+  "comment12": {
+    "message": "------------------Editor console strings------------------"
+  },
+  "edConsoleClear": {
+    "message": "Clear"
+  },
+  "edConsoleCopy": {
+    "message": "Copy text console"
+  },
+  "comment13": {
+    "message": "------------------DateTime.getDateDiff strings------------------"
+  },
+  "dtMany": {
+    "message": "s"
+  },
+  "dtSingle": {
+    "message": ""
+  },
+  "dtYears": {
+    "message": "$years$ year$plural$",
+    "placeholders": {
+      "years": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMonths": {
+    "message": "$months$ month$plural$",
+    "placeholders": {
+      "months": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtDays": {
+    "message": "$days$ day$plural$",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtHours": {
+    "message": "$hours$ hour$plural$",
+    "placeholders": {
+      "hours": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMinutes": {
+    "message": "$minutes$ minute$plural$",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtSeconds": {
+    "message": "$seconds$ second$many$",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      },
+      "many": {
+        "content": "$2"
+      }
+    }
+  }
 }
