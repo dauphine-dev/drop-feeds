@@ -112,7 +112,7 @@ class FeedParser { /*exported FeedParser*/
     <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
     <tr><td>Error: </td><td>` + error + `</td></tr>
     </table>`;
-    feedHtml += USTools.rssItem('Error: ' +  error, url, new Date(), description);
+    feedHtml += USTools.rssItem('Error: ' + error, url, new Date(), description);
     feedHtml += USTools.rssFooter();
     return feedHtml;
   }
@@ -433,7 +433,7 @@ class FeedParser { /*exported FeedParser*/
     let htmlChannel = '';
     let title = channel.title;
     if (!title) { title = '(No Title)'; }
-    let error = (isError ?  'error' : '');
+    let error = (isError ? 'error' : '');
     htmlChannel += '    <div class="channelHead ' + error + '">\n';
     if (channel.title) { htmlChannel += '      <h1 class="channelTitle"><a class="channelLink" href="' + channel.link + '">' + channel.title + '</a></h1>\n'; }
     if (channel.description) { htmlChannel += '      <p class="channelDescription">' + channel.description + '</p>\n'; } else { htmlChannel += '<p class="channelDescription"/>'; }
@@ -509,9 +509,9 @@ class FeedParser { /*exported FeedParser*/
     let htmlItem = '';
     let title = item.title;
     if (!title) { title = '(No Title)'; }
-    let error = (isError ?  'error' : '');
+    let error = (isError ? 'error' : '');
     htmlItem += '    <div class="item">\n';
-    htmlItem += '      <h2 class="itemTitle ' +  error + '">\n';
+    htmlItem += '      <h2 class="itemTitle ' + error + '">\n';
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
     htmlItem += '        <a href="' + item.link + '">' + title + '</a>\n';
     htmlItem += '      </h2>\n';
@@ -534,7 +534,7 @@ class FeedParser { /*exported FeedParser*/
     let num = itemNumber ? itemNumber : item.number;
     let visited = undefined;
     try { visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : ''; }
-    catch(e) { }
+    catch (e) { }
     let tooltipText = FeedParser._getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
     let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
@@ -544,7 +544,7 @@ class FeedParser { /*exported FeedParser*/
 
   static _getItemTooltipText(item, itemNumber) {
     /*eslint-disable no-control-regex*/
-    let tooltipText = TextTools.toPlainText(item.description).replace(/[\x01-\x1f]/g, ' ' ).replace(/\s\s+/g, ' ' );
+    let tooltipText = TextTools.toPlainText(item.description).replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
     /*eslint-enable no-control-regex*/
     if (tooltipText.length > 310) {
       tooltipText = tooltipText.substring(0, 310) + '...';
@@ -602,8 +602,9 @@ class FeedParser { /*exported FeedParser*/
     let hide = null;
     let blackListShow = SecurityFilters.instance.blackListHtmlTagsTopShow;
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
-    whiteListTags.push({'<!': []}); // avoid to have manage comments for now (but we will have to do)
+    whiteListTags.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
+    text = FeedParser._disableAttributes(text, textTagList);
     let toBlackListTagList = [...new Set(textTagList.filter(x => !FeedParser._tagListIncludes(whiteListTags, x)) || [])];
     let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => FeedParser._tagListIncludes(blackListShow, x)))];
     let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !FeedParser._tagListIncludes(blackListShow, x)))];
@@ -613,10 +614,15 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _tagListIncludes(tagList, x) {
-    return (tagList.findIndex(e => Object.keys(e) == x)) >=0;
+    return (tagList.findIndex(e => Object.keys(e) == x)) >= 0;
   }
 
   static _disableTags(text, tagToDisableList, hide) {
+    /*
+    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
+    let attObj = whiteListTags.find(tg => Object.keys(tg) == tag);
+    let allowedAttList = attObj[tag];
+    */
     for (let tag of tagToDisableList) {
       if (!tag) { continue; }
       text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
@@ -624,4 +630,38 @@ class FeedParser { /*exported FeedParser*/
     }
     return text;
   }
+
+  static _disableAttributes(text, textTagList) {
+    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
+    let textTagListWithAllowedAtt = [...new Set(textTagList.filter(x => {
+      let tagObj = whiteListTags.find(y => Object.keys(y) == x);
+      return (tagObj[x].length !=0);
+    }))];
+
+    for (let tag of textTagList) {
+      if (!tag) { continue; }
+      let regexExtractAtt = /(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/gi;
+      if (textTagListWithAllowedAtt.includes(tag)) {
+        let allowedAttList = whiteListTags.find(x => Object.keys(x) == tag)[tag];
+        let regexExtractTags = new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi');
+        let textTagWithAttList = text.match(regexExtractTags);
+        for (let tagWithAtt of textTagWithAttList) {
+          let attList = tagWithAtt.match(regexExtractAtt);
+          let cleanedTag = tagWithAtt;
+          for (let att of attList) {
+            let attName = att.match(/([^=]*)=/i)[0].slice(0, -1);
+            if (!allowedAttList.includes(attName)) {
+              cleanedTag = cleanedTag.replace(att, '');
+            }
+          }
+          text = text.replace(tagWithAtt, cleanedTag);
+        }
+      }
+      else {
+        text = text.replace(new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>');
+      }
+    }
+    return text;
+  }
+
 }
