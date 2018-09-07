@@ -486,11 +486,11 @@
     "message": "保存してテスト..."
   },
   "usUScriptFtInfo": {
-    "message": "Feed transformer (info)",
+    "message": "フィード変換 (info)",
     "comment": "Note for the translator: Info. means Information (you can delete the note)"
   },
   "usUScriptVfInfo": {
-    "message": "Virtual feed (info)",
+    "message": "仮想フィード (info)",
     "comment": "Note for the translator: Info. means Information (you can delete the note)"
   },
   "usUScriptHelp": {
@@ -515,13 +515,13 @@
     "message": "サイズ"
   },
   "usUScriptTabSize": {
-    "message": "Tab size"
+    "message": "タブサイズ"
   },
   "comment12": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
-    "message": "Clear"
+    "message": "クリア"
   },
   "edConsoleCopy": {
     "message": "Copy text console"
