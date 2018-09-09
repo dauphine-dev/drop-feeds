@@ -339,16 +339,16 @@
     "message": "許可されたHTML要素（他の要素は拒否されます）"
   },
   "optHtmlFilterThElm": {
-    "message": "Elements"
+    "message": "要素"
   },
   "optHtmlFilterThAtt": {
-    "message": "Attributes"
+    "message": "属性"
   },
   "optHtmlFilterAddButton": {
     "message": "追加"
   },
   "optHtmlFilterEditButton": {
-    "message": "Edit"
+    "message": "編集"
   },
   "optHtmlRemoveAddButton": {
     "message": "削除"
@@ -360,13 +360,13 @@
     "message": "追加"
   },
   "optHtmlFilterEditDialogTitle": {
-    "message": "Edit"
+    "message": "編集"
   },
   "optHtmlFilterAddDialogElementToAllow": {
     "message": "許可する要素"
   },
   "optHtmlFilterAddDialogAttributesToAllow": {
-    "message": "Attributes to allow"
+    "message": "許可する属性"
   },
   "optHtmlFilterAddDialogCancel": {
     "message": "キャンセル"
@@ -456,7 +456,7 @@
     "message": "購読"
   },
   "usUScriptLastEdition": {
-    "message": "Last edition"
+    "message": "最新版"
   },
   "usUScriptDelete": {
     "message": "スクリプトの削除"
@@ -524,7 +524,7 @@
     "message": "クリア"
   },
   "edConsoleCopy": {
-    "message": "Copy text console"
+    "message": "テキストコンソールをコピー"
   },
   "comment13": {
     "message": "------------------DateTime.getDateDiff strings------------------"
