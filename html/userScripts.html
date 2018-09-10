@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_any/css/userScripts.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/browserManager.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/compute.js"></script>
+  <script src="/js/tools/dialogs.js"></script>
+  <script src="/js/tools/fontManager.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/securityFilters.js"></script>
+  <script src="/js/tools/feedParser.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/feed.js"></script>
+  <script src="/js/tools/userScriptTools.js"></script>
+  <script src="/js/tools/usScriptTools.js"></script>
+  <title>Drop Feeds - Code editor</title>
+</head>
+
+<body>
+  <div id="mainBox" class="tableBox">
+    <div class="rowGroupBox">
+      <!-- Left panel -->
+      <div class="rowBox">
+        <div id="leftBox" class="cellBox border">
+          <div class="tableBox">
+            <div class="rowGroupBox">
+              <div class="rowBox">
+                <!-- Left panel logo -->
+                <div class="cellBox autoHeight logoBox">
+                  <div id="logoImg" class="right"></div>
+                  <div id="logoName" class="right">Drop Feeds</div>
+                  <div id="logoTitle" class="right">Script manager</div>
+                </div>
+              </div>
+                <!-- Left panel menus -->
+              <div class="rowBox">
+                <div id="fieldsetEditorBox" class="cellBox">
+                  <fieldset class="editorMenu">
+                    <legend id="commandsLegend">#Commands</legend>
+                    <button id="saveButton" type="button">#Save</button>
+                    <button id="closeButton" type="button">#Close</button>
+                    <button id="saveAndCloseButton" type="button">#Save and close</button>
+                  </fieldset>
+                  <fieldset id="fieldsetFeedTransformer" class="editorMenu">
+                    <legend id="feedTransformerLegend">#Feed transformer</legend>
+                    <span id="urlMatchLabel" class="label">#Url match patterns:</span>
+                    <input id="urlMatch" class="field" type="text" value="&lt;all_urls&gt;">
+                    <a id="urlMatchHelp" target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" class="xSmall">#Help for url match patterns</a>
+                    <p/>
+                    <span id="testUrlLabel" class="label">#Test feed url:</span>
+                    <input id="testUrl" class="field" type="url" value="">
+                    <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
+                  </fieldset>
+                  <fieldset id="fieldsetFeedTransformerHelp">
+                    <legend id="feedTransformerInfoLegend">#Feed transformer (info)</legend>
+                    <span class="info">
+                      You get raw feed xml text in __feedText__ variable.
+                      <br/> Do all modifications you want to, and return the updated feed xml text.
+                      <br/>
+                      <a id="feedTransformerInfoHelp" target="_blank" href="/help/en/userScripts/feedTransformerHelp.html" class="xSmall">#help</a>&nbsp;
+                      <a id="feedTransformerInfoExample" target="_blank" href="https://pastebin.com/ddZxUdtT" class="xSmall">#example</a>
+                      <a id="feedTransformerInfoUsTools" target="_blank" href="/help/_any/userScripts/userScriptTools.html" class="xSmall">USTools</a>
+                      <br/>
+                    </span>
+                  </fieldset>
+                  <fieldset id="fieldsetVirtualFeed" class="editorMenu">
+                    <legend id="virtualFeedLegend">#Virtual feed</legend>
+                    <button id="virtualTestScriptButton" type="button">#Save and test...</button>
+                    <button id="virtualSubscribeScriptButton" type="button">#Save and subscribe...</button>
+                  </fieldset>
+                  <fieldset id="fieldsetVirtualFeedHelp">
+                    <legend id="virtualFeedInfoLegend">#Virtual feed (info)</legend>
+                    <span class="info">
+                      You create a raw feed xml text from scratch and you return it.
+                      <br/> It is useful to create feed for site without this feature.
+                      <br/>
+                      <a id="virtualFeedInfoHelp" target="_blank" href="/help/en/userScripts/virtualFeedHelp.html" class="xSmall">#help</a>&nbsp;
+                      <a id="virtualFeedInfoExample" target="_blank" href="https://pastebin.com/W6HaFQQz" class="xSmall">#example</a>
+                      <a id="virtualFeedInfoUsTools" target="_blank" href="/help/_any/userScripts/userScriptTools.html" class="xSmall">USTools</a>
+                      <br/>
+                    </span>
+                  </fieldset>
+
+                  <!-- fieldsetEditor comme here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="resizeBar" class="cellBox"></div>
+        <!-- Right panel -->
+        <div id="rightBox" class="cellBox border">
+          <div class="tableBox">
+            <div class="rowGroupBox">
+              <!-- Script manager -->
+              <div id="scriptManagerRowBox" class="rowBox">
+                <div class="cellBox">
+                  <div class="tableBox">
+                    <div class="rowGroupBox">
+                      <div class="rowBox">
+                        <div class="cellBox autoHeight borderHidden">
+                          <span id="createNewScript" class="pictureButton" title="#Create a new script"></span>
+                        </div>
+                      </div>
+                      <div class="rowBox nowrap">
+                        <div id="scriptListBox" class="cellBox borderTopBottom nowrap">
+                          <div id="scriptTemplate" class="scriptEntry nowrap" style="display: none;">
+                            <div class="logo nowrap"></div>
+                            <div class="scriptLeftBlock nowrap">
+                              <div class="scriptName nowrap" contenteditable="true"></div>
+                              <div class="scriptButtons nowrap">
+                                <span class="scriptButton editScriptButton nowrap" title="#Edit script"></span>
+                                <span class="scriptButton enDisScriptButton enabledScriptButton nowrap" title="#Enable/disable script"></span>
+                                <select class="scriptTypeSelect nowrap" title="#Script type">
+                                  <option class="feedTransformerOption" value="feedTransformer">#Feed transformer</option>
+                                  <option class="virtualFeedOption" value="virtualFeed">#Virtual feed</option>
+                                </select>
+                                <span class="scriptInfo urlMatchPatterns nowrap" title="#Url match patterns"></span>
+                                <span class="scriptButton subscribeScriptButton nowrap" title="#Subscribe"></span>
+                              </div>
+                            </div>
+                            <div class="scriptRightBlock nowrap">
+                              <div lastedit="" class="lastEdit nowrap" title="#Last edition"></div>
+                              <span class="scriptButton deleteScriptButton nowrap" title="#Delete script"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Script editor -->
+              <div id="editorRowBox" class="rowBox">
+                <div id="editor" class="cellBox">
+                  <!-- editTableBox come here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/ui/userScripts/userScriptsEditor.js"></script>
+  <script src="/js/ui/userScripts/UserScriptsManager.js"></script>
+  <script src="/js/ui/userScripts/userScripts.js"></script>
+</body>
+
+</html>

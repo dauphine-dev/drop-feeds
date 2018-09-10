@@ -9,12 +9,7 @@ const VERSION_ENUM = {
 };
 
 class BackgroundManager {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new this();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._version = null;
@@ -28,7 +23,7 @@ class BackgroundManager {
     }
     else {
       this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
-      browser.browserAction.onClicked.addListener(BackgroundManager._toggleDropFeedsPanel_async);
+      browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
     }
   }
 
@@ -49,9 +44,8 @@ class BackgroundManager {
     return isOpen;
   }
 
-  static async _toggleDropFeedsPanel_async(){
-    let self = BackgroundManager.instance;
-    if (self._sidebarActionIsOpen) {
+  async _toggleDropFeedsPanel_async(){
+    if (this._sidebarActionIsOpen) {
       browser.sidebarAction.close();
     }
     else {
@@ -59,7 +53,7 @@ class BackgroundManager {
       browser.sidebarAction.setPanel({panel: panelUrl});
       browser.sidebarAction.open();
     }
-    self._sidebarActionIsOpen = await self._sidebarActionIsOpen_async();
+    this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
   }
 
 }

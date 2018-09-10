@@ -3,62 +3,63 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "",
+  "version": "0.8.4",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
       "strict_min_version": "56.0"
     }
   },
-
   "icons": {
-    "32": "resources/img/drop-feeds-32.png",
-    "48": "resources/img/drop-feeds-48.png",
-    "96": "resources/img/drop-feeds-96.png"
+    "32": "themes/_any/img/drop-feeds-32.png",
+    "48": "themes/_any/img/drop-feeds-48.png",
+    "96": "themes/_any/img/drop-feeds-96.png"
   },
-
   "sidebar_action": {
-    "default_icon": "resources/img/drop-feeds-32.png",
-    "default_title" : "Drop Feeds",
+    "default_icon": "themes/_any/img/drop-feeds-32.png",
+    "default_title": "Drop Feeds",
     "default_panel": "html/sidebar.html"
   },
-
-
   "commands": {
     "_execute_sidebar_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Z"
+        "default": "Ctrl+Shift+U"
       }
     }
   },
-
   "browser_action": {
-    "default_icon": "resources/img/drop-feeds-32.png"
+    "default_icon": "themes/_any/img/drop-feeds-32.png"
   },
-
   "page_action": {
     "browser_style": true,
-    "default_icon": "resources/themes/legacy/img/subscribe-go.png",
+    "default_icon": "themes/legacy/img/subscribe-go.png",
     "default_title": "__MSG_manPageActionDefaultTitle__",
     "default_popup": "html/feedList.html"
   },
-
   "background": {
-    "scripts": ["js/independent/background.js"]
+    "scripts": [
+      "js/independent/background.js"
+    ]
   },
-
   "content_scripts": [
-  {
-    "matches": ["<all_urls>"],
-    "js": ["js/independent/content-script.js"],
-    "run_at": "document_end"
-  }],
-
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/independent/content-script.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
   "options_ui": {
     "page": "html/options.html",
     "browser_style": true
   },
-
+  "web_accessible_resources": [
+    "resources/highlighters/javascript.json"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "permissions": [
     "<all_urls>",
     "webRequest",

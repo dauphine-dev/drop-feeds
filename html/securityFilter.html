@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_any/css/options.css" rel="stylesheet">
+  <link href="/themes/_any/css/securityFilter.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/resources/img/favicon.png" />
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <title>Drop Feeds (Security filters)</title>
+</head>
+
+<body>
+  <div class="tableBox">
+    <div class="rowGroupBox">
+
+      <div class="rowBox">
+        <div class="cellBox autoHeight">
+          <h1 id="securityFilterSettings">#Security filter settings</h1>
+        </div>
+      </div>
+
+      <div class="rowBox">
+        <div class="cellBox tab autoHeight a6">
+          <button class="tabLinks" id="htmlFilterTabButton" target="htmlFilterTab">#HTML Filter</button>
+        </div>
+      </div>
+
+
+      <div class="rowBox">
+        <!-- ~~~~~~ Tab HTML Filter ~~~~~~ -->
+        <div id="htmlFilterTab" class="cellBox tabContent filterTab">
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <strong id="allowedHtmlElements">#Allowed HTML elements (others are rejected)</strong>
+              <p/>
+            </div>
+          </div>
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <div class="colBox">
+
+                <div class="cellBox">
+                  <table class="secTable secTableHTml">
+                    <thead>
+                      <tr>
+                        <th id="thElm">#Elements</th>
+                        <th id="thAtt">#Attributes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="allowedHtmlElementsList">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cellBox sepBox">
+                </div>
+
+                <div class="cellBox">
+                  <button id="htmlFilterAddButton">#Add</button>
+                  <p/>
+                  <button id="htmlFilterEditButton">#Edit</button>
+                  <p/>
+                  <button id="htmlFilterRemoveButton">#Remove</button>
+                  <p/>
+                  <button id="htmlFilterRestoreDefaultButton">#Restore default values</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="htmlFilterDialog" class="secDialog hide">
+    <h1 id="htmlFilterDialogTitle">#Add</h1>
+    <div class="secBodyDialog">
+      <come-from id="comeFrom"></come-from>
+      <initial-tag id="initialTag"></initial-tag>
+      <label id="htmlFilterDialogElementToAllow">#Element to allow</label>
+      <br/>
+      <input type="text" id="htmlFilterDialogTag" class="fieldText" value="">
+      <p/>
+      <label id="htmlFilterAddDialogAttributesToAllow">#Attributes to allow</label>
+      <br/>
+      <input type="text" id="htmlFilterDialogAtt" class="fieldText" value="">
+      <p/>
+      <button id="htmlFilterDialogCancel">#Cancel</button>
+      <button id="htmlFilterDialogOk">#OK</button>
+    </div>
+  </div>
+
+  <div id="messageDialog" class="secDialog hide">
+    <h1 id="messageDialogTitle">#Message</h1>
+    <div class="secBodyDialog">
+      <label id="messageDialogMsg">#...</label>
+      <p/>
+      <button id="messageDialogOk">#OK</button>
+    </div>
+  </div>
+
+  <script src="/js/ui/securityFilter/tabHtmlFilter.js"></script>
+  <script src="/js/ui/securityFilter/allTabsControl.js"></script>
+</body>
+
+</html>

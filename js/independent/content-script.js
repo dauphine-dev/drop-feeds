@@ -22,7 +22,7 @@ class ContentManager {
     try {
       feedHandler = document.getElementById('feedHandler').innerHTML;
     }
-    catch(e) {}
+    catch (e) { }
     let isFeed = (feedHandler ? true : false);
     if (isFeed) { ContentManager._addSubscribeButton(); }
     return isFeed;
@@ -37,21 +37,21 @@ class ContentManager {
       subscribeButton.style.display = 'block';
       subscribeButton.style.marginInlineStart = 'auto';
       subscribeButton.style.marginTop = '0.5em';
-      subscribeButton.addEventListener('click', ContentManager._addSubscribeButtonOnClick_event);
+      subscribeButton.addEventListener('click', (e) => { this._addSubscribeButtonOnClick_event(e); });
       feedSubscribeLine.appendChild(subscribeButton);
     }
   }
 
-  static async _addSubscribeButtonOnClick_event(event) {
+  async _addSubscribeButtonOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    browser.runtime.sendMessage({key:'openSubscribeDialog'});
+    browser.runtime.sendMessage({ key: 'openSubscribeDialog' });
   }
 
   static _discoverFeedLinkInfoList() {
     let feedLinkList = [];
     let elLinkList = Array.from(document.getElementsByTagName('link'));
-    elLinkList.push(... Array.from(document.getElementsByTagName('a')));
+    elLinkList.push(...Array.from(document.getElementsByTagName('a')));
     for (let elLink of elLinkList) {
       if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
         feedLinkList.push(elLink.href);
@@ -66,10 +66,13 @@ class ContentManager {
 
   static _getFeedLinkInfoList() {
     let feedLinkList = [];
+    if (ContentManager._isYoutubeTab()) {
+      return ContentManager._getYoutubeFeeds();
+    }
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     for (let elLink of elLinkList) {
       if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
-        feedLinkList.push({title:elLink.title, link:elLink.href});
+        feedLinkList.push({ title: elLink.title, link: elLink.href });
       }
     }
     //remove duplicates
@@ -79,5 +82,20 @@ class ContentManager {
     return feedLinkList;
   }
 
+  static _isYoutubeTab() {
+    /*eslint-disable no-useless-escape*/
+    let isYoutubeTab = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/g.test(window.location.href);
+    /*eslint-enable no-useless-escape*/
+    return isYoutubeTab;
+  }
+
+  static _getYoutubeFeeds() {
+    let feedLinkList = [];
+    /*eslint-disable no-useless-escape*/
+    let channelId = (document.body.innerHTML.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
+    /*eslint-enable no-useless-escape*/
+    feedLinkList.push({ title: channelId, link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
+    return feedLinkList;
+  }
 }
 browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);

@@ -1,12 +1,7 @@
-/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedParser ItemsPanel*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedParser ItemsPanel LocalStorageManager*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new FeedManager();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._updatedFeeds = 0;
@@ -19,9 +14,23 @@ class FeedManager { /*exported FeedManager*/
     this._unifiedChannelTitle = '';
     this._unifiedFeedItems = [];
     this._itemList = [];
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', FeedManager._setAsynchronousFeedChecking_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', FeedManager._setShowFeedUpdatePopup, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', FeedManager._setRenderFeeds_sbscrb, true);
+    this._autoUpdateInterval = undefined;
+    this._automaticUpdatesOnStartDone = false;
+    this._automaticUpdatesOnStar = DefaultValues.automaticFeedUpdatesOnStart;
+    this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
+    this._automaticUpdatesMilliseconds = undefined;
+    this._checkingFeeds = false;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
+
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
+  }
+
+  get checkingFeeds() {
+    return this._checkingFeeds;
   }
 
   async delete(feedId) {
@@ -30,29 +39,32 @@ class FeedManager { /*exported FeedManager*/
 
   async checkFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    TopMenu.instance.animateCheckFeedButton(true);
+    this._checkingFeeds = true;
+    TopMenu.instance.animateCheckFeedButton(false);
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
-    await this._processFeedsFromList(folderId, this._feedsUpdate_async);
+    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
 
   async openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce) {
     let feed = await Feed.new(feedId);
     this._itemList = [];
     let isSingle=true; let displayItems=true; let folderTitle=null;
-    this._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
+    FeedManager._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
   }
 
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
-    await this._processFeedsFromList(folderId, this._openOneFeedToTab_async);
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
+    await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
+    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
   }
 
   async openAsUnifiedFeed_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedUnread', browser.i18n.getMessage('sbOpening'));
     this._unifiedChannelTitle = (await browser.bookmarks.getSubTree(folderId.substring(3)))[0].title;
-    await this._processFeedsFromList(folderId, this._unifyingThenOpenProcessedFeedsInner_async);
+    await this._processFeedsFromList(folderId, FeedManager._unifyingThenOpenProcessedFeedsInner_async);
   }
 
 
@@ -119,12 +131,13 @@ class FeedManager { /*exported FeedManager*/
 
   _processFeedsFinished() {
     StatusBar.instance.text = '';
+    this._checkingFeeds = false;
     TopMenu.instance.animateCheckFeedButton(false);
     StatusBar.instance.workInProgress = false;
     this._feedProcessingInProgress = false;
   }
 
-  async _feedsUpdate_async(feed) {
+  static async _feedsUpdate_async(feed) {
     let self = FeedManager.instance;
     try {
       self._statusMessageBeforeCheck(feed);
@@ -139,7 +152,6 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
       /*eslint-disable no-console*/
-      console.log(e);
       /*eslint-enable no-console*/
     } finally {
       if (--self._feedsToProcessCounter == 0) {
@@ -149,7 +161,7 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
+  static async _openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce) {
     let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -180,7 +192,7 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
+  static async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
     let self = FeedManager.instance;
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
@@ -282,12 +294,12 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  static _setAsynchronousFeedChecking_sbscrb(value){
-    FeedManager.instance._asynchronousFeedChecking = value;
+  _setAsynchronousFeedChecking_sbscrb(value){
+    this._asynchronousFeedChecking = value;
   }
 
-  static _setShowFeedUpdatePopup(value) {
-    FeedManager.instance._showFeedUpdatePopup = value;
+  _setShowFeedUpdatePopup_sbscrb(value) {
+    this._showFeedUpdatePopup = value;
   }
 
   async markFeedAsUpdated_async(feedElement) {
@@ -326,8 +338,54 @@ class FeedManager { /*exported FeedManager*/
     this._updatedFeeds = 0;
   }
 
-  static _setRenderFeeds_sbscrb(value){
-    FeedManager.instance._renderFeed = value;
+  _setRenderFeeds_sbscrb(value){
+    this._renderFeed = value;
+  }
+
+  async _automaticFeedUpdate_async() {
+    if (!this._automaticUpdatesEnabled) { return; }
+    try {
+      await FeedManager.instance.checkFeeds_async('content');
+    }
+    catch (e) {
+      /*eslint-disable no-console*/
+      console.log(e);
+      /*eslint-enable no-console*/
+    }
+  }
+
+  async _setAutomaticUpdatesEnabled_sbscrb(value) {
+    this._automaticUpdatesEnabled = value;
+    this._setAutoUpdateInterval();
+  }
+
+  async _setAutomaticUpdatesOnStar_sbscrb(value) {
+    this._automaticUpdatesOnStar = value;
+  }
+
+  async _setAutomaticUpdatesMilliseconds_sbscrb(value) {
+    let newValueMilliseconds = Math.max(value * 60000, 30000);
+    if (this._automaticUpdatesMilliseconds != newValueMilliseconds) {
+      this._automaticUpdatesMilliseconds = newValueMilliseconds;
+      this._setAutoUpdateInterval();
+    }
+  }
+
+  _setAutoUpdateInterval() {
+    if (this._autoUpdateInterval) {
+      clearInterval(this._autoUpdateInterval);
+    }
+    if (this._automaticUpdatesEnabled && this._automaticUpdatesMilliseconds) {
+      this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+      this._doAutomaticUpdatesOnStart();
+    }
+  }
+
+  _doAutomaticUpdatesOnStart() {
+    if (this._automaticUpdatesOnStar && !this._automaticUpdatesOnStartDone) {
+      this._automaticFeedUpdate_async();
+    }
+    this._automaticUpdatesOnStartDone = true;
   }
 
 }

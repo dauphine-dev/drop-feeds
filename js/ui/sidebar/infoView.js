@@ -1,12 +1,7 @@
 /* global browser */
 'use strict';
 class InfoView { /*exported InfoView*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new InfoView();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._elInfoView = null;
@@ -14,8 +9,8 @@ class InfoView { /*exported InfoView*/
     this._info = null;
     this._elContent = document.getElementById('content');
     this._updateLocalizedStrings();
-    document.getElementById('infoUpdateButton').addEventListener('click', InfoView._updateButtonClicked_event);
-    document.getElementById('infoCloseButton').addEventListener('click', InfoView._closeButtonClicked_event);
+    document.getElementById('infoUpdateButton').addEventListener('click', (e) => { this._updateButtonClicked_event(e); });
+    document.getElementById('infoCloseButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
   }
 
   hide(){
@@ -24,12 +19,11 @@ class InfoView { /*exported InfoView*/
   }
 
   show(xPos, yPos, idComeFrom){
-    let self = InfoView.instance;
-    self._idComeFrom = idComeFrom;
-    self._populateInfoAndPos_async(xPos, yPos);
-    self._elInfoView = document.getElementById('infoView');
-    self._elInfoView.classList.remove('hide');
-    self._elInfoView.classList.add('show');
+    this._idComeFrom = idComeFrom;
+    this._populateInfoAndPos_async(xPos, yPos);
+    this._elInfoView = document.getElementById('infoView');
+    this._elInfoView.classList.remove('hide');
+    this._elInfoView.classList.add('show');
   }
 
   _updateLocalizedStrings() {
@@ -74,21 +68,19 @@ class InfoView { /*exported InfoView*/
     this._elInfoView.style.top = y + 'px';
   }
 
-  static async _updateButtonClicked_event(event) {
-    let self = InfoView.instance;
+  async _updateButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     let name = document.getElementById('infoNameField').value;
     let url = document.getElementById('infoAddressField').value;
-    let changes = self._info.url ? {title: name, url:url} : {title: name};
-    browser.bookmarks.update(self._idComeFrom, changes);
-    self.hide();
+    let changes = this._info.url ? {title: name, url:url} : {title: name};
+    browser.bookmarks.update(this._idComeFrom, changes);
+    this.hide();
   }
 
-  static async _closeButtonClicked_event(event) {
-    let self = InfoView.instance;
+  async _closeButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    self.hide();
+    this.hide();
   }
 }

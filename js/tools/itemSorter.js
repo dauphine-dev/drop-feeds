@@ -1,4 +1,5 @@
 /*global Listener ListenerProviders  DefaultValues*/
+'use strict';
 const itemSortOrder = { /*exported itemSortOrder */
   newerFirst: 0,
   olderFirst: 1,
@@ -6,19 +7,14 @@ const itemSortOrder = { /*exported itemSortOrder */
 };
 
 class ItemSorter { /*exported ItemSorter */
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ItemSorter();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._sortOrder = DefaultValues.itemSortOrder;
   }
 
   async init_async() {
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemSortOrder', ItemSorter._setItemSortOrder_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemSortOrder', (v) => { this._setItemSortOrder_sbscrb(v); }, true);
   }
 
   sort(itemList) {
@@ -43,8 +39,8 @@ class ItemSorter { /*exported ItemSorter */
     return itemList;
   }
 
-  static _setItemSortOrder_sbscrb(value){
-    ItemSorter.instance._sortOrder = value;
+  _setItemSortOrder_sbscrb(value){
+    this._sortOrder = value;
   }
 
 }

@@ -1,0 +1,737 @@
+body {
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: white;
+  line-height: 16px;
+}
+
+#content {
+  margin-top: 1px;
+  padding-top: 7px;
+  padding-left: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.contentHeight {
+  height: 100px;
+}
+
+.atRight {
+  float: right;
+}
+
+/* top menu */
+
+.topMenu {
+  display: block;
+  background-color: #E8E8E8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  line-height: 41px;
+  height: 41px;
+  padding: 2px;
+}
+
+.topMenuItem {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px outset #70707000;
+  border-radius: 4px;
+}
+
+.topMenuItem:hover {
+  border: 1px outset #707070;
+  border-radius: 4px;
+}
+
+.topMenuItemSelected {
+  display: inline-block;
+  margin-top: -1px;
+  padding: 0;
+  width: 35px;
+  height: 37px;
+  border: 1px inset #707070;
+  border-radius: 4px;
+}
+
+.checkFeedsButton::before {
+  background-image: url(/themes/sage_sc/img/check-feeds.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+  cursor: auto;
+}
+
+.checkFeedsButtonAnim::before {
+  background-image: url(/themes/sage_sc/img/check-feeds-animation.gif);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+.checkFeedsButtonCursorRestart::before {
+  cursor: url(/themes/_any/img/restart.png), not-allowed;
+}
+
+#discoverFeedsButton::before {
+  background-image: url(/themes/sage_sc/img/magnify.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#onlyUpdatedFeedsButton::before {
+  background-image: url(/themes/sage_sc/img/only-updated-feeds.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#onlyErrorFeedsButton::before {
+  background-image: url(/themes/sage_sc/img/feed-error.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#toggleFoldersButton::before {
+  background-image: url(/themes/sage_sc/img/toggle-folders.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#addFeedButton::before {
+  background-size: 18px 17px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+.subscribeGo::before {
+  background-image: url(/themes/sage_sc/img/subscribe-go.png);
+}
+
+.subscribeAdd::before {
+  background-image: url(/themes/sage_sc/img/subscribe-add.png);
+}
+
+#optionsMenuButton::before {
+  background-image: url(/themes/sage_sc/img/options.png);
+  background-size: 26px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+/* status bar*/
+
+#statusBar {
+  display: block;
+  background-color: #E8E8E8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  height: 30px;
+  line-height: 30px;
+}
+
+.statusButton::before {
+  padding-left: 5px;
+  vertical-align: -20%;
+}
+
+.statusButtonUpdating::before {
+  background-image: url(/themes/sage_sc/img/updating.gif);
+  background-size: 16px 16px;
+  background-position: right;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -4px;
+  display: inline-block;
+  width: 18px;
+  height: 24px;
+  content: "";
+}
+
+#statusText {
+  line-height: 30px;
+  padding-left: 6px;
+}
+
+/* folders */
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input~ul {
+  display: none;
+}
+
+input~label {
+  line-height: 18px;
+  margin-bottom: 1px;
+}
+
+input:checked~ul {
+  display: block;
+}
+
+input~.folderOpen {
+  display: none;
+}
+
+input:checked~.folderClose {
+  display: none;
+}
+
+input:checked~.folderOpen {
+  display: inline;
+}
+
+.folderOpen::before {
+  background-image: url(/themes/sage_sc/img/folder-open.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  margin-right: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
+}
+
+.folderClose::before {
+  background-image: url(/themes/sage_sc/img/folder-closed.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  margin-right: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
+}
+
+ul {
+  margin-left: -22px;
+}
+
+.countBold {
+  font-weight: bold;
+}
+
+/* feeds */
+
+li {
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+.feedRead::before {
+  background-image: url(/themes/sage_sc/img/feed-read.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  padding-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
+}
+
+.feedRead {
+  font-weight: normal;
+}
+
+.feedRead:hover {
+  display: block;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.feedUnread:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.feedUnread::before {
+  background-image: url(/themes/sage_sc/img/feed-unread.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  padding-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
+}
+
+.feedUnread {
+  font-weight: bold;
+}
+
+.feedError::before {
+  background-image: url(/themes/sage_sc/img/feed-error.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  padding-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  vertical-align: text-bottom;
+}
+
+.feedError {
+  visibility: visible;
+}
+
+.feedError:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* context menu */
+
+.contextMenuStyle {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  padding-right: 20px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
+  z-index: 1;
+}
+
+.show {
+  display: block;
+}
+
+.visibilityVisible {
+  visibility: visible;
+}
+
+.displayNone {
+  display: none;
+}
+
+.displayNone::before {
+  display: none;
+}
+
+#ctxFldMnCheckFeeds::before {
+  background-image: url(/themes/sage_sc/img/check-feeds.png);
+}
+
+#ctxFldMnMarkAllAsRead::before {
+  background-image: url(/themes/sage_sc/img/feed-read.png);
+}
+
+#ctxFldMnMarkAllAsUpdated::before {
+  background-image: url(/themes/sage_sc/img/feed-unread.png);
+}
+
+#ctxFldMnOpenAllUpdated::before {
+  background-image: url(/themes/sage_sc/img/feed-open.png);
+}
+
+#ctxFldMnOpenUpdatedAsUnified::before {
+  background-image: url(/themes/sage_sc/img/merge.png);
+}
+
+#ctxFldMnSortByName::before {
+  background-image: url(/themes/sage_sc/img/sort.png);
+}
+
+#ctxFldMnNewFolder::before {
+  background-image: url(/themes/sage_sc/img/folder-new.png);
+}
+
+#ctxFldMnDeleteFolder::before {
+  background-image: url(/themes/sage_sc/img/delete.png);
+}
+
+#ctxFldMnInfo::before {
+  background-image: url(/themes/sage_sc/img/folder-info.png);
+}
+
+#ctxFdtMnGetFeedTitle::before {
+  background-image: url(/themes/sage_sc/img/title.png);
+}
+
+#ctxFdMnOpenFeed::before {
+  background-image: url(/themes/sage_sc/img/feed-open.png);
+}
+
+#ctxFdMnMarkFeedAsRead::before {
+  background-image: url(/themes/sage_sc/img/feed-read.png);
+}
+
+#ctxFdMnMarkFeedAsUpdated::before {
+  background-image: url(/themes/sage_sc/img/feed-unread.png);
+}
+
+#ctxFdMnNewFolder::before {
+  background-image: url(/themes/sage_sc/img/folder-new.png);
+}
+
+#ctxFdtMnDeleteFeed::before {
+  background-image: url(/themes/sage_sc/img/delete.png);
+}
+
+#ctxFdMnInfo::before {
+  background-image: url(/themes/sage_sc/img/feed-info.png);
+}
+
+.menuSep {
+  margin: 2px 0 2px 0;
+  border-color: #999999;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ctxMenuItem {
+  line-height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ctxMenuItem:hover {
+  background-color: #999999;
+  color: white;
+}
+
+.selectionBar {
+  position: absolute;
+  top: 0px;
+  height: 20px;
+  width: 100%;
+  margin-top: -5px;
+  background-color: #448bd6;
+  z-index: -1;
+}
+
+/* items pane */
+
+#mainItemsPane {
+  display: none;
+  background-color: #e8e8e8;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+#splitterBarFix {
+  background-color: #ffffff96;
+}
+
+#splitterBar {
+  cursor: row-resize;
+  width: 100%;
+  height: 8px;
+  background-color: #9D9D9D;
+  border-style: none;
+}
+
+#itemsPaneTitleBar {
+  background-color: #E8E8E8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  height: 30px;
+  text-align: center;
+  padding-left: 5px;
+}
+
+#itemsTitle {
+  line-height: 30px;
+  vertical-align: middle;
+  color: #000000;
+  text-decoration-line: none;
+  cursor: pointer;
+}
+
+#itemsTitle a:link {
+  color: #444444;
+  text-decoration-line: none;
+}
+
+#itemsTitle a:visited {
+  color: #444444;
+  text-decoration-line: none;
+}
+
+#itemsTitle a:hover {
+  text-decoration: underline;
+}
+
+#itemsTitle a:active {
+  text-decoration: underline;
+}
+
+#itemsPaneToolBar {
+  display: none;
+  background-color: #e8e8e8;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  line-height: 41px;
+  height: 41px;
+  padding: 2px;
+}
+
+#itemMarkAsReadButton::before {
+  background-image: url(/themes/sage_sc/img/itemMarkAsReadButton.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#itemMarkAsUnreadButton::before {
+  background-image: url(/themes/sage_sc/img/itemMarkAsUnreadButton.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#itemMarkAllAsReadButton::before {
+  background-image: url(/themes/sage_sc/img/itemMarkAllAsReadButton.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#itemMarkAllAsUnreadButton::before {
+  background-image: url(/themes/sage_sc/img/itemMarkAllAsUnreadButton.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#itemOpenUnreadButton::before {
+  background-image: url(/themes/sage_sc/img/itemOpenUnreadButton.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #00000000;
+  width: 34px;
+  height: 34px;
+  content: "";
+  padding: 0;
+}
+
+#itemsPane {
+  background-color: #ffffff00;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #9D9D9D;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.item {
+  color: #000000;
+  font-weight: bold;
+  text-decoration-line: none;
+  line-height: 1.5em;
+  font-size: 110%;
+  cursor: pointer;
+}
+
+.item.visited {
+  color: #888888;
+  font-weight: normal;
+}
+
+.item:hover {
+  text-decoration: underline;
+}
+
+/* new folder dialog */
+
+#newFolderDialog {
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  background-color: #e8e8e7;
+  border: 1px solid #9d9d99;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 10px;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+/* info view */
+
+#infoView {
+  position: absolute;
+  background-color: #f9f9f9;
+  left: 80px;
+  top: 200px;
+  font-size: 99%;
+  min-width: 160px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  ;
+  padding: 0;
+  z-index: 1;
+}
+
+.infoTitle {
+  text-align: center;
+  font-weight: bold;
+  color: #4f4545;
+  background-color: #e4e4e4;
+}
+
+#infoViewInner {
+  padding: 10px 10px 10px 10px;
+}
+
+#infoViewTable {
+  table-layout: fixed;
+}
+
+#infoViewTable td:last-child {
+  width: 100%;
+}
+
+.infoLabel {
+  font-weight: bold;
+  color: #4f4545;
+}
+
+.infoField {
+  border: 1px inset #000000;
+  white-space: pre;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.infoButton {
+  font-size: 99%;
+}

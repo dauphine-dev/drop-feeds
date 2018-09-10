@@ -22,30 +22,25 @@ const _listenerFields = {
 };
 
 class Listener { /*exported Listener*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Listener();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._localStorageSubscriberList = [];
     this._messageSubscriberList = [];
     this._bookmarksSubscriberList = [];
-    browser.storage.onChanged.addListener(Listener._storageChanged_event);
-    browser.runtime.onMessage.addListener(Listener._runtimeOnMessage_event);
-    browser.bookmarks.onCreated.addListener(Listener._bookmarkOnCreated_event);
-    browser.bookmarks.onRemoved.addListener(Listener._bookmarkOnRemoved_event);
-    browser.bookmarks.onChanged.addListener(Listener._bookmarkOnChanged_event);
-    browser.bookmarks.onMoved.addListener(Listener._bookmarkOnMoved_event);
+    browser.storage.onChanged.addListener((e) => { this._storageChanged_event(e); });
+    browser.runtime.onMessage.addListener((e) => { this._runtimeOnMessage_event(e); });
+    browser.bookmarks.onCreated.addListener((id, info) => { this._bookmarkOnCreated_event(id, info); });
+    browser.bookmarks.onRemoved.addListener((id, info) => { this._bookmarkOnRemoved_event(id, info); });
+    browser.bookmarks.onChanged.addListener((id, info) => { this._bookmarkOnChanged_event(id, info); });
+    browser.bookmarks.onMoved.addListener((id, info) => { this._bookmarkOnMoved_event(id, info); });
   }
 
   subscribe(provider, key, callback, fireOnSubscribe) {
     let subscriberList = this._getSubscriberList(provider);
     subscriberList.push([key, callback]);
     if (fireOnSubscribe) {
-      Listener._fire(provider, key, callback);
+      this._fire(provider, key, callback);
     }
   }
 
@@ -72,7 +67,7 @@ class Listener { /*exported Listener*/
     return subscriberList;
   }
 
-  static _fire(provider, key, callback) {
+  _fire(provider, key, callback) {
     switch(provider) {
       case ListenerProviders.localStorage:
         LocalStorageManager.getValue_async(key, undefined).then((newValue) => {
@@ -84,67 +79,64 @@ class Listener { /*exported Listener*/
     }
   }
 
-  static async _storageChanged_event(changes) {
-    let self = Listener.instance;
+  async _storageChanged_event(changes) {
     let changeKeys = Object.keys(changes);
 
-    if (self._localStorageSubscriberList.length <= changes.length) {
-      for (let subscriber of self._localStorageSubscriberList) {
+    if (this._localStorageSubscriberList.length <= changes.length) {
+      for (let subscriber of this._localStorageSubscriberList) {
         if (changeKeys.includes(subscriber[_listenerFields.key])) {
           subscriber[_listenerFields.callback](changes[subscriber[_listenerFields.key]].newValue);
         }
       }
     }
     else {
-      let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[_listenerFields.key]));
+      let subscriberKeyList = this._localStorageSubscriberList.map(sb => (sb[_listenerFields.key]));
       for (let chgKey in changes) {
         let chg = changes[chgKey];
         if (subscriberKeyList.includes(chgKey)) {
-          let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == chgKey);
+          let subscriberEntry = this._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == chgKey);
           subscriberEntry[_listenerFields.key][_listenerFields.callback](chg.newValue);
         }
       }
     }
   }
 
-  static async _runtimeOnMessage_event(request) {
-    let self = Listener.instance;
+  async _runtimeOnMessage_event(request) {
     let response = null;
-    let subscriberKeyList = self._messageSubscriberList.map(sb => (sb[_listenerFields.key]));
+    let subscriberKeyList = this._messageSubscriberList.map(sb => (sb[_listenerFields.key]));
     if (subscriberKeyList.includes(request.key)) {
-      let subscriberEntry = self._messageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == request.key);
+      let subscriberEntry = this._messageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == request.key);
       subscriberEntry[_listenerFields.key][_listenerFields.callback](request.value);
     }
     return Promise.resolve(response);
   }
 
-  static async _bookmarkOnCreated_event(id, bookmarkInfo) {
-    Listener._bookmarkOnAny_event(bookmarkListeners.created, id, bookmarkInfo);
+  async _bookmarkOnCreated_event(id, bookmarkInfo) {
+    this._bookmarkOnAny_event(bookmarkListeners.created, id, bookmarkInfo);
   }
-  static async _bookmarkOnRemoved_event(id, removeInfo) {
-    Listener._bookmarkOnAny_event(bookmarkListeners.removed, id, removeInfo);
+  async _bookmarkOnRemoved_event(id, removeInfo) {
+    this._bookmarkOnAny_event(bookmarkListeners.removed, id, removeInfo);
   }
-  static async _bookmarkOnChanged_event(id, changeInfo) {
-    Listener._bookmarkOnAny_event(bookmarkListeners.changed, id, changeInfo);
+  async _bookmarkOnChanged_event(id, changeInfo) {
+    this._bookmarkOnAny_event(bookmarkListeners.changed, id, changeInfo);
   }
-  static async _bookmarkOnMoved_event(id, moveInfo) {
-    Listener._bookmarkOnAny_event(bookmarkListeners.moved, id, moveInfo);
+  async _bookmarkOnMoved_event(id, moveInfo) {
+    this._bookmarkOnAny_event(bookmarkListeners.moved, id, moveInfo);
   }
-  static async _bookmarkOnChildrenReordered_event(id, reorderInfo) {
-    Listener._bookmarkOnAny_event(bookmarkListeners.childrenReordered, id, reorderInfo);
+  async _bookmarkOnChildrenReordered_event(id, reorderInfo) {
+    this._bookmarkOnAny_event(bookmarkListeners.childrenReordered, id, reorderInfo);
   }
-  static async _bookmarkImportBegan_event() {
-    Listener._bookmarkOnAny_event(bookmarkListeners.importBegan, null, null);
+  async _bookmarkImportBegan_event() {
+    this._bookmarkOnAny_event(bookmarkListeners.importBegan, null, null);
   }
-  static async _bookmarkImportEnded_event() {
-    Listener._bookmarkOnAny_event(bookmarkListeners.importEnded, null, null);
+  async _bookmarkImportEnded_event() {
+    this._bookmarkOnAny_event(bookmarkListeners.importEnded, null, null);
   }
 
-  static async _bookmarkOnAny_event(key, id, eventInfo) {
-    let self = Listener.instance;
-    let subscriberKeyList = self._localStorageSubscriberList.map(sb => (sb[0]));
+  async _bookmarkOnAny_event(key, id, eventInfo) {
+    let subscriberKeyList = this._localStorageSubscriberList.map(sb => (sb[0]));
     if (subscriberKeyList.includes(key)) {
-      let subscriberEntry = self._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == key);
+      let subscriberEntry = this._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == key);
       subscriberEntry[_listenerFields.key][_listenerFields.callback](id, eventInfo);
     }
   }

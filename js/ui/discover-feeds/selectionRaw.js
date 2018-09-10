@@ -1,11 +1,6 @@
 'use strict';
 class SelectionRaw { /*exported SelectionRaw*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SelectionRaw();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._selectedElement = null;

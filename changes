@@ -1,3 +1,43 @@
+0.8.3b
+Adding chinese language (by YFdyh000)
+Fix checking button animation, and stop checking management
+Skip empty strings when sanitizing description tag (thank you to Jeff Thieleke for this fix)
+Fix checking management
+
+0.8.2f
+Completes USTools help (user scripts)
+Add console context menu (user scripts)
+Fix editor menus display (user scripts)
+Fix save and restore for script  match pattern (user scripts)
+Fix <none> match pattern (user scripts)
+Reworks options 'Items' tab
+Displays feed errors
+Fix item tooltips text (missing no english characters)
+Fix discovering feeds
+Fix the "Reuse Drop Feeds Tab" feature (thank you to Jeff Thieleke)
+
+0.8.1
+Editor undo/redo (user scripts)
+Editor multi-lines tab management (user scripts)
+Give access to the editor console from user scripts (see USTools help)
+
+0.8
+User scripts
+Add 'Run an automatic feed update on start' option
+Rework item tooltips to get something closer to Sage++
+Fix items panel vertical scroll bar
+Drag and drop the feed url in main window
+Stop checking by clicking 'Check feeds' button during checking
+Adding security filter settings
+Youtube feeds detection
+Fix to avoid feed broken on no well formed item link
+Fix opml typos (patch from jinkama-san)
+Allow missing item description (patch from jinkama-san)
+
+0.7.12
+Change sidebar shortcut to Ctrl+Shit+U
+Mark all items as read before leaving feeds
+
 0.7.11
 Fix wrong 'div'  close tag count in description (avoids items in items)
 

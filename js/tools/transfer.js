@@ -1,12 +1,7 @@
 /*global DefaultValues LocalStorageManager Listener ListenerProviders FeedParser*/
 'use strict';
 class Timeout { /*exported Timeout*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new Timeout();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._timeOut = DefaultValues.timeOut;
@@ -14,15 +9,15 @@ class Timeout { /*exported Timeout*/
 
   async init_async() {
     this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', Timeout.setTimeout_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', (v) => { this.setTimeout_sbscrb(v); }, true);
   }
 
   get timeOutMs() {
     return 1000 * this._timeOut;
   }
 
-  static setTimeout_sbscrb(value) {
-    Timeout.instance._timeOut = value;
+  setTimeout_sbscrb(value) {
+    this._timeOut = value;
   }
 }
 

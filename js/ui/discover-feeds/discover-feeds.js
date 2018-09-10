@@ -1,12 +1,7 @@
 /*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs CssManager*/
 'use strict';
 class DiscoverFeeds {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new DiscoverFeeds();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._tabInfos = null;
@@ -27,8 +22,8 @@ class DiscoverFeeds {
     await this._getActiveTabFeedLinkList_async();
     await this._getFeedList_async();
     await this._updateFeedList();
-    document.getElementById('addFeedButton').addEventListener('click', DiscoverFeeds._addFeedButtonOnClicked_event);
-    document.getElementById('closeButton').addEventListener('click', DiscoverFeeds._closeButtonOnClicked_event);
+    document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
+    document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }
 
@@ -162,7 +157,7 @@ class DiscoverFeeds {
     if (this._feedsToProcessList.length > 0) {
       while (this._feedsToProcessList.length > 0) {
         let feed = this._feedsToProcessList.shift();
-        DiscoverFeeds._updateFeed_async(feed);
+        this._updateFeed_async(feed);
       }
     }
     else {
@@ -170,15 +165,14 @@ class DiscoverFeeds {
     }
   }
 
-  static async _updateFeed_async(feed) {
-    let self = DiscoverFeeds.instance;
+  async _updateFeed_async(feed) {
     try {
       await feed.update_async();
     }
     finally {
-      self._feedReceived(feed);
-      if (--self._feedsToProcessCounter == 0) {
-        self._feedsUpdateDone();
+      this._feedReceived(feed);
+      if (--this._feedsToProcessCounter == 0) {
+        this._feedsUpdateDone();
       }
     }
   }
@@ -198,14 +192,14 @@ class DiscoverFeeds {
     this._progressBar.hide();
   }
 
-  static async _addFeedButtonOnClicked_event(event) {
+  async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await DiscoverFeeds.instance._openSubscribeDialog_async();
+    await this._openSubscribeDialog_async();
     window.close();
   }
 
-  static async _closeButtonOnClicked_event(event) {
+  async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     window.close();
@@ -214,12 +208,12 @@ class DiscoverFeeds {
   _addTableRawClickEvents() {
     let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
     for (let elTr of elTrList) {
-      elTr.addEventListener('click', DiscoverFeeds._tableRawOnClick_event);
+      elTr.addEventListener('click', (e) => { this._tableRawOnClick_event(e); });
     }
   }
 
-  static async _tableRawOnClick_event(event) {
-    DiscoverFeeds.instance._selectRaw(event.target.parentNode);
+  async _tableRawOnClick_event(event) {
+    this._selectRaw(event.target.parentNode);
   }
 
   _selectRaw(trElement) {

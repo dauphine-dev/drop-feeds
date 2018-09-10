@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/help/_any/css/help.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="//help/_any/img/favicon.png" />
+  <title>Virtual feed scripts - Help</title>
+</head>
+
+<body>
+  <h1>Script de flux virtuel<br/>
+    <small>Virtual feed scripts</small></h1>
+  <div>
+    <h2>Objectif</h2>
+    <div>
+      <br>
+    </div>
+    <div>Les scripts de type transformation de flux sont conçus pour permettre aux utilisateurs de générer leur propre flux.
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <h2>Créer un nouveau script
+        <br>
+      </h2>
+      <div>Allez dans les options puis sur l'onglet "Avancé" et cliquez sur "Gestionnaire de script".</div>
+      <div>Depuis le "Gestionnaire de script" cliquez sur&nbsp;
+        <img src="/themes/_any/img/scripts-new.png">&nbsp;et un nouveau script est créé.</div>
+      <div>
+        <br>
+      </div>
+      <img src="/help/_any/img/help-new-script.png">
+      <br>
+      <div>
+        <br>
+      </div>
+      <div>Alors vous pouvez :
+        <br>
+      </div>
+      <ul>
+        <li>.&nbsp;
+          <b>New script 1</b> : changer son nom</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-edit.png"> : ouvrir l'éditeur de code</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-enabled.png"> : l'activer / le désactiver (il sera ou ne sera pas exécuté lors de la mise à jour des flux, mais il sera toujours disponible pour l’édition et les tests)
+          <br>
+        </li>
+        <li>.&nbsp;
+          <img src="/help/_any/img/help-feed-type-open.png"> : sélectionner le type de script (Transformeur de flux ou Flux virtuel)</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-subscribe.png"> : vous abonner au flux virtuel</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-delete.png"> : supprimer le script</li>
+        <li>.&nbsp;&nbsp;
+          <img src="/help/_any/img/help-last-edition.png"> : voir le temps écoulé depuis la dernière modification</li>
+      </ul>
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>L'éditeur de script</h2>
+        <div>
+          <br>
+        </div>
+        <div>Pour ouvrir l'éditeur de script cliquez sur&nbsp;"
+          <img src="/themes/_any/img/scripts-edit.png">"
+        </div>
+        <div>
+          <br>
+        </div>
+        <img src="/help/_any/img/help-script-editor-vf.png">
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <ul>
+        <li>. Depuis le panneau de "Commandes" vous pouvez sauver le script ou fermer l'éditeur.</li>
+        <li>. Depuis le panneau "Transformeur de flux" vous pouvez :</li>
+      </ul>
+      <blockquote>
+        <div>
+          <ul>
+            <li>- tester le script.</li>
+            <li>- vous abonner au flux virtuel
+              <br>
+            </li>
+          </ul>
+        </div>
+      </blockquote>
+      <div>
+        <ul>
+          <li>. Depuis le panneau "Info" vous pouvez accéder à l’aide et aux exemples</li>
+          <li>. Vous pouvez écrire votre code dans le panneau principal sur la droite, et
+            en dessous il y a une console qui vous permet de voir les informations d'exécution
+            comme : le script a bien été exécuté, ou les erreurs d'exécution.
+          </li>
+          </ul>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>Comment écrire un script de Flux virtuel</h2>
+      </div>
+    </div>
+    <div>Pour commencer n'oubliez pas de sélectionner le type&nbsp;
+      <img src="/help/_any/img/help-feed-type-v.png" alt="Virtual feed">&nbsp; avant d'ouvrir éditeur de script.
+    </div>
+    <br>
+    <div>Vous devez écrire une fonction point d'entré de type&nbsp;
+      <font color="#000099">async</font>&nbsp; et retourner directement cette fonction depuis le module.
+      <br/>Cette fonction doit  retourner un texte qui contient un flux au format xml  (RSS or ATOM).
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <img src="/help/_any/img/help-vf-code1.png">
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>Dans cet exemple :
+      <br>
+    </div>
+    <div>
+      <ul>
+        <li>
+          . la fonction point d'entré est
+          <font color="#33CCFF">main</font>, elle est définie comme
+          <font color="#000099">async</font>, et elle est retournée directement depuis le module à la <b>ligne 8</b>.
+        </li>
+        <li>
+          . de la <b>ligne 3</b> à la <b>ligne 5</b> la fonction
+          <font color="#33CCFF">main</font> crée un texte xml de flux RSS  (voir
+          <a href="/help/_any/userScripts/userScriptTools.html">USTOOLS</a> pour plus de détails).
+        </li>
+        <li>. et le texte xml de flux RSS  (<font color="#FF6666">rssXmlTest</font>) est retourné à Drop Feeds à la <b>ligne 6</b>
+        </li>
+      </ul>
+      <div>C'est tout.</div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <b>Drop Feed</b> peut vous aider à écrire des scripts grâce à sa bibliothèque appelée
+        <a href="/help/_any/userScripts/userScriptTools.html">USTOOLS</a> (User Script TOOLS), et vous pouvez aussi regarder l'
+        <a href="https://pastebin.com/W6HaFQQz">exemple</a> de Flux virtuel.
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+    </div>
+    <div>
+      <br>
+    </div>
+  </div>
+</body>
+
+</html>

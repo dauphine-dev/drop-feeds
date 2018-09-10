@@ -2,12 +2,7 @@
 /*cSpell:ignore nbsp */
 'use strict';
 class TabGeneral { /*exported TabGeneral*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new TabGeneral();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._optionFolderList = [];
@@ -45,22 +40,22 @@ class TabGeneral { /*exported TabGeneral*/
     BrowserManager.setInnerHtmlByElement(elFeedList, feedFolderSelectHtml);
 
 
-    document.getElementById('feedFolderSelect').addEventListener('change', this._feedFolderSelectChanged_event);
-    document.getElementById('applySelectedFeedButton').addEventListener('click', this._applySelectedFeedButtonClicked_event);
+    document.getElementById('feedFolderSelect').addEventListener('change', (e) => { this._feedFolderSelectChanged_event(e); });
+    document.getElementById('applySelectedFeedButton').addEventListener('click', (e) => { this._applySelectedFeedButtonClicked_event(e); });
   }
 
   async _initDisplayRootFolderCheckbox_async() {
     let notDisplayRootFolder = ! await LocalStorageManager.getValue_async('displayRootFolder', DefaultValues.displayRootFolder);
     let elNotDisplayRootFolderCheckBox = document.getElementById('notDisplayRootFolderCheckBox');
     elNotDisplayRootFolderCheckBox.checked = notDisplayRootFolder;
-    elNotDisplayRootFolderCheckBox.addEventListener('click', this._notDisplayRootFolderCheckBoxClicked_event);
+    elNotDisplayRootFolderCheckBox.addEventListener('click', (e) => { this._notDisplayRootFolderCheckBoxClicked_event(e); });
   }
 
   async _initThemeDropdown_async() {
     let elThemeList = document.getElementById('themeList');
     let themeListHtml = elThemeList.innerHTML + await this._createThemeListHtml_async();
     BrowserManager.setInnerHtmlByElement(elThemeList, themeListHtml);
-    document.getElementById('themeSelect').addEventListener('change', this._themeSelectChanged_event);
+    document.getElementById('themeSelect').addEventListener('change', (e) => { this._themeSelectChanged_event(e); });
   }
 
   async _initFeedItemOrderDropdown_async() {
@@ -68,7 +63,7 @@ class TabGeneral { /*exported TabGeneral*/
     itemSortOrder = Number.isInteger(itemSortOrder) ? itemSortOrder : DefaultValues.itemSortOrder;
     let feedItemOrderSelectEl = document.getElementById('feedItemOrderSelect');
     feedItemOrderSelectEl.options[itemSortOrder].selected = true;
-    feedItemOrderSelectEl.addEventListener('change', this._feedItemOrderSelectChanged_event);
+    feedItemOrderSelectEl.addEventListener('change', (e) => { this._feedItemOrderSelectChanged_event(e); });
   }
 
 

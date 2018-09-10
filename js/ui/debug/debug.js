@@ -17,31 +17,47 @@ class Debug {
     let miscList = [];
     let folderStateList = [];
     let feedInfoList = [];
+    let scriptsList = [];
     //let keysToRemove = [];
 
     for (let property in localStorage) {
       if (localStorage.hasOwnProperty(property)) {
+        // No data list
         if(typeof localStorage[property] === 'undefined') {
           nodataList.push([property, typeof localStorage[property], 'undefined']);
           continue;
         }
+
+        // Folder state list
         if (property.startsWith('cb-')) {
           folderStateList.push([property, typeof localStorage[property], localStorage[property] ]);
           continue;
         }
+
+        // Feed info list
         if (localStorage[property] !== null) {
           if (localStorage[property].isFeedInfo || localStorage[property].isBkmrk || localStorage[property].bkmrkId) {
             feedInfoList.push([property, typeof localStorage[property], localStorage[property] ]);
             continue;
           }
         }
+
+        // Scripts list
+        if (property == 'scriptList' || property.startsWith('scriptObj-') || property.startsWith('scriptCode-')) {
+          scriptsList.push([property, typeof localStorage[property], localStorage[property] ]);
+          continue;
+        }
+
+        // No data list (again)
         if (localStorage[property] === null) {
           nodataList.push([property, typeof localStorage[property], 'null']);
         }
         else {
+          // Misc. list (object)
           if (typeof localStorage[property] == 'object') {
-            //keysToRemove.push(property);
+            miscList.push([property, typeof localStorage[property], localStorage[property] ]);
           }
+          // Misc. list
           else {
             miscList.push([property, typeof localStorage[property], localStorage[property].toString() ]);
           }
@@ -54,9 +70,13 @@ class Debug {
     });
 
     let htmlText = '';
+    htmlText += '  ' + Debug._addSectionHtml('Test button colors');
+    htmlText += '  ' + Debug._testButtonWithHueRotate();
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);
+    htmlText += '  ' + Debug._addSectionHtml('Scripts info');
+    htmlText += '  ' + Debug._listToHtml(scriptsList);
     htmlText += '  ' + Debug._addSectionHtml('Feeds info');
     htmlText += '  ' + Debug._listToHtml(feedInfoList);
     htmlText += '  ' + Debug._addSectionHtml('Folders state');
@@ -129,6 +149,34 @@ class Debug {
       return '[...]';
     }
     return value;
+  }
+
+  static _testButtonWithHueRotate() {
+    let buttonsHtml = '';
+    let i = 1;
+    for (let deg=0; deg<360; deg+=1, i++) {
+      let style = 'style="';
+      style += 'background-image: url(/themes/_any/img/test.png);';
+      style += 'background-repeat: no-repeat;';
+      style += 'background-size: 16px 16px;';
+      style += 'width: 16px;height: 16px;';
+      style += 'filter: hue-rotate(' + deg + 'deg);';
+      style += '"';
+      let degText = deg.toString().padStart(2, '-').padEnd(3, '-');
+      degText = degText.replace(/-/g, '&nbsp;');
+      buttonsHtml += '<span ' + style + '>' + degText + '&nbsp;</span>';
+      if (i % 40 == 0) {
+        buttonsHtml += '<br/><br/>';
+      }
+    }
+
+
+    let htmlText = '';
+    htmlText+= '<tr>';
+    htmlText+= '<td></td><td></td>';
+    htmlText+= '<td>' + buttonsHtml + '</td>';
+    htmlText+= '</tr>\n';
+    return htmlText;
   }
 }
 Debug.init();

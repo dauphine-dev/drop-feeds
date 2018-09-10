@@ -1,0 +1,35 @@
+{
+  "cssPath": "/themes/_any/css/jsHighlight.css",
+  "pairPatternClassList": [
+    {
+      "pattern": "\\b(abstract|arguments|Array|async|boolean|byte|char|class|const|constructor|Date|debugger|delete|double|enum|eval|extends|false|final|float|function|goto|implements|implements|in|instanceof|int|interface|let|long|native|new|null|Number|Object|of|package|private|protected|prototype|public|short|static|String|super|this|true|typeof|undefined|var|void|yield)\\b",
+      "class": "jsDeclarationKeyword",
+      "enclosing": "false"
+    },
+    {
+      "pattern": "\\b(await|break|case|catch|continue|default|do|else|export|finally|for|from|goto|if|import|return|switch|synchronized|throw|throws|transient|try|volatile|while|with)\\b",
+      "class": "jsControlFlowKeyword",
+      "enclosing": "false"
+    },
+    {
+      "pattern": "\\b(alert|all|anchor|anchors|area|assign|blur|button|checkbox|clearInterval|clearTimeout|clientInformation|close|closed|confirm|constructor|crypto|decodeURI|decodeURIComponent|defaultStatus|document|element|elements|embed|embeds|encodeURI|encodeURIComponent|escape|event|fileUpload|focus|form|forms|frame|frameRate|frames|hasOwnProperty|hidden|history|image|images|Infinity|innerHeight|innerWidth|isFinite|isNaN|isPrototypeOf|layer|layers|length|link|location|Math|mimeTypes|name|navigate|navigator|offscreenBuffering|open|opener|option|outerHeight|outerWidth|packages|pageXOffset|pageYOffset|parent|parseFloat|parseInt|plugin|prompt|propertyIsEnum|radio|reset|screenX|screenY|scroll|secure|select|self|setInterval|setTimeout|status|submit|taint|textarea|top|toString|unescape|untaint|valueOf|window)\\b",
+      "class": "jsOtherKeyword",
+      "enclosing": "false"
+    },
+    {
+      "pattern": "(\\/\\/.*)",
+      "class": "jsComment",
+      "enclosing": "true"
+    },
+    {
+      "pattern": "'(.*?)'",
+      "class": "jsString",
+      "enclosing": "true"
+    },
+    {
+      "pattern": "/\\*(?:.|[\\n\\r])*?\\*/",
+      "class": "jsComment",
+      "enclosing": "true"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="/help/_any/css/help.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="//help/_any/img/favicon.png" />
+    <title>Feed transform scripts - Help</title>
+</head>
+
+<body>
+  <h1>Scripts de transformation de flux<br/>
+    <small>Feed transformer scripts</small>
+  </h1>
+  <div>
+    <h2>Objectif</h2>
+    <div>
+      <br>
+    </div>
+    <div>Les scripts de type transformation de flux sont conçus  pour permettre aux utilisateurs de transformer/modifier les flux à la volée.</div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <h2>Créer un nouveau script
+        <br>
+      </h2>
+      <div>Allez dans les options puis sur l'onglet "Avancé" et cliquez sur "Gestionnaire de script".</div>
+      <div>Depuis le "Gestionnaire de script" cliquez sur&nbsp;
+        <img src="/themes/_any/img/scripts-new.png">&nbsp; et un nouveau script est créé.</div>
+      <div>
+        <br>
+      </div>
+      <img src="/help/_any/img/help-new-script.png">
+      <br>
+      <div>
+        <br>
+      </div>
+      <div>Alors vous pouvez :
+        <br>
+      </div>
+      <ul>
+        <li>.&nbsp;
+          <b>New script 1</b> : changer son nom</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-edit.png"> : ouvrir l'éditeur de code</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-enabled.png"> : l'activer / le désactiver (il sera ou ne sera pas exécuté lors de la mise à jour des flux, mais il sera toujours disponible pour l’édition et les tests)
+          <br>
+        </li>
+        <li>.
+          <img src="/help/_any/img/help-feed-type.png"> : sélectionner le type de script (Transformeur de flux ou Flux virtuel)</li>
+        <li>.
+          <img src="/help/_any/img/help-url-matching.png"> : voir sur quel schéma d’url le script sera appliqué</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-delete.png"> : supprimer le script </li>
+        <li>.&nbsp;&nbsp;
+          <img src="/help/_any/img/help-last-edition.png"> : voir le temps écoulé depuis la dernière modification</li>
+      </ul>
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>L'éditeur de script</h2>
+        <div>
+          <br>
+        </div>
+        <div>Pour ouvrir l'éditeur de script cliquez sur&nbsp;"<img src="/themes/_any/img/scripts-edit.png">"
+        </div>
+        <div>
+          <br>
+        </div>
+        <img src="/help/_any/img/help-script-editor-ft.png">
+      </div>
+      <div>
+        <br>
+      </div>
+      <ul>
+        <li>. Depuis le panneau de "Commandes" vous pouvez sauver le script ou fermer l'éditeur.</li>
+        <li>. Depuis le panneau "Transformeur de flux" vous pouvez :</li>
+      </ul>
+      <blockquote>
+        <div>
+          <ul>
+            <li>- changer le modèle  de correspondance d'url, les schémas sont identiques à ceux décrits
+                <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">ici</a>
+              à l'exception de &lt;none&gt; qui est spécifique  à Drop Feeds et qui signifie : pas de correspondance.</li>
+            <li>- définir une url de test
+              <br>
+            </li>
+            <li>- et tester le script sur l'url de test</li>
+          </ul>
+        </div>
+      </blockquote>
+      <div>
+        <ul>
+          <li>. Depuis le panneau "Info" vous pouvez accéder à l’aide et aux exemples</li>
+          <li>. Depuis le panneau "Police" vous pouvez changer les paramètres de la police</li>
+        </ul>
+        Vous pouvez écrire votre code dans le panneau principal sur la droite, et en dessous il y a une console
+        qui vous permet de voir les informations d'exécution comme : l'url de test est
+        conforme (ou non) au  modèle de correspondance d'url, si le script a bien été exécuté, ou
+        les erreurs d'exécution.
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>Comment écrire un script de Transformation de flux</h2>
+      </div>
+    </div>
+    <div>Pour commencer n'oubliez pas de sélectionner le type
+      <img src="/help/_any/img/help-feed-type.png" alt="Transformeur de flux"> avant d'ouvrir éditeur de script.</div>
+    <div>
+      <br>
+    </div>
+    <div>Vous devez écrire une fonction  point d'entré de type
+      <font color="#000099">async</font> et retourner directement cette fonction depuis le module.
+      Cette fonction va recevoir en paramètre le texte brut du xml associé au flux, et vous pouvez
+      alors le modifier puis vous retournez cette version modifiée. Ainsi les modifications s'appliqueront au flux.
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <img src="/help/_any/img/help-ft-code1.png">
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>Dans cet exemple :
+      <br>
+    </div>
+    <div>
+      <ul>
+        <li>. la fonction  point d'entré est
+          <font color="#33CCFF">main</font>,  elle est définie comme
+          <font color="#000099">async</font>, et elle est retournée directement depuis le module à la <i><b>ligne 8</b></i>
+        </li>
+        <li>. la fonction
+          <font color="#33CCFF">main</font> reçoit le xml du flux au format texte brut à travers le paramètre
+          <font color="#FF6666">feedText</font> à la <i><b>ligne 2</b></i><br>
+        </li>
+        <li>.
+          <font color="#FF6666">feedText</font> est modifié à la <i><b>ligne 4</b></i>
+        </li>
+        <li>. et
+          <font color="#FF6666">feedText</font> est retourné à Drop Feeds à la <i><b>ligne 5</b></i>
+        </li>
+      </ul>
+      <div>C'est tout.</div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <b>Drop Feed</b> peut vous aider à écrire des scripts grâce à sa bibliothèque appelée
+        <a href="/help/_any/userScripts/userScriptTools.html">USTOOLS</a> (User Script TOOLS), et vous pouvez aussi regarder l'
+        <a href="https://pastebin.com/ddZxUdtT">exemple</a> de script Transformeur de flux.
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+    </div>
+    <div>
+      <br>
+    </div>
+  </div>
+</body>
+
+</html>

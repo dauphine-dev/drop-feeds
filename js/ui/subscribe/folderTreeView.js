@@ -1,12 +1,7 @@
 /*global browser DefaultValues LocalStorageManager BrowserManager TextTools*/
 'use strict';
 class FolderTreeView { /*exported FolderTreeView*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new FolderTreeView();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._html= [];
@@ -82,19 +77,18 @@ class FolderTreeView { /*exported FolderTreeView*/
     //let els = document.querySelector('#folderView').querySelectorAll('.folderLabel, input');
     let els = document.querySelector('#folderView').querySelectorAll('*');
     for (let i = 0; i < els.length; i++) {
-      els[i].addEventListener('click', this._folderOnClicked_event);
+      els[i].addEventListener('click', (e) => { this._folderOnClicked_event(e); });
     }
   }
 
   async _folderOnClicked_event(event) {
-    let self = FolderTreeView.instance;
     event.stopPropagation();
     //event.preventDefault();
     let element = event.currentTarget;
     let attributeId = element.getAttribute('id');
     let rawId  = attributeId ? attributeId : element.getAttribute('for');
     let id  = attributeId ? rawId.substring(4) : rawId.substring(3);
-    self._selectFolder(id);
+    this._selectFolder(id);
   }
 
   _selectFolder(folderId) {

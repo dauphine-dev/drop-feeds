@@ -1,18 +1,13 @@
 /*global SideBar ItemsPanel LocalStorageManager*/
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SplitterBar();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._newPos = 0;
     this._startPos = 0;
     this._elSplitterBar = document.getElementById('splitterBar');
-    this._elSplitterBar.onmousedown = SplitterBar._dragMouseDown_event;
+    this._elSplitterBar.onmousedown = ((e) => { this._dragMouseDown_event(e); });
 
   }
 
@@ -35,25 +30,23 @@ class SplitterBar { /*exported SplitterBar*/
     return this._elSplitterBar.offsetHeight;
   }
 
-  static _dragMouseDown_event(event) {
-    let self = SplitterBar.instance;
+  _dragMouseDown_event(event) {
     event = event || window.event;
-    self._startPos = event.clientY;
-    document.onmouseup = SplitterBar._closeDragElement_event;
-    document.onmousemove = SplitterBar._drag_event;
+    this._startPos = event.clientY;
+    document.onmouseup = ((e) => { this._closeDragElement_event(e); });
+    document.onmousemove = ((e) => { this._drag_event(e); });
   }
 
-  static _drag_event(event) {
-    let self = SplitterBar.instance;
+  _drag_event(event) {
     event = event || window.event;
-    self._newPos = self._startPos - event.clientY;
-    self._startPos = event.clientY;
-    let top = Math.max(Math.min(ItemsPanel.instance.top - self._newPos, window.innerHeight - 80), 125);
-    self._resizeElements(top);
+    this._newPos = this._startPos - event.clientY;
+    this._startPos = event.clientY;
+    let top = Math.max(Math.min(ItemsPanel.instance.top - this._newPos, window.innerHeight - 80), 125);
+    this._resizeElements(top);
     LocalStorageManager.setValue_async('splitterBarTop', top);
   }
 
-  static _closeDragElement_event() {
+  _closeDragElement_event() {
     document.onmouseup = null;
     document.onmousemove = null;
   }

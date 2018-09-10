@@ -1,12 +1,7 @@
 /*global browser BrowserManager LocalStorageManager Dialogs*/
 'use strict';
 class FeedList {
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new FeedList();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._activeTabIsFeed = null;
@@ -46,13 +41,13 @@ class FeedList {
   _addTableRawClickEvents() {
     let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
     for (let elTr of elTrList) {
-      elTr.addEventListener('click', FeedList._tableRawOnClick_event);
+      elTr.addEventListener('click', (e) => { this._tableRawOnClick_event(e); });
     }
   }
 
-  static async _tableRawOnClick_event(event) {
+  async _tableRawOnClick_event(event) {
     let feedUrl = event.target.parentNode.cells[1].innerHTML;
-    if (FeedList.instance._activeTabIsFeed) {
+    if (this._activeTabIsFeed) {
       let feedTitle = event.target.parentNode.cells[0].innerHTML;
       await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: feedTitle, feedUrl: feedUrl});
       await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');

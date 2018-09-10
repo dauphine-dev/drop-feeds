@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="/help/_any/css/help.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="//help/_any/img/favicon.png" />
+    <title>Feed transform scripts - Help</title>
+</head>
+
+<body>
+  <h1>Feed transformer scripts</h1>
+  <div>
+    <h2>Purpose</h2>
+    <div>
+      <br>
+    </div>
+    <div>Feed transformer scripts are designed to allow users to transform/modify feeds on the fly.</div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <h2>Create a new script
+        <br>
+      </h2>
+      <div>Open the option view go in "Advanced" tab and click on "Script manager".</div>
+      <div>From the "Script manager" view click on&nbsp;
+        <img src="/themes/_any/img/scripts-new.png">&nbsp; then a new script is created.</div>
+      <div>
+        <br>
+      </div>
+      <img src="/help/_any/img/help-new-script.png">
+      <br>
+      <div>
+        <br>
+      </div>
+      <div>Then you can :
+        <br>
+      </div>
+      <ul>
+        <li>.&nbsp;
+          <b>New script 1</b> : change its name</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-edit.png"> : open the code editor </li>
+        <li>.
+          <img src="/themes/_any/img/scripts-enabled.png"> : enable / disable it (it will be executed or not when you update a feed, but it is still available for edition and test)
+          <br>
+        </li>
+        <li>.
+          <img src="/help/_any/img/help-feed-type.png"> : Select the type of script (Feed transformer or Virtual feed)</li>
+        <li>.
+          <img src="/help/_any/img/help-url-matching.png"> : see on which feed url schemes the script will be executed</li>
+        <li>.
+          <img src="/themes/_any/img/scripts-delete.png"> : delete the script</li>
+        <li>.&nbsp;&nbsp;
+          <img src="/help/_any/img/help-last-edition.png"> : see the last edition time</li>
+      </ul>
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>The script editor</h2>
+        <div>
+          <br>
+        </div>
+        <div>To open the script editor click on&nbsp;"<img src="/themes/_any/img/scripts-edit.png">"
+        </div>
+        <div>
+          <br>
+        </div>
+        <img src="/help/_any/img/help-script-editor-ft.png">
+      </div>
+      <div>
+        <br>
+      </div>
+      <ul>
+        <li>. From the "Commands" panel you can save the script or close the script editor.</li>
+        <li>. From&nbsp; the "Feed transformer" you can:</li>
+      </ul>
+      <blockquote>
+        <div>
+          <ul>
+            <li>- change the url match pattern, it use the same scheme as describe
+              <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">here</a> except for &lt;none&gt; it specifics to Drop Feeds and it means "none".</li>
+            <li>- set a test url
+              <br>
+            </li>
+            <li>- and test the script on the test url</li>
+          </ul>
+        </div>
+      </blockquote>
+      <div>
+        <ul>
+          <li>. From "Info" panel you can access to help and examples</li>
+          <li>. From "Font" panel you can change font settings</li>
+        </ul>You can write your code in the main panel on right side, and at bottom you can see a console with execution informations
+        like: test url match to patterns or not, the script has been executed, or execution errors.</div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <h2>How to write a Feed transformer scripts</h2>
+      </div>
+    </div>
+    <div>Don't forget to select the
+      <img src="/help/_any/img/help-feed-type.png" alt="Feed transformer"> type before to&nbsp; open the script editor.</div>
+    <div>
+      <br>
+    </div>
+    <div>You have to write an
+      <font color="#000099">async</font> entry point function and return directly it from the module. This function will received the raw xml text&nbsp;
+      of the feed, then can modify it and return it and the modifications will be apply to the feed.
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <img src="/help/_any/img/help-ft-code1.png">
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>In this example:
+      <br>
+    </div>
+    <div>
+      <ul>
+        <li>. the entry point function is
+          <font color="#33CCFF">main</font> and it is defined as
+          <font color="#000099">async</font>, and it return directly from the module on
+          <i>
+            <b>line 8</b>
+          </i>
+        </li>
+        <li>. the
+          <font color="#33CCFF">main</font> function receive the raw feed xml text through&nbsp; the
+          <font color="#FF6666">feedText</font> parameter on
+          <i>
+            <b>line 2</b>
+          </i>
+          <br>
+        </li>
+        <li>.
+          <font color="#FF6666">feedText</font> is modified on
+          <i>
+            <b>line 4</b>
+          </i>
+        </li>
+        <li>. and
+          <font color="#FF6666">feedText</font> is returned to Drop Feeds on
+          <i>
+            <b>line 5</b>
+          </i>
+        </li>
+      </ul>
+      <div>That's all.</div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <b>Drop Feed</b> helps you to write scripts with a library called
+        <a href="/help/_any/userScripts/userScriptTools.html">USTOOLS</a> (User Script TOOLS), and you can take a look to the Feed transformer script
+        <a href="https://pastebin.com/ddZxUdtT">example</a>.
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+    </div>
+    <div>
+      <br>
+    </div>
+  </div>
+</body>
+
+</html>

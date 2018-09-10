@@ -1,5 +1,6 @@
-/*global browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
+
 const feedStatus = {
   UPDATED: 'updated',
   OLD: 'old',
@@ -32,16 +33,17 @@ class Feed { /*exported Feed*/
     this._newUrl = null;
     this._feedItems = null;
     this._ifHttpsHAsFailedRetryWithHttp = DefaultValues.ifHttpsHasFailedRetryWithHttp;
-    this._info = {hash: '', info: ''};
+    this._info = { hash: '', info: '' };
   }
 
   async _constructor_async() {
+    await UserScriptTools.instance.init_async();
     if (this._storedFeed.id) {
-      this._bookmark =  (await browser.bookmarks.get(this._storedFeed.id))[0];
-      this._storedFeed.title =  this._bookmark.title;
+      this._bookmark = (await browser.bookmarks.get(this._storedFeed.id))[0];
+      this._storedFeed.title = this._bookmark.title;
       this._storedFeed = await LocalStorageManager.getValue_async(this._storedFeed.id, this._storedFeed);
       if (this._storedFeed.prevValues == undefined) {
-        this._storedFeed.prevValues = {hash: null, pubDate: null};
+        this._storedFeed.prevValues = { hash: null, pubDate: null };
       }
       this._ifHttpsHAsFailedRetryWithHttp = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
       if (this._storedFeed.pubDate) { this._storedFeed.pubDate = new Date(this._storedFeed.pubDate); }
@@ -51,6 +53,9 @@ class Feed { /*exported Feed*/
   }
 
   get title() {
+    if (!this._storedFeed.title && this._feedText) {
+      this._parseTitle();
+    }
     return this._storedFeed.title;
   }
 
@@ -63,11 +68,36 @@ class Feed { /*exported Feed*/
   }
 
   get docUrl() {
-    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title);
+    let feedHtml = this._getFeedHtml();
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
   }
+
+  _getFeedHtml() {
+    let feedHtml = '';
+    //if there is an error then get html from the error and return
+    if (this._error != null) {
+      feedHtml = this._getFeedHtmlFromError();
+      return feedHtml;
+    }
+
+    //there is no error then get html from feed parsing
+    try { feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title); }
+    catch (e) { this._error = e; }
+    //if an error has occurred  during feed parsing then get html from the error
+    if (this._error != null) {
+      feedHtml = this._getFeedHtmlFromError();
+    }
+    return feedHtml;
+  }
+
+  _getFeedHtmlFromError() {
+    this._feedText = FeedParser.feedErrorToHtml(this._error, this.url, this._storedFeed.title);
+    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title, true);
+    return feedHtml;
+  }
+
 
   get info() {
     if (this._info.hash != this._storedFeed.hash) {
@@ -85,10 +115,11 @@ class Feed { /*exported Feed*/
     return this._storedFeed.pubDate;
   }
 
-  async update_async() {
+  async update_async(scriptData) {
     this._savePrevValues();
     let ignoreRedirection = false;
-    await this._download_async(ignoreRedirection, false);
+    await this._download_async(ignoreRedirection, false, scriptData);
+    await this._runUserScript_async(scriptData);
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -97,10 +128,10 @@ class Feed { /*exported Feed*/
 
   async updateTitle_async() {
     let ignoreRedirection = false;
-    await this._download_async(ignoreRedirection, false);
+    await this._download_async(ignoreRedirection, false, null);
     this._parseTitle();
     await this.save_async();
-    browser.bookmarks.update(this._storedFeed.id, {title: this._storedFeed.title});
+    browser.bookmarks.update(this._storedFeed.id, { title: this._storedFeed.title });
   }
 
 
@@ -112,7 +143,7 @@ class Feed { /*exported Feed*/
 
   static getClassName(storedFeed) {
     let itemClass = null;
-    switch(storedFeed.status) {
+    switch (storedFeed.status) {
       case feedStatus.UPDATED:
         itemClass = 'feedUnread';
         break;
@@ -127,7 +158,7 @@ class Feed { /*exported Feed*/
   }
 
   async save_async() {
-    if ( this._storedFeed.pubDate == null && this._storedFeed.hash == null) {
+    if (this._storedFeed.pubDate == null && this._storedFeed.hash == null) {
       this._storedFeed.pubDate = this._storedFeed.prevValues.pubDate;
       this._storedFeed.hash = this._storedFeed.prevValues.hash;
     }
@@ -136,7 +167,7 @@ class Feed { /*exported Feed*/
 
   async updateUiStatus_async() {
     let feedUiItem = document.getElementById(this._storedFeed.id);
-    switch(this.status) {
+    switch (this.status) {
       case feedStatus.UPDATED:
         feedUiItem.classList.remove('feedError');
         feedUiItem.classList.remove('feedRead');
@@ -173,68 +204,65 @@ class Feed { /*exported Feed*/
     this._storedFeed.pubDate = null;
   }
 
-  async _download_async(ignoreRedirection, forceHttp) {
+  async _download_async(ignoreRedirection, forceHttp, scriptData) {
     this._error = null;
+
     try {
       let urlNoCache = true;
-      await this._downloadEx_async(urlNoCache, forceHttp);
+      await this._downloadEx_async(urlNoCache, forceHttp, scriptData);
     }
-    catch(e1) {
+    catch (e1) {
       try {
         let urlNoCache = false;
-        await this._downloadEx_async(urlNoCache, forceHttp);
+        await this._downloadEx_async(urlNoCache, forceHttp, scriptData);
       }
-      catch(e2) {
+      catch (e2) {
         let retry = null;
         if (e2 === 0) {
           if (!forceHttp) {
             if (this._ifHttpsHAsFailedRetryWithHttp && this.url.startsWith('https:')) {
               try {
                 retry = true;
-                this._download_async(ignoreRedirection, true);
+                this._download_async(ignoreRedirection, true, scriptData);
               }
-              catch(e3) {
-                /*eslint-disable no-console*/
-                //console.log(this.url);
-                //console.log(this._storedFeed.title + ': ' + e3);
-                /*eslint-enable no-console*/
+              catch (e3) {
                 this._error = e3;
               }
             }
           }
         }
         if (!retry) {
-          /*eslint-disable no-console*/
-          //console.log(this.url);
-          //console.log(this._storedFeed.title + ': ' + e2);
-          /*eslint-enable no-console*/
           this._error = e2;
         }
       }
     }
     if (!ignoreRedirection) {
-      await this._manageRedirection_async();
+      await this._manageRedirection_async(forceHttp, scriptData);
     }
   }
 
-  async _manageRedirection_async(forceHttp) {
+  async _manageRedirection_async(forceHttp, scriptData) {
     if (this._feedText && this._feedText.includes('</redirect>') && this._feedText.includes('</newLocation>')) {
       let newUrl = TextTools.getInnerText(this._feedText, '<newLocation>', '</newLocation>').trim();
       this._newUrl = newUrl;
-      await this._download_async(true, forceHttp);
+      await this._download_async(true, forceHttp, scriptData);
     }
   }
 
-  async _downloadEx_async(urlNoCache, forceHttp) {
+  async _downloadEx_async(urlNoCache, forceHttp, scriptData) {
     let url = this.url;
-    if (this._newUrl) {
-      url = this._newUrl;
+    if (url.startsWith(scriptVirtualProtocol)) {
+      this._feedText = await UserScriptTools.instance.downloadVirtualFeed_async(url, scriptData);
     }
-    if (forceHttp) {
-      url = url.replace('https://', 'http://');
+    else {
+      if (this._newUrl) {
+        url = this._newUrl;
+      }
+      if (forceHttp) {
+        url = url.replace('https://', 'http://');
+      }
+      this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
     }
-    this._feedText = await Transfer.downloadTextFileEx_async(url, urlNoCache);
-    //console.log('this._feedText:', this._feedText);
     this._validFeedText();
   }
 
@@ -247,13 +275,17 @@ class Feed { /*exported Feed*/
   }
 
   _parsePubdate() {
-    if (this._error != null)  { return; }
-    this._storedFeed.pubDate =  FeedParser.parsePubdate(this._feedText);
+    if (this._error != null) { return; }
+    this._storedFeed.pubDate = FeedParser.parsePubdate(this._feedText);
+  }
+
+  async _runUserScript_async(scriptData) {
+    this._feedText = await UserScriptTools.instance.runFeedTransformerScripts_async(this.url, this._feedText, scriptData);
   }
 
   _parseTitle() {
-    if (this._error != null)  { return; }
-    this._storedFeed.title =  FeedParser.parseTitle(this._feedText);
+    if (this._error != null) { return; }
+    this._storedFeed.title = FeedParser.parseTitle(this._feedText);
   }
 
   async _updateStatus() {
@@ -263,7 +295,7 @@ class Feed { /*exported Feed*/
     else {
       this._storedFeed.status = feedStatus.OLD;
       if (DateTime.isValid(this._storedFeed.pubDate)) {
-        if (!this._storedFeed.prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._storedFeed.prevValues.pubDate.valueOf() &&  this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
+        if (!this._storedFeed.prevValues.pubDate || (this._storedFeed.pubDate.valueOf() > this._storedFeed.prevValues.pubDate.valueOf() && this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {
           this._storedFeed.status = feedStatus.UPDATED;
         }
       } else if ((this._storedFeed.hash && !this._storedFeed.prevValues.hash) || (this._storedFeed.hash.valueOf() != this._storedFeed.prevValues.hash.valueOf())) {

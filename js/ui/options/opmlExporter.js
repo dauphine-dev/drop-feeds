@@ -1,12 +1,7 @@
 /*global browser DefaultValues BrowserManager LocalStorageManager TextTools*/
 'use strict';
 class OpmlExporter { /*exported OpmlExporter*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new OpmlExporter();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   async export_async() {
     let opmlFileUrl = await this._generateExportFile();

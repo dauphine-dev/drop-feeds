@@ -5,7 +5,7 @@ cd ../_ext/
 rm -rf $BRANCH/
 cp -fr ../$BRANCH $BRANCH/
 cd ./$BRANCH/
-rm -rf resources/resources-src/
+rm -rf themes-src/
 rm -rf dropfeeds.code-workspace
 rm -rf README.md
 rm -rf makeExt.sh
@@ -13,6 +13,7 @@ rm -rf .git/
 rm -rf .vscode/
 rm -rf .eslintrc.json
 rm -rf .gitignore
+rm -rf ../$BRANCH.zip
 zip -r ../$BRANCH.zip * >/dev/null
 cd ..
 cp -fr $BRANCH.zip drop-feeds.zip

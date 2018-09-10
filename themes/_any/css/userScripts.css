@@ -1,0 +1,353 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	max-height: 100%;
+	font-family: "Courier New", "Courier", "Lucida Console", "Monaco", "monospace";
+	font-size: small;
+	/*overflow: hidden;*/
+}
+
+button {
+	font-size: x-small;
+	margin: 5px;
+}
+
+select {
+	font-size: x-small;
+	margin: 5px;
+}
+
+.field {
+	font-size: x-small;
+	border: 2px double #9D9D99;
+	border-radius: 3px;
+	width: 100%;
+}
+
+.field:focus {
+	border: 2px solid #4A90D9;
+}
+
+/*-- table box --*/
+
+.tableBox {
+	vertical-align: top;
+	display: table;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	width: 0;
+	width: calc(100% - 2px);
+	height: calc(100% - 2px);
+}
+
+.rowGroupBox {
+	vertical-align: top;
+	display: table-row-group;
+}
+
+.rowBox {
+	display: table-row;
+}
+
+.cellBox {
+	vertical-align: top;
+	display: table-cell;
+}
+
+.headerGroupBox {
+	vertical-align: top;
+	display: table-header-group;
+}
+
+.footerGroupBox {
+	vertical-align: top;
+	display: table-footer-group;
+}
+
+.autoHeight {
+	height: 0;
+}
+
+/*-- -- --*/
+
+.xSmall {
+	font-size: x-small;
+}
+
+.right {
+	text-align: right;
+}
+
+.border {
+	border: 1px solid #6f6f6f;
+}
+
+.borderTopBottom {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #6f6f6f;
+	border-bottom: 1px solid #6f6f6f;
+}
+
+.borderHidden {
+	border: 1px solid #ffffff00;
+}
+
+.label {
+	min-width: 153px;
+	display: inline-block;
+	/*white-space: nowrap;*/
+}
+
+#leftBox {
+	width: 200px;
+	min-width: 200px;
+}
+
+.logoBox {
+	padding: 5px;
+}
+
+#logoImg::before {
+	background-image: url(/themes/_any/img/drop-feeds-96.png);
+	background-size: 96px 96px;
+	width: 96px;
+	height: 96px;
+	content: "";
+	display: block;
+	margin-left: auto;
+	margin-right: 0;
+}
+
+#logoName {
+	font-size: x-large;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#logoTitle {
+	font-size: medium;
+	margin-bottom: 10px;
+}
+
+.pictureButton::before {
+	background-size: 16px 16px;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	margin: 5px;
+}
+
+.pictureButton {
+	display: inline-block;
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
+}
+
+.pictureButton:hover {
+	border: 1px outset #707070;
+	border-radius: 4px;
+}
+
+#createNewScript::before {
+	background-image: url(/themes/_any/img/scripts-new.png);
+}
+
+#resizeBar {
+	background-color: #6f6f6f;
+	border: none;
+	width: 4px;
+}
+
+#resizeBar:hover {
+	cursor: col-resize;
+}
+
+/* --- script entries --- */
+
+.scriptEntry {
+	background-color: #fefefe;
+	position: relative;
+	border: 1px outset #707070;
+	border-radius: 4px;
+	margin: 10px;
+	height: 64px;
+	vertical-align: middle;
+	min-width: 900px;
+}
+
+.scriptEntry:hover {
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+.logo::before {
+	position: relative;
+	background-image: url(/themes/_any/img/drop-feeds-32.png);
+	background-size: 32px 32px;
+	width: 32px;
+	height: 32px;
+	content: "";
+	display: block;
+	float: left;
+	top: 16px;
+	margin: 0;
+}
+
+.scriptLeftBlock {
+	position: relative;
+	float: left;
+	top: 0;
+	margin-left: 5px;
+	width: auto;
+	height: 100%;
+	max-width: 755px;
+}
+
+.scriptRightBlock {
+	position: relative;
+	float: right;
+	top: 0;
+	min-width: 100px;
+	height: 100%;
+	text-align: right;
+}
+
+.scriptName {
+	margin-top: 10px;
+	font-weight: bold;
+	border: 1px solid #70707000;
+}
+
+.scriptName:hover {
+	border: 1px solid #707070;
+}
+
+.scriptInfo {
+	border: 1px solid gray;
+	padding: 2px;
+	font-size: small;
+}
+
+.scriptInfo:hover {
+	cursor: default;
+}
+
+.lastEdit {
+	margin-top: 10px;
+}
+
+.scriptButton::before {
+	background-size: 16px 16px;
+	width: 16px;
+	height: 16px;
+	margin: 5px;
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.scriptButton {
+	display: inline-block;
+	margin: 3px;
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
+	max-width: 700px;
+}
+
+.scriptTypeSelect {
+	display: inline-block;
+	margin: 3px;
+	border: 1px solid #dfdfdf;
+	border-radius: 4px;
+}
+
+.scriptTypeSelect:hover {
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+.scriptButton:hover {
+	border: 1px outset #707070;
+	border-radius: 4px;
+}
+
+.editScriptButton::before {
+	background-image: url(/themes/_any/img/scripts-edit.png);
+}
+
+.enabledScriptButton::before {
+	background-image: url(/themes/_any/img/scripts-enabled.png);
+}
+
+.disabledScriptButton::before {
+	background-image: url(/themes/_any/img/scripts-disabled.png);
+}
+
+.deleteScriptButton::before {
+	background-image: url(/themes/_any/img/scripts-delete.png);
+}
+
+.subscribeScriptButton::before {
+	background-image: url(/themes/_any/img/scripts-subscribe.png);
+}
+
+.info {
+	font-size: x-small;
+	text-align: justify;
+	text-justify: inter-word;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+/* context menu */
+
+.contextMenuStyle {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  padding-right: 20px;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+	left: 0;
+	top: 0;
+	z-index: 1;
+	cursor: default;
+}
+
+.contextMenuStyle ul {
+  margin-left: -22px;
+}
+
+.contextMenuStyle li {
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+.ctxMenuItem::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ctxMenuItem {
+  line-height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ctxMenuItem:hover {
+  background-color: #999999;
+  color: white;
+}

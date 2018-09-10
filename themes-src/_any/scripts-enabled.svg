@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="96"
+   height="96"
+   viewBox="0 0 96.000001 96.000002"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="scripts-enabled.svg"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,8/themes/_any/img/scripts-enabled.png"
+   inkscape:export-xdpi="21.5625"
+   inkscape:export-ydpi="21.5625">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="34.442776"
+     inkscape:cy="1.845015"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1054"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       position="0,48.000001"
+       orientation="0,1"
+       id="guide4146"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="48,48.000001"
+       orientation="1,0"
+       id="guide4221"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="59.031251,70.593751"
+       orientation="0,1"
+       id="guide4313" />
+    <sodipodi:guide
+       position="48.246094,25.437501"
+       orientation="0,1"
+       id="guide4315" />
+    <sodipodi:guide
+       position="26.074563,53.916893"
+       orientation="1,0"
+       id="guide4317" />
+    <sodipodi:guide
+       position="70.761719,68.796876"
+       orientation="1,0"
+       id="guide4319" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-956.36216)">
+    <g
+       id="g4323"
+       style="fill:#404040;fill-opacity:1">
+      <path
+         sodipodi:open="true"
+         d="m 26.814021,1026.9226 a 22.560459,22.560459 0 0 1 -19.5379314,-11.2802 22.560459,22.560459 0 0 1 -10e-8,-22.56045 22.560459,22.560459 0 0 1 19.5379315,-11.28023"
+         sodipodi:end="4.712389"
+         sodipodi:start="1.5707963"
+         sodipodi:ry="22.560459"
+         sodipodi:rx="22.560459"
+         sodipodi:cy="1004.3622"
+         sodipodi:cx="26.81402"
+         sodipodi:type="arc"
+         id="path4152"
+         style="opacity:1;fill:#404040;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.82;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path4321"
+         d="m 26.074563,981.76841 44.687155,0 0,45.15629 -44.687155,0"
+         style="fill:#404040;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2.81999993;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <ellipse
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:5.64;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4152-3"
+       transform="scale(-1,1)"
+       cx="-70.596413"
+       cy="1004.3622"
+       rx="22.560909"
+       ry="22.560457" />
+  </g>
+</svg>

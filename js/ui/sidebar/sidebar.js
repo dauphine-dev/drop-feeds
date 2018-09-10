@@ -1,13 +1,8 @@
-/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter
+/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new SideBar();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     /*eslint-disable no-console*/
@@ -25,16 +20,17 @@ class SideBar { /*exported SideBar*/
     await TopMenu.instance.init_async();
     await ItemSorter.instance.init_async();
     await NewFolderDialog.instance.init_async();
+    await SecurityFilters.instance.init_async();
     FeedManager.instance;
     ItemsPanel.instance;
     ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     TabManager.instance;
-    document.getElementById('main').addEventListener('click', ContextMenu.instance.hide);
+    document.getElementById('main').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
     this._addListeners();
     TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', SideBar.reloadPanelWindow_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', SideBar.openSubscribeDialog_async, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
     this.setContentHeight();
   }
 
@@ -47,27 +43,27 @@ class SideBar { /*exported SideBar*/
     }
   }
 
-  static async reloadPanelWindow_sbscrb() {
+  async reloadPanelWindow_sbscrb() {
     window.location.reload();
   }
 
-  static async openSubscribeDialog_async() {
+  async openSubscribeDialog_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfo.title, feedUrl: tabInfo.url});
     BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
   }
 
   _addListeners() {
-    window.onresize = SideBar._windowOnResize_event;
-    document.getElementById('content').addEventListener('scroll', SideBar._contentOnScroll_event);
+    window.onresize = ((e) => { this._windowOnResize_event(e); });
+    document.getElementById('content').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
-  static async _contentOnScroll_event(){
+  async _contentOnScroll_event(){
     TreeView.instance.selectionBar.refresh();
   }
 
-  static async _windowOnResize_event() {
-    SideBar.instance.setContentHeight();
+  async _windowOnResize_event() {
+    this.setContentHeight();
   }
 
   _computeContentTop() {
@@ -81,6 +77,4 @@ class SideBar { /*exported SideBar*/
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
 }
-
 SideBar.instance.init_async();
-//SideBar.instance.reloadOnce();

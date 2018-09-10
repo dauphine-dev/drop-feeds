@@ -1,12 +1,7 @@
 /*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new ItemsPanel();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     SplitterBar.instance.init_async();
@@ -19,9 +14,12 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._feedItemList = DefaultValues.feedItemList;
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', ItemsPanel._setFeedItemList_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', ItemsPanel._feedItemDescriptionTooltips_sbscrb, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', ItemsPanel._feedItemListToolbar_sbscrb, true);
+    this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
   }
 
   get top() {
@@ -52,13 +50,21 @@ class ItemsPanel { /*exported ItemsPanel*/
   async displayItems_async(itemsTitle, titleLink, items) {
     this._selectionBarItems.hide();
     this._setTitle(itemsTitle, titleLink);
+    this._markAllIPreviousItemsAsRead();
     await this._displayItems_async(items);
     ItemManager.instance.addItemClickEvents();
+    this.setContentHeight();
   }
 
   setContentHeight() {
     let height = Math.max(window.innerHeight - this._mainItemsPane.offsetTop - this._itemsPane.offsetTop, 0);
     this._itemsPane.style.height = height + 'px';
+  }
+
+  _markAllIPreviousItemsAsRead() {
+    if (this._feedItemMarkAsReadOnLeaving) {
+      ItemManager.instance.markAllItemsAsRead();
+    }
   }
 
   _setTitle(title, titleLink) {
@@ -78,22 +84,27 @@ class ItemsPanel { /*exported ItemsPanel*/
     }
   }
 
-  static _setFeedItemList_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemList = value;
-    self._setVisibility();
+  async _setFeedItemList_sbscrb(value) {
+    this._feedItemList = value;
+    this._setVisibility();
   }
 
-  static _feedItemDescriptionTooltips_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemDescriptionTooltips = value;
-    self._setTooltipsVisibility();
+  async _feedItemDescriptionTooltips_sbscrb(value) {
+    this._feedItemDescriptionTooltips = value;
+    this._setTooltipsVisibility();
   }
 
-  static _feedItemListToolbar_sbscrb(value) {
-    let self = ItemsPanel.instance;
-    self._feedItemListToolbar = value;
-    self._setToolbarVisibility();
+  async _feedItemListToolbar_sbscrb(value) {
+    this._feedItemListToolbar = value;
+    this._setToolbarVisibility();
+  }
+
+  async _feedItemMarkAsReadOnLeaving_sbscrb(value) {
+    this._feedItemMarkAsReadOnLeaving = value;
+  }
+
+  async _displayItems_sbscrb(value) {
+    this.displayItems_async(value.itemsTitle, value.titleLink, value.items);
   }
 
   _setVisibility() {
@@ -102,7 +113,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   _setTooltipsVisibility() {
-    ItemManager.setTooltipVisibility(this._feedItemDescriptionTooltips);
+    ItemManager.instance.setTooltipVisibility(this._feedItemDescriptionTooltips);
   }
 
   _setToolbarVisibility() {

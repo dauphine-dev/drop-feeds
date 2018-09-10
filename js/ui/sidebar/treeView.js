@@ -1,14 +1,9 @@
 /*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
 ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
-
+const _dropfeedsId = 'dropfeedsId=';
 class TreeView { /*exported TreeView*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new TreeView();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._init();
@@ -24,9 +19,9 @@ class TreeView { /*exported TreeView*/
     this._rootFolderId = DefaultValues.rootFolderId;
     this._rootBookmark = null;
     this._showUpdatedFeedCount = DefaultValues.showUpdatedFeedCount;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', TreeView._reload_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', TreeView._reload_sbscrb, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', TreeView._showUpdatedFeedCount_sbscrb, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
   }
 
   async load_async() {
@@ -59,15 +54,14 @@ class TreeView { /*exported TreeView*/
     return this._1stFolderDivId;
   }
 
-  static async _reload_sbscrb() {
-    await TreeView.instance.reload_async();
+  async _reload_sbscrb() {
+    await this.reload_async();
   }
 
-  static async _showUpdatedFeedCount_sbscrb(value) {
-    let self = TreeView.instance;
-    self._showUpdatedFeedCount = value;
+  _showUpdatedFeedCount_sbscrb(value) {
+    this._showUpdatedFeedCount = value;
     let force = true;
-    self.updateAllFolderCount(force);
+    this.updateAllFolderCount(force);
   }
 
   selectionBarRefresh() {
@@ -136,27 +130,27 @@ class TreeView { /*exported TreeView*/
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
     for (let i = 0; i < feedItems.length; i++) {
-      feedItems[i].addEventListener('contextmenu', this._feedOnRightClicked_event);
-      feedItems[i].addEventListener('click', this._feedClicked_event);
-      feedItems[i].addEventListener('mouseup', this._feedOnMouseUp_event);
-      feedItems[i].addEventListener('dragstart', this._feedOnDragStart_event);
-      feedItems[i].addEventListener('dragover', this._feedOnDragOver_event);
-      feedItems[i].addEventListener('drop', this._feedOnDrop_event);
+      feedItems[i].addEventListener('contextmenu', (e) => { this._feedOnRightClicked_event(e); });
+      feedItems[i].addEventListener('click', (e) => { this._feedClicked_event(e); });
+      feedItems[i].addEventListener('mouseup', (e) => { this._feedOnMouseUp_event(e); });
+      feedItems[i].addEventListener('dragstart', (e) => { this._feedOnDragStart_event(e); });
+      feedItems[i].addEventListener('dragover', (e) => { this._feedOnDragOver_event(e); });
+      feedItems[i].addEventListener('drop', (e) => { this._feedOnDrop_event(e); });
     }
   }
 
   _addEventListenerOnFeedFolders() {
     let checkboxItems = document.querySelectorAll('[type="checkbox"]');
     for (let i = 0; i < checkboxItems.length; i++) {
-      checkboxItems[i].addEventListener('change', this._folderChanged_event);
+      checkboxItems[i].addEventListener('change', (e) => { this._folderChanged_event(e); });
     }
     let divItems = document.querySelectorAll('.folder');
     for (let i = 0; i < divItems.length; i++) {
-      divItems[i].addEventListener('contextmenu', this._folderOnRightClicked_event);
-      divItems[i].addEventListener('click', this._folderOnClicked_event);
-      divItems[i].addEventListener('dragstart', this._folderOnDragStart_event);
-      divItems[i].addEventListener('dragover', this._folderOnDragOver_event);
-      divItems[i].addEventListener('drop', this._folderOnDrop_event);
+      divItems[i].addEventListener('contextmenu', (e) => { this._folderOnRightClicked_event(e); });
+      divItems[i].addEventListener('click', (e) => { this._folderOnClicked_event(e); });
+      divItems[i].addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
+      divItems[i].addEventListener('dragover', (e) => { this._folderOnDragOver_event(e); });
+      divItems[i].addEventListener('drop', (e) => { this._folderOnDrop_event(e); });
     }
   }
 
@@ -174,10 +168,10 @@ class TreeView { /*exported TreeView*/
     event.stopPropagation();
     event.preventDefault();
     ContextMenu.instance.hide();
-    TreeView.instance._selectionBar.put(event.currentTarget);
+    this._selectionBar.put(event.currentTarget);
     let feedId = event.currentTarget.getAttribute('id');
     let openNewTabForce=null; let openNewTabBackGroundForce=null;
-    TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+    this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
   }
 
   async _feedOnMouseUp_event(event) {
@@ -185,10 +179,10 @@ class TreeView { /*exported TreeView*/
     event.preventDefault();
     if (event.button == 1) { //middle-click
       ContextMenu.instance.hide();
-      TreeView.instance._selectionBar.put(event.currentTarget);
+      this._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
       let openNewTabForce=true; let openNewTabBackGroundForce=true;
-      TreeView.instance.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+      this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
   }
 
@@ -214,12 +208,12 @@ class TreeView { /*exported TreeView*/
   async _folderOnClicked_event(event){
     event.stopPropagation();
     ContextMenu.instance.hide();
-    TreeView.instance._selectionBar.put(event.currentTarget);
+    this._selectionBar.put(event.currentTarget);
   }
 
   async _folderOnDragStart_event(event){
     event.stopPropagation();
-    let elementId = TreeView.instance._cleanId(event.target.id);
+    let elementId = this._cleanId(event.target.id);
     event.dataTransfer.setData('text', elementId);
   }
 
@@ -234,14 +228,15 @@ class TreeView { /*exported TreeView*/
     let sourceId = event.dataTransfer.getData('text');
     let targetId = event.target.id;
     if (!targetId) { targetId = event.target.htmlFor; }
-    let folderId = TreeView.instance._cleanId(targetId);
+    let folderId = this._cleanId(targetId);
     await BookmarkManager.instance.changeParentFolder(folderId, sourceId);
   }
 
   async _feedOnDragStart_event(event){
     event.stopPropagation();
-    let elementId = TreeView.instance._cleanId(event.target.id);
-    event.dataTransfer.setData('text', elementId);
+    let origin = event.target.getAttribute('origin');
+    let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
+    event.dataTransfer.setData('text', data);
   }
 
   async _feedOnDragOver_event(event){
@@ -252,8 +247,9 @@ class TreeView { /*exported TreeView*/
   async _feedOnDrop_event(event){
     event.stopPropagation();
     event.preventDefault();
-    var feedToMoveId = event.dataTransfer.getData('text');
-    let targetFeedId = TreeView.instance._cleanId(event.target.id);
+    let data = event.dataTransfer.getData('text');
+    let feedToMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
+    let targetFeedId = this._cleanId(event.target.id);
     await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
   }
 
@@ -331,7 +327,7 @@ class TreeView { /*exported TreeView*/
     let feedName = bookmarkItem.title;
     let className = this._getFeedClassName(cacheLocalStorage, bookmarkItem.id);
     let feedLine = TextTools.makeIndent(indent) +
-    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true">' + feedName + '</li>\n';
+    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true" origin="' + bookmarkItem.url + '">' + feedName + '</li>\n';
     this._html.push(feedLine);
   }
 

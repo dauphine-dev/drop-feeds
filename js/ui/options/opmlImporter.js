@@ -7,33 +7,27 @@ const TagKindEnum = {
   SINGLE: 'single'
 };
 class OpmlImporter { /*exported OpmlImporter*/
-  static get instance() {
-    if (!this._instance) {
-      this._instance = new OpmlImporter();
-    }
-    return this._instance;
-  }
+  static get instance() { return (this._instance = this._instance || new this()); }
 
-  static async import_async() {
+  async import_async() {
     let file = document.getElementById('inputImportFile').files[0];
     let reader = new FileReader();
-    reader.onload = this._fileReaderOnLoad_event;
+    reader.onload = ((e) => { this._fileReaderOnLoad_event(e); });
     reader.readAsText(file);
   }
 
-  static async _fileReaderOnLoad_event(event) {
-    let self = OpmlImporter.instance;
+  async _fileReaderOnLoad_event(event) {
     let opmlText = event.target.result;
-    self._progressBarImport = new ProgressBar('progressBarImport');
-    let isOpmlValid = self._opmlIsValid(opmlText);
+    this._progressBarImport = new ProgressBar('progressBarImport');
+    let isOpmlValid = this._opmlIsValid(opmlText);
     if (isOpmlValid) {
-      await self._importOmplOutlinesAsync(opmlText);
+      await this._importOpmlOutlinesAsync(opmlText);
       LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     }
     else {
-      self._progressBarImport.text = 'Invalid ompl file!';
+      this._progressBarImport.text = 'Invalid opml file!';
       await DateTime.delay_async(2000);
-      self._progressBarImport.hide();
+      this._progressBarImport.hide();
     }
   }
 
@@ -45,7 +39,7 @@ class OpmlImporter { /*exported OpmlImporter*/
 
   }
 
-  async _importOmplOutlinesAsync(opmlText) {
+  async _importOpmlOutlinesAsync(opmlText) {
     let folderId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     await this._cleanBookmarkFolder_async(folderId);
     await LocalStorageManager.clean_async();

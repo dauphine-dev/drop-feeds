@@ -6,7 +6,7 @@ class Compute { /* exported Compute*/
       return hash;
     }
     hash = 0;
-    for (var i = 0; i < text.length; i++) {
+    for (let i = 0; i < text.length; i++) {
       let char = text.charCodeAt(i);
       hash = ((hash<<5)-hash)+char;
       hash = hash & hash;

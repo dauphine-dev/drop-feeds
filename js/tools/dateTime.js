@@ -1,3 +1,4 @@
+/* global browser*/
 /*cSpell:ignore ACDT, ACST, AEDT, AEST,AKDT, AKST, AWST, AMST, AWDT, AZOST, BIOT, CEDT, CEST, CHADT, CHAS, CHAST, CHST, CIST, CLST */
 /*cSpell:ignore EEDT, EEST, FKST, GALT, HADT, HAEC, IRKT, IRST, KRAT, LHST, MAGT,MEST, NZDT, NZST, OMST, PETT, PHOT, SAMT, SAST, TAHT */
 'use strict';
@@ -44,7 +45,7 @@ class DateTime { /*exported DateTime*/
   }
 
   static timeZoneToGmt(dateTimeText) {
-    for(var keyTz in DateTime.timeZoneList) {
+    for(let keyTz in DateTime.timeZoneList) {
       if (dateTimeText.endsWith(' ' + keyTz)) {
         dateTimeText = dateTimeText.replace(' ' + keyTz, ' ' + DateTime.timeZoneList[keyTz]);
         return dateTimeText;
@@ -55,5 +56,39 @@ class DateTime { /*exported DateTime*/
       }
     }
     return dateTimeText;
+  }
+
+  static getDateDiff(dateNew, dateOld) {
+    let seconds = Math.floor((dateNew - dateOld) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtYears', [interval, plural]);
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtMonths', [interval, plural]);
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtDays', [interval, plural]);
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtHours', [interval, plural]);
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+      return browser.i18n.getMessage('dtMinutes', [interval, plural]);
+    }
+    interval = Math.floor(seconds);
+    let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
+    return browser.i18n.getMessage('dtSeconds', [interval, plural]);
   }
 }
