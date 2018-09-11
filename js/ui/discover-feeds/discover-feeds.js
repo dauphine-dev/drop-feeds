@@ -25,6 +25,8 @@ class DiscoverFeeds {
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
+    this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
+    LocalStorageManager.setValue_async('discoverInfoWinId', null);
   }
 
   get selectedFeed() {
@@ -196,13 +198,13 @@ class DiscoverFeeds {
     event.stopPropagation();
     event.preventDefault();
     await this._openSubscribeDialog_async();
-    window.close();
+    browser.windows.remove(this._discoverInfoWinId);
   }
 
   async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    window.close();
+    browser.windows.remove(this._discoverInfoWinId);
   }
 
   _addTableRawClickEvents() {

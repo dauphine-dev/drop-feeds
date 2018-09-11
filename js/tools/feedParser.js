@@ -633,6 +633,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _disableAttributes(text, textTagList) {
+    if (!textTagList) {return; }
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
     let textTagListWithAllowedAtt = [...new Set(textTagList.filter(x => {
       let tagObj = whiteListTags.find(y => Object.keys(y) == x);
@@ -646,9 +647,11 @@ class FeedParser { /*exported FeedParser*/
         let allowedAttList = whiteListTags.find(x => Object.keys(x) == tag)[tag];
         let regexExtractTags = new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi');
         let textTagWithAttList = text.match(regexExtractTags);
+        if (!textTagWithAttList) { continue; }
         for (let tagWithAtt of textTagWithAttList) {
           let attList = tagWithAtt.match(regexExtractAtt);
           let cleanedTag = tagWithAtt;
+          if (!attList) { continue; }
           for (let att of attList) {
             let attName = att.match(/([^=]*)=/i)[0].slice(0, -1);
             if (!allowedAttList.includes(attName)) {
