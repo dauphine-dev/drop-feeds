@@ -6,6 +6,7 @@ class Subscribe {
   constructor() {
     this._feedTitle = null;
     this._feedUrl = null;
+    this._subscribeInfoWin = null;
   }
 
   async init_async() {
@@ -21,6 +22,8 @@ class Subscribe {
       this._feedTitle = tabInfo.title;
       this._feedUrl = tabInfo.url;
     }
+    this._subscribeInfoWin = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
+    LocalStorageManager.setValue_async('subscribeInfoWin', null);
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
@@ -53,7 +56,7 @@ class Subscribe {
   async _cancelButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    window.close();
+    browser.windows.remove(this._subscribeInfoWin);
   }
 
   async _subscribeButtonClicked_event() {
@@ -66,7 +69,7 @@ class Subscribe {
       console.log(e);
       /* eslint-enable no-console */
     }
-    window.close();
+    browser.windows.remove(this._subscribeInfoWin);
   }
 
 }

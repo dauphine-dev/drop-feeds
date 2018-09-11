@@ -175,7 +175,8 @@ class TopMenu { /*exported TopMenu*/
     if (!this._buttonDiscoverFeedsEnabled) { return; }
     let tabInfo = await BrowserManager.getActiveTab_async();
     await LocalStorageManager.setValue_async('discoverInfo', { tabInfos: tabInfo });
-    BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
+    let win = await BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
+    await LocalStorageManager.setValue_async('discoverInfoWinId', {winId: win.id});
   }
 
   async _optionsMenuClicked_event(event) {

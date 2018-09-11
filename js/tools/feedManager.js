@@ -184,8 +184,8 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-disable no-console*/
       console.log(e);
       /*eslint-enable no-console*/
-
-    } finally {
+    } 
+    finally {
       if (--self._feedsToProcessCounter <= 0) {
         self._processFeedsFinished();
       }

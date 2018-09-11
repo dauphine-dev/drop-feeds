@@ -604,12 +604,13 @@ class FeedParser { /*exported FeedParser*/
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
     whiteListTags.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
-    text = FeedParser._disableAttributes(text, textTagList);
     let toBlackListTagList = [...new Set(textTagList.filter(x => !FeedParser._tagListIncludes(whiteListTags, x)) || [])];
+    let toWhiteListTagList = [...new Set(textTagList.filter(x => FeedParser._tagListIncludes(whiteListTags, x)) || [])];
     let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => FeedParser._tagListIncludes(blackListShow, x)))];
     let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !FeedParser._tagListIncludes(blackListShow, x)))];
     hide = false; text = FeedParser._disableTags(text, toBlackListAndShowTagList, hide);
     hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
+    text = FeedParser._disableAttributes(text, toWhiteListTagList);
     return text;
   }
 
@@ -632,6 +633,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static _disableAttributes(text, textTagList) {
+    if (!textTagList) {return; }
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
     let textTagListWithAllowedAtt = [...new Set(textTagList.filter(x => {
       let tagObj = whiteListTags.find(y => Object.keys(y) == x);
@@ -645,9 +647,11 @@ class FeedParser { /*exported FeedParser*/
         let allowedAttList = whiteListTags.find(x => Object.keys(x) == tag)[tag];
         let regexExtractTags = new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi');
         let textTagWithAttList = text.match(regexExtractTags);
+        if (!textTagWithAttList) { continue; }
         for (let tagWithAtt of textTagWithAttList) {
           let attList = tagWithAtt.match(regexExtractAtt);
           let cleanedTag = tagWithAtt;
+          if (!attList) { continue; }
           for (let att of attList) {
             let attName = att.match(/([^=]*)=/i)[0].slice(0, -1);
             if (!allowedAttList.includes(attName)) {
