@@ -1,5 +1,5 @@
 0.8.5
-From 0.8.5 Drop Feeds is compatible only with Firefox 46.0.1 and above
+From 0.8.5 Drop Feeds is compatible only with Firefox 60.0.1 and above
 Reworks windows management to be compatible with new security feature from Firefox 46.0.1 and above.
 Fix security attributes filters (it fixes feeds from feeds.feedburner.com, and form other sources I guess)
 
