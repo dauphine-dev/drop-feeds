@@ -13,6 +13,7 @@ class TopMenu { /*exported TopMenu*/
     this.discoverFeedsButtonEnabled = this._buttonDiscoverFeedsEnabled;
     this._workInProgress = false;
     this._checkingFeedsStartTime = new Date();
+    this._forceAnimateCheckFeedButton = false;
   }
 
   async init_async() {
@@ -58,18 +59,28 @@ class TopMenu { /*exported TopMenu*/
 
   animateCheckFeedButton(forceAnimate) {
     this._checkingFeedsStartTime = new Date();
+    this._forceAnimateCheckFeedButton = forceAnimate;
     let checkFeedsButton = document.getElementById('checkFeedsButton');
-    if (FeedManager.instance.checkingFeeds || forceAnimate) {
+    if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');
-      setTimeout(() => {checkFeedsButton.classList.add('checkFeedsButtonCursorRestart');}, _delayMsStopChecking);
-
+      setTimeout(() => {this._setCheckFeedsButtonCursorRestart();}, _delayMsStopChecking);
     }
     else {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
       checkFeedsButton.classList.add('checkFeedsButton');
       checkFeedsButton.classList.remove('checkFeedsButtonAnim');
+      this._setCheckFeedsButtonCursorRestart();
+    }
+  }
+
+  _setCheckFeedsButtonCursorRestart() {
+    let checkFeedsButton = document.getElementById('checkFeedsButton');
+    if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
+      checkFeedsButton.classList.add('checkFeedsButtonCursorRestart');
+    }
+    else {
       checkFeedsButton.classList.remove('checkFeedsButtonCursorRestart');
     }
   }
