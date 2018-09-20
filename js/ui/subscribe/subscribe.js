@@ -22,7 +22,9 @@ class Subscribe {
       this._feedTitle = tabInfo.title;
       this._feedUrl = tabInfo.url;
     }
-    this._subscribeInfoWin = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
+    try {
+      this._subscribeInfoWin = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
+    } catch (e) { }
     LocalStorageManager.setValue_async('subscribeInfoWin', null);
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
@@ -62,9 +64,9 @@ class Subscribe {
   async _subscribeButtonClicked_event() {
     try {
       let name = document.getElementById('inputName').value;
-      await browser.bookmarks.create({parentId: FolderTreeView.instance.selectedId, title: name, url: this._feedUrl});
+      await browser.bookmarks.create({ parentId: FolderTreeView.instance.selectedId, title: name, url: this._feedUrl });
     }
-    catch(e) {
+    catch (e) {
       /* eslint-disable no-console */
       console.log(e);
       /* eslint-enable no-console */
