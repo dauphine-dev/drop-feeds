@@ -77,6 +77,7 @@ class TopMenu { /*exported TopMenu*/
 
   _setCheckFeedsButtonCursorRestart() {
     let checkFeedsButton = document.getElementById('checkFeedsButton');
+    console.log('checkingFeeds:', FeedManager.instance.checkingFeeds, ';', '_forceAnimateCheckFeedButton:', this._forceAnimateCheckFeedButton);
     if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
       checkFeedsButton.classList.add('checkFeedsButtonCursorRestart');
     }

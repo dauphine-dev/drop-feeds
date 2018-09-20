@@ -25,7 +25,10 @@ class DiscoverFeeds {
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
-    this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
+    try {
+      this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
+    }
+    catch(e) {}
     LocalStorageManager.setValue_async('discoverInfoWinId', null);
   }
 

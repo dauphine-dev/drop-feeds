@@ -5,7 +5,8 @@ Reworks windows management to be compatible with new security feature from Firef
 Fix security attributes filters (it fixes feeds from feeds.feedburner.com, and form other sources I guess)
 b:
 Fix cursor restart on check feeds button
-
+c:
+Work with a degraded mode when window id isn't available in subscribe or discovering feeds view 
 
 0.8.4
 Adding security attributes filter
