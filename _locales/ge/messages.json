@@ -300,7 +300,7 @@
     "message": "Neuen Tab im Vordergrund öffnen"
   },
   "optReuseDropFeedsTab": {
-    "message": "Tab Drop Feeds erneut verwenden
+    "message": "Tab Drop Feeds erneut verwenden"
   },
   "optSelectOpmlFileToImport": {
     "message": "Wähle die zu importierende opml-Datei aus"
@@ -332,6 +332,12 @@
   "optSecurityFilterSettings": {
     "message": "Sicherheitsfiltereinstellungen"
   },
+  "optMessageDialogTitle": {
+    "message": "Message"
+  },
+  "optMessageDialogOk": {
+    "message": "ok"
+  },  
   "optHtmlFilter": {
     "message": "HTML Filter"
   },
@@ -373,6 +379,39 @@
   },
   "optHtmlFilterAddDialogOk": {
     "message": "Ok"
+  },
+  "optCssFilter": {
+    "message": "CSS Filters"
+  },
+  "optRejectedCssFragments": {
+    "message": "Rejected CSS fragments (others are allowed)"
+  },
+  "optCssFilterAddButton": {
+    "message": "Add"
+  },
+  "optCssFilterEditButton": {
+    "message": "Edit"
+  },
+  "optCssRemoveAddButton": {
+    "message": "Remove"
+  },
+  "optCssFilterRestoreDefaultButton": {
+    "message": "Restore default values"
+  },
+  "optCssInfo": {
+    "message": "CSS Filter is enable only when STYLE elem/attr is allowed by HTML Filter"
+  },
+  "optCssFilterAddDialogTitle": {
+    "message": "Add"
+  },
+  "optCssFilterDialogCssFragmentToRejected": {
+    "message": "Css fragment to rejected (regular expression / case ignored)"
+  },
+  "optCssFilterAddDialogCancel": {
+    "message": "Cancel"
+  },
+  "optCssFilterAddDialogOk": {
+    "message": "ok"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
