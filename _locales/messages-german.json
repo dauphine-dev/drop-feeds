@@ -1,0 +1,602 @@
+{
+  "comment1": {
+    "message": "------------------Manifest strings------------------"
+  },
+  "manExtensionDescription": {
+    "message": "Zeigt eine Seitenleise an, mit welcher du deine RSS-Feeds in einer Ordneransicht verwalten kannst"
+  },
+  "manPageActionDefaultTitle": {
+    "message": "Gehe zur Abonnement-Seite"
+  },
+  "manPageActionGo": {
+    "message": "Gehe zur Abonnement-Seite"
+  },
+  "manPageActionAdd": {
+    "message": "Abonniere mit Drop-Feed"
+  },
+  "comment2": {
+    "message": "------------------Sidebar strings------------------"
+  },
+  "sbCheckFeeds": {
+    "message": "Feeds überprüfen"
+  },
+  "sbStopAndRestart": {
+    "message": "Überprüfung stoppen und Drop-Feeds neu starten"
+  },
+  "sbDiscoverFeeds": {
+    "message": "Feeds entdecken"
+  },
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "Nur aktualisierte Feeds anzeigen"
+  },
+  "sbToggleFolders": {
+    "message": "Ordner umschalten (öffnen/schließen)"
+  },
+  "sbSubscriptionGo": {
+    "message": "Gehe zur Abonnement-Seite"
+  },
+  "sbSubscriptionAdd": {
+    "message": "Abonnieren"
+  },
+  "sbOpenOptionsTab": {
+    "message": "Einstellungstab öffnen"
+  },
+  "sbMarkAsRead": {
+    "message": "Als gelesen markieren"
+  },
+  "sbMarkAsUnread": {
+    "message": "Als ungelesen markieren"
+  },
+  "sbMarkAllAsRead": {
+    "message": "Alle als gelesen markieren"
+  },
+  "sbMarkAllAsUnread": {
+    "message": "Alle als ungelesen markieren"
+  },
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "Öffne ungelesene items in neuen Tabs"
+  },
+  "sbMarkAllAsUpdated": {
+    "message": "Alle als aktualisiert markieren"
+  },
+  "sbOpenUpdatedFeeds": {
+    "message": "Öffne aktualisierte Feeds"
+  },
+  "sbOpenUpdatedAsUnified": {
+    "message": "Öffne aktualisierte als einheitlicher Feed"
+  },
+  "sbSortByName": {
+    "message": "Sortieren nach Name"
+  },
+  "sbNewFolder": {
+    "message": "Neuer Ordner"
+  },
+  "sbDeleteFolder": {
+    "message": "Löschen"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
+  "sbGetFeedTitle": {
+    "message": "Erhalte Feed Titel"
+  },
+  "sbOpenFeed": {
+    "message": "Öffnen"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "Als gelesen markieren"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "Als ungelesen markieren"
+  },
+  "sbDeleteFeed": {
+    "message": "Löschen"
+  },
+  "sbFeedInfo": {
+    "message": "Info"
+  },
+  "sbUseButtonAbove": {
+    "message": "Um ein Feed hinzuzufügen, benutze den obigen Knopf!"
+  },
+  "sbChecking": {
+    "message": "überprüfen"
+  },
+  "sbPreparing": {
+    "message": "vorbereiten"
+  },
+  "sbOpening": {
+    "message": "öffnen"
+  },
+  "sbLoading": {
+    "message": "laden"
+  },
+  "sbLoaded": {
+    "message": "geladen"
+  },
+  "sbMerging": {
+    "message": "vereinigen"
+  },
+  "sbComputingUnifiedView": {
+    "message": "berechne einheitliche View"
+  },
+  "sbReceived": {
+    "message": "erhalten"
+  },
+  "sbFeedsUpdated": {
+    "message": "Feeds aktualisiert"
+  },
+  "sbOneFeedUpdated": {
+    "message": "Ein Feed aktualisiert"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "Es wurden keine Feeds aktualisiert"
+  },
+  "comment3": {
+    "message": "------------------Subscribe strings------------------"
+  },
+  "subDropFeedsSubscribe": {
+    "message": "Drop Feeds (abonnieren)"
+  },
+  "subSubscribeWithDropFeed": {
+    "message": "Abonnieren mit Drop feed"
+  },
+  "subName": {
+    "message": "Name"
+  },
+  "subFolder": {
+    "message": "Ordner"
+  },
+  "subNewFolder": {
+    "message": "Neuer Ordner"
+  },
+  "subCancel": {
+    "message": "Abbrechen"
+  },
+  "subSubscribe": {
+    "message": "Abonnieren"
+  },
+  "subCreate": {
+    "message": "Erstellen"
+  },
+  "comment4": {
+    "message": "------------------Discover strings------------------"
+  },
+  "disDiscoverFeeds": {
+    "message": "Entdecke Feeds"
+  },
+  "disDiscoveringFeeds": {
+    "message": "Feeds werden entdeckt"
+  },
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "Es wurden keine Feeds entdeckt"
+  },
+  "disDiscovered": {
+    "message": "entdeckt"
+  },
+  "disFeeds": {
+    "message": "Feeds"
+  },
+  "disTitle": {
+    "message": "Titel"
+  },
+  "disFormat": {
+    "message": "Format"
+  },
+  "disLastUpdate": {
+    "message": "Letztes Update"
+  },
+  "disItems": {
+    "message": "items"
+  },
+  "disUrl": {
+    "message": "Url"
+  },
+  "disAddFeed": {
+    "message": "Feed hinzufügen"
+  },
+  "disClose": {
+    "message": "Schließen"
+  },
+  "comment5": {
+    "message": "------------------Options strings------------------"
+  },
+  "optDropFeedsOptions": {
+    "message": "Drop Feeds (Einstellungen)"
+  },
+  "optGeneral": {
+    "message": "Allgemeinens"
+  },
+  "optUpdateChecker": {
+    "message": "Aktualisierungs Prüfer"
+  },
+  "optView": {
+    "message": "View"
+  },
+  "optItems": {
+    "message": "Items"
+  },
+  "optContentsArea": {
+    "message": "Inhaltsbereich"
+  },
+  "optManagement": {
+    "message": "Verwaltung"
+  },
+  "optSelectFeedFolder": {
+    "message": "Wähle den Feed Ordner aus"
+  },
+  "optApply": {
+    "message": "Anwenden"
+  },
+  "optDoNotDisplayRootFolder": {
+    "message": "Zeige den Root Ordner nicht an"
+  },
+  "optSelectTheme": {
+    "message": "Theme auswählen"
+  },
+  "optFeedItemOrder": {
+    "message": "Feed item Ordner"
+  },
+  "optNewerFirst": {
+    "message": "Neuere zuerst"
+  },
+  "optOlderFirst": {
+    "message": "Ältere zuerst"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+  "optTimeout": {
+    "message": "Timeout"
+  },
+  "optSeconds": {
+    "message": "Sekunden"
+  },
+  "optAsynchronousFeedChecking": {
+    "message": "Asynchrone Feed Überprüfung"
+  },
+  "optAutoFeedUpdatesEvery": {
+    "message": "Automatische Feed Aktualisierungen alle"
+  },
+  "optMinutes": {
+    "message": "Minuten"
+  },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Fphre eine Feed Aktualisierung beim Start aus"
+  },
+  "optShowNotifications": {
+    "message": "Zeige Benachrichtigungsfenster nach Aktualisierungen an"
+  },
+  "optRetryWithHttp": {
+    "message": "Wenn https fehlgeschlagen ist, erneut mit http versuchen"
+  },
+  "optFeedItemList": {
+    "message": "Feed item Liste"
+  },
+  "optFeedItemListToolbar": {
+    "message": "Feed item Liste Symbolleiste (*)"
+  },
+  "optDescriptionTooltips": {
+    "message": "Beschreibungs Kurzinfo"
+  },
+  "optNavigationHistoryWarning": {
+    "message": "(*) Achtung: die als gelesen/ ungelesen markieren Funktion hat Auswirkungen auf deinen Verlauf"
+  },
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Vor dem Verlassen von Feeds alle items als gelesen markieren"
+  },
+  "optShowUpdatedFeedCount": {
+    "message": "Zeige die aktualisierte Feed Anzahl"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "Zeige Fehler als ungelesen"
+  },
+  "optRenderFeeds": {
+    "message": "Render Feeds"
+  },
+  "optAlwaysOpenNewTab": {
+    "message": "Öffne immer neue Tabs"
+  },
+  "optOpenNewTabForeground": {
+    "message": "Neuen Tab im Vordergrund öffnen"
+  },
+  "optReuseDropFeedsTab": {
+    "message": "Tab Drop Feeds erneut verwenden
+  },
+  "optSelectOpmlFileToImport": {
+    "message": "Wähle die zu importierende opml-Datei aus"
+  },
+  "optImport": {
+    "message": "Importieren..."
+  },
+  "optSelectOpmlFileToExport": {
+    "message": "Wähle, wohin die opml-Datei exportiert werden soll"
+  },
+  "optExport": {
+    "message": "Exportieren..."
+  },
+  "optAdvanced": {
+    "message": "Fortgeschritten"
+  },
+  "optLblScriptManager": {
+    "message": "Script Manager öffnen"
+  },
+  "optScriptManagerButton": {
+    "message": "Script Manager..."
+  },
+  "optLblSecurityFilter": {
+    "message": "Sicherheitsfiltereinstellungen öffnen"
+  },
+  "optSecurityFilterButton": {
+    "message": "Sicherheitsfiltereinstellungen..."
+  },
+  "optSecurityFilterSettings": {
+    "message": "Sicherheitsfiltereinstellungen"
+  },
+  "optHtmlFilter": {
+    "message": "HTML Filter"
+  },
+  "optAllowedHtmlElements": {
+    "message": "Erlaubte HTML Elemente (andere werden abgelehnt)"
+  },
+  "optHtmlFilterThElm": {
+    "message": "Elemente"
+  },
+  "optHtmlFilterThAtt": {
+    "message": "Attribute"
+  },
+  "optHtmlFilterAddButton": {
+    "message": "Hinzufügen"
+  },
+  "optHtmlFilterEditButton": {
+    "message": "Bearbeiten"
+  },
+  "optHtmlRemoveAddButton": {
+    "message": "Entfernen"
+  },
+  "optHtmlFilterRestoreDefaultButton": {
+    "message": "Stelle die Standardwerte wieder her"
+  },
+  "optHtmlFilterAddDialogTitle": {
+    "message": "Hinzufügen"
+  },
+  "optHtmlFilterEditDialogTitle": {
+    "message": "Bearbeiten"
+  },
+  "optHtmlFilterAddDialogElementToAllow": {
+    "message": "Elemente zu erlaubt"
+  },
+  "optHtmlFilterAddDialogAttributesToAllow": {
+    "message": "Attribut zu erlaubt"
+  },
+  "optHtmlFilterAddDialogCancel": {
+    "message": "Abbrechen"
+  },
+  "optHtmlFilterAddDialogOk": {
+    "message": "Ok"
+  },
+  "comment6": {
+    "message": "------------------Content script strings------------------"
+  },
+  "csSubscribeWithDropFeeds": {
+    "message": "Abonniere mit Drop-Feed"
+  },
+  "ff56Text1": {
+    "message": "Um mit diesem Symbol die Drop Feed Seitenleiste zu öffen, bitte aktualisiere auf Firefox 57 oder höher"
+  },
+  "ff56Text2": {
+    "message": "Unter Firefox 56 ist die Web-API zum Öffnen der Erweiterungs-Seitenleiste nicht implementiert."
+  },
+  "ff56Text3": {
+    "message": ""
+  },
+  "ff56Text4": {
+    "message": "Um Drop Feeds in Firefox 56 zu verwenden:"
+  },
+  "ff56Text5": {
+    "message": "Du musst auf das Firefox-Symbol 'Seitenleisten anzeigen' klicken"
+  },
+  "ff56Text6": {
+    "message": "ebenso musst du das in Drop-Feeds in der Seitenleiste auswählen"
+  },
+  "ff56Text7": {
+    "message": "Zum schließen hier klicken"
+  },
+  "comment7": {
+    "message": "------------------Subscribe this feed strings------------------"
+  },
+  "stfSubscribeUsing": {
+    "message": "Abonniere diesen Feed mit"
+  },
+  "stfSubscribeNow": {
+    "message": "Jetzt abnonnieren"
+  },
+  "comment8": {
+    "message": "------------------Info view strings------------------"
+  },
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Name"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Addresse"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Aktualisieren"
+  },
+  "sbInfoCloseButton": {
+    "message": "Schließen"
+  },
+  "comment9": {
+    "message": "------------------Script manager strings------------------"
+  },
+  "usUScriptCreateNew": {
+    "message": "Neuen Skript erstellen"
+  },
+  "usUScriptEdit": {
+    "message": "Script bearbeiten"
+  },
+  "usUScriptEnableDisable": {
+    "message": "Skript aktivieren/deaktivieren"
+  },
+  "usUScriptType": {
+    "message": "Script Tip"
+  },
+  "usUScriptFeedTransformer": {
+    "message": "Feed Transformator"
+  },
+  "usUScriptVirtualFeed": {
+    "message": "Virtueller Feed"
+  },
+  "usUScriptUrlMatchPatterns": {
+    "message": "URL-Übereinstimmungsmuster"
+  },
+  "usUScriptSubscribe": {
+    "message": "Abonnieren"
+  },
+  "usUScriptLastEdition": {
+    "message": "Letzte Version"
+  },
+  "usUScriptDelete": {
+    "message": "Script löschen"
+  },
+  "comment10": {
+    "message": "------------------Script editor strings------------------"
+  },
+  "usUScriptCommands": {
+    "message": "Befehle"
+  },
+  "usUScriptSave": {
+    "message": "Speichern"
+  },
+  "usUScriptClose": {
+    "message": "Schließen"
+  },
+  "usUScriptSaveAndClose": {
+    "message": "Speichern und schließen"
+  },
+  "usUScriptUrlMatchPatternsHelp": {
+    "message": "Hilfe für URL-Übereinstimmungsmuster"
+  },
+  "usUScriptTestFeedUrl": {
+    "message": "Teste den Feed URL"
+  },
+  "usUScriptSaveAndTest": {
+    "message": "Speichern und testen..."
+  },
+  "usUScriptFtInfo": {
+    "message": "Feed Transformator (Info)"
+  },
+  "usUScriptVfInfo": {
+    "message": "Virtueller Feed (Info)"
+  },
+  "usUScriptHelp": {
+    "message": "Hilfe"
+  },
+  "usUScriptExample": {
+    "message": "Beispiel"
+  },
+  "usUScriptSaveAndSubscribe": {
+    "message": "Speichern und abonnieren..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
+  },
+  "usUScriptFont": {
+    "message": "Schriftart"
+  },
+  "usUScriptFamily": {
+    "message": "Schriftfamilie"
+  },
+  "usUScriptSize": {
+    "message": "Schriftgröße"
+  },
+  "usUScriptTabSize": {
+    "message": "Tab Größe"
+  },
+  "comment12": {
+    "message": "------------------Editor console strings------------------"
+  },
+  "edConsoleClear": {
+    "message": "Leeren"
+  },
+  "edConsoleCopy": {
+    "message": "Konsolentext kopieren"
+  },
+  "comment13": {
+    "message": "------------------DateTime.getDateDiff strings------------------"
+  },
+  "dtMany": {
+    "message": "s"
+  },
+  "dtSingle": {
+    "message": ""
+  },
+  "dtYears": {
+    "message": "$years$ year$plural$",
+    "placeholders": {
+      "years": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMonths": {
+    "message": "$months$ month$plural$",
+    "placeholders": {
+      "months": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtDays": {
+    "message": "$days$ day$plural$",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtHours": {
+    "message": "$hours$ hour$plural$",
+    "placeholders": {
+      "hours": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMinutes": {
+    "message": "$minutes$ minute$plural$",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtSeconds": {
+    "message": "$seconds$ second$many$",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      },
+      "many": {
+        "content": "$2"
+      }
+    }
+  }
+}
