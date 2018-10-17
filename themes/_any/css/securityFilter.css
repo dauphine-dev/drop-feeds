@@ -56,6 +56,9 @@ body {
   width: 10px;
 }
 
+.tableContainer {
+  background-color: #e0e0e0;
+}
 /*-- -- --*/
 
 .secTable {
@@ -102,8 +105,16 @@ body {
   color: #ffffff;
 }
 
-.secTableHTml, .secTableHTml tr, secTableHTml td {
+.secTableHTml, .secTableHTml tr, .secTableHTml td {
   min-width: 150px;
+}
+
+.secTableCss, .secTableCss tr, .secTableCss td {
+  min-width: 450px;
+}
+
+.secTableCss td {
+  width: 100%;
 }
 
 .secDialog {
@@ -135,4 +146,8 @@ body {
 
 .show {
   display:block;
+}
+
+.secDialogField {
+  width: 99%;
 }

@@ -25,6 +25,7 @@
       <div class="rowBox">
         <div class="cellBox tab autoHeight a6">
           <button class="tabLinks" id="htmlFilterTabButton" target="htmlFilterTab">#HTML Filter</button>
+          <button class="tabLinks" id="cssFilterTabButton" target="cssFilterTab">#CSS Filter</button>
         </div>
       </div>
 
@@ -44,7 +45,7 @@
             <div class="cellBox">
               <div class="colBox">
 
-                <div class="cellBox">
+                <div class="cellBox tableContainer">
                   <table class="secTable secTableHTml">
                     <thead>
                       <tr>
@@ -73,6 +74,49 @@
             </div>
           </div>
         </div>
+
+        <!-- ~~~~~~ Tab CSS Filter ~~~~~~ -->
+        <div id="cssFilterTab" class="cellBox tabContent filterTab">
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <strong id="rejectedCssFragments">#Rejected CSS fragments (others are allowed)</strong>
+              <p/>
+            </div>
+          </div>
+
+          <div class="rowBox">
+            <div class="cellBox">
+              <div class="colBox">
+
+                <div class="cellBox tableContainer">
+                    <table class="secTable secTableCss">
+                    <tbody id="cssFilterList">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="cellBox sepBox">
+                </div>
+
+                <div class="cellBox">
+                  <button id="cssFilterAddButton">#Add</button>
+                  <p/>
+                  <button id="cssFilterEditButton">#Edit</button>
+                  <p/>
+                  <button id="cssFilterRemoveButton">#Remove</button>
+                  <p/>
+                  <button id="cssFilterRestoreDefaultButton">#Restore default values</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p/>
+          <small id="cssInfo">#CSS Filter is enable only when STYLE elem/attr is allowed by HTML Filter</small>
+
+        </div>
+
+
       </div>
     </div>
   </div>
@@ -95,6 +139,21 @@
     </div>
   </div>
 
+  <div id="cssFilterDialog" class="secDialog hide">
+    <h1 id="cssFilterDialogTitle">#Add</h1>
+    <div class="secBodyDialog">
+      <come-from id="cssComeFrom"></come-from>
+      <initial-tag id="cssInitialFilter"></initial-tag>
+      <label id="cssFilterDialogCssFragmentToRejected">#Css fragment to rejected (regular expression / case ignored)</label>
+      <br/>
+      <input type="text" id="cssFilterDialogFilter" class="fieldText secDialogField" value="">
+      <p/>
+      <button id="cssFilterDialogCancel">#Cancel</button>
+      <button id="cssFilterDialogOk">#OK</button>
+    </div>
+  </div>
+
+
   <div id="messageDialog" class="secDialog hide">
     <h1 id="messageDialogTitle">#Message</h1>
     <div class="secBodyDialog">
@@ -104,6 +163,7 @@
     </div>
   </div>
 
+  <script src="/js/ui/securityFilter/tabCssFilter.js"></script>
   <script src="/js/ui/securityFilter/tabHtmlFilter.js"></script>
   <script src="/js/ui/securityFilter/allTabsControl.js"></script>
 </body>

@@ -332,6 +332,12 @@
   "optSecurityFilterSettings": {
     "message": "Réglage des filtres de sécurité"
   },
+  "messageDialogTitle": {
+    "message": "Message"
+  },
+  "messageDialogOk": {
+    "message": "ok"
+  },  
   "optHtmlFilter": {
     "message": "Fitres HTML"
   },
@@ -366,13 +372,46 @@
     "message": "Element à autoriser"
   },
   "optHtmlFilterAddDialogAttributesToAllow": {
-    "message": "Attributes to allow"
+    "message": "Attributs à autoriser"
   },
   "optHtmlFilterAddDialogCancel": {
     "message": "Annuler"
   },
   "optHtmlFilterAddDialogOk": {
     "message": "Ok"
+  },
+  "optCssFilter": {
+    "message": "Filtres CSS"
+  },
+  "optRejectedCssFragments": {
+    "message": "Rejected CSS fragments (others are allowed)"
+  },
+  "optCssFilterAddButton": {
+    "message": "Ajouter"
+  },
+  "optCssFilterEditButton": {
+    "message": "Modifier"
+  },
+  "optCssRemoveAddButton": {
+    "message": "Retirer"
+  },
+  "optCssFilterRestoreDefaultButton": {
+    "message": "Restaurer les valeurs par défaut"
+  },
+  "optCssInfo": {
+    "message": "Les filtres CSS sont activés uniquement dans l'attribut STYLE et uniquement si celui-ci est autorisé pas les filtres HTML"
+  },
+  "optCssFilterAddDialogTitle": {
+    "message": "Ajouter"
+  },
+  "optCssFilterDialogCssFragmentToRejected": {
+    "message": "Fragment CSS à rejecté (expression régulière  / insensible à la casse)"
+  },
+  "optCssFilterAddDialogCancel": {
+    "message": "Annuler"
+  },
+  "optCssFilterAddDialogOk": {
+    "message": "ok"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
