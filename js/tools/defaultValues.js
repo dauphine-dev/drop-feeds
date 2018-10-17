@@ -33,10 +33,6 @@ class DefaultValues { /*exported DefaultValues*/
   static get editorFontSize()                { return '14'; }
   static get editorTabSize()                 { return '4'; }
 
-  static get allowedTagListOld() {
-    return [{'a':['href, title']}, {'b':[]}, 'blockquote', 'br', 'cite', 'code', 'del', 'div', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
-      'i', 'img', 'ins', 'li', 'ol', 'p', 'pre', 'q', 's', 'span', 'strong', 'table', 'tbody', 'td', 'th', 'tr', 'u', 'ul'];
-  }
   static get allowedTagList() {
     return [{'*':['style']}, {'a':['href', 'title']}, {'b':[]}, {'blockquote':[]}, {'br':[]}, {'cite':[]}, {'code':[]}, {'del':[]},
       {'div':[]}, {'em':[]}, {'font':['color', 'size']}, {'h1':[]}, {'h2':[]}, {'h3':[]}, {'h4':[]}, {'h5':[]}, {'h6':[]}, {'hr':[]}, {'i':[]},
@@ -44,6 +40,11 @@ class DefaultValues { /*exported DefaultValues*/
       {'table':['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width']}, {'tbody':['align']}, {'td':['bgcolor', 'colspan', 'height', 'rowspan', 'width']},
       {'th':['bgcolor', 'colspan', 'height', 'rowspan', 'width']}, {'tr':['bgcolor']}, {'u':[]}, {'ul':[]}];
   }
+
+  static get rejectedCssFragmentList() {
+    return [];
+  }
+
 
   static getStoredFolder(folderId) {
     return {id: folderId, checked: true};

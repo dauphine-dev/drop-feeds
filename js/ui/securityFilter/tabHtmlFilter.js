@@ -28,6 +28,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
       return (Object.keys(a)<Object.keys(b) ? -1 : Object.keys(a)>Object.keys(b) ? 1 : 0);
     });
   }
+  
   _updateHtmlTagsTable() {
     let tableElement = document.getElementById('allowedHtmlElementsList');
     let range = document.createRange();
@@ -49,7 +50,6 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('securityFilterSettings').textContent = browser.i18n.getMessage('optSecurityFilterSettings');
     document.getElementById('htmlFilterTabButton').textContent = browser.i18n.getMessage('optHtmlFilter');
     document.getElementById('allowedHtmlElements').textContent = browser.i18n.getMessage('optAllowedHtmlElements');
     document.getElementById('thElm').textContent = browser.i18n.getMessage('optHtmlFilterThElm');

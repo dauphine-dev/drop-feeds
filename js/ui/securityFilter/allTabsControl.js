@@ -1,4 +1,4 @@
-/*global  TabHtmlFilter  LocalStorageManager DefaultValues*/
+/*global browser TabHtmlFilter  TabCssFilter LocalStorageManager DefaultValues*/
 'use strict';
 class AllTabControl { /*exported AllTabControl*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -7,11 +7,14 @@ class AllTabControl { /*exported AllTabControl*/
     this._updateLocalizedStrings();
     this._createTabLinks();
     TabHtmlFilter.instance.init_async();
+    TabCssFilter.instance.init_async();
     this._openLastTab_async();
   }
 
   _updateLocalizedStrings() {
-    //document.getElementById('generalTabButton').textContent = browser.i18n.getMessage('optGeneral');
+    document.getElementById('securityFilterSettings').textContent = browser.i18n.getMessage('optSecurityFilterSettings');
+    document.getElementById('messageDialogTitle').textContent = browser.i18n.getMessage('optMessageDialogTitle');
+    document.getElementById('messageDialogOk').textContent = browser.i18n.getMessage('optMessageDialogOk');    
   }
 
   async _openLastTab_async() {

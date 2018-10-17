@@ -604,6 +604,7 @@ class FeedParser { /*exported FeedParser*/
     let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
     whiteListTags.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
+    textTagList = textTagList.map(x => TextTools.escapeRegExp(x));
     let toBlackListTagList = [...new Set(textTagList.filter(x => !FeedParser._tagListIncludes(whiteListTags, x)) || [])];
     let toWhiteListTagList = [...new Set(textTagList.filter(x => FeedParser._tagListIncludes(whiteListTags, x)) || [])];
     let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => FeedParser._tagListIncludes(blackListShow, x)))];
@@ -611,6 +612,7 @@ class FeedParser { /*exported FeedParser*/
     hide = false; text = FeedParser._disableTags(text, toBlackListAndShowTagList, hide);
     hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
     text = FeedParser._disableAttributes(text, toWhiteListTagList);
+    text = FeedParser._applyInlineCssRejection(text, toWhiteListTagList);
     return text;
   }
 
@@ -657,6 +659,10 @@ class FeedParser { /*exported FeedParser*/
             if (!allowedAttList.includes(attName)) {
               cleanedTag = cleanedTag.replace(att, '');
             }
+            else if (attName.toLowerCase() == 'style')  {
+              let cleanedAttStyle = this._applyInlineCssRejection(att);
+              cleanedTag = cleanedTag.replace(att, cleanedAttStyle);
+            }
           }
           text = text.replace(tagWithAtt, cleanedTag);
         }
@@ -666,6 +672,13 @@ class FeedParser { /*exported FeedParser*/
       }
     }
     return text;
+  }
+
+  static _applyInlineCssRejection(attStyle) {    
+    let cleanedAttStyle = attStyle;
+    let rejectedCssFragmentsList = SecurityFilters.instance.rejectedCssFragmentsList;
+    rejectedCssFragmentsList.map(filter => cleanedAttStyle = attStyle.replace(new RegExp(filter), ''));
+    return cleanedAttStyle;    
   }
 
 }

@@ -1,3 +1,6 @@
+0.8.6
+Adding security CSS filters
+
 0.8.5
 a:
 From 0.8.5 Drop Feeds is compatible only with Firefox 60.0.1 and above
@@ -7,6 +10,9 @@ b:
 Fix cursor restart on check feeds button
 c:
 Work with a degraded mode when window id isn't available in subscribe or discovering feeds view 
+d:
+Fix "wikimedia Special:RecentChanges feeds sometimes cause 'SyntaxError: unterminated character class' " from jinkama-san
+Adding some log traces
 
 0.8.4
 Adding security attributes filter
