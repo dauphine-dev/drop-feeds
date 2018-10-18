@@ -39,6 +39,10 @@ class TreeView { /*exported TreeView*/
     this._addEventListenerOnFeedFolders();
   }
 
+  get rootFolderId() {
+    return this._rootFolderId;
+  }
+
   async reload_async() {
     this._init();
     await this.load_async();
