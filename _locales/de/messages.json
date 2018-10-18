@@ -261,7 +261,7 @@
     "message": "Minuten"
   },
   "optAutoFeedUpdatesOnStart": {
-    "message": "Fphre eine Feed Aktualisierung beim Start aus"
+    "message": "Führe eine Feed-Aktualisierung beim Start aus"
   },
   "optShowNotifications": {
     "message": "Zeige Benachrichtigungsfenster nach Aktualisierungen an"
@@ -273,7 +273,7 @@
     "message": "Feed item Liste"
   },
   "optFeedItemListToolbar": {
-    "message": "Feed item Liste Symbolleiste (*)"
+    "message": "Feed item Liste in Symbolleiste (*)"
   },
   "optDescriptionTooltips": {
     "message": "Beschreibungs Kurzinfo"
@@ -288,16 +288,16 @@
     "message": "Zeige die aktualisierte Feed Anzahl"
   },
   "optShowErrorsAsUnread": {
-    "message": "Zeige Fehler als ungelesen"
+    "message": "Zeige Fehler als ungelesen an"
   },
   "optRenderFeeds": {
     "message": "Render Feeds"
   },
   "optAlwaysOpenNewTab": {
-    "message": "Öffne immer neue Tabs"
+    "message": "Immer neue Tabs öffnen"
   },
   "optOpenNewTabForeground": {
-    "message": "Neuen Tab im Vordergrund öffnen"
+    "message": "Neue Tabs im Vordergrund öffnen"
   },
   "optReuseDropFeedsTab": {
     "message": "Tab Drop Feeds erneut verwenden"
@@ -360,7 +360,7 @@
     "message": "Entfernen"
   },
   "optHtmlFilterRestoreDefaultButton": {
-    "message": "Stelle die Standardwerte wieder her"
+    "message": "Standardwerte wiederherstellen"
   },
   "optHtmlFilterAddDialogTitle": {
     "message": "Hinzufügen"
@@ -381,37 +381,37 @@
     "message": "Ok"
   },
   "optCssFilter": {
-    "message": "CSS Filters"
+    "message": "CSS Filter"
   },
   "optRejectedCssFragments": {
-    "message": "Rejected CSS fragments (others are allowed)"
+    "message": "Verbotene HTML Elemente (andere werden erlaubt)"
   },
   "optCssFilterAddButton": {
-    "message": "Add"
+    "message": "Hinzufügen"
   },
   "optCssFilterEditButton": {
-    "message": "Edit"
+    "message": "Bearbeiten"
   },
   "optCssRemoveAddButton": {
-    "message": "Remove"
+    "message": "Entfernen"
   },
   "optCssFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "Standardwerte wiederherstellen"
   },
   "optCssInfo": {
-    "message": "CSS Filter is enable only when STYLE elem/attr is allowed by HTML Filter"
+    "message": "CSS Filter ist nur aktiviert, wenn STYLE Element/Attribut vom HTML-Filter zugelassen ist"
   },
   "optCssFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "Hinzufügen"
   },
   "optCssFilterDialogCssFragmentToRejected": {
-    "message": "Css fragment to rejected (regular expression / case ignored)"
+    "message": "Zurückzuweisende CSS-Fragmente (regulärer Ausdruck, Fall ignoriert)"
   },
   "optCssFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "Abbrechen"
   },
   "optCssFilterAddDialogOk": {
-    "message": "ok"
+    "message": "Ok"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
