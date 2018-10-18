@@ -333,7 +333,7 @@
     "message": "セキュリティフィルター"
   },
   "messageDialogTitle": {
-    "message": "Message"
+    "message": "メッセージ"
   },
   "messageDialogOk": {
     "message": "ok"
@@ -381,37 +381,37 @@
     "message": "追加"
   },
   "optCssFilter": {
-    "message": "CSS Filters"
+    "message": "CSSフィルター"
   },
   "optRejectedCssFragments": {
-    "message": "Rejected CSS fragments (others are allowed)"
+    "message": "拒否されたCSSフラグ (他は許可されています)"
   },
   "optCssFilterAddButton": {
-    "message": "Add"
+    "message": "追加"
   },
   "optCssFilterEditButton": {
-    "message": "Edit"
+    "message": "編集"
   },
   "optCssRemoveAddButton": {
-    "message": "Remove"
+    "message": "削除"
   },
   "optCssFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "初期値に戻す"
   },
   "optCssInfo": {
-    "message": "CSS Filter is enable only when STYLE elem/attr is allowed by HTML Filter"
+    "message": "スタイルが要素／属性がHTMLフィルターで許可されている時のみCSSフィルターを有効にする "
   },
   "optCssFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "追加"
   },
   "optCssFilterDialogCssFragmentToRejected": {
-    "message": "Css fragment to rejected (regular expression / case ignored)"
+    "message": "Cssフラグメントを拒否する (正規表現 / 大文字小文字を区別しない)"
   },
   "optCssFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "キャンセル"
   },
   "optCssFilterAddDialogOk": {
-    "message": "ok"
+    "message": "OK"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
