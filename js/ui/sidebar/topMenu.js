@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM FilterBar*/
 'use strict';
 const _delayMsStopChecking = 1000;
 class TopMenu { /*exported TopMenu*/
@@ -147,7 +147,7 @@ class TopMenu { /*exported TopMenu*/
 
   _updateFilterBar() {
     this.activateButton('filterButton', this._filterEnabled);
-    document.getElementById('filterBar').style.display = this._filterEnabled ? '' : 'none';
+    FilterBar.instance.enabled = this._filterEnabled;
   }
 
   async _onlyUpdatedFeedsButtonClicked_event(event) {
