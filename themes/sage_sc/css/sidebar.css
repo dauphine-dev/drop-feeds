@@ -232,6 +232,11 @@ body {
   padding-left: 6px;
 }
 
+/* filter */
+#filterField {
+  width: 100%;
+}
+
 /* folders */
 
 input[type="checkbox"] {

@@ -14,19 +14,23 @@ class TopMenu { /*exported TopMenu*/
     this._workInProgress = false;
     this._checkingFeedsStartTime = new Date();
     this._forceAnimateCheckFeedButton = false;
+    this._filterEnabled = DefaultValues.filterEnabled;
   }
 
   async init_async() {
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
     await this.updatedFeedsSetVisibility_async();
     await this._isRootFolderChecked_async();
     await this._updateLocalizedStrings_async();
+    this._updateFilterBar();
     this.activateButton('toggleFoldersButton', this._foldersOpened);
     document.getElementById('checkFeedsButton').addEventListener('click', (e) => { this.checkFeedsButtonClicked_event(e); });
     document.getElementById('discoverFeedsButton').addEventListener('click', (e) => { this._discoverFeedsButtonClicked_event(e); });
     document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', (e) => { this._onlyUpdatedFeedsButtonClicked_event(e); });
     document.getElementById('toggleFoldersButton').addEventListener('click', (e) => { this._toggleFoldersButtonClicked_event(e); });
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
+    document.getElementById('filterButton').addEventListener('click', (e) => { this._filterButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
   }
@@ -141,6 +145,11 @@ class TopMenu { /*exported TopMenu*/
     } catch (e) { }
   }
 
+  _updateFilterBar() {
+    this.activateButton('filterButton', this._filterEnabled);
+    document.getElementById('filterBar').style.display = this._filterEnabled ? '' : 'none';
+  }
+
   async _onlyUpdatedFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -188,6 +197,14 @@ class TopMenu { /*exported TopMenu*/
     await LocalStorageManager.setValue_async('discoverInfo', { tabInfos: tabInfo });
     let win = await BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
     await LocalStorageManager.setValue_async('discoverInfoWinId', {winId: win.id});
+  }
+  
+  async _filterButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this._filterEnabled = !this._filterEnabled;
+    LocalStorageManager.setValue_async('filterEnabled', this._filterEnabled);
+    this._updateFilterBar();
   }
 
   async _optionsMenuClicked_event(event) {
