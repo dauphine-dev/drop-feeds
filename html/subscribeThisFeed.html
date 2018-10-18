@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link id="cssLink" href="/themes/_any/css/subscribeThisFeed.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png"/>
-    <title>Subscribe</title>
-  </head>
 
-  <body>
-    <div id="main">
-      <span id="rssLogo"></span>
-      <span id="txtSubscribeUsing">#Subscribe to this feed using</span>
-      <span id="txtSelect">&nbsp;&nbsp;<select selected="true"><option>Drop Feeds</option></select></span>
-      <p><button id="subscribeNow">#Subscribe now</button></p>
+<head>
+  <link id="cssLink" href="/themes/_any/css/subscribeThisFeed.css" rel="stylesheet">
+  <title>Subscribe</title>
+</head>
+
+<body class="body">
+  <div id="feedHeaderContainer1">
+    <div id="rssLogo">
+      <div>
+        <label id="txtSubscribeUsing">#Subscribe to this feed using&nbsp;</label>
+          <select id="handlersMenuList1">
+            <option selected="true">Drop Feeds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </option>
+          </select>        
+        <button id="subscribeNow">#Subscribe now</button>
+      </div>
     </div>
-    <script src="/js/ui/subscribeThisFeed/subscribeThisFeed.js"></script>
-  </body>
-  </html>
+  </div>
+  <script src="/js/ui/subscribeThisFeed/subscribeThisFeed.js"></script>
+</body>
+</html>
