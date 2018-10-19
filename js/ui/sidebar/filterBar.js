@@ -9,6 +9,7 @@ class FilterBar { /*exported FilterBar*/
 
   async init_async() {
     document.getElementById('filterField').addEventListener('input', (e) => { this._filterFieldInput_event(e); });
+    document.getElementById('filterClearButton').addEventListener('click', (e) => { this._filterClearButtonClicked_event(e); });
   }
 
   set enabled(enable) {
@@ -28,6 +29,13 @@ class FilterBar { /*exported FilterBar*/
 
   _filterFieldInput_event(event) {
     this._applyFilter(event.target.value);
+  }
+
+  _filterClearButtonClicked_event() {
+    let filterFieldElm = document.getElementById('filterField');
+    filterFieldElm.value = '';
+    this._applyFilter('');
+    filterFieldElm.focus(); 
   }
 
   _applyFilter(filterText) {
