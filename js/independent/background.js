@@ -1,12 +1,6 @@
 /*global browser*/
 'use strict';
 const SIDEBAR_URL = '/html/sidebar.html';
-const POPUP56_URL = '/html/browserActionFF56.html';
-const VERSION_ENUM = {
-  MAJ : 0,
-  MIN : 1,
-  REV : 2
-};
 
 class BackgroundManager {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -18,13 +12,8 @@ class BackgroundManager {
 
   async init_async() {
     this._version = await this._getBrowserVersion_async();
-    if (this._version[VERSION_ENUM.MAJ] < 57) {
-      browser.browserAction.setPopup({popup: POPUP56_URL});
-    }
-    else {
-      this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
-      browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
-    }
+    this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
+    browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
   }
 
   async _getBrowserVersion_async() {
