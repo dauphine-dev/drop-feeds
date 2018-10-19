@@ -140,7 +140,7 @@ class TopMenu { /*exported TopMenu*/
 
   async _isRootFolderChecked_async() {
     try {
-      let rootFolderId = 'cb-' + TreeView.instance.rootFolderId.substring(3);
+      let rootFolderId = 'cb-' + TreeView.instance.rootFolderUiId.substring(3);
       let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
       this._foldersOpened = rootFolder.checked;
     } catch (e) { }

@@ -74,12 +74,14 @@ class SideBar { /*exported SideBar*/
   }
 
   _computeContentTop() {
-    let elStatusBar = document.getElementById('statusBar');
-    let rect = elStatusBar.getBoundingClientRect();
+    let refElementId = (FilterBar.instance.enabled ? 'filterBar' : 'statusBar');    
+    let refElement = document.getElementById(refElementId);
+    let rect = refElement.getBoundingClientRect();
     this._contentTop = rect.bottom + 1;
   }
 
   setContentHeight() {
+    this._computeContentTop('this._contentTop:', this._contentTop);
     let height = Math.max(ItemsPanel.instance.splitterBar.top - this._contentTop - 1, 0);
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
   }
