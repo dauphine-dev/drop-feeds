@@ -35,6 +35,9 @@
   "sbSubscriptionGo": {
     "message": "转至订阅页面"
   },
+  "sbFilter": {
+    "message": "Filter"
+  },
   "sbSubscriptionAdd": {
     "message": "订阅"
   },

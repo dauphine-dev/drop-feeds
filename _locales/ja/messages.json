@@ -35,6 +35,9 @@
   "sbSubscriptionGo": {
     "message": "RSS購読ページを表示"
   },
+  "sbFilter": {
+    "message": "Filter"
+  },
   "sbSubscriptionAdd": {
     "message": "RSSを追加"
   },

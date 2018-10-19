@@ -35,6 +35,9 @@
   "sbSubscriptionGo": {
     "message": "Gehe zur Abonnement-Seite"
   },
+  "sbFilter": {
+    "message": "Filter"
+  },
   "sbSubscriptionAdd": {
     "message": "Abonnieren"
   },

@@ -129,6 +129,7 @@ class TopMenu { /*exported TopMenu*/
     document.getElementById('onlyUpdatedFeedsButton').setAttribute('title', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
     document.getElementById('toggleFoldersButton').setAttribute('title', browser.i18n.getMessage('sbToggleFolders'));
     document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
+    document.getElementById('filterButton').setAttribute('title', browser.i18n.getMessage('sbFilter'));
     let browserVersion = await BrowserManager.instance.getVersion_async();
     if (browserVersion[VERSION_ENUM.MAJ] < 57) {
       document.getElementById('addFeedButton').setAttribute('title', 'Not available in Firefox 56, please update');
