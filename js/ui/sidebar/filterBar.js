@@ -14,6 +14,9 @@ class FilterBar { /*exported FilterBar*/
     document.getElementById('filterBar').style.display = enable ? '' : 'none';
     let filterText = enable ? document.getElementById('filterField').value : '';
     this._applyFilter(filterText);
+    if (enable) {
+      document.getElementById('filterField').focus(); 
+    }
   }
 
   _filterFieldInput_event(event) {
