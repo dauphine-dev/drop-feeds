@@ -1,9 +1,10 @@
-/*global TreeView*/
+/*global TreeView DefaultValues SideBar*/
 'use strict';
 class FilterBar { /*exported FilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
+    this._filterEnabled = DefaultValues.filterEnabled;
   }
 
   async init_async() {
@@ -11,12 +12,18 @@ class FilterBar { /*exported FilterBar*/
   }
 
   set enabled(enable) {
+    this._filterEnabled = enable;
     document.getElementById('filterBar').style.display = enable ? '' : 'none';
+    SideBar.instance.setContentHeight();
     let filterText = enable ? document.getElementById('filterField').value : '';
     this._applyFilter(filterText);
     if (enable) {
       document.getElementById('filterField').focus(); 
     }
+  }
+
+  get enabled() {
+    return this._filterEnabled;
   }
 
   _filterFieldInput_event(event) {
