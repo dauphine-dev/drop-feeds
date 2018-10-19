@@ -48,15 +48,15 @@ User scripts
 0.8.x
 Adding security filters
 
-
 0.9
-Better support for ATOM feeds
-0.9.x
-Best enclosure support
+Add filter feature
 0.9.x
 Adding option to add custom theme
+0.9.x
+Better support for ATOM feeds and enclosure
 0.99
 Release Candidate
 
 1.0
 Same as Release Candidate with bugs fixed
+
