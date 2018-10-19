@@ -40,14 +40,14 @@ class FilterBar { /*exported FilterBar*/
         feedElementList.map(item => item.style.display = '');
         return; 
       }
-      let toHideList = this._contain('label, li', filterText, false);
-      let toShowLiList = this._contain('label, li', filterText, true);
-      let toShowLblList = this._contain('label', filterText, true);
+      let toHideList = this._contain(rootFolder, 'label, li', filterText, false);
+      let toShowLiList = this._contain(rootFolder, 'label, li', filterText, true);
+      let toShowLblList = this._contain(rootFolder, 'label', filterText, true);
       toHideList.map(item => item.style.display = 'none');
       toShowLiList.map(item => item.style.display = '');
       toShowLblList.map((item) => { 
         let forId = item.getAttribute('for');
-        let toShowLblForList = [].slice.call(document.querySelectorAll('label[for="' + forId + '"]'));
+        let toShowLblForList = [].slice.call(rootFolder.querySelectorAll('label[for="' + forId + '"]'));
         toShowLblForList.map(lbl => lbl.style.display = '');
       });
     }
@@ -58,8 +58,8 @@ class FilterBar { /*exported FilterBar*/
     }
   }
 
-  _contain(selector, text, contains) {
-    let elements = document.querySelectorAll(selector);
+  _contain(refElement, selector, text, contains) {
+    let elements = refElement.querySelectorAll(selector);
     return [].filter.call(elements, (element) => {
       if (contains) {
         return RegExp(text, 'i').test(element.textContent);
