@@ -25,7 +25,7 @@ class FilterBar { /*exported FilterBar*/
 
   _applyFilter(filterText) {
     try {
-      let rootFolderId = 'dv-' + TreeView.instance.rootFolderId;
+      let rootFolderId =  TreeView.instance.rootFolderUiId;
       let rootFolder = document.getElementById(rootFolderId);
       let feedElementList = [];
       if (filterText == '' ) { 
