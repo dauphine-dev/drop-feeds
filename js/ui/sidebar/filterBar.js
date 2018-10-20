@@ -1,4 +1,4 @@
-/*global TreeView DefaultValues SideBar browser*/
+/*global TreeView DefaultValues SideBar browser BrowserManager*/
 'use strict';
 class FilterBar { /*exported FilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -53,9 +53,9 @@ class FilterBar { /*exported FilterBar*/
         feedElementList.map(item => item.style.display = '');
         return; 
       }
-      let toHideList = this._contain(rootFolder, 'label, li', filterText, false);
-      let toShowLiList = this._contain(rootFolder, 'label, li', filterText, true);
-      let toShowLblList = this._contain(rootFolder, 'label', filterText, true);
+      let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
+      let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
+      let toShowLblList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label', filterText, true);
       toHideList.map(item => item.style.display = 'none');
       toShowLiList.map(item => item.style.display = '');
       toShowLblList.map((item) => { 
@@ -71,15 +71,4 @@ class FilterBar { /*exported FilterBar*/
     }
   }
 
-  _contain(refElement, selector, text, contains) {
-    let elements = refElement.querySelectorAll(selector);
-    return [].filter.call(elements, (element) => {
-      if (contains) {
-        return RegExp(text, 'i').test(element.textContent);
-      }
-      else {
-        return ! RegExp(text, 'i').test(element.textContent);
-      }
-    });    
-  }
 }
