@@ -38,6 +38,9 @@
   "sbFilter": {
     "message": "Filtre"
   },
+  "sbFilterClearButton": {
+    "message": "Effacer le filtre"
+  },
   "sbSubscriptionAdd": {
     "message": "S'abonner"
   },

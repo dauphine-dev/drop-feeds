@@ -326,6 +326,19 @@ class BrowserManager { /* exported BrowserManager*/
     }
   }
 
+  static querySelectorAllOnTextContent(refElement, selector, text, contains) {
+    let elements = refElement.querySelectorAll(selector);
+    return [].filter.call(elements, (element) => {
+      if (contains) {
+        return RegExp(text, 'i').test(element.textContent);
+      }
+      else {
+        return ! RegExp(text, 'i').test(element.textContent);
+      }
+    });    
+  }
+
+
   //private stuffs
   _setAlwaysOpenNewTab_sbscrb(value) {
     this._alwaysOpenNewTab = value;
