@@ -1,3 +1,11 @@
+0.9.1
+Cleanup old and used code
+Remove Unsafe assignment to innerHTML
+Remove Unsafe call to insertAdjacentHTML
+
+0.9
+Add sidebar filter feature
+
 0.8.6
 Adding security CSS filters
 Adding German language by itsBeen

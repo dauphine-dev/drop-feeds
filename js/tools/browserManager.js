@@ -15,7 +15,7 @@ const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
-  static get baseFeedUrl() { return (this._baseFeedUrl = this._baseFeedUrl || BrowserManager._getBaseFeedUrl()); } 
+  static get baseFeedUrl() { return (this._baseFeedUrl = this._baseFeedUrl || BrowserManager._getBaseFeedUrl()); }
 
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
@@ -31,7 +31,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   async init_async() {
-    //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onlad event
+    //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onload event
     this._uiLanguage = await BrowserManager._getUILanguage_async();
   }
 
@@ -164,18 +164,37 @@ class BrowserManager { /* exported BrowserManager*/
     return result;
   }
 
-  static setInnerHtmlByElement(element, innerHTML) {
-    element.innerHTML = innerHTML;
+  static setInnerHtmlByElement(element, textHtml, workWith1stNode) {
+    //element.innerHTML = textHtml;
+    BrowserManager.removeAllChild(element);
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
+    element.appendChild(documentFragment);
   }
 
-  static setInnerHtmlById(id, innerHTML) {
-    BrowserManager.setInnerHtmlByElement(document.getElementById(id), innerHTML);
+  static setInnerHtmlById(id, textHtml, workWith1stNode) {
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, workWith1stNode);
   }
 
-  static insertAdjacentHTML(element, position, text) {
-    element.insertAdjacentHTML(position, text);
+  static insertAdjacentHTMLBeforeEnd(element, textHtml, workWith1stNode) {
+    //element.insertAdjacentHTML('beforeend', textHtml);
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
+    element.appendChild(documentFragment);
   }
 
+  static textHtmlToDocumentFragment(textHtml, workWith1stNode) {
+    let parser = new DOMParser();
+    let nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
+    if (!workWith1stNode) { nodes = nodes.childNodes[0]; }
+    let documentFragment = document.createDocumentFragment();
+    documentFragment.appendChild(nodes);
+    return documentFragment;
+  }
+
+  static removeAllChild(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
 
   static loadScript(url, callback) {
     let script = document.createElement('script');
@@ -187,7 +206,8 @@ class BrowserManager { /* exported BrowserManager*/
 
   static htmlToText(html) {
     let tmpDiv = document.createElement('div');
-    BrowserManager.setInnerHtmlByElement(tmpDiv, html);
+    let textNode = document.createTextNode(html);
+    tmpDiv.appendChild(textNode);
     let text = tmpDiv.textContent || tmpDiv.innerText || '';
     text = TextTools.replaceAll(text, '"', '&quot;');
     return text;
@@ -333,9 +353,9 @@ class BrowserManager { /* exported BrowserManager*/
         return RegExp(text, 'i').test(element.textContent);
       }
       else {
-        return ! RegExp(text, 'i').test(element.textContent);
+        return !RegExp(text, 'i').test(element.textContent);
       }
-    });    
+    });
   }
 
 
