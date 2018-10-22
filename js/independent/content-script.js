@@ -17,7 +17,7 @@ class ContentManager {
     return Promise.resolve(response);
   }
 
-  static _isFeedOld() {
+  static _isFeed() {
     let feedHandler = null;
     try {
       feedHandler = document.getElementById('feedHandler').innerHTML;
