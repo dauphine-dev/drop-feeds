@@ -10,7 +10,7 @@ class TextConsole { /*exported TextConsole*/
   attach(consoleElement) {
     this._consoleElement = consoleElement;
     let html = '<div id="consoleText" style="overflow: auto;"></div>';
-    BrowserManager.insertAdjacentHTML(this._consoleElement, 'beforeend', html);
+    BrowserManager.insertAdjacentHTMLBeforeEnd(this._consoleElement, html);
     this._consoleTextElement = document.getElementById('consoleText');
   }
 
@@ -41,7 +41,7 @@ class TextConsole { /*exported TextConsole*/
         style = ' style=' + messageType + ' ';
     }
     let html = '<span' + css + style + '>' + text + '</span>';
-    BrowserManager.insertAdjacentHTML(this._consoleTextElement, 'beforeend', html);
+    BrowserManager.insertAdjacentHTMLBeforeEnd(this._consoleTextElement, html);
     this._consoleTextElement.scrollTop = this._consoleTextElement.scrollHeight;
   }
 

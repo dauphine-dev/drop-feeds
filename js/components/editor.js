@@ -148,7 +148,7 @@ class Editor { /*exported Editor*/
       </div>
     </div>\n`;
 
-    BrowserManager.insertAdjacentHTML(this._baseElement, 'beforeend', editorHtml);
+    BrowserManager.insertAdjacentHTMLBeforeEnd(this._baseElement, editorHtml);
 
     this._editLineNumber = document.getElementById('editLineNumber');
 
@@ -391,7 +391,7 @@ class Editor { /*exported Editor*/
     let plainText = this._editTextArea.value;
     plainText = this._fixText(plainText);
     let highlightedText = this._highlighter.highlightText(plainText);
-    BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText);
+    BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText, true);
     this._updateLineNumbers(plainText);
   }
 
