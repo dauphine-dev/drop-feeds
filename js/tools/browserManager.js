@@ -165,7 +165,6 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static setInnerHtmlByElement(element, textHtml, workWith1stNode) {
-    //element.innerHTML = textHtml;
     BrowserManager.removeAllChild(element);
     let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
     element.appendChild(documentFragment);
@@ -176,16 +175,21 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static insertAdjacentHTMLBeforeEnd(element, textHtml, workWith1stNode) {
-    //element.insertAdjacentHTML('beforeend', textHtml);
     let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
     element.appendChild(documentFragment);
   }
 
   static textHtmlToDocumentFragment(textHtml, workWith1stNode) {
     let parser = new DOMParser();
-    let nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
-    if (!workWith1stNode) { nodes = nodes.childNodes[0]; }
     let documentFragment = document.createDocumentFragment();
+    let nodes = null;
+    if (TextTools.isNullOrEmpty(textHtml)) {
+      nodes = document.createTextNode('');
+    }
+    else {
+      nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
+      if (!workWith1stNode) { nodes = nodes.childNodes[0]; }
+    }
     documentFragment.appendChild(nodes);
     return documentFragment;
   }
