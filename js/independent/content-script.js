@@ -17,13 +17,16 @@ class ContentManager {
     return Promise.resolve(response);
   }
 
-  static _isFeed() {
+  static _isFeedOld() {
     let feedHandler = null;
     try {
       feedHandler = document.getElementById('feedHandler').innerHTML;
     }
     catch (e) { }
     let isFeed = (feedHandler ? true : false);
+    if (!isFeed) {
+      isFeed = window.location.href.match(/rss|feed|atom|syndicate/i);
+    }
     if (isFeed) { ContentManager._addSubscribeButton(); }
     return isFeed;
   }
