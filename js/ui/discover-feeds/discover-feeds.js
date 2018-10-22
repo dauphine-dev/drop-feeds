@@ -140,7 +140,18 @@ class DiscoverFeeds {
   }
 
   _feedLinkInfoListToHtm() {
-    let html = '';
+    let html = `
+      <table>
+      <thead>
+        <tr>
+          <th id="thTitle" >Title</th>
+          <th id="thFormat">Format</th>
+          <th id="thLastUpdate">Last update</th>
+          <th id="thItems">Items</th>
+          <th id="thUrl">Url</th>
+        </tr>
+      </thead>
+      <tbody id="tableContent">`;
     let pos = 1;
     for (let feed of this._feedList) {
       let feedInfo = feed.info;
@@ -153,6 +164,9 @@ class DiscoverFeeds {
       html += '<td>' + feed.url + '</td>';
       html += '</tr>\n';
     }
+    html += `
+      </tbody>
+      </table>`;
     return html;
   }
 
