@@ -22,12 +22,14 @@ class FeedList {
       }
     }
     let html = this._feedLinkInfoListToHtm(feedLinkList);
-    BrowserManager.setInnerHtmlById('tableContent', html);
+    BrowserManager.setInnerHtmlById('main', html);
     this._addTableRawClickEvents();
   }
 
   _feedLinkInfoListToHtm(feedList) {
-    let html = '';
+    let html = `
+      <table>
+      <tbody id="tableContent">`;
     let pos = 1;
     for (let feed of feedList) {
       html += '<tr pos="' + pos++ + '">';
@@ -35,6 +37,9 @@ class FeedList {
       html += '<td style="display:none;">' + feed.link + '</td>';
       html += '</tr>\n';
     }
+    html +=`
+      </tbody>
+      </table>`;
     return html;
   }
 
