@@ -256,6 +256,21 @@ body {
   vertical-align: middle; 
 }
 
+#filterClearButton::before {
+  background-image: url(/themes/_any/img/filter-clean.png);
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 0 -2px;
+  display: inline-block;
+  border: solid 1px #808080;
+  width: 22px;
+  height: 22px;
+  content: "";
+  padding: 0;
+  vertical-align: middle; 
+}
+
 /* folders */
 
 input[type="checkbox"] {
