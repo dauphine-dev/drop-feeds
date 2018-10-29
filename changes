@@ -1,4 +1,5 @@
-0.9.1
+0.9
+Add sidebar filter feature
 Cleanup old and used code
 Remove Unsafe assignment to innerHTML
 Remove Unsafe call to insertAdjacentHTML
@@ -6,8 +7,6 @@ From the render window open items in new tab
 Subscription window direct opening
 Open new tabs in same window as the parent feed
 
-0.9
-Add sidebar filter feature
 
 0.8.6
 Adding security CSS filters
