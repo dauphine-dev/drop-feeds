@@ -51,8 +51,10 @@ class FilterBar { /*exported FilterBar*/
       if (filterText == '' ) { 
         feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
         feedElementList.map(item => item.style.display = '');
+        TreeView.instance.selectionBar.refresh();
         return; 
       }
+      TreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
       let toShowLblList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label', filterText, true);
