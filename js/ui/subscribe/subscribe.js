@@ -6,7 +6,7 @@ class Subscribe {
   constructor() {
     this._feedTitle = null;
     this._feedUrl = null;
-    this._subscribeInfoWin = null;
+    this._subscribeInfoWinId = null;
   }
 
   async init_async() {
@@ -22,10 +22,6 @@ class Subscribe {
       this._feedTitle = tabInfo.title;
       this._feedUrl = tabInfo.url;
     }
-    try {
-      this._subscribeInfoWin = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
-    } catch (e) { }
-    LocalStorageManager.setValue_async('subscribeInfoWin', null);
     FolderTreeView.instance.load_async();
     NewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
@@ -33,6 +29,10 @@ class Subscribe {
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
     document.getElementById('cancelButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
     document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
+    try {
+      this._subscribeInfoWinId = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
+    } catch (e) { }
+    await LocalStorageManager.setValue_async('subscribeInfoWinId', null);
   }
 
   _updateLocalizedStrings() {
@@ -41,6 +41,7 @@ class Subscribe {
     document.getElementById('labelName').textContent = browser.i18n.getMessage('subName') + ': ';
     document.getElementById('labelFolder').textContent = browser.i18n.getMessage('subFolder') + ': ';
     document.getElementById('newFolderButton').textContent = browser.i18n.getMessage('subNewFolder');
+    document.getElementById('windowCloseError').textContent = browser.i18n.getMessage('subWindowCloseError');
     document.getElementById('cancelButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('subscribeButton').textContent = browser.i18n.getMessage('subSubscribe');
     document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
@@ -58,7 +59,7 @@ class Subscribe {
   async _cancelButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    browser.windows.remove(this._subscribeInfoWin);
+    this._windowClose();
   }
 
   async _subscribeButtonClicked_event() {
@@ -71,7 +72,16 @@ class Subscribe {
       console.log(e);
       /* eslint-enable no-console */
     }
-    browser.windows.remove(this._subscribeInfoWin);
+    this._windowClose();
+  }
+
+  _windowClose() {
+    try {
+      browser.windows.remove(this._subscribeInfoWinId);
+    }
+    catch (e) {
+      document.getElementById('windowCloseError').style.visibility = 'visible';
+    }
   }
 
 }

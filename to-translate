@@ -1,4 +1,5 @@
 version;line;messageName;message
 0.9;38;sbFilter;Filter
 0.9;41;sbFilterClearButton;Clear filter
-0.9;302;optItemNewTab;Open items on new tag
+0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.
+0.9;305;optItemNewTab;Open items on new tag

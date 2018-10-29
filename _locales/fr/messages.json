@@ -155,6 +155,9 @@
   "subNewFolder": {
     "message": "Nouveau dossier"
   },
+  "subWindowCloseError": {
+    "message": "Drop feeds a échoué a fermer la fenêtre, veuillez la fermer manuellement."
+  },
   "subCancel": {
     "message": "Annuler"
   },

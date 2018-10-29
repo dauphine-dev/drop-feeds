@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager VERSION_ENUM FilterBar*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager FilterBar*/
 'use strict';
 const _delayMsStopChecking = 1000;
 class TopMenu { /*exported TopMenu*/
@@ -47,18 +47,12 @@ class TopMenu { /*exported TopMenu*/
 
   async setFeedButton_async(enabled, type) {
     this._buttonAddFeedEnabled = enabled;
-    let browserVersion = await BrowserManager.instance.getVersion_async();
-    if (browserVersion[VERSION_ENUM.MAJ] < 57) {
-      this._buttonAddFeedEnabled = false;
-    }
     CssManager.setElementEnableById('addFeedButton', this._buttonAddFeedEnabled);
     let elAddFeedButton = document.getElementById('addFeedButton');
     elAddFeedButton.classList.remove('subscribeAdd');
     elAddFeedButton.classList.remove('subscribeGo');
     elAddFeedButton.classList.add('subscribe' + type);
-    if (browserVersion[VERSION_ENUM.MAJ] >= 57) {
-      elAddFeedButton.setAttribute('tooltiptext', browser.i18n.getMessage('sbSubscription' + type));
-    }
+    elAddFeedButton.setAttribute('title', browser.i18n.getMessage('sbSubscription' + type));
   }
 
   animateCheckFeedButton(forceAnimate) {
@@ -130,11 +124,6 @@ class TopMenu { /*exported TopMenu*/
     document.getElementById('toggleFoldersButton').setAttribute('title', browser.i18n.getMessage('sbToggleFolders'));
     document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
     document.getElementById('filterButton').setAttribute('title', browser.i18n.getMessage('sbFilter'));
-    let browserVersion = await BrowserManager.instance.getVersion_async();
-    if (browserVersion[VERSION_ENUM.MAJ] < 57) {
-      document.getElementById('addFeedButton').setAttribute('title', 'Not available in Firefox 56, please update');
-    }
-
     document.getElementById('optionsMenuButton').setAttribute('title', browser.i18n.getMessage('sbOpenOptionsTab'));
   }
 
@@ -183,11 +172,18 @@ class TopMenu { /*exported TopMenu*/
     if (!this._buttonAddFeedEnabled) { return; }
     let feedList = TabManager.instance.activeTabFeedLinkList;
     if (feedList.length == 1) {
-      await browser.tabs.create({ url: feedList[0].link, active: true });
+      let tabInfo = await BrowserManager.getActiveTab_async();      
+      this._openSubscribeDialog_async(tabInfo.title, feedList[0].link);
     }
     else {
       BrowserManager.openPageAction();
     }
+  }
+
+  async _openSubscribeDialog_async(title, url) {
+    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: title, feedUrl: url});
+    let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+    await LocalStorageManager.setValue_async('subscribeInfoWinId', {winId: win.id});
   }
 
   async _discoverFeedsButtonClicked_event(event) {

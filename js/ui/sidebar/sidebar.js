@@ -49,15 +49,10 @@ class SideBar { /*exported SideBar*/
   }
 
   async openSubscribeDialog_async() {
-    console.log('openSubscribeDialog_async:1');
     let tabInfo = await BrowserManager.getActiveTab_async();
-    console.log('openSubscribeDialog_async:2');
     await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfo.title, feedUrl: tabInfo.url});
-    console.log('openSubscribeDialog_async:3');
     let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
-    console.log('openSubscribeDialog_async:4');
     await LocalStorageManager.setValue_async('subscribeInfoWinId', {winId: win.id});
-    console.log('openSubscribeDialog_async:5');
   }
 
   _addListeners() {

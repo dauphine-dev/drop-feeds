@@ -155,6 +155,9 @@
   "subNewFolder": {
     "message": "新建文件夹"
   },
+  "subWindowCloseError": {
+    "message": "Drop feeds has failed to close the window, please close it manually."
+  },
   "subCancel": {
     "message": "取消"
   },
