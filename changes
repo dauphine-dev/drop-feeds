@@ -2,6 +2,8 @@
 Cleanup old and used code
 Remove Unsafe assignment to innerHTML
 Remove Unsafe call to insertAdjacentHTML
+From the render window open items in new tab 
+Subscription window direct opening
 
 0.9
 Add sidebar filter feature
