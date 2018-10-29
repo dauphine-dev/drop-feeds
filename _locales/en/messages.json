@@ -299,6 +299,9 @@
   "optRenderFeeds": {
     "message": "Render feeds"
   },
+  "optItemNewTab": {
+    "message": "Open items on new tab"
+  },
   "optAlwaysOpenNewTab": {
     "message": "Always open new tab"
   },

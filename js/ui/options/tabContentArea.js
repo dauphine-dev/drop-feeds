@@ -10,6 +10,11 @@ class TabContentArea { /*exported TabContentArea*/
     elRenderFeedsCheckbox.checked =  await LocalStorageManager.getValue_async('renderFeeds', DefaultValues.renderFeeds);
     elRenderFeedsCheckbox.addEventListener('click', (e) => { this._renderFeedsCheckBoxClicked_event(e); });
 
+    let elItemNewTabCheckbox = document.getElementById('itemNewTabCheckbox');
+    elItemNewTabCheckbox.checked =  await LocalStorageManager.getValue_async('itemNewTab', DefaultValues.itemNewTab);
+    elItemNewTabCheckbox.addEventListener('click', (e) => { this._itemNewTabCheckBoxClicked_event(e); });
+
+
     let elAlwaysOpenNewTabCheckbox = document.getElementById('alwaysOpenNewTabCheckbox');
     elAlwaysOpenNewTabCheckbox.checked =  await LocalStorageManager.getValue_async('alwaysOpenNewTab', DefaultValues.alwaysOpenNewTab);
     elAlwaysOpenNewTabCheckbox.addEventListener('click', (e) => { this._alwaysOpenNewTabCheckBoxClicked_event(e); });
@@ -22,10 +27,12 @@ class TabContentArea { /*exported TabContentArea*/
     elReuseDropFeedsTabCheckbox.checked =  await LocalStorageManager.getValue_async('reuseDropFeedsTab', DefaultValues.reuseDropFeedsTab);
     elReuseDropFeedsTabCheckbox.addEventListener('click', (e) => { this._reuseDropFeedsTabCheckboxClicked_event(e); });
     this._updateReuseDropFeedsCheckboxDisabled();
+    this._updateItemNewTabCheckboxDisabled();
   }
 
   _updateLocalizedStrings() {
     document.getElementById('textRenderFeeds').textContent = browser.i18n.getMessage('optRenderFeeds');
+    document.getElementById('textItemNewTab').textContent = browser.i18n.getMessage('optItemNewTab');
     document.getElementById('textAlwaysOpenNewTab').textContent = browser.i18n.getMessage('optAlwaysOpenNewTab');
     document.getElementById('textOpenNewTabForeground').textContent = browser.i18n.getMessage('optOpenNewTabForeground');
     document.getElementById('textReuseDropFeedsTab').textContent = browser.i18n.getMessage('optReuseDropFeedsTab');
@@ -33,6 +40,11 @@ class TabContentArea { /*exported TabContentArea*/
 
   async _renderFeedsCheckBoxClicked_event() {
     await LocalStorageManager.setValue_async('renderFeeds', document.getElementById('renderFeedsCheckbox').checked);
+    this._updateItemNewTabCheckboxDisabled();
+  }
+
+  async _itemNewTabCheckBoxClicked_event() {
+    await LocalStorageManager.setValue_async('itemNewTab', document.getElementById('itemNewTabCheckbox').checked);
   }
 
   async _alwaysOpenNewTabCheckBoxClicked_event() {
@@ -54,5 +66,13 @@ class TabContentArea { /*exported TabContentArea*/
     let elReuseDropFeedsDisabled = elAlwaysOpenNewTabCheckbox.checked;
     elReuseDropFeedsTabCheckbox.disabled = elReuseDropFeedsDisabled;
     CssManager.setElementEnableById('textReuseDropFeedsTab', !elReuseDropFeedsDisabled);
+  }
+
+  _updateItemNewTabCheckboxDisabled() {
+    let elRenderFeedsCheckbox = document.getElementById('renderFeedsCheckbox');
+    let elItemNewTabCheckbox = document.getElementById('itemNewTabCheckbox');
+    let elItemNewTabEnabled = elRenderFeedsCheckbox.checked;
+    elItemNewTabCheckbox.disabled = ! elItemNewTabEnabled;
+    CssManager.setElementEnableById('textItemNewTab', elItemNewTabEnabled);
   }
 }

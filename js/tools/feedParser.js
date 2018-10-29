@@ -1,4 +1,4 @@
-/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters USTools*/
+/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters USTools Listener ListenerProviders*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -18,6 +18,23 @@ const tagList = {
   AUTHOR: ['author', 'dc:creator'],
   PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
 };
+
+class RenderOptions {
+  static get instance() { return (this._instance = this._instance || new this()); }
+
+  constructor() {
+    this._itemNewTab = DefaultValues.itemNewTab;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemNewTab', (v) => { this._setItemNewTab_sbscrb(v); }, true);
+  }
+
+  _setItemNewTab_sbscrb(value){
+    this._itemNewTab = value;
+  }
+
+  get itemNewTab() {
+    return this._itemNewTab;
+  }
+}
 
 class FeedParser { /*exported FeedParser*/
   static parsePubdate(feedText) {
@@ -509,11 +526,12 @@ class FeedParser { /*exported FeedParser*/
     let htmlItem = '';
     let title = item.title;
     if (!title) { title = '(No Title)'; }
-    let error = (isError ? 'error' : '');
+    let error = (isError ? 'error' : '');    
     htmlItem += '    <div class="item">\n';
     htmlItem += '      <h2 class="itemTitle ' + error + '">\n';
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
-    htmlItem += '        <a href="' + item.link + '">' + title + '</a>\n';
+    let linkTarget = RenderOptions.instance.itemNewTab ? 'target="_blank" rel="noopener noreferrer"' : '';
+    htmlItem += '        <a ' + linkTarget + ' href="' + item.link + '">' + title + '</a>\n';
     htmlItem += '      </h2>\n';
     if (item.description) { htmlItem += '      <div class="itemDescription">' + item.description + ' </div>\n'; }
     htmlItem += '      <div class="itemInfo">\n';

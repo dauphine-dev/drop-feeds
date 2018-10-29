@@ -299,6 +299,9 @@
   "optRenderFeeds": {
     "message": "Afficher les flux"
   },
+  "optItemNewTab": {
+    "message": "Ourir les items dans un nouvel onglet"
+  },
   "optAlwaysOpenNewTab": {
     "message": "Toujours ouvrir dans un nouvel onglet"
   },

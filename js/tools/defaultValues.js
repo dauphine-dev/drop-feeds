@@ -33,6 +33,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get editorFontSize()                { return '14'; }
   static get editorTabSize()                 { return '4'; }
   static get filterEnabled()                 { return false; }
+  static get itemNewTab()                   { return false; }
 
   static get allowedTagList() {
     return [{'*':['style']}, {'a':['href', 'title']}, {'b':[]}, {'blockquote':[]}, {'br':[]}, {'cite':[]}, {'code':[]}, {'del':[]},

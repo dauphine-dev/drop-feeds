@@ -299,6 +299,9 @@
   "optRenderFeeds": {
     "message": "フィードを整形して表示する"
   },
+  "optItemNewTab": {
+    "message": "Open items on new tab"
+  },
   "optAlwaysOpenNewTab": {
     "message": "常に新しいタブで開く"
   },

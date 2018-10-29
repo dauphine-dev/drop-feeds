@@ -299,6 +299,9 @@
   "optRenderFeeds": {
     "message": "渲染订阅点"
   },
+  "optItemNewTab": {
+    "message": "Open items on new tab"
+  },
   "optAlwaysOpenNewTab": {
     "message": "始终新建标签页打开"
   },

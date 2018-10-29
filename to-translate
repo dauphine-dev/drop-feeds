@@ -1,2 +1,4 @@
-line;messageName;message
-38;sbFilter;Filter
+version;line;messageName;message
+0.9;38;sbFilter;Filter
+0.9;41;sbFilterClearButton;Clear filter
+0.9;302;optItemNewTab;Open items on new tag
