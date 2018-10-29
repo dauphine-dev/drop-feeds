@@ -4,6 +4,7 @@ Remove Unsafe assignment to innerHTML
 Remove Unsafe call to insertAdjacentHTML
 From the render window open items in new tab 
 Subscription window direct opening
+Open new tabs in same window as the parent feed
 
 0.9
 Add sidebar filter feature

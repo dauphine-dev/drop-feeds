@@ -117,7 +117,7 @@ class BrowserManager { /* exported BrowserManager*/
     }
 
     if (doCreate) {
-      await browser.tabs.create({ url: url, active: openNewTabForeground });
+      await browser.tabs.create({ url: url, active: openNewTabForeground,  windowId: activeTab.windowId});
     }
     else {
       await browser.tabs.update(targetTabId, { url: url, active: openNewTabForeground });
