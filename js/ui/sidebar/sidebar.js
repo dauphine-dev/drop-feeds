@@ -24,7 +24,6 @@ class SideBar { /*exported SideBar*/
     await FilterBar.instance.init_async();
     FeedManager.instance;
     ItemsPanel.instance;
-    ItemsPanel.instance.splitterBar.top = window.innerHeight / 2;
     TabManager.instance;
     document.getElementById('main').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
     this._addListeners();
