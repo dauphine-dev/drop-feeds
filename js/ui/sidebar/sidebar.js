@@ -1,4 +1,4 @@
-/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters
+/*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions
 ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog FilterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -14,6 +14,7 @@ class SideBar { /*exported SideBar*/
   async init_async() {
     await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
+    await RenderOptions.instance;
     await TreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
