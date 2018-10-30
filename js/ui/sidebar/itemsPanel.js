@@ -74,8 +74,8 @@ class ItemsPanel { /*exported ItemsPanel*/
 
   async _displayItems_async(itemList) {
     let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
-    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml);
-    //itemsHtml.length > 0 ? ItemsMenu.instance.enableButtons() : ItemsMenu.instance.disableButtons();
+    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml, true);
+
     if (itemsHtml.length > 0) {
       ItemsMenu.instance.enableButtons();
     }

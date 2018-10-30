@@ -33,7 +33,9 @@ class TreeView { /*exported TreeView*/
     this._displayRootFolder = this._getDisplayRootFolder(cacheLocalStorage);
     this._html = [];
     this._computeHtmlTree(cacheLocalStorage, this._rootBookmark, 10, this._displayRootFolder);
-    BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
+    this._html = this._html.slice(0, -3);
+    BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''), true);
+
     this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
@@ -291,7 +293,7 @@ class TreeView { /*exported TreeView*/
     let id = bookmarkItem.id;
     let folderName = bookmarkItem.title;
     let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
-    let checked = storedFolder.checked ? 'checked' : '';
+    let checked = storedFolder.checked ? 'checked=""' : '';
 
     let folderLine = '';
     folderLine += TextTools.makeIndent(indent);
@@ -306,7 +308,7 @@ class TreeView { /*exported TreeView*/
       indent += 2;
       folderLine += TextTools.makeIndent(indent) +
       '<li>' +
-      '<input type="checkbox" id=cb-' + id + ' ' + checked + '/>' +
+      '<input type="checkbox" id="cb-' + id + '" ' + checked + '>' +
       '<label for="cb-' + id + '" class="folderClose"></label>' +
       '<label for="cb-' + id + '" class="folderOpen"></label>' +
       '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '<span id="cpt-' + id + '"></span></label>\n';

@@ -47,6 +47,7 @@ class FilterBar { /*exported FilterBar*/
     try {
       let rootFolderId =  TreeView.instance.rootFolderUiId;
       let rootFolder = document.getElementById(rootFolderId);
+      if (!rootFolder) { return; }
       let feedElementList = [];
       if (filterText == '' ) { 
         feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));

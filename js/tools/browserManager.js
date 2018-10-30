@@ -164,31 +164,32 @@ class BrowserManager { /* exported BrowserManager*/
     return result;
   }
 
-  static setInnerHtmlByElement(element, textHtml, workWith1stNode) {
+  static setInnerHtmlByElement(element, textHtml, fixMissingTag) {
     BrowserManager.removeAllChild(element);
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
     element.appendChild(documentFragment);
   }
 
-  static setInnerHtmlById(id, textHtml, workWith1stNode) {
-    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, workWith1stNode);
+  static setInnerHtmlById(id, textHtml, fixMissingTag) {
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, fixMissingTag);
   }
 
-  static insertAdjacentHTMLBeforeEnd(element, textHtml, workWith1stNode) {
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, workWith1stNode);
+  static insertAdjacentHTMLBeforeEnd(element, textHtml, fixMissingTag) {
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
     element.appendChild(documentFragment);
   }
 
-  static textHtmlToDocumentFragment(textHtml, workWith1stNode) {
+  static textHtmlToDocumentFragment(textHtml, fixMissingTag) {
     let parser = new DOMParser();
     let documentFragment = document.createDocumentFragment();
-    let nodes = null;
+    let nodes = null;    
     if (TextTools.isNullOrEmpty(textHtml)) {
       nodes = document.createTextNode('');
     }
     else {
+      if (fixMissingTag) { textHtml = '<span>' + textHtml + '</span>'; }
       nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
-      if (!workWith1stNode) { nodes = nodes.childNodes[0]; }
+      nodes = nodes.childNodes[0];
     }
     documentFragment.appendChild(nodes);
     return documentFragment;
