@@ -1,5 +1,5 @@
-version;line;messageName;message
-0.9;38;sbFilter;Filter
-0.9;41;sbFilterClearButton;Clear filter
-0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.
-0.9;305;optItemNewTab;Open items on new tag
+version;line;messageName;message;where
+0.9;38;sbFilter;Filter;on the side bar top menu
+0.9;41;sbFilterClearButton;Clear filter;on filter bar
+0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.;on the subscribe window (but visible only on window closing error)
+0.9;305;optItemNewTab;Open items on new tag;in options / contents area
