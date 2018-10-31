@@ -59,7 +59,7 @@ class Subscribe {
   async _cancelButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._windowClose();
+    await this._windowClose_async();
   }
 
   async _subscribeButtonClicked_event() {
@@ -72,12 +72,12 @@ class Subscribe {
       console.log(e);
       /* eslint-enable no-console */
     }
-    this._windowClose();
+    await this._windowClose_async();
   }
 
-  _windowClose() {
+  async _windowClose_async() {
     try {
-      browser.windows.remove(this._subscribeInfoWinId);
+      await browser.windows.remove(this._subscribeInfoWinId);
     }
     catch (e) {
       document.getElementById('windowCloseError').style.visibility = 'visible';
