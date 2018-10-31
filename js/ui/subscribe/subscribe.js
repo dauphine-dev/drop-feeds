@@ -80,8 +80,8 @@ class Subscribe {
       await browser.windows.remove(this._subscribeInfoWinId);
     }
     catch (e) {
-      let win = await browser.windows.getCurrent();
       try {
+        let win = await browser.windows.getCurrent();
         await browser.windows.remove(win.id);
       }
       catch (e) {
