@@ -80,7 +80,13 @@ class Subscribe {
       await browser.windows.remove(this._subscribeInfoWinId);
     }
     catch (e) {
-      document.getElementById('windowCloseError').style.visibility = 'visible';
+      let win = await browser.windows.getCurrent();
+      try {
+        await browser.windows.remove(win.id);
+      }
+      catch (e) {
+        document.getElementById('windowCloseError').style.visibility = 'visible';
+      }
     }
   }
 
