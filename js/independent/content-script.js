@@ -24,6 +24,9 @@ class ContentManager {
     }
     catch (e) { }
     let isFeed = (feedHandler ? true : false);
+    if (!isFeed) {
+      isFeed = window.location.href.match(/rss|feed|atom|syndicate/i);
+    }
     if (isFeed) { ContentManager._addSubscribeButton(); }
     return isFeed;
   }
