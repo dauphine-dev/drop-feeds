@@ -221,12 +221,10 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle) {
-    console.log('displayItems:', displayItems);
     if (displayItems) {
       let title =  isUnified ? folderTitle : isSingle ? feed.title : folderTitle;
       let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
       let itemList = isUnified ? this._unifiedFeedItems : this._itemList;
-      console.log('this._itemList:\n', this._itemList);
       await ItemsPanel.instance.displayItems_async(title, titleLink, itemList);
     }
   }
