@@ -54,7 +54,7 @@ class Transfer { /*exported Transfer*/
             let utf8Decoder = new TextDecoder(defaultEncoding);
             let utf8Content = utf8Decoder.decode(response);
             try {
-              let encoding = FeedParser._getEncoding(utf8Content);
+              let encoding = FeedParser.getFeedEncoding(utf8Content);
               if (encoding && encoding != defaultEncoding) {
                 let decoder = new TextDecoder(encoding.toLowerCase());
                 let decodedContent = decoder.decode(response);

@@ -1,4 +1,4 @@
-/*global DefaultValues BrowserManager FeedParser SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -68,12 +68,12 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   _setTitle(title, titleLink) {
-    let titleHtml = FeedParser.parseItemsTitleToHtml(title, titleLink);
+    let titleHtml = FeedRenderer.renderItemsTitleToHtml(title, titleLink);
     BrowserManager.setInnerHtmlById('itemsTitle', titleHtml);
   }
 
   async _displayItems_async(itemList) {
-    let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
+    let itemsHtml = await FeedRenderer.renderItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
     BrowserManager.setInnerHtmlById('itemsPane', itemsHtml, true);
 
     if (itemsHtml.length > 0) {

@@ -1,4 +1,4 @@
-/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser LocalStorageManager TreeView UserScriptTools scriptVirtualProtocol*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer LocalStorageManager TreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
 
 const feedStatus = {
@@ -83,7 +83,7 @@ class Feed { /*exported Feed*/
     }
 
     //there is no error then get html from feed parsing
-    try { feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title); }
+    try { feedHtml = FeedRenderer.renderFeedToHtml(this._feedText, this._storedFeed.title); }
     catch (e) { this._error = e; }
     //if an error has occurred  during feed parsing then get html from the error
     if (this._error != null) {
@@ -93,8 +93,8 @@ class Feed { /*exported Feed*/
   }
 
   _getFeedHtmlFromError() {
-    this._feedText = FeedParser.feedErrorToHtml(this._error, this.url, this._storedFeed.title);
-    let feedHtml = FeedParser.parseFeedToHtml(this._feedText, this._storedFeed.title, true);
+    this._feedText = FeedRenderer.feedErrorToHtml(this._error, this.url, this._storedFeed.title);
+    let feedHtml = FeedRenderer.renderFeedToHtml(this._feedText, this._storedFeed.title, true);
     return feedHtml;
   }
 

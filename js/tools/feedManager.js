@@ -1,4 +1,4 @@
-/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedParser ItemsPanel LocalStorageManager*/
+/*global browser DefaultValues TopMenu StatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedRenderer ItemsPanel LocalStorageManager*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -254,7 +254,7 @@ class FeedManager { /*exported FeedManager*/
   }
 
   _getUnifiedDocUrl() {
-    let unifiedFeedHtml = FeedParser.feedItemsListToUnifiedHtml(this._unifiedFeedItems, this._unifiedChannelTitle);
+    let unifiedFeedHtml = FeedRenderer.feedItemsListToUnifiedHtml(this._unifiedFeedItems, this._unifiedChannelTitle);
     let unifiedFeedBlob = new Blob([unifiedFeedHtml]);
     let unifiedFeedHtmlUrl = URL.createObjectURL(unifiedFeedBlob);
     return unifiedFeedHtmlUrl;
