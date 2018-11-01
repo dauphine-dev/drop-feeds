@@ -150,7 +150,7 @@ class BrowserManager { /* exported BrowserManager*/
   static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.extension.getURL(ThemeManager.instance.iconDF96Url),
+      'iconUrl': browser.runtime.getURL(ThemeManager.instance.iconDF96Url),
       'title': 'Drop Feeds',
       'message': message
     });
@@ -227,7 +227,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async openPopup_async(dialogsUrl, width, height, titlePreface) {
-    let url = browser.extension.getURL(dialogsUrl);
+    let url = browser.runtime.getURL(dialogsUrl);
     let createData = { url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface };
     let win = await browser.windows.create(createData);
     BrowserManager._forcePopupToDisplayContent_async(win.id, width);
@@ -392,7 +392,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _getUILanguage_async() {
     let uiLanguage = 'en';
-    let langListUrl = browser.extension.getURL('/help/helpLang.list');
+    let langListUrl = browser.runtime.getURL('/help/helpLang.list');
     let langListText = await Transfer.downloadTextFile_async(langListUrl);
     let hepLangList = langListText.trim().split('\n');
     let browserLanguage = browser.i18n.getUILanguage();

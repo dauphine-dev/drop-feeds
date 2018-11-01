@@ -36,7 +36,7 @@ class UserScriptsManager { /* exported UserScriptsManager */
       type: scriptType.feedTransformer,
       urlMatch: DefaultValues.userScriptUrlMatch,
       urlRegEx: UserScriptsEditor.instance.matchPatternToRegExp(DefaultValues.userScriptUrlMatch).source,
-      virtualUrl: browser.extension.getURL('dropfeeds://' + scriptId),
+      virtualUrl: browser.runtime.getURL('dropfeeds://' + scriptId),
 
       lastEdit: Date.now()
     };

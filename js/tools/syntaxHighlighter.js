@@ -65,7 +65,7 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
   }
 
   async _loadSyntaxFile_async() {
-    let syntaxFileUrl = browser.extension.getURL(this._syntaxFilePath);
+    let syntaxFileUrl = browser.runtime.getURL(this._syntaxFilePath);
     let syntaxJson = await Transfer.downloadTextFile_async(syntaxFileUrl);
     let syntaxData = JSON.parse(syntaxJson);
     this._loadSyntaxCss(syntaxData.cssPath);

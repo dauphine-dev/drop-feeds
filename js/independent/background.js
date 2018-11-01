@@ -38,7 +38,7 @@ class BackgroundManager {
       browser.sidebarAction.close();
     }
     else {
-      let panelUrl = browser.extension.getURL(SIDEBAR_URL);
+      let panelUrl = browser.runtime.getURL(SIDEBAR_URL);
       browser.sidebarAction.setPanel({panel: panelUrl});
       browser.sidebarAction.open();
     }

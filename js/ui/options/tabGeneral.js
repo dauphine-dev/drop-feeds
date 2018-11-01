@@ -70,7 +70,7 @@ class TabGeneral { /*exported TabGeneral*/
   async _createThemeListHtml_async() {
     const folder_name = 0;
     const ui_name = 1;
-    let themeListUrl = browser.extension.getURL(ThemeManager.instance.themesListUrl);
+    let themeListUrl = browser.runtime.getURL(ThemeManager.instance.themesListUrl);
     let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
     let themeList = themeListText.trim().split('\n');
     let selectedThemeName = await ThemeManager.instance.themeFolderName;
