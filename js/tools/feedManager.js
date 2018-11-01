@@ -212,7 +212,7 @@ class FeedManager { /*exported FeedManager*/
         let unifiedDocUrl = self._getUnifiedDocUrl();
         let openNewTabForce = false;
         let isUnified=true; let feedNull = null;
-        await self._displayItems_async(displayItems, isSingle, isUnified, feedNull, folderTitle);
+        await self._displayItems_async(true, isSingle, isUnified, feedNull, folderTitle);
         await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
         self._processFeedsFinished();
@@ -221,10 +221,12 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle) {
+    console.log('displayItems:', displayItems);
     if (displayItems) {
       let title =  isUnified ? folderTitle : isSingle ? feed.title : folderTitle;
       let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
       let itemList = isUnified ? this._unifiedFeedItems : this._itemList;
+      console.log('this._itemList:\n', this._itemList);
       await ItemsPanel.instance.displayItems_async(title, titleLink, itemList);
     }
   }
