@@ -67,42 +67,42 @@ class Feed { /*exported Feed*/
     return this._error;
   }
 
-  get docUrl() {
-    let feedHtml = this._getFeedHtml();
+  async getDocUrl_async() {
+    let feedHtml = await this._getFeedHtml_async();
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
   }
 
-  _getFeedHtml() {
+  async _getFeedHtml_async() {
     let feedHtml = '';
     //if there is an error then get html from the error and return
     if (this._error != null) {
-      feedHtml = this._getFeedHtmlFromError();
+      feedHtml = await this._getFeedHtmlFromError_async();
       return feedHtml;
     }
 
     //there is no error then get html from feed parsing
-    try { feedHtml = FeedRenderer.renderFeedToHtml(this._feedText, this._storedFeed.title); }
+    try { feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title); }
     catch (e) { this._error = e; }
     //if an error has occurred  during feed parsing then get html from the error
     if (this._error != null) {
-      feedHtml = this._getFeedHtmlFromError();
+      feedHtml = await this._getFeedHtmlFromError_async();
     }
     return feedHtml;
   }
 
-  _getFeedHtmlFromError() {
+  async _getFeedHtmlFromError_async() {
     this._feedText = FeedRenderer.feedErrorToHtml(this._error, this.url, this._storedFeed.title);
-    let feedHtml = FeedRenderer.renderFeedToHtml(this._feedText, this._storedFeed.title, true);
+    let feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title, true);
     return feedHtml;
   }
 
 
-  get info() {
+  async getInfo_async() {
     if (this._info.hash != this._storedFeed.hash) {
       this._info.hash = this._storedFeed.hash;
-      this._info.info = FeedParser.getFeedInfo(this._feedText, this._storedFeed.title);
+      this._info.info = await FeedParser.getFeedInfo_async(this._feedText, this._storedFeed.title);
     }
     return this._info.info;
   }

@@ -2,7 +2,7 @@
 'use strict';
 
 class WorkerManager { /*exported WorkerManager*/
-  static async run_asyc(workerUrl, paramArray) {
+  static async run_async(workerUrl, paramArray) {
     workerUrl = browser.runtime.getURL(workerUrl);
     let workerCode = await Transfer.downloadTextFile_async(workerUrl);
     let workerBlob = new Blob([workerCode]);
@@ -22,7 +22,8 @@ class WorkerManager { /*exported WorkerManager*/
   }
 }
 
-/*
-let result = await WorkerManager.run_asyc('js/workers/wkTest.js', [10, 3]);
-console.log(result);
-*/
+class Wk {  /*exported Wk*/
+  static async replace_async(str, regexpOrSubstr, newSubstr) {
+    return await WorkerManager.run_async('js/workers/wkReplace.js', [str, regexpOrSubstr, newSubstr]);
+  }
+}

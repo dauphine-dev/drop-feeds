@@ -21,7 +21,7 @@ class DiscoverFeeds {
     await this._getDiscoverInfo_async();
     await this._getActiveTabFeedLinkList_async();
     await this._getFeedList_async();
-    await this._updateFeedList();
+    await this._updateFeedList_async();
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
@@ -81,10 +81,10 @@ class DiscoverFeeds {
 
   }
 
-  async _sortFeedList()  {
+  async _sortFeedList_async()  {
     for (let feed of this._feedList) {
-      // feed.info is not evaluated during sort (but with a delay), then compute it and then store it in the feed object
-      feed.tmpInfo = feed.info;
+      // feed.getInfo_async() is not evaluated during sort (but with a delay), then compute it and then store it in the feed object
+      feed.tmpInfo = await feed.getInfo_async();
     }
     this._feedList.sort((feed1, feed2) => {
       let feed1Num = 0;
@@ -126,20 +126,20 @@ class DiscoverFeeds {
     });
   }
 
-  _displayFeedList() {
+  async _displayFeedList_async() {
     let discoveredFeeds = browser.i18n.getMessage('disNoFeedsHaveBeenDiscovered');
     if (this._feedList.length > 0) {
 
       discoveredFeeds = browser.i18n.getMessage('disDiscovered') + ': ' + this._feedList.length + ' ' + browser.i18n.getMessage('disFeeds');
     }
     BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
-    let html = this._feedLinkInfoListToHtm();
+    let html = await this._feedLinkInfoListToHtm_async();
     BrowserManager.setInnerHtmlById('tableContent', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
     this._selectRaw(fstLine);
   }
 
-  _feedLinkInfoListToHtm() {
+  async _feedLinkInfoListToHtm_async() {
     let html = `
       <table>
       <thead>
@@ -154,7 +154,7 @@ class DiscoverFeeds {
       <tbody id="tableContent">`;
     let pos = 1;
     for (let feed of this._feedList) {
-      let feedInfo = feed.info;
+      let feedInfo = await feed.getInfo_async();
       let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString()  + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
       html += '<tr pos="' + pos++ + '">';
       html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
@@ -170,17 +170,17 @@ class DiscoverFeeds {
     return html;
   }
 
-  _updateFeedList() {
+  async _updateFeedList_async() {
     this._feedsToProcessTotal = this._feedsToProcessList.length;
     this._feedsToProcessCounter = this._feedsToProcessTotal;
     if (this._feedsToProcessList.length > 0) {
       while (this._feedsToProcessList.length > 0) {
         let feed = this._feedsToProcessList.shift();
-        this._updateFeed_async(feed);
+        await this._updateFeed_async(feed);
       }
     }
     else {
-      this._feedsUpdateDone();
+      await this._feedsUpdateDone_async();
     }
   }
 
@@ -191,7 +191,7 @@ class DiscoverFeeds {
     finally {
       this._feedReceived(feed);
       if (--this._feedsToProcessCounter == 0) {
-        this._feedsUpdateDone();
+        await this._feedsUpdateDone_async();
       }
     }
   }
@@ -202,10 +202,10 @@ class DiscoverFeeds {
     this._progressBar.value = progressValue;
   }
 
-  _feedsUpdateDone() {
+  async _feedsUpdateDone_async() {
     this._progressBar.value = 99;
-    this._sortFeedList();
-    this._displayFeedList();
+    await this._sortFeedList_async();
+    await this._displayFeedList_async();
     this._addTableRawClickEvents();
     this._progressBar.value = 100;
     this._progressBar.hide();

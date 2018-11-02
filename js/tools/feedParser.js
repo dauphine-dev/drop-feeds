@@ -99,15 +99,13 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-
-
-  static getFeedInfo(feedText, defaultTitle, isError) {
+  static async getFeedInfo_async(feedText, defaultTitle, isError) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
     feedInfo.isError = isError;
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     feedInfo.format = FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
-    feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
+    feedInfo.itemList = await FeedParser._parseItems_async(feedText, feedInfo.tagItem);
     return feedInfo;
   }
 
@@ -285,7 +283,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
 
-  static _parseItems(feedText, tagItem) {
+  static async _parseItems_async(feedText, tagItem) {
     if (!feedText) return null;
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let itemList = [];
@@ -298,7 +296,7 @@ class FeedParser { /*exported FeedParser*/
       item.link = FeedParser._getItemLink(itemText);
       item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
-      item.description = FeedParser._getDescription(itemText);
+      item.description = await FeedParser._getDescription_async(itemText);
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
       item.enclosure = FeedParser._getEnclosure(itemText);
@@ -405,11 +403,11 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-  static _getDescription(itemText) {
+  static async _getDescription_async(itemText) {
     let description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
     if (!description) { return ''; }
     description = FeedParser._fixDescriptionTags(description);
-    description = SecurityFilters.instance.applySecurityFilters(description);
+    description = await SecurityFilters.instance.applySecurityFilters_async(description);
     return description;
   }
 

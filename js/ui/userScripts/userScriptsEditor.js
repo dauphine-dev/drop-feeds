@@ -215,10 +215,10 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
     let scriptData = { id: this._scriptId, executedCallback: (v) => { this._onScriptExecuted(v); }, errorCallback: (e) => { this._onScriptError(e); } };
     await feed.update_async(scriptData);
-    let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList };
+    let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: (await feed.getInfo_async()).itemList };
     await browser.runtime.sendMessage({ key: 'displayItems', value: displayItemsValue });
     let openNewTabForce = false, openNewTabBackGroundForce = true;
-    BrowserManager.instance.openTab_async(feed.docUrl, openNewTabForce, openNewTabBackGroundForce);
+    BrowserManager.instance.openTab_async(await feed.getDocUrl_async(), openNewTabForce, openNewTabBackGroundForce);
   }
 
   _onScriptExecuted() {

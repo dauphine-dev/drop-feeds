@@ -166,8 +166,8 @@ class FeedManager { /*exported FeedManager*/
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       await feed.update_async();
-      let feedHtmlUrl = feed.docUrl;
-      self._itemList.push(... feed.info.itemList);
+      let feedHtmlUrl = await feed.getDocUrl_async();
+      self._itemList.push(... (await feed.getInfo_async()).itemList);
       let isUnified = false;
       await self._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
       StatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
@@ -197,7 +197,7 @@ class FeedManager { /*exported FeedManager*/
     try {
       StatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
       await feed.update_async();
-      self._unifiedFeedItems.push(...feed.info.itemList);
+      self._unifiedFeedItems.push(...(await feed.getInfo_async()).itemList);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus_async();
       StatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
@@ -223,7 +223,7 @@ class FeedManager { /*exported FeedManager*/
   async _displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle) {
     if (displayItems) {
       let title =  isUnified ? folderTitle : isSingle ? feed.title : folderTitle;
-      let titleLink = isSingle ? feed.info.channel.link : 'about:blank';
+      let titleLink = isSingle ? (await feed.getInfo_async()).channel.link : 'about:blank';
       let itemList = isUnified ? this._unifiedFeedItems : this._itemList;
       await ItemsPanel.instance.displayItems_async(title, titleLink, itemList);
     }

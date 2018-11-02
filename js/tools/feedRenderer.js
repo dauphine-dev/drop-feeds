@@ -19,8 +19,8 @@ class RenderOptions {
 
 class FeedRenderer { /*exported FeedRenderer*/ 
 
-  static renderFeedToHtml(feedText, defaultTitle, isError) {
-    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle, isError);
+  static async renderFeedToHtml_async(feedText, defaultTitle, isError) {
+    let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
     let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
     return feedHtml;
   }
