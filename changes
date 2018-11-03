@@ -6,6 +6,7 @@ Remove Unsafe call to insertAdjacentHTML
 From the render window open items in new tab 
 Subscription window direct opening
 Open new tabs in same window as the parent feed
+Fix selection bar position on scrollbar moved in  item panel
 
 0.8.6
 Adding security CSS filters
