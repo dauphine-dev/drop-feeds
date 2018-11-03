@@ -23,6 +23,10 @@ class SelectionBarItems { /*exported SelectionBarItems*/
     return this._selectedElement;
   }
 
+  refresh() {
+    this.put(this._selectedElement);
+  }
+
   _removeOld() {
     if (! this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
@@ -34,8 +38,10 @@ class SelectionBarItems { /*exported SelectionBarItems*/
     this._selectedElement = selectedElement;
     if (! this._selectedElement) { return; }
     this._selectedElement.style.color = 'white';
-    this._setTop();
-    this._selectionBarItemsElement.style.visibility = 'visible';
+    let y = this._setTop();
+    let elItemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
+    let minTop  = elItemsPaneTitleBar.offsetTop + elItemsPaneTitleBar.clientHeight;
+    this._selectionBarItemsElement.style.visibility = ( y >= minTop ? 'visible' : 'hidden');
     ItemsMenu.instance.enableButtonsForSingleElement();
   }
 
@@ -48,5 +54,6 @@ class SelectionBarItems { /*exported SelectionBarItems*/
     let elSelectionBar = this._selectionBarItemsElement;
     let y = Math.round(rectTarget.top) - ItemsPanel.instance.top + 6;
     elSelectionBar.style.top = y + 'px';
+    return y;
   }
 }
