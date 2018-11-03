@@ -184,7 +184,7 @@ class Feed { /*exported Feed*/
         feedUiItem.classList.add('feedError');
         break;
     }
-    TreeView.instance.selectionBarRefresh();
+    TreeView.instance.selectionBar.refresh();
     TreeView.instance.updateAllFolderCount();
   }
 

@@ -145,7 +145,7 @@ class TopMenu { /*exported TopMenu*/
     event.preventDefault();
     this._updatedFeedsVisible = !this._updatedFeedsVisible;
     await this.updatedFeedsSetVisibility_async();
-    TreeView.instance.selectionBarRefresh();
+    TreeView.instance.selectionBar.refresh();
   }
 
   async _toggleFoldersButtonClicked_event(event) {
@@ -163,7 +163,7 @@ class TopMenu { /*exported TopMenu*/
       storedFolder.checked = this._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }
-    TreeView.instance.selectionBarRefresh();
+    TreeView.instance.selectionBar.refresh();
   }
 
   async _addFeedButtonClicked_event(event) {

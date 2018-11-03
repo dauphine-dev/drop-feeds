@@ -70,10 +70,6 @@ class TreeView { /*exported TreeView*/
     this.updateAllFolderCount(force);
   }
 
-  selectionBarRefresh() {
-    this._selectionBar.refresh();
-  }
-
   async updateAllFolderCount(force) {
     if (this._showUpdatedFeedCount || force) {
       this._updateFolderCount(this._rootBookmark);
