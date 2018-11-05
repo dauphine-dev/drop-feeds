@@ -1,7 +1,7 @@
 html {
 	margin: 0;
 	font-family: verdana, sans-serif;
-	background: gainsboro;
+	background: black;
 }
 
 body
@@ -16,10 +16,10 @@ img, video {
 }
 
 .channelHead {
-	background: #E4ECEC !important;
+	background: #222224 !important;
 	margin: 0 0 32px 0;
 	border-radius: 5px;
-	border: 1px solid #A7A6AA;
+	border: 1px solid #303030;
 	padding: 10px;
 }
 
@@ -29,13 +29,13 @@ h1.channelTitle {
 
 a.channelLink  {
 	margin: 0;
-	color: #D64203;
+	color: maroon;
 	text-decoration: none;
 	font-weight: bold;
 }
 
 .channelDescription {
-	color: #405A5A;
+	color: gray;
 	font-size: 90%;
 	padding-left: 80px;
 	padding-right: 20px;
@@ -45,12 +45,12 @@ a.channelLink  {
 }
 
 div.item {
-	background: ghostwhite;
+	background: #323234;
 	border: 0;
-	border: 1px solid #97969A;
+	border: 1px solid #303030;
 	/*-moz-border-radius: 10px;*/
 	border-radius: 10px;
-	color: #333;
+	color: gainsboro;
 	font-size: 12px;
 	margin-bottom: 15px;
 	padding: 0px 10px 15px 20px;
@@ -63,8 +63,8 @@ div.item {
 
 .itemTitle
 {
-	border-bottom: 1px solid #ddd;
-	color: #000;
+	border-bottom: 1px solid #606060;
+	color: gainsboro;
 	display: block;
 	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
@@ -73,14 +73,56 @@ div.item {
 	padding: 0px 2.3em 0px 0px;
 }
 
-.itemTitle a
+.item a:link {
+  color: dodgerblue;
+  text-decoration-line: underline;
+}
+
+.item a:visited {
+  color: dodgerblue;
+  text-decoration-line: underline;
+}
+
+.item a:hover {
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.item  a:active {
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.itemTitle a:link
 {
-	color: #000;
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:visited
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:hover
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:visited
+{
+	color: gainsboro;
 	text-decoration: none;
 	font-weight: normal;
 }
 
 .itemNumber {
+    color: gainsboro;
 	padding-right: 5px;
 	font-weight: normal;
 }
@@ -104,7 +146,7 @@ div.item {
 }
 
 .itemPubDate {
-	background: #FAF4C8;
+	background: antiquewhite;
 	border: 1px solid #A7A6AA;
 	color : #777;
 	float: right;
