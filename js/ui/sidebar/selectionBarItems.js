@@ -1,4 +1,4 @@
-/*global ItemsPanel ItemsMenu*/
+/*global ItemsMenu*/
 'use strict';
 class SelectionBarItems { /*exported SelectionBarItems*/
   constructor() {
@@ -31,18 +31,19 @@ class SelectionBarItems { /*exported SelectionBarItems*/
     if (! this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
     this._selectionBarItemsElement.style.top = '0px';
-    this._selectedElement.style.color = '';
+    //this._selectedElement.style.color = '';
   }
 
   _putNew(selectedElement) {
     this._selectedElement = selectedElement;
     if (! this._selectedElement) { return; }
-    this._selectedElement.style.color = 'white';
+    //this._selectedElement.style.color = 'white';
     let y = this._setTop();
     let elItemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     let minTop  = elItemsPaneTitleBar.offsetTop + elItemsPaneTitleBar.clientHeight;
     this._selectionBarItemsElement.style.visibility = ( y >= minTop ? 'visible' : 'hidden');
-    ItemsMenu.instance.enableButtonsForSingleElement();
+    ItemsMenu.instance.enableButtonsForSingleElement();    
+    this._selectionBarItemsElement.innerText = selectedElement.innerText;
   }
 
   _selectedElementOnScrollEvent() {
@@ -51,7 +52,7 @@ class SelectionBarItems { /*exported SelectionBarItems*/
 
   _setTop() {
     let rectTarget = this._selectedElement.getBoundingClientRect();
-    let y = Math.round(rectTarget.top + 6);
+    let y = Math.round(rectTarget.top + 5);
     this._selectionBarItemsElement.style.top = y + 'px';
     return y;
   }

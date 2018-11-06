@@ -16,7 +16,7 @@ class FilterBar { /*exported FilterBar*/
   set enabled(enable) {
     this._filterEnabled = enable;
     document.getElementById('filterBar').style.display = enable ? '' : 'none';
-    SideBar.instance.setContentHeight();
+    SideBar.instance.resize();
     let filterText = enable ? document.getElementById('filterField').value : '';
     this._applyFilter(filterText);
     if (enable) {

@@ -54,12 +54,15 @@ class ItemsPanel { /*exported ItemsPanel*/
     this._markAllIPreviousItemsAsRead();
     await this._displayItems_async(items);
     ItemManager.instance.addItemClickEvents();
-    this.setContentHeight();
+    this.resize();
   }
 
-  setContentHeight() {
-    let height = Math.max(window.innerHeight - this._mainItemsPane.offsetTop - this._itemsPane.offsetTop, 0);
+  resize() {
+    let rec = this._itemsPane.getBoundingClientRect();
+    let height = Math.max(window.innerHeight - rec.top, 0);
     this._itemsPane.style.height = height + 'px';
+    this._itemsPane.style.width  = window.innerWidth + 'px';
+    ItemsPanel.instance.selectionBarItems.refresh();
   }
 
   _markAllIPreviousItemsAsRead() {
@@ -110,7 +113,7 @@ class ItemsPanel { /*exported ItemsPanel*/
 
   _setVisibility() {
     this._mainItemsPane.style.display = this._feedItemList ? 'block' : 'none';
-    SideBar.instance.setContentHeight();
+    SideBar.instance.resize();
   }
 
   _setTooltipsVisibility() {

@@ -1,4 +1,4 @@
-/*global browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar
+/*global  browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar CssManager
 ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
 const _dropfeedsId = 'dropfeedsId=';
@@ -39,6 +39,13 @@ class TreeView { /*exported TreeView*/
     this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
+
+    let contentHeight = await LocalStorageManager.getValue_async('contentHeight', window.innerHeight / 2);
+    if (contentHeight) {
+      this.setContentHeight(contentHeight);
+    }
+
+
   }
 
   get rootFolderId() {
@@ -48,13 +55,12 @@ class TreeView { /*exported TreeView*/
   async reload_async() {
     this._init();
     await this.load_async();
-    SideBar.instance.setContentHeight();
+    SideBar.instance.resize();
   }
 
   get selectionBar() {
     return this._selectionBar;
   }
-
 
   get rootFolderUiId() {
     return this._1stFolderDivId;
@@ -62,6 +68,23 @@ class TreeView { /*exported TreeView*/
 
   async _reload_sbscrb() {
     await this.reload_async();
+  }
+
+  resize() {
+    document.getElementById('treeView').style.width  = window.innerWidth + 'px';
+  }
+
+  setContentHeight(height) {
+    let contentEl = document.getElementById('content');
+    CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
+    let weirdOffsetWorkArround  = contentEl.offsetHeight - height;
+    CssManager.replaceStyle('.contentHeight', '  height:' + Math.max(height-weirdOffsetWorkArround, 0) + 'px;');
+    let rectContent = contentEl.getBoundingClientRect();
+    let maxHeight = Math.max(window.innerHeight - rectContent.top - document.getElementById('splitterBar').offsetHeight, 0);
+    if (contentEl.offsetHeight  > maxHeight) {
+      CssManager.replaceStyle('.contentHeight', '  height:' + maxHeight + 'px;');
+    }
+    LocalStorageManager.setValue_async('contentHeight', height);
   }
 
   _showUpdatedFeedCount_sbscrb(value) {

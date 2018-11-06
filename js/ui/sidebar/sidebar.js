@@ -32,7 +32,7 @@ class SideBar { /*exported SideBar*/
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    this.setContentHeight();
+    this.resize();
   }
 
   reloadOnce() {
@@ -65,7 +65,7 @@ class SideBar { /*exported SideBar*/
   }
 
   async _windowOnResize_event() {
-    this.setContentHeight();
+    this.resize();
   }
 
   _computeContentTop() {
@@ -75,18 +75,9 @@ class SideBar { /*exported SideBar*/
     this._contentTop = rect.bottom + 1;
   }
 
-  setContentHeight() {
-    /*
-    this._computeContentTop('this._contentTop:', this._contentTop);
-    /*
-    let rectSplitterBar = document.getElementById('splitterBar').getBoundingClientRect();
-    let height = Math.max(rectSplitterBar.top - this._contentTop - 1, 0);
-    * /
-
-    let height =  Math.round(Math.max(SplitterBar.instance.top - this._contentTop - 1, 0));
-    CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
-    console.log('height:', height);
-    */
+  resize() {
+    TreeView.instance.resize();
+    ItemsPanel.instance.resize();
   }
 }
 SideBar.instance.init_async();

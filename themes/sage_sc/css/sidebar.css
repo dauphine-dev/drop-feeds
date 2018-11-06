@@ -1,14 +1,22 @@
-body {
+html {
+  background-color: white;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	max-height: 100%;
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
-  background-color: white;
   line-height: 16px;
 }
 
 #content {
   margin-top: 1px;
-  padding-top: 7px;
+  margin-bottom: 0;
+  padding-top: 0;
   padding-left: 25px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -25,7 +33,6 @@ body {
 /* top menu */
 
 .topMenu {
-  display: block;
   background-color: #E8E8E8;
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -201,7 +208,6 @@ body {
 /* status bar*/
 
 #statusBar {
-  display: block;
   background-color: #E8E8E8;
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -233,7 +239,13 @@ body {
 }
 
 /* filter */
-#filterField {  
+
+#filterBar {
+  height: 30px;
+  line-height: 30px;  
+}
+
+#filterField {
   width: calc(100% - 26px);
 }
 
@@ -532,14 +544,8 @@ li {
 #mainItemsPane {
   display: none;
   background-color: #e8e8e8;
-  position: absolute;
   width: 100%;
   height: 100%;
-  z-index: -1;
-}
-
-#splitterBarFix {
-  background-color: #ffffff96;
 }
 
 #splitterBar {
@@ -548,6 +554,7 @@ li {
   height: 8px;
   background-color: #9D9D9D;
   border-style: none;
+  line-height: 8px;  
 }
 
 #itemsPaneTitleBar {
@@ -693,6 +700,16 @@ li {
 
 .item:hover {
   text-decoration: underline;
+}
+
+#selectionBarItems {
+  white-space: nowrap;
+  line-height: 1.5em;
+  font-size: 110%;
+  cursor: pointer;
+  font-weight: normal;
+  color:white;
+  z-index: 0;
 }
 
 /* new folder dialog */

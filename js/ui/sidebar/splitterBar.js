@@ -1,4 +1,4 @@
-/*global CssManager ItemsPanel LocalStorageManager*/
+/*global SideBar TreeView ItemsPanel LocalStorageManager*/
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -14,18 +14,10 @@ class SplitterBar { /*exported SplitterBar*/
   }
 
   async init_async() {
-    let topSplitterBar = await LocalStorageManager.getValue_async('splitterBarTop', window.innerHeight / 2);
-    if (topSplitterBar) {
-      this._resizeElements(topSplitterBar);
-    }
   }
 
-  get top() {
+  get instance() {
     return ItemsPanel.instance.top;
-  }
-
-  set top(value) {
-    this._resizeElements(value);
   }
 
   get height() {
@@ -43,22 +35,12 @@ class SplitterBar { /*exported SplitterBar*/
     event = event || window.event;
     this._newPos = this._startPos - event.clientY;
     this._startPos = event.clientY;
-    let top = Math.max(Math.min(ItemsPanel.instance.top - this._newPos, window.innerHeight - 80), 125);
-    this._resizeElements(top);
-    LocalStorageManager.setValue_async('splitterBarTop', top);
+    SideBar.instance.resize();
   }
 
   _closeDragElement_event() {
     document.onmouseup = null;
     document.onmousemove = null;
-  }
-
-  _resizeElements(topSplitterBar) {
-    /*
-    SideBar.instance.setContentHeight();
-    ItemsPanel.instance.top = topSplitterBar;
-    ItemsPanel.instance.setContentHeight();
-    */
   }
 
   async _splitterBarMouseup_event() {
@@ -74,16 +56,14 @@ class SplitterBar { /*exported SplitterBar*/
     if (!this._isResizing) { return; }
     let delta = this._lastDownY - event.clientY;
     this._lastDownY = event.clientY;
-    let contentEl = document.getElementById('content');
-    let height = Math.max(contentEl.offsetHeight - delta, 0);
-    CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
-    let weirdOffsetWorkArround  = contentEl.offsetHeight - height;
-    CssManager.replaceStyle('.contentHeight', '  height:' + Math.max(height-weirdOffsetWorkArround, 0) + 'px;');
-    let rectContent = contentEl.getBoundingClientRect();
-    let maxHeight = Math.max(window.innerHeight - rectContent.top - this._elSplitterBar.offsetHeight, 0);
-    if (contentEl.offsetHeight  > maxHeight) {
-      CssManager.replaceStyle('.contentHeight', '  height:' + maxHeight + 'px;');
-    }
+    this._resizeElements(delta);
+
+  }
+
+  _resizeElements(delta) {
+    let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
+    TreeView.instance.setContentHeight(height);
+    ItemsPanel.instance.resize();
   }
 
 }

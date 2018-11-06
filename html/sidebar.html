@@ -35,11 +35,11 @@
 </head>
 
 <body>
-  <div id="mainBoxTable" class="tableBox autoHeight"><!--2-->
-    <div id="mainRowGroup" class="rowGroupBox"><!--3-->
+  <div id="mainBoxTable" class="tableBox autoHeight">
+    <div id="mainRowGroup" class="rowGroupBox">
 
-      <div id="feedsLayoutRow" class="rowBox"><!--4-->
-        <div id="feedsLayoutCell" class="cellBox autoHeight"><!--5-->
+      <div id="feedsLayoutRow" class="rowBox">
+        <div id="feedsLayoutCell" class="cellBox autoHeight">
           <!-- Top menu -->
           <div id="topMenu" class="topMenu">
             <span id="checkFeedsButton" title="#Check feeds" class="checkFeedsButton topMenuItem"></span>
@@ -64,25 +64,23 @@
           </div>
 
           <!-- Tree view -->
-          <ul id="content" class="contentHeight">
-          </ul>
-
-          <!-- selection bar -->
-          <div id="selectionBar" class="selectionBar"></div> <!--24/-->
-
-        </div><!--/5-->
-      </div><!--/4-->
+          <div id="treeView" >
+            <ul id="content" class="contentHeight">
+            </ul>
+          </div>
+        </div>
+      </div>
 
 
       <!-- splitter bar -->
       <div class="rowBox"><!--31-->
-        <div id="splitterBar" class="cellBox"></div> <!--32/-->
-      </div><!--/31-->
+        <div id="splitterBar" class="cellBox"></div>
+      </div>
 
 
       <!-- Items panel -->
-      <div class="rowBox"><!--35-->
-        <div id="mainItemsPane" class="cellBox autoHeight"><!--36-->
+      <div class="rowBox">
+        <div id="mainItemsPane" class="cellBox autoHeight">
           <!-- items title bar -->
           <div id="itemsPaneTitleBar">
             <span id="itemsTitle"></span>
@@ -97,9 +95,6 @@
             <span id="itemOpenUnreadButton" title="#Open unread items in new tabs" class="topMenuItem"></span>
           </div>
           
-          <!-- selection bar items -->
-          <div id="selectionBarItems" class="selectionBar cellBox"></div>
-
           <!-- items pane -->
           <div id="itemsPane"></div>
 
@@ -108,7 +103,12 @@
       </div><!--/35-->
     </div><!--/3-->
   </div><!--/2-->
+  
+  <!-- selection bar -->
+  <div id="selectionBar" class="selectionBar"></div>
 
+  <!-- selection bar items -->
+  <div id="selectionBarItems" class="selectionBar cellBox"></div>
 
   <!-- Folder (fld)  context menu -->
   <div id="folderContextMenuId" class="contextMenuStyle">
