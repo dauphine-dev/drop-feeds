@@ -35,6 +35,12 @@
   "sbSubscriptionGo": {
     "message": "转至订阅页面"
   },
+  "sbFilter": {
+    "message": "Filter"
+  },
+  "sbFilterClearButton": {
+    "message": "Clear filter"
+  },
   "sbSubscriptionAdd": {
     "message": "订阅"
   },
@@ -148,6 +154,9 @@
   },
   "subNewFolder": {
     "message": "新建文件夹"
+  },
+  "subWindowCloseError": {
+    "message": "Drop feeds has failed to close the window, please close it manually."
   },
   "subCancel": {
     "message": "取消"
@@ -292,6 +301,9 @@
   },
   "optRenderFeeds": {
     "message": "渲染订阅点"
+  },
+  "optItemNewTab": {
+    "message": "Open items on new tab"
   },
   "optAlwaysOpenNewTab": {
     "message": "始终新建标签页打开"

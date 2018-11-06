@@ -1,0 +1,166 @@
+html {
+	margin: 0;
+	font-family: verdana, sans-serif;
+	background: black;
+}
+
+body
+{
+  width: 95%;
+  margin: 30px auto;
+}
+
+img, video {
+	height: auto;
+	max-width: 100%;
+}
+
+.channelHead {
+	background: #222224 !important;
+	margin: 0 0 32px 0;
+	border-radius: 5px;
+	border: 1px solid #303030;
+	padding: 10px;
+}
+
+h1.channelTitle {
+	margin: 0;
+}
+
+a.channelLink  {
+	margin: 0;
+	color: maroon;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.channelDescription {
+	color: gray;
+	font-size: 90%;
+	padding-left: 80px;
+	padding-right: 20px;
+	width: auto;
+	font-weight: bold;
+	margin: 0;
+}
+
+div.item {
+	background: #323234;
+	border: 0;
+	border: 1px solid #303030;
+	/*-moz-border-radius: 10px;*/
+	border-radius: 10px;
+	color: gainsboro;
+	font-size: 12px;
+	margin-bottom: 15px;
+	padding: 0px 10px 15px 20px;
+	position: relative;
+}
+
+.error {
+	background-color: #FF8888 !important;
+}
+
+.itemTitle
+{
+	border-bottom: 1px solid #606060;
+	color: gainsboro;
+	display: block;
+	font-family: arial, verdana, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+	min-height: 1.3em;
+	padding: 0px 2.3em 0px 0px;
+}
+
+.item a:link {
+  color: dodgerblue;
+  text-decoration-line: underline;
+}
+
+.item a:visited {
+  color: dodgerblue;
+  text-decoration-line: underline;
+}
+
+.item a:hover {
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.item  a:active {
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.itemTitle a:link
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:visited
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:hover
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:visited
+{
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemNumber {
+    color: gainsboro;
+	padding-right: 5px;
+	font-weight: normal;
+}
+
+.itemDescription {
+	margin: 0px;
+}
+
+.itemInfo {
+	margin: 10px;
+	font-size: x-small;
+	color: #242482;
+}
+
+.itemCat {
+	display: none;
+}
+
+.itemAuthor {
+	display: none;
+}
+
+.itemPubDate {
+	background: antiquewhite;
+	border: 1px solid #A7A6AA;
+	color : #777;
+	float: right;
+	font-size: 10px;
+	font-weight: bold;
+	line-height: 1.1em;
+	padding: 3px 5px 4px 5px;
+	position: absolute;
+	right: 1.5em;
+	text-align: center;
+	top: -1em;
+	width: 15em;
+}
+
+.itemAudioPlayer audio {
+    width: 50%;
+}

@@ -1,0 +1,157 @@
+html {
+  height: 100%;
+}
+
+body{
+  background-color: #e8e8e7;
+  padding: 0 0 0 10px;
+  margin: 0;
+  font-weight: normal;
+  overflow: hidden;
+	font-size: small;
+}
+
+.title{
+  text-align: center;
+  height: 15px;
+}
+
+#content {
+  margin-top: -1px;
+  padding-left: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 319px;
+  max-height: 320px;
+}
+
+#folderView{
+  background-color: white;
+  border: 1px solid #9d9d99;
+  width: 100%;
+  min-height: 319px;
+  max-height: 320px;
+}
+
+/* table */
+table {
+  width: 99%;
+  border-collapse: collapse;
+}
+td:first-child {
+  white-space: nowrap;
+}
+td:last-child {
+  width: 100%;
+}
+
+td {
+  padding-right: 10px;
+  /*border: 1px solid #ff0000;*/
+}
+
+tr>td {
+  padding-bottom: 4px;
+}
+/* other */
+#inputName {
+  white-space: nowrap;
+}
+
+.atTop {
+  vertical-align: text-top;
+}
+
+.atRight {
+  float:right;
+}
+
+.selected {
+  color: #FFFFFF;
+  background-color: #4a90d9;
+}
+.selected1 {
+  color: #FFFFFF;
+  background-color: #4a90d9;
+}
+
+.fieldText {
+  width:99%;
+  border: 1px solid #9d9d99;
+}
+
+.default{
+  padding: 4px 0 5px 0;
+  border: 1px solid #1d1d1d;
+}
+
+/* folders */
+input[type="checkbox"] {
+  display: none;
+}
+input ~ ul {
+  display: none;
+}
+input:checked ~ ul {
+  display: block;
+}
+input ~ .folderOpen {
+  display: none;
+}
+input:checked ~ .folderClose {
+  display: none;
+}
+input:checked ~ .folderOpen {
+  display: inline;
+}
+.folderOpen::before {
+  background-image: url(/themes/sage_sc/img/folder-open.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
+}
+.folderClose::before {
+  background-image: url(/themes/sage_sc/img/folder-closed.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content:"";
+  padding-right: 1px;
+  margin-top: -1px;
+}
+ul {
+  margin-left: -20px;
+}
+li {
+  display: block;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+/* new folder dialog */
+#newFolderDialog {
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  background-color: #e8e8e7;
+  border: 1px solid #9d9d99;
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 10px;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display:block;
+}
+

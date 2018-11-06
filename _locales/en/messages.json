@@ -35,6 +35,12 @@
   "sbSubscriptionGo": {
     "message": "Go to subscription page"
   },
+  "sbFilter": {
+    "message": "Filter"
+  },  
+  "sbFilterClearButton": {
+    "message": "Clear filter"
+  },
   "sbSubscriptionAdd": {
     "message": "Subscribe"
   },
@@ -148,6 +154,9 @@
   },
   "subNewFolder": {
     "message": "New folder"
+  },
+  "subWindowCloseError": {
+    "message": "Drop feeds has failed to close the window, please close it manually."
   },
   "subCancel": {
     "message": "Cancel"
@@ -292,6 +301,9 @@
   },
   "optRenderFeeds": {
     "message": "Render feeds"
+  },
+  "optItemNewTab": {
+    "message": "Open items on new tab"
   },
   "optAlwaysOpenNewTab": {
     "message": "Always open new tab"

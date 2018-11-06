@@ -12,7 +12,7 @@ class SplitterBar { /*exported SplitterBar*/
   }
 
   async init_async() {
-    let topSplitterBar =  await LocalStorageManager.getValue_async('splitterBarTop');
+    let topSplitterBar =  await LocalStorageManager.getValue_async('splitterBarTop', window.innerHeight / 2);
     if (topSplitterBar) {
       this._resizeElements(topSplitterBar);
     }

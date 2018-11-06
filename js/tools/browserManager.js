@@ -15,7 +15,7 @@ const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
-  static get baseFeedUrl() { return (this._baseFeedUrl = this._baseFeedUrl || BrowserManager._getBaseFeedUrl()); } 
+  static get baseFeedUrl() { return (this._baseFeedUrl = this._baseFeedUrl || BrowserManager._getBaseFeedUrl()); }
 
   constructor() {
     this._alwaysOpenNewTab = DefaultValues.alwaysOpenNewTab;
@@ -31,7 +31,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   async init_async() {
-    //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onlad event
+    //this._version = await BrowserManager._getBrowserVersion_async(); //it was broken the windows.onload event
     this._uiLanguage = await BrowserManager._getUILanguage_async();
   }
 
@@ -117,7 +117,7 @@ class BrowserManager { /* exported BrowserManager*/
     }
 
     if (doCreate) {
-      await browser.tabs.create({ url: url, active: openNewTabForeground });
+      await browser.tabs.create({ url: url, active: openNewTabForeground,  windowId: activeTab.windowId});
     }
     else {
       await browser.tabs.update(targetTabId, { url: url, active: openNewTabForeground });
@@ -164,18 +164,42 @@ class BrowserManager { /* exported BrowserManager*/
     return result;
   }
 
-  static setInnerHtmlByElement(element, innerHTML) {
-    element.innerHTML = innerHTML;
+  static setInnerHtmlByElement(element, textHtml, fixMissingTag) {
+    BrowserManager.removeAllChild(element);
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
+    element.appendChild(documentFragment);
   }
 
-  static setInnerHtmlById(id, innerHTML) {
-    BrowserManager.setInnerHtmlByElement(document.getElementById(id), innerHTML);
+  static setInnerHtmlById(id, textHtml, fixMissingTag) {
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, fixMissingTag);
   }
 
-  static insertAdjacentHTML(element, position, text) {
-    element.insertAdjacentHTML(position, text);
+  static insertAdjacentHTMLBeforeEnd(element, textHtml, fixMissingTag) {
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
+    element.appendChild(documentFragment);
   }
 
+  static textHtmlToDocumentFragment(textHtml, fixMissingTag) {
+    let parser = new DOMParser();
+    let documentFragment = document.createDocumentFragment();
+    let nodes = null;    
+    if (TextTools.isNullOrEmpty(textHtml)) {
+      nodes = document.createTextNode('');
+    }
+    else {
+      if (fixMissingTag) { textHtml = '<span>' + textHtml + '</span>'; }
+      nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
+      nodes = nodes.childNodes[0];
+    }
+    documentFragment.appendChild(nodes);
+    return documentFragment;
+  }
+
+  static removeAllChild(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
 
   static loadScript(url, callback) {
     let script = document.createElement('script');
@@ -187,7 +211,8 @@ class BrowserManager { /* exported BrowserManager*/
 
   static htmlToText(html) {
     let tmpDiv = document.createElement('div');
-    BrowserManager.setInnerHtmlByElement(tmpDiv, html);
+    let textNode = document.createTextNode(html);
+    tmpDiv.appendChild(textNode);
     let text = tmpDiv.textContent || tmpDiv.innerText || '';
     text = TextTools.replaceAll(text, '"', '&quot;');
     return text;
@@ -325,6 +350,19 @@ class BrowserManager { /* exported BrowserManager*/
       document.head.appendChild(editorScript);
     }
   }
+
+  static querySelectorAllOnTextContent(refElement, selector, text, contains) {
+    let elements = refElement.querySelectorAll(selector);
+    return [].filter.call(elements, (element) => {
+      if (contains) {
+        return RegExp(text, 'i').test(element.textContent);
+      }
+      else {
+        return !RegExp(text, 'i').test(element.textContent);
+      }
+    });
+  }
+
 
   //private stuffs
   _setAlwaysOpenNewTab_sbscrb(value) {

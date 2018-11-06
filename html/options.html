@@ -1,211 +1,233 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link href="/themes/_any/css/options.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png"/>
-    <title>#Drop Feeds (options)</title>
-    <script src="/js/tools/defaultValues.js"></script>
-    <script src="/js/tools/browserManager.js"></script>
-    <script src="/js/tools/textTools.js"></script>
-    <script src="/js/tools/localStorageManager.js"></script>
-    <script src="/js/tools/dateTime.js"></script>
-    <script src="/js/tools/transfer.js"></script>
-    <script src="/js/tools/themeManager.js"></script>
-    <script src="/js/tools/listener.js"></script>
-    <script src="/js/tools/progressBar.js"></script>
-    <script src="/js/tools/itemSorter.js"></script>
-    <script src="/js/tools/cssManager.js"></script>
-  </head>
 
-  <body>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_any/css/options.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <title>#Drop Feeds (options)</title>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/browserManager.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/progressBar.js"></script>
+  <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+</head>
 
-    <div class="tab">
-      <button class="tabLinks" id="generalTabButton" target="generalTab">#General</button>
-      <button class="tabLinks" id="updateCheckerTabButton" target= "updateCheckerTab">#Update checker</button>
-      <button class="tabLinks" id="viewItemsButton" target= "viewItems">#Items</button>
-      <button class="tabLinks" id="viewTabButton" target= "viewTab">#View</button>
-      <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
-      <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
-      <button class="tabLinks" id="scriptsTabButton" target="scriptsTab">#Advanced</button>
-    </div>
+<body>
 
-    <!-- ~~~~~~ Tab General ~~~~~~ -->
-    <div id="generalTab" class="tabContent" style="display: block;">
-      <table>
-        <tr>
-          <td>
-            <label id="lblSelectFeedFolder">#Select feed folder</label><span>&nbsp;</span>
-          </td>
-          <td>
-            <div id ="feedList">
-              <!--
+  <div class="tab">
+    <button class="tabLinks" id="generalTabButton" target="generalTab">#General</button>
+    <button class="tabLinks" id="updateCheckerTabButton" target="updateCheckerTab">#Update checker</button>
+    <button class="tabLinks" id="viewItemsButton" target="viewItems">#Items</button>
+    <button class="tabLinks" id="viewTabButton" target="viewTab">#View</button>
+    <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
+    <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
+    <button class="tabLinks" id="scriptsTabButton" target="scriptsTab">#Advanced</button>
+  </div>
+
+  <!-- ~~~~~~ Tab General ~~~~~~ -->
+  <div id="generalTab" class="tabContent" style="display: block;">
+    <table>
+      <tr>
+        <td>
+          <label id="lblSelectFeedFolder">#Select feed folder</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <div id="feedList">
+            <!--
               <select id="feedFolderSelect">
                 <option value="bookmarkId1">bookmarkTitle1</option>
               </select>
               -->
-            </div>
-          </td>
-          <td>
-            <button id="applySelectedFeedButton" style="display:none">#Apply</button>
-          </td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">#Do not display root folder</span></td>
-          <td/><td/>
-        </tr>
-        <tr>
-          <td>
-            <label id="lblSelectTheme">#Select theme</label><span>&nbsp;</span>
-          </td>
-          <td>
-            <div id ="themeList">
-              <!--
+          </div>
+        </td>
+        <td>
+          <button id="applySelectedFeedButton" style="display:none">#Apply</button>
+        </td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">#Do
+            not display root folder</span></td>
+        <td />
+        <td />
+      </tr>
+      <tr>
+        <td>
+          <label id="lblSelectTheme">#Select theme</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <div id="themeList">
+            <!--
               <select id="themeSelect">
                 <option value="themeName1">themeName1</option>
               </select>
               -->
-            </div>
-          </td>
-          <td></td>
-        </tr>
+          </div>
+        </td>
+        <td></td>
+      </tr>
 
-        <tr>
-          <td>
-            <label id="feedItemOrder">#Feed item order</label><span>&nbsp;</span>
-          </td>
-          <td>
-            <select id="feedItemOrderSelect">
-              <option id="newerFirst" value="newerFirst">#Newer first</option>
-              <option id ="olderFirst" value="olderFirst">#Older first</option>
-              <option id ="original" value="original">#Original</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
+      <tr>
+        <td>
+          <label id="feedItemOrder">#Feed item order</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <select id="feedItemOrderSelect">
+            <option id="newerFirst" value="newerFirst">#Newer first</option>
+            <option id="olderFirst" value="olderFirst">#Older first</option>
+            <option id="original" value="original">#Original</option>
+          </select>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
 
-    <!-- ~~~~~~ Tab Update checker ~~~~~~ -->
-    <div id="updateCheckerTab" class="tabContent">
-      <table>
-        <tr>
-          <td><label id="lblTimeout">#Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">#seconds</span></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">#Asynchronous feed checking</span></td>
-        </tr>
-        <tr>
-           <td>
-                <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span id="txtAutoFeedUpdatesEvery" class="checkboxText">#Automatic feed updates every</span>
-                <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span id="txtMinutes" class="checkboxText">#minutes</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" id="automaticFeedUpdatesOnStartCheckbox"><span id="txtAutoFeedUpdatesOnStart" class="checkboxText">#Run an automatic feed update on start</span>
-           </td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">#Show notification popup after update</span></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">#If https failed then retry with http</span></td>
-        </tr>
-      </table>
-    </div>
-    <!-- ~~~~~~ Tab Items ~~~~~~ -->
-    <div id="viewItems" class="tabContent">
-      <table>
-        <tr>
-          <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item list</span></td>
-          <td><input type="checkbox" id="feedItemListToolbarCheckbox" ><span id="textFeedItemListToolbar" class="checkboxText" >#Feed item list toolbar<small>(*)</small></span></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span></td>
-          <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving feeds</span></td>
-        </tr>
-      </table>
-      <small><br/></small>
-      <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation history !</small>
-    </div>
-    <!-- ~~~~~~ Tab view ~~~~~~ -->
-    <div id="viewTab" class="tabContent">
-      <table>
-        <tr>
-          <td><input type="checkbox" id="showUpdatedFeedCountCheckbox"><span id="textShowUpdatedFeedCount" class="checkboxText">#Show updated feed count</span></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">#Show errors as unread</span></td>
-        </tr>
-      </table>
-    </div>
-    <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
-    <div id="contentsAreaTab" class="tabContent">
-      <table>
-        <tr>
-          <td>
-            <input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></span>
-            <span><input type="checkbox" id="reuseDropFeedsTabCheckbox"><span id="textReuseDropFeedsTab" class="checkboxText">#Reuse Drop Feeds tab</span></span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">#Open new tab in foreground</span>
-          </td>
-        </tr>
-      </table>
-    </div>
+  <!-- ~~~~~~ Tab Update checker ~~~~~~ -->
+  <div id="updateCheckerTab" class="tabContent">
+    <table>
+      <tr>
+        <td><label id="lblTimeout">#Timeout</label><input type="number" id="timeoutNumber" step="1" min="1" max="999"><span id="txtSeconds" class="checkboxText">#seconds</span></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="asynchronousFeedCheckingCheckbox"><span id="textAsynchronousFeedChecking" class="checkboxText">#Asynchronous feed checking</span></td>
+      </tr>
+      <tr>
+        <td>
+          <input type="checkbox" id="automaticFeedUpdatesCheckbox"><span id="txtAutoFeedUpdatesEvery" class="checkboxText">#Automatic feed updates every</span>
+          <input type="number" id="automaticFeedUpdateMinutesNumber" step="5" min="5" max="1440"><span id="txtMinutes" class="checkboxText">#minutes</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="automaticFeedUpdatesOnStartCheckbox"><span id="txtAutoFeedUpdatesOnStart" class="checkboxText">#Run an automatic feed update on start</span></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">#Show notification popup after update</span></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">#If https failed then retry with http</span></td>
+      </tr>
+    </table>
+  </div>
+  <!-- ~~~~~~ Tab Items ~~~~~~ -->
+  <div id="viewItems" class="tabContent">
+    <table>
+      <tr>
+        <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed
+            item list</span></td>
+        <td><input type="checkbox" id="feedItemListToolbarCheckbox"><span id="textFeedItemListToolbar" class="checkboxText">#Feed
+            item list toolbar<small>(*)</small></span></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description
+            tooltips</span></td>
+        <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving"
+            class="checkboxText">#Mark all items as read before leaving feeds</span></td>
+      </tr>
+    </table>
+    <small><br /></small>
+    <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation
+      history !</small>
+  </div>
+  <!-- ~~~~~~ Tab view ~~~~~~ -->
+  <div id="viewTab" class="tabContent">
+    <table>
+      <tr>
+        <td><input type="checkbox" id="showUpdatedFeedCountCheckbox"><span id="textShowUpdatedFeedCount" class="checkboxText">#Show
+            updated feed count</span></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">#Show
+            errors as unread</span></td>
+      </tr>
+    </table>
+  </div>
+  <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
+  <div id="contentsAreaTab" class="tabContent">
+    <table>
+      <tr>
+        <td>
+          <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span></span>
+          <span><input type="checkbox" id="itemNewTabCheckbox"><span id="textItemNewTab" class="checkboxText">#Open items on new page</span></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></span>
+          <span><input type="checkbox" id="reuseDropFeedsTabCheckbox"><span id="textReuseDropFeedsTab" class="checkboxText">#Reuse Drop Feeds tab</span></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">#Open
+            new tab in foreground</span>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-    <!-- ~~~~~~ Tab Management ~~~~~~ -->
-    <div id="managementTab" class="tabContent">
-      <table>
-        <tr>
-          <td><label id="lblSelectOpmlFileToImport">#Select the opml file to import</label></td>
-          <td>
-            <input type="file" accept=".opml" id="inputImportFile"/>
-            <button id="importButton">#Import...</button>
-          </td>
-          <td><div id="progressBarImportTotal" class="progressBarTotal"><div id = "progressBarImport" class="progressBarValue" style="width:0">0%</div></div></td>
-        </tr>
-        <tr>
-          <td><label id="lblSelectOpmlFileToExport">#Select where to export the opml file</label></td>
-          <td><button id="exportButton">#Export...</button></td>
-          <td><div id="progressBarExportTotal"  class="progressBarTotal"><div id = "progressBarExport" class="progressBarValue" style="width:0">0%</div></div></td>
-        </tr>
-      </table>
-    </div>
+  <!-- ~~~~~~ Tab Management ~~~~~~ -->
+  <div id="managementTab" class="tabContent">
+    <table>
+      <tr>
+        <td><label id="lblSelectOpmlFileToImport">#Select the opml file to import</label></td>
+        <td>
+          <input type="file" accept=".opml" id="inputImportFile" />
+          <button id="importButton">#Import...</button>
+        </td>
+        <td>
+          <div id="progressBarImportTotal" class="progressBarTotal">
+            <div id="progressBarImport" class="progressBarValue" style="width:0">0%</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><label id="lblSelectOpmlFileToExport">#Select where to export the opml file</label></td>
+        <td><button id="exportButton">#Export...</button></td>
+        <td>
+          <div id="progressBarExportTotal" class="progressBarTotal">
+            <div id="progressBarExport" class="progressBarValue" style="width:0">0%</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-    <!-- ~~~~~~ Tab advanced ~~~~~~ -->
-    <div id="scriptsTab" class="tabContent">
-      <table>
-        <tr>
-          <td><label id="lblScriptManager">#Open script manager</label></td>
-          <td>
-            &nbsp;<button id="scriptManagerButton">#Script manager...</button>
-          </td>
-        </tr>
-        <tr>
-          <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
-          <td>
-            &nbsp;<button id="securityFilterButton">#Security filter settings...</button>
-          </td>
-        </tr>
-      </table>
-    </div>
+  <!-- ~~~~~~ Tab advanced ~~~~~~ -->
+  <div id="scriptsTab" class="tabContent">
+    <table>
+      <tr>
+        <td><label id="lblScriptManager">#Open script manager</label></td>
+        <td>
+          &nbsp;<button id="scriptManagerButton">#Script manager...</button>
+        </td>
+      </tr>
+      <tr>
+        <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
+        <td>
+          &nbsp;<button id="securityFilterButton">#Security filter settings...</button>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-    <script src="/js/ui/options/tabAdvanced.js"></script>
-    <script src="/js/ui/options/tabView.js"></script>
-    <script src="/js/ui/options/tabItems.js"></script>
-    <script src="/js/ui/options/opmlExporter.js"></script>
-    <script src="/js/ui/options/opmlImporter.js"></script>
-    <script src="/js/ui/options/tabManagement.js"></script>
-    <script src="/js/ui/options/tabContentArea.js"></script>
-    <script src="/js/ui/options/tabUpdateChecker.js"></script>
-    <script src="/js/ui/options/tabGeneral.js"></script>
-    <script src="/js/ui/options/allTabsControl.js"></script>
-    <script src="/js/ui/options/options.js"></script>
-  </body>
+  <script src="/js/ui/options/tabAdvanced.js"></script>
+  <script src="/js/ui/options/tabView.js"></script>
+  <script src="/js/ui/options/tabItems.js"></script>
+  <script src="/js/ui/options/opmlExporter.js"></script>
+  <script src="/js/ui/options/opmlImporter.js"></script>
+  <script src="/js/ui/options/tabManagement.js"></script>
+  <script src="/js/ui/options/tabContentArea.js"></script>
+  <script src="/js/ui/options/tabUpdateChecker.js"></script>
+  <script src="/js/ui/options/tabGeneral.js"></script>
+  <script src="/js/ui/options/allTabsControl.js"></script>
+  <script src="/js/ui/options/options.js"></script>
+</body>
+
 </html>

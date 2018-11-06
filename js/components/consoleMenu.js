@@ -27,7 +27,7 @@ class ConsoleMenu { /*exported ConsoleMenu*/
       <li id="ctxConsoleCopy" class="ctxMenuItem">#Copy text console</li>
     </ul>`;
 
-    BrowserManager.insertAdjacentHTML(this._baseElement, 'beforeend', htmlString);
+    BrowserManager.insertAdjacentHTMLBeforeEnd(this._baseElement, htmlString);
     this.hide();
   }
 

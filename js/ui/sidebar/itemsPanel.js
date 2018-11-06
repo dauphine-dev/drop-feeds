@@ -20,6 +20,7 @@ class ItemsPanel { /*exported ItemsPanel*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
+    this._itemsPane.addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
   get top() {
@@ -74,8 +75,8 @@ class ItemsPanel { /*exported ItemsPanel*/
 
   async _displayItems_async(itemList) {
     let itemsHtml = await FeedParser.parseItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
-    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml);
-    //itemsHtml.length > 0 ? ItemsMenu.instance.enableButtons() : ItemsMenu.instance.disableButtons();
+    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml, true);
+
     if (itemsHtml.length > 0) {
       ItemsMenu.instance.enableButtons();
     }
@@ -119,5 +120,8 @@ class ItemsPanel { /*exported ItemsPanel*/
   _setToolbarVisibility() {
     this._itemsPaneToolBar.style.display = this._feedItemListToolbar ? 'block' : 'none';
   }
-
+  
+  async _contentOnScroll_event(){
+    ItemsPanel.instance.selectionBarItems.refresh();
+  }
 }

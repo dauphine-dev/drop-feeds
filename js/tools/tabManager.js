@@ -24,7 +24,7 @@ class TabManager { /*exported TabManager*/
     }
     else {
       TopMenu.instance.discoverFeedsButtonEnabled = false;
-      await TopMenu.instance.setFeedButton_async(false, subType.go);
+      await TopMenu.instance.setFeedButton_async(false, subType.add);
     }
   }
 
@@ -32,7 +32,7 @@ class TabManager { /*exported TabManager*/
     this._activeTabFeedLinkList = [];
     let enabled = (tabInfo.status == 'complete' && !tabInfo.url.startsWith('about:'));
     TopMenu.instance.discoverFeedsButtonEnabled = enabled;
-    await TopMenu.instance.setFeedButton_async(false, subType.go);
+    await TopMenu.instance.setFeedButton_async(false, subType.add);
     if (tabInfo.status == 'complete') {
       this._activeTabFeedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       let activeTabIsFeed  = await BrowserManager.activeTabIsFeed_async();
@@ -52,8 +52,8 @@ class TabManager { /*exported TabManager*/
   }
 
   async _subscriptionGoEnabled_async(tabInfo) {
-    await TopMenu.instance.setFeedButton_async(true, subType.go);
-    BrowserManager.showPageAction(tabInfo, true, subType.go);
+    await TopMenu.instance.setFeedButton_async(true, subType.add);
+    BrowserManager.showPageAction(tabInfo, true, subType.add);
     browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.feedListUrl});
   }
 
@@ -61,12 +61,11 @@ class TabManager { /*exported TabManager*/
     await TopMenu.instance.setFeedButton_async(true, subType.add);
     BrowserManager.showPageAction(tabInfo, true, subType.add);
     await browser.pageAction.setPopup({ tabId: tabInfo.id, popup: Dialogs.subscribeButtonUrl});
-    //browser.pageAction.openPopup();
   }
 
   async _subscriptionDisabled_async(tabInfo) {
-    await TopMenu.instance.setFeedButton_async(false, subType.go);
-    BrowserManager.showPageAction(tabInfo, false, subType.go);
+    await TopMenu.instance.setFeedButton_async(false, subType.add);
+    BrowserManager.showPageAction(tabInfo, false, subType.add);
   }
 
   async _forceTabOnChanged_async() {

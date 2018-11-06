@@ -1,7 +1,7 @@
 html {
 	margin: 0;
 	font-family: verdana, sans-serif;
-	background: -moz-Dialog;
+	background: gainsboro;
 }
 
 body
@@ -45,7 +45,7 @@ a.channelLink  {
 }
 
 div.item {
-	background: White;
+	background: ghostwhite;
 	border: 0;
 	border: 1px solid #97969A;
 	/*-moz-border-radius: 10px;*/
