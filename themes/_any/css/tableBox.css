@@ -1,0 +1,39 @@
+.tableBox {
+  vertical-align: top;
+  display: table;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  width: 0;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+}
+
+.rowGroupBox {
+  vertical-align: top;
+  display: table-row-group;
+}
+
+.rowBox {
+	vertical-align: top;
+	display: table-row;
+}
+
+.cellBox {
+  vertical-align: top;
+  display: table-cell;
+}
+
+.headerGroupBox {
+  vertical-align: top;
+  display: table-header-group;
+}
+
+.footerGroupBox {
+  vertical-align: top;
+  display: table-footer-group;
+}
+
+.autoHeight {
+  height: 0;
+}

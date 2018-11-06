@@ -1,5 +1,5 @@
 /*global ThemeManager TopMenu LocalStorageManager CssManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions
-ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog FilterBar*/
+ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog FilterBar SplitterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -26,7 +26,7 @@ class SideBar { /*exported SideBar*/
     FeedManager.instance;
     ItemsPanel.instance;
     TabManager.instance;
-    document.getElementById('main').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
+    document.getElementById('mainBoxTable').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
     this._addListeners();
     TreeView.instance.selectionBar.refresh();
     this._computeContentTop();
@@ -37,7 +37,7 @@ class SideBar { /*exported SideBar*/
 
   reloadOnce() {
     //Workaround to have a clean display on 1st start.
-    let doReload = ! sessionStorage.getItem('hasAlreadyReloaded');
+    let doReload = !sessionStorage.getItem('hasAlreadyReloaded');
     if (doReload) {
       sessionStorage.setItem('hasAlreadyReloaded', true);
       window.location.reload();
@@ -50,9 +50,9 @@ class SideBar { /*exported SideBar*/
 
   async openSubscribeDialog_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: tabInfo.title, feedUrl: tabInfo.url});
+    await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: tabInfo.title, feedUrl: tabInfo.url });
     let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
-    await LocalStorageManager.setValue_async('subscribeInfoWinId', {winId: win.id});
+    await LocalStorageManager.setValue_async('subscribeInfoWinId', { winId: win.id });
   }
 
   _addListeners() {
@@ -60,7 +60,7 @@ class SideBar { /*exported SideBar*/
     document.getElementById('content').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
-  async _contentOnScroll_event(){
+  async _contentOnScroll_event() {
     TreeView.instance.selectionBar.refresh();
   }
 
@@ -69,16 +69,24 @@ class SideBar { /*exported SideBar*/
   }
 
   _computeContentTop() {
-    let refElementId = (FilterBar.instance.enabled ? 'filterBar' : 'statusBar');    
+    let refElementId = (FilterBar.instance.enabled ? 'filterBar' : 'statusBar');
     let refElement = document.getElementById(refElementId);
     let rect = refElement.getBoundingClientRect();
     this._contentTop = rect.bottom + 1;
   }
 
   setContentHeight() {
+    /*
     this._computeContentTop('this._contentTop:', this._contentTop);
-    let height = Math.max(ItemsPanel.instance.splitterBar.top - this._contentTop - 1, 0);
+    /*
+    let rectSplitterBar = document.getElementById('splitterBar').getBoundingClientRect();
+    let height = Math.max(rectSplitterBar.top - this._contentTop - 1, 0);
+    * /
+
+    let height =  Math.round(Math.max(SplitterBar.instance.top - this._contentTop - 1, 0));
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
+    console.log('height:', height);
+    */
   }
 }
 SideBar.instance.init_async();

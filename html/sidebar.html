@@ -1,191 +1,212 @@
 <!DOCTYPE html>
 <html>
-  <head>
 
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Drop Feeds (side panel)</title>
-    <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png"/>
-    <script src="/js/tools/defaultValues.js"></script>
-    <script src="/js/tools/localStorageManager.js"></script>
-    <script src="/js/tools/themeManager.js"></script>
-    <script src="/js/tools/cssManager.js"></script>
-    <script src="/js/tools/compute.js"></script>
-    <script src="/js/tools/textTools.js"></script>
-    <script src="/js/tools/dateTime.js"></script>
-    <script src="/js/tools/browserManager.js"></script>
-    <script src="/js/tools/transfer.js"></script>
-    <script src="/js/tools/feedManager.js"></script>
-    <script src="/js/tools/feedParser.js"></script>
-    <script src="/js/tools/feedRenderer.js"></script>
-    <script src="/js/tools/bookmarkManager.js"></script>
-    <script src="/js/tools/feed.js"></script>
-    <script src="/js/tools/listener.js"></script>
-    <script src="/js/tools/itemManager.js"></script>
-    <script src="/js/tools/dialogs.js"></script>
-    <script src="/js/tools/tabManager.js"></script>
-    <script src="/js/tools/itemSorter.js"></script>
-    <script src="/js/tools/securityFilters.js"></script>
-    <script src="/js/tools/userScriptTools.js"></script>
-    <script src="/js/themes/theme-sidebar.js"></script>
-    <script src="/js/tools/usScriptTools.js"></script>
-    <script src="/js/tools/workerManager.js"></script>    
-  </head>
+<head>
 
-  <body>
-    <div id="main">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Drop Feeds (side panel)</title>
+  <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
+  <link href="/themes/_any/css/tableBox.css" rel="stylesheet" type="text/css">
+  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/compute.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/browserManager.js"></script>
+  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/feedManager.js"></script>
+  <script src="/js/tools/feedParser.js"></script>
+  <script src="/js/tools/feedRenderer.js"></script>
+  <script src="/js/tools/bookmarkManager.js"></script>
+  <script src="/js/tools/feed.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/itemManager.js"></script>
+  <script src="/js/tools/dialogs.js"></script>
+  <script src="/js/tools/tabManager.js"></script>
+  <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/securityFilters.js"></script>
+  <script src="/js/tools/userScriptTools.js"></script>
+  <script src="/js/themes/theme-sidebar.js"></script>
+  <script src="/js/tools/usScriptTools.js"></script>
+  <script src="/js/tools/workerManager.js"></script>
+</head>
 
-      <!-- Top menu -->
-      <div id="topMenu" class="topMenu">
-        <span id="checkFeedsButton" title="#Check feeds" class="checkFeedsButton topMenuItem"></span>
-        <span id="discoverFeedsButton" title="#Discover feeds" class="topMenuItem"></span>
-        <span id="onlyUpdatedFeedsButton" title="#View only updated feeds" class="topMenuItem"></span>
-        <span id="toggleFoldersButton" title="#Toggle folders (open/close)" class="topMenuItem"></span>
-        <span id="addFeedButton" title="#Add a new feed" class="topMenuItem subscribeGo"></span>
-        <span id="filterButton" title="#Filter" class="topMenuItem"></span>
-        <span id="optionsMenuButton" title="#Open options tab" class="topMenuItem"></span>
-      </div>
+<body>
+  <div id="mainBoxTable" class="tableBox autoHeight"><!--2-->
+    <div id="mainRowGroup" class="rowGroupBox"><!--3-->
 
-      <!-- Status bar -->
-      <div id="statusBar">
-        <span id="statusButton" class="statusButton"></span>
-        <span id="statusText" ></span>
-      </div>
+      <div id="feedsLayoutRow" class="rowBox"><!--4-->
+        <div id="feedsLayoutCell" class="cellBox autoHeight"><!--5-->
+          <!-- Top menu -->
+          <div id="topMenu" class="topMenu">
+            <span id="checkFeedsButton" title="#Check feeds" class="checkFeedsButton topMenuItem"></span>
+            <span id="discoverFeedsButton" title="#Discover feeds" class="topMenuItem"></span>
+            <span id="onlyUpdatedFeedsButton" title="#View only updated feeds" class="topMenuItem"></span>
+            <span id="toggleFoldersButton" title="#Toggle folders (open/close)" class="topMenuItem"></span>
+            <span id="addFeedButton" title="#Add a new feed" class="topMenuItem subscribeGo"></span>
+            <span id="filterButton" title="#Filter" class="topMenuItem"></span>
+            <span id="optionsMenuButton" title="#Open options tab" class="topMenuItem"></span>
+          </div>
 
-      <!-- Filter bar -->
-      <div id="filterBar">
-        <span><input id="filterField" type="text" name="filter"></span>
-        <span id="filterClearButton" title="#Clear filter"></span>
-      </div>
-        
-      <!-- selection bar -->
-      <div id="selectionBar" class="selectionBar"></div>
+          <!-- Status bar -->
+          <div id="statusBar">
+            <span id="statusButton" class="statusButton"></span>
+            <span id="statusText"></span>
+          </div>
 
-      <!-- Tree view -->
-      <ul class="contentHeight" id="content">
-      </ul>
+          <!-- Filter bar -->
+          <div id="filterBar">
+            <span><input id="filterField" type="text" name="filter"></span>
+            <span id="filterClearButton" title="#Clear filter"></span>
+          </div>
+
+          <!-- Tree view -->
+          <ul id="content" class="contentHeight">
+          </ul>
+
+          <!-- selection bar -->
+          <div id="selectionBar" class="selectionBar"></div> <!--24/-->
+
+        </div><!--/5-->
+      </div><!--/4-->
+
+
+      <!-- splitter bar -->
+      <div class="rowBox"><!--31-->
+        <div id="splitterBar" class="cellBox"></div> <!--32/-->
+      </div><!--/31-->
+
 
       <!-- Items panel -->
-      <div id ="mainItemsPane">
-        <!-- splitter bar -->
-        <div id="splitterBarFix">&nbsp;</div>
-        <div id="splitterBar"></div>
+      <div class="rowBox"><!--35-->
+        <div id="mainItemsPane" class="cellBox autoHeight"><!--36-->
+          <!-- items title bar -->
+          <div id="itemsPaneTitleBar">
+            <span id="itemsTitle"></span>
+          </div>
 
-        <!-- items title bar -->
-        <div id="itemsPaneTitleBar">
-          <span id="itemsTitle"></span>
-        </div>
+          <!-- items pane tool bar -->
+          <div id="itemsPaneToolBar">
+            <span id="itemMarkAsReadButton" title="#Mark as read" class="topMenuItem"></span>
+            <span id="itemMarkAsUnreadButton" title="#Mark as unread" class="topMenuItem"></span>
+            <span id="itemMarkAllAsReadButton" title="#Mark all as read" class="topMenuItem"></span>
+            <span id="itemMarkAllAsUnreadButton" title="#Mark all as unread" class="topMenuItem"></span>
+            <span id="itemOpenUnreadButton" title="#Open unread items in new tabs" class="topMenuItem"></span>
+          </div>
+          
+          <!-- selection bar items -->
+          <div id="selectionBarItems" class="selectionBar cellBox"></div>
 
-        <!-- items pane tool bar -->
-        <div id="itemsPaneToolBar">
-          <span id="itemMarkAsReadButton" title="#Mark as read" class="topMenuItem"></span>
-          <span id="itemMarkAsUnreadButton" title="#Mark as unread" class="topMenuItem"></span>
-          <span id="itemMarkAllAsReadButton" title="#Mark all as read" class="topMenuItem"></span>
-          <span id="itemMarkAllAsUnreadButton" title="#Mark all as unread" class="topMenuItem"></span>
-          <span id="itemOpenUnreadButton" title="#Open unread items in new tabs" class="topMenuItem"></span>
-        </div>
+          <!-- items pane -->
+          <div id="itemsPane"></div>
 
-        <!-- selection bar items -->
-        <div id="selectionBarItems" class="selectionBar"></div>
 
-        <!-- items pane -->
-        <div id="itemsPane"></div>
-      </div>
+        </div><!--/36-->
+      </div><!--/35-->
+    </div><!--/3-->
+  </div><!--/2-->
 
-      <!-- Folder (fld)  context menu -->
-      <div id="folderContextMenuId" class="contextMenuStyle">
-        <ul>
-          <li id="ctxFldMnCheckFeeds" class="ctxMenuItem">#Check feeds</li>
-          <li class="menuSep"></li>
-          <li id="ctxFldMnMarkAllAsRead" class="ctxMenuItem">#Set all to read</li>
-          <li id="ctxFldMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
-          <li class="menuSep"></li>
-          <li id="ctxFldMnOpenAllUpdated" class="ctxMenuItem">#Open updated feeds</li>
-          <li id="ctxFldMnOpenUpdatedAsUnified" class="ctxMenuItem">#Open updated as a unified feed</li>
-          <li class="menuSep"></li>
-          <li id="ctxFldMnSortByName" class="ctxMenuItem">#Sort by name</li>
-          <li id="ctxFldMnNewFolder" class="ctxMenuItem">#New folder</li>
-          <li id="ctxFldMnDeleteFolder" class="ctxMenuItem">#Delete</li>
-          <li id="ctxFldMnInfo" class="ctxMenuItem">#View folder info</li>
-        </ul>
-      </div>
 
-      <!-- Feed (fd) context menu -->
-      <div id="feedContextMenuId" class="contextMenuStyle">
-        <ul>
-          <li id="ctxFdtMnGetFeedTitle" class="ctxMenuItem">#Get feed title</li>
-          <li class="menuSep"></li>
-          <li id="ctxFdMnOpenFeed" class="ctxMenuItem">#Open</li>
-          <li class="menuSep"></li>
-          <li id="ctxFdMnMarkFeedAsRead" class="ctxMenuItem">#Mark as read</li>
-          <li id="ctxFdMnMarkFeedAsUpdated" class="ctxMenuItem">#Mark as unread</li>
-          <li class="menuSep"></li>
-          <li id="ctxFdMnNewFolder" class="ctxMenuItem">#New folder</li>
-          <li id="ctxFdtMnDeleteFeed" class="ctxMenuItem">#Delete</li>
-          <li id="ctxFdMnInfo" class="ctxMenuItem">#View feed info</li>
-        </ul>
-      </div>
-    </div>
+  <!-- Folder (fld)  context menu -->
+  <div id="folderContextMenuId" class="contextMenuStyle">
+    <ul>
+      <li id="ctxFldMnCheckFeeds" class="ctxMenuItem">#Check feeds</li>
+      <li class="menuSep"></li>
+      <li id="ctxFldMnMarkAllAsRead" class="ctxMenuItem">#Set all to read</li>
+      <li id="ctxFldMnMarkAllAsUpdated" class="ctxMenuItem">Set all to updated</li>
+      <li class="menuSep"></li>
+      <li id="ctxFldMnOpenAllUpdated" class="ctxMenuItem">#Open updated feeds</li>
+      <li id="ctxFldMnOpenUpdatedAsUnified" class="ctxMenuItem">#Open updated as a unified feed</li>
+      <li class="menuSep"></li>
+      <li id="ctxFldMnSortByName" class="ctxMenuItem">#Sort by name</li>
+      <li id="ctxFldMnNewFolder" class="ctxMenuItem">#New folder</li>
+      <li id="ctxFldMnDeleteFolder" class="ctxMenuItem">#Delete</li>
+      <li id="ctxFldMnInfo" class="ctxMenuItem">#View folder info</li>
+    </ul>
+  </div>
 
-      <!-- New folder dialog -->
-      <div id="newFolderDialog" class="hide">
-      <table>
+  <!-- Feed (fd) context menu -->
+  <div id="feedContextMenuId" class="contextMenuStyle">
+    <ul>
+      <li id="ctxFdtMnGetFeedTitle" class="ctxMenuItem">#Get feed title</li>
+      <li class="menuSep"></li>
+      <li id="ctxFdMnOpenFeed" class="ctxMenuItem">#Open</li>
+      <li class="menuSep"></li>
+      <li id="ctxFdMnMarkFeedAsRead" class="ctxMenuItem">#Mark as read</li>
+      <li id="ctxFdMnMarkFeedAsUpdated" class="ctxMenuItem">#Mark as unread</li>
+      <li class="menuSep"></li>
+      <li id="ctxFdMnNewFolder" class="ctxMenuItem">#New folder</li>
+      <li id="ctxFdtMnDeleteFeed" class="ctxMenuItem">#Delete</li>
+      <li id="ctxFdMnInfo" class="ctxMenuItem">#View feed info</li>
+    </ul>
+  </div>
+
+  <!-- New folder dialog -->
+  <div id="newFolderDialog" class="hide">
+    <table>
+      <tr>
+        <td><label id="newFolderButtonDialog">#New folder: </label></td>
+        <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div class="atRight">
+            <button id="cancelNewFolderButton">#Cancel</button>
+            <span class="default">
+              <button id="createNewFolderButton">#Create</button>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Info view -->
+  <div id="infoView" class="hide">
+    <div class="infoTitle">Info</div>
+    <div id="infoViewInner">
+      <table id="infoViewTable">
         <tr>
-          <td><label id="newFolderButtonDialog" >#New folder: </label></td>
-          <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
-        </tr>
-        <tr>
-          <td></td>
+          <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
           <td>
-            <div class="atRight">
-              <button id="cancelNewFolderButton">#Cancel</button>
-              <span class="default">
-                <button id="createNewFolderButton">#Create</button>
-              </span>
-            </div>
+            <div id="infoIdField" class="infoField"></div>
           </td>
         </tr>
+        <tr>
+          <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
+          <td><input type="text" id="infoNameField" class="infoField" value=""></td>
+        </tr>
+        <tr>
+          <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
+          <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
+        </tr>
       </table>
-    </div>
-
-    <!-- Info view -->
-    <div id="infoView" class="hide">
-        <div class="infoTitle">Info</div>
-        <div id="infoViewInner">
-        <table id="infoViewTable">
-          <tr>
-            <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
-            <td><div id="infoIdField" class="infoField"></div></td>
-          </tr>
-          <tr>
-            <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
-            <td><input type="text" id="infoNameField" class="infoField" value=""></td>
-          </tr>
-          <tr>
-            <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
-            <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
-          </tr>
-        </table>
-        <p/>
-        <div class="atRight">
-            <button id="infoUpdateButton" class="infoButton">#Update</button>
-            <button id="infoCloseButton" class="infoButton">#Close</button>
-        </div>
-        <p>&nbsp;</p>
+      <p/>
+      <div class="atRight">
+        <button id="infoUpdateButton" class="infoButton">#Update</button>
+        <button id="infoCloseButton" class="infoButton">#Close</button>
       </div>
+      <p>&nbsp;</p>
     </div>
-    <script src="/js/ui/sidebar/filterBar.js"></script>
-    <script src="/js/ui/sidebar/infoView.js"></script>
-    <script src="/js/ui/sidebar/newFolderDialog.js"></script>
-    <script src="/js/ui/sidebar/selectionBarItems.js"></script>
-    <script src="/js/ui/sidebar/itemsMenu.js"></script>
-    <script src="/js/ui/sidebar/itemsPanel.js"></script>
-    <script src="/js/ui/sidebar/splitterBar.js"></script>
-    <script src="/js/ui/sidebar/topMenu.js"></script>
-    <script src="/js/ui/sidebar/statusBar.js"></script>
-    <script src="/js/ui/sidebar/contextMenu.js"></script>
-    <script src="/js/ui/sidebar/selectionBar.js"></script>
-    <script src="/js/ui/sidebar/treeView.js"></script>
-    <script src="/js/ui/sidebar/sidebar.js"></script>
-  </body>
+  </div>
+
+  <script src="/js/ui/sidebar/filterBar.js"></script>
+  <script src="/js/ui/sidebar/infoView.js"></script>
+  <script src="/js/ui/sidebar/newFolderDialog.js"></script>
+  <script src="/js/ui/sidebar/selectionBarItems.js"></script>
+  <script src="/js/ui/sidebar/itemsMenu.js"></script>
+  <script src="/js/ui/sidebar/itemsPanel.js"></script>
+  <script src="/js/ui/sidebar/splitterBar.js"></script>
+  <script src="/js/ui/sidebar/topMenu.js"></script>
+  <script src="/js/ui/sidebar/statusBar.js"></script>
+  <script src="/js/ui/sidebar/contextMenu.js"></script>
+  <script src="/js/ui/sidebar/selectionBar.js"></script>
+  <script src="/js/ui/sidebar/treeView.js"></script>
+  <script src="/js/ui/sidebar/sidebar.js"></script>
+</body>
+
 </html>

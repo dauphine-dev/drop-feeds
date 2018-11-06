@@ -29,49 +29,6 @@ select {
 	border: 2px solid #4A90D9;
 }
 
-/*-- table box --*/
-
-.tableBox {
-	vertical-align: top;
-	display: table;
-	margin: 0;
-	padding: 0;
-	top: 0;
-	width: 0;
-	width: calc(100% - 2px);
-	height: calc(100% - 2px);
-}
-
-.rowGroupBox {
-	vertical-align: top;
-	display: table-row-group;
-}
-
-.rowBox {
-	display: table-row;
-}
-
-.cellBox {
-	vertical-align: top;
-	display: table-cell;
-}
-
-.headerGroupBox {
-	vertical-align: top;
-	display: table-header-group;
-}
-
-.footerGroupBox {
-	vertical-align: top;
-	display: table-footer-group;
-}
-
-.autoHeight {
-	height: 0;
-}
-
-/*-- -- --*/
-
 .xSmall {
 	font-size: x-small;
 }

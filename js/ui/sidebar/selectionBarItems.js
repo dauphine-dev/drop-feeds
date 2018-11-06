@@ -51,9 +51,8 @@ class SelectionBarItems { /*exported SelectionBarItems*/
 
   _setTop() {
     let rectTarget = this._selectedElement.getBoundingClientRect();
-    let elSelectionBar = this._selectionBarItemsElement;
-    let y = Math.round(rectTarget.top) - ItemsPanel.instance.top + 6;
-    elSelectionBar.style.top = y + 'px';
+    let y = Math.round(rectTarget.top + 6);
+    this._selectionBarItemsElement.style.top = y + 'px';
     return y;
   }
 }
