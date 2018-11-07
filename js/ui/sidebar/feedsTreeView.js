@@ -77,8 +77,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   setContentHeight(height) {
     let contentEl = document.getElementById('content');
     CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
-    let weirdOffsetWorkArround  = contentEl.offsetHeight - height;
-    CssManager.replaceStyle('.contentHeight', '  height:' + Math.max(height-weirdOffsetWorkArround, 0) + 'px;');
+    let weirdOffsetWorkAround  = contentEl.offsetHeight - height;
+    CssManager.replaceStyle('.contentHeight', '  height:' + Math.max(height - weirdOffsetWorkAround, 0) + 'px;');
     let rectContent = contentEl.getBoundingClientRect();
     let maxHeight = Math.max(window.innerHeight - rectContent.top - document.getElementById('splitterBar').offsetHeight, 0);
     if (contentEl.offsetHeight  > maxHeight) {
