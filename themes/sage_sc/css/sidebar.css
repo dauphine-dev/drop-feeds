@@ -702,16 +702,6 @@ li {
   text-decoration: underline;
 }
 
-#selectionBarItems {
-  white-space: nowrap;
-  line-height: 1.5em;
-  font-size: 110%;
-  cursor: pointer;
-  font-weight: normal;
-  color:white;
-  z-index: 0;
-}
-
 /* new folder dialog */
 
 #newFolderDialog {

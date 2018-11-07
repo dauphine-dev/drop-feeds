@@ -550,9 +550,14 @@ li {
 
 /* items pane */
 
+#itemLayoutBackground {
+  position: absolute;
+  background-color: #e8e8e8;
+  z-index: -2;
+}
+
 #mainItemsPane {
   display: none;
-  background-color: #e8e8e8;
   width: 100%;
   height: 100%;
 }
@@ -711,7 +716,7 @@ li {
   text-decoration: underline;
 }
 
-#selectionBarItems {
+#selectionBarItems1 {
   white-space: nowrap;
   line-height: 1.5em;
   font-size: 110%;
@@ -719,18 +724,7 @@ li {
   font-weight: normal;
   color:white;
   padding-left: 5px;
-  z-index: 0;
-}
-
-#selectionBarItems {
-  white-space: nowrap;
-  line-height: 1.5em;
-  font-size: 110%;
-  cursor: pointer;
-  font-weight: normal;
-  color:white;
-  padding-left: 5px;
-  z-index: 0;
+  z-index: -1;
 }
 
 /* new folder dialog */

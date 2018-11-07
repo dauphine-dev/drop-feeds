@@ -62,6 +62,13 @@ class ItemsPanel { /*exported ItemsPanel*/
     let height = Math.max(window.innerHeight - rec.top, 0);
     this._itemsPane.style.height = height + 'px';
     this._itemsPane.style.width  = window.innerWidth + 'px';
+
+    rec = this._mainItemsPane.getBoundingClientRect();
+    let itemLayoutBackgroundEl = document.getElementById('itemLayoutBackground');
+    itemLayoutBackgroundEl.style.left = rec.left + 'px';
+    itemLayoutBackgroundEl.style.width = rec.width + 'px';
+    itemLayoutBackgroundEl.style.top = rec.top + 'px';
+    itemLayoutBackgroundEl.style.height = rec.height + 'px';
     ItemsPanel.instance.selectionBarItems.refresh();
   }
 
