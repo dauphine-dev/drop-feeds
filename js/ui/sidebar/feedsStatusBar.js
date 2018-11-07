@@ -1,10 +1,10 @@
-/*global BrowserManager TopMenu*/
+/*global BrowserManager FeedsTopMenu*/
 'use strict';
-class StatusBar { /*exported StatusBar*/
+class FeedsStatusBar { /*exported FeedsStatusBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   set workInProgress(workInProgress) {
-    TopMenu.instance.workInProgress = workInProgress;
+    FeedsTopMenu.instance.workInProgress = workInProgress;
     if (workInProgress)
     {
       document.getElementById('statusButton').classList.add('statusButtonUpdating');

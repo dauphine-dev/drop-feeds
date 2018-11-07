@@ -1,6 +1,6 @@
 /*global browser FolderTreeView*/
 'use strict';
-class NewFolderDialog { /*exported NewFolderDialog*/
+class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {

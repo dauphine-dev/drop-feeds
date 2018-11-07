@@ -1,8 +1,8 @@
-/*global  browser DefaultValues BrowserManager SelectionBar TopMenu FeedManager StatusBar CssManager
-ContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
+/*global  browser DefaultValues BrowserManager FeedsSelectionBar FeedsTopMenu FeedManager FeedsStatusBar CssManager
+FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
 'use strict';
 const _dropfeedsId = 'dropfeedsId=';
-class TreeView { /*exported TreeView*/
+class FeedsTreeView { /*exported FeedsTreeView*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -10,7 +10,7 @@ class TreeView { /*exported TreeView*/
   }
 
   _init() {
-    this._selectionBar = new SelectionBar();
+    this._selectionBar = new FeedsSelectionBar();
     this._html = null;
     this._is1stFolder = null;
     this._1stElement = null;
@@ -101,14 +101,14 @@ class TreeView { /*exported TreeView*/
 
   openFeed(feedId, openNewTabForce, openNewTabBackGroundForce) {
     try {
-      TopMenu.instance.animateCheckFeedButton(true);
-      StatusBar.instance.workInProgress = true;
+      FeedsTopMenu.instance.animateCheckFeedButton(true);
+      FeedsStatusBar.instance.workInProgress = true;
       FeedManager.instance.openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
     finally {
-      StatusBar.instance.text = '';
-      TopMenu.instance.animateCheckFeedButton(false);
-      StatusBar.instance.workInProgress = false;
+      FeedsStatusBar.instance.text = '';
+      FeedsTopMenu.instance.animateCheckFeedButton(false);
+      FeedsStatusBar.instance.workInProgress = false;
     }
 
   }
@@ -182,17 +182,17 @@ class TreeView { /*exported TreeView*/
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    ContextMenu.instance.hide();
+    FeedsContextMenu.instance.hide();
     let elTarget = event.currentTarget;
     let xPos = event.clientX;
     let yPos = event.currentTarget.getBoundingClientRect().top;
-    ContextMenu.instance.show(xPos, yPos, elTarget);
+    FeedsContextMenu.instance.show(xPos, yPos, elTarget);
   }
 
   async _feedClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    ContextMenu.instance.hide();
+    FeedsContextMenu.instance.hide();
     this._selectionBar.put(event.currentTarget);
     let feedId = event.currentTarget.getAttribute('id');
     let openNewTabForce=null; let openNewTabBackGroundForce=null;
@@ -203,7 +203,7 @@ class TreeView { /*exported TreeView*/
     event.stopPropagation();
     event.preventDefault();
     if (event.button == 1) { //middle-click
-      ContextMenu.instance.hide();
+      FeedsContextMenu.instance.hide();
       this._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
       let openNewTabForce=true; let openNewTabBackGroundForce=true;
@@ -213,7 +213,7 @@ class TreeView { /*exported TreeView*/
 
   async _folderChanged_event(event) {
     let folderItem = event.currentTarget;
-    ContextMenu.instance.hide();
+    FeedsContextMenu.instance.hide();
     let folderId = folderItem.getAttribute('id');
     let storedFolder = DefaultValues.getStoredFolder(folderId);
     storedFolder.checked = folderItem.checked;
@@ -226,13 +226,13 @@ class TreeView { /*exported TreeView*/
     let elFolder = event.currentTarget;
     let xPos = event.clientX;
     let yPos = event.currentTarget.getBoundingClientRect().top;
-    ContextMenu.instance.show(xPos, yPos, elFolder);
+    FeedsContextMenu.instance.show(xPos, yPos, elFolder);
   }
 
 
   async _folderOnClicked_event(event){
     event.stopPropagation();
-    ContextMenu.instance.hide();
+    FeedsContextMenu.instance.hide();
     this._selectionBar.put(event.currentTarget);
   }
 

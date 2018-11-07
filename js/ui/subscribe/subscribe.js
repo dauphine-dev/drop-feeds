@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager NewFolderDialog BrowserManager*/
+/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager*/
 'use strict';
 class Subscribe {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -23,7 +23,7 @@ class Subscribe {
       this._feedUrl = tabInfo.url;
     }
     FolderTreeView.instance.load_async();
-    NewFolderDialog.instance.init_async();
+    FeedsNewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
@@ -53,7 +53,7 @@ class Subscribe {
   async _newFolderButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    NewFolderDialog.instance.show(FolderTreeView.instance.selectedId);
+    FeedsNewFolderDialog.instance.show(FolderTreeView.instance.selectedId);
   }
 
   async _cancelButtonClicked_event(event) {

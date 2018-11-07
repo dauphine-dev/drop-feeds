@@ -1,6 +1,6 @@
 /*global ItemsMenu*/
 'use strict';
-class SelectionBarItems { /*exported SelectionBarItems*/
+class ItemsSelectionBar { /*exported ItemsSelectionBar*/
   constructor() {
     this._selectionBarItemsElement = document.getElementById('selectionBarItems');
     this._selectedElement = null;

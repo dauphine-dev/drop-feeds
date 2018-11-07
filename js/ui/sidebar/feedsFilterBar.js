@@ -1,6 +1,6 @@
-/*global TreeView DefaultValues SideBar browser BrowserManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager*/
 'use strict';
-class FilterBar { /*exported FilterBar*/
+class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -45,17 +45,17 @@ class FilterBar { /*exported FilterBar*/
 
   _applyFilter(filterText) {
     try {
-      let rootFolderId =  TreeView.instance.rootFolderUiId;
+      let rootFolderId =  FeedsTreeView.instance.rootFolderUiId;
       let rootFolder = document.getElementById(rootFolderId);
       if (!rootFolder) { return; }
       let feedElementList = [];
       if (filterText == '' ) { 
         feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
         feedElementList.map(item => item.style.display = '');
-        TreeView.instance.selectionBar.refresh();
+        FeedsTreeView.instance.selectionBar.refresh();
         return; 
       }
-      TreeView.instance.selectionBar.hide();
+      FeedsTreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
       let toShowLblList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label', filterText, true);

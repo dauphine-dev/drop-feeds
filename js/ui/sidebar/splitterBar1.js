@@ -1,6 +1,6 @@
-/*global SideBar TreeView ItemsPanel LocalStorageManager*/
+/*global SideBar FeedsTreeView ItemsPanel LocalStorageManager*/
 'use strict';
-class SplitterBar { /*exported SplitterBar*/
+class SplitterBar1 { /*exported SplitterBar1*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -62,7 +62,7 @@ class SplitterBar { /*exported SplitterBar*/
 
   _resizeElements(delta) {
     let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
-    TreeView.instance.setContentHeight(height);
+    FeedsTreeView.instance.setContentHeight(height);
     ItemsPanel.instance.resize();
   }
 

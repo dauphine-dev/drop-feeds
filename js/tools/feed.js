@@ -1,4 +1,4 @@
-/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer LocalStorageManager TreeView UserScriptTools scriptVirtualProtocol*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
 
 const feedStatus = {
@@ -184,8 +184,8 @@ class Feed { /*exported Feed*/
         feedUiItem.classList.add('feedError');
         break;
     }
-    TreeView.instance.selectionBar.refresh();
-    TreeView.instance.updateAllFolderCount();
+    FeedsTreeView.instance.selectionBar.refresh();
+    FeedsTreeView.instance.updateAllFolderCount();
   }
 
   updateUiTitle() {

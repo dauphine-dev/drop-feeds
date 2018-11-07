@@ -1,6 +1,6 @@
 /* global browser */
 'use strict';
-class InfoView { /*exported InfoView*/
+class FeedsInfoView { /*exported FeedsInfoView*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {

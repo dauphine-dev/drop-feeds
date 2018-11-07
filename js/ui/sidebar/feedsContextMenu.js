@@ -1,6 +1,6 @@
-/*global browser TreeView FeedManager NewFolderDialog BookmarkManager InfoView*/
+/*global browser FeedsTreeView FeedManager FeedsNewFolderDialog BookmarkManager FeedsInfoView*/
 'use strict';
-class ContextMenu { /*exported ContextMenu*/
+class FeedsContextMenu { /*exported FeedsContextMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -49,7 +49,7 @@ class ContextMenu { /*exported ContextMenu*/
     this._elContextMenu = document.getElementById(contextMenuId);
     this._elContextMenu.classList.add('show');
     this._setPosition(xPos, yPos);
-    TreeView.instance.selectionBar.put(elTarget);
+    FeedsTreeView.instance.selectionBar.put(elTarget);
   }
 
   _updateLocalizedStrings() {
@@ -104,14 +104,14 @@ class ContextMenu { /*exported ContextMenu*/
     this.hide();
     let bookmarkId = this._idComeFrom.substring(3);
     await BookmarkManager.instance.sortBookmarks_async(bookmarkId);
-    TreeView.instance.reload_async();
+    FeedsTreeView.instance.reload_async();
   }
 
 
 
   async _ctxMnNewFolderClicked_event() {
     this.hide();
-    NewFolderDialog.instance.show(this._idComeFrom);
+    FeedsNewFolderDialog.instance.show(this._idComeFrom);
   }
 
   async _ctxMnDeleteFolderMenuClicked_event() {
@@ -123,7 +123,7 @@ class ContextMenu { /*exported ContextMenu*/
   async _ctxMnInfoFolderMenuClicked_event() {
     this.hide();
     let bookmarkId = this._idComeFrom.substring(3);
-    InfoView.instance.show(this._xPosOri, this._yPosOri, bookmarkId);
+    FeedsInfoView.instance.show(this._xPosOri, this._yPosOri, bookmarkId);
   }
 
 
@@ -146,7 +146,7 @@ class ContextMenu { /*exported ContextMenu*/
 
   async _ctxMnOpenFeedMenuClicked_event() {
     this.hide();
-    TreeView.instance.openFeed(this._idComeFrom);
+    FeedsTreeView.instance.openFeed(this._idComeFrom);
   }
 
   async _ctxMnMarkFeedAsReadMenuClicked_event() {
@@ -161,7 +161,7 @@ class ContextMenu { /*exported ContextMenu*/
 
   async _ctxMnFdNewFolderClicked_event() {
     this.hide();
-    NewFolderDialog.instance.show(this._idComeFrom);
+    FeedsNewFolderDialog.instance.show(this._idComeFrom);
   }
 
   async _ctxMnDeleteFeedMenuClicked_event() {
@@ -171,6 +171,6 @@ class ContextMenu { /*exported ContextMenu*/
 
   async ctxMnInfoFeedMenuClicked_event() {
     this.hide();
-    InfoView.instance.show(this._xPosOri, this._yPosOri, this._idComeFrom);
+    FeedsInfoView.instance.show(this._xPosOri, this._yPosOri, this._idComeFrom);
   }
 }

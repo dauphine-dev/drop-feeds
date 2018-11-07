@@ -1,7 +1,7 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager TreeView BrowserManager Dialogs Listener ListenerProviders TabManager FilterBar*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager Dialogs Listener ListenerProviders TabManager FeedsFilterBar*/
 'use strict';
 const _delayMsStopChecking = 1000;
-class TopMenu { /*exported TopMenu*/
+class FeedsTopMenu { /*exported FeedsTopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -129,7 +129,7 @@ class TopMenu { /*exported TopMenu*/
 
   async _isRootFolderChecked_async() {
     try {
-      let rootFolderId = 'cb-' + TreeView.instance.rootFolderUiId.substring(3);
+      let rootFolderId = 'cb-' + FeedsTreeView.instance.rootFolderUiId.substring(3);
       let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
       this._foldersOpened = rootFolder.checked;
     } catch (e) { }
@@ -137,7 +137,7 @@ class TopMenu { /*exported TopMenu*/
 
   _updateFilterBar() {
     this.activateButton('filterButton', this._filterEnabled);
-    FilterBar.instance.enabled = this._filterEnabled;
+    FeedsFilterBar.instance.enabled = this._filterEnabled;
   }
 
   async _onlyUpdatedFeedsButtonClicked_event(event) {
@@ -145,7 +145,7 @@ class TopMenu { /*exported TopMenu*/
     event.preventDefault();
     this._updatedFeedsVisible = !this._updatedFeedsVisible;
     await this.updatedFeedsSetVisibility_async();
-    TreeView.instance.selectionBar.refresh();
+    FeedsTreeView.instance.selectionBar.refresh();
   }
 
   async _toggleFoldersButtonClicked_event(event) {
@@ -163,7 +163,7 @@ class TopMenu { /*exported TopMenu*/
       storedFolder.checked = this._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }
-    TreeView.instance.selectionBar.refresh();
+    FeedsTreeView.instance.selectionBar.refresh();
   }
 
   async _addFeedButtonClicked_event(event) {

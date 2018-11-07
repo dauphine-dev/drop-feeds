@@ -1,5 +1,5 @@
-/*global ThemeManager TopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions
-ContextMenu TreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager NewFolderDialog FilterBar*/
+/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions
+FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager FeedsNewFolderDialog FeedsFilterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -15,20 +15,20 @@ class SideBar { /*exported SideBar*/
     await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await RenderOptions.instance;
-    await TreeView.instance.load_async();
+    await FeedsTreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
-    await TopMenu.instance.init_async();
+    await FeedsTopMenu.instance.init_async();
     await ItemSorter.instance.init_async();
-    await NewFolderDialog.instance.init_async();
+    await FeedsNewFolderDialog.instance.init_async();
     await SecurityFilters.instance.init_async();
-    await FilterBar.instance.init_async();
+    await FeedsFilterBar.instance.init_async();
     FeedManager.instance;
     ItemsPanel.instance;
     TabManager.instance;
-    document.getElementById('mainBoxTable').addEventListener('click', (e) => { ContextMenu.instance.hide(e); });
+    document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
     this._addListeners();
-    TreeView.instance.selectionBar.refresh();
+    FeedsTreeView.instance.selectionBar.refresh();
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
@@ -61,7 +61,7 @@ class SideBar { /*exported SideBar*/
   }
 
   async _contentOnScroll_event() {
-    TreeView.instance.selectionBar.refresh();
+    FeedsTreeView.instance.selectionBar.refresh();
   }
 
   async _windowOnResize_event() {
@@ -69,14 +69,14 @@ class SideBar { /*exported SideBar*/
   }
 
   _computeContentTop() {
-    let refElementId = (FilterBar.instance.enabled ? 'filterBar' : 'statusBar');
+    let refElementId = (FeedsFilterBar.instance.enabled ? 'filterBar' : 'statusBar');
     let refElement = document.getElementById(refElementId);
     let rect = refElement.getBoundingClientRect();
     this._contentTop = rect.bottom + 1;
   }
 
   resize() {
-    TreeView.instance.resize();
+    FeedsTreeView.instance.resize();
     ItemsPanel.instance.resize();
   }
 }

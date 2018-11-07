@@ -1,12 +1,12 @@
-/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager SelectionBarItems*/
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar1 Listener ListenerProviders SideBar ItemsMenu ItemManager ItemsSelectionBar*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    SplitterBar.instance.init_async();
+    SplitterBar1.instance.init_async();
     ItemsMenu.instance.disableButtons();
-    this._selectionBarItems = new SelectionBarItems();
+    this._selectionBarItems = new ItemsSelectionBar();
     this._mainItemsPane = document.getElementById('mainItemsPane');
     this._itemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
@@ -37,7 +37,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   get splitterBar() {
-    return SplitterBar.instance;
+    return SplitterBar1.instance;
   }
 
   get itemsMenu() {
