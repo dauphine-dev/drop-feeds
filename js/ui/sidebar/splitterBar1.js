@@ -1,4 +1,4 @@
-/*global SideBar FeedsTreeView ItemsPanel LocalStorageManager*/
+/*global SideBar FeedsTreeView ItemsPanel*/
 'use strict';
 class SplitterBar1 { /*exported SplitterBar1*/
   static get instance() { return (this._instance = this._instance || new this()); }
