@@ -1,14 +1,35 @@
+
 html {
 	margin: 0;
 	font-family: verdana, sans-serif;
 	background: gainsboro;
 }
 
-body
-{
-  width: 95%;
-  margin: 30px auto;
+
+body {
+	width: 95%;
+	margin: 30px auto;
+	/*color: #404040;*/
+	/*font-family: verdana;*/
+	/*background-color: #F2F2F2;*/
 }
+
+/*
+a {
+	color: #436A75;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+
+a:visited {
+	color: #739Aa5;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+*/
 
 img, video {
 	height: auto;
@@ -17,26 +38,38 @@ img, video {
 
 .channelHead {
 	background: #E4ECEC !important;
-	margin: 0 0 32px 0;
 	border-radius: 5px;
 	border: 1px solid #A7A6AA;
 	padding: 10px;
+	margin: 0 0 32px 0;
 }
 
 h1.channelTitle {
+	/*color: #000000;*/
 	margin: 0;
+	/*padding: 0;*/
+	/*font-size: large;*/
+	/*line-height: 1em;*/
 }
 
-a.channelLink  {
+a.channelLink {
 	margin: 0;
 	color: #D64203;
+	font-weight: bold;
 	text-decoration: none;
+}
+
+/*
+a.channelLink:visited {
+	color: #436A75;
 	font-weight: bold;
 }
+*/
 
 .channelDescription {
 	color: #405A5A;
 	font-size: 90%;
+	/*padding: 10px;*/
 	padding-left: 80px;
 	padding-right: 20px;
 	width: auto;
@@ -45,48 +78,109 @@ a.channelLink  {
 }
 
 div.item {
+	/*display: block;*/
 	background: ghostwhite;
-	border: 0;
 	border: 1px solid #97969A;
-	/*-moz-border-radius: 10px;*/
 	border-radius: 10px;
 	color: #333;
 	font-size: 12px;
+	/*margin: 0 0 10px 2%;*/
 	margin-bottom: 15px;
 	padding: 0px 10px 15px 20px;
 	position: relative;
+	/*width: 47%;*/
+	/*min-width: 29em;*/
+	/*float: left;*/
+	/*overflow: hidden;*/
 }
 
 .error {
 	background-color: #FF8888 !important;
 }
 
-.itemTitle
-{
+.itemTitle {
+	/*margin: 0px;*/
+	/*background-color: #D7E2E8;*/
 	border-bottom: 1px solid #ddd;
 	color: #000;
 	display: block;
 	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
+	/*line-height: 1.2em;*/
 	min-height: 1.3em;
 	padding: 0px 2.3em 0px 0px;
 }
 
-.itemTitle a
-{
+/*
+.item a:link {
+	color: dodgerblue;
+	text-decoration-line: underline;
+}
+
+.item a:visited {
+	color: dodgerblue;
+	text-decoration-line: underline;
+}
+
+.item a:hover {
+	color: dodgerblue;
+	text-decoration: underline;
+}
+
+.item a:active {
+	color: dodgerblue;
+	text-decoration: underline;
+}
+*/
+
+.itemTitle a {
 	color: #000;
 	text-decoration: none;
 	font-weight: normal;
 }
 
+/*
+.itemTitle a:link {
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+
+.itemTitle a:visited {
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.itemTitle a:hover {
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+
+.itemTitle a:visited {
+	color: gainsboro;
+	text-decoration: none;
+	font-weight: normal;
+}
+*/
+
 .itemNumber {
+	/*font-size: xx-small;*/
+	/*color: gainsboro;*/
 	padding-right: 5px;
 	font-weight: normal;
 }
 
 .itemDescription {
 	margin: 0px;
+	/*min-height: 6em;*/
+	/*font-size: small;*/
+	/*margin: 0px;*/
+	/*padding: 9px;*/
 }
 
 .itemInfo {
@@ -97,7 +191,9 @@ div.item {
 
 .itemCat {
 	display: none;
+	/*color: #7D7D7D;*/
 }
+
 
 .itemAuthor {
 	display: none;
@@ -106,7 +202,7 @@ div.item {
 .itemPubDate {
 	background: #FAF4C8;
 	border: 1px solid #A7A6AA;
-	color : #777;
+	color: #777;
 	float: right;
 	font-size: 10px;
 	font-weight: bold;
@@ -119,6 +215,7 @@ div.item {
 	width: 15em;
 }
 
+
 .itemAudioPlayer audio {
-    width: 50%;
+	width: 50%;
 }
