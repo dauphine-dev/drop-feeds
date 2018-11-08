@@ -1,7 +1,7 @@
 'use strict';
 class FeedsSelectionBar { /*exported FeedsSelectionBar*/
   constructor() {
-    this._selectionBarElement = document.getElementById('selectionBar');
+    this._selectionBarElement = document.getElementById('feedsSelectionBar');
     this._selectedElement = null;
     this._selectedElementId = null;
     this._selectedElementIsFolder = null;

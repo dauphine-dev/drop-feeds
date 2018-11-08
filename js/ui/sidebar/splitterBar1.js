@@ -6,7 +6,7 @@ class SplitterBar1 { /*exported SplitterBar1*/
   constructor() {
     this._newPos = 0;
     this._startPos = 0;
-    this._elSplitterBar = document.getElementById('splitterBar');
+    this._elSplitterBar = document.getElementById('splitterBar1');
     this._isResizing = false;
     document.addEventListener('mousemove', (e) => { this._splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this._splitterBarMouseup_event(e); });

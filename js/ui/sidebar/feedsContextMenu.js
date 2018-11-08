@@ -30,7 +30,9 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   hide(){
     document.getElementById('folderContextMenuId').classList.remove('show');
+    document.getElementById('folderContextMenuId').classList.add('hide');
     document.getElementById('feedContextMenuId').classList.remove('show');
+    document.getElementById('feedContextMenuId').classList.add('hide');
   }
 
   show(xPos, yPos, elTarget){
@@ -41,12 +43,15 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     if (this._idComeFrom.startsWith('dv-')) {
       contextMenuId = 'folderContextMenuId';
       document.getElementById('feedContextMenuId').classList.remove('show');
+      document.getElementById('feedContextMenuId').classList.add('hide');
     }
     else {
       contextMenuId = 'feedContextMenuId';
       document.getElementById('folderContextMenuId').classList.remove('show');
+      document.getElementById('folderContextMenuId').classList.add('hide');
     }
     this._elContextMenu = document.getElementById(contextMenuId);
+    this._elContextMenu.classList.remove('hide');
     this._elContextMenu.classList.add('show');
     this._setPosition(xPos, yPos);
     FeedsTreeView.instance.selectionBar.put(elTarget);

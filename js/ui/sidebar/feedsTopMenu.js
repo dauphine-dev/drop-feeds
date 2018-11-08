@@ -86,12 +86,12 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   activateButton(buttonId, activated) {
     let el = document.getElementById(buttonId);
     if (activated) {
-      el.classList.add('topMenuItemSelected');
-      el.classList.remove('topMenuItem');
+      el.classList.add('topMenuItemActivated');
+      el.classList.remove('topMenuItemInactivated');
     }
     else {
-      el.classList.add('topMenuItem');
-      el.classList.remove('topMenuItemSelected');
+      el.classList.add('topMenuItemInactivated');
+      el.classList.remove('topMenuItemActivated');
     }
   }
 

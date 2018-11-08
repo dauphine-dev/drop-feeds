@@ -1,777 +1,110 @@
-html {
-  background-color: white;
-}
-
-html, body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	max-height: 100%;
-  font-weight: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  line-height: 16px;
-}
-
-#content {
-  margin-top: 1px;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-left: 25px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.contentHeight {
-  height: 100px;
-}
-
-.atRight {
-  float: right;
-}
-
-/* top menu */
-
-.topMenu {
-  background-color: #E8E8E8;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9D9D9D;
-  line-height: 41px;
-  height: 41px;
-  padding: 2px;
-}
-
-.topMenuItem {
-  display: inline-block;
-  margin-top: -1px;
-  padding: 0;
-  width: 35px;
-  height: 37px;
-  border: 1px outset #70707000;
-  border-radius: 4px;
-}
-
-.topMenuItem:hover {
-  border: 1px outset #707070;
-  border-radius: 4px;
-}
-
-.topMenuItemSelected {
-  display: inline-block;
-  margin-top: -1px;
-  padding: 0;
-  width: 35px;
-  height: 37px;
-  border: 1px inset #707070;
-  border-radius: 4px;
-}
-
-.checkFeedsButton::before {
-  background-image: url(/themes/sage_sc/img/check-feeds.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-  cursor: auto;
-}
-
-.checkFeedsButtonAnim::before {
-  background-image: url(/themes/sage_sc/img/check-feeds-animation.gif);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-.checkFeedsButtonCursorRestart::before {
-  cursor: url(/themes/_any/img/restart.png), not-allowed;
-}
-
-#discoverFeedsButton::before {
-  background-image: url(/themes/sage_sc/img/magnify.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#onlyUpdatedFeedsButton::before {
-  background-image: url(/themes/sage_sc/img/only-updated-feeds.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#onlyErrorFeedsButton::before {
-  background-image: url(/themes/sage_sc/img/feed-error.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#toggleFoldersButton::before {
-  background-image: url(/themes/sage_sc/img/toggle-folders.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#addFeedButton::before {
-  background-size: 18px 17px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-.subscribeGo::before {
-  background-image: url(/themes/sage_sc/img/subscribe-go.png);
-}
-
-.subscribeAdd::before {
-  background-image: url(/themes/sage_sc/img/subscribe-add.png);
-}
-
-#filterButton::before {
-  background-image: url(/themes/sage_sc/img/filter.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#optionsMenuButton::before {
-  background-image: url(/themes/sage_sc/img/options.png);
-  background-size: 26px 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-/* status bar*/
-
-#statusBar {
-  background-color: #E8E8E8;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9D9D9D;
-  height: 30px;
-  line-height: 30px;
-}
-
-.statusButton::before {
-  padding-left: 5px;
-  vertical-align: -20%;
-}
-
-.statusButtonUpdating::before {
-  background-image: url(/themes/sage_sc/img/updating.gif);
-  background-size: 16px 16px;
-  background-position: right;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -4px;
-  display: inline-block;
-  width: 18px;
-  height: 24px;
-  content: "";
-}
-
-#statusText {
-  line-height: 30px;
-  padding-left: 6px;
-}
-
-/* filter */
-
-#filterBar {
-  height: 30px;
-  line-height: 30px;  
-}
-
-#filterField {
-  width: calc(100% - 26px);
-}
-
-#filterClearButton::before {
-  background-image: url(/themes/_any/img/filter-clean.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #808080;
-  width: 22px;
-  height: 22px;
-  content: "";
-  padding: 0;
-  vertical-align: middle; 
-}
-
-/* folders */
-input[type="checkbox"] {
-  display: none;
-}
-
-input~ul {
-  display: none;
-}
-
-input~label {
-  line-height: 18px;
-  margin-bottom: 1px;
-}
-
-input:checked~ul {
-  display: block;
-}
-
-input~.folderOpen {
-  display: none;
-}
-
-input:checked~.folderClose {
-  display: none;
-}
-
-input:checked~.folderOpen {
-  display: inline;
-}
-
-.folderOpen::before {
-  background-image: url(/themes/sage_sc/img/folder-open.png);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  content: "";
-  margin-right: 2px;
-  margin-bottom: 2px;
-  vertical-align: text-bottom;
-}
-
-.folderClose::before {
-  background-image: url(/themes/sage_sc/img/folder-closed.png);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  content: "";
-  margin-right: 2px;
-  margin-bottom: 2px;
-  vertical-align: text-bottom;
-}
-
-ul {
-  margin-left: -22px;
-}
-
-.countBold {
-  font-weight: bold;
-}
-
-/* feeds */
-
-li {
-  display: block;
-  margin-top: -1px;
-  margin-bottom: -1px;
-}
-
-.feedRead::before {
-  background-image: url(/themes/sage_sc/img/feed-read.png);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  content: "";
-  padding-right: 2px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  vertical-align: text-bottom;
-}
-
-.feedRead {
-  font-weight: normal;
-}
-
-.feedRead:hover {
-  display: block;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.feedUnread:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.feedUnread::before {
-  background-image: url(/themes/sage_sc/img/feed-unread.png);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  content: "";
-  padding-right: 2px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  vertical-align: text-bottom;
-}
-
-.feedUnread {
-  font-weight: bold;
-}
-
-.feedError::before {
-  background-image: url(/themes/sage_sc/img/feed-error.png);
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  content: "";
-  padding-right: 2px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  vertical-align: text-bottom;
-}
-
-.feedError {
-  visibility: visible;
-}
-
-.feedError:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-/* context menu */
-
-.contextMenuStyle {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  padding-right: 20px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
-  ;
-  z-index: 1;
-}
-
-.show {
-  display: block;
-}
-
-.visibilityVisible {
-  visibility: visible;
-}
-
-.displayNone {
-  display: none;
-}
-
-.displayNone::before {
-  display: none;
-}
-
-#ctxFldMnCheckFeeds::before {
-  background-image: url(/themes/sage_sc/img/check-feeds.png);
-}
-
-#ctxFldMnMarkAllAsRead::before {
-  background-image: url(/themes/sage_sc/img/feed-read.png);
-}
-
-#ctxFldMnMarkAllAsUpdated::before {
-  background-image: url(/themes/sage_sc/img/feed-unread.png);
-}
-
-#ctxFldMnOpenAllUpdated::before {
-  background-image: url(/themes/sage_sc/img/feed-open.png);
-}
-
-#ctxFldMnOpenUpdatedAsUnified::before {
-  background-image: url(/themes/sage_sc/img/merge.png);
-}
-
-#ctxFldMnSortByName::before {
-  background-image: url(/themes/sage_sc/img/sort.png);
-}
-
-#ctxFldMnNewFolder::before {
-  background-image: url(/themes/sage_sc/img/folder-new.png);
-}
-
-#ctxFldMnDeleteFolder::before {
-  background-image: url(/themes/sage_sc/img/delete.png);
-}
-
-#ctxFldMnInfo::before {
-  background-image: url(/themes/sage_sc/img/folder-info.png);
-}
-
-#ctxFdtMnGetFeedTitle::before {
-  background-image: url(/themes/sage_sc/img/title.png);
-}
-
-#ctxFdMnOpenFeed::before {
-  background-image: url(/themes/sage_sc/img/feed-open.png);
-}
-
-#ctxFdMnMarkFeedAsRead::before {
-  background-image: url(/themes/sage_sc/img/feed-read.png);
-}
-
-#ctxFdMnMarkFeedAsUpdated::before {
-  background-image: url(/themes/sage_sc/img/feed-unread.png);
-}
-
-#ctxFdMnNewFolder::before {
-  background-image: url(/themes/sage_sc/img/folder-new.png);
-}
-
-#ctxFdtMnDeleteFeed::before {
-  background-image: url(/themes/sage_sc/img/delete.png);
-}
-
-#ctxFdMnInfo::before {
-  background-image: url(/themes/sage_sc/img/feed-info.png);
-}
-
-.menuSep {
-  margin: 2px 0 2px 0;
-  border-color: #999999;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.ctxMenuItem {
-  line-height: 20px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.ctxMenuItem::before {
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.ctxMenuItem:hover {
-  background-color: #999999;
-  color: white;
-}
-
-.selectionBar {
-  position: absolute;
-  top: 0px;
-  height: 20px;
-  width: 100%;
-  margin-top: -5px;
-  background-color: #448bd6;
-  z-index: -1;
-}
-
-/* items pane */
-
-#mainItemsPane {
-  display: none;
-  background-color: #e8e8e8;
-  width: 100%;
-  height: 100%;
-}
-
-#splitterBar {
-  cursor: row-resize;
-  width: 100%;
-  height: 8px;
-  background-color: #9D9D9D;
-  border-style: none;
-  line-height: 8px;  
-}
-
-#itemsPaneTitleBar {
-  background-color: #E8E8E8;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9D9D9D;
-  height: 30px;
-  text-align: center;
-  padding-left: 5px;
-}
-
-#itemsTitle {
-  line-height: 30px;
-  vertical-align: middle;
-  color: #000000;
-  text-decoration-line: none;
-  cursor: pointer;
-}
-
-#itemsTitle a:link {
-  color: #444444;
-  text-decoration-line: none;
-}
-
-#itemsTitle a:visited {
-  color: #444444;
-  text-decoration-line: none;
-}
-
-#itemsTitle a:hover {
-  text-decoration: underline;
-}
-
-#itemsTitle a:active {
-  text-decoration: underline;
-}
-
-#itemsPaneToolBar {
-  display: none;
-  background-color: #e8e8e8;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9D9D9D;
-  line-height: 41px;
-  height: 41px;
-  padding: 2px;
-}
-
-#itemMarkAsReadButton::before {
-  background-image: url(/themes/sage_sc/img/itemMarkAsReadButton.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#itemMarkAsUnreadButton::before {
-  background-image: url(/themes/sage_sc/img/itemMarkAsUnreadButton.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#itemMarkAllAsReadButton::before {
-  background-image: url(/themes/sage_sc/img/itemMarkAllAsReadButton.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#itemMarkAllAsUnreadButton::before {
-  background-image: url(/themes/sage_sc/img/itemMarkAllAsUnreadButton.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#itemOpenUnreadButton::before {
-  background-image: url(/themes/sage_sc/img/itemOpenUnreadButton.png);
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
-  display: inline-block;
-  border: solid 1px #00000000;
-  width: 34px;
-  height: 34px;
-  content: "";
-  padding: 0;
-}
-
-#itemsPane {
-  background-color: #ffffff00;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9D9D9D;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.item {
-  color: #000000;
-  font-weight: bold;
-  text-decoration-line: none;
-  line-height: 1.5em;
-  font-size: 110%;
-  cursor: pointer;
-}
-
-.item.visited {
-  color: #888888;
-  font-weight: normal;
-}
-
-.item:hover {
-  text-decoration: underline;
-}
-
-/* new folder dialog */
-
-#newFolderDialog {
-  position: absolute;
-  left: 80px;
-  top: 80px;
-  background-color: #e8e8e7;
-  border: 1px solid #9d9d99;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
-  padding: 10px;
-  z-index: 1;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: block;
-}
-
-/* info view */
-
-#infoView {
-  position: absolute;
-  background-color: #f9f9f9;
-  left: 80px;
-  top: 200px;
-  font-size: 99%;
-  min-width: 160px;
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
-  ;
-  padding: 0;
-  z-index: 1;
-}
-
-.infoTitle {
-  text-align: center;
-  font-weight: bold;
-  color: #4f4545;
-  background-color: #e4e4e4;
-}
-
-#infoViewInner {
-  padding: 10px 10px 10px 10px;
-}
-
-#infoViewTable {
-  table-layout: fixed;
-}
-
-#infoViewTable td:last-child {
-  width: 100%;
-}
-
-.infoLabel {
-  font-weight: bold;
-  color: #4f4545;
-}
-
-.infoField {
-  border: 1px inset #000000;
-  white-space: pre;
-  -moz-user-select: text;
-  -khtml-user-select: text;
-  -webkit-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-}
-
-.infoButton {
-  font-size: 99%;
+:root {
+  --main-background-color: white;
+  --main-color: black;
+  --splitterBar-background-color: #9D9D9D;
+
+  /* ---- feeds layout ---- */
+
+  /* feeds top menu */
+  --feeds-topMenu-background-color: #E8E8E8;
+  --feeds-topMenu-border-color: #9D9D9D;
+  --feeds-topMenu-image-width: 26px;
+  --feeds-topMenu-image-height: 24px;
+  --feeds-checkFeedsButton-image: url(/themes/sage_sc/img/check-feeds.png);
+  --feeds-checkFeedsButtonAnim-image: url(/themes/sage_sc/img/check-feeds-animation.gif);
+  --feeds-checkFeedsButtonCursorRestart-cursor: url(/themes/_any/img/restart.png), not-allowed;
+  --feeds-discoverFeedsButton-image: url(/themes/sage_sc/img/magnify.png);
+  --feeds-onlyUpdatedFeedsButton-image: url(/themes/sage_sc/img/only-updated-feeds.png);
+  --feeds-onlyErrorFeedsButton-image: url(/themes/sage_sc/img/feed-error.png);
+  --feeds-toggleFoldersButton-image: url(/themes/sage_sc/img/toggle-folders.png);
+  --feeds-subscribeGo-image: url(/themes/sage_sc/img/subscribe-go.png);
+  --feeds-subscribeAdd-image: url(/themes/sage_sc/img/subscribe-add.png);
+  --feeds-filterButton-image: url(/themes/sage_sc/img/filter.png);
+  --feeds-optionsMenuButton-image: url(/themes/sage_sc/img/options.png);
+
+  /* feeds status bar*/
+  --feeds-statusBar-background-color: #E8E8E8;
+  --feeds-statusBar-border-color: #9D9D9D;
+  --feeds-statusButtonUpdating-image: url(/themes/sage_sc/img/updating.gif);
+
+  /* feeds filter bar */
+  --feeds-filterClearButton-image: url(/themes/_any/img/filter-clean.png);
+
+  /* feeds folders */
+  --feeds-folderOpen-image: url(/themes/sage_sc/img/folder-open.png);
+  --feeds-folderOpen-content: "" ;
+  --feeds-folderClose-image: url(/themes/sage_sc/img/folder-closed.png);
+  --feeds-folderClose-content: "" ;
+  --feeds-folderLabel-font-weight: normal;
+  --feeds-folderLabel-color: var(--main-color);
+
+  /* feeds feeds */
+  --feeds-feed-prefix-vertical-align: text-bottom;
+  --feeds-feed-image-width: 16px;
+  --feeds-feed-image-height: 16px;
+  --feeds-feedRead-image: url(/themes/sage_sc/img/feed-read.png);
+  --feeds-feedRead-content: "" ;
+  --feeds-feedRead-color: var(--main-color);
+  --feeds-feedUnread-image: url(/themes/sage_sc/img/feed-unread.png);
+  --feeds-feedUnread-content: "" ;
+  --feeds-feedUnread-color: var(--main-color);
+  --feeds-feedError-image: url(/themes/sage_sc/img/feed-error.png);
+  --feeds-feedError-content: "" ;
+  --feeds-feedError-color: var(--main-color);
+
+  /* feeds context menu */
+  --feeds-contextMenu-background-color: #f9f9f9;
+  --feeds-folderContextMenuCheckFeeds-image: url(/themes/sage_sc/img/check-feeds.png);
+  --feeds-folderContextMenuMarkAllAsRead-image: url(/themes/sage_sc/img/feed-read.png);
+  --feeds-folderContextMenuMarkAllAsUpdated-image: url(/themes/sage_sc/img/feed-unread.png);
+  --feeds-folderContextMenuOpenAllUpdated-image: url(/themes/sage_sc/img/feed-open.png);
+  --feeds-folderContextMenuOpenUpdatedAsUnified-image: url(/themes/sage_sc/img/merge.png);
+  --feeds-folderContextMenuSortByName-image: url(/themes/sage_sc/img/sort.png);
+  --feeds-folderContextMenuNewFolder-image: url(/themes/sage_sc/img/folder-new.png);
+  --feeds-folderContextMenuDeleteFolder-image: url(/themes/sage_sc/img/delete.png);
+  --feeds-folderContextMenuInfo-image: url(/themes/sage_sc/img/folder-info.png);
+  --feeds-feedContextMenuFeedTitle-image: url(/themes/sage_sc/img/title.png);
+  --feeds-feedContextMenuOpenFeed-image: url(/themes/sage_sc/img/feed-open.png);
+  --feeds-feedContextMenuMarkFeedAsRead-image: url(/themes/sage_sc/img/feed-read.png);
+  --feeds-feedContextMenuMarkFeedAsUpdated-image: url(/themes/sage_sc/img/feed-unread.png);
+  --feeds-feedContextMenuNew-image: url(/themes/sage_sc/img/folder-new.png);
+  --feeds-feedContextMenuDelete-image: url(/themes/sage_sc/img/delete.png);
+  --feeds-feedContextMenuInfo-image: url(/themes/sage_sc/img/feed-info.png);
+
+  /* feeds selection bar */
+  --feeds-selectionBar-color: #448bd6;
+
+  /* ---- items layout ---- */
+  --items-Layout-background-color: #e8e8e8;
+  --items-Layout-border-color: #9D9D9D;
+
+  /* items title bar*/
+  --items-Title-background-color: #e8e8e8;
+  --items-Title-border-color: #9D9D9D;
+  --items-Title-color: #444444;
+
+  /* items tool bar*/
+  --items-ToolBar-background-color: #e8e8e8;
+  --items-ToolBar-border-color: #9D9D9D;
+  --items-ToolBar-image-width: 20px;
+  --items-ToolBar-image-height: 20px;
+  --items-MarkAsReadButton-image: url(/themes/sage_sc/img/itemMarkAsReadButton.png);
+  --items-MarkAsUnreadButton-image: url(/themes/sage_sc/img/itemMarkAsUnreadButton.png);
+  --items-MarkAllAsReadButton-image: url(/themes/sage_sc/img/itemMarkAllAsReadButton.png);
+  --items-MarkAllAsUnreadButton-image: url(/themes/sage_sc/img/itemMarkAllAsUnreadButton.png);
+  --items-OpenUnreadButton-image: url(/themes/sage_sc/img/itemOpenUnreadButton.png);
+
+  /* items */
+  --items-item-color: #000000;
+  --items-itemVisited-color: #888888;
+
+  /* items selection bar */
+  --items-selectionBar-color: var(--feeds-selectionBar-color);
+
+  /* ---- dialog box ---- */
+  --dialog-background-color: #e8e8e7;
+  --dialog-border-color: #9d9d99;
+  --dialog-title-color: #4f4545;
+  --dialog-title-background-color: #e4e4e4;
+  --dialog-label-color: #4f4545;
 }
