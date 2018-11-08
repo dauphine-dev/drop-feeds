@@ -1,26 +1,20 @@
-/*
 html {
 	margin: 0;
 	font-family: verdana, sans-serif;
-	background: gainsboro;
+	background: #FFFFFF;
+	color: #0F0F0F;
 }
-*/
 
 body {
-	/*width: 95%;*/
+	width: 100%;
 	margin: 0;
-	color: #0F0F0F;
-	font-family: verdana;
-	background-color: #FFFFFF;
 }
-
 
 a {
 	color: #436A75;
 	font-weight: bold;
 	text-decoration: none;
 }
-
 
 a:visited {
 	color: #739Aa5;
@@ -30,7 +24,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-
 img, video {
 	height: auto;
 	max-width: 100%;
@@ -38,14 +31,14 @@ img, video {
 
 .channelHead {
 	background-color: #D7E2E8;
-	/*border-radius: 5px;*/
+	border-radius: initial;
 	border: 1px solid #98B3C0;
 	padding: 7px;
 	margin: 10px 2% 10px 2%;
 }
 
 h1.channelTitle {
-	/*color: #000000;*/
+	color: inherit;
 	margin: 0;
 	padding: 0;
 	font-size: large;
@@ -53,39 +46,34 @@ h1.channelTitle {
 }
 
 a.channelLink {
-	/*margin: 0;*/
-	/*color: #4C6A72;*/
-	/*font-weight: bold;*/
-	/*text-decoration: none;*/
+	margin: initial;
+	color: initial;
+	font-weight: initial;
+	text-decoration: initial;
 }
-
 
 a.channelLink:visited {	
 	color: #436A75;
 	font-weight: bold;
 }
 
-
 .channelDescription {
-	/*color: #405A5A;*/
+	color: inherit;
 	font-size: small;
 	padding: 10px;
-	/*padding-left: 80px;*/
-	/*padding-right: 20px;*/
-	/*width: auto;*/
-	/*font-weight: bold;*/
+	width: initial;
+	font-weight: initial;
 	margin: 0;
 }
 
 div.item {
 	display: block;
-	/*background: ghostwhite;*/
+	background: initial;
 	border: 1px solid #8DAAB8;
-	/*border-radius: 10px;*/
-	/*color: #333;*/
-	/*font-size: 12px;*/
-	margin: 0 0 10px 2%;
-	/*margin-bottom: 15px;*/
+	border-radius: initial;
+	color: initial;
+	font-size: inherit;
+	margin: 0 0 10px 2%;	
 	padding: 0;
 	position: relative;
 	width: 47%;
@@ -101,38 +89,37 @@ div.item {
 .itemTitle {
 	margin: 0px;
 	background-color: #D7E2E8;
-	/*border-bottom: 1px solid #ddd;*/
-	/*color: #000;*/
-	/*display: block;*/
-	/*font-family: arial, verdana, sans-serif;*/
+	border-bottom: initial;
+	color: initial;
+	display: initial;
+	font-family: inherit;
 	font-size: small;
 	font-weight: normal;
 	line-height: 1.2em;
-	/*min-height: 1.3em;*/
+	min-height: initial;
 	padding: 6px;	
 }
 
-/*
+
 .item a:link {
-	color: dodgerblue;
-	text-decoration-line: underline;
+	color: initial;
+	text-decoration-line: initial;
 }
 
 .item a:visited {
 	color: dodgerblue;
-	text-decoration-line: underline;
+	text-decoration-line: initial;
 }
 
 .item a:hover {
-	color: dodgerblue;
-	text-decoration: underline;
+	color: initial;
+	text-decoration: initial;
 }
 
 .item a:active {
-	color: dodgerblue;
-	text-decoration: underline;
+	color: initial;
+	text-decoration: initial;
 }
-
 
 .itemTitle a {
 	color: #000;
@@ -140,13 +127,11 @@ div.item {
 	font-weight: normal;
 }
 
-
 .itemTitle a:link {
 	color: gainsboro;
 	text-decoration: none;
 	font-weight: normal;
 }
-
 
 .itemTitle a:visited {
 	color: gainsboro;
@@ -155,28 +140,26 @@ div.item {
 }
 
 .itemTitle a:hover {
-	color: gainsboro;
-	text-decoration: none;
-	font-weight: normal;
+	color: initial;
+	text-decoration: initial;
+	font-weight: initial;
 }
-
 
 .itemTitle a:visited {
-	color: gainsboro;
-	text-decoration: none;
-	font-weight: normal;
+	color: initial;
+	text-decoration: initial;
+	font-weight: initial;
 }
-*/
 
 .itemNumber {
-	/*font-size: xx-small;*/
-	/*color: gainsboro;*/
+	font-size: inherit;
+	color: inherit;
 	padding-right: 5px;
 	font-weight: normal;
 }
 
 .itemDescription {
-	/*margin: 0px;*/
+	margin: initial;
 	min-height: 6em;
 	font-size: small;
 	margin: 0px;
@@ -190,13 +173,12 @@ div.item {
 }
 
 .itemCat {
-	/*display: none;*/
+	display: initial;
 	color: #7D7D7D;
 }
 
-/*
 .itemAuthor {
-	display: none;
+	display: initial
 }
 
 .itemPubDate {
@@ -214,7 +196,6 @@ div.item {
 	top: -1em;
 	width: 15em;
 }
-*/
 
 .itemAudioPlayer audio {
 	width: 75%;

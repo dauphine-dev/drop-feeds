@@ -1,26 +1,20 @@
-
 html {
 	margin: 0;
 	font-family: verdana, sans-serif;
 	background: black;
+	color: initial;
 }
-
 
 body {
 	width: 95%;
 	margin: 30px auto;
-	/*color: #404040;*/
-	/*font-family: verdana;*/
-	/*background-color: #F2F2F2;*/
 }
 
-/*
 a {
-	color: #436A75;
-	font-weight: bold;
-	text-decoration: none;
+	color: initial;
+	font-weight: initial;
+	text-decoration: initial;
 }
-
 
 a:visited {
 	color: #739Aa5;
@@ -29,7 +23,6 @@ a:visited {
 a:hover {
 	text-decoration: underline;
 }
-*/
 
 img, video {
 	height: auto;
@@ -45,11 +38,11 @@ img, video {
 }
 
 h1.channelTitle {
-	/*color: #000000;*/
+	color: inherit;
 	margin: 0;
-	/*padding: 0;*/
-	/*font-size: large;*/
-	/*line-height: 1em;*/
+	padding: initial;
+	font-size: inherit;
+	line-height: inherit;
 }
 
 a.channelLink {
@@ -59,39 +52,34 @@ a.channelLink {
 	text-decoration: none;
 }
 
-/*
 a.channelLink:visited {
-	color: #436A75;
-	font-weight: bold;
+	color: initial;
+	font-weight: initial;
 }
-*/
 
 .channelDescription {
 	color: gray;
 	font-size: 90%;
-	/*padding: 10px;*/
-	padding-left: 80px;
-	padding-right: 20px;
+	padding: 0 20px 0 80px;
 	width: auto;
 	font-weight: bold;
 	margin: 0;
 }
 
 div.item {
-	/*display: block;*/
+	display: initial;
 	background: #323234;
 	border: 1px solid #303030;
 	border-radius: 10px;
 	color: gainsboro;
 	font-size: 12px;
-	/*margin: 0 0 10px 2%;*/
-	margin-bottom: 15px;
-	padding: 0px 10px 15px 20px;
+	margin: 0 0 15px 0;
+	padding: 0 10px 15px 20px;
 	position: relative;
-	/*width: 47%;*/
-	/*min-width: 29em;*/
-	/*float: left;*/
-	/*overflow: hidden;*/
+	width: initial;
+	min-width: initial;
+	float: initial;
+	overflow: initial;
 }
 
 .error {
@@ -99,15 +87,15 @@ div.item {
 }
 
 .itemTitle {
-	/*margin: 0px;*/
-	/*background-color: #D7E2E8;*/
+	margin: initial;
+	background-color: initial;
 	border-bottom: 1px solid #606060;
 	color: gainsboro;
 	display: block;
 	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
-	/*line-height: 1.2em;*/
+	line-height: initial;
 	min-height: 1.3em;
 	padding: 0px 2.3em 0px 0px;
 }
@@ -133,20 +121,17 @@ div.item {
 	text-decoration: underline;
 }
 
-/*
 .itemTitle a {
-	color: #000;
-	text-decoration: none;
-	font-weight: normal;
+	color: initial;
+	text-decoration: initial;
+	font-weight: initial;
 }
-*/
 
 .itemTitle a:link {
 	color: gainsboro;
 	text-decoration: none;
 	font-weight: normal;
 }
-
 
 .itemTitle a:visited {
 	color: gainsboro;
@@ -160,16 +145,14 @@ div.item {
 	font-weight: normal;
 }
 
-
 .itemTitle a:visited {
 	color: gainsboro;
 	text-decoration: none;
 	font-weight: normal;
 }
 
-
 .itemNumber {
-	/*font-size: xx-small;*/
+	font-size: inherit;
 	color: gainsboro;
 	padding-right: 5px;
 	font-weight: normal;
@@ -177,10 +160,10 @@ div.item {
 
 .itemDescription {
 	margin: 0px;
-	/*min-height: 6em;*/
-	/*font-size: small;*/
-	/*margin: 0px;*/
-	/*padding: 9px;*/
+	min-height: initial;
+	font-size: inherit;
+	margin: initial;
+	padding: initial;
 }
 
 .itemInfo {
@@ -191,9 +174,8 @@ div.item {
 
 .itemCat {
 	display: none;
-  /*color: #7D7D7D;*/	
+  color: inherit;
 }
-
 
 .itemAuthor {
 	display: none;
@@ -214,7 +196,6 @@ div.item {
 	top: -1em;
 	width: 15em;
 }
-
 
 .itemAudioPlayer audio {
 	width: 50%;
