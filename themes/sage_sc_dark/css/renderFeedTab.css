@@ -2,7 +2,7 @@ html {
 	margin: 0;
 	font-family: verdana, sans-serif;
 	background: black;
-	color: initial;
+	color: revert;
 }
 
 body {
@@ -11,9 +11,9 @@ body {
 }
 
 a {
-	color: initial;
-	font-weight: initial;
-	text-decoration: initial;
+	color: revert;
+	font-weight: revert;
+	text-decoration: revert;
 }
 
 a:visited {
@@ -38,11 +38,11 @@ img, video {
 }
 
 h1.channelTitle {
-	color: inherit;
+	color: revert;
 	margin: 0;
-	padding: initial;
-	font-size: inherit;
-	line-height: inherit;
+	padding: revert;
+	font-size: revert;
+	line-height: revert;
 }
 
 a.channelLink {
@@ -53,8 +53,8 @@ a.channelLink {
 }
 
 a.channelLink:visited {
-	color: initial;
-	font-weight: initial;
+	color: revert;
+	font-weight: revert;
 }
 
 .channelDescription {
@@ -67,7 +67,7 @@ a.channelLink:visited {
 }
 
 div.item {
-	display: initial;
+	display: revert;
 	background: #323234;
 	border: 1px solid #303030;
 	border-radius: 10px;
@@ -76,10 +76,10 @@ div.item {
 	margin: 0 0 15px 0;
 	padding: 0 10px 15px 20px;
 	position: relative;
-	width: initial;
-	min-width: initial;
-	float: initial;
-	overflow: initial;
+	width: revert;
+	min-width: revert;
+	float: revert;
+	overflow: revert;
 }
 
 .error {
@@ -87,15 +87,15 @@ div.item {
 }
 
 .itemTitle {
-	margin: initial;
-	background-color: initial;
+	margin: revert;
+	background-color: revert;
 	border-bottom: 1px solid #606060;
 	color: gainsboro;
 	display: block;
 	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
-	line-height: initial;
+	line-height: revert;
 	min-height: 1.3em;
 	padding: 0px 2.3em 0px 0px;
 }
@@ -122,9 +122,9 @@ div.item {
 }
 
 .itemTitle a {
-	color: initial;
-	text-decoration: initial;
-	font-weight: initial;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemTitle a:link {
@@ -152,7 +152,7 @@ div.item {
 }
 
 .itemNumber {
-	font-size: inherit;
+	font-size: revert;
 	color: gainsboro;
 	padding-right: 5px;
 	font-weight: normal;
@@ -160,10 +160,10 @@ div.item {
 
 .itemDescription {
 	margin: 0px;
-	min-height: initial;
-	font-size: inherit;
-	margin: initial;
-	padding: initial;
+	min-height: revert;
+	font-size: revert;
+	margin: revert;
+	padding: revert;
 }
 
 .itemInfo {
@@ -174,7 +174,7 @@ div.item {
 
 .itemCat {
 	display: none;
-  color: inherit;
+  color: revert;
 }
 
 .itemAuthor {

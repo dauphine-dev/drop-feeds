@@ -31,14 +31,14 @@ img, video {
 
 .channelHead {
 	background-color: #D7E2E8;
-	border-radius: initial;
+	border-radius: revert;
 	border: 1px solid #98B3C0;
 	padding: 7px;
 	margin: 10px 2% 10px 2%;
 }
 
 h1.channelTitle {
-	color: inherit;
+	color: revert;
 	margin: 0;
 	padding: 0;
 	font-size: large;
@@ -46,10 +46,10 @@ h1.channelTitle {
 }
 
 a.channelLink {
-	margin: initial;
-	color: initial;
-	font-weight: initial;
-	text-decoration: initial;
+	margin: revert;
+	color: revert;
+	font-weight: revert;
+	text-decoration: revert;
 }
 
 a.channelLink:visited {	
@@ -58,21 +58,21 @@ a.channelLink:visited {
 }
 
 .channelDescription {
-	color: inherit;
+	color: revert;
 	font-size: small;
 	padding: 10px;
-	width: initial;
-	font-weight: initial;
+	width: revert;
+	font-weight: revert;
 	margin: 0;
 }
 
 div.item {
 	display: block;
-	background: initial;
+	background: revert;
 	border: 1px solid #8DAAB8;
-	border-radius: initial;
-	color: initial;
-	font-size: inherit;
+	border-radius: revert;
+	color: revert;
+	font-size: revert;
 	margin: 0 0 10px 2%;	
 	padding: 0;
 	position: relative;
@@ -89,77 +89,77 @@ div.item {
 .itemTitle {
 	margin: 0px;
 	background-color: #D7E2E8;
-	border-bottom: initial;
-	color: initial;
-	display: initial;
-	font-family: inherit;
+	border-bottom: revert;
+	color: revert;
+	display: revert;
+	font-family: revert;
 	font-size: small;
 	font-weight: normal;
 	line-height: 1.2em;
-	min-height: initial;
+	min-height: revert;
 	padding: 6px;	
 }
 
 
 .item a:link {
-	color: initial;
-	text-decoration-line: initial;
+	color: revert;
+	text-decoration-line: revert;
 }
 
 .item a:visited {
-	color: dodgerblue;
-	text-decoration-line: initial;
+	color: revert;
+	text-decoration-line: revert;
 }
 
 .item a:hover {
-	color: initial;
-	text-decoration: initial;
+	color: revert;
+	text-decoration: revert;
 }
 
 .item a:active {
-	color: initial;
-	text-decoration: initial;
+	color: revert;
+	text-decoration: revert;
 }
 
 .itemTitle a {
-	color: #000;
-	text-decoration: none;
-	font-weight: normal;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemTitle a:link {
-	color: gainsboro;
-	text-decoration: none;
-	font-weight: normal;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemTitle a:visited {
-	color: gainsboro;
-	text-decoration: none;
-	font-weight: normal;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemTitle a:hover {
-	color: initial;
-	text-decoration: initial;
-	font-weight: initial;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemTitle a:visited {
-	color: initial;
-	text-decoration: initial;
-	font-weight: initial;
+	color: revert;
+	text-decoration: revert;
+	font-weight: revert;
 }
 
 .itemNumber {
-	font-size: inherit;
-	color: inherit;
+	font-size: revert;
+	color: revert;
 	padding-right: 5px;
 	font-weight: normal;
 }
 
 .itemDescription {
-	margin: initial;
+	margin: revert;
 	min-height: 6em;
 	font-size: small;
 	margin: 0px;
@@ -173,28 +173,28 @@ div.item {
 }
 
 .itemCat {
-	display: initial;
+	display: revert;
 	color: #7D7D7D;
 }
 
 .itemAuthor {
-	display: initial
+	display: revert;
 }
 
 .itemPubDate {
-	background: #FAF4C8;
-	border: 1px solid #A7A6AA;
-	color: #777;
-	float: right;
+	background: revert;
+	border: revert;
+	color: revert;
+	float: revert;
 	font-size: 10px;
-	font-weight: bold;
-	line-height: 1.1em;
-	padding: 3px 5px 4px 5px;
-	position: absolute;
-	right: 1.5em;
-	text-align: center;
-	top: -1em;
-	width: 15em;
+	font-weight: revert;
+	line-height: revert;
+	padding: revert;
+	position: revert;
+	right: revert;
+	text-align: revert;
+	top: revert;
+	width: revert;
 }
 
 .itemAudioPlayer audio {
