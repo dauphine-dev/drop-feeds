@@ -2,5 +2,8 @@
   --main-background-color: #E8E8E8;
   --main-text-color: black;
   --main-splitterBar-color: #9D9D9D;
+  --main-border-color: #9D9D9D;
+  --main-selection-color: #448bd6;
+  --main-dialog-background-color: var(--main-background-color);
 }
   

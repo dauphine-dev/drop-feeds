@@ -2,4 +2,7 @@
   --main-background-color: #E0E0EF;
   --main-text-color: black;
   --main-splitterBar-color: #9D9D9D;
+  --main-border-color: #9D9D9D;
+  --main-selection-color: #60698f;
+  --main-dialog-background-color: var(--main-background-color);
 }

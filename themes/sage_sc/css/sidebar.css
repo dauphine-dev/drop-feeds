@@ -4,7 +4,7 @@
 
   /* feeds top menu */
   --feeds-topMenu-background-color: var(--main-background-color);
-  --feeds-topMenu-border-color: #9D9D9D;
+  --feeds-topMenu-border-color: var(--main-border-color);
   --feeds-topMenu-image-width: 26px;
   --feeds-topMenu-image-height: 24px;
   --feeds-checkFeedsButton-image: url(/themes/sage_sc/img/check-feeds.png);
@@ -21,7 +21,7 @@
 
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--main-background-color);
-  --feeds-statusBar-border-color: #9D9D9D;
+  --feeds-statusBar-border-color: var(--main-border-color);
   --feeds-statusButtonUpdating-image: url(/themes/sage_sc/img/updating.gif);
 
   /* feeds filter bar */
@@ -50,7 +50,7 @@
   --feeds-feedError-color: var(--main-text-color);
 
   /* feeds context menu */
-  --feeds-contextMenu-background-color: #f9f9f9;
+  --feeds-contextMenu-background-color: var(--main-background-color);
   --feeds-folderContextMenuCheckFeeds-image: url(/themes/sage_sc/img/check-feeds.png);
   --feeds-folderContextMenuMarkAllAsRead-image: url(/themes/sage_sc/img/feed-read.png);
   --feeds-folderContextMenuMarkAllAsUpdated-image: url(/themes/sage_sc/img/feed-unread.png);
@@ -69,20 +69,20 @@
   --feeds-feedContextMenuInfo-image: url(/themes/sage_sc/img/feed-info.png);
 
   /* feeds selection bar */
-  --feeds-selectionBar-color: #448bd6;
+  --feeds-selectionBar-color: var(--main-selection-color);
 
   /* ---- items layout ---- */
   --items-Layout-background-color: var(--main-background-color);
-  --items-Layout-border-color: #9D9D9D;
+  --items-Layout-border-color: var(--main-border-color);
 
   /* items title bar*/
   --items-Title-background-color: var(--main-background-color);
-  --items-Title-border-color: #9D9D9D;
+  --items-Title-border-color: var(--main-border-color);
   --items-Title-color: #444444;
 
   /* items tool bar*/
   --items-ToolBar-background-color: var(--main-background-color);
-  --items-ToolBar-border-color: #9D9D9D;
+  --items-ToolBar-border-color: var(--main-border-color);
   --items-ToolBar-image-width: 20px;
   --items-ToolBar-image-height: 20px;
   --items-MarkAsReadButton-image: url(/themes/sage_sc/img/itemMarkAsReadButton.png);
@@ -99,7 +99,7 @@
   --items-selectionBar-color: var(--feeds-selectionBar-color);
 
   /* ---- dialog box ---- */
-  --dialog-background-color: #e8e8e7;
+  --dialog-background-color: var(--main-dialog-background-color);
   --dialog-border-color: #9d9d99;
   --dialog-title-color: #4f4545;
   --dialog-title-background-color: #e4e4e4;
