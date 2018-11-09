@@ -1,0 +1,15 @@
+:root {
+  --renderTabMain-font-family: verdana, sans-serif;
+  --renderTabMain-background-color: #ffffff;
+  --renderTabMain-text-color: #0f0f0f;
+  --renderTabMain-border-color: #8daab8;
+  --renderTabMain-channelTitle-background-color: #D7E2E8;
+  --renderTabMain-channelTitle-text-color: #436A75;
+  --renderTabMain-channelTitle-visited-color: #739Aa5;
+  --renderTabMain-itemsTitle-background-color: var(--renderTabMain-channelTitle-background-color);
+  --renderTabMain-itemsTitle-text-color: #436A75;
+  --renderTabMain-itemsTitle-visited-color: #739Aa5; 
+  --renderTabMain-itemsInfo-text-color: #242482;
+  --renderTabMain-itemsCategories-text-color: #7D7D7D;
+  --renderTabMain-error-background-color: #FF8888 !important;
+}
