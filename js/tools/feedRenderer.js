@@ -97,14 +97,16 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static _getHtmlHead(channel) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
-    let cssUrl = browser.runtime.getURL(ThemeManager.instance.getCssUrl('renderFeedTab.css'));
+    let cssUrl1 = browser.runtime.getURL(ThemeManager.instance.getCssUrl('renderFeedTabMain.css'));
+    let cssUrl2 = browser.runtime.getURL(ThemeManager.instance.getCssUrl('renderFeedTab.css'));
     let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead += '<html>\n';
     htmlHead += '  <head>\n';
     htmlHead += '    <meta http-equiv="Content-Type" content="text/html; charset=' + encoding + '">\n';
     htmlHead += '    <link rel="icon" type="image/png" href="' + iconUrl + '">\n';
-    htmlHead += '    <link rel="stylesheet" type="text/css" href="' + cssUrl + '">\n';
+    htmlHead += '    <link rel="stylesheet" type="text/css" href="' + cssUrl1 + '">\n';
+    htmlHead += '    <link rel="stylesheet" type="text/css" href="' + cssUrl2 + '">\n';
     if (channel.title) { htmlHead += '    <title>' + channel.title + ' - Drop-Feed</title>\n'; }
     htmlHead += '  </head>\n';
     htmlHead += '  <body>\n';
