@@ -156,7 +156,7 @@
     "message": "新しいフォルダ"
   },
   "subWindowCloseError": {
-    "message": "Drop feeds has failed to close the window, please close it manually."
+    "message": "Drop feedsはウインドウを閉じるのに失敗しました。手動で閉じてください。"
   },
   "subCancel": {
     "message": "キャンセル"
@@ -303,7 +303,7 @@
     "message": "フィードを整形して表示する"
   },
   "optItemNewTab": {
-    "message": "Open items on new tab"
+    "message": "アイテムを新しいタブで開く"
   },
   "optAlwaysOpenNewTab": {
     "message": "常に新しいタブで開く"
