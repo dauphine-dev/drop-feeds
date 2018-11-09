@@ -70,8 +70,14 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     await this.reload_async();
   }
 
-  resize() {
+  resize() {    
     document.getElementById('treeView').style.width  = window.innerWidth + 'px';
+    let rec = document.getElementById('feedsLayoutCell').getBoundingClientRect();
+    let feedsLayoutBackground = document.getElementById('feedsLayoutBackground');
+    feedsLayoutBackground.style.left = rec.left + 'px';
+    feedsLayoutBackground.style.width = rec.width + 'px';
+    feedsLayoutBackground.style.top = rec.top + 'px';
+    feedsLayoutBackground.style.height = rec.height + 'px';
   }
 
   setContentHeight(height) {

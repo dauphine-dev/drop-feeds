@@ -1,9 +1,10 @@
 :root {
   --main-background-color: #E0E0EF;
-  --main-color: black;
-  --splitterBar-background-color: #9D9D9D;
+  --main-text-color: black;
+  --main-splitterBar-color: #9D9D9D;
 
   /* ---- feeds layout ---- */
+  --feeds-Layout-background-color: var(--main-background-color);
 
   /* feeds top menu */
   --feeds-topMenu-background-color: #E8E8E8;

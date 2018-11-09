@@ -1,12 +1,13 @@
 :root {
   --main-background-color: #323234;
-  --main-color: gainsboro;
-  --splitterBar-background-color: #9D9D9D;
+  --main-text-color: gainsboro;
+  --main-splitterBar-color: #9D9D9D;
 
   /* ---- feeds layout ---- */
+  --feeds-Layout-background-color: var(--main-background-color);
 
   /* feeds top menu */
-  --feeds-topMenu-background-color: #E8E8E8;
+  --feeds-topMenu-background-color: var(--main-background-color);
   --feeds-topMenu-border-color: #9D9D9D;
   --feeds-topMenu-image-width: 26px;
   --feeds-topMenu-image-height: 24px;
@@ -36,7 +37,7 @@
   --feeds-folderClose-image: url(/themes/sage_sc/img/folder-closed.png);
   --feeds-folderClose-content: "" ;
   --feeds-folderLabel-font-weight: normal;
-  --feeds-folderLabel-color: var(--main-color);
+  --feeds-folderLabel-color: var(--main-text-color);
 
   /* feeds feeds */
   --feeds-feed-prefix-vertical-align: text-bottom;
@@ -44,13 +45,13 @@
   --feeds-feed-image-height: 16px;
   --feeds-feedRead-image: url(/themes/sage_sc/img/feed-read.png);
   --feeds-feedRead-content: "" ;
-  --feeds-feedRead-color: var(--main-color);
+  --feeds-feedRead-color: var(--main-text-color);
   --feeds-feedUnread-image: url(/themes/sage_sc/img/feed-unread.png);
   --feeds-feedUnread-content: "" ;
-  --feeds-feedUnread-color: var(--main-color);
+  --feeds-feedUnread-color: var(--main-text-color);
   --feeds-feedError-image: url(/themes/sage_sc/img/feed-error.png);
   --feeds-feedError-content: "" ;
-  --feeds-feedError-color: var(--main-color);
+  --feeds-feedError-color: var(--main-text-color);
 
   /* feeds context menu */
   --feeds-contextMenu-background-color: #222224;
@@ -95,7 +96,7 @@
   --items-OpenUnreadButton-image: url(/themes/sage_sc/img/itemOpenUnreadButton.png);
 
   /* items */
-  --items-item-color: var(--main-color);
+  --items-item-color: var(--main-text-color);
   --items-itemVisited-color: #888888;
 
   /* items selection bar */
@@ -106,5 +107,5 @@
   --dialog-border-color: #9d9d99;
   --dialog-title-color: #4f4545;
   --dialog-title-background-color: #e4e4e4;
-  --dialog-label-color: var(--main-color);
+  --dialog-label-color: var(--main-text-color);
 }
