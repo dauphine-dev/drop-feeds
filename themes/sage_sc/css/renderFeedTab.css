@@ -57,6 +57,10 @@ a.channelLink:visited {
 	font-weight: revert;
 }
 
+a.channelLink:hover {
+	text-decoration: revert;
+}
+
 .channelDescription {
 	color: #405A5A;
 	font-size: 90%;
