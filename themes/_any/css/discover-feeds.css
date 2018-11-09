@@ -1,23 +1,16 @@
-:root {
-  --main-background-color: white;
-  --main-text-color: black;
-  --main-splitterBar-color: #9D9D9D;
-}
-
 html {
   font-family: sans-serif;
-  background-color: var(--main-background-color);
 }
 
 body{
   width: 700px;
   height: 200px;
-  background-color: #e8e8e7;
+  background-color: var(--main-background-color);
   padding: 10px;
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
-  color: #4F4545;
+  color: var(--main-text-color);
   font-size: small;
 }
 
@@ -29,8 +22,8 @@ body{
 #progressBarTotal {
   display: none;
   border-radius:16px;
-  color:#000;
-  background-color:#d1d1d1;
+  color: var(--main-text-color);
+  background-color: var(--main-progressBar-background-color);
   width: 85%;
   padding-right: 32px;
 }
@@ -39,8 +32,8 @@ body{
   display: none;
   border-radius:16px;
   padding:0.01em 16px;
-  color:#fff;
-  background-color:#2196F3;
+  color: var(--main-text-complementary-color);
+  background-color: var(--main-progressBar-foreground-color);
 }
 
 #discoveredFeeds {
@@ -52,29 +45,28 @@ body{
   overflow: auto;
   width: 90%;
   height: 65%;
-  border: 1px solid #f3f3f2;
+  border: 1px solid var(--main-background-color);
 }
 
 table {
   border-collapse: collapse;
-  border: 2px solid #c8c8c8;
+  border: 2px solid var(--main-border-color);
   letter-spacing: 1px;
-  background-color: #ffffff;
+  background-color: var(--main-table-background-color);
   font-size: x-small;
   width: 100%;
 }
 
-
 th {
-  border: 1px solid #bebebe;
+  border: 1px solid var(--main-border-color);
   padding: 1px 2px;
   text-align: left;
-  background-color: #f3f3f3;
+  background-color: var(--main-table-header-color);
   font-weight: normal;
 }
 
 td {
-  border: 1px solid #bebebe;
+  border: 1px solid var(--main-border-color);
   padding: 2px 20px;
   background-color: #ffffff00;
   cursor: cell;
@@ -85,5 +77,5 @@ tbody {
 }
 
 .selectionRaw {
-  background-color: #448bd6;
+  background-color: var(--main-selection-background-color);
 }

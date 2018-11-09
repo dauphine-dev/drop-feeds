@@ -49,7 +49,7 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
     if (! this._selectedElement) { return; }
     let targetElement = this._getTargetElement(selectedElement);
     if (targetElement) {
-      targetElement.style.color = 'white';
+      targetElement.style.color = 'var(--main-selection-text-color)';
       let rectTarget = this._selectedElement.getBoundingClientRect();
       let y = rectTarget.top + 5;
       this._selectionBarElement.style.top = y + 'px';

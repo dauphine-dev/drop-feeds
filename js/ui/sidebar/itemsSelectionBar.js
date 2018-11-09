@@ -37,7 +37,7 @@ class ItemsSelectionBar { /*exported ItemsSelectionBar*/
   _putNew(selectedElement) {
     this._selectedElement = selectedElement;
     if (! this._selectedElement) { return; }
-    this._selectedElement.style.color = 'white';
+    this._selectedElement.style.color = 'var(--main-selection-text-color)';
     let y = this._setTop();
     let elItemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     let minTop  = elItemsPaneTitleBar.offsetTop + elItemsPaneTitleBar.clientHeight;

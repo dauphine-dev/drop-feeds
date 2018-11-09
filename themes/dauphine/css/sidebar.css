@@ -1,6 +1,6 @@
 :root {
   /* ---- feeds layout ---- */
-  --feeds-Layout-background-color: var(--main-background-color);
+  --feeds-Layout-background-color: var(--main-background-secondary-color);
 
   /* feeds top menu */
   --feeds-topMenu-background-color: #E8E8E8;
@@ -69,7 +69,7 @@
   --feeds-feedContextMenuInfo-image: url(/themes/dauphine/img/feed-info.png);
 
   /* feeds selection bar */
-  --feeds-selectionBar-color: var(--main-selection-color);
+  --feeds-selectionBar-color: var(--main-selection-background-color);
 
   /* ---- items layout ---- */
   --items-Layout-background-color: var(--main-background-color);

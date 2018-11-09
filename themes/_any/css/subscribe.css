@@ -3,12 +3,13 @@ html {
 }
 
 body{
-  background-color: #E0E0EF;
+  background-color: var(--main-background-color);
+  color: var(--main-text-color);
   padding: 0 0 0 10px;
   margin: 0;
   font-weight: normal;
   overflow: hidden;
-  color: #4F4545;
+	font-size: small;
 }
 
 .title{
@@ -26,8 +27,8 @@ body{
 }
 
 #folderView{
-	background-color: #F2F2F2;
-  border: 1px solid #9d9d99;
+  background-color: var(--main-background-secondary-color);
+  border: 1px solid var(--main-border-color);
   width: 100%;
   min-height: 319px;
   max-height: 320px;
@@ -62,25 +63,27 @@ tr>td {
 }
 
 .atRight {
-  float:right;
+  float: right;
 }
+
 .selected {
-  color: #FFFFFF;
-  background-color: #4a90d9;
+  color: var(--main-selection-text-color);
+  background-color: var(--main-selection-background-color);
 }
 .selected1 {
-  color: #FFFFFF;
-  background-color: #4a90d9;
+  color: var(--main-selection-text-color);
+  background-color: var(--main-selection-background-color);
 }
 
 .fieldText {
   width:99%;
-  border: 1px solid #9d9d99;
-	background-color: #F2F2F2;
+  border: 1px solid var(--main-border-color);
 }
 
 .default{
-  border: 1px solid #1d1d1d;
+  padding: 4px 0 5px 0;
+  border: 1px solid var(--main-border-color);
+  filter: brightness(50%);
 }
 
 /* folders */
@@ -103,8 +106,8 @@ input:checked ~ .folderOpen {
   display: inline;
 }
 .folderOpen::before {
-  background-image: url(/themes/dauphine/img/folder-open.png);
-  background-size: 16px 12px;
+  background-image: url(/themes/legacy/img/folder-open.png);
+  background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
   width: 16px;
@@ -112,9 +115,10 @@ input:checked ~ .folderOpen {
   content:"";
   padding-right: 1px;
   margin-top: -1px;
+
 }
 .folderClose::before {
-  background-image: url(/themes/dauphine/img/folder-closed.png);
+  background-image: url(/themes/legacy/img/folder-closed.png);
   background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -135,11 +139,11 @@ li {
 
 /* new folder dialog */
 #newFolderDialog {
-  background-color: #E0E0EF;
   position: absolute;
   left: 80px;
   top: 80px;
-  border: 1px solid #9d9d99;
+  background-color: var(--main-dialog-background-color);
+  border: 1px solid var(--main-border-color);
   box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
   padding: 10px;
   z-index: 1;
