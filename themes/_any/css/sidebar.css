@@ -210,11 +210,20 @@ html, body {
 
 #filterBar {
   height: 30px;
-  line-height: 30px;  
+  line-height: 30px;
+  background-color: #ffffff00;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: var(--main-border-color);
 }
 
-#filterField {  
+#filterField {
   width: calc(100% - 26px);
+  background-color: #ffffff00;
+  color: var(--main-text-color); 
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 #filterClearButton::before {  
