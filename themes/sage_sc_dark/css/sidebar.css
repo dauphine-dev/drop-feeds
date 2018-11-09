@@ -1,8 +1,4 @@
 :root {
-  --main-background-color: #323234;
-  --main-text-color: gainsboro;
-  --main-splitterBar-color: #9D9D9D;
-
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-color);
 

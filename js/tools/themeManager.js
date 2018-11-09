@@ -47,10 +47,18 @@ class ThemeManager { /*exported ThemeManager*/
     await LocalStorageManager.setValue_async('themeFolderName', themeFolderName);
   }
 
-  applyCssToCurrentDocument(cssName) {
-    let cssUrl = this.themeFolderUrl + 'css/' + cssName;
+  applyCssToCurrentDocument(cssName) {    
     let elCssLink = document.getElementById('cssLink');
-    elCssLink.setAttribute('href', cssUrl);
+    if (elCssLink) {
+      let cssUrl = this.themeFolderUrl + 'css/' + cssName;
+      elCssLink.setAttribute('href', cssUrl);  
+    }
+
+    let elCssMain = document.getElementById('cssMain');
+    if (elCssMain) {
+      let cssUrlMain = this.themeFolderUrl + 'css/main.css';
+      elCssMain.setAttribute('href', cssUrlMain);
+    }
   }
 
   async refreshAndApplyCss_async(cssName) {
