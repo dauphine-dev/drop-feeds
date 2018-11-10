@@ -1,6 +1,6 @@
 /*global BrowserManager TextTools SyntaxHighlighter EditorMenu LocalStorageManager DefaultValues TextConsole UndoRedoTextArea*/
 'use strict';
-const _cssEditorPath = '/themes/_any/css/editor.css';
+const _cssEditorPath = '/themes/_templates/css/editor.css';
 const _overflow = {
   vertical: 0,
   horizontal: 1

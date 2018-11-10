@@ -68,7 +68,7 @@ select {
 }
 
 #logoImg::before {
-	background-image: url(/themes/_any/img/drop-feeds-96.png);
+	background-image: url(/themes/_templates/img/drop-feeds-96.png);
 	background-size: 96px 96px;
 	width: 96px;
 	height: 96px;
@@ -112,7 +112,7 @@ select {
 }
 
 #createNewScript::before {
-	background-image: url(/themes/_any/img/scripts-new.png);
+	background-image: url(/themes/_templates/img/scripts-new.png);
 }
 
 #resizeBar {
@@ -145,7 +145,7 @@ select {
 
 .logo::before {
 	position: relative;
-	background-image: url(/themes/_any/img/drop-feeds-32.png);
+	background-image: url(/themes/_templates/img/drop-feeds-32.png);
 	background-size: 32px 32px;
 	width: 32px;
 	height: 32px;
@@ -235,23 +235,23 @@ select {
 }
 
 .editScriptButton::before {
-	background-image: url(/themes/_any/img/scripts-edit.png);
+	background-image: url(/themes/_templates/img/scripts-edit.png);
 }
 
 .enabledScriptButton::before {
-	background-image: url(/themes/_any/img/scripts-enabled.png);
+	background-image: url(/themes/_templates/img/scripts-enabled.png);
 }
 
 .disabledScriptButton::before {
-	background-image: url(/themes/_any/img/scripts-disabled.png);
+	background-image: url(/themes/_templates/img/scripts-disabled.png);
 }
 
 .deleteScriptButton::before {
-	background-image: url(/themes/_any/img/scripts-delete.png);
+	background-image: url(/themes/_templates/img/scripts-delete.png);
 }
 
 .subscribeScriptButton::before {
-	background-image: url(/themes/_any/img/scripts-subscribe.png);
+	background-image: url(/themes/_templates/img/scripts-subscribe.png);
 }
 
 .info {

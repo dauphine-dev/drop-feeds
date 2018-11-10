@@ -7,8 +7,8 @@ class ThemeManager { /*exported ThemeManager*/
     this._themeFolderName = DefaultValues.themeFolderName;
     this._themeBaseFolderUrl = '/themes/';
     this._themesListUrl = '/themes/themes.list';
-    this._iconDF32Url = '/themes/_any/img/drop-feeds-32.png';
-    this._iconDF96Url = '/themes/_any/img/drop-feeds-96.png';
+    this._iconDF32Url = '/themes/_templates/img/drop-feeds-32.png';
+    this._iconDF96Url = '/themes/_templates/img/drop-feeds-96.png';
   }
 
   async init_async() {
@@ -27,7 +27,6 @@ class ThemeManager { /*exported ThemeManager*/
     LocalStorageManager.setValue_async('themeFolderName', value);
   }
 
-
   get themeFolderUrl() {
     return this.themeBaseFolderUrl + this._themeFolderName + '/';
   }
@@ -35,6 +34,11 @@ class ThemeManager { /*exported ThemeManager*/
   getCssUrl(cssName) {
     let cssUrl = this.themeFolderUrl + 'css/' + cssName;
     return cssUrl;
+  }
+
+  getRenderCssTemplateUrl() {
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_templates/_renderTab/css/' + this._themeFolderName + '/template.css';
+    return cssTemplateUrl;
   }
 
   getImgUrl(imgName) {

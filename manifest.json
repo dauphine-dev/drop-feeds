@@ -11,12 +11,12 @@
     }
   },
   "icons": {
-    "32": "themes/_any/img/drop-feeds-32.png",
-    "48": "themes/_any/img/drop-feeds-48.png",
-    "96": "themes/_any/img/drop-feeds-96.png"
+    "32": "themes/_templates/img/drop-feeds-32.png",
+    "48": "themes/_templates/img/drop-feeds-48.png",
+    "96": "themes/_templates/img/drop-feeds-96.png"
   },
   "sidebar_action": {
-    "default_icon": "themes/_any/img/drop-feeds-32.png",
+    "default_icon": "themes/_templates/img/drop-feeds-32.png",
     "default_title": "Drop Feeds",
     "default_panel": "html/sidebar.html"
   },
@@ -28,7 +28,7 @@
     }
   },
   "browser_action": {
-    "default_icon": "themes/_any/img/drop-feeds-32.png"
+    "default_icon": "themes/_templates/img/drop-feeds-32.png"
   },
   "page_action": {
     "browser_style": true,

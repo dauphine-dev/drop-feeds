@@ -1,8 +1,10 @@
+/* misc. */
+
 html {
 	margin: 0;
-	font-family: verdana, sans-serif;
-	background: black;
-	color: revert;
+	font-family: var(--renderTab-font-family);
+	background: var(--renderTab-background-color);
+	color: var(--renderTab-text-color);
 }
 
 body {
@@ -10,18 +12,22 @@ body {
 	margin: 30px auto;
 }
 
-a {
-	color: revert;
-	font-weight: revert;
-	text-decoration: revert;
+.error {
+	background-color: var(--renderTab-error-background-color);
+}
+
+a:link {
+	color: var(--renderTab-link-color);
+	font-weight: var(--renderTab-link-font-weight);
+	text-decoration: var(--renderTab-link-decoration);
 }
 
 a:visited {
-	color: #739Aa5;
+	color: var(--renderTab-link-visited-color);
 }
 
 a:hover {
-	text-decoration: underline;
+	text-decoration: var(--renderTab-link-hover-decoration);
 }
 
 img, video {
@@ -29,106 +35,83 @@ img, video {
 	max-width: 100%;
 }
 
+/* channel */
+
 .channelHead {
-	background: #222224 !important;
-	border-radius: 5px;
-	border: 1px solid #303030;
-	padding: 10px;
 	margin: 0 0 32px 0;
+	padding: 10px;
+	background: var(--renderTab-channel-background);
+	border-radius: var(--renderTab-channel-border-radius);
+	border: 1px solid var(--renderTab-channel-border);
 }
 
 h1.channelTitle {
-	color: revert;
 	margin: 0;
 	padding: revert;
-	font-size: revert;
 	line-height: revert;
 }
 
 a.channelLink {
-	margin: 0;
-	color: maroon;
-	font-weight: bold;
-	text-decoration: none;
+	color: var(--renderTab-channel-link-text-color);
+	font-size: var(--renderTab-channel-link-font-size);
+	font-weight: var(--renderTab-channel-link-font-weight);
+	text-decoration: var(--renderTab-channel-link-decoration);
 }
 
 a.channelLink:visited {
-	color: revert;
-	font-weight: revert;
+	color: var(--renderTab-channel-link-visited-color);
+	font-weight: var(--renderTab-channel-link-visited-font-weight);
 }
 
 a.channelLink:hover {
-	text-decoration: revert;
+	text-decoration: var(--renderTab-channel-link-hover-decoration);
 }
 
 .channelDescription {
-	color: gray;
-	font-size: 90%;
-	padding: 0 20px 0 80px;
 	width: auto;
-	font-weight: bold;
 	margin: 0;
+	padding: 0 20px 0 80px;
+	color: var(--renderTab-channel-description-text-color);
+	font-size: var(--renderTab-channel-description-font-size);
+	font-weight: var(--renderTab-channel-description-font-weight);
 }
+
+/* item */
 
 div.item {
 	display: revert;
+	position: relative;
+	float: revert;	
+	width: revert;
+	min-width: revert;
+	margin: 0 0 15px 0;
+	padding: 0 10px 15px 20px;
+	overflow: revert;
 	background: #323234;
-	border: 1px solid #303030;
+	border: 1px solid var(--renderTab-items-border);
 	border-radius: 10px;
 	color: gainsboro;
 	font-size: 12px;
-	margin: 0 0 15px 0;
-	padding: 0 10px 15px 20px;
-	position: relative;
-	width: revert;
-	min-width: revert;
-	float: revert;
-	overflow: revert;
 }
 
-.error {
-	background-color: #FF8888 !important;
+.itemNumber {
+	padding-right: 5px;
+	color: gainsboro;
+	font-size: revert;
+	font-weight: normal;
 }
 
 .itemTitle {
+	display: block;
+	min-height: 1.3em;
+	line-height: revert;
 	margin: revert;
+	padding: 0px 2.3em 0px 0px;	
 	background-color: revert;
 	border-bottom: 1px solid #606060;
-	color: gainsboro;
-	display: block;
 	font-family: arial, verdana, sans-serif;
 	font-size: 18px;
 	font-weight: normal;
-	line-height: revert;
-	min-height: 1.3em;
-	padding: 0px 2.3em 0px 0px;
-}
-
-
-.item a:link {
-	color: dodgerblue;
-	text-decoration-line: underline;
-}
-
-.item a:visited {
-	color: dodgerblue;
-	text-decoration-line: underline;
-}
-
-.item a:hover {
-	color: dodgerblue;
-	text-decoration: underline;
-}
-
-.item a:active {
-	color: dodgerblue;
-	text-decoration: underline;
-}
-
-.itemTitle a {
-	color: revert;
-	text-decoration: revert;
-	font-weight: revert;
 }
 
 .itemTitle a:link {
@@ -149,25 +132,11 @@ div.item {
 	font-weight: normal;
 }
 
-.itemTitle a:visited {
-	color: gainsboro;
-	text-decoration: none;
-	font-weight: normal;
-}
-
-.itemNumber {
-	font-size: revert;
-	color: gainsboro;
-	padding-right: 5px;
-	font-weight: normal;
-}
-
 .itemDescription {
 	margin: 0px;
-	min-height: revert;
-	font-size: revert;
-	margin: revert;
 	padding: revert;
+	min-height: revert;
+	/*font-size: revert;*/
 }
 
 .itemInfo {
@@ -186,19 +155,19 @@ div.item {
 }
 
 .itemPubDate {
-	background: antiquewhite;
-	border: 1px solid #A7A6AA;
-	color: #777;
 	float: right;
-	font-size: 10px;
-	font-weight: bold;
 	line-height: 1.1em;
 	padding: 3px 5px 4px 5px;
 	position: absolute;
 	right: 1.5em;
-	text-align: center;
 	top: -1em;
 	width: 15em;
+	background: antiquewhite;
+	border: 1px solid #A7A6AA;
+	color: #777;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .itemAudioPlayer audio {

@@ -1,15 +1,15 @@
 :root {
-  --renderTabMain-font-family: verdana, sans-serif;
-  --renderTabMain-background-color: #ffffff;
-  --renderTabMain-text-color: #0f0f0f;
-  --renderTabMain-border-color: #8daab8;
-  --renderTabMain-channelTitle-background-color: #D7E2E8;
-  --renderTabMain-channelTitle-text-color: #436A75;
-  --renderTabMain-channelTitle-visited-color: #739Aa5;
-  --renderTabMain-itemsTitle-background-color: var(--renderTabMain-channelTitle-background-color);
-  --renderTabMain-itemsTitle-text-color: #436A75;
-  --renderTabMain-itemsTitle-visited-color: #739Aa5; 
-  --renderTabMain-itemsInfo-text-color: #242482;
-  --renderTabMain-itemsCategories-text-color: #7D7D7D;
-  --renderTabMain-error-background-color: #FF8888 !important;
+  --renderTab-font-family: verdana, sans-serif;
+  --renderTab-background-color: #ffffff;
+  --renderTab-text-color: #0f0f0f;
+  --renderTab-border-color: #8daab8;
+  --renderTab-channelTitle-background-color: #D7E2E8;
+  --renderTab-channelTitle-text-color: #436A75;
+  --renderTab-channelTitle-visited-color: #739Aa5;
+  --renderTab-itemsTitle-background-color: var(--renderTab-channelTitle-background-color);
+  --renderTab-itemsTitle-text-color: #436A75;
+  --renderTab-itemsTitle-visited-color: #739Aa5; 
+  --renderTab-itemsInfo-text-color: #242482;
+  --renderTab-itemsCategories-text-color: #7D7D7D;
+  --renderTab-error-background-color: #FF8888 !important;
 }

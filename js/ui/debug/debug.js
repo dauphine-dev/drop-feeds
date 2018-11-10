@@ -156,7 +156,7 @@ class Debug {
     let i = 1;
     for (let deg=0; deg<360; deg+=1, i++) {
       let style = 'style="';
-      style += 'background-image: url(/themes/_any/img/test.png);';
+      style += 'background-image: url(/themes/_templates/img/test.png);';
       style += 'background-repeat: no-repeat;';
       style += 'background-size: 16px 16px;';
       style += 'width: 16px;height: 16px;';
