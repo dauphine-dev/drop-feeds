@@ -1,5 +1,10 @@
-version;line;messageName;message;where
+version;line;messageName;message;where;note
+
+0.9 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
 0.9;38;sbFilter;Filter;on the side bar top menu
 0.9;41;sbFilterClearButton;Clear filter;on filter bar
 0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.;on the subscribe window (but visible only on window closing error)
 0.9;305;optItemNewTab;Open items on new tag;in options / contents area
+
+0.9.1 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9.1;242;optSelectTheme;Select main theme;in options / theme;was updated from 'Select theme' to 'Select main theme'

@@ -7,12 +7,12 @@
   --renderTab-link-color: revert;
   --renderTab-link-font-weight: revert;
   --renderTab-link-decoration: revert;
-  --renderTab-link-visited-color: 739Aa5;
+  --renderTab-link-visited-color: #739Aa5;
   --renderTab-link-hover-decoration: underline;
   /* channel */
   --renderTab-channel-background: #222224 !important;
   --renderTab-channel-border-radius: 5px;
-  --renderTab-channel-border: 1px solid var(#303030;
+  --renderTab-channel-border: 1px solid var(#303030);
   --renderTab-channel-link-text-color: maroon;
   --renderTab-channel-link-font-size: revert;
   --renderTab-channel-link-font-weight: bold;

@@ -27,6 +27,7 @@
     <button class="tabLinks" id="viewItemsButton" target="viewItems">#Items</button>
     <button class="tabLinks" id="viewTabButton" target="viewTab">#View</button>
     <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
+    <button class="tabLinks" id="themeTabButton" target="themeTab">#Theme</button>
     <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
     <button class="tabLinks" id="scriptsTabButton" target="scriptsTab">#Advanced</button>
   </div>
@@ -57,22 +58,6 @@
         <td />
         <td />
       </tr>
-      <tr>
-        <td>
-          <label id="lblSelectTheme">#Select theme</label><span>&nbsp;</span>
-        </td>
-        <td>
-          <div id="themeList">
-            <!--
-              <select id="themeSelect">
-                <option value="themeName1">themeName1</option>
-              </select>
-              -->
-          </div>
-        </td>
-        <td></td>
-      </tr>
-
       <tr>
         <td>
           <label id="feedItemOrder">#Feed item order</label><span>&nbsp;</span>
@@ -170,6 +155,60 @@
         </td>
       </tr>
     </table>
+  </div>  
+  <!-- ~~~~~~ Tab Theme ~~~~~~ -->
+  <div id="themeTab" class="tabContent">
+    <table>
+      <tr>
+        <td>
+          <label id="lblSelectMainTheme">#Select main theme</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <div id="mainThemeList">
+            <!--
+              <select id="mainThemeSelect">
+                <option value="themeName1">themeName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>
+          <label id="lblSelectRenderTemplate">#Select render tab template</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <div id="renderTemplateList">
+            <!--
+              <select id="renderTemplateSelect">
+                <option value="template1">templateName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>
+          <label id="lblSelectRenderTheme">#Select render tab theme</label><span>&nbsp;</span>
+        </td>
+        <td>
+          <div id="renderThemeList">
+            <!--
+              <select id="renderThemeSelect">
+                <option value="renderTheme1">renderThemeName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
+      </tr>
+
+
+    </table>
   </div>
 
   <!-- ~~~~~~ Tab Management ~~~~~~ -->
@@ -223,6 +262,7 @@
   <script src="/js/ui/options/opmlExporter.js"></script>
   <script src="/js/ui/options/opmlImporter.js"></script>
   <script src="/js/ui/options/tabManagement.js"></script>
+  <script src="/js/ui/options/tabTheme.js"></script>
   <script src="/js/ui/options/tabContentArea.js"></script>
   <script src="/js/ui/options/tabUpdateChecker.js"></script>
   <script src="/js/ui/options/tabGeneral.js"></script>

@@ -4,31 +4,73 @@ class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._themeFolderName = DefaultValues.themeFolderName;
+    this._mainThemeFolderName = DefaultValues.mainThemeFolderName;
+    this._renderTemplateFolderName = DefaultValues.renderTemplateFolderName;
+    this._renderThemeFolderName = DefaultValues.mainThemeFolderName;
     this._themeBaseFolderUrl = '/themes/';
-    this._themesListUrl = '/themes/themes.list';
+    this._mainThemesListUrl = '/themes/themes.list';
+    this._renderTemplateListUrl = '/themes/_renderTab/_templates/template.list';
+    this._renderThemeListUrl = '/themes/_renderTab/themes.list';
     this._iconDF32Url = '/themes/_templates/img/drop-feeds-32.png';
     this._iconDF96Url = '/themes/_templates/img/drop-feeds-96.png';
   }
 
   async init_async() {
+    await this._update_async();
     await this.reload_async();
   }
 
   async reload_async() {
-    this._themeFolderName = await LocalStorageManager.getValue_async('themeFolderName', this._themeFolderName);
+    this._mainThemeFolderName = await LocalStorageManager.getValue_async('mainThemeFolderName', this._mainThemeFolderName);
+    this._mainThemeFolderName = await LocalStorageManager.getValue_async('renderTemplateFolderName', this._renderTemplateFolderName);
+    this._mainThemeFolderName = await LocalStorageManager.getValue_async('renderThemeFolderName', this._renderThemeFolderName);
   }
 
-  get themeFolderName() {
-    return this._themeFolderName;
+  async _update_async() {
+    let themeFolderName = await LocalStorageManager.getValue_async('themeFolderName', null);
+    if (themeFolderName) {
+      LocalStorageManager.setValue_async('mainThemeFolderName', themeFolderName);
+      LocalStorageManager.setValue_async('renderThemeFolderName', themeFolderName);
+      if (themeFolderName == 'sage_sc') {
+        LocalStorageManager.setValue_async('renderTemplateFolderName', 'two_columns');
+      }
+      else {
+        LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
+      }
+      localStorage.removeItem('themeFolderName');
+    }
+
   }
-  set themeFolderName(value) {
-    this._themeFolderName = value;
-    LocalStorageManager.setValue_async('themeFolderName', value);
+
+  get mainThemeFolderName() {
+    return this._mainThemeFolderName;
+  }
+
+  set mainThemeFolderName(value) {
+    this._mainThemeFolderName = value;
+    LocalStorageManager.setValue_async('mainThemeFolderName', value);
+  }
+
+  get renderTemplateFolderName() {
+    return this._renderTemplateFolderName;
+  }
+  
+  set renderTemplateFolderName(value) {
+    this._renderTemplateFolderName = value;
+    LocalStorageManager.setValue_async('renderTemplateFolderName', value);
+  }
+
+  get renderThemeFolderName() {
+    return this._renderThemeFolderName;
+  }
+  
+  set renderThemeFolderName(value) {
+    this._renderThemeFolderName = value;
+    LocalStorageManager.setValue_async('renderThemeFolderName', value);
   }
 
   get themeFolderUrl() {
-    return this.themeBaseFolderUrl + this._themeFolderName + '/';
+    return this.themeBaseFolderUrl + this._mainThemeFolderName + '/';
   }
 
   getCssUrl(cssName) {
@@ -37,7 +79,7 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   getRenderCssTemplateUrl() {
-    let cssTemplateUrl = this.themeBaseFolderUrl + '_templates/_renderTab/css/' + this._themeFolderName + '/template.css';
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_templates/_renderTab/css/' + this._mainThemeFolderName + '/template.css';
     return cssTemplateUrl;
   }
 
@@ -46,16 +88,25 @@ class ThemeManager { /*exported ThemeManager*/
     return icoUrl;
   }
 
-  async setThemeFolderName_async(themeFolderName) {
-    this.themeFolderName = themeFolderName;
-    await LocalStorageManager.setValue_async('themeFolderName', themeFolderName);
+  async setThemeFolderName_async(themeKind, themeFolderName) {
+    switch (themeKind) {
+      case 'mainTheme':
+        this.mainThemeFolderName = themeFolderName;
+        break;
+      case 'renderTemplate':
+        this.renderTemplateFolderName = themeFolderName;
+        break;
+      case 'renderTheme':
+        this.renderThemeFolderName = themeFolderName;
+        break;
+    }
   }
 
-  applyCssToCurrentDocument(cssName) {    
+  applyCssToCurrentDocument(cssName) {
     let elCssLink = document.getElementById('cssLink');
     if (elCssLink) {
       let cssUrl = this.themeFolderUrl + 'css/' + cssName;
-      elCssLink.setAttribute('href', cssUrl);  
+      elCssLink.setAttribute('href', cssUrl);
     }
 
     let elCssMain = document.getElementById('cssMain');
@@ -82,7 +133,17 @@ class ThemeManager { /*exported ThemeManager*/
     return this._themeBaseFolderUrl;
   }
 
-  get themesListUrl() {
-    return this._themesListUrl;
+  get mainThemesListUrl() {
+    return this._mainThemesListUrl;
   }
+
+  get renderTemplateListUrl() {
+    return this._renderTemplateListUrl;
+  }
+
+  get renderThemeListUrl() {
+    return this._renderThemeListUrl;
+  }
+
+
 }
