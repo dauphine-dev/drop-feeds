@@ -97,8 +97,8 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static _getHtmlHead(channel) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
-    let cssUrl1 = browser.runtime.getURL(ThemeManager.instance.getCssUrl('renderFeedTab.css'));
-    let cssUrl2 = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl());
+    let cssUrl1 = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl());
+    let cssUrl2 = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
     let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead += '<html>\n';

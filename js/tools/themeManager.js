@@ -1,5 +1,6 @@
-/*global DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager*/
 'use strict';
+const _themeKind = {'mainTheme':1, 'renderTemplate':2, 'renderTheme':3};
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -22,8 +23,8 @@ class ThemeManager { /*exported ThemeManager*/
 
   async reload_async() {
     this._mainThemeFolderName = await LocalStorageManager.getValue_async('mainThemeFolderName', this._mainThemeFolderName);
-    this._mainThemeFolderName = await LocalStorageManager.getValue_async('renderTemplateFolderName', this._renderTemplateFolderName);
-    this._mainThemeFolderName = await LocalStorageManager.getValue_async('renderThemeFolderName', this._renderThemeFolderName);
+    this._renderTemplateFolderName = await LocalStorageManager.getValue_async('renderTemplateFolderName', this._renderTemplateFolderName);
+    this._renderThemeFolderName = await LocalStorageManager.getValue_async('renderThemeFolderName', this._renderThemeFolderName);
   }
 
   async _update_async() {
@@ -37,9 +38,12 @@ class ThemeManager { /*exported ThemeManager*/
       else {
         LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
       }
-      localStorage.removeItem('themeFolderName');
+      browser.storage.local.remove('themeFolderName');
     }
+  }
 
+  get kind() {
+    return _themeKind;
   }
 
   get mainThemeFolderName() {
@@ -73,14 +77,14 @@ class ThemeManager { /*exported ThemeManager*/
     return this.themeBaseFolderUrl + this._mainThemeFolderName + '/';
   }
 
-  getCssUrl(cssName) {
-    let cssUrl = this.themeFolderUrl + 'css/' + cssName;
-    return cssUrl;
+  getRenderCssTemplateUrl() {
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/css/template.css';
+    return cssTemplateUrl;
   }
 
-  getRenderCssTemplateUrl() {
-    let cssTemplateUrl = this.themeBaseFolderUrl + '_templates/_renderTab/css/' + this._mainThemeFolderName + '/template.css';
-    return cssTemplateUrl;
+  getRenderCssUrl() {
+    let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
+    return cssRenderUrl;
   }
 
   getImgUrl(imgName) {
@@ -90,13 +94,13 @@ class ThemeManager { /*exported ThemeManager*/
 
   async setThemeFolderName_async(themeKind, themeFolderName) {
     switch (themeKind) {
-      case 'mainTheme':
+      case _themeKind.mainTheme:
         this.mainThemeFolderName = themeFolderName;
         break;
-      case 'renderTemplate':
+      case _themeKind.renderTemplate:
         this.renderTemplateFolderName = themeFolderName;
         break;
-      case 'renderTheme':
+      case _themeKind.renderTheme:
         this.renderThemeFolderName = themeFolderName;
         break;
     }

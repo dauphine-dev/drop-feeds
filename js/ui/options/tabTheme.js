@@ -48,21 +48,18 @@ class TabTheme { /*exported TabTheme*/
 
   async _themeSelectChanged_event(e) {
     let themeName = e.target.value;
-    console.log(e.target.id, themeName);
-    let themeKind = '';
     switch (e.target.id) {
       case 'mainThemeListSelect':
-        themeKind = 'mainTheme';
+        await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.mainTheme, themeName);
+        await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
         break;
       case 'renderTemplateListSelect':
-        themeKind = 'renderTemplate';
+        await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.renderTemplate, themeName);
         break;
       case 'renderThemeListSelect':
-        themeKind = 'renderTheme';
+        await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.renderTheme, themeName);
         break;
     }
-    await ThemeManager.instance.setThemeFolderName_async(themeKind, themeName);
-    await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
 
 }
