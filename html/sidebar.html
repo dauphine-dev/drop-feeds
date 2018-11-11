@@ -39,6 +39,7 @@
   <div id="mainBoxTable" class="tableBox autoHeight">
     <div id="mainRowGroup" class="rowGroupBox">
 
+      <!-- Feeds layout -->
       <div id="feedsLayoutRow" class="rowBox">
         <div id="feedsLayoutCell" class="cellBox autoHeight">
           <div id="feedsLayoutBackground"></div>
@@ -76,14 +77,14 @@
 
 
       <!-- splitter bar -->
-      <div class="rowBox"><!--31-->
+      <div class="rowBox">
         <div id="splitterBar1" class="cellBox splitterBar"></div>
       </div>
 
 
-      <!-- Items panel -->
+      <!-- Items layout -->
       <div class="rowBox">
-        <div id="mainItemsPane" class="cellBox autoHeight">
+        <div id="itemLayoutCell" class="cellBox autoHeight">
           <div id="itemLayoutBackground"></div>
           
           <!-- items title bar -->
@@ -102,11 +103,29 @@
           
           <!-- items pane -->
           <div id="itemsPane"></div>
-        </div><!--/36-->
-      </div><!--/35-->
-    </div><!--/3-->
-  </div><!--/2-->
+        </div>
+      </div>
+
+      <!-- splitter bar -->
+      <div class="rowBox">
+        <div id="splitterBar2" class="cellBox splitterBar"></div>
+      </div>
+      
+      <!-- Item render layout -->
+      <div id="renderLayoutRow" class="rowBox">
+        <div id="renderLayoutCell" class="cellBox autoHeight">
+          <div id="renderLayoutBackground"></div>
+          <div id="renderItemText">Oportunum est, ut arbitror, explanare nunc causam, 
+            quae ad exitium praecipitem Aginatium inpulit iam inde a priscis maioribus
+             nobilem, ut locuta est pertinacior fama. nec enim super hoc ulla 
+             documentorum rata est fides.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
     
+  <!-- --------------------- dialogs ----------------------- -->
   
   <!-- selection bar -->
   <div id="feedsSelectionBar" class="selectionBar"></div>
@@ -197,6 +216,7 @@
       <p>&nbsp;</p>
     </div>
   </div>
+  <script src="/js/ui/sidebar/renderItemPanel.js"></script>
   <script src="/js/ui/sidebar/feedsContextMenu.js"></script>
   <script src="/js/ui/sidebar/feedsFilterBar.js"></script>
   <script src="/js/ui/sidebar/feedsInfoView.js"></script>
@@ -208,7 +228,7 @@
   <script src="/js/ui/sidebar/itemsMenu.js"></script>
   <script src="/js/ui/sidebar/itemsPanel.js"></script>
   <script src="/js/ui/sidebar/itemsSelectionBar.js"></script>
-  <script src="/js/ui/sidebar/splitterBar1.js"></script>
+  <script src="/js/ui/sidebar/splitterBar.js"></script>
   <script src="/js/ui/sidebar/sidebar.js"></script>
 </body>
 

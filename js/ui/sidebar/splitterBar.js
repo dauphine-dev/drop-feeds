@@ -1,12 +1,13 @@
 /*global SideBar FeedsTreeView ItemsPanel*/
 'use strict';
-class SplitterBar1 { /*exported SplitterBar1*/
+class SplitterBar { /*exported SplitterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
-  constructor() {
+  constructor(splitterBarId) {
+    this._splitterBarId = splitterBarId;
     this._newPos = 0;
     this._startPos = 0;
-    this._elSplitterBar = document.getElementById('splitterBar1');
+    this._elSplitterBar = document.getElementById(this._splitterBarId);
     this._isResizing = false;
     document.addEventListener('mousemove', (e) => { this._splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this._splitterBarMouseup_event(e); });
@@ -61,10 +62,27 @@ class SplitterBar1 { /*exported SplitterBar1*/
   }
 
   _resizeElements(delta) {
+    switch (this._splitterBarId) {
+      case 'splitterBar1':
+        this._resizeElements1(delta);
+        break;
+      case 'splitterBar2':
+        this._resizeElements2(delta);
+        break;
+    }
+  }
+
+  _resizeElements1(delta) {
     let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
     FeedsTreeView.instance.setContentHeight(height);
     ItemsPanel.instance.resize();
   }
+
+  _resizeElements2(delta) {
+    //let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
+    ItemsPanel.instance.resize();
+  }
+
 
 }
 

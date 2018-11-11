@@ -98,6 +98,9 @@
   /* items selection bar */
   --items-selectionBar-color: var(--feeds-selectionBar-color);
 
+  /* --- Item render layout ---- */
+  --renderItems-Layout-background-color: red;
+
   /* ---- dialog box ---- */
   --dialog-background-color: var(--main-dialog-background-color);
   --dialog-border-color: #9d9d99;

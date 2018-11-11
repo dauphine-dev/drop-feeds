@@ -1,4 +1,4 @@
-/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions
+/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemPanel
 FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager FeedsNewFolderDialog FeedsFilterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -78,6 +78,7 @@ class SideBar { /*exported SideBar*/
   resize() {
     FeedsTreeView.instance.resize();
     ItemsPanel.instance.resize();
+    RenderItemPanel.instance.resize();
   }
 }
 SideBar.instance.init_async();

@@ -1,13 +1,16 @@
-/*global DefaultValues BrowserManager FeedRenderer SplitterBar1 Listener ListenerProviders SideBar ItemsMenu ItemManager ItemsSelectionBar*/
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager ItemsSelectionBar*/
 'use strict';
 class ItemsPanel { /*exported ItemsPanel*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    SplitterBar1.instance.init_async();
+    this._splitterBar1 = new SplitterBar('splitterBar1');
+    this._splitterBar1.init_async();
+    this._splitterBar2 = new SplitterBar('splitterBar2');
+    this._splitterBar2.init_async();
     ItemsMenu.instance.disableButtons();
     this._selectionBarItems = new ItemsSelectionBar();
-    this._mainItemsPane = document.getElementById('mainItemsPane');
+    this._itemLayoutCell = document.getElementById('itemLayoutCell');
     this._itemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
     this._itemsPane = document.getElementById('itemsPane');
@@ -25,7 +28,7 @@ class ItemsPanel { /*exported ItemsPanel*/
 
   get top() {
     if (this._feedItemList) {
-      return this._mainItemsPane.offsetTop;
+      return this._itemLayoutCell.offsetTop;
     }
     else {
       return window.innerHeight;
@@ -33,11 +36,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   set top(value) {
-    this._mainItemsPane.style.top = value + 'px';
-  }
-
-  get splitterBar() {
-    return SplitterBar1.instance;
+    this._itemLayoutCell.style.top = value + 'px';
   }
 
   get itemsMenu() {
@@ -60,10 +59,10 @@ class ItemsPanel { /*exported ItemsPanel*/
   resize() {
     let rec = this._itemsPane.getBoundingClientRect();
     let height = Math.max(window.innerHeight - rec.top, 0);
-    this._itemsPane.style.height = height + 'px';
+       this._itemsPane.style.height = height / 2 + 'px';
     this._itemsPane.style.width  = window.innerWidth + 'px';
 
-    rec = this._mainItemsPane.getBoundingClientRect();
+    rec = this._itemLayoutCell.getBoundingClientRect();
     let itemLayoutBackgroundEl = document.getElementById('itemLayoutBackground');
     itemLayoutBackgroundEl.style.left = rec.left + 'px';
     itemLayoutBackgroundEl.style.width = rec.width + 'px';
@@ -119,7 +118,7 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   _setVisibility() {
-    this._mainItemsPane.style.display = this._feedItemList ? 'block' : 'none';
+    this._itemLayoutCell.style.display = this._feedItemList ? 'block' : 'none';
     SideBar.instance.resize();
   }
 
