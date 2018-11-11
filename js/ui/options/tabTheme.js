@@ -8,30 +8,29 @@ class TabTheme { /*exported TabTheme*/
   }
 
   async init_async() {
-    await this._initThemeDropdown_async(ThemeManager.instance.mainThemesListUrl, 'mainThemeList');
-    await this._initThemeDropdown_async(ThemeManager.instance.renderTemplateListUrl, 'renderTemplateList');
-    await this._initThemeDropdown_async(ThemeManager.instance.renderThemeListUrl, 'renderThemeList');
+    await this._initThemeDropdown_async(ThemeManager.instance.mainThemesListUrl, 'mainThemeList', ThemeManager.instance.mainThemeFolderName);
+    await this._initThemeDropdown_async(ThemeManager.instance.renderTemplateListUrl, 'renderTemplateList', ThemeManager.instance.renderTemplateFolderName);
+    await this._initThemeDropdown_async(ThemeManager.instance.renderThemeListUrl, 'renderThemeList', ThemeManager.instance.renderThemeFolderName);
   }
 
   _updateLocalizedStrings() {
     document.getElementById('lblSelectMainTheme').textContent = browser.i18n.getMessage('optSelectTheme');
   }
 
-  async _initThemeDropdown_async(mainThemesListUrl, divId) {
+  async _initThemeDropdown_async(mainThemesListUrl, divId, selectedThemeName) {
     let dropdownId = divId + 'Select';
     let divElement = document.getElementById(divId);
-    let htmlDropdown = divElement.innerHTML + await this._createMainThemeListHtml_async(mainThemesListUrl, dropdownId);
+    let htmlDropdown = divElement.innerHTML + await this._createMainThemeListHtml_async(mainThemesListUrl, dropdownId, selectedThemeName);
     BrowserManager.setInnerHtmlByElement(divElement, htmlDropdown);
     document.getElementById(dropdownId).addEventListener('change', (e) => { this._themeSelectChanged_event(e); });
   }
 
-  async _createMainThemeListHtml_async(mainThemesListUrl, dropdownId) {
+  async _createMainThemeListHtml_async(mainThemesListUrl, dropdownId, selectedThemeName) {
     const folder_name = 0;
     const ui_name = 1;
     let themeListUrl = browser.runtime.getURL(mainThemesListUrl);
     let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
     let themeList = themeListText.trim().split('\n');
-    let selectedThemeName = await ThemeManager.instance.mainThemeFolderName;
 
     let optionList = [];
     themeList.shift();

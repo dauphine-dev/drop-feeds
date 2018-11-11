@@ -1,30 +1,40 @@
-/*global browser DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager Listener ListenerProviders*/
 'use strict';
 const _themeKind = {'mainTheme':1, 'renderTemplate':2, 'renderTheme':3};
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._mainThemeFolderName = DefaultValues.mainThemeFolderName;
-    this._renderTemplateFolderName = DefaultValues.renderTemplateFolderName;
-    this._renderThemeFolderName = DefaultValues.mainThemeFolderName;
     this._themeBaseFolderUrl = '/themes/';
     this._mainThemesListUrl = '/themes/themes.list';
     this._renderTemplateListUrl = '/themes/_renderTab/_templates/template.list';
     this._renderThemeListUrl = '/themes/_renderTab/themes.list';
     this._iconDF32Url = '/themes/_templates/img/drop-feeds-32.png';
     this._iconDF96Url = '/themes/_templates/img/drop-feeds-96.png';
+
+    this._mainThemeFolderName = DefaultValues.mainThemeFolderName;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'mainThemeFolderName', (v) => this._setMainThemeFolderName_sbscrb(v), true);
+    this._renderTemplateFolderName = DefaultValues.renderTemplateFolderName;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderTemplateFolderName', (v) => this._setRenderTemplateFolderName_sbscrb(v), true);
+    this._renderThemeFolderName = DefaultValues.mainThemeFolderName;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'renderThemeFolderName', (v) => this._setRenderThemeFolderName_sbscrb(v), true);
+
   }
 
   async init_async() {
     await this._update_async();
-    await this.reload_async();
   }
 
-  async reload_async() {
-    this._mainThemeFolderName = await LocalStorageManager.getValue_async('mainThemeFolderName', this._mainThemeFolderName);
-    this._renderTemplateFolderName = await LocalStorageManager.getValue_async('renderTemplateFolderName', this._renderTemplateFolderName);
-    this._renderThemeFolderName = await LocalStorageManager.getValue_async('renderThemeFolderName', this._renderThemeFolderName);
+  async _setMainThemeFolderName_sbscrb(value) {
+    this._mainThemeFolderName = value;
+  }
+
+  async _setRenderTemplateFolderName_sbscrb(value) {
+    this._renderTemplateFolderName = value;
+  }
+
+  async _setRenderThemeFolderName_sbscrb(value) {
+    this._renderThemeFolderName = value;
   }
 
   async _update_async() {
@@ -33,10 +43,10 @@ class ThemeManager { /*exported ThemeManager*/
       LocalStorageManager.setValue_async('mainThemeFolderName', themeFolderName);
       LocalStorageManager.setValue_async('renderThemeFolderName', themeFolderName);
       if (themeFolderName == 'sage_sc') {
-        LocalStorageManager.setValue_async('renderTemplateFolderName', 'two_columns');
+        LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
       }
       else {
-        LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
+        LocalStorageManager.setValue_async('renderTemplateFolderName', 'two_columns');
       }
       browser.storage.local.remove('themeFolderName');
     }
@@ -56,6 +66,7 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   get renderTemplateFolderName() {
+    console.log('get->renderTemplateFolderName:', this._renderTemplateFolderName);
     return this._renderTemplateFolderName;
   }
   

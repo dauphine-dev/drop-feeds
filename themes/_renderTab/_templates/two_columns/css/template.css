@@ -13,21 +13,21 @@ body {
 }
 
 .error {
-	background-color: var(--renderTab-error-background-color);
+	background-color: var(--renderTab-error-background-color) !important;
 }
 
 a:link {
-	color: revert;
-	font-weight: revert;
-	text-decoration: revert;
+	color: var(--renderTab-link-color);
+	font-weight: var(--renderTab-link-font-weight);
+	text-decoration: var(--renderTab-link-decoration);
 }
 
 a:visited {
-	color: revert;
+	color: var(--renderTab-link-visited-color);
 }
 
 a:hover {
-	text-decoration: revert;
+	text-decoration: var(--renderTab-link-hover-decoration);
 }
 
 img, video {
@@ -39,10 +39,10 @@ img, video {
 
 .channelHead {
 	margin: 10px 2% 10px 2%;
-	padding: 7px;
-	background-color: var(--renderTab-channel-background-color);
-	border-radius: revert;
-	border: 1px solid var(--renderTab-border-color);
+	padding: 7px 7px 0 7px;
+	background-color: var(--renderTab-channel-background) !important;;
+	border-radius: var(--renderTab-channel-border-radius);
+	border: var(--renderTab-channel-border);
 }
 
 h1.channelTitle {
@@ -52,28 +52,28 @@ h1.channelTitle {
 }
 
 a.channelLink {
-	color: var(--renderTab-channel-text-color);
-	font-size: large;
-	font-weight: bold;
-	text-decoration: none;
+	color: var(--renderTab-channel-link-text-color);
+	font-size: var(--renderTab-channel-link-font-size);
+	font-weight: var(--renderTab-channel-link-font-weight);
+	text-decoration: var(--renderTab-channel-link-decoration);
 }
 
 a.channelLink:visited {	
 	color: var(--renderTab-channel-visited-color);
-	font-weight: revert;
+	font-weight: var(--renderTab-channel-link-visited-font-weight);
 }
 
 a.channelLink:hover {
-	text-decoration: underline;
+	text-decoration: var(--renderTab-channel-link-hover-decoration);
 }
 
 .channelDescription {
 	width: revert;
 	margin: 0;
 	padding: 10px;
-	color: revert;
-	font-size: small;
-	font-weight: revert;
+	color: var(--renderTab-channel-description-text-color);
+	font-size: var(--renderTab-channel-description-font-size);
+	font-weight: var(--renderTab-channel-description-font-weight);
 }
 
 /* item */
@@ -87,18 +87,18 @@ div.item {
 	margin: 0 0 10px 2%;
 	padding: 0;
 	overflow: hidden;
-	background: revert;
-	border: 1px solid var(--renderTab-border-color);
-	border-radius: revert;
-	color: revert;
-	font-size: revert;
+	background: var(--renderTab-items-background);
+	border: var(--renderTab-items-border);
+	border-radius: var(--renderTab-items-border-radius);
+	color: var(--renderTab-items-text-color);
+	font-size: var(--renderTab-items-font-size);
 }
 
 .itemNumber {
 	padding-right: 5px;
-	color: revert;
-	font-size: revert;
-	font-weight: normal;
+	color: var(--renderTab-items-number-text-color);
+	font-size: var(--renderTab-items-number-font-size);
+	font-weight: var(--renderTab-items-number-font-weight);
 }
 
 .itemTitle {
@@ -107,47 +107,47 @@ div.item {
 	line-height: 1.2em;
 	margin: 0px;
 	padding: 6px;	
-	background-color: var(--renderTab-itemsTitle-background-color);
-	border-bottom: revert;
-	font-family: revert;
-	font-size: small;
-	font-weight: normal;
+	background-color: var(--renderTab-items-title-background-color);
+	border-bottom: var(--renderTab-items-title-border-bottom);
+	font-family: var(--renderTab-items-title-font-family);
+	font-size: var(--renderTab-items-title-font-size);
+	font-weight: var(--renderTab-items-title-font-weight);
 }
 
 .itemTitle a:link {
-	color: var(--renderTab-itemsTitle-text-color);
-	text-decoration: revert;
-	font-weight: revert;
+	color: var(--renderTab-items-title-link-color);
+	text-decoration: var(--renderTab-items-title-link-decoration);
+	font-weight: var(--renderTab-items-title-link-font-weight);
 }
 
 .itemTitle a:visited {
-	color: revert;
-	text-decoration: var(--renderTab-itemsTitle-visited-color);
-	font-weight: revert;
+	color: var(--renderTab-items-title-link-visited-color);
+	text-decoration: var(--renderTab-items-title-link-visited-decoration);
+	font-weight: var(--renderTab-items-title-link-visited-font-weight);
 }
 
 .itemTitle a:hover {
-	color: revert;
-	text-decoration: underline;
-	font-weight: revert;
+	color: var(--renderTab-items-title-link-hover-color);
+	text-decoration: var(--renderTab-items-title-link-hover-decoration);
+	font-weight: var(--renderTab-items-title-link-hover-font-weight);
 }
 
 .itemDescription {
 	margin: revert;
 	padding: 9px;
 	min-height: 6em;
-	/*font-size: small;*/
+	font-size: var(--renderTab-items-description-font-size);
 }
 
 .itemInfo {
 	margin: 10px;
-	font-size: x-small;
-	color: var(--renderTab-itemsInfo-text-color);
+	font-size: var(--renderTab-items-info-font-size);
+	color: var(--renderTab-items-info-color);
 }
 
 .itemCat {
 	display: revert;
-	color: var(--renderTab-itemsCategories-text-color);
+	color: var(--renderTab-items-category-color);
 }
 
 .itemAuthor {
@@ -162,12 +162,12 @@ div.item {
 	right: revert;	
 	top: revert;
 	width: revert;
-	background: revert;
-	border: revert;
-	color: revert;
-	font-size: 10px;
-	font-weight: revert;
-	text-align: revert;
+	background: var(--renderTab-items-pubDate-background);
+	border: var(--renderTab-items-pubDate-border);
+	color: var(--renderTab-items-pubDate-text-color);
+	font-size: var(--renderTab-items-pubDate-font-size);
+	font-weight: var(--renderTab-items-pubDate-font-weight);
+	text-align: var(--renderTab-items-pubDate-text-align);
 }
 
 .itemAudioPlayer audio {
