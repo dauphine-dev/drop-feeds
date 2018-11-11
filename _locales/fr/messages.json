@@ -227,7 +227,10 @@
   "optContentsArea": {
     "message": "Contenu"
   },
-  "optManagement": {
+  "optTheme": {
+    "message": "Theme"
+  },
+"optManagement": {
     "message": "Gestion"
   },
   "optSelectFeedFolder": {
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "Ne pas afficher le dossier racine"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "Theme principal"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Modèle de l'onglet de rendu"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Theme de l'onglet de rendu"
   },
   "optFeedItemOrder": {
     "message": "Orde de tri des items"

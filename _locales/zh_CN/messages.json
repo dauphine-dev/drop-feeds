@@ -227,7 +227,10 @@
   "optContentsArea": {
     "message": "内容区"
   },
-  "optManagement": {
+  "optTheme": {
+    "message": "Theme"
+  },
+"optManagement": {
     "message": "管理"
   },
   "optSelectFeedFolder": {
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "不显示根文件夹"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "选择主题"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "订阅点项目顺序"

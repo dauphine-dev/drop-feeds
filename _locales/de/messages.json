@@ -227,6 +227,9 @@
   "optContentsArea": {
     "message": "Inhaltsbereich"
   },
+  "optTheme": {
+    "message": "Theme"
+  },
   "optManagement": {
     "message": "Verwaltung"
   },
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "Zeige den Root Ordner nicht an"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "Theme auswählen"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "Feed item Ordner"

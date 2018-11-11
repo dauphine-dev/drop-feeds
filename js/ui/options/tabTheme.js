@@ -13,8 +13,11 @@ class TabTheme { /*exported TabTheme*/
     await this._initThemeDropdown_async(ThemeManager.instance.renderThemeListUrl, 'renderThemeList', ThemeManager.instance.renderThemeFolderName);
   }
 
-  _updateLocalizedStrings() {
-    document.getElementById('lblSelectMainTheme').textContent = browser.i18n.getMessage('optSelectTheme');
+  _updateLocalizedStrings() {    
+    document.getElementById('themeTabButton').textContent = browser.i18n.getMessage('optTheme');
+    document.getElementById('lblSelectMainTheme').textContent = browser.i18n.getMessage('optSelectMainTheme');
+    document.getElementById('lblSelectRenderTemplate').textContent = browser.i18n.getMessage('optSelectRenderTemplate');
+    document.getElementById('lblSelectRenderTheme').textContent = browser.i18n.getMessage('optSelectRenderTheme');
   }
 
   async _initThemeDropdown_async(mainThemesListUrl, divId, selectedThemeName) {
