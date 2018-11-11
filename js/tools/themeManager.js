@@ -61,17 +61,14 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   set mainThemeFolderName(value) {
-    this._mainThemeFolderName = value;
     LocalStorageManager.setValue_async('mainThemeFolderName', value);
   }
 
   get renderTemplateFolderName() {
-    console.log('get->renderTemplateFolderName:', this._renderTemplateFolderName);
     return this._renderTemplateFolderName;
   }
   
   set renderTemplateFolderName(value) {
-    this._renderTemplateFolderName = value;
     LocalStorageManager.setValue_async('renderTemplateFolderName', value);
   }
 
@@ -80,11 +77,10 @@ class ThemeManager { /*exported ThemeManager*/
   }
   
   set renderThemeFolderName(value) {
-    this._renderThemeFolderName = value;
     LocalStorageManager.setValue_async('renderThemeFolderName', value);
   }
 
-  get themeFolderUrl() {
+  get mainThemeFolderUrl() {
     return this.themeBaseFolderUrl + this._mainThemeFolderName + '/';
   }
 
@@ -99,7 +95,7 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   getImgUrl(imgName) {
-    let icoUrl = this.themeFolderUrl + 'img/' + imgName;
+    let icoUrl = this.mainThemeFolderUrl + 'img/' + imgName;
     return icoUrl;
   }
 
@@ -117,23 +113,19 @@ class ThemeManager { /*exported ThemeManager*/
     }
   }
 
-  applyCssToCurrentDocument(cssName) {
+  async applyCssToCurrentDocument_async() {
+    this._mainThemeFolderName = await LocalStorageManager.getValue_async('mainThemeFolderName', this._mainThemeFolderName);
     let elCssLink = document.getElementById('cssLink');
     if (elCssLink) {
-      let cssUrl = this.themeFolderUrl + 'css/' + cssName;
+      let cssUrl = this.mainThemeFolderUrl + 'css/sidebar.css';
       elCssLink.setAttribute('href', cssUrl);
     }
 
     let elCssMain = document.getElementById('cssMain');
     if (elCssMain) {
-      let cssUrlMain = this.themeFolderUrl + 'css/main.css';
+      let cssUrlMain = this.mainThemeFolderUrl + 'css/main.css';
       elCssMain.setAttribute('href', cssUrlMain);
     }
-  }
-
-  async refreshAndApplyCss_async(cssName) {
-    await this.reload_async();
-    this.applyCssToCurrentDocument(cssName);
   }
 
   get iconDF32Url() {
