@@ -1,46 +1,46 @@
-/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders SideBar ItemsMenu ItemManager ItemsSelectionBar*/
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager */
+/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout CssManager */
 'use strict';
-class ItemsPanel { /*exported ItemsPanel*/
+class ItemsLayout { /*exported ItemsLayout*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._splitterBar1 = new SplitterBar('splitterBar1');
-    this._splitterBar1.init_async();
-    this._splitterBar2 = new SplitterBar('splitterBar2');
-    this._splitterBar2.init_async();
-    ItemsMenu.instance.disableButtons();
+    ItemsToolBar.instance.disableButtons();
     this._selectionBarItems = new ItemsSelectionBar();
     this._itemLayoutCell = document.getElementById('itemLayoutCell');
     this._itemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
-    this._itemsPane = document.getElementById('itemsPane');
+    this._itemsContentPanel = document.getElementById('itemsContentPanel');
     this._feedItemList = DefaultValues.feedItemList;
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
+  }
+
+  async init_async() {
+    let itemsContentHeight = await LocalStorageManager.getValue_async('itemsContentHeight', window.innerHeight / 3);
+    if (itemsContentHeight) {
+      this.setContentHeight(itemsContentHeight);
+    }
+    Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
-    this._itemsPane.addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+    this._itemsContentPanel.addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
   get top() {
+    let top = RenderItemLayout.instance.top;
     if (this._feedItemList) {
-      return this._itemLayoutCell.offsetTop;
+      top = this._splitterBar1.top;
     }
-    else {
-      return window.innerHeight;
-    }
-  }
-
-  set top(value) {
-    this._itemLayoutCell.style.top = value + 'px';
+    return top;
   }
 
   get itemsMenu() {
-    return ItemsMenu.instance;
+    return ItemsToolBar.instance;
   }
 
   get selectionBarItems() {
@@ -57,20 +57,40 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
 
   resize() {
-    let rec = this._itemsPane.getBoundingClientRect();
-    let height = Math.max(window.innerHeight - rec.top, 0);
-       this._itemsPane.style.height = height / 2 + 'px';
-    this._itemsPane.style.width  = window.innerWidth + 'px';
+    let rec = this._itemsContentPanel.getBoundingClientRect();
+    let height = Math.max(RenderItemLayout.instance.top - rec.top, 0);
+    //this._itemsContentPanel.style.height = height + 'px';
+    CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
+    this._itemsContentPanel.style.width  = window.innerWidth + 'px';
+    this._resizeBackgroundDiv();
+    ItemsLayout.instance.selectionBarItems.refresh();
+  }
 
-    rec = this._itemLayoutCell.getBoundingClientRect();
+  setContentHeight(height) {
+    //this._itemsContentPanel.style.height =  height + 'px;';
+    CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
+
+    
+    let rectContent = this._itemsContentPanel.getBoundingClientRect();
+    let maxHeight = Math.max(window.innerHeight - rectContent.top - document.getElementById('splitterBar2').offsetHeight, 0);
+    if (this._itemsContentPanel.offsetHeight  > maxHeight) {
+      //this._itemsContentPanel.style.height =  maxHeight + 'px;';
+      CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
+
+    }
+    LocalStorageManager.setValue_async('itemsContentHeight', height);
+    this._resizeBackgroundDiv();
+    
+  }
+
+  _resizeBackgroundDiv() {
+    let rec = this._itemLayoutCell.getBoundingClientRect();
     let itemLayoutBackgroundEl = document.getElementById('itemLayoutBackground');
     itemLayoutBackgroundEl.style.left = rec.left + 'px';
     itemLayoutBackgroundEl.style.width = rec.width + 'px';
     itemLayoutBackgroundEl.style.top = rec.top + 'px';
     itemLayoutBackgroundEl.style.height = rec.height + 'px';
-    ItemsPanel.instance.selectionBarItems.refresh();
   }
-
   _markAllIPreviousItemsAsRead() {
     if (this._feedItemMarkAsReadOnLeaving) {
       ItemManager.instance.markAllItemsAsRead();
@@ -84,13 +104,13 @@ class ItemsPanel { /*exported ItemsPanel*/
 
   async _displayItems_async(itemList) {
     let itemsHtml = await FeedRenderer.renderItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
-    BrowserManager.setInnerHtmlById('itemsPane', itemsHtml, true);
+    BrowserManager.setInnerHtmlById('itemsContentPanel', itemsHtml, true);
 
     if (itemsHtml.length > 0) {
-      ItemsMenu.instance.enableButtons();
+      ItemsToolBar.instance.enableButtons();
     }
     else {
-      ItemsMenu.instance.disableButtons();
+      ItemsToolBar.instance.disableButtons();
     }
   }
 
@@ -131,6 +151,6 @@ class ItemsPanel { /*exported ItemsPanel*/
   }
   
   async _contentOnScroll_event(){
-    ItemsPanel.instance.selectionBarItems.refresh();
+    ItemsLayout.instance.selectionBarItems.refresh();
   }
 }

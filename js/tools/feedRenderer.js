@@ -44,12 +44,14 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderItemListToHtml_async(itemList, tooltipsVisible) {
     let htmlItemList = [];
-    itemList = ItemSorter.instance.sort(itemList);
-    for (let i = 0; i < itemList.length; i++) {
-      let htmlItem = await FeedRenderer._getHtmlItemLine_async(itemList[i], i + 1, tooltipsVisible);
-      htmlItemList.push(htmlItem);
+    if (itemList) {
+      itemList = ItemSorter.instance.sort(itemList);
+      for (let i = 0; i < itemList.length; i++) {
+        let htmlItem = await FeedRenderer._getHtmlItemLine_async(itemList[i], i + 1, tooltipsVisible);
+        htmlItemList.push(htmlItem);
+      }
     }
-    let itemsHtml = htmlItemList.join('\n');
+    let itemsHtml = htmlItemList.join('\n');  
     return itemsHtml;
 
   }

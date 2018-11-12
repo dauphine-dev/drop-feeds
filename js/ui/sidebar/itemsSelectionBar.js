@@ -1,4 +1,4 @@
-/*global ItemsMenu*/
+/*global ItemsToolBar*/
 'use strict';
 class ItemsSelectionBar { /*exported ItemsSelectionBar*/
   constructor() {
@@ -13,7 +13,7 @@ class ItemsSelectionBar { /*exported ItemsSelectionBar*/
   }
 
   hide() {
-    ItemsMenu.instance.disableButtonsForSingleElement();
+    ItemsToolBar.instance.disableButtonsForSingleElement();
     this._removeOld();
     this._selectionBarItemsElement.style.visibility = 'hidden';
     this._selectedElement = null;
@@ -42,7 +42,7 @@ class ItemsSelectionBar { /*exported ItemsSelectionBar*/
     let elItemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     let minTop  = elItemsPaneTitleBar.offsetTop + elItemsPaneTitleBar.clientHeight;
     this._selectionBarItemsElement.style.visibility = ( y >= minTop ? 'visible' : 'hidden');
-    ItemsMenu.instance.enableButtonsForSingleElement();    
+    ItemsToolBar.instance.enableButtonsForSingleElement();    
   }
 
   _selectedElementOnScrollEvent() {

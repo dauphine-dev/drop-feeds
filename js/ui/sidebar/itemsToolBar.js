@@ -1,6 +1,6 @@
-/*global browser ItemManager ItemsPanel CssManager*/
+/*global browser ItemManager ItemsLayout CssManager*/
 'use strict';
-class ItemsMenu { /*exported ItemsMenu*/
+class ItemsToolBar { /*exported ItemsToolBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -28,7 +28,7 @@ class ItemsMenu { /*exported ItemsMenu*/
     CssManager.enableElementById('itemMarkAllAsReadButton');
     CssManager.enableElementById('itemMarkAllAsUnreadButton');
     CssManager.enableElementById('itemOpenUnreadButton');
-    let selectedElement = ItemsPanel.instance.selectionBarItems.selectedElement;
+    let selectedElement = ItemsLayout.instance.selectionBarItems.selectedElement;
     if (selectedElement) {
       CssManager.enableElementById('itemMarkAsReadButton');
       CssManager.enableElementById('itemMarkAsUnreadButton');
@@ -43,7 +43,7 @@ class ItemsMenu { /*exported ItemsMenu*/
 
   enableButtonsForSingleElement() {
     this._buttonsForSingleElementEnabled = true;
-    let selectedElement =  ItemsPanel.instance.selectionBarItems.selectedElement;
+    let selectedElement =  ItemsLayout.instance.selectionBarItems.selectedElement;
     if (selectedElement) {
       let isVisited = selectedElement.classList.contains('visited');
       if (isVisited) {
@@ -72,7 +72,7 @@ class ItemsMenu { /*exported ItemsMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!this._buttonsForSingleElementEnabled) { return; }
-    let elItem = ItemsPanel.instance.selectionBarItems.selectedElement;
+    let elItem = ItemsLayout.instance.selectionBarItems.selectedElement;
     ItemManager.instance.markItemAsRead(elItem);
   }
 
@@ -80,7 +80,7 @@ class ItemsMenu { /*exported ItemsMenu*/
     event.stopPropagation();
     event.preventDefault();
     if (!this._buttonsForSingleElementEnabled) { return; }
-    let elItem = ItemsPanel.instance.selectionBarItems.selectedElement;
+    let elItem = ItemsLayout.instance.selectionBarItems.selectedElement;
     ItemManager.instance.markItemAsUnread(elItem);
   }
 

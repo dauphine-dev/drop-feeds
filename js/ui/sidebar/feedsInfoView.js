@@ -7,7 +7,7 @@ class FeedsInfoView { /*exported FeedsInfoView*/
     this._elInfoView = null;
     this._idComeFrom = null;
     this._info = null;
-    this._elContent = document.getElementById('content');
+    this._elContent = document.getElementById('feedsContentPanel');
     this._updateLocalizedStrings();
     document.getElementById('infoUpdateButton').addEventListener('click', (e) => { this._updateButtonClicked_event(e); });
     document.getElementById('infoCloseButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });

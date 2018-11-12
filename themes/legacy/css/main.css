@@ -1,5 +1,6 @@
 :root {
-  --main-background-color: #e8e8e8;
+  /*--main-background-color: #e8e8e8;*/
+  --main-background-color: gray;
   --main-background-secondary-color: white;
   --main-text-color: black;
   --main-text-complementary-color: white;

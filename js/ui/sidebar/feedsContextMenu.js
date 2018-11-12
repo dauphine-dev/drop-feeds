@@ -23,7 +23,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdMnInfo').addEventListener('click', (e) => { this.ctxMnInfoFeedMenuClicked_event(e); });
 
     this._updateLocalizedStrings();
-    this._elContent = document.getElementById('content');
+    this._elContent = document.getElementById('feedsContentPanel');
     this._elContextMenu = null;
     this._idComeFrom = null;
   }

@@ -1,4 +1,4 @@
-/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedRenderer ItemsPanel LocalStorageManager*/
+/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedRenderer ItemsLayout LocalStorageManager*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -225,7 +225,7 @@ class FeedManager { /*exported FeedManager*/
       let title =  isUnified ? folderTitle : isSingle ? feed.title : folderTitle;
       let titleLink = isSingle ? (await feed.getInfo_async()).channel.link : 'about:blank';
       let itemList = isUnified ? this._unifiedFeedItems : this._itemList;
-      await ItemsPanel.instance.displayItems_async(title, titleLink, itemList);
+      await ItemsLayout.instance.displayItems_async(title, titleLink, itemList);
     }
   }
 
@@ -345,7 +345,7 @@ class FeedManager { /*exported FeedManager*/
   async _automaticFeedUpdate_async() {
     if (!this._automaticUpdatesEnabled) { return; }
     try {
-      await FeedManager.instance.checkFeeds_async('content');
+      await FeedManager.instance.checkFeeds_async('feedsContentPanel');
     }
     catch (e) {
       /*eslint-disable no-console*/

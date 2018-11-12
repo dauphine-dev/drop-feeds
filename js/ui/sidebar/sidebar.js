@@ -1,5 +1,5 @@
-/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemPanel
-FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsPanel TabManager FeedsNewFolderDialog FeedsFilterBar*/
+/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout
+FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager FeedsNewFolderDialog FeedsFilterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -15,33 +15,27 @@ class SideBar { /*exported SideBar*/
     await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await RenderOptions.instance;
-    await FeedsTreeView.instance.load_async();
     await Timeout.instance.init_async();
     await ThemeManager.instance.init_async();
-    await FeedsTopMenu.instance.init_async();
     await ItemSorter.instance.init_async();
-    await FeedsNewFolderDialog.instance.init_async();
     await SecurityFilters.instance.init_async();
-    await FeedsFilterBar.instance.init_async();
     FeedManager.instance;
-    ItemsPanel.instance;
     TabManager.instance;
+
+    await FeedsTopMenu.instance.init_async();
+    await FeedsFilterBar.instance.init_async();
+    await FeedsTreeView.instance.load_async();
+    await ItemsLayout.instance.init_async();
+    RenderItemLayout.instance;
+    await FeedsNewFolderDialog.instance.init_async();
+    
     document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
-    this._addListeners();
     FeedsTreeView.instance.selectionBar.refresh();
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    this.resize();
-  }
-
-  reloadOnce() {
-    //Workaround to have a clean display on 1st start.
-    let doReload = !sessionStorage.getItem('hasAlreadyReloaded');
-    if (doReload) {
-      sessionStorage.setItem('hasAlreadyReloaded', true);
-      window.location.reload();
-    }
+    this._addListeners();
+    setTimeout(() => { SideBar.instance.resize(); }, 10);
   }
 
   async reloadPanelWindow_sbscrb() {
@@ -57,7 +51,7 @@ class SideBar { /*exported SideBar*/
 
   _addListeners() {
     window.onresize = ((e) => { this._windowOnResize_event(e); });
-    document.getElementById('content').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+    document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
   async _contentOnScroll_event() {
@@ -77,8 +71,8 @@ class SideBar { /*exported SideBar*/
 
   resize() {
     FeedsTreeView.instance.resize();
-    ItemsPanel.instance.resize();
-    RenderItemPanel.instance.resize();
+    ItemsLayout.instance.resize();
+    RenderItemLayout.instance.resize();
   }
 }
 SideBar.instance.init_async();

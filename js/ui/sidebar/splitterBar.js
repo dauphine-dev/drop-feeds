@@ -1,7 +1,6 @@
-/*global SideBar FeedsTreeView ItemsPanel*/
+/*global SideBar FeedsTreeView ItemsLayout RenderItemLayout */
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
-  static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor(splitterBarId) {
     this._splitterBarId = splitterBarId;
@@ -13,12 +12,11 @@ class SplitterBar { /*exported SplitterBar*/
     document.addEventListener('mouseup', (e) => { this._splitterBarMouseup_event(e); });
     this._elSplitterBar.addEventListener('mousedown', (e) => { this._splitterBarMousedown_event(e); });
   }
-
-  async init_async() {
-  }
-
-  get instance() {
-    return ItemsPanel.instance.top;
+  
+  get top() {
+    //return this._elSplitterBar.offsetTop;
+    let rec = this._elSplitterBar.getBoundingClientRect();
+    return rec.top;
   }
 
   get height() {
@@ -61,26 +59,19 @@ class SplitterBar { /*exported SplitterBar*/
 
   }
 
-  _resizeElements(delta) {
+  _resizeElements(delta) { 
     switch (this._splitterBarId) {
       case 'splitterBar1':
-        this._resizeElements1(delta);
+        let height1 = Math.max(document.getElementById('feedsContentPanel').offsetHeight - delta, 0);
+        FeedsTreeView.instance.setContentHeight(height1);
+        ItemsLayout.instance.resize();
         break;
       case 'splitterBar2':
-        this._resizeElements2(delta);
+        let height2 = Math.max(document.getElementById('itemsContentPanel').offsetHeight - delta, 0);
+        ItemsLayout.instance.setContentHeight(height2);
         break;
     }
-  }
-
-  _resizeElements1(delta) {
-    let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
-    FeedsTreeView.instance.setContentHeight(height);
-    ItemsPanel.instance.resize();
-  }
-
-  _resizeElements2(delta) {
-    //let height = Math.max(document.getElementById('content').offsetHeight - delta, 0);
-    ItemsPanel.instance.resize();
+    RenderItemLayout.instance.resize();
   }
 
 

@@ -114,7 +114,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
       await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
       return;
     }
-    FeedManager.instance.checkFeeds_async('content');
+    FeedManager.instance.checkFeeds_async('feedsContentPanel');
   }
 
   async _updateLocalizedStrings_async() {

@@ -1,5 +1,5 @@
 /*global  browser DefaultValues BrowserManager FeedsSelectionBar FeedsTopMenu FeedManager FeedsStatusBar CssManager
-FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
+FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar ItemsLayout*/
 'use strict';
 const _dropfeedsId = 'dropfeedsId=';
 class FeedsTreeView { /*exported FeedsTreeView*/
@@ -34,18 +34,16 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._html = [];
     this._computeHtmlTree(cacheLocalStorage, this._rootBookmark, 10, this._displayRootFolder);
     this._html = this._html.slice(0, -3);
-    BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''), true);
+    BrowserManager.setInnerHtmlById('feedsContentPanel', '\n' + this._html.join(''), true);
 
     this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();
 
-    let contentHeight = await LocalStorageManager.getValue_async('contentHeight', window.innerHeight / 2);
-    if (contentHeight) {
-      this.setContentHeight(contentHeight);
+    let feedContentHeight = await LocalStorageManager.getValue_async('feedContentHeight', window.innerHeight / 3);
+    if (feedContentHeight) {
+      this.setContentHeight(feedContentHeight);
     }
-
-
   }
 
   get rootFolderId() {
@@ -70,8 +68,12 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     await this.reload_async();
   }
 
-  resize() {    
+  resize() {
     document.getElementById('treeView').style.width  = window.innerWidth + 'px';
+    this._resizeBackgroundDiv();
+  }
+
+  _resizeBackgroundDiv() {
     let rec = document.getElementById('feedsLayoutCell').getBoundingClientRect();
     let feedsLayoutBackground = document.getElementById('feedsLayoutBackground');
     feedsLayoutBackground.style.left = rec.left + 'px';
@@ -81,16 +83,23 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   }
 
   setContentHeight(height) {
-    let contentEl = document.getElementById('content');
-    CssManager.replaceStyle('.contentHeight', '  height:' + height + 'px;');
-    let weirdOffsetWorkAround  = contentEl.offsetHeight - height;
-    CssManager.replaceStyle('.contentHeight', '  height:' + Math.max(height - weirdOffsetWorkAround, 0) + 'px;');
-    let rectContent = contentEl.getBoundingClientRect();
-    let maxHeight = Math.max(window.innerHeight - rectContent.top - document.getElementById('splitterBar1').offsetHeight, 0);
-    if (contentEl.offsetHeight  > maxHeight) {
-      CssManager.replaceStyle('.contentHeight', '  height:' + maxHeight + 'px;');
+    let feedsContentPanelEl = document.getElementById('feedsContentPanel');
+    this._setFeedsContentPanelHeight(height);
+    let rec = feedsContentPanelEl.getBoundingClientRect();
+
+    let maxHeight = Math.max(window.offsetHeight  - ItemsLayout.instance.top - rec.top, 0);
+    if (feedsContentPanelEl.offsetHeight  > maxHeight) {
+      CssManager.replaceStyle('.feedContentHeight', '  height:' + maxHeight + 'px;');
     }
-    LocalStorageManager.setValue_async('contentHeight', height);
+    LocalStorageManager.setValue_async('feedContentHeight', height);
+    this._resizeBackgroundDiv();
+  }
+
+  _setFeedsContentPanelHeight(height) {
+    let feedsContentPanelEl = document.getElementById('feedsContentPanel');
+    CssManager.replaceStyle('.feedContentHeight', '  height:' + height + 'px;');
+    let weirdOffsetWorkAround  = feedsContentPanelEl.offsetHeight - height;
+    CssManager.replaceStyle('.feedContentHeight', '  height:' + Math.max(height - weirdOffsetWorkAround, 0) + 'px;');
   }
 
   _showUpdatedFeedCount_sbscrb(value) {

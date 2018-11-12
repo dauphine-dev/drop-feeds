@@ -69,7 +69,7 @@
 
           <!-- Tree view -->
           <div id="treeView" >
-            <ul id="content" class="contentHeight">
+            <ul id="feedsContentPanel" class="feedContentHeight">
             </ul>
           </div>
         </div>
@@ -101,8 +101,8 @@
             <span id="itemOpenUnreadButton" title="#Open unread items in new tabs" class="toolBarItem"></span>
           </div>
           
-          <!-- items pane -->
-          <div id="itemsPane"></div>
+          <!-- items panel -->
+          <div id="itemsContentPanel" class="itemsContentHeight"></div>
         </div>
       </div>
 
@@ -115,10 +115,13 @@
       <div id="renderLayoutRow" class="rowBox">
         <div id="renderLayoutCell" class="cellBox autoHeight">
           <div id="renderLayoutBackground"></div>
+          <!--cspell:disable-->
           <div id="renderItemText">Oportunum est, ut arbitror, explanare nunc causam, 
             quae ad exitium praecipitem Aginatium inpulit iam inde a priscis maioribus
              nobilem, ut locuta est pertinacior fama. nec enim super hoc ulla 
-             documentorum rata est fides.</div>
+             documentorum rata est fides.
+          </div>
+          <!--cspell:enable-->
         </div>
       </div>
 
@@ -216,19 +219,19 @@
       <p>&nbsp;</p>
     </div>
   </div>
-  <script src="/js/ui/sidebar/renderItemPanel.js"></script>
+  <script src="/js/ui/sidebar/renderItemLayout.js"></script>
+  <script src="/js/ui/sidebar/itemsSelectionBar.js"></script>
+  <script src="/js/ui/sidebar/itemsToolBar.js"></script>
+  <script src="/js/ui/sidebar/itemsLayout.js"></script>
+  <script src="/js/ui/sidebar/splitterBar.js"></script>
+  <script src="/js/ui/sidebar/feedsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/feedsContextMenu.js"></script>
   <script src="/js/ui/sidebar/feedsFilterBar.js"></script>
   <script src="/js/ui/sidebar/feedsInfoView.js"></script>
   <script src="/js/ui/sidebar/feedsNewFolderDialog.js"></script>
-  <script src="/js/ui/sidebar/feedsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/feedsStatusBar.js"></script>
   <script src="/js/ui/sidebar/feedsTopMenu.js"></script>
   <script src="/js/ui/sidebar/feedsTreeView.js"></script>  
-  <script src="/js/ui/sidebar/itemsMenu.js"></script>
-  <script src="/js/ui/sidebar/itemsPanel.js"></script>
-  <script src="/js/ui/sidebar/itemsSelectionBar.js"></script>
-  <script src="/js/ui/sidebar/splitterBar.js"></script>
   <script src="/js/ui/sidebar/sidebar.js"></script>
 </body>
 

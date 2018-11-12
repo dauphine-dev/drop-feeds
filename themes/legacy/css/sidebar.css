@@ -1,6 +1,7 @@
 :root {
   /* ---- feeds layout ---- */
-  --feeds-Layout-background-color: var(--main-background-secondary-color);
+  /*--feeds-Layout-background-color: var(--main-background-secondary-color);*/
+  --feeds-Layout-background-color: gold;
 
   /* feeds top menu */
   --feeds-topMenu-background-color: var(--main-background-color);
@@ -72,7 +73,8 @@
   --feeds-selectionBar-color: var(--main-selection-background-color);
 
   /* ---- items layout ---- */
-  --items-Layout-background-color: var(--main-background-color);
+  /*--items-Layout-background-color: var(--main-background-color);*/
+  --items-Layout-background-color: blue;
   --items-Layout-border-color: var(--main-border-color);
 
   /* items title bar*/
