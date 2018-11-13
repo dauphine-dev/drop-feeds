@@ -1,4 +1,4 @@
-/*global SplitterBar BrowserManager Listener ListenerProviders SideBar DefaultValues ItemsLayout */
+/*global SplitterBar BrowserManager Listener ListenerProviders SideBar DefaultValues ItemsLayout TextTools */
 'use strict';
 class RenderItemLayout { /*exported RenderItemLayout */
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -45,6 +45,11 @@ class RenderItemLayout { /*exported RenderItemLayout */
       ItemsLayout.instance.setContentHeight(this._itemsContentHeightRenderOpened);
     }
     SideBar.instance.resize();
+  }
+
+  displayItem(item) {
+    let itemText = TextTools.toPlainText(item.description);    
+    this._renderItemText.textContent = itemText;
   }
 
   _renderItemLayoutEnabled_async(value) {

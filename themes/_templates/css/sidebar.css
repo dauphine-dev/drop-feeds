@@ -670,6 +670,7 @@ li.feedError {
 /* --- Item render layout ---- */
 #renderItemText {
   white-space: normal;
+  padding: 2px;
   background-color: var(--renderItems-Layout-background-color);
 }
 

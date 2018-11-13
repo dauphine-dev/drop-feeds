@@ -25,6 +25,9 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
     this.put(this._selectedElement);
   }
 
+  get selectedElement() {
+    return this._selectedElement;
+  }
 
   _selectedElementOnScrollEvent() {
     this.put(this._selectedElement);

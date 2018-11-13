@@ -184,9 +184,9 @@ class FeedRenderer { /*exported FeedRenderer*/
     let visited = undefined;
     try { visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : ''; }
     catch (e) { }
-    let tooltipText = FeedParser._getItemTooltipText(item, num);
+    let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
-    let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
+    let htmlItemLine  = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '</span><br/>';
 
     return htmlItemLine;
   }

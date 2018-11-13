@@ -98,8 +98,11 @@ class TextTools { /* exported TextTools*/
     return text.slice(0, index) + text.slice(index).replace(substr, newSubstr);
   }
 
-  static toPlainText(html) {
-    return html.replace(/<(?:.|\n)*?>/gm, '');
+  static toPlainText(inputText) {
+    /*eslint-disable no-control-regex*/
+    let plainText = inputText.replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
+    /*eslint-enable no-control-regex*/
+    return plainText.replace(/<(?:.|\n)*?>/gm, '');      
   }
 
   static isNullOrEmpty(obj) {

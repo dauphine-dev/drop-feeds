@@ -17,6 +17,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
+    this._itemList = [];
   }
 
   async init_async() {
@@ -61,6 +62,10 @@ class ItemsLayout { /*exported ItemsLayout*/
 
   get selectionBarItems() {
     return this._selectionBarItems;
+  }
+
+  get itemList() {
+    return this._itemList;
   }
 
   async displayItems_async(itemsTitle, titleLink, items) {
@@ -129,6 +134,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
 
   async _displayItems_async(itemList) {
+    this._itemList = itemList;
     let itemsHtml = await FeedRenderer.renderItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
     BrowserManager.setInnerHtmlById('itemsContentPanel', itemsHtml, true);
 

@@ -121,6 +121,15 @@ class FeedParser { /*exported FeedParser*/
 
   }
 
+  static getItemTooltipText(item, itemNumber) {
+    let tooltipText = TextTools.toPlainText(item.description);
+    if (tooltipText.length > 310) {
+      tooltipText = tooltipText.substring(0, 310) + '...';
+    }
+    tooltipText = itemNumber + '. ' + item.title + '\n\n' + tooltipText;
+    return tooltipText;
+  }
+
   //private stuffs
 
   static _getFeedFormat(tagItem, feedText) {
@@ -375,18 +384,6 @@ class FeedParser { /*exported FeedParser*/
     }
 
     return null;
-  }
-
-
-  static _getItemTooltipText(item, itemNumber) {
-    /*eslint-disable no-control-regex*/
-    let tooltipText = TextTools.toPlainText(item.description).replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
-    /*eslint-enable no-control-regex*/
-    if (tooltipText.length > 310) {
-      tooltipText = tooltipText.substring(0, 310) + '...';
-    }
-    tooltipText = itemNumber + '. ' + item.title + '\n\n' + tooltipText;
-    return tooltipText;
   }
 
   static _extractOpenTag(text, tagList) {

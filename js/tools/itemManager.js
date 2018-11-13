@@ -1,9 +1,11 @@
-/*global browser BrowserManager ItemsLayout ItemsToolBar*/
+/*global browser BrowserManager ItemsLayout ItemsToolBar Listener ListenerProviders DefaultValues RenderItemLayout*/
 'use strict';
 class ItemManager { /*exported ItemManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
+    this._feedItemRenderInSidebar = DefaultValues.feedItemRenderInSidebar;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemRenderInSidebar', (v) => { this._renderItemLayoutEnabled_async(v); }, true);
   }
 
   addItemClickEvents() {
@@ -57,7 +59,7 @@ class ItemManager { /*exported ItemManager*/
     let elItemList = document.getElementById('itemsContentPanel').querySelectorAll('.item:not(.visited)');
     for (let elItem of elItemList) {
       let itemLink = elItem.getAttribute('href');
-      await this._openTabItem_async(itemLink, true);
+      await this.openItem_async(itemLink, true);
       elItem.classList.add('visited');
     }
     ItemsToolBar.instance.enableButtonsForSingleElement();
@@ -75,7 +77,8 @@ class ItemManager { /*exported ItemManager*/
   async _itemOnClick_event(event) {
     ItemsLayout.instance.selectionBarItems.put(event.target);
     let itemLink = event.target.getAttribute('href');
-    await this._openTabItem_async(itemLink);
+    let itemNum = event.target.getAttribute('num');
+    await this.openItem_async(itemLink, null, null, itemNum);
     event.target.classList.add('visited');
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
@@ -89,7 +92,7 @@ class ItemManager { /*exported ItemManager*/
       ItemsLayout.instance.selectionBarItems.put(event.target);
       let itemLink = event.target.getAttribute('href');
       let openNewTabForce = true, openNewTabBackGroundForce = true;
-      await this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
+      await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
       event.target.classList.add('visited');
       ItemsToolBar.instance.enableButtonsForSingleElement();
     }
@@ -97,6 +100,20 @@ class ItemManager { /*exported ItemManager*/
 
   async _openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce) {
     await BrowserManager.instance.openTab_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
+  }
+
+  async openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum) {
+    if (this._feedItemRenderInSidebar) {      
+      let item = ItemsLayout.instance.itemList[itemNum];
+      RenderItemLayout.instance.displayItem(item);
+    } 
+    else {
+      this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
+    }
+  }
+
+  async _renderItemLayoutEnabled_async(value) {
+    this._feedItemRenderInSidebar = value;
   }
 
 }
