@@ -35,7 +35,7 @@ class SideBar { /*exported SideBar*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
     this._addListeners();
-    setTimeout(() => { SideBar.instance.resize(); }, 10);
+    setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 
   async reloadPanelWindow_sbscrb() {

@@ -1,52 +1,58 @@
-/*global SplitterBar Listener ListenerProviders ItemsLayout*/
+/*global SplitterBar BrowserManager Listener ListenerProviders SideBar DefaultValues ItemsLayout */
 'use strict';
 class RenderItemLayout { /*exported RenderItemLayout */
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._renderItemLayoutEnabled = true;
+    this._feedItemRenderInSidebarEnabled = DefaultValues.feedItemRenderInSidebar;
+    this._visible = (ItemsLayout.instance.visible && this._feedItemRenderInSidebarEnabled);
     this._splitterBar2 = new SplitterBar('splitterBar2');
     this._renderLayoutCell = document.getElementById('renderLayoutCell');
-    this._renderItemText = document.getElementById('renderItemText');      
-    //Listener.instance.subscribe(ListenerProviders.localStorage, 'renderItemLayoutEnabled', (v) => { this._renderItemLayoutEnabled_async(v); }, true);
+    this._renderItemText = document.getElementById('renderItemText');
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemRenderInSidebar', (v) => { this._renderItemLayoutEnabled_async(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemsContentHeightRenderOpened', (v) => { this._itemsContentHeightRenderOpened_async(v); }, true);
   }
 
   get top() {
     let top = window.innerHeight;
-    if (this._renderItemLayoutEnabled) {
+    if (this._visible) {
       top = this._splitterBar2.top;
     }
     return top;
   }
 
+  get visible() {
+    return this._visible;
+  }
+
+  get splitterBar2() {
+    return this._splitterBar2;
+  }
+
   resize() {
     let rec = this._renderItemText.getBoundingClientRect();
     let height = Math.max(window.innerHeight - rec.top, 0);
-    this._setRenderItemTextHeight(height);
-    this._renderItemText.style.width  = window.innerWidth + 'px';
-    this._resizeBackgroundDiv();
+    BrowserManager.setElementHeight(this._renderItemText, height);
+    this._renderItemText.style.width = window.innerWidth + 'px';
+  }
+
+  setVisibility() {
+    let prevVisible = this._visible;
+    this._visible = (ItemsLayout.instance.visible && this._feedItemRenderInSidebarEnabled);
+    this._splitterBar2.visible = this._visible;
+    this._renderLayoutCell.style.display = this._visible ? 'table-cell' : 'none';
+    if (!prevVisible && this._visible) {
+      ItemsLayout.instance.setContentHeight(this._itemsContentHeightRenderOpened);
+    }
+    SideBar.instance.resize();
   }
 
   _renderItemLayoutEnabled_async(value) {
-    this._renderItemLayoutEnabled = value;
-    this.resize();
+    this._feedItemRenderInSidebarEnabled = value;
+    this.setVisibility();
   }
 
-  _setRenderItemTextHeight(height) {
-    console.log('height:', height);
-    this._renderItemText.style.height =  height + 'px';
-    let weirdOffsetWorkAround  = this._renderItemText.offsetHeight - height;
-    this._renderItemText.style.height =  Math.max(height - weirdOffsetWorkAround, 0) + 'px';
-    this._resizeBackgroundDiv();
+  _itemsContentHeightRenderOpened_async(value) {
+    this._itemsContentHeightRenderOpened = value;
   }
-
-  _resizeBackgroundDiv() {
-    let rec = this._renderLayoutCell.getBoundingClientRect();
-    let renderLayoutBackgroundEl = document.getElementById('renderLayoutBackground');
-    renderLayoutBackgroundEl.style.left = rec.left + 'px';
-    renderLayoutBackgroundEl.style.width = rec.width + 'px';
-    renderLayoutBackgroundEl.style.top = rec.top + 'px';
-    renderLayoutBackgroundEl.style.height = rec.height + 'px';
-  }
-
 }

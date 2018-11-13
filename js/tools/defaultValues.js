@@ -14,9 +14,10 @@ class DefaultValues { /*exported DefaultValues*/
   static get updatedFeedsVisible()           { return false; }
   static get foldersOpened()                 { return true; }
   static get maxItemsInUnifiedView()         { return 100; }
-  static get feedItemList()                  { return false; }
-  static get feedItemListToolbar()           { return false; }
-  static get feedItemDescriptionTooltips()   { return false; }
+  static get feedItemList()                  { return true; }
+  static get feedItemListToolbar()           { return true; }
+  static get feedItemDescriptionTooltips()   { return true; }
+  static get feedItemRenderInSidebar()       { return true; }
   static get ifHttpsHasFailedRetryWithHttp() { return true; }
   static get currentOptionTabName()          { return 'generalTab'; }
   static get showFeedUpdatePopup()           { return true; }
@@ -34,7 +35,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get editorFontSize()                { return '14'; }
   static get editorTabSize()                 { return '4'; }
   static get filterEnabled()                 { return false; }
-  static get itemNewTab()                   { return false; }
+  static get itemNewTab()                    { return false; }
 
   static get allowedTagList() {
     return [{'*':['style']}, {'a':['href', 'title']}, {'b':[]}, {'blockquote':[]}, {'br':[]}, {'cite':[]}, {'code':[]}, {'del':[]},

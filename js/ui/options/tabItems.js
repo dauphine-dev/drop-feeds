@@ -21,6 +21,11 @@ class TabItems { /*exported TabItems*/
     let elFeedItemMarkAsReadOnLeaving = document.getElementById('feedItemMarkAsReadOnLeavingCheckbox');
     elFeedItemMarkAsReadOnLeaving.checked =  await LocalStorageManager.getValue_async('feedItemMarkAsReadOnLeaving', DefaultValues.feedItemMarkAsReadOnLeaving);
     elFeedItemMarkAsReadOnLeaving.addEventListener('click', (e) => { this._feedItemMarkAsReadOnLeavingCheckboxClicked_event(e); });
+
+    let elFeedItemRenderInSidebarCheckbox = document.getElementById('feedItemRenderInSidebarCheckbox');
+    elFeedItemRenderInSidebarCheckbox.checked =  await LocalStorageManager.getValue_async('feedItemRenderInSidebar', DefaultValues.feedItemRenderInSidebar);
+    elFeedItemRenderInSidebarCheckbox.addEventListener('click', (e) => { this._feedItemRenderInSidebarCheckboxClicked_event(e); });
+
   }
 
   _updateLocalizedStrings() {
@@ -45,6 +50,10 @@ class TabItems { /*exported TabItems*/
 
   async _feedItemMarkAsReadOnLeavingCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('feedItemMarkAsReadOnLeaving', document.getElementById('feedItemMarkAsReadOnLeavingCheckbox').checked);
+  }
+
+  async _feedItemRenderInSidebarCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('feedItemRenderInSidebar', document.getElementById('feedItemRenderInSidebarCheckbox').checked);
   }
 
 }

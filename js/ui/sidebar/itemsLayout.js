@@ -1,5 +1,5 @@
 /*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager */
-/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout CssManager */
+/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView */
 'use strict';
 class ItemsLayout { /*exported ItemsLayout*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -12,31 +12,47 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._itemsPaneTitleBar = document.getElementById('itemsPaneTitleBar');
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
     this._itemsContentPanel = document.getElementById('itemsContentPanel');
-    this._feedItemList = DefaultValues.feedItemList;
+    this._feedItemListVisible = DefaultValues.feedItemList;
+    this._visible = this._feedItemListVisible;
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
   }
 
   async init_async() {
-    let itemsContentHeight = await LocalStorageManager.getValue_async('itemsContentHeight', window.innerHeight / 3);
-    if (itemsContentHeight) {
-      this.setContentHeight(itemsContentHeight);
-    }
     Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'feedsContentHeightItemsOpened', (v) => { this._feedsContentHeightRenderOpened_async(v); }, true);
     this._itemsContentPanel.addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+    let itemsContentHeightRenderClosed = await LocalStorageManager.getValue_async('itemsContentHeightRenderClosed', window.innerHeight / 3);
+    let itemsContentHeightRenderOpened = await LocalStorageManager.getValue_async('itemsContentHeightRenderOpened', window.innerHeight / 3);
+    setTimeout(() => { 
+      let itemsContentHeight = RenderItemLayout.instance.visible ? itemsContentHeightRenderOpened : itemsContentHeightRenderClosed;
+      ItemsLayout.instance.setContentHeight(itemsContentHeight); 
+    }, 15);
+  }
+
+  get visible() {
+    return this._visible;
   }
 
   get top() {
-    let top = RenderItemLayout.instance.top;
-    if (this._feedItemList) {
+    let top = window.innerHeight;
+    if (this._visible) {
       top = this._splitterBar1.top;
     }
     return top;
+  }
+
+  get element() {
+    return this._itemsContentPanel;
+  }
+
+  get splitterBar1() {
+    return this._splitterBar1;
   }
 
   get itemsMenu() {
@@ -59,28 +75,37 @@ class ItemsLayout { /*exported ItemsLayout*/
   resize() {
     let rec = this._itemsContentPanel.getBoundingClientRect();
     let height = Math.max(RenderItemLayout.instance.top - rec.top, 0);
-    //this._itemsContentPanel.style.height = height + 'px';
-    CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
+    BrowserManager.setElementHeight(this._itemsContentPanel, height);
     this._itemsContentPanel.style.width  = window.innerWidth + 'px';
     this._resizeBackgroundDiv();
     ItemsLayout.instance.selectionBarItems.refresh();
   }
 
   setContentHeight(height) {
-    //this._itemsContentPanel.style.height =  height + 'px;';
-    CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
-
-    
-    let rectContent = this._itemsContentPanel.getBoundingClientRect();
-    let maxHeight = Math.max(window.innerHeight - rectContent.top - document.getElementById('splitterBar2').offsetHeight, 0);
+    BrowserManager.setElementHeight(this._itemsContentPanel, height);
+    let rectContent = this._itemsContentPanel.getBoundingClientRect();  
+    let maxHeight = Math.max(window.innerHeight - rectContent.top - RenderItemLayout.instance.splitterBar2.element.offsetHeight - 1, 0);
     if (this._itemsContentPanel.offsetHeight  > maxHeight) {
-      //this._itemsContentPanel.style.height =  maxHeight + 'px;';
-      CssManager.replaceStyle('.itemsContentHeight', '  height:' + height + 'px;');
-
+      height = maxHeight;
+      BrowserManager.setElementHeight(this._itemsContentPanel, height);
     }
-    LocalStorageManager.setValue_async('itemsContentHeight', height);
+    if (RenderItemLayout.instance.visible) {
+      LocalStorageManager.setValue_async('itemsContentHeightRenderOpened', height);
+    }
+    else {
+      LocalStorageManager.setValue_async('itemsContentHeightRenderClosed', height);
+    }
     this._resizeBackgroundDiv();
-    
+    ItemsLayout.instance.selectionBarItems.refresh();
+    return height;
+  }
+
+  increaseContentHeight(offset) {
+    let prevOffsetHeight = this._itemsContentPanel.offsetHeight;
+    let height = Math.max(this._itemsContentPanel.offsetHeight + offset, 0);
+    this.setContentHeight(height);
+    let delta = this._itemsContentPanel.offsetHeight - prevOffsetHeight;
+    return delta;
   }
 
   _resizeBackgroundDiv() {
@@ -91,6 +116,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     itemLayoutBackgroundEl.style.top = rec.top + 'px';
     itemLayoutBackgroundEl.style.height = rec.height + 'px';
   }
+
   _markAllIPreviousItemsAsRead() {
     if (this._feedItemMarkAsReadOnLeaving) {
       ItemManager.instance.markAllItemsAsRead();
@@ -115,7 +141,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
 
   async _setFeedItemList_sbscrb(value) {
-    this._feedItemList = value;
+    this._feedItemListVisible = value;
     this._setVisibility();
   }
 
@@ -138,8 +164,16 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
 
   _setVisibility() {
-    this._itemLayoutCell.style.display = this._feedItemList ? 'block' : 'none';
+    let prevVisible = this._visible;
+    this._visible = this._feedItemListVisible;
+    if (!prevVisible && this._visible) {
+      FeedsTreeView.instance.setContentHeight(this._feedsContentHeightRenderOpened);
+    }
+    this._itemLayoutCell.style.display = this._visible ? 'table-cell' : 'none';
+    document.getElementById('itemLayoutBackground').style.display = this._visible ? 'block' : 'none';
+    this._splitterBar1.visible = this._visible;
     SideBar.instance.resize();
+    RenderItemLayout.instance.setVisibility();
   }
 
   _setTooltipsVisibility() {
@@ -153,4 +187,9 @@ class ItemsLayout { /*exported ItemsLayout*/
   async _contentOnScroll_event(){
     ItemsLayout.instance.selectionBarItems.refresh();
   }
+
+  _feedsContentHeightRenderOpened_async(value) {
+    this._feedsContentHeightRenderOpened = value;
+  }
+
 }

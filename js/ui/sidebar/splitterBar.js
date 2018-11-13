@@ -8,11 +8,12 @@ class SplitterBar { /*exported SplitterBar*/
     this._startPos = 0;
     this._elSplitterBar = document.getElementById(this._splitterBarId);
     this._isResizing = false;
+    this._isVisible = false;
     document.addEventListener('mousemove', (e) => { this._splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this._splitterBarMouseup_event(e); });
     this._elSplitterBar.addEventListener('mousedown', (e) => { this._splitterBarMousedown_event(e); });
   }
-  
+
   get top() {
     //return this._elSplitterBar.offsetTop;
     let rec = this._elSplitterBar.getBoundingClientRect();
@@ -21,6 +22,15 @@ class SplitterBar { /*exported SplitterBar*/
 
   get height() {
     return this._elSplitterBar.offsetHeight;
+  }
+
+  get element() {
+    return this._elSplitterBar;
+  }
+
+  set visible(value) {
+    this._isVisible = value;
+    this._elSplitterBar.style.display = this._isVisible ? 'block' : 'none';
   }
 
   _dragMouseDown_event(event) {
@@ -53,22 +63,20 @@ class SplitterBar { /*exported SplitterBar*/
 
   async _splitterBarMousemove_event(event) {
     if (!this._isResizing) { return; }
-    let delta = this._lastDownY - event.clientY;
+    let delta = event.clientY - this._lastDownY;
     this._lastDownY = event.clientY;
     this._resizeElements(delta);
 
   }
 
-  _resizeElements(delta) { 
+  _resizeElements(delta) {
     switch (this._splitterBarId) {
       case 'splitterBar1':
-        let height1 = Math.max(document.getElementById('feedsContentPanel').offsetHeight - delta, 0);
-        FeedsTreeView.instance.setContentHeight(height1);
-        ItemsLayout.instance.resize();
+        delta = FeedsTreeView.instance.increaseContentHeight(delta);
+        ItemsLayout.instance.increaseContentHeight(-delta);
         break;
       case 'splitterBar2':
-        let height2 = Math.max(document.getElementById('itemsContentPanel').offsetHeight - delta, 0);
-        ItemsLayout.instance.setContentHeight(height2);
+        ItemsLayout.instance.increaseContentHeight(delta);
         break;
     }
     RenderItemLayout.instance.resize();

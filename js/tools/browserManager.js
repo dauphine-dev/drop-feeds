@@ -412,4 +412,11 @@ class BrowserManager { /* exported BrowserManager*/
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     return feedUrl.protocol + feedUrl.origin;
   }
+
+  static setElementHeight(element, height) {
+    element.style.height = height + 'px';    
+    let weirdOffsetWorkAround  = element.offsetHeight - height;
+    element.style.height = Math.max(height - weirdOffsetWorkAround, 0) + 'px';    
+  }
+
 }
