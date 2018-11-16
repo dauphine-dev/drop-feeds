@@ -177,7 +177,6 @@ class FeedManager { /*exported FeedManager*/
       FeedsStatusBar.instance.text = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
       feed.updateUiStatus_async();
       FeedsStatusBar.instance.text = feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ';
-
     } catch(e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();

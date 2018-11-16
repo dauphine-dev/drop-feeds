@@ -1,0 +1,176 @@
+/* misc. */
+
+html {
+	margin: 0;
+	font-family: var(--renderTab-font-family);
+	background: var(--renderTab-background-color);
+	color: /*var(--renderTab-text-color);*/ red;
+}
+
+body {
+	width: 95%;
+	margin: 30px auto;
+}
+
+.error {
+	background-color: var(--renderTab-error-background-color) !important;;
+}
+
+a:link {
+	color: var(--renderTab-link-color);
+	font-weight: var(--renderTab-link-font-weight);
+	text-decoration: var(--renderTab-link-decoration);
+}
+
+a:visited {
+	color: var(--renderTab-link-visited-color);
+}
+
+a:hover {
+	text-decoration: var(--renderTab-link-hover-decoration);
+}
+
+img, video {
+	height: auto;
+	max-width: 100%;
+}
+
+/* channel */
+
+.channelHead {
+	margin: 0 0 32px 0;
+	padding: 10px;
+	background-color: var(--renderTab-channel-background) !important;;
+	border-radius: var(--renderTab-channel-border-radius);
+	border: var(--renderTab-channel-border);
+}
+
+h1.channelTitle {
+	margin: 0;
+	padding: 0;
+	line-height: 1em;
+}
+
+a.channelLink {
+	color: var(--renderTab-channel-link-text-color);
+	font-size: var(--renderTab-channel-link-font-size);
+	font-weight: var(--renderTab-channel-link-font-weight);
+	text-decoration: var(--renderTab-channel-link-decoration);
+}
+
+a.channelLink:visited {	
+	color: var(--renderTab-channel-visited-color);
+	font-weight: var(--renderTab-channel-link-visited-font-weight);
+}
+
+a.channelLink:hover {
+	text-decoration: var(--renderTab-channel-link-hover-decoration);
+}
+
+.channelDescription {
+	width: auto;
+	margin: 0;
+	padding: 0 20px 0 80px;
+	color: var(--renderTab-channel-description-text-color);
+	font-size: var(--renderTab-channel-description-font-size);
+	font-weight: var(--renderTab-channel-description-font-weight);
+}
+
+/* item */
+
+div.item {
+	display: revert;
+	position: relative;
+	float: revert;
+	width: revert;
+	min-width: revert;
+	margin: 0 0 15px 0;
+	padding: 0 10px 15px 20px;
+	overflow: revert;
+	background: var(--renderTab-items-background);
+	border: var(--renderTab-items-border);
+	border-radius: var(--renderTab-items-border-radius);
+	color: var(--renderTab-items-text-color);
+	font-size: var(--renderTab-items-font-size);
+}
+
+.itemNumber {
+	padding-right: 5px;
+	color: var(--renderTab-items-number-text-color);
+	font-size: var(--renderTab-items-number-font-size);
+	font-weight: var(--renderTab-items-number-font-weight);
+}
+
+.itemTitle {
+	display: block;
+	min-height: 1.3em;
+	line-height: revert;
+	margin: revert;
+	padding: 0px 2.3em 0px 0px;
+	background-color: var(--renderTab-items-title-background-color);
+	border-bottom: var(--renderTab-items-title-border-bottom);
+	font-family: var(--renderTab-items-title-font-family);
+	font-size: var(--renderTab-items-title-font-size);
+	font-weight: var(--renderTab-items-title-font-weight);
+}
+
+.itemTitle a:link {
+	color: var(--renderTab-items-title-link-color);
+	text-decoration: var(--renderTab-items-title-link-decoration);
+	font-weight: var(--renderTab-items-title-link-font-weight);
+}
+
+.itemTitle a:visited {
+	color: var(--renderTab-items-title-link-visited-color);
+	text-decoration: var(--renderTab-items-title-link-visited-decoration);
+	font-weight: var(--renderTab-items-title-link-visited-font-weight);
+}
+
+.itemTitle a:hover {
+	color: var(--renderTab-items-title-link-hover-color);
+	text-decoration: var(--renderTab-items-title-link-hover-decoration);
+	font-weight: var(--renderTab-items-title-link-hover-font-weight);
+}
+
+.itemDescription {
+	display: none;
+	margin: 0px;
+	padding:revert;
+	min-height: revert;
+	font-size: var(--renderTab-items-description-font-size);
+}
+
+.itemInfo {
+	margin: 10px;
+	font-size: var(--renderTab-items-info-font-size);
+	color: var(--renderTab-items-info-color);
+}
+
+.itemCat {
+	display: none;
+	color: var(--renderTab-items-category-color);
+}
+
+.itemAuthor {
+	display: none;
+}
+
+.itemPubDate {
+	float: right;
+	line-height: 1.1em;
+	padding: 3px 5px 4px 5px;
+	position: absolute;
+	right: 1.5em;
+	top: -1em;
+	width: 15em;
+	background: var(--renderTab-items-pubDate-background);
+	border: var(--renderTab-items-pubDate-border);
+	color: var(--renderTab-items-pubDate-text-color);
+	font-size: var(--renderTab-items-pubDate-font-size);
+	font-weight: var(--renderTab-items-pubDate-font-weight);
+	text-align: var(--renderTab-items-pubDate-text-align);
+}
+
+.itemAudioPlayer audio {
+	width: 50%;
+}

@@ -1,4 +1,4 @@
-/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager*/
+/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform*/
 'use strict';
 class RenderOptions {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -8,7 +8,7 @@ class RenderOptions {
     Listener.instance.subscribe(ListenerProviders.localStorage, 'itemNewTab', (v) => { this._setItemNewTab_sbscrb(v); }, true);
   }
 
-  _setItemNewTab_sbscrb(value){
+  _setItemNewTab_sbscrb(value) {
     this._itemNewTab = value;
   }
 
@@ -17,12 +17,19 @@ class RenderOptions {
   }
 }
 
-class FeedRenderer { /*exported FeedRenderer*/ 
+class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderFeedToHtml_async(feedText, defaultTitle, isError) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
-    let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
-    return feedHtml;
+    let test = true;
+    if (test) {
+      let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo);
+      return feedHtml;
+    }
+    else {
+      let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
+      return feedHtml;
+    }
   }
 
   static feedErrorToHtml(error, url, title) {
@@ -51,7 +58,7 @@ class FeedRenderer { /*exported FeedRenderer*/
         htmlItemList.push(htmlItem);
       }
     }
-    let itemsHtml = htmlItemList.join('\n');  
+    let itemsHtml = htmlItemList.join('\n');
     return itemsHtml;
 
   }
@@ -157,7 +164,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     let htmlItem = '';
     let title = item.title;
     if (!title) { title = '(No Title)'; }
-    let error = (isError ? 'error' : '');    
+    let error = (isError ? 'error' : '');
     htmlItem += '    <div class="item">\n';
     htmlItem += '      <h2 class="itemTitle ' + error + '">\n';
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
@@ -186,7 +193,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     catch (e) { }
     let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
-    let htmlItemLine  = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '</span><br/>';
+    let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '</span><br/>';
 
     return htmlItemLine;
   }

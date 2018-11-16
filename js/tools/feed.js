@@ -85,6 +85,7 @@ class Feed { /*exported Feed*/
     //there is no error then get html from feed parsing
     try { feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title); }
     catch (e) { this._error = e; }
+
     //if an error has occurred  during feed parsing then get html from the error
     if (this._error != null) {
       feedHtml = await this._getFeedHtmlFromError_async();

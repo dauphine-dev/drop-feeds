@@ -26,8 +26,6 @@ class SecurityFilters { /* exported SecurityFilters*/
 
   async applySecurityFilters_async(text) {
     if (!text) { return; }
-    // Perform basic sanitization of the HTML content to disable unwanted content
-    // TODO: do a real sanitization code
     let hide = null;
     let blackListShow = _blackListHtmlTagsTopShow;
     this._allowedHtmlTagList.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
@@ -43,6 +41,7 @@ class SecurityFilters { /* exported SecurityFilters*/
     text = await this._applyInlineCssRejection_async(text, toWhiteListTagList);
     return text;
   }
+
   _tagListIncludes(tagList, x) {
     return (tagList.findIndex(e => Object.keys(e) == x)) >= 0;
   }
@@ -63,7 +62,6 @@ class SecurityFilters { /* exported SecurityFilters*/
       let tagObj = this._allowedHtmlTagList.find(y => Object.keys(y) == x);
       return (tagObj[x].length != 0);
     }))];
-
     for (let tag of textTagList) {
       if (!tag) { continue; }
       let regexExtractAtt = /(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/gi;

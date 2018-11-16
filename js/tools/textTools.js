@@ -108,4 +108,14 @@ class TextTools { /* exported TextTools*/
   static isNullOrEmpty(obj) {
     return !(typeof obj === 'string' && obj.length > 0);
   }
+
+  static fromTextCharCodeArray(textCharCodeArray) {
+    let text = textCharCodeArray.split(',').map(textCode => (String.fromCharCode(parseInt(textCode, 10)))).join('');
+    return text;
+  }
+
+  static toTextCharCodeArray(text) {
+    let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString()).join(',');
+    return textCharCodeArray;
+  }
 }
