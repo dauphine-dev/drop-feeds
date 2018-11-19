@@ -1,45 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:output method="html" version="5.0" encoding="UTF-8" indent="yes" />  
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" version="5.0" encoding="UTF-8" indent="yes" />
   <xsl:template match="/">
     <html>
       <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>        
-          <link rel="icon" type="image/png" href="moz-extension://c1a07a60-f1b9-4249-8e41-1799c9418abf/themes/_templates/img/drop-feeds-32.png"/>
-          <link rel="stylesheet" type="text/css" href="moz-extension://c1a07a60-f1b9-4249-8e41-1799c9418abf/themes/_renderTab/_templates/two_columns/css/template.css"/>
-          <link rel="stylesheet" type="text/css" href="moz-extension://c1a07a60-f1b9-4249-8e41-1799c9418abf/themes/_renderTab/legacy/css/style.css"/>
-        <title><xsl:value-of select="feed/channel/title"></xsl:value-of> - Drop-Feeds</title>
-      </head>
-     <body>
-      <div class="channelHead ">
-        <h1 class="channelTitle">
-          <xsl:element name="a">
-            <xsl:attribute name="class">channelLink</xsl:attribute>
-            <xsl:attribute name="href"><xsl:value-of select="feed/channel/url"></xsl:value-of></xsl:attribute>
-            <xsl:value-of select="feed/channel/title"></xsl:value-of>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+          <xsl:element name="link">
+            <xsl:attribute name="rel">icon</xsl:attribute>
+            <xsl:attribute name="type">image/png/css</xsl:attribute>
+            <xsl:attribute name="href"><xsl:value-of select="feed/style/icon"></xsl:value-of></xsl:attribute>
           </xsl:element>
-        </h1>
-        
-        <p class="channelDescription"><xsl:value-of select="feed/channel/description"></xsl:value-of></p>
-      </div>
-
-	    <xsl:for-each select="feed/items/item">
-        <div class="item">
-          <h2 class="itemTitle ">
-            <span class="itemNumber"><xsl:value-of select="./number" ></xsl:value-of>.</span>
-            <xsl:element name="a">
-              <xsl:attribute name="href"><xsl:value-of select="./url"></xsl:value-of></xsl:attribute>
-              <xsl:value-of select="./title" ></xsl:value-of>
-            </xsl:element>
-          </h2>
-          <div class="itemDescription"><xsl:value-of disable-output-escaping="yes" select="./description"/></div>          
-          <div class="itemInfo">
-            <div   class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
+          <xsl:element name="link">
+            <xsl:attribute name="rel">stylesheet</xsl:attribute>
+            <xsl:attribute name="type">text/css</xsl:attribute>
+            <xsl:attribute name="href"><xsl:value-of select="feed/style/template"></xsl:value-of></xsl:attribute>
+          </xsl:element>
+          <xsl:element name="link">
+            <xsl:attribute name="rel">stylesheet</xsl:attribute>
+            <xsl:attribute name="type">text/css</xsl:attribute>
+            <xsl:attribute name="href"><xsl:value-of select="feed/style/theme"></xsl:value-of></xsl:attribute>
+          </xsl:element>
+        <title>
+          <xsl:value-of select="feed/channel/title"></xsl:value-of> - Drop-Feeds
+        </title>
+      </head>
+      <body>
+        <div id="channelHead">
+          <div class="channelTitle">
+            <span class="channelTitleText">
+              <xsl:element name="a">
+                <xsl:attribute name="class">channelLink</xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="feed/channel/url"></xsl:value-of>
+                </xsl:attribute>
+                <xsl:value-of select="feed/channel/title"></xsl:value-of>
+              </xsl:element>
+            </span>
           </div>
         </div>
-	    </xsl:for-each>      
+        <div class="sep1"></div>
+
+        <!-- ** topPanel ** -->
+        <div id="topPanel">
+          <table>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Visited</th>
+              <th>Date</th>
+            </tr>
+            <xsl:for-each select="feed/items/item">
+              <tr>
+                <td>
+                  <xsl:value-of select="./number" ></xsl:value-of>
+                </td>
+                <td>
+                  <xsl:value-of select="./title" ></xsl:value-of>
+                </td>
+                <td></td>
+                <td>
+                  <xsl:value-of disable-output-escaping="yes" select="./pubDateText"/>
+                </td>
+              </tr>
+            </xsl:for-each>
+          </table>
+        </div>
+
+        <!-- ** splitterBar ** -->
+        <div id="splitterBar"></div>
+
+        <!-- **bottomPanel ** -->
+        <div id="bottomPanel">
+          <!-- <xsl:value-of select="./number" ></xsl:value-of> -->
+          <xsl:for-each select="feed/items/item">
+            <xsl:element name="div">
+              <xsl:attribute name="class">item</xsl:attribute>
+              <xsl:attribute name="id">item<xsl:value-of select="./number" ></xsl:value-of></xsl:attribute>
+              <div class="itemHead">
+                <div class="itemTitle">
+                  <xsl:element name="a">
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="./url"></xsl:value-of>
+                    </xsl:attribute>
+                    <xsl:value-of select="./title"></xsl:value-of>
+                  </xsl:element>
+                </div>
+              </div>
+              <div class="itemInfo">
+                <xsl:element name="a">
+                  <xsl:attribute name="target">_blank</xsl:attribute>
+                  <xsl:attribute name="href">
+                    <xsl:value-of select="f./url"></xsl:value-of>
+                  </xsl:attribute>
+                  <xsl:element name="img">
+                    <xsl:attribute name="border">0</xsl:attribute>
+                    <xsl:attribute name="alt">alt</xsl:attribute>
+                    <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/link-go.png</xsl:attribute>
+                    <xsl:attribute name="width">20px</xsl:attribute>
+                    <xsl:attribute name="height">20px</xsl:attribute>
+                  </xsl:element>
+                </xsl:element>
+                <xsl:element name="a">
+                  <xsl:attribute name="target">_blank</xsl:attribute>
+                  <xsl:attribute name="href">
+                    mailto:?subject=<xsl:value-of select="./url"></xsl:value-of>&amp;<xsl:value-of select="./title"></xsl:value-of>
+                  </xsl:attribute>
+                  <xsl:element name="img">
+                    <xsl:attribute name="border">0</xsl:attribute>
+                    <xsl:attribute name="alt">lnk</xsl:attribute>
+                    <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/mail-to.png</xsl:attribute>
+                    <xsl:attribute name="width">20px</xsl:attribute>
+                    <xsl:attribute name="height">20px</xsl:attribute>
+                  </xsl:element>
+
+                </xsl:element>
+              </div>
+              <div class="itemDescription">
+                <xsl:value-of select="./description"></xsl:value-of>
+              </div>
+            </xsl:element>
+          </xsl:for-each>
+        </div>
+        <xsl:element name="script">
+          <xsl:attribute name="src"><xsl:value-of select="feed/style/template"></xsl:value-of>/../../js/template.js</xsl:attribute>
+        </xsl:element>
       </body>
     </html>
   </xsl:template>
-    
 </xsl:stylesheet>

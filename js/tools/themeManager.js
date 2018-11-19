@@ -89,6 +89,12 @@ class ThemeManager { /*exported ThemeManager*/
     return cssTemplateUrl;
   }
 
+  getRenderXslTemplateUrl() {
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/xsl/template.xsl';
+    return cssTemplateUrl;
+  }
+
+
   getRenderCssUrl() {
     let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
     return cssRenderUrl;

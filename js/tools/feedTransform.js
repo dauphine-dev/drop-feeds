@@ -4,9 +4,8 @@
 class FeedTransform { /*exported FeedTransform*/
 
   static async transformFeedToHtml_async(feedInfo) {
-    let xsltUrl = browser.runtime.getURL('themes/_renderTab/_templates/two_columns/xsl/template.xsl');
-    let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo, xsltUrl);
-    let htmlText = await FeedTransform._transform_async(xmlDoc, xsltUrl);
+    let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
+    let htmlText = await FeedTransform._transform_async(xmlDoc);
     return htmlText;
   }
 
@@ -15,9 +14,10 @@ class FeedTransform { /*exported FeedTransform*/
     return feedXml;
   }
 
-  static _getFeedXml(feedInfo, xsltUrl) {
+  static _getFeedXml(feedInfo) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
     let templateUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl());
+    let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl());
     let themeUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
@@ -76,7 +76,8 @@ class FeedTransform { /*exported FeedTransform*/
     return itemXmlFragments;
   }
 
-  static async _transform_async(xmlText, xslDocUrl) {
+  static async _transform_async(xmlText) {
+    let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl());
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
     xsltProcessor.importStylesheet(xslStylesheet);
