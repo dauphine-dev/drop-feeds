@@ -30,6 +30,7 @@
           <div class="channelTitle">
             <span class="channelTitleText">
               <xsl:element name="a">
+                <xsl:attribute name="target">_blank</xsl:attribute>
                 <xsl:attribute name="class">channelLink</xsl:attribute>
                 <xsl:attribute name="href">
                   <xsl:value-of select="feed/channel/url"></xsl:value-of>
@@ -91,7 +92,7 @@
                 <xsl:element name="a">
                   <xsl:attribute name="target">_blank</xsl:attribute>
                   <xsl:attribute name="href">
-                    <xsl:value-of select="f./url"></xsl:value-of>
+                    <xsl:value-of select="./url"></xsl:value-of>
                   </xsl:attribute>
                   <xsl:element name="img">
                     <xsl:attribute name="border">0</xsl:attribute>
@@ -104,7 +105,7 @@
                 <xsl:element name="a">
                   <xsl:attribute name="target">_blank</xsl:attribute>
                   <xsl:attribute name="href">
-                    mailto:?subject=<xsl:value-of select="./url"></xsl:value-of>&amp;<xsl:value-of select="./title"></xsl:value-of>
+                    mailto:?subject=<xsl:value-of select="./title"></xsl:value-of>&amp;body=<xsl:value-of select="./url"></xsl:value-of>
                   </xsl:attribute>
                   <xsl:element name="img">
                     <xsl:attribute name="border">0</xsl:attribute>
@@ -113,8 +114,8 @@
                     <xsl:attribute name="width">20px</xsl:attribute>
                     <xsl:attribute name="height">20px</xsl:attribute>
                   </xsl:element>
-
                 </xsl:element>
+                <span class="itemDate"><xsl:value-of select="./pubDateText"></xsl:value-of></span>
               </div>
               <div class="itemDescription">
                 <xsl:value-of select="./description"></xsl:value-of>

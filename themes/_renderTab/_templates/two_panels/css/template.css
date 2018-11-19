@@ -26,7 +26,13 @@ html, body {
   color: white;
   background-color: #808080;
   font: 18px Tahoma;
-}  
+}
+
+
+.channelTitle a {
+  color: white;
+  text-decoration: none;
+}
 
 .sep1 {
   width: 100%;  
