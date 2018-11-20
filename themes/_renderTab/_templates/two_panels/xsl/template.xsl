@@ -87,35 +87,35 @@
                     <xsl:value-of select="./title"></xsl:value-of>
                   </xsl:element>
                 </div>
-              </div>
-              <div class="itemInfo">
-                <xsl:element name="a">
-                  <xsl:attribute name="target">_blank</xsl:attribute>
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="./url"></xsl:value-of>
-                  </xsl:attribute>
-                  <xsl:element name="img">
-                    <xsl:attribute name="border">0</xsl:attribute>
-                    <xsl:attribute name="alt">alt</xsl:attribute>
-                    <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/link-go.png</xsl:attribute>
-                    <xsl:attribute name="width">20px</xsl:attribute>
-                    <xsl:attribute name="height">20px</xsl:attribute>
+                <div class="itemInfo">
+                  <xsl:element name="a">
+                    <xsl:attribute name="target">_blank</xsl:attribute>
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="./url"></xsl:value-of>
+                    </xsl:attribute>
+                    <xsl:element name="img">
+                      <xsl:attribute name="border">0</xsl:attribute>
+                      <xsl:attribute name="alt">alt</xsl:attribute>
+                      <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/link-go.png</xsl:attribute>
+                      <xsl:attribute name="width">20px</xsl:attribute>
+                      <xsl:attribute name="height">20px</xsl:attribute>
+                    </xsl:element>
                   </xsl:element>
-                </xsl:element>
-                <xsl:element name="a">
-                  <xsl:attribute name="target">_blank</xsl:attribute>
-                  <xsl:attribute name="href">
-                    mailto:?subject=<xsl:value-of select="./title"></xsl:value-of>&amp;body=<xsl:value-of select="./url"></xsl:value-of>
-                  </xsl:attribute>
-                  <xsl:element name="img">
-                    <xsl:attribute name="border">0</xsl:attribute>
-                    <xsl:attribute name="alt">lnk</xsl:attribute>
-                    <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/mail-to.png</xsl:attribute>
-                    <xsl:attribute name="width">20px</xsl:attribute>
-                    <xsl:attribute name="height">20px</xsl:attribute>
+                  <xsl:element name="a">
+                    <xsl:attribute name="target">_blank</xsl:attribute>
+                    <xsl:attribute name="href">
+                      mailto:?subject=<xsl:value-of select="./title"></xsl:value-of>&amp;body=<xsl:value-of select="./url"></xsl:value-of>
+                    </xsl:attribute>
+                    <xsl:element name="img">
+                      <xsl:attribute name="border">0</xsl:attribute>
+                      <xsl:attribute name="alt">lnk</xsl:attribute>
+                      <xsl:attribute name="src"><xsl:value-of select="/feed/style/template"></xsl:value-of>/../../img/mail-to.png</xsl:attribute>
+                      <xsl:attribute name="width">20px</xsl:attribute>
+                      <xsl:attribute name="height">20px</xsl:attribute>
+                    </xsl:element>
                   </xsl:element>
-                </xsl:element>
-                <span class="itemDate"><xsl:value-of select="./pubDateText"></xsl:value-of></span>
+                  <span class="itemDate"><xsl:value-of select="./pubDateText"></xsl:value-of></span>
+                </div>
               </div>
               <div class="itemDescription">
                 <xsl:value-of select="./description"></xsl:value-of>
