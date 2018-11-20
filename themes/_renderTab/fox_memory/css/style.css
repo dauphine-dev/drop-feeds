@@ -1,0 +1,59 @@
+:root {
+  /* misc. */
+  --renderTab-font-family: verdana, sans-serif;
+  --renderTab-background-color: white;
+  --renderTab-text-color: revert;
+  --renderTab-error-background-color: #FF8888;
+  --renderTab-link-color: -moz-hyperlinktext;
+  --renderTab-link-font-weight: revert;
+  --renderTab-link-decoration: underline;
+  --renderTab-link-visited-color: -moz-visitedhyperlinktext;
+  --renderTab-link-hover-decoration: underline;
+  /* channel */
+  --renderTab-channel-background: #808080;
+  --renderTab-channel-border-radius: revert;
+  --renderTab-channel-border: 1px solid #404040;
+  --renderTab-channel-link-text-color: white;
+  --renderTab-channel-link-font-size: 18px;
+  --renderTab-channel-link-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-channel-link-decoration: none;
+  --renderTab-channel-link-visited-color: var(--renderTab-channel-link-text-color);
+  --renderTab-channel-link-visited-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-channel-link-hover-decoration: var(--renderTab-channel-link-decoration);
+  --renderTab-channel-description-text-color: var(--renderTab-text-color);
+  --renderTab-channel-description-font-size: revert;
+  --renderTab-channel-description-font-weight: var(--renderTab-link-font-weight);
+  /* items */
+  --renderTab-items-background: white;
+  --renderTab-items-border: 1px solid #8DAAB8;
+  --renderTab-items-border-radius: 0;
+  --renderTab-items-text-color: var(--renderTab-text-color);
+  --renderTab-items-font-size: revert;
+  --renderTab-items-number-text-color: var(--renderTab-text-color);
+  --renderTab-items-number-font-size: normal;
+  --renderTab-items-number-font-weight: normal;
+  --renderTab-items-title-background-color: #e3dfd9;
+  --renderTab-items-title-border-bottom: revert;
+  --renderTab-items-title-font-family: var(--renderTab-font-family);
+  --renderTab-items-title-font-size: revert;
+  --renderTab-items-title-font-weight: bold;
+  --renderTab-items-title-link-color: var(--renderTab-link-color);;
+  --renderTab-items-title-link-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-items-title-link-decoration: var(--renderTab-link-decoration);
+  --renderTab-items-title-link-visited-color: var(--renderTab-link-visited-color);
+  --renderTab-items-title-link-visited-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-items-title-link-visited-decoration: var(--renderTab-link-decoration);
+  --renderTab-items-title-link-hover-color: var(--renderTab-link-color);
+  --renderTab-items-title-link-hover-font-weight: var(--renderTab-link-font-weight);  
+  --renderTab-items-title-link-hover-decoration: var(--renderTab-link-hover-decoration);
+  --renderTab-items-description-font-size: small;
+  --renderTab-items-info-font-size: smaller;
+  --renderTab-items-info-color: var(--renderTab-text-color);
+  --renderTab-items-category-color: #7D7D7D;
+  --renderTab-items-pubDate-background: var(--renderTab-items-title-background-color);
+	--renderTab-items-pubDate-border: none;
+	--renderTab-items-pubDate-text-color: var(--renderTab-items-title-link-color);
+	--renderTab-items-pubDate-font-size: var(--renderTab-items-title-font-size);
+	--renderTab-items-pubDate-font-weight: normal;
+	--renderTab-items-pubDate-text-align: left;
+}
