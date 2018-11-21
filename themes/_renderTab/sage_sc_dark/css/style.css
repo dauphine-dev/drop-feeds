@@ -2,8 +2,9 @@
   /* misc. */
   --renderTab-font-family: verdana, sans-serif;
   --renderTab-background-color: black;
-  --renderTab-text-color: revert;
+  --renderTab-text-color: gainsboro;
   --renderTab-error-background-color: #FF8888 !important;
+  --renderTab-tableHead-background-color: #323234;
   --renderTab-link-color: revert;
   --renderTab-link-font-weight: revert;
   --renderTab-link-decoration: revert;
@@ -12,12 +13,12 @@
   /* channel */
   --renderTab-channel-background: #222224 !important;
   --renderTab-channel-border-radius: 5px;
-  --renderTab-channel-border: 1px solid var(#303030);
+  --renderTab-channel-border: 1px solid #303030;
   --renderTab-channel-link-text-color: maroon;
   --renderTab-channel-link-font-size: revert;
   --renderTab-channel-link-font-weight: bold;
   --renderTab-channel-link-decoration: none;
-  --renderTab-channel-link-visited-color: revert;
+  --renderTab-channel-link-visited-color: var(--renderTab-channel-link-text-color);
   --renderTab-channel-link-visited-font-weight: revert;
   --renderTab-channel-link-hover-decoration: revert;
   --renderTab-channel-description-text-color: gray;

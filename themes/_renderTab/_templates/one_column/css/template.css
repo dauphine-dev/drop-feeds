@@ -12,10 +12,6 @@ body {
 	margin: 30px auto;
 }
 
-.error {
-	background-color: var(--renderTab-error-background-color) !important;;
-}
-
 a:link {
 	color: var(--renderTab-link-color);
 	font-weight: var(--renderTab-link-font-weight);
@@ -59,7 +55,7 @@ a.channelLink {
 }
 
 a.channelLink:visited {	
-	color: var(--renderTab-channel-visited-color);
+	color: var(--renderTab-channel-link-visited-color);
 	font-weight: var(--renderTab-channel-link-visited-font-weight);
 }
 

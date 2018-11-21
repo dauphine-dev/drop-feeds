@@ -1,9 +1,10 @@
 :root {
   /* misc. */
   --renderTab-font-family: verdana, sans-serif;
-  --renderTab-background-color: white;
+  --renderTab-background-color: #f7f7f7;
   --renderTab-text-color: revert;
-  --renderTab-error-background-color: #FF8888;
+  --renderTab-error-background-color: #FF8888 !important;
+  --renderTab-tableHead-background-color: #e8e8e8;
   --renderTab-link-color: -moz-hyperlinktext;
   --renderTab-link-font-weight: revert;
   --renderTab-link-decoration: underline;

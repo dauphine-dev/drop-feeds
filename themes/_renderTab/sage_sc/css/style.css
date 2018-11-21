@@ -3,7 +3,8 @@
   --renderTab-font-family: verdana, sans-serif;
   --renderTab-background-color: gainsboro;
   --renderTab-text-color: revert;
-  --renderTab-error-background-color: #FF8888;
+  --renderTab-error-background-color: #FF8888 !important;
+  --renderTab-tableHead-background-color: #e8e8e8;
   --renderTab-link-color: revert;
   --renderTab-link-font-weight: revert;
   --renderTab-link-decoration: revert;

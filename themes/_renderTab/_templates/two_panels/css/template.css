@@ -12,10 +12,6 @@ html, body {
 
 }
 
-.error {
-	background-color: var(--renderTab-error-background-color) !important;
-}
-
 a:link {
 	color: var(--renderTab-link-color);
 	font-weight: var(--renderTab-link-font-weight);
@@ -77,7 +73,7 @@ img, video {
 #topPanel {
   height: 50%;
   overflow-y: auto;
-  background-color: #f7f7f7;
+  background-color: var(--renderTab-background-color);
   border: none;
 }
 
@@ -108,8 +104,8 @@ th {
   vertical-align: middle;
   font-weight: normal;
   border-left: 1px solid white;
-  background-color: #e9e9e9; 
 }
+
 
 tr  {
   line-height: 16px;
@@ -117,8 +113,8 @@ tr  {
 }
 
 tr:first-child th {
-  background-color: #e8e8e8;
   border-bottom: 1px solid #969696;
+  background-color: var(--renderTab-tableHead-background-color);
 }
 
 tr td:nth-child(1), tr td:nth-child(3) {
