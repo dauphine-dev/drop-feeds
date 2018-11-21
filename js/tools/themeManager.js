@@ -84,13 +84,13 @@ class ThemeManager { /*exported ThemeManager*/
     return this.themeBaseFolderUrl + this._mainThemeFolderName + '/';
   }
 
-  getRenderCssTemplateUrl() {
-    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/css/template.css';
+  getRenderCssTemplateUrl(isError) {
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + (isError ? '_error' : this._renderTemplateFolderName) + '/css/template.css';
     return cssTemplateUrl;
   }
 
-  getRenderXslTemplateUrl() {
-    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/xsl/template.xsl';
+  getRenderXslTemplateUrl(isError) {
+    let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + (isError ? '_error' : this._renderTemplateFolderName) + '/xsl/template.xsl';
     return cssTemplateUrl;
   }
 

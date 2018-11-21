@@ -5,7 +5,7 @@ class FeedTransform { /*exported FeedTransform*/
 
   static async transformFeedToHtml_async(feedInfo) {
     let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
-    let htmlText = await FeedTransform._transform_async(xmlDoc);
+    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError);
     return htmlText;
   }
 
@@ -16,28 +16,28 @@ class FeedTransform { /*exported FeedTransform*/
 
   static _getFeedXml(feedInfo) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
-    let templateUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl());
-    let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl());
+    let templateCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl(feedInfo.isError));
+    let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(feedInfo.isError));
     let themeUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
-<feed>
-  <style>
+<render>
+  <context>
     <icon>` + iconUrl + `</icon>
-    <template>` + templateUrl + `</template>
+    <template>` + templateCssUrl + `</template>
     <theme>` + themeUrl + `</theme>  
-  </style>
+  </context>
   <channel>
     <title>` + (feedInfo.channel.title || '(no title)') + `</title>
-    <url>` + feedInfo.channel.link + `</url>
+    <link>` + feedInfo.channel.link + `</link>
     <description>`
       + (feedInfo.channel.description || '') + `
     </description>
-  </channel>
+    </channel>
   <items>`
       + FeedTransform._getItemsXmlFragments(feedInfo) + `
   </items>
-</feed>`;
+</render>`;
 
     return feedXml;
   }
@@ -58,7 +58,7 @@ class FeedTransform { /*exported FeedTransform*/
       <number>` + (itemNumber ? itemNumber : item.number) + `</number>
       <title>` + item.title + `</title>      
       <target>` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `</target>
-      <url>` + item.link + `</url>
+      <link>` + item.link + `</link>
       <description>
         <![CDATA[` + FeedTransform._transformEncode(item.description) + ']]>' + `
       </description>
@@ -68,7 +68,7 @@ class FeedTransform { /*exported FeedTransform*/
       <enclosures>
         <enclosure>
           <mimetype>` + (item.enclosure ? item.enclosure.mimetype : '') + `</mimetype>
-          <url>` + (item.enclosure ? item.enclosure.url : '') + `</url>
+          <link>` + (item.enclosure ? item.enclosure.url : '') + `</link>
         </enclosure>
       
       </enclosures>
@@ -76,8 +76,8 @@ class FeedTransform { /*exported FeedTransform*/
     return itemXmlFragments;
   }
 
-  static async _transform_async(xmlText) {
-    let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl());
+  static async _transform_async(xmlText, isError) {
+    let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
     xsltProcessor.importStylesheet(xslStylesheet);

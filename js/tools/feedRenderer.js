@@ -21,15 +21,9 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderFeedToHtml_async(feedText, defaultTitle, isError) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
-    let test = true;
-    if (test) {
-      let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo);
-      return feedHtml;
-    }
-    else {
-      let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
-      return feedHtml;
-    }
+    //let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
+    let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo);
+    return feedHtml;
   }
 
   static feedErrorToHtml(error, url, title) {

@@ -25,21 +25,21 @@
         </title>
       </head>
      <body>
-      <div class="channelHead ">
-        <h1 class="channelTitle">
+      <div class="channelHead error">
+        <h1 class="channelTitle error">
           <xsl:element name="a">
-            <xsl:attribute name="class">channelLink</xsl:attribute>
+            <xsl:attribute name="class">channelLink error</xsl:attribute>
             <xsl:attribute name="href"><xsl:value-of select="/render/channel/link"></xsl:value-of></xsl:attribute>
             <xsl:value-of select="/render/channel/title"></xsl:value-of>
           </xsl:element>
         </h1>
         
-        <p class="channelDescription"><xsl:value-of select="/render/channel/description"></xsl:value-of></p>
+        <p class="channelDescription error"><xsl:value-of select="/render/channel/description"></xsl:value-of></p>
       </div>
 
 	    <xsl:for-each select="/render/items/item">
-        <div class="item">
-          <h2 class="itemTitle ">
+        <div class="item error">
+          <h2 class="itemTitle error">
             <span class="itemNumber"><xsl:value-of select="./number" ></xsl:value-of>.</span>
             <xsl:element name="a">
               <xsl:attribute name="href"><xsl:value-of select="./link"></xsl:value-of></xsl:attribute>
