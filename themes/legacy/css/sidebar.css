@@ -25,6 +25,7 @@
   --feeds-statusButtonUpdating-image: url(/themes/legacy/img/updating.gif);
 
   /* feeds filter bar */
+  --feeds-filterBar-background-color: var(--main-background-color);
   --feeds-filterClearButton-image: url(/themes/_templates/img/filter-clean.png);
 
   /* feeds tree view folders */

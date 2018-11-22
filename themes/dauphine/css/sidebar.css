@@ -20,11 +20,12 @@
   --feeds-optionsMenuButton-image: url(/themes/dauphine/img/options.png);
 
   /* feeds status bar*/
-  --feeds-statusBar-background-color: #E8E8E8;
+  --feeds-statusBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);
   --feeds-statusButtonUpdating-image: url(/themes/dauphine/img/updating.gif);
 
   /* feeds filter bar */
+  --feeds-filterBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-filterClearButton-image: url(/themes/_templates/img/filter-clean.png);
 
   /* feeds folders */
