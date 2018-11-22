@@ -1,0 +1,7 @@
+As animation: yes
+Loop forver: yes
+Delay between frames: 250ms
+Frame disposal: one frame per layout
+Use delay entered above for all frames: yes
+Use disposal entered above for all frames: yes
+

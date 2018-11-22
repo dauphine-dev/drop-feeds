@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="96"
@@ -14,17 +15,40 @@
    viewBox="0 0 96.000003 96.000003"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="magnify.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-freeds/ressources/magnify.png"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/magnify.png"
    inkscape:export-xdpi="22.5"
    inkscape:export-ydpi="22.5">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4139">
+      <stop
+         style="stop-color:#e45d01;stop-opacity:1"
+         offset="0"
+         id="stop4141" />
+      <stop
+         style="stop-color:#fffbfb;stop-opacity:1"
+         offset="1"
+         id="stop4143" />
+    </linearGradient>
     <inkscape:path-effect
        effect="spiro"
        id="path-effect4178"
        is_visible="true" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4139"
+       id="radialGradient4145"
+       cx="31.795958"
+       cy="987.97717"
+       fx="31.795958"
+       fy="987.97717"
+       r="31.880848"
+       gradientTransform="matrix(1,0,0,0.99401319,0,5.914831)"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -33,18 +57,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.9375"
+     inkscape:zoom="8.9791667"
      inkscape:cx="48"
      inkscape:cy="48"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1024"
-     inkscape:window-x="0"
+     inkscape:window-height="1053"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     units="px" />
+     units="px"
+     showguides="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -53,7 +78,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -63,12 +88,19 @@
      id="layer1"
      transform="translate(0,-956.36218)">
     <path
-       style="fill:#4f4545;fill-opacity:1"
-       d="m 85.100203,1051.8563 c -1.036827,-0.2636 -2.046126,-0.7739 -3.062249,-1.5476 -0.546777,-0.4163 0,0 -13.571977,-13.0064 -3.123238,-10.3056 -12.577825,-12.2493 -12.577825,-12.2493 l -1.837311,0.9632 c -3.965713,2.0787 -8.290811,3.4108 -12.85068,3.9582 -1.964372,0.2358 -6.644264,0.2404 -8.572051,0.017 -6.512811,-0.7832 -12.727597,-3.2552 -17.811127,-7.0846 -7.9658056,-6.0003 -13.1057706,-14.8817 -14.40801014,-24.89519 -0.30373393,-2.33543 -0.25867733,-7.31742 0.0869093,-9.60997 1.66428594,-11.04047 7.76085704,-20.4599 16.91751084,-26.13802 5.876465,-3.64397 12.494831,-5.50912 19.549821,-5.50912 9.662859,0 18.501874,3.54148 25.423765,10.1862 11.56036,11.09732 14.578163,28.51324 7.436779,42.9179 -0.451795,0.9113 -0.969686,1.8985 -1.15087,2.1937 -0.181178,0.2951 -0.305166,0.6429 -0.275522,0.7726 0.02964,0.1291 -1.411536,5.3036 12.710335,12.4922 13.204413,13.0738 12.90303,12.6241 13.204413,13.0738 3.108916,4.6385 1.123427,11.0443 -4.075909,13.1502 -0.70318,0.2849 -1.318744,0.3796 -2.730444,0.42 -1.002443,0.029 -2.084939,-0.017 -2.405564,-0.096 z m -43.739448,-36.785 c 3.0305,-0.6209 6.164974,-2.039 8.760865,-3.9633 1.545023,-1.1455 4.093878,-3.8312 5.147344,-5.4239 2.480026,-3.7493 3.698813,-7.78165 3.698813,-12.23754 0,-5.84728 -2.079363,-10.96794 -6.184266,-15.22985 -3.244854,-3.36887 -6.981275,-5.46002 -11.470427,-6.4194 -2.257165,-0.48251 -6.32452,-0.52385 -8.38183,-0.0844 -3.219725,0.68649 -5.75165,1.73283 -8.250582,3.41003 -6.148128,4.12651 -9.829184,10.98897 -9.829184,18.32448 0,11.02388 8.270185,20.42518 19.301697,21.94138 1.772708,0.2436 5.209804,0.093 7.20757,-0.3166 z"
-       id="path4243"
+       style="fill:#4f4545;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 55.614257,1004.9503 c 0,0 -2.05037,3.0744 -3.39006,4.3227 -1.55347,1.4476 -5.27716,3.5679 -5.27716,3.5679 l 38.85135,37.4294 c 0,0 5.141109,3.5844 8.476169,-0.5053 2.9579,-3.6271 -0.39316,-7.8649 -0.39316,-7.8649 z"
+       id="path827"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccsccsssssscccccccccccscccssccc"
-       inkscape:export-filename="/home/david/david/firefox-webext/drop-freeds/themes/dauphine/img/magnify.png"
+       sodipodi:nodetypes="caccscc" />
+    <ellipse
+       style="opacity:1;fill:url(#radialGradient4145);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.79683018;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path4174"
+       cx="31.795958"
+       cy="987.97717"
+       rx="29.482433"
+       ry="29.291569"
+       inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/path4174.png"
        inkscape:export-xdpi="22"
        inkscape:export-ydpi="22" />
   </g>

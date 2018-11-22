@@ -49,16 +49,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.6979167"
-     inkscape:cx="48"
-     inkscape:cy="48"
+     inkscape:zoom="4.4895833"
+     inkscape:cx="29.800813"
+     inkscape:cy="42.720973"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1026"
-     inkscape:window-x="0"
+     inkscape:window-height="1053"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -80,27 +80,30 @@
      transform="translate(0,80)"
      style="display:inline">
     <circle
-       style="display:inline;opacity:1;fill:#4f4545;fill-opacity:1;fill-rule:nonzero;stroke:#4f4545;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="display:inline;opacity:1;fill:#934900;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4204"
        cx="13.517858"
        cy="2.3083811"
-       r="12.368233" />
+       r="12.368233"
+       inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/path4204.png"
+       inkscape:export-xdpi="22"
+       inkscape:export-ydpi="22" />
     <path
-       style="display:inline;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#4f4545;stroke-width:15.79158211;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 60.250464,13.780356 C 55.655661,-1.9064753 49.536011,-16.66906 40.579304,-24.821405 40.40765,-24.977643 40.234551,-25.132287 40.060039,-25.285365 29.999467,-34.110232 15.243313,-37.72451 2.0441316,-40.973334"
-       id="path4206"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cssc" />
-    <path
-       style="display:inline;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#4f4545;stroke-width:15.79158211;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 3.3370647,-72.164778 C 53.28022,-68.671279 81.080681,-42.666808 87.951478,12.056994"
-       id="path4208"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="display:inline;fill:#4f4545;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="display:inline;fill:#934900;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 64.339,-66.339 12,0 0,-12 6,0 0,12 12,0 0,6 -12,0 0,12 -6,0 0,-12 -12,0 z"
        id="path4188"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:#934900;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 2.7956147,-64.324705 1.102496,-15.710568 c 0,0 45.6983093,1.236816 67.9906193,29.975874 22.292311,28.739057 24.334008,60.936429 24.334008,60.936429 L 80.63109,12.881671 c 0,0 -5.564648,-37.540563 -22.769246,-55.865369 C 40.657246,-61.308504 2.7956147,-64.324705 2.7956147,-64.324705 Z"
+       id="path821"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cczcczc" />
+    <path
+       style="fill:#934900;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       d="m 3.8587358,-48.889762 c 0,0 32.8114572,8.239385 43.9445412,19.453415 10.075095,10.148348 20.000224,40.947613 20.000224,40.947613 l -14.804945,4.331235 c 0,0 -7.980275,-26.039601 -16.787118,-34.242696 C 27.404596,-26.60329 0.15749942,-33.376069 0.15749942,-33.376069 Z"
+       id="path823"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csccscc" />
   </g>
 </svg>
