@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager*/
+/*global browser DefaultValues LocalStorageManager CssManager */
 'use strict';
 class TabItems { /*exported TabItems*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -26,6 +26,8 @@ class TabItems { /*exported TabItems*/
     elFeedItemRenderInSidebarCheckbox.checked =  await LocalStorageManager.getValue_async('feedItemRenderInSidebar', DefaultValues.feedItemRenderInSidebar);
     elFeedItemRenderInSidebarCheckbox.addEventListener('click', (e) => { this._feedItemRenderInSidebarCheckboxClicked_event(e); });
 
+    this._enableItemOptions();
+
   }
 
   _updateLocalizedStrings() {
@@ -38,6 +40,7 @@ class TabItems { /*exported TabItems*/
 
   async _feedItemListCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('feedItemList', document.getElementById('feedItemListCheckbox').checked);
+    this._enableItemOptions();
   }
 
   async _feedItemListToolbarCheckboxClicked_event() {
@@ -56,4 +59,17 @@ class TabItems { /*exported TabItems*/
     await LocalStorageManager.setValue_async('feedItemRenderInSidebar', document.getElementById('feedItemRenderInSidebarCheckbox').checked);
   }
 
+  _enableItemOptions() {
+    let enabled = document.getElementById('feedItemListCheckbox').checked;
+    this._enableCheckbox('feedItemListToolbarCheckbox', 'textFeedItemListToolbar', enabled);
+    this._enableCheckbox('feedItemDescriptionTooltipsCheckbox', 'textDescriptionTooltips', enabled);
+    this._enableCheckbox('feedItemMarkAsReadOnLeavingCheckbox', 'textFeedItemMarkAsReadOnLeaving', enabled);
+    this._enableCheckbox('feedItemRenderInSidebarCheckbox', 'textFeedItemRenderInSidebar', enabled);
+  }
+
+  _enableCheckbox(checkboxId, textId, enabled) {
+    document.getElementById(checkboxId).disabled = ! enabled;
+    CssManager.setElementEnableById(checkboxId, enabled);
+    CssManager.setElementEnableById(textId, enabled);
+  }
 }
