@@ -302,7 +302,10 @@
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Vor dem Verlassen von Feeds alle items als gelesen markieren"
   },
-  "optShowUpdatedFeedCount": {
+  "optFeedItemRenderInSidebar": {
+    "message": "Render selected item in the sidebar"
+  },
+"optShowUpdatedFeedCount": {
     "message": "Zeige die aktualisierte Feed Anzahl"
   },
   "optShowErrorsAsUnread": {

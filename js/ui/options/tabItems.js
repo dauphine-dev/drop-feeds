@@ -36,6 +36,7 @@ class TabItems { /*exported TabItems*/
     document.getElementById('textDescriptionTooltips').textContent = browser.i18n.getMessage('optDescriptionTooltips');
     document.getElementById('textNavigationHistoryWarning').textContent = browser.i18n.getMessage('optNavigationHistoryWarning');
     document.getElementById('textFeedItemMarkAsReadOnLeaving').textContent = browser.i18n.getMessage('optFeedItemMarkAsReadOnLeaving');
+    document.getElementById('textFeedItemRenderInSidebar').textContent = browser.i18n.getMessage('optFeedItemRenderInSidebar');
   }
 
   async _feedItemListCheckboxClicked_event() {
