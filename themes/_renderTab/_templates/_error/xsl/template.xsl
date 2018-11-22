@@ -42,6 +42,7 @@
           <h2 class="itemTitle error">
             <span class="itemNumber"><xsl:value-of select="./number" ></xsl:value-of>.</span>
             <xsl:element name="a">
+              <xsl:attribute name="target"><xsl:value-of select="./target"></xsl:value-of></xsl:attribute>
               <xsl:attribute name="href"><xsl:value-of select="./link"></xsl:value-of></xsl:attribute>
               <xsl:value-of select="./title" ></xsl:value-of>
             </xsl:element>

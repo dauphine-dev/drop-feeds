@@ -81,18 +81,16 @@
               <div class="itemHead">
                 <div class="itemTitle">
                   <xsl:element name="a">
-                    <xsl:attribute name="href">
-                      <xsl:value-of select="./link"></xsl:value-of>
-                    </xsl:attribute>
+                    <xsl:attribute name="target"><xsl:value-of select="./target"></xsl:value-of></xsl:attribute>
+                    <xsl:attribute name="href"><xsl:value-of select="./link"></xsl:value-of></xsl:attribute>
                     <xsl:value-of select="./title"></xsl:value-of>
                   </xsl:element>
                 </div>
                 <div class="itemInfo">
                   <xsl:element name="a">
                     <xsl:attribute name="target">_blank</xsl:attribute>
-                    <xsl:attribute name="href">
-                      <xsl:value-of select="./link"></xsl:value-of>
-                    </xsl:attribute>
+                    <xsl:attribute name="target"><xsl:value-of select="./target"></xsl:value-of></xsl:attribute>
+                    <xsl:attribute name="href"><xsl:value-of select="./link"></xsl:value-of></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="border">0</xsl:attribute>
                       <xsl:attribute name="alt">alt</xsl:attribute>
