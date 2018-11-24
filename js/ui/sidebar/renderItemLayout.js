@@ -1,4 +1,4 @@
-/*global SplitterBar BrowserManager Listener ListenerProviders SideBar DefaultValues ItemsLayout TextTools */
+/*global SplitterBar BrowserManager Listener ListenerProviders SideBar DefaultValues ItemsLayout TextTools FeedRenderer*/
 'use strict';
 class RenderItemLayout { /*exported RenderItemLayout */
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -48,8 +48,14 @@ class RenderItemLayout { /*exported RenderItemLayout */
   }
 
   displayItem(item) {
+    this._setTitle(item.title, item.link);
     let itemText = TextTools.toPlainText(item.description);    
     this._renderItemText.textContent = itemText;
+  }
+
+  _setTitle(title, titleLink) {
+    let titleHtml = FeedRenderer.renderItemsTitleToHtml(title, titleLink);
+    BrowserManager.setInnerHtmlById('renderTitle', titleHtml);
   }
 
   _renderItemLayoutEnabled_async(value) {

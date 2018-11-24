@@ -77,8 +77,9 @@ class ItemManager { /*exported ItemManager*/
   async _itemOnClick_event(event) {
     ItemsLayout.instance.selectionBarItems.put(event.target);
     let itemLink = event.target.getAttribute('href');
-    let itemNum = event.target.getAttribute('num');
-    await this.openItem_async(itemLink, null, null, itemNum);
+    let itemNum = event.target.getAttribute('num') - 1;
+    let openNewTabForce = false, openNewTabBackGroundForce = false;
+    await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum);
     event.target.classList.add('visited');
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
@@ -91,8 +92,9 @@ class ItemManager { /*exported ItemManager*/
     if (event.button == 1) { //middle-click
       ItemsLayout.instance.selectionBarItems.put(event.target);
       let itemLink = event.target.getAttribute('href');
+      let itemNum = event.target.getAttribute('num') - 1;
       let openNewTabForce = true, openNewTabBackGroundForce = true;
-      await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
+      await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum);
       event.target.classList.add('visited');
       ItemsToolBar.instance.enableButtonsForSingleElement();
     }
@@ -103,11 +105,11 @@ class ItemManager { /*exported ItemManager*/
   }
 
   async openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum) {
-    if (this._feedItemRenderInSidebar) {      
+    if (this._feedItemRenderInSidebar) {
       let item = ItemsLayout.instance.itemList[itemNum];
       RenderItemLayout.instance.displayItem(item);
     } 
-    else {
+    if (!this._feedItemRenderInSidebar || openNewTabBackGroundForce) {
       this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
     }
   }

@@ -671,6 +671,41 @@ li.feedError {
 }
 
 /* --- Item render layout ---- */
+#renderTitleBar {
+  background-color: var(--items-Title-background-color);
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: var(--items-Title-border-color);
+  height: 30px;
+  text-align: center;
+  padding-left: 5px;
+}
+
+#renderTitle {
+  line-height: 30px;
+  vertical-align: middle;
+  text-decoration-line: none;
+  cursor: pointer;
+}
+
+#renderTitle a:link {
+  color: var(--items-Title-color);
+  text-decoration-line: none;
+}
+
+#renderTitle a:visited {
+  color: var(--items-Title-color);
+  text-decoration-line: none;
+}
+
+#renderTitle a:hover {
+  text-decoration: underline;
+}
+
+#renderTitle a:active {
+  text-decoration: underline;
+}
+
 #renderItemText {
   white-space: normal;
   padding: 2px;
