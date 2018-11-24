@@ -27,9 +27,8 @@
             <xsl:value-of select="/render/context/theme"></xsl:value-of>
           </xsl:attribute>
         </xsl:element>
-        <title>
-          <xsl:value-of select="/render/channel/title"></xsl:value-of> - Drop Feeds
-        
+        <title class="headTitle">
+          <xsl:value-of select="/render/channel/title"></xsl:value-of>,20,2d,20,44,72,6f,70,20,46,65,65,64,73
         </title>
       </head>
       <body>
@@ -68,7 +67,7 @@
                   </xsl:element>
                 </td>
                 <td>
-                  <xsl:value-of select="./title" ></xsl:value-of>
+                  <span class="itemTitleLink"><xsl:value-of select="./title" ></xsl:value-of></span>              
                 </td>
                 <td></td>
                 <td>
@@ -96,7 +95,7 @@
                     <xsl:attribute name="href">
                       <xsl:value-of select="./link"></xsl:value-of>
                     </xsl:attribute>
-                    <xsl:value-of select="./title"></xsl:value-of>
+                    <span class="itemTitleLink"><xsl:value-of select="./title" ></xsl:value-of></span>              
                   </xsl:element>
                 </div>
                 <div class="itemInfo">

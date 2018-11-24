@@ -110,12 +110,12 @@ class TextTools { /* exported TextTools*/
   }
 
   static fromTextCharCodeArray(textCharCodeArray) {
-    let text = textCharCodeArray.split(',').map(textCode => (String.fromCharCode(parseInt(textCode, 10)))).join('');
+    let text = textCharCodeArray.split(',').map(textCode => (String.fromCharCode(parseInt(textCode, 16)))).join('');
     return text;
   }
 
   static toTextCharCodeArray(text) {
-    let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString()).join(',');
+    let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString(16)).join(',');
     return textCharCodeArray;
   }
 }

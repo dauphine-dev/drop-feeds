@@ -19,6 +19,7 @@ class FeedTransform { /*exported FeedTransform*/
     let templateCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl(feedInfo.isError));
     let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(feedInfo.isError));
     let themeUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
+    let description = (feedInfo.channel.description || '');
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
 <render>
@@ -28,10 +29,10 @@ class FeedTransform { /*exported FeedTransform*/
     <theme><![CDATA[` + themeUrl + `]]></theme>  
   </context>
   <channel>
-    <title><![CDATA[` + (feedInfo.channel.title || '(no title)') + `]]></title>
+    <title><![CDATA[` + FeedTransform._transformEncode((feedInfo.channel.title || '(no title)')) + `]]></title>
     <link><![CDATA[` + feedInfo.channel.link + `]]></link>
     <description>
-      <![CDATA[` + (feedInfo.channel.description || '') + `]]>
+      <![CDATA[` + FeedTransform._transformEncode(description) + `]]>
     </description>
     </channel>
   <items>`
@@ -56,7 +57,7 @@ class FeedTransform { /*exported FeedTransform*/
     itemXmlFragments = `
     <item>
       <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
-      <title>` + item.title + `</title>
+      <title>` + FeedTransform._transformEncode(item.title) +  `</title>
       <target><![CDATA[` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
       <link><![CDATA[` + item.link + `]]></link>
       <description>
@@ -83,20 +84,38 @@ class FeedTransform { /*exported FeedTransform*/
     let oParser = new DOMParser();
     let xmlDoc = oParser.parseFromString(xmlText, 'application/xml');
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
-    FeedTransform._decodeElements(htmlDoc, 'itemDescription');
+    FeedTransform._decodeElements(htmlDoc);
     let htmlText = htmlDoc.documentElement.outerHTML;
     return htmlText;
   }
 
-  static _decodeElements(htmlDoc, elementClass) {
-    let elementList = htmlDoc.getElementsByClassName(elementClass);
+  static _decodeElements(htmlDoc) {
+    let elementList = [
+      ...htmlDoc.getElementsByClassName('channelLink'),
+      ...htmlDoc.getElementsByClassName('channelDescription'),
+      ...htmlDoc.getElementsByClassName('itemTitleLink'),
+      ...htmlDoc.getElementsByClassName('itemDescription')
+    ];
+
     for (let element of elementList) {
       let decodedContent = FeedTransform._transformDecode(element.innerHTML);
       BrowserManager.setInnerHtmlByElement(element, decodedContent, true);
     }
+
+    elementList = [...htmlDoc.getElementsByClassName('headTitle')];
+
+    for (let element of elementList) {
+      let decodedContent = FeedTransform._transformDecode(element.innerHTML);
+      BrowserManager.setInnerHtmlByElement(element, decodedContent, false);
+    }
+
   }
 
   static _transformEncode(decodedText) {
+    /* Firefox doesn't manage disable-output-escaping="yes" during xslt transform
+    then I have found this workaround about encoding character before translation 
+    and decoding then after. Note: 1st I have tried to use base64 encoding but it 
+    wasn't working for all characters then I made a simple encoding with character code */
     let encodedText = TextTools.toTextCharCodeArray(decodedText);
     return encodedText;
   }
