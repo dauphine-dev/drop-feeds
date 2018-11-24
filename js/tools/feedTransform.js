@@ -23,15 +23,15 @@ class FeedTransform { /*exported FeedTransform*/
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
 <render>
   <context>
-    <icon>` + iconUrl + `</icon>
-    <template>` + templateCssUrl + `</template>
-    <theme>` + themeUrl + `</theme>  
+    <icon><![CDATA[` + iconUrl + `]]></icon>
+    <template><![CDATA[` + templateCssUrl + `]]></template>
+    <theme><![CDATA[` + themeUrl + `]]></theme>  
   </context>
   <channel>
-    <title>` + (feedInfo.channel.title || '(no title)') + `</title>
-    <link>` + feedInfo.channel.link + `</link>
-    <description>`
-      + (feedInfo.channel.description || '') + `
+    <title><![CDATA[` + (feedInfo.channel.title || '(no title)') + `]]></title>
+    <link><![CDATA[` + feedInfo.channel.link + `]]></link>
+    <description>
+      <![CDATA[` + (feedInfo.channel.description || '') + `]]>
     </description>
     </channel>
   <items>`
@@ -55,28 +55,29 @@ class FeedTransform { /*exported FeedTransform*/
     let itemXmlFragments = '';
     itemXmlFragments = `
     <item>
-      <number>` + (itemNumber ? itemNumber : item.number) + `</number>
-      <title>` + item.title + `</title>      
-      <target>` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `</target>
-      <link>` + item.link + `</link>
+      <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
+      <title><![CDATA[` + item.title + `]]></title>
+      <target><![CDATA[` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
+      <link><![CDATA[` + item.link + `]]></link>
       <description>
         <![CDATA[` + FeedTransform._transformEncode(item.description) + ']]>' + `
       </description>
-      <category>` + item.category + `</category>
-      <author>` + item.author + `</author>
-      <pubDateText>` + item.pubDateText + `</pubDateText>
+      <category><![CDATA[` + item.category + `]]></category>
+      <author><![CDATA[` + item.author + `]]></author>
+      <pubDateText><![CDATA[` + item.pubDateText + `]]></pubDateText>
       <enclosures>
         <enclosure>
-          <mimetype>` + (item.enclosure ? item.enclosure.mimetype : '') + `</mimetype>
-          <link>` + (item.enclosure ? item.enclosure.url : '') + `</link>
-        </enclosure>
-      
+          <mimetype><![CDATA[` + (item.enclosure ? item.enclosure.mimetype : '') + `]]></mimetype>
+          <link><![CDATA[` + (item.enclosure ? item.enclosure.url : '') + `]]></link>
+        </enclosure>      
       </enclosures>
     </item>\n`;
     return itemXmlFragments;
   }
 
   static async _transform_async(xmlText, isError) {
+    console.log('---------------------------');
+    console.log('xmlText:\n', xmlText);
     let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
@@ -86,6 +87,8 @@ class FeedTransform { /*exported FeedTransform*/
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
     FeedTransform._decodeElements(htmlDoc, 'itemDescription');
     let htmlText = htmlDoc.documentElement.outerHTML;
+    console.log('---------------------------');
+    console.log('htmlText:\n', htmlText);
     return htmlText;
   }
 
