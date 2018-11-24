@@ -75,14 +75,10 @@ a.channelLink:hover {
 /* item */
 
 div.item {
-	display: revert;
+	display: block;
 	position: relative;
-	float: revert;
-	width: revert;
-	min-width: revert;
 	margin: 0 0 15px 0;
 	padding: 0 10px 15px 20px;
-	overflow: revert;
 	background: var(--renderTab-items-background);
 	border: var(--renderTab-items-border);
 	border-radius: var(--renderTab-items-border-radius);
@@ -100,8 +96,6 @@ div.item {
 .itemTitle {
 	display: block;
 	min-height: 1.3em;
-	line-height: revert;
-	margin: revert;
 	padding: 0px 2.3em 0px 0px;
 	background-color: var(--renderTab-items-title-background-color);
 	border-bottom: var(--renderTab-items-title-border-bottom);
@@ -130,8 +124,6 @@ div.item {
 
 .itemDescription {
 	margin: 0px;
-	padding:revert;
-	min-height: revert;
 	font-size: var(--renderTab-items-description-font-size);
 }
 

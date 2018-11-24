@@ -59,7 +59,7 @@ a.channelLink {
 }
 
 a.channelLink:visited {	
-	color: var(--renderTab-channel-visited-color);
+	color: var(--renderTab-channel-link-visited-color);
 	font-weight: var(--renderTab-channel-link-visited-font-weight);
 }
 

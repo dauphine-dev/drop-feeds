@@ -55,7 +55,7 @@ a.channelLink {
 }
 
 a.channelLink:visited {	
-	color: var(--renderTab-channel-visited-color);
+	color: var(--renderTab-channel-link-visited-color);
 	font-weight: var(--renderTab-channel-link-visited-font-weight);
 }
 
@@ -64,7 +64,6 @@ a.channelLink:hover {
 }
 
 .channelDescription {
-	width: revert;
 	margin: 0;
 	padding: 10px;
 	color: var(--renderTab-channel-description-text-color);
@@ -98,8 +97,6 @@ div.item {
 }
 
 .itemTitle {
-	display: revert;
-	min-height: revert;
 	line-height: 1.2em;
 	margin: 0px;
 	padding: 6px;	
@@ -129,7 +126,6 @@ div.item {
 }
 
 .itemDescription {
-	margin: revert;
 	padding: 9px;
 	min-height: 6em;
 	font-size: var(--renderTab-items-description-font-size);
@@ -142,22 +138,14 @@ div.item {
 }
 
 .itemCat {
-	display: revert;
 	color: var(--renderTab-items-category-color);
 }
 
 .itemAuthor {
-	display: revert;
+	display: block;
 }
 
 .itemPubDate {
-	float: revert;
-	line-height: revert;
-	padding: revert;
-	position: revert;
-	right: revert;	
-	top: revert;
-	width: revert;
 	background: var(--renderTab-items-pubDate-background);
 	border: var(--renderTab-items-pubDate-border);
 	color: var(--renderTab-items-pubDate-text-color);
