@@ -19,7 +19,7 @@ class RenderPage {
   }
 
   rowOnclickEvent(e) {
-    let tr = e.target.parentNode;
+    let tr = this.getTr(e.target);
     this.selectRow(tr);
     this.displayItem(tr.cells[0].childNodes[0].textContent);
     if (e.target.cellIndex == 2) {
@@ -28,7 +28,14 @@ class RenderPage {
     else {
       this.setRawAsRead(tr);
     }
+  }
 
+  getTr(target) {
+    let tr = target;
+    while (tr && tr.tagName != 'TR') {
+      tr = tr.parentNode;
+    }
+    return tr;
   }
 
   setRawAsRead(tr) {

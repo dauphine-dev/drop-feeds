@@ -57,7 +57,7 @@ class FeedTransform { /*exported FeedTransform*/
     itemXmlFragments = `
     <item>
       <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
-      <title>` + FeedTransform._transformEncode(item.title) +  `</title>
+      <title>` + FeedTransform._transformEncode(item.title) + `</title>
       <target><![CDATA[` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
       <link><![CDATA[` + item.link + `]]></link>
       <description>
@@ -89,27 +89,37 @@ class FeedTransform { /*exported FeedTransform*/
     return htmlText;
   }
 
-  static _decodeElements(htmlDoc) {
-    let elementList = [
-      ...htmlDoc.getElementsByClassName('channelLink'),
-      ...htmlDoc.getElementsByClassName('channelDescription'),
-      ...htmlDoc.getElementsByClassName('itemTitleLink'),
-      ...htmlDoc.getElementsByClassName('itemDescription')
-    ];
-
+  static _decodeElements1(htmlDoc) {
+    let elementList = htmlDoc.getElementsByClassName('encodedText');
     for (let element of elementList) {
       let decodedContent = FeedTransform._transformDecode(element.innerHTML);
-      BrowserManager.setInnerHtmlByElement(element, decodedContent, true);
+      let newParentInnerHTML = element.parentNode.innerHTML.replace(element.outerHTML, decodedContent);
+      BrowserManager.setInnerHtmlByElement(element, newParentInnerHTML, (element.parentNode.className == 'itemDescription'));
+
     }
-
-    elementList = [...htmlDoc.getElementsByClassName('headTitle')];
-
-    for (let element of elementList) {
-      let decodedContent = FeedTransform._transformDecode(element.innerHTML);
-      BrowserManager.setInnerHtmlByElement(element, decodedContent, false);
-    }
-
   }
+
+  static _decodeElements(htmlDoc) {
+    let element = htmlDoc.querySelector('.encodedText');
+    while(element) {
+      let decodedContent = FeedTransform._transformDecode(element.innerHTML);
+      let decodedElement = document.createTextNode(decodedContent);
+      element.parentNode.replaceChild(decodedElement, element);
+      element = htmlDoc.querySelector('.encodedText');
+    }
+    this._decodeDescriptionElements(htmlDoc);
+  }
+
+  static _decodeDescriptionElements(htmlDoc) {
+    let element = htmlDoc.querySelector('.encodedHtml');
+    while(element) {
+      let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
+      let decodedElement = BrowserManager.textHtmlToDocumentFragment(decodedHtml, true);
+      element.parentNode.replaceChild(decodedElement, element);  
+      element = htmlDoc.querySelector('.encodedHtml');
+    }
+  }
+
 
   static _transformEncode(decodedText) {
     /* Firefox doesn't manage disable-output-escaping="yes" during xslt transform

@@ -10,26 +10,24 @@
           <xsl:attribute name="rel">icon</xsl:attribute>
           <xsl:attribute name="type">image/png/css</xsl:attribute>
           <xsl:attribute name="href">
-            <xsl:value-of select="/render/context/icon"></xsl:value-of>
+            <xsl:value-of select="/render/context/icon"/>
           </xsl:attribute>
         </xsl:element>
         <xsl:element name="link">
           <xsl:attribute name="rel">stylesheet</xsl:attribute>
           <xsl:attribute name="type">text/css</xsl:attribute>
           <xsl:attribute name="href">
-            <xsl:value-of select="/render/context/template"></xsl:value-of>
+            <xsl:value-of select="/render/context/template"/>
           </xsl:attribute>
         </xsl:element>
         <xsl:element name="link">
           <xsl:attribute name="rel">stylesheet</xsl:attribute>
           <xsl:attribute name="type">text/css</xsl:attribute>
           <xsl:attribute name="href">
-            <xsl:value-of select="/render/context/theme"></xsl:value-of>
+            <xsl:value-of select="/render/context/theme"/>
           </xsl:attribute>
         </xsl:element>
-        <title class="headTitle">
-          <xsl:value-of select="/render/channel/title"></xsl:value-of>,20,2d,20,44,72,6f,70,20,46,65,65,64,73
-        </title>
+        <title><span class="encodedText"><xsl:value-of select="/render/channel/title"/></span> - Drop Feeds</title>
       </head>
       <body>
         <div id="channelHead">
@@ -39,9 +37,9 @@
                 <xsl:attribute name="target">_blank</xsl:attribute>
                 <xsl:attribute name="class">channelLink</xsl:attribute>
                 <xsl:attribute name="href">
-                  <xsl:value-of select="/render/channel/link"></xsl:value-of>
+                  <xsl:value-of select="/render/channel/link"/>
                 </xsl:attribute>
-                <xsl:value-of select="/render/channel/title"></xsl:value-of>
+                <span class="encodedText"><xsl:value-of select="/render/channel/title"/></span>
               </xsl:element>
             </span>
           </div>
@@ -61,13 +59,13 @@
                 <td>
                   <xsl:element name="span">
                     <xsl:attribute name="url">
-                      <xsl:value-of select="./link" ></xsl:value-of>
+                      <xsl:value-of select="./link" />
                     </xsl:attribute>
-                    <xsl:value-of select="./number" ></xsl:value-of>
+                    <xsl:value-of select="./number" />
                   </xsl:element>
                 </td>
                 <td>
-                  <span class="itemTitleLink"><xsl:value-of select="./title" ></xsl:value-of></span>              
+                  <span class="encodedText"><xsl:value-of select="./title" /></span>
                 </td>
                 <td></td>
                 <td>
@@ -81,37 +79,34 @@
         <div id="splitterBar"></div>
         <!-- **bottomPanel ** -->
         <div id="bottomPanel">
-          <!-- <xsl:value-of select="./number" ></xsl:value-of> -->
+          <!-- <xsl:value-of select="./number" /> -->
           <xsl:for-each select="/render/items/item">
             <xsl:element name="div">
               <xsl:attribute name="class">item</xsl:attribute>
-              <xsl:attribute name="id">item<xsl:value-of select="./number" ></xsl:value-of></xsl:attribute>
+              <xsl:attribute name="id">item<xsl:value-of select="./number" /></xsl:attribute>
               <div class="itemHead">
                 <div class="itemTitle">
                   <xsl:element name="a">
                     <xsl:attribute name="target">
-                      <xsl:value-of select="./target"></xsl:value-of>
+                      <xsl:value-of select="./target"/>
                     </xsl:attribute>
                     <xsl:attribute name="href">
-                      <xsl:value-of select="./link"></xsl:value-of>
+                      <xsl:value-of select="./link"/>
                     </xsl:attribute>
-                    <span class="itemTitleLink"><xsl:value-of select="./title" ></xsl:value-of></span>              
+                    <span class="encodedText"><xsl:value-of select="./title" /></span>
                   </xsl:element>
                 </div>
                 <div class="itemInfo">
                   <xsl:element name="a">
                     <xsl:attribute name="target">_blank</xsl:attribute>
-                    <xsl:attribute name="target">
-                      <xsl:value-of select="./target"></xsl:value-of>
-                    </xsl:attribute>
                     <xsl:attribute name="href">
-                      <xsl:value-of select="./link"></xsl:value-of>
+                      <xsl:value-of select="./link"/>
                     </xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="border">0</xsl:attribute>
                       <xsl:attribute name="alt">alt</xsl:attribute>
                       <xsl:attribute name="src">
-                        <xsl:value-of select="/render/context/template"></xsl:value-of>/../../img/link-go.png
+                        <xsl:value-of select="/render/context/template"/>/../../img/link-go.png
                       </xsl:attribute>
                       <xsl:attribute name="width">20px</xsl:attribute>
                       <xsl:attribute name="height">20px</xsl:attribute>
@@ -119,35 +114,29 @@
                   </xsl:element>
                   <xsl:element name="a">
                     <xsl:attribute name="target">_blank</xsl:attribute>
-                    <xsl:attribute name="href">
-                      mailto:?subject=
-                      <xsl:value-of select="./title"></xsl:value-of>&amp;body=
-                      <xsl:value-of select="./link"></xsl:value-of>
-                    </xsl:attribute>
+                    <xsl:attribute name="href">mailto:?subject=<xsl:value-of select="./title"/>&amp;body=<xsl:value-of select="./link"/></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="border">0</xsl:attribute>
                       <xsl:attribute name="alt">lnk</xsl:attribute>
                       <xsl:attribute name="src">
-                        <xsl:value-of select="/render/context/template"></xsl:value-of>/../../img/mail-to.png
+                        <xsl:value-of select="/render/context/template"/>/../../img/mail-to.png
                       </xsl:attribute>
                       <xsl:attribute name="width">20px</xsl:attribute>
                       <xsl:attribute name="height">20px</xsl:attribute>
                     </xsl:element>
                   </xsl:element>
                   <span class="itemDate">
-                    <xsl:value-of select="./pubDateText"></xsl:value-of>
+                    <xsl:value-of select="./pubDateText"/>
                   </span>
                 </div>
               </div>
-              <div class="itemDescription">
-                <xsl:value-of select="./description"></xsl:value-of>
-              </div>
+              <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
             </xsl:element>
           </xsl:for-each>
         </div>
         <xsl:element name="script">
           <xsl:attribute name="src">
-            <xsl:value-of select="/render/context/template"></xsl:value-of>/../../js/template.js
+            <xsl:value-of select="/render/context/template"/>/../../js/template.js
           </xsl:attribute>
         </xsl:element>
       </body>
