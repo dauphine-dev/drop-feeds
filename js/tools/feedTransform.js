@@ -56,7 +56,7 @@ class FeedTransform { /*exported FeedTransform*/
     itemXmlFragments = `
     <item>
       <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
-      <title><![CDATA[` + item.title + `]]></title>
+      <title>` + item.title + `</title>
       <target><![CDATA[` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
       <link><![CDATA[` + item.link + `]]></link>
       <description>
@@ -76,8 +76,6 @@ class FeedTransform { /*exported FeedTransform*/
   }
 
   static async _transform_async(xmlText, isError) {
-    console.log('---------------------------');
-    console.log('xmlText:\n', xmlText);
     let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
@@ -87,8 +85,6 @@ class FeedTransform { /*exported FeedTransform*/
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
     FeedTransform._decodeElements(htmlDoc, 'itemDescription');
     let htmlText = htmlDoc.documentElement.outerHTML;
-    console.log('---------------------------');
-    console.log('htmlText:\n', htmlText);
     return htmlText;
   }
 
