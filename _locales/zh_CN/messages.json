@@ -12,7 +12,7 @@
     "message": "转至订阅页面"
   },
   "manPageActionAdd": {
-    "message": "使用 Drop feed 订阅"
+    "message": "使用 Drop Feeds 订阅"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (定义)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "使用 Drop feed 订阅"
+    "message": "使用 Drop Feeds 订阅"
   },
   "subName": {
     "message": "名称"

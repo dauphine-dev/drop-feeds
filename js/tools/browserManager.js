@@ -69,16 +69,16 @@ class BrowserManager { /* exported BrowserManager*/
 
     // Open Tab Logic:
     //   1. "Always Open in New Tab" == True || openNewTabForce == True
-    //     a. "Reuse Drop Feed Tabs" == False
+    //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Open a new tab, unless the active tab is empty
-    //     b. "Reuse Drop Feed Tabs" == True
+    //     b. "Reuse Drop Feeds Tabs" == True
     //        -> Open a new tab unless the active tab is empty or an existing DF tab
     //   2. "Always Open in New Tab" == False
-    //     a. "Reuse Drop Feed Tabs" == False
+    //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Update the current active tab
-    //     b. "Reuse Drop Feed Tabs" == True && there is one or more DF tabs
+    //     b. "Reuse Drop Feeds Tabs" == True && there is one or more DF tabs
     //        -> Update the first Drop Feeds tab and make it active.
-    //     c. "Reuse Drop Feed Tabs" == True && no existing DF tab
+    //     c. "Reuse Drop Feeds Tabs" == True && no existing DF tab
     //        -> Create new tab and make it active
     let doCreate = this._alwaysOpenNewTab;
     let targetTabId = activeTab.id;

@@ -12,7 +12,7 @@
     "message": "Aller sur la page d'abonnement"
   },
   "manPageActionAdd": {
-    "message": "S'abonner avec Drop feed"
+    "message": "S'abonner avec Drop Feeds"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (s'abonner)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "S'abonner avec Drop feed"
+    "message": "S'abonner avec Drop Feeds"
   },
   "subName": {
     "message": "Nom"

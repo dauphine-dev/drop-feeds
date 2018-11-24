@@ -28,7 +28,7 @@
           </xsl:attribute>
         </xsl:element>
         <title>
-          <xsl:value-of select="/render/channel/title"></xsl:value-of> - Drop-Feeds
+          <xsl:value-of select="/render/channel/title"></xsl:value-of> - Drop Feeds
         
         </title>
       </head>
