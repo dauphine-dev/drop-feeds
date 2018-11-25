@@ -9,6 +9,8 @@ New dark theme "Legacy (dark)"
 New dark theme "Fox Memory"
 New render template "Two panels (Fox Memory)"
 Fix OPML import/export
+Fix discovering feeds
+Fix script editor
 
 0.9
 Add sidebar filter feature
