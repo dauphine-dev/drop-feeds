@@ -81,7 +81,11 @@ class ItemsLayout { /*exported ItemsLayout*/
     let rec = this._itemsContentPanel.getBoundingClientRect();
     let height = Math.max(RenderItemLayout.instance.top - rec.top, 0);
     BrowserManager.setElementHeight(this._itemsContentPanel, height);
+    document.getElementById('itemLayoutCell').style.width  = window.innerWidth + 'px';
+    document.getElementById('itemsPaneTitleBar').style.width  = window.innerWidth + 'px';
+    document.getElementById('itemsPaneToolBar').style.width  = window.innerWidth + 'px';
     this._itemsContentPanel.style.width  = window.innerWidth + 'px';
+
     this._resizeBackgroundDiv();
     ItemsLayout.instance.selectionBarItems.refresh();
   }

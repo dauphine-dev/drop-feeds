@@ -38,6 +38,7 @@ class RenderItemLayout { /*exported RenderItemLayout */
     let rec = this._renderItemText.getBoundingClientRect();
     let height = Math.max(window.innerHeight - rec.top, 0);
     BrowserManager.setElementHeight(this._renderItemText, height);
+    document.getElementById('renderTitleBar').style.width  = window.innerWidth + 'px';
     this._renderItemText.style.width = window.innerWidth + 'px';
   }
 

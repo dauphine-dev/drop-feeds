@@ -77,6 +77,9 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let rec = this._feedsContentPanel.getBoundingClientRect();
     let height = Math.max(ItemsLayout.instance.top - rec.top, 0);
     BrowserManager.setElementHeight(this._feedsContentPanel, height);
+    document.getElementById('topMenu').style.width  = window.innerWidth + 'px';
+    document.getElementById('statusBar').style.width  = window.innerWidth + 'px';
+    document.getElementById('filterBar').style.width  = window.innerWidth + 'px';
     document.getElementById('treeView').style.width  = window.innerWidth + 'px';
     this._resizeBackgroundDiv();
   }
