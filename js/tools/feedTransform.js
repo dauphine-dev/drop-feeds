@@ -96,9 +96,10 @@ class FeedTransform { /*exported FeedTransform*/
 
   static _decodeEncodedText(htmlDoc) {
     let element = htmlDoc.querySelector('.encodedText');
-    while(element) {
+    while (element) {
       let decodedContent = FeedTransform._transformDecode(element.innerHTML);
-      let decodedElement = document.createTextNode(decodedContent);
+      let unescapedContent = TextTools.unescapeHtml(decodedContent);
+      let decodedElement = document.createTextNode(unescapedContent);
       element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedText');
     }
@@ -106,10 +107,10 @@ class FeedTransform { /*exported FeedTransform*/
 
   static _decodeEncodedHtml(htmlDoc) {
     let element = htmlDoc.querySelector('.encodedHtml');
-    while(element) {
+    while (element) {
       let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
       let decodedElement = BrowserManager.textHtmlToDocumentFragment(decodedHtml, true);
-      element.parentNode.replaceChild(decodedElement, element);  
+      element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedHtml');
     }
   }
