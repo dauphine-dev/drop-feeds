@@ -62,7 +62,7 @@ class OpmlExporter { /*exported OpmlExporter*/
     }
     else {
       let title = XmlTools.escapeTextXml(bookmarkItem.title);
-      let url = XmlTools.unescapeUrlXml(bookmarkItem.url);
+      let url = XmlTools.escapeUrlXml(bookmarkItem.url);
       let externalLine = TextTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
       this._opmlItemList.push(externalLine);
     }
