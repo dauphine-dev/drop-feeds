@@ -56,15 +56,13 @@ class OpmlExporter { /*exported OpmlExporter*/
   }
 
   async _prepareOpmlItemsRecursively_async(bookmarkItem, indentRef, isRoot) {
-    //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
     let isFolder = (!bookmarkItem.url);
     if (isFolder) {
       await this._createOpmlInternalNodes_async(bookmarkItem, indentRef, isRoot);
     }
     else {
-      //let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
       let title = XmlTools.escapeTextXml(bookmarkItem.title);
-      let url = XmlTools.escapeTextXml(bookmarkItem.url);
+      let url = XmlTools.unescapeUrlXml(bookmarkItem.url);
       let externalLine = TextTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
       this._opmlItemList.push(externalLine);
     }

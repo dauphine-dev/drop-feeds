@@ -136,7 +136,7 @@ class OpmlImporter { /*exported OpmlImporter*/
     if (title == '') { title = this._getAttributeValue(outlineText , 'text'); }    
     title = XmlTools.unescapeTextAll(title);
     let xmlUrl = this._getAttributeValue(outlineText , 'xmlUrl');
-    xmlUrl = XmlTools.unescapeTextXml(xmlUrl);
+    xmlUrl = XmlTools.unescapeUrlXml(xmlUrl);
     xmlUrl = decodeURIComponent(xmlUrl);
 
     let outlineElementInfo = { startIndex : indexStart, endIndex : indexEnd, kind : kind,
