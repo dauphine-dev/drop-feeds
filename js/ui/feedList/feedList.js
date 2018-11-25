@@ -1,4 +1,4 @@
-/*global BrowserManager LocalStorageManager Dialogs*/
+/*global BrowserManager Dialogs*/
 'use strict';
 class FeedList {
   static get instance() { return (this._instance = this._instance || new this()); }

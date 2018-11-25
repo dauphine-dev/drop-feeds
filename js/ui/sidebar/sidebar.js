@@ -1,4 +1,4 @@
-/*global ThemeManager FeedsTopMenu LocalStorageManager Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout
+/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout
 FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager FeedsNewFolderDialog FeedsFilterBar*/
 'use strict';
 class SideBar { /*exported SideBar*/

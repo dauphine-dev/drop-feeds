@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser TextTools LocalStorageManager Dialogs*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser TextTools*/
 
 'use strict';
 const subType = { /*exported subType */
