@@ -89,17 +89,12 @@ class FeedTransform { /*exported FeedTransform*/
     return htmlText;
   }
 
-  static _decodeElements1(htmlDoc) {
-    let elementList = htmlDoc.getElementsByClassName('encodedText');
-    for (let element of elementList) {
-      let decodedContent = FeedTransform._transformDecode(element.innerHTML);
-      let newParentInnerHTML = element.parentNode.innerHTML.replace(element.outerHTML, decodedContent);
-      BrowserManager.setInnerHtmlByElement(element, newParentInnerHTML, (element.parentNode.className == 'itemDescription'));
-
-    }
+  static _decodeElements(htmlDoc) {
+    FeedTransform._decodeEncodedText(htmlDoc);
+    FeedTransform._decodeEncodedHtml(htmlDoc);
   }
 
-  static _decodeElements(htmlDoc) {
+  static _decodeEncodedText(htmlDoc) {
     let element = htmlDoc.querySelector('.encodedText');
     while(element) {
       let decodedContent = FeedTransform._transformDecode(element.innerHTML);
@@ -107,10 +102,9 @@ class FeedTransform { /*exported FeedTransform*/
       element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedText');
     }
-    this._decodeDescriptionElements(htmlDoc);
   }
 
-  static _decodeDescriptionElements(htmlDoc) {
+  static _decodeEncodedHtml(htmlDoc) {
     let element = htmlDoc.querySelector('.encodedHtml');
     while(element) {
       let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
