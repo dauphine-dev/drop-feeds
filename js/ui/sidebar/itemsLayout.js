@@ -144,6 +144,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     else {
       ItemsToolBar.instance.disableButtons();
     }
+    RenderItemLayout.instance.clear();
   }
 
   async _setFeedItemList_sbscrb(value) {

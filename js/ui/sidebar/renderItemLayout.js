@@ -29,6 +29,11 @@ class RenderItemLayout { /*exported RenderItemLayout */
     return this._splitterBar2;
   }
 
+  clear() {
+    this._renderItemText.textContent = '';
+    BrowserManager.setInnerHtmlById('renderTitle', '');
+  }
+
   resize() {
     let rec = this._renderItemText.getBoundingClientRect();
     let height = Math.max(window.innerHeight - rec.top, 0);
