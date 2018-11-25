@@ -53,7 +53,7 @@
   --renderTab-items-info-font-size: x-small;
   --renderTab-items-info-color: #242482;
   --renderTab-items-category-color: #7D7D7D;
-  --renderTab-items-pubDate-background: none;
+  --renderTab-items-pubDate-background: var(--renderTab-background-color);
 	--renderTab-items-pubDate-border: none;
 	--renderTab-items-pubDate-text-color: var(--renderTab-items-info-color);
 	--renderTab-items-pubDate-font-size: var(--renderTab-items-info-font-size);
