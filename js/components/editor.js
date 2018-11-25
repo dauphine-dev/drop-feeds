@@ -391,7 +391,8 @@ class Editor { /*exported Editor*/
     let plainText = this._editTextArea.value;
     plainText = this._fixText(plainText);
     let highlightedText = this._highlighter.highlightText(plainText);
-    BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText);
+    //BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText);
+    this._editHighlightedCode.innerHTML = highlightedText;
     this._updateLineNumbers(plainText);
   }
 
