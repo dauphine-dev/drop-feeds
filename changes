@@ -1,4 +1,14 @@
 0.9.1
+New 3rd in the sidebar to display item.
+Theme management have been improved :
+ - you can select independently the positioning called template (like column number), and the theme (font and colors)
+ - theme ares easiest to create/modified (a theme editor should come in a next version)
+ - now Drop Feeds use xlst to generate the render tab, it allows more flexible render tab pages (like "Two panels (Fox Memory)")
+New dark theme "Sage Single Column (Dark)" , from Jeff
+New dark theme "Legacy (dark)"
+New dark theme "Fox Memory"
+New render template "Two panels (Fox Memory)"
+Fix OPML import/export
 
 0.9
 Add sidebar filter feature
