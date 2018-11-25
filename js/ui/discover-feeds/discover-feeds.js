@@ -214,7 +214,7 @@ class DiscoverFeeds {
   async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await this._openSubscribeDialog_async();
+    await Dialogs.openSubscribeDialog_async(this.selectedFeed.info.channel.title, this.selectedFeed.url);
     browser.windows.remove(this._discoverInfoWinId);
   }
 
@@ -238,10 +238,6 @@ class DiscoverFeeds {
   _selectRaw(trElement) {
     SelectionRaw.instance.put(trElement);
     this.addFeedButtonEnabled = (this.selectedFeed && this.selectedFeed.info.format != null);
-  }
-
-  async _openSubscribeDialog_async() {
-    Dialogs.openSubscribeDialog_async(this.selectedFeed.info.channel.title, this.selectedFeed.url);
   }
 
 }

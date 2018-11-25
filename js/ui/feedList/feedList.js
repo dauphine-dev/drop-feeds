@@ -17,7 +17,6 @@ class FeedList {
     else {
       feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       if(feedLinkList.length == 1) {
-        console.log(feedLinkList[0].title);
         Dialogs.openSubscribeDialog_async(feedLinkList[0].title, feedLinkList[0].link);
         return;
       }
