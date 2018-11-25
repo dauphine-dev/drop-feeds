@@ -80,6 +80,11 @@ class TextTools { /* exported TextTools*/
     return decodedText;
   }
 
+  static unescapeHtml(htmlText) {
+    let decodedHtmlText = (new DOMParser).parseFromString('<!doctype html><body>' + htmlText, 'text/html').body.textContent;
+    return decodedHtmlText;
+  }
+
   static replaceAll(text, substr, newSubstr) {
     return text.split(substr).join(newSubstr);
   }
