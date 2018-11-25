@@ -1,11 +1,11 @@
-/*global browser DefaultValues BrowserManager LocalStorageManager TextTools*/
+/*global browser DefaultValues BrowserManager LocalStorageManager TextTools XmlTools*/
 'use strict';
 class OpmlExporter { /*exported OpmlExporter*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   async export_async() {
     let opmlFileUrl = await this._generateExportFile();
-    browser.downloads.download({url : opmlFileUrl, filename: 'export.opml', saveAs: true });
+    browser.downloads.download({ url: opmlFileUrl, filename: 'export.opml', saveAs: true });
 
   }
 
@@ -13,7 +13,7 @@ class OpmlExporter { /*exported OpmlExporter*/
     this._opmlItemList = [];
     this._opmlIntentSize = 2;
     let opmlFileText = await this._computeOpmlText_async();
-    let blob = new Blob([opmlFileText], {encoding:'UTF-8', type : 'text/html;charset=UTF-8'});
+    let blob = new Blob([opmlFileText], { encoding: 'UTF-8', type: 'text/html;charset=UTF-8' });
     let opmlFileUrl = URL.createObjectURL(blob);
     return opmlFileUrl;
   }
@@ -34,8 +34,8 @@ class OpmlExporter { /*exported OpmlExporter*/
     indentRef[0] += this._opmlIntentSize;
     headText += TextTools.makeIndent(indentRef[0]) + '<title>Drop Feeds OPML Export</title>\n';
     indentRef[0] -= this._opmlIntentSize;
-    headText += TextTools.makeIndent(indentRef[0]) +'</head>\n';
-    headText += TextTools.makeIndent(indentRef[0]) +'<body>\n';
+    headText += TextTools.makeIndent(indentRef[0]) + '</head>\n';
+    headText += TextTools.makeIndent(indentRef[0]) + '<body>\n';
     indentRef[0] += this._opmlIntentSize;
     return headText;
   }
@@ -62,17 +62,18 @@ class OpmlExporter { /*exported OpmlExporter*/
       await this._createOpmlInternalNodes_async(bookmarkItem, indentRef, isRoot);
     }
     else {
-      let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
-      let url = escape(bookmarkItem.url);
-      let externalLine = TextTools.makeIndent(indentRef[0]) +  '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
+      //let title = escape(bookmarkItem.title).replace(/%20/g, ' ');
+      let title = XmlTools.escapeTextXml(bookmarkItem.title);
+      let url = XmlTools.escapeTextXml(bookmarkItem.url);
+      let externalLine = TextTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + title + '" title="' + title + '" xmlUrl="' + url + '"/>\n';
       this._opmlItemList.push(externalLine);
     }
   }
 
-  async _createOpmlInternalNodes_async (bookmarkItem, indentRef, isRoot) {
+  async _createOpmlInternalNodes_async(bookmarkItem, indentRef, isRoot) {
     let addClose = false;
     if (!isRoot) {
-      let internalLineOpen = TextTools.makeIndent(indentRef[0]) + '<outline type="rss" text="' + bookmarkItem.title + '"';
+      let internalLineOpen = TextTools.makeIndent(indentRef[0]) + '<outline text="' + XmlTools.escapeTextXml(bookmarkItem.title) + '"';
       if (BrowserManager.bookmarkHasChild(bookmarkItem)) {
         addClose = true;
         internalLineOpen += '>\n';
@@ -97,5 +98,4 @@ class OpmlExporter { /*exported OpmlExporter*/
       }
     }
   }
-
 }
