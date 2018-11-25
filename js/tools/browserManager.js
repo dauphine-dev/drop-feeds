@@ -1,4 +1,4 @@
-/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser TextTools*/
+/*global browser DefaultValues Listener ListenerProviders ThemeManager DateTime Transfer FeedParser TextTools LocalStorageManager Dialogs*/
 
 'use strict';
 const subType = { /*exported subType */
@@ -430,5 +430,4 @@ class BrowserManager { /* exported BrowserManager*/
     let weirdOffsetWorkAround = element.offsetHeight - height;
     element.style.height = Math.max(height - weirdOffsetWorkAround, 0) + 'px';
   }
-
 }

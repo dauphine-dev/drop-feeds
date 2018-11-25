@@ -237,8 +237,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async _virtualSubscribeScriptButton_event() {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
-      await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: scriptObj.name, feedUrl: scriptObj.virtualUrl });
-      await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+      Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
     }
   }
 

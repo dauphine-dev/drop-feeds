@@ -17,7 +17,8 @@ class FeedList {
     else {
       feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       if(feedLinkList.length == 1) {
-        this._openSubscribeDialog_async(feedLinkList[0].title, feedLinkList[0].link);
+        console.log(feedLinkList[0].title);
+        Dialogs.openSubscribeDialog_async(feedLinkList[0].title, feedLinkList[0].link);
         return;
       }
     }
@@ -53,15 +54,8 @@ class FeedList {
   async _tableRawOnClick_event(event) {
     let feedUrl = event.target.parentNode.cells[1].innerHTML;
     let feedTitle = event.target.parentNode.cells[0].innerHTML;
-    this._openSubscribeDialog_async(feedTitle, feedUrl);
+    Dialogs.openSubscribeDialog_async(feedTitle, feedUrl);
   }
-
-  async _openSubscribeDialog_async(title, url) {
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: title, feedUrl: url});
-    let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
-    await LocalStorageManager.setValue_async('subscribeInfoWinId', {winId: win.id});
-  }
-
 }
 
 FeedList.instance.init_async();

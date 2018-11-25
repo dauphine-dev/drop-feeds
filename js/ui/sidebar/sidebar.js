@@ -44,9 +44,7 @@ class SideBar { /*exported SideBar*/
 
   async openSubscribeDialog_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
-    await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: tabInfo.title, feedUrl: tabInfo.url });
-    let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
-    await LocalStorageManager.setValue_async('subscribeInfoWinId', { winId: win.id });
+    Dialogs.openSubscribeDialog_async(tabInfo.title, tabInfo.url);
   }
 
   _addListeners() {

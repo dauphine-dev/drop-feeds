@@ -172,18 +172,12 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     if (!this._buttonAddFeedEnabled) { return; }
     let feedList = TabManager.instance.activeTabFeedLinkList;
     if (feedList.length == 1) {
-      let tabInfo = await BrowserManager.getActiveTab_async();      
-      this._openSubscribeDialog_async(tabInfo.title, feedList[0].link);
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      Dialogs.openSubscribeDialog_async(tabInfo.title, feedList[0].link);
     }
     else {
       BrowserManager.openPageAction();
     }
-  }
-
-  async _openSubscribeDialog_async(title, url) {
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: title, feedUrl: url});
-    let win = await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
-    await LocalStorageManager.setValue_async('subscribeInfoWinId', {winId: win.id});
   }
 
   async _discoverFeedsButtonClicked_event(event) {

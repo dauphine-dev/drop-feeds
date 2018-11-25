@@ -241,8 +241,7 @@ class DiscoverFeeds {
   }
 
   async _openSubscribeDialog_async() {
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: this.selectedFeed.info.channel.title, feedUrl: this.selectedFeed.url});
-    await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+    Dialogs.openSubscribeDialog_async(this.selectedFeed.info.channel.title, this.selectedFeed.url);
   }
 
 }
