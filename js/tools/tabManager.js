@@ -15,7 +15,7 @@ class TabManager { /*exported TabManager*/
   }
 
 
-  async _windowOnFocused_event(e) {
+  async _windowOnFocused_event() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     this._tabHasChanged_async(tabInfo);
   }
