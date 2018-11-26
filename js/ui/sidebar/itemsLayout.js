@@ -31,6 +31,8 @@ class ItemsLayout { /*exported ItemsLayout*/
     let itemsContentHeightRenderClosed = await LocalStorageManager.getValue_async('itemsContentHeightRenderClosed', window.innerHeight / 3);
     let itemsContentHeightRenderOpened = await LocalStorageManager.getValue_async('itemsContentHeightRenderOpened', window.innerHeight / 3);
     setTimeout(() => { 
+      this._setVisibility();
+      this._setToolbarVisibility();
       let itemsContentHeight = RenderItemLayout.instance.visible ? itemsContentHeightRenderOpened : itemsContentHeightRenderClosed;
       ItemsLayout.instance.setContentHeight(itemsContentHeight); 
     }, 15);
