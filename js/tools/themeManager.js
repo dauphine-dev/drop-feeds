@@ -40,15 +40,15 @@ class ThemeManager { /*exported ThemeManager*/
   async _update_async() {
     let themeFolderName = await LocalStorageManager.getValue_async('themeFolderName', null);
     if (themeFolderName) {
-      LocalStorageManager.setValue_async('mainThemeFolderName', themeFolderName);
-      LocalStorageManager.setValue_async('renderThemeFolderName', themeFolderName);
+      await LocalStorageManager.setValue_async('mainThemeFolderName', themeFolderName);
+      await LocalStorageManager.setValue_async('renderThemeFolderName', themeFolderName);
       if (themeFolderName == 'sage_sc') {
-        LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
+        await LocalStorageManager.setValue_async('renderTemplateFolderName', 'one_column');
       }
       else {
-        LocalStorageManager.setValue_async('renderTemplateFolderName', 'two_columns');
+        await LocalStorageManager.setValue_async('renderTemplateFolderName', 'two_columns');
       }
-      browser.storage.local.remove('themeFolderName');
+      await browser.storage.local.remove('themeFolderName');
     }
   }
 
