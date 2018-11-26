@@ -40,7 +40,14 @@ class TabItems { /*exported TabItems*/
   }
 
   async _feedItemListCheckboxClicked_event() {
-    await LocalStorageManager.setValue_async('feedItemList', document.getElementById('feedItemListCheckbox').checked);
+    let prevFeedItemList =  await LocalStorageManager.getValue_async('feedItemList', DefaultValues.feedItemList);
+    let newFeedItemList = document.getElementById('feedItemListCheckbox').checked;
+    if(newFeedItemList && !prevFeedItemList) {
+      await LocalStorageManager.setValue_async('feedsContentHeightItemsOpened', window.innerHeight / 3);
+      await LocalStorageManager.setValue_async('itemsContentHeightRenderClosed', window.innerHeight / 3);
+      await LocalStorageManager.setValue_async('itemsContentHeightRenderOpened', window.innerHeight / 3);  
+    }
+    await LocalStorageManager.setValue_async('feedItemList', newFeedItemList);
     this._enableItemOptions();
   }
 

@@ -22,10 +22,10 @@ class SideBar { /*exported SideBar*/
     FeedManager.instance;
     TabManager.instance;
 
+    await ItemsLayout.instance.init_async();
     await FeedsTopMenu.instance.init_async();
     await FeedsFilterBar.instance.init_async();
     await FeedsTreeView.instance.load_async();
-    await ItemsLayout.instance.init_async();
     RenderItemLayout.instance;
     await FeedsNewFolderDialog.instance.init_async();
     
