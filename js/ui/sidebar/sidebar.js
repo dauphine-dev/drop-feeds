@@ -12,11 +12,11 @@ class SideBar { /*exported SideBar*/
   }
 
   async init_async() {
+    await ThemeManager.instance.init_async();
     await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await RenderOptions.instance;
     await Timeout.instance.init_async();
-    await ThemeManager.instance.init_async();
     await ItemSorter.instance.init_async();
     await SecurityFilters.instance.init_async();
     FeedManager.instance;

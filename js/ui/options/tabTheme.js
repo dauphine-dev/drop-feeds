@@ -8,6 +8,7 @@ class TabTheme { /*exported TabTheme*/
   }
 
   async init_async() {
+    await ThemeManager.instance.init_async();
     await this._initThemeDropdown_async(ThemeManager.instance.mainThemesListUrl, 'mainThemeList', ThemeManager.instance.mainThemeFolderName);
     await this._initThemeDropdown_async(ThemeManager.instance.renderTemplateListUrl, 'renderTemplateList', ThemeManager.instance.renderTemplateFolderName);
     await this._initThemeDropdown_async(ThemeManager.instance.renderThemeListUrl, 'renderThemeList', ThemeManager.instance.renderThemeFolderName);
