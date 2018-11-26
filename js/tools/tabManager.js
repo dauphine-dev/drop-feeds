@@ -4,6 +4,7 @@ class TabManager { /*exported TabManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
+    window.addEventListener('focus', (e) => { this._windowOnFocused_event(e); });
     browser.tabs.onActivated.addListener((e) => { this._tabOnActivated_event(e); });
     browser.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => { this._tabOnUpdated_event(tabId, changeInfo, tabInfo); });
     this._forceTabOnChanged_async();
@@ -11,6 +12,12 @@ class TabManager { /*exported TabManager*/
 
   get activeTabFeedLinkList() {
     return this._activeTabFeedLinkList;
+  }
+
+
+  async _windowOnFocused_event(e) {
+    let tabInfo = await BrowserManager.getActiveTab_async();
+    this._tabHasChanged_async(tabInfo);
   }
 
   async _tabOnActivated_event(activeInfo) {

@@ -9,8 +9,9 @@ New dark theme "Legacy (dark)"
 New dark theme "Fox Memory"
 New render template "Two panels (Fox Memory)"
 Fix OPML import/export
-Fix discovering feeds
+Fix discovering feeds display
 Fix script editor
+Fix discovering feeds state on window get focus
 
 0.9
 Add sidebar filter feature
