@@ -191,15 +191,15 @@ html, body {
 
 .statusButtonUpdating::before {
   background-image: var(--feeds-statusButtonUpdating-image);
-  background-size: var(--feeds-topMenu-image-width) var(--feeds-topMenu-image-height);
+  background-size: var(--feeds-statusBar-image-width) var(--feeds-statusBar-image-height);
   background-position: center;
   background-repeat: no-repeat;
-  margin: 0 0 0 -2px;
+  margin: 0 0 0 1px;
   display: inline-block;
   border: solid 1px #00000000;
   border-radius: 4px;
-  width: 18px;
-  height: 24px;
+  width: var(--feeds-statusBar-image-width);
+  height:  var(--feeds-statusBar-image-height);
   content: "";
   padding: 0;
 }

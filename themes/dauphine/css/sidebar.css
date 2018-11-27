@@ -23,6 +23,8 @@
   --feeds-statusBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);
   --feeds-statusButtonUpdating-image: url(/themes/dauphine/img/updating.gif);
+  --feeds-statusBar-image-width: 20px;
+  --feeds-statusBar-image-height: 20px;
 
   /* feeds filter bar */
   --feeds-filterBar-background-color: var(--feeds-topMenu-background-color);
