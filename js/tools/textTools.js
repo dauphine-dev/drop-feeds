@@ -80,6 +80,11 @@ class TextTools { /* exported TextTools*/
     return decodedText;
   }
 
+  static unescapeHtml(htmlText) {
+    let decodedHtmlText = (new DOMParser).parseFromString('<!doctype html><body>' + htmlText, 'text/html').body.textContent;
+    return decodedHtmlText;
+  }
+
   static replaceAll(text, substr, newSubstr) {
     return text.split(substr).join(newSubstr);
   }
@@ -98,11 +103,24 @@ class TextTools { /* exported TextTools*/
     return text.slice(0, index) + text.slice(index).replace(substr, newSubstr);
   }
 
-  static toPlainText(html) {
-    return html.replace(/<(?:.|\n)*?>/gm, '');
+  static toPlainText(inputText) {
+    /*eslint-disable no-control-regex*/
+    let plainText = inputText.replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
+    /*eslint-enable no-control-regex*/
+    return plainText.replace(/<(?:.|\n)*?>/gm, '');      
   }
 
   static isNullOrEmpty(obj) {
     return !(typeof obj === 'string' && obj.length > 0);
+  }
+
+  static fromTextCharCodeArray(textCharCodeArray) {
+    let text = textCharCodeArray.split(',').map(textCode => (String.fromCharCode(parseInt(textCode, 16)))).join('');
+    return text;
+  }
+
+  static toTextCharCodeArray(text) {
+    let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString(16)).join(',');
+    return textCharCodeArray;
   }
 }

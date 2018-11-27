@@ -21,21 +21,21 @@ class DiscoverFeeds {
     await this._getDiscoverInfo_async();
     await this._getActiveTabFeedLinkList_async();
     await this._getFeedList_async();
-    await this._updateFeedList();
+    await this._updateFeedList_async();
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
     try {
       this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
     }
-    catch(e) {}
+    catch (e) { }
     LocalStorageManager.setValue_async('discoverInfoWinId', null);
   }
 
   get selectedFeed() {
     let selectedFeed = null;
     if (SelectionRaw.instance.selectedRaw) {
-      selectedFeed = this._feedList[SelectionRaw.instance.selectedRaw-1];
+      selectedFeed = this._feedList[SelectionRaw.instance.selectedRaw - 1];
     }
     return selectedFeed;
   }
@@ -55,6 +55,7 @@ class DiscoverFeeds {
     document.getElementById('thUrl').textContent = browser.i18n.getMessage('disUrl');
     document.getElementById('addFeedButton').textContent = browser.i18n.getMessage('disAddFeed');
     document.getElementById('closeButton').textContent = browser.i18n.getMessage('disClose');
+    document.getElementById('windowCloseError').textContent = browser.i18n.getMessage('subWindowCloseError');
   }
 
   async _getDiscoverInfo_async() {
@@ -66,10 +67,10 @@ class DiscoverFeeds {
 
   async _getActiveTabFeedLinkList_async() {
     try {
-      this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, {key:'discoverFeedLinkInfoList'});
+      this._feedLinkList = await browser.tabs.sendMessage(this._tabInfos.id, { key: 'discoverFeedLinkInfoList' });
     }
-    catch(e) {}
-    if (!this._feedLinkList) { this._feedLinkList= []; }
+    catch (e) { }
+    if (!this._feedLinkList) { this._feedLinkList = []; }
   }
 
   async _getFeedList_async() {
@@ -81,10 +82,10 @@ class DiscoverFeeds {
 
   }
 
-  async _sortFeedList()  {
+  async _sortFeedList_async() {
     for (let feed of this._feedList) {
-      // feed.info is not evaluated during sort (but with a delay), then compute it and then store it in the feed object
-      feed.tmpInfo = feed.info;
+      // feed.getInfo_async() is not evaluated during sort (but with a delay), then compute it and then store it in the feed object
+      feed.tmpInfo = await feed.getInfo_async();
     }
     this._feedList.sort((feed1, feed2) => {
       let feed1Num = 0;
@@ -98,7 +99,7 @@ class DiscoverFeeds {
       if (feedInfo2 && feedInfo2.format) { feed2Num += 16; }
       //Sort 2nd on have lastUpdate
       if (feed1.lastUpdate > feed2.lastUpdate) { feed1Num += 8; }
-      if (feed1.lastUpdate < feed2.lastUpdate) { feed2Num +=8; }
+      if (feed1.lastUpdate < feed2.lastUpdate) { feed2Num += 8; }
       //Sort 3rt on items number
       let feed1ItemListLength = feedInfo1 && feedInfo1.itemList ? feedInfo1.itemList.length : -1;
       let feed2ItemListLength = feedInfo2 && feedInfo2.itemList ? feedInfo2.itemList.length : -1;
@@ -126,20 +127,20 @@ class DiscoverFeeds {
     });
   }
 
-  _displayFeedList() {
+  async _displayFeedList_async() {
     let discoveredFeeds = browser.i18n.getMessage('disNoFeedsHaveBeenDiscovered');
     if (this._feedList.length > 0) {
 
       discoveredFeeds = browser.i18n.getMessage('disDiscovered') + ': ' + this._feedList.length + ' ' + browser.i18n.getMessage('disFeeds');
     }
     BrowserManager.setInnerHtmlById('discoveredFeeds', discoveredFeeds);
-    let html = this._feedLinkInfoListToHtm();
-    BrowserManager.setInnerHtmlById('tableContent', html);
+    let html = await this._feedLinkInfoListToHtm_async();
+    BrowserManager.setInnerHtmlById('tableContainer', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    this._selectRaw(fstLine);
+    this._selectRaw_async(fstLine);
   }
 
-  _feedLinkInfoListToHtm() {
+  async _feedLinkInfoListToHtm_async() {
     let html = `
       <table>
       <thead>
@@ -154,13 +155,13 @@ class DiscoverFeeds {
       <tbody id="tableContent">`;
     let pos = 1;
     for (let feed of this._feedList) {
-      let feedInfo = feed.info;
-      let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString()  + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
+      let feedInfo = await feed.getInfo_async();
+      let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString() + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
       html += '<tr pos="' + pos++ + '">';
       html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
       html += '<td>' + (feedInfo.format ? feedInfo.format : 'N/A') + '</td>';
       html += '<td>' + lastUpdate + '</td>';
-      html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length  : 0) + '</td>';
+      html += '<td>' + (feedInfo.itemList ? feedInfo.itemList.length : 0) + '</td>';
       html += '<td>' + feed.url + '</td>';
       html += '</tr>\n';
     }
@@ -170,17 +171,17 @@ class DiscoverFeeds {
     return html;
   }
 
-  _updateFeedList() {
+  async _updateFeedList_async() {
     this._feedsToProcessTotal = this._feedsToProcessList.length;
     this._feedsToProcessCounter = this._feedsToProcessTotal;
     if (this._feedsToProcessList.length > 0) {
       while (this._feedsToProcessList.length > 0) {
         let feed = this._feedsToProcessList.shift();
-        this._updateFeed_async(feed);
+        await this._updateFeed_async(feed);
       }
     }
     else {
-      this._feedsUpdateDone();
+      await this._feedsUpdateDone_async();
     }
   }
 
@@ -191,7 +192,7 @@ class DiscoverFeeds {
     finally {
       this._feedReceived(feed);
       if (--this._feedsToProcessCounter == 0) {
-        this._feedsUpdateDone();
+        await this._feedsUpdateDone_async();
       }
     }
   }
@@ -202,10 +203,10 @@ class DiscoverFeeds {
     this._progressBar.value = progressValue;
   }
 
-  _feedsUpdateDone() {
+  async _feedsUpdateDone_async() {
     this._progressBar.value = 99;
-    this._sortFeedList();
-    this._displayFeedList();
+    await this._sortFeedList_async();
+    await this._displayFeedList_async();
     this._addTableRawClickEvents();
     this._progressBar.value = 100;
     this._progressBar.hide();
@@ -214,14 +215,15 @@ class DiscoverFeeds {
   async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await this._openSubscribeDialog_async();
-    browser.windows.remove(this._discoverInfoWinId);
+    let feedInfo = await this.selectedFeed.getInfo_async();
+    await Dialogs.openSubscribeDialog_async(feedInfo.channel.title, this.selectedFeed.url);
+    this._windowClose_async();
   }
 
   async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    browser.windows.remove(this._discoverInfoWinId);
+    this._windowClose_async();
   }
 
   _addTableRawClickEvents() {
@@ -232,17 +234,28 @@ class DiscoverFeeds {
   }
 
   async _tableRawOnClick_event(event) {
-    this._selectRaw(event.target.parentNode);
+    this._selectRaw_async(event.target.parentNode);
   }
 
-  _selectRaw(trElement) {
+  async _selectRaw_async(trElement) {
     SelectionRaw.instance.put(trElement);
-    this.addFeedButtonEnabled = (this.selectedFeed && this.selectedFeed.info.format != null);
+    let feedInfo = await this.selectedFeed.getInfo_async();
+    this.addFeedButtonEnabled = (this.selectedFeed && feedInfo.format != null);
   }
 
-  async _openSubscribeDialog_async() {
-    await LocalStorageManager.setValue_async('subscribeInfo', {feedTitle: this.selectedFeed.info.channel.title, feedUrl: this.selectedFeed.url});
-    await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+  async _windowClose_async() {
+    try {
+      await browser.windows.remove(this._discoverInfoWinId);
+    }
+    catch (e) {
+      try {
+        let win = await browser.windows.getCurrent();
+        await browser.windows.remove(win.id);
+      }
+      catch (e) {
+        document.getElementById('windowCloseError').style.visibility = 'visible';
+      }
+    }
   }
 
 }

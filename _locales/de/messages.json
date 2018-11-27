@@ -21,7 +21,7 @@
     "message": "Feeds überprüfen"
   },
   "sbStopAndRestart": {
-    "message": "Überprüfung stoppen und Drop-Feeds neu starten"
+    "message": "Überprüfung stoppen und Drop Feeds neu starten"
   },
   "sbDiscoverFeeds": {
     "message": "Feeds entdecken"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (abonnieren)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "Abonnieren mit Drop feed"
+    "message": "Abonnieren mit Drop Feeds"
   },
   "subName": {
     "message": "Name"
@@ -227,6 +227,9 @@
   "optContentsArea": {
     "message": "Inhaltsbereich"
   },
+  "optTheme": {
+    "message": "Theme"
+  },
   "optManagement": {
     "message": "Verwaltung"
   },
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "Zeige den Root Ordner nicht an"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "Theme auswählen"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "Feed item Ordner"
@@ -293,7 +302,10 @@
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Vor dem Verlassen von Feeds alle items als gelesen markieren"
   },
-  "optShowUpdatedFeedCount": {
+  "optFeedItemRenderInSidebar": {
+    "message": "Render selected item in the sidebar"
+  },
+"optShowUpdatedFeedCount": {
     "message": "Zeige die aktualisierte Feed Anzahl"
   },
   "optShowErrorsAsUnread": {
@@ -432,7 +444,7 @@
     "message": "Abonniere mit Drop-Feed"
   },
   "ff56Text1": {
-    "message": "Um mit diesem Symbol die Drop Feed Seitenleiste zu öffen, bitte aktualisiere auf Firefox 57 oder höher"
+    "message": "Um mit diesem Symbol die Drop Feeds Seitenleiste zu öffen, bitte aktualisiere auf Firefox 57 oder höher"
   },
   "ff56Text2": {
     "message": "Unter Firefox 56 ist die Web-API zum Öffnen der Erweiterungs-Seitenleiste nicht implementiert."
@@ -447,7 +459,7 @@
     "message": "Du musst auf das Firefox-Symbol 'Seitenleisten anzeigen' klicken"
   },
   "ff56Text6": {
-    "message": "ebenso musst du das in Drop-Feeds in der Seitenleiste auswählen"
+    "message": "ebenso musst du das in Drop Feeds in der Seitenleiste auswählen"
   },
   "ff56Text7": {
     "message": "Zum schließen hier klicken"

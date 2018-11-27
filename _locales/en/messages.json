@@ -12,7 +12,7 @@
     "message": "Go to Subscription page"
   },
   "manPageActionAdd": {
-    "message": "Subscribe with Drop feed"
+    "message": "Subscribe with Drop Feeds"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (subscribe)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "Subscribe with Drop feed"
+    "message": "Subscribe with Drop Feeds"
   },
   "subName": {
     "message": "Name"
@@ -227,6 +227,9 @@
   "optContentsArea": {
     "message": "Contents area"
   },
+  "optTheme": {
+    "message": "Theme"
+  },
   "optManagement": {
     "message": "Management"
   },
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "Do not display root folder"
   },
-  "optSelectTheme": {
-    "message": "Select theme"
+  "optSelectMainTheme": { 
+    "message": "Select main theme"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "Feed item order"
@@ -292,6 +301,9 @@
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Mark all items as read before leaving feeds"
+  },
+  "optFeedItemRenderInSidebar": {
+    "message": "Render selected item in the sidebar"
   },
   "optShowUpdatedFeedCount": {
     "message": "Show updated feed count"

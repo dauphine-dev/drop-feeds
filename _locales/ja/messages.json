@@ -227,7 +227,10 @@
   "optContentsArea": {
     "message": "コンテンツエリア"
   },
-  "optManagement": {
+  "optTheme": {
+    "message": "Theme"
+  },
+"optManagement": {
     "message": "インポート/エクスポート"
   },
   "optSelectFeedFolder": {
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "ルートフォルダを表示しない"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "テーマ"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "項目の並び順"
@@ -292,6 +301,9 @@
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "フィードを離れる前に全て既読にする。"
+  },
+  "optFeedItemRenderInSidebar": {
+    "message": "Render selected item in the sidebar"
   },
   "optShowUpdatedFeedCount": {
     "message": "更新数を表示"

@@ -16,7 +16,7 @@
    viewBox="0 0 96.000001 96.000002"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="folder-new.svg"
    inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/themes/legacy/img/folder-new.png"
    inkscape:export-xdpi="90"
@@ -125,15 +125,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.7708333"
-     inkscape:cx="23.60095"
-     inkscape:cy="47.771971"
+     inkscape:zoom="8.6979167"
+     inkscape:cx="48"
+     inkscape:cy="48"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1024"
+     inkscape:window-height="1026"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -144,25 +144,29 @@
        orientation="1,0"
        id="guide4159"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
     <sodipodi:guide
        position="-90.000001,0"
        orientation="1,0"
        id="guide4161"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
     <sodipodi:guide
        position="-100,0"
        orientation="1,0"
        id="guide4167"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
     <sodipodi:guide
        position="-70.000001,0"
        orientation="1,0"
        id="guide4169"
        inkscape:label=""
-       inkscape:color="rgb(0,0,255)" />
+       inkscape:color="rgb(0,0,255)"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -172,7 +176,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -202,7 +206,7 @@
          inkscape:original-d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 z"
          inkscape:path-effect="#path-effect4159"
          id="path4157"
-         d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 -50.35714,50.17857 z"
+         d="m 227.76215,432.81435 h 130 l 50,-50 -129.64286,-0.17857 z"
          style="fill:url(#linearGradient4161);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.51856541;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5882);stroke-miterlimit:4;stroke-dasharray:none" />
     </g>
     <g

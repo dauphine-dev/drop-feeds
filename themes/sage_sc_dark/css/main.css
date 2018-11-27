@@ -1,0 +1,16 @@
+:root {
+  --main-background-color: #323234;
+  --main-background-secondary-color: var(--main-background-color);
+  --main-text-color: gainsboro;
+  --main-text-complementary-color: #232323;
+  --main-text-error-color: red;
+  --main-splitterBar-color: #9D9D9D;
+  --main-border-color: #9D9D9D;
+  --main-selection-background-color: #347bc6;
+  --main-selection-text-color: var(--main-text-complementary-color);
+  --main-dialog-background-color: #222224;
+  --main-progressBar-background-color: #d1d1d1;
+  --main-progressBar-foreground-color: #0056b3;
+  --main-table-background-color: #424244;
+  --main-table-header-color: #525254;
+}

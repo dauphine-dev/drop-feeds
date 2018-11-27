@@ -1,33 +1,36 @@
-/*global SideBar ItemsPanel LocalStorageManager*/
+/*global SideBar FeedsTreeView ItemsLayout RenderItemLayout */
 'use strict';
 class SplitterBar { /*exported SplitterBar*/
-  static get instance() { return (this._instance = this._instance || new this()); }
 
-  constructor() {
+  constructor(splitterBarId) {
+    this._splitterBarId = splitterBarId;
     this._newPos = 0;
     this._startPos = 0;
-    this._elSplitterBar = document.getElementById('splitterBar');
-    this._elSplitterBar.onmousedown = ((e) => { this._dragMouseDown_event(e); });
-
-  }
-
-  async init_async() {
-    let topSplitterBar =  await LocalStorageManager.getValue_async('splitterBarTop', window.innerHeight / 2);
-    if (topSplitterBar) {
-      this._resizeElements(topSplitterBar);
-    }
+    this._elSplitterBar = document.getElementById(this._splitterBarId);
+    this._isResizing = false;
+    this._isVisible = false;
+    document.addEventListener('mousemove', (e) => { this._splitterBarMousemove_event(e); });
+    document.addEventListener('mouseup', (e) => { this._splitterBarMouseup_event(e); });
+    this._elSplitterBar.addEventListener('mousedown', (e) => { this._splitterBarMousedown_event(e); });
   }
 
   get top() {
-    return ItemsPanel.instance.top;
-  }
-
-  set top(value) {
-    this._resizeElements(value);
+    //return this._elSplitterBar.offsetTop;
+    let rec = this._elSplitterBar.getBoundingClientRect();
+    return rec.top;
   }
 
   get height() {
     return this._elSplitterBar.offsetHeight;
+  }
+
+  get element() {
+    return this._elSplitterBar;
+  }
+
+  set visible(value) {
+    this._isVisible = value;
+    this._elSplitterBar.style.display = this._isVisible ? 'block' : 'none';
   }
 
   _dragMouseDown_event(event) {
@@ -41,9 +44,7 @@ class SplitterBar { /*exported SplitterBar*/
     event = event || window.event;
     this._newPos = this._startPos - event.clientY;
     this._startPos = event.clientY;
-    let top = Math.max(Math.min(ItemsPanel.instance.top - this._newPos, window.innerHeight - 80), 125);
-    this._resizeElements(top);
-    LocalStorageManager.setValue_async('splitterBarTop', top);
+    SideBar.instance.resize();
   }
 
   _closeDragElement_event() {
@@ -51,11 +52,37 @@ class SplitterBar { /*exported SplitterBar*/
     document.onmousemove = null;
   }
 
-  _resizeElements(topSplitterBar) {
-    SideBar.instance.setContentHeight();
-    ItemsPanel.instance.top = topSplitterBar;
-    ItemsPanel.instance.setContentHeight();
+  async _splitterBarMouseup_event() {
+    this._isResizing = false;
   }
+
+  async _splitterBarMousedown_event(event) {
+    this._isResizing = true;
+    this._lastDownY = event.clientY;
+  }
+
+  async _splitterBarMousemove_event(event) {
+    if (!this._isResizing) { return; }
+    let delta = event.clientY - this._lastDownY;
+    this._lastDownY = event.clientY;
+    this._resizeElements(delta);
+
+  }
+
+  _resizeElements(delta) {
+    switch (this._splitterBarId) {
+      case 'splitterBar1':
+        delta = FeedsTreeView.instance.increaseContentHeight(delta);
+        ItemsLayout.instance.increaseContentHeight(-delta);
+        break;
+      case 'splitterBar2':
+        ItemsLayout.instance.increaseContentHeight(delta);
+        break;
+    }
+    RenderItemLayout.instance.resize();
+  }
+
+
 }
 
 

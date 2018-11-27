@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager TextTools ProgressBar DateTime*/
+/*global browser DefaultValues LocalStorageManager TextTools ProgressBar DateTime XmlTools*/
 /*cSpell:ignore parsererror */
 'use strict';
 const TagKindEnum = {
@@ -133,9 +133,10 @@ class OpmlImporter { /*exported OpmlImporter*/
     let isFeed = outlineText.includes('xmlUrl');
     let type = this._getAttributeValue(outlineText , 'type');
     let title = this._getAttributeValue(outlineText , 'title');
-    if (title == '') { title = this._getAttributeValue(outlineText , 'text'); }
-    title = unescape(title);
+    if (title == '') { title = this._getAttributeValue(outlineText , 'text'); }    
+    title = XmlTools.unescapeTextAll(title);
     let xmlUrl = this._getAttributeValue(outlineText , 'xmlUrl');
+    xmlUrl = XmlTools.unescapeUrlXml(xmlUrl);
     xmlUrl = decodeURIComponent(xmlUrl);
 
     let outlineElementInfo = { startIndex : indexStart, endIndex : indexEnd, kind : kind,

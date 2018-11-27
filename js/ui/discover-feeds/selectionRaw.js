@@ -37,7 +37,7 @@ class SelectionRaw { /*exported SelectionRaw*/
   _putNew(selectedElement) {
     this._selectedElement = selectedElement;
     if (! this._selectedElement) { return; }
-    this._selectedElement.style.color = 'white';
+    this._selectedElement.style.color = 'var(--main-selection-text-color)';
     this._selectedElement.classList.add('selectionRaw');
   }
 

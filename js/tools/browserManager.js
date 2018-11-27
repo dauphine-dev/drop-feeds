@@ -69,16 +69,16 @@ class BrowserManager { /* exported BrowserManager*/
 
     // Open Tab Logic:
     //   1. "Always Open in New Tab" == True || openNewTabForce == True
-    //     a. "Reuse Drop Feed Tabs" == False
+    //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Open a new tab, unless the active tab is empty
-    //     b. "Reuse Drop Feed Tabs" == True
+    //     b. "Reuse Drop Feeds Tabs" == True
     //        -> Open a new tab unless the active tab is empty or an existing DF tab
     //   2. "Always Open in New Tab" == False
-    //     a. "Reuse Drop Feed Tabs" == False
+    //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Update the current active tab
-    //     b. "Reuse Drop Feed Tabs" == True && there is one or more DF tabs
+    //     b. "Reuse Drop Feeds Tabs" == True && there is one or more DF tabs
     //        -> Update the first Drop Feeds tab and make it active.
-    //     c. "Reuse Drop Feed Tabs" == True && no existing DF tab
+    //     c. "Reuse Drop Feeds Tabs" == True && no existing DF tab
     //        -> Create new tab and make it active
     let doCreate = this._alwaysOpenNewTab;
     let targetTabId = activeTab.id;
@@ -117,7 +117,7 @@ class BrowserManager { /* exported BrowserManager*/
     }
 
     if (doCreate) {
-      await browser.tabs.create({ url: url, active: openNewTabForeground,  windowId: activeTab.windowId});
+      await browser.tabs.create({ url: url, active: openNewTabForeground, windowId: activeTab.windowId });
     }
     else {
       await browser.tabs.update(targetTabId, { url: url, active: openNewTabForeground });
@@ -150,7 +150,7 @@ class BrowserManager { /* exported BrowserManager*/
   static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.extension.getURL(ThemeManager.instance.iconDF96Url),
+      'iconUrl': browser.runtime.getURL(ThemeManager.instance.iconDF96Url),
       'title': 'Drop Feeds',
       'message': message
     });
@@ -164,25 +164,38 @@ class BrowserManager { /* exported BrowserManager*/
     return result;
   }
 
-  static setInnerHtmlByElement(element, textHtml, fixMissingTag) {
+  static setInnerHtmlByElement(element, textHtml, forceFixMissingTag) {
     BrowserManager.removeAllChild(element);
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, forceFixMissingTag);
     element.appendChild(documentFragment);
   }
 
-  static setInnerHtmlById(id, textHtml, fixMissingTag) {
-    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, fixMissingTag);
+  static setInnerHtmlById(id, textHtml, forceFixMissingTag) {
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, forceFixMissingTag);
   }
 
-  static insertAdjacentHTMLBeforeEnd(element, textHtml, fixMissingTag) {
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, fixMissingTag);
+  static insertAdjacentHTMLBeforeEnd(element, textHtml, forceFixMissingTag) {
+    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, forceFixMissingTag);
     element.appendChild(documentFragment);
   }
 
-  static textHtmlToDocumentFragment(textHtml, fixMissingTag) {
-    let parser = new DOMParser();
+  static textHtmlToDocumentFragment(textHtml, forceFixMissingTag) {
     let documentFragment = document.createDocumentFragment();
-    let nodes = null;    
+    textHtml = textHtml.trim();
+    try {
+      let nodes = this._textHtmlToNodes(textHtml, forceFixMissingTag);
+      documentFragment.appendChild(nodes);
+    }
+    catch (e) {
+      let nodes = this._textHtmlToNodes(textHtml, true);
+      documentFragment.appendChild(nodes);
+    }
+    return documentFragment;
+  }
+
+  static _textHtmlToNodes(textHtml, fixMissingTag) {
+    let nodes = null;
+    let parser = new DOMParser();
     if (TextTools.isNullOrEmpty(textHtml)) {
       nodes = document.createTextNode('');
     }
@@ -191,8 +204,7 @@ class BrowserManager { /* exported BrowserManager*/
       nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
       nodes = nodes.childNodes[0];
     }
-    documentFragment.appendChild(nodes);
-    return documentFragment;
+    return nodes;
   }
 
   static removeAllChild(element) {
@@ -227,7 +239,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static async openPopup_async(dialogsUrl, width, height, titlePreface) {
-    let url = browser.extension.getURL(dialogsUrl);
+    let url = browser.runtime.getURL(dialogsUrl);
     let createData = { url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface };
     let win = await browser.windows.create(createData);
     BrowserManager._forcePopupToDisplayContent_async(win.id, width);
@@ -392,7 +404,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _getUILanguage_async() {
     let uiLanguage = 'en';
-    let langListUrl = browser.extension.getURL('/help/helpLang.list');
+    let langListUrl = browser.runtime.getURL('/help/helpLang.list');
     let langListText = await Transfer.downloadTextFile_async(langListUrl);
     let hepLangList = langListText.trim().split('\n');
     let browserLanguage = browser.i18n.getUILanguage();
@@ -411,5 +423,11 @@ class BrowserManager { /* exported BrowserManager*/
     let feedBlob = new Blob([]);
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     return feedUrl.protocol + feedUrl.origin;
+  }
+
+  static setElementHeight(element, height) {
+    element.style.height = height + 'px';
+    let weirdOffsetWorkAround = element.offsetHeight - height;
+    element.style.height = Math.max(height - weirdOffsetWorkAround, 0) + 'px';
   }
 }

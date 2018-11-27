@@ -1,4 +1,4 @@
-/*global browser DefaultValues StatusBar LocalStorageManager DateTime Listener ListenerProviders bookmarkListeners*/
+/*global browser DefaultValues FeedsStatusBar LocalStorageManager DateTime Listener ListenerProviders bookmarkListeners*/
 'use strict';
 class BookmarkManager { /*exported BookmarkManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -52,12 +52,12 @@ class BookmarkManager { /*exported BookmarkManager*/
   async sortBookmarks_async(bookmarkId) {
     try {
       this._importInProgress = true;
-      StatusBar.instance.workInProgress = true;
+      FeedsStatusBar.instance.workInProgress = true;
       await this._sortBookmarksCore_async(bookmarkId);
     }
     finally {
       this._importInProgress = false;
-      StatusBar.instance.workInProgress = false;
+      FeedsStatusBar.instance.workInProgress = false;
     }
   }
 
@@ -136,9 +136,9 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
     if (!isChid) { return; }
     if (id == this._lastCreatedBookmarkId) {
-      StatusBar.instance.text = browser.i18n.getMessage('sbUseButtonAbove');
+      FeedsStatusBar.instance.text = browser.i18n.getMessage('sbUseButtonAbove');
       await DateTime.delay_async(1);
-      StatusBar.instance.text = '';
+      FeedsStatusBar.instance.text = '';
     }
     LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }

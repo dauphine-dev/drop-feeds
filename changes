@@ -1,3 +1,18 @@
+0.9.1
+New 3rd in the sidebar to display item.
+Theme management have been improved :
+ - you can select independently the positioning called template (like column number), and the theme (font and colors)
+ - theme ares easiest to create/modified (a theme editor should come in a next version)
+ - now Drop Feeds use xlst to generate the render tab, it allows more flexible render tab pages (like "Two panels (Fox Memory)")
+New dark theme "Sage Single Column (Dark)" , from Jeff
+New dark theme "Legacy (dark)"
+New dark theme "Fox Memory"
+New render template "Two panels (Fox Memory)"
+Fix OPML import/export
+Fix discovering feeds display
+Fix script editor
+Fix discovering feeds state on window get focus
+
 0.9
 Add sidebar filter feature
 Cleanup old and used code
@@ -165,7 +180,7 @@ Added automatic feed update feature. (from Jeff Thieleke)
 Capitalize "Feeds" (from Jeff Thieleke)
 Updated updateAutomaticUpdateInterval() to reset the interval timer even if it wasn't already set (from Jeff Thieleke)
 Improve the UX on "hide read feeds" by forcing the read item to disappear immediately (from Jeff Thieleke)
-Call BookmarkManager before TreeView so that non-default ("Drop Feeds") bookmark folder ids will be initialized correctly (from Jeff Thieleke)
+Call BookmarkManager before FeedsTreeView so that non-default ("Drop Feeds") bookmark folder ids will be initialized correctly (from Jeff Thieleke)
 Move the interval timer setting code to the top of automaticFeedUpdate() so the timer will get started even if the option is disabled. This is a workaround - we should be resetting this as the settings change. (from Jeff Thieleke)
 Adding missing internationalization for notification strings
 Adding internationalization for automatic feed update feature.

@@ -1,0 +1,60 @@
+:root {
+  /* misc. */
+  --renderTab-font-family: verdana, sans-serif;
+  --renderTab-background-color: black;
+  --renderTab-text-color: gainsboro;
+  --renderTab-error-background-color: #FF8888 !important;
+  --renderTab-tableHead-background-color: #323234;
+  --renderTab-link-color: revert;
+  --renderTab-link-font-weight: revert;
+  --renderTab-link-decoration: revert;
+  --renderTab-link-visited-color: #739Aa5;
+  --renderTab-link-hover-decoration: underline;
+  /* channel */
+  --renderTab-channel-background: #222224 !important;
+  --renderTab-channel-border-radius: 5px;
+  --renderTab-channel-border: 1px solid #303030;
+  --renderTab-channel-link-text-color: maroon;
+  --renderTab-channel-link-font-size: revert;
+  --renderTab-channel-link-font-weight: bold;
+  --renderTab-channel-link-decoration: none;
+  --renderTab-channel-link-visited-color: var(--renderTab-channel-link-text-color);
+  --renderTab-channel-link-visited-font-weight: revert;
+  --renderTab-channel-link-hover-decoration: revert;
+  --renderTab-channel-description-text-color: gray;
+  --renderTab-channel-description-font-size: 90%;
+  --renderTab-channel-description-font-weight: bold;
+  /* items */
+  --renderTab-items-background: #323234;
+  --renderTab-items-border: 1px solid #303030;
+  --renderTab-items-border-radius: 10px;
+  --renderTab-items-text-color: gainsboro;
+  --renderTab-items-font-size: 12px;
+  --renderTab-items-number-text-color: gainsboro;
+  --renderTab-items-number-font-size: revert;
+  --renderTab-items-number-font-weight: normal;
+  --renderTab-items-title-background-color: revert;
+  --renderTab-items-title-border-bottom: 1px solid #606060;
+  --renderTab-items-title-font-family: arial, verdana, sans-serif;
+  --renderTab-items-title-font-size: 18px;
+  --renderTab-items-title-font-weight: normal;
+  --renderTab-items-title-link-color: gainsboro;
+  --renderTab-items-title-link-decoration: none;
+  --renderTab-items-title-link-font-weight: normal;
+  --renderTab-items-title-link-visited-color: revert;
+  --renderTab-items-title-link-visited-decoration: revert;
+  --renderTab-items-title-link-visited-font-weight: revert;
+  --renderTab-items-title-link-hover-color: revert;
+  --renderTab-items-title-link-hover-decoration: revert;
+  --renderTab-items-title-link-hover-font-weight: revert;  
+  --renderTab-items-description-font-size: small;
+  --renderTab-items-info-font-size: x-small;
+  --renderTab-items-info-color: #242482;
+  --renderTab-items-category-color: revert;  
+  --renderTab-items-pubDate-background: antiquewhite;
+	--renderTab-items-pubDate-border: 1px solid #A7A6AA;
+	--renderTab-items-pubDate-text-color: #777;
+	--renderTab-items-pubDate-font-size: 10px;
+	--renderTab-items-pubDate-font-weight: bold;
+	--renderTab-items-pubDate-text-align: center;
+}

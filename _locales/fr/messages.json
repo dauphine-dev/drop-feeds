@@ -12,7 +12,7 @@
     "message": "Aller sur la page d'abonnement"
   },
   "manPageActionAdd": {
-    "message": "S'abonner avec Drop feed"
+    "message": "S'abonner avec Drop Feeds"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
@@ -60,7 +60,7 @@
     "message": "Tout marquer comme non lu"
   },
   "sbOpenUnreadItemsInNewTabs": {
-    "message": "Ouvrir les items non lus dans de nouveaux onglets"
+    "message": "Ouvrir les articles non lus dans de nouveaux onglets"
   },
   "sbMarkAllAsUpdated": {
     "message": "Marquer comme à jour (non lu)"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (s'abonner)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "S'abonner avec Drop feed"
+    "message": "S'abonner avec Drop Feeds"
   },
   "subName": {
     "message": "Nom"
@@ -195,7 +195,7 @@
     "message": "Dernière mise à jour"
   },
   "disItems": {
-    "message": "Items"
+    "message": "articles"
   },
   "disUrl": {
     "message": "Url"
@@ -222,12 +222,15 @@
     "message": "Affichage"
   },
   "optItems": {
-    "message": "Items"
+    "message": "articles"
   },
   "optContentsArea": {
     "message": "Contenu"
   },
-  "optManagement": {
+  "optTheme": {
+    "message": "Theme"
+  },
+"optManagement": {
     "message": "Gestion"
   },
   "optSelectFeedFolder": {
@@ -239,11 +242,17 @@
   "optDoNotDisplayRootFolder": {
     "message": "Ne pas afficher le dossier racine"
   },
-  "optSelectTheme": {
-    "message": "Theme"
+  "optSelectMainTheme": {
+    "message": "Theme principal"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Modèle de l'onglet de rendu"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Theme de l'onglet de rendu"
   },
   "optFeedItemOrder": {
-    "message": "Orde de tri des items"
+    "message": "Orde de tri des articles"
   },
   "optNewerFirst": {
     "message": "Les plus récents d'abord"
@@ -279,10 +288,10 @@
     "message": "Si échec https alors réessayer avec http"
   },
   "optFeedItemList": {
-    "message": "Activer la liste des items du flux"
+    "message": "Activer la liste des articles du flux"
   },
   "optFeedItemListToolbar": {
-    "message": "Afficher la barre d'outils des item de flux (*)"
+    "message": "Afficher la barre d'outils des articles (*)"
   },
   "optDescriptionTooltips": {
     "message": "Afficher les bulles de description"
@@ -291,7 +300,10 @@
     "message": "(*) attention: la fonctionnalité marquer comme lu/non lu va impacter votre historique de navigation !"
   },
   "optFeedItemMarkAsReadOnLeaving": {
-    "message": "Marquer tous les items comme lus avant de quitter un flux"
+    "message": "Marquer tous les articles comme lus avant de quitter un flux"
+  },
+  "optFeedItemRenderInSidebar": {
+    "message": "Affichier le contenu des articles selectionnés dans la barre latéralle"
   },
   "optShowUpdatedFeedCount": {
     "message": "Afficher le compteur de flux non lus"
@@ -303,7 +315,7 @@
     "message": "Afficher les flux"
   },
   "optItemNewTab": {
-    "message": "Ouvrir les items dans un nouvel onglet"
+    "message": "Ouvrir les articles dans un nouvel onglet"
   },
   "optAlwaysOpenNewTab": {
     "message": "Toujours ouvrir dans un nouvel onglet"

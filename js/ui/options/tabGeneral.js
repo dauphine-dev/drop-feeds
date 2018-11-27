@@ -1,4 +1,4 @@
-/*global browser DefaultValues ThemeManager Transfer LocalStorageManager DateTime BrowserManager*/
+/*global browser DefaultValues LocalStorageManager DateTime BrowserManager*/
 /*cSpell:ignore nbsp */
 'use strict';
 class TabGeneral { /*exported TabGeneral*/
@@ -14,7 +14,6 @@ class TabGeneral { /*exported TabGeneral*/
     this._rootBookmarkId = await LocalStorageManager.getValue_async('rootBookmarkId', DefaultValues.rootBookmarkId);
     await this._initDisplayRootFolderCheckbox_async();
     await this._initFeedItemOrderDropdown_async();
-    await this._initThemeDropdown_async();
     await this._initFeedFolderDropdown_async();
   }
 
@@ -22,7 +21,6 @@ class TabGeneral { /*exported TabGeneral*/
     document.getElementById('lblSelectFeedFolder').textContent = browser.i18n.getMessage('optSelectFeedFolder');
     document.getElementById('applySelectedFeedButton').textContent = browser.i18n.getMessage('optApply');
     document.getElementById('textDoNotDisplayRootFolder').textContent = browser.i18n.getMessage('optDoNotDisplayRootFolder');
-    document.getElementById('lblSelectTheme').textContent = browser.i18n.getMessage('optSelectTheme');
     document.getElementById('feedItemOrder').textContent = browser.i18n.getMessage('optFeedItemOrder');
 
     document.getElementById('newerFirst').textContent = browser.i18n.getMessage('optNewerFirst');
@@ -51,12 +49,6 @@ class TabGeneral { /*exported TabGeneral*/
     elNotDisplayRootFolderCheckBox.addEventListener('click', (e) => { this._notDisplayRootFolderCheckBoxClicked_event(e); });
   }
 
-  async _initThemeDropdown_async() {
-    let elThemeList = document.getElementById('themeList');
-    let themeListHtml = elThemeList.innerHTML + await this._createThemeListHtml_async();
-    BrowserManager.setInnerHtmlByElement(elThemeList, themeListHtml);
-    document.getElementById('themeSelect').addEventListener('change', (e) => { this._themeSelectChanged_event(e); });
-  }
 
   async _initFeedItemOrderDropdown_async() {
     let itemSortOrder = await LocalStorageManager.getValue_async('itemSortOrder', DefaultValues.itemSortOrder);
@@ -66,27 +58,6 @@ class TabGeneral { /*exported TabGeneral*/
     feedItemOrderSelectEl.addEventListener('change', (e) => { this._feedItemOrderSelectChanged_event(e); });
   }
 
-
-  async _createThemeListHtml_async() {
-    const folder_name = 0;
-    const ui_name = 1;
-    let themeListUrl = browser.extension.getURL(ThemeManager.instance.themesListUrl);
-    let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
-    let themeList = themeListText.trim().split('\n');
-    let selectedThemeName = await ThemeManager.instance.themeFolderName;
-
-    let optionList = [];
-    themeList.shift();
-    for (let themeEntry of themeList) {
-      let theme = themeEntry.split(';');
-      let selected = '';
-      if(theme[folder_name] == selectedThemeName) { selected = 'selected'; }
-      let optionLine =  '<option value="' + theme[folder_name] + '" ' + selected + '>' + theme[ui_name] +'</option>\n';
-      optionList.push(optionLine);
-    }
-    let selectOptions = '<select id="themeSelect">\n' +  optionList + '</select>\n';
-    return selectOptions;
-  }
 
   async _prepareOptionsRecursively_async(bookmarkItem, indent) {
     //let isFolder = (!bookmarkItem.url && bookmarkItem.BookmarkTreeNodeType == 'bookmark');
@@ -131,12 +102,6 @@ class TabGeneral { /*exported TabGeneral*/
     await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     await DateTime.delay_async(100);
     document.getElementById('applySelectedFeedButton').style.display = 'none';
-  }
-
-  async _themeSelectChanged_event() {
-    let themeName = document.getElementById('themeSelect').value;
-    await ThemeManager.instance.setThemeFolderName_async(themeName);
-    await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
 
   async _feedItemOrderSelectChanged_event() {

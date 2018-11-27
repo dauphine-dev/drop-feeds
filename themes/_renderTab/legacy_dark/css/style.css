@@ -1,0 +1,60 @@
+:root {
+  /* misc. */
+  --renderTab-font-family: verdana, sans-serif;
+  --renderTab-background-color: #181818;
+  --renderTab-text-color: #707070;
+  --renderTab-error-background-color: #FF8888 !important;
+  --renderTab-tableHead-background-color: #e8e8e8;
+  --renderTab-link-color: #9b9b9b;
+  --renderTab-link-font-weight: bold;
+  --renderTab-link-decoration: none;
+  --renderTab-link-visited-color: #8b8b8b;
+  --renderTab-link-hover-decoration: underline;
+  /* channel */
+  --renderTab-channel-background: #1b1411;
+  --renderTab-channel-border-radius: revert;
+  --renderTab-channel-border: 1px solid #372c27; 
+  --renderTab-channel-link-text-color: var(--renderTab-link-color);
+  --renderTab-channel-link-font-size: large;
+  --renderTab-channel-link-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-channel-link-decoration: var(--renderTab-link-decoration);
+  --renderTab-channel-link-visited-color: var(--renderTab-link-visited-color);
+  --renderTab-channel-link-visited-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-channel-link-hover-decoration: var(--renderTab-link-hover-decoration);
+  --renderTab-channel-description-text-color: revert;
+  --renderTab-channel-description-font-size: small;
+  --renderTab-channel-description-font-weight: revert;
+  /* items */
+  --renderTab-items-background: revert;
+  --renderTab-items-border: var(--renderTab-channel-border);
+  --renderTab-items-border-radius: 0;
+  --renderTab-items-text-color: var(--renderTab-text-color);
+  --renderTab-items-font-size: revert;
+  --renderTab-items-number-text-color: var(--renderTab-text-color);
+  --renderTab-items-number-font-size: normal;
+  --renderTab-items-number-font-weight: normal;
+  --renderTab-items-title-background-color: var(--renderTab-channel-background);
+  --renderTab-items-title-border-bottom: revert;
+  --renderTab-items-title-font-family: revert;
+  --renderTab-items-title-font-size: small;
+  --renderTab-items-title-font-weight: normal;
+  --renderTab-items-title-link-color: var(--renderTab-link-color);;
+  --renderTab-items-title-link-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-items-title-link-decoration: var(--renderTab-link-decoration);
+  --renderTab-items-title-link-visited-color: var(--renderTab-link-visited-color);
+  --renderTab-items-title-link-visited-font-weight: var(--renderTab-link-font-weight);
+  --renderTab-items-title-link-visited-decoration: var(--renderTab-link-decoration);
+  --renderTab-items-title-link-hover-color: var(--renderTab-link-color);
+  --renderTab-items-title-link-hover-font-weight: var(--renderTab-link-font-weight);  
+  --renderTab-items-title-link-hover-decoration: var(--renderTab-link-hover-decoration);
+  --renderTab-items-description-font-size: small;
+  --renderTab-items-info-font-size: x-small;
+  --renderTab-items-info-color: #5b5b80;
+  --renderTab-items-category-color: #7D7D7D;
+  --renderTab-items-pubDate-background: var(--renderTab-background-color);
+	--renderTab-items-pubDate-border: none;
+	--renderTab-items-pubDate-text-color: var(--renderTab-items-info-color);
+	--renderTab-items-pubDate-font-size: var(--renderTab-items-info-font-size);
+	--renderTab-items-pubDate-font-weight: normal;
+	--renderTab-items-pubDate-text-align: left;
+}

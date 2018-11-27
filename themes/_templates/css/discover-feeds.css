@@ -1,0 +1,81 @@
+html {
+  font-family: sans-serif;
+}
+
+body{
+  width: 700px;
+  height: 200px;
+  background-color: var(--main-background-color);
+  padding: 10px;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--main-text-color);
+  font-size: small;
+}
+
+#main {
+  width: 100vw;
+  height: 100vh;
+}
+
+#progressBarTotal {
+  display: none;
+  border-radius:16px;
+  color: var(--main-text-color);
+  background-color: var(--main-progressBar-background-color);
+  width: 85%;
+  padding-right: 32px;
+}
+
+#progressBar {
+  display: none;
+  border-radius:16px;
+  padding:0.01em 16px;
+  color: var(--main-text-complementary-color);
+  background-color: var(--main-progressBar-foreground-color);
+}
+
+#discoveredFeeds {
+  padding: 10px;
+  text-align: left;
+}
+
+#tableContainer {
+  overflow: auto;
+  width: 90%;
+  height: 65%;
+  border: 1px solid var(--main-background-color);
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid var(--main-border-color);
+  letter-spacing: 1px;
+  background-color: var(--main-table-background-color);
+  font-size: x-small;
+  width: 100%;
+}
+
+th {
+  border: 1px solid var(--main-border-color);
+  padding: 1px 2px;
+  text-align: left;
+  background-color: var(--main-table-header-color);
+  font-weight: normal;
+}
+
+td {
+  border: 1px solid var(--main-border-color);
+  padding: 2px 20px;
+  background-color: #ffffff00;
+  cursor: cell;
+}
+
+tbody {
+  font-size: 90%;
+}
+
+.selectionRaw {
+  background-color: var(--main-selection-background-color);
+}

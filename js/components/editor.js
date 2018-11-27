@@ -1,6 +1,6 @@
 /*global BrowserManager TextTools SyntaxHighlighter EditorMenu LocalStorageManager DefaultValues TextConsole UndoRedoTextArea*/
 'use strict';
-const _cssEditorPath = '/themes/_any/css/editor.css';
+const _cssEditorPath = '/themes/_templates/css/editor.css';
 const _overflow = {
   vertical: 0,
   horizontal: 1
@@ -391,7 +391,8 @@ class Editor { /*exported Editor*/
     let plainText = this._editTextArea.value;
     plainText = this._fixText(plainText);
     let highlightedText = this._highlighter.highlightText(plainText);
-    BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText, true);
+    //BrowserManager.setInnerHtmlByElement(this._editHighlightedCode, highlightedText);
+    this._editHighlightedCode.innerHTML = highlightedText;
     this._updateLineNumbers(plainText);
   }
 

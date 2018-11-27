@@ -1,5 +1,14 @@
-version;line;messageName;message;where
-0.9;38;sbFilter;Filter;on the side bar top menu
-0.9;41;sbFilterClearButton;Clear filter;on filter bar
-0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.;on the subscribe window (but visible only on window closing error)
-0.9;305;optItemNewTab;Open items on new tag;in options / contents area
+version;line;messageName;message;where;note
+
+0.9 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9;38;sbFilter;Filter;on the side bar top menu;n/a
+0.9;41;sbFilterClearButton;Clear filter;on filter bar;n/a
+0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.;on the subscribe window (but visible only on window closing error);n/a
+0.9;305;optItemNewTab;Open items on new tag;in options / contents area;n/a
+
+0.9.1 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9.1;230;optTheme;Theme;in options / the theme tab title;n/a
+0.9.1;245;optSelectMainTheme;Select main theme;in options / theme;was updated from 'optSelectTheme:Select theme' to 'optSelectMainTheme:Select main theme'
+0.9.1;248;optSelectRenderTemplate;Select render tab template;in options / theme;n/a
+0.9.1;251;optSelectRenderTheme;Select render tab theme;in options / theme;n/a
+0.9.1;305;optFeedItemRenderInSidebar;Render selected item in the sidebar;in options / Items;n/a

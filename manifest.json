@@ -3,7 +3,7 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "0.9a",
+  "version": "0.9.1",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
@@ -11,12 +11,13 @@
     }
   },
   "icons": {
-    "32": "themes/_any/img/drop-feeds-32.png",
-    "48": "themes/_any/img/drop-feeds-48.png",
-    "96": "themes/_any/img/drop-feeds-96.png"
+    "32": "themes/_templates/img/drop-feeds-32.png",
+    "48": "themes/_templates/img/drop-feeds-48.png",
+    "64": "themes/_templates/img/drop-feeds-64.png",
+    "96": "themes/_templates/img/drop-feeds-96.png"
   },
   "sidebar_action": {
-    "default_icon": "themes/_any/img/drop-feeds-32.png",
+    "default_icon": "themes/_templates/img/drop-feeds-64.png",
     "default_title": "Drop Feeds",
     "default_panel": "html/sidebar.html"
   },
@@ -28,7 +29,7 @@
     }
   },
   "browser_action": {
-    "default_icon": "themes/_any/img/drop-feeds-32.png"
+    "default_icon": "themes/_templates/img/drop-feeds-64.png"
   },
   "page_action": {
     "browser_style": true,
@@ -59,7 +60,7 @@
   "web_accessible_resources": [
     "resources/highlighters/javascript.json"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' blob:; object-src 'self';",
   "permissions": [
     "<all_urls>",
     "webRequest",

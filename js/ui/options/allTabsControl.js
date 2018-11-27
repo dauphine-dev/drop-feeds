@@ -1,4 +1,5 @@
-/*global browser TabGeneral TabUpdateChecker TabContentArea TabManagement TabView TabItems LocalStorageManager DefaultValues TabAdvanced*/
+/*global browser TabGeneral TabUpdateChecker TabContentArea TabTheme TabManagement*/
+/*global TabView TabItems LocalStorageManager DefaultValues TabAdvanced*/
 'use strict';
 class AllTabControl { /*exported AllTabControl*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -9,6 +10,7 @@ class AllTabControl { /*exported AllTabControl*/
     TabGeneral.instance.init_async();
     TabUpdateChecker.instance.init();
     TabContentArea.instance.init_async();
+    TabTheme.instance.init_async();
     TabManagement.instance.init_async();
     TabView.instance.init_async();
     TabItems.instance.init_async();

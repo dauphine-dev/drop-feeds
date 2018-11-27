@@ -12,7 +12,7 @@
     "message": "转至订阅页面"
   },
   "manPageActionAdd": {
-    "message": "使用 Drop feed 订阅"
+    "message": "使用 Drop Feeds 订阅"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
@@ -144,7 +144,7 @@
     "message": "Drop Feeds (定义)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "使用 Drop feed 订阅"
+    "message": "使用 Drop Feeds 订阅"
   },
   "subName": {
     "message": "名称"
@@ -227,7 +227,10 @@
   "optContentsArea": {
     "message": "内容区"
   },
-  "optManagement": {
+  "optTheme": {
+    "message": "Theme"
+  },
+"optManagement": {
     "message": "管理"
   },
   "optSelectFeedFolder": {
@@ -239,8 +242,14 @@
   "optDoNotDisplayRootFolder": {
     "message": "不显示根文件夹"
   },
-  "optSelectTheme": {
+  "optSelectMainTheme": {
     "message": "选择主题"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Select render tab template"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
     "message": "订阅点项目顺序"
@@ -292,6 +301,9 @@
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Mark all items as read before leaving feeds"
+  },
+  "optFeedItemRenderInSidebar": {
+    "message": "Render selected item in the sidebar"
   },
   "optShowUpdatedFeedCount": {
     "message": "显示已更新订阅点数量"

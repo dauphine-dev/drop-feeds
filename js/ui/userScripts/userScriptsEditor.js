@@ -215,10 +215,10 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
     let scriptData = { id: this._scriptId, executedCallback: (v) => { this._onScriptExecuted(v); }, errorCallback: (e) => { this._onScriptError(e); } };
     await feed.update_async(scriptData);
-    let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: feed.info.itemList };
+    let displayItemsValue = { itemsTitle: feed.title, titleLink: feed.url, items: (await feed.getInfo_async()).itemList };
     await browser.runtime.sendMessage({ key: 'displayItems', value: displayItemsValue });
     let openNewTabForce = false, openNewTabBackGroundForce = true;
-    BrowserManager.instance.openTab_async(feed.docUrl, openNewTabForce, openNewTabBackGroundForce);
+    BrowserManager.instance.openTab_async(await feed.getDocUrl_async(), openNewTabForce, openNewTabBackGroundForce);
   }
 
   _onScriptExecuted() {
@@ -237,8 +237,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async _virtualSubscribeScriptButton_event() {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
-      await LocalStorageManager.setValue_async('subscribeInfo', { feedTitle: scriptObj.name, feedUrl: scriptObj.virtualUrl });
-      await BrowserManager.openPopup_async(Dialogs.subscribeUrl, 778, 500, '');
+      Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
     }
   }
 

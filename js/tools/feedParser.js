@@ -1,4 +1,4 @@
-/*global browser BrowserManager TextTools DateTime ThemeManager DefaultValues Compute ItemSorter SecurityFilters USTools Listener ListenerProviders*/
+/*global TextTools DateTime DefaultValues Compute SecurityFilters*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -18,23 +18,6 @@ const tagList = {
   AUTHOR: ['author', 'dc:creator'],
   PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
 };
-
-class RenderOptions {
-  static get instance() { return (this._instance = this._instance || new this()); }
-
-  constructor() {
-    this._itemNewTab = DefaultValues.itemNewTab;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemNewTab', (v) => { this._setItemNewTab_sbscrb(v); }, true);
-  }
-
-  _setItemNewTab_sbscrb(value){
-    this._itemNewTab = value;
-  }
-
-  get itemNewTab() {
-    return this._itemNewTab;
-  }
-}
 
 class FeedParser { /*exported FeedParser*/
   static parsePubdate(feedText) {
@@ -116,72 +99,35 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-  static parseFeedToHtml(feedText, defaultTitle, isError) {
-    let feedInfo = FeedParser.getFeedInfo(feedText, defaultTitle, isError);
-    let feedHtml = FeedParser._feedInfoToHtml(feedInfo);
-    return feedHtml;
-  }
-
-  static feedErrorToHtml(error, url, title) {
-    let feedHtml = USTools.rssHeader(title, url, 'Error');
-    let description = `<table>
-    <tr><td>Name: </td><td>` + title + `</td></tr>
-    <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
-    <tr><td>Error: </td><td>` + error + `</td></tr>
-    </table>`;
-    feedHtml += USTools.rssItem('Error: ' + error, url, new Date(), description);
-    feedHtml += USTools.rssFooter();
-    return feedHtml;
-  }
-
-  static parseItemsTitleToHtml(title, link) {
-    let titleHtml = '<a href="' + link + '">' + title + '</a>';
-    return titleHtml;
-  }
-
-  static async parseItemListToHtml_async(itemList, tooltipsVisible) {
-    let htmlItemList = [];
-    itemList = ItemSorter.instance.sort(itemList);
-    for (let i = 0; i < itemList.length; i++) {
-      let htmlItem = await FeedParser._getHtmlItemLine_async(itemList[i], i + 1, tooltipsVisible);
-      htmlItemList.push(htmlItem);
-    }
-    let itemsHtml = htmlItemList.join('\n');
-    return itemsHtml;
-
-  }
-
-  static feedItemsListToUnifiedHtml(feedItems, unifiedChannelTitle) {
-    let unifiedChannel = DefaultValues.getDefaultChannelInfo();
-    unifiedChannel.title = unifiedChannelTitle;
-    unifiedChannel.description = 'Unified Feed';
-    let htmlHead = FeedParser._getHtmlHead(unifiedChannel);
-    let feedHtml = '';
-    feedHtml += htmlHead;
-    feedHtml += FeedParser._getHtmlChannel(unifiedChannel);
-    let htmlItemList = [];
-    feedItems.sort((item1, item2) => {
-      if (item1.pubDate > item2.pubDate) return -1;
-      if (item1.pubDate < item2.pubDate) return 1;
-      return 0;
-    });
-    for (let i = 0; i < feedItems.length && i < DefaultValues.maxItemsInUnifiedView; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedItems[i], i + 1);
-      htmlItemList.push(htmlItem);
-    }
-    feedHtml += htmlItemList.join('\n');
-    feedHtml += FeedParser._getHtmFoot();
-    return feedHtml;
-  }
-
-  static getFeedInfo(feedText, defaultTitle, isError) {
+  static async getFeedInfo_async(feedText, defaultTitle, isError) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
     feedInfo.isError = isError;
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     feedInfo.format = FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
-    feedInfo.itemList = FeedParser._parseItems(feedText, feedInfo.tagItem);
+    feedInfo.itemList = await FeedParser._parseItems_async(feedText, feedInfo.tagItem);
     return feedInfo;
+  }
+
+  static getFeedEncoding(text) {
+    if (!text) { return null; }
+    let pattern = 'encoding="';
+    let encodingStart = text.indexOf(pattern);
+    if (encodingStart == -1) { return null; }
+    encodingStart += pattern.length;
+    let encodingEnd = text.indexOf('"', encodingStart);
+    let encoding = text.substring(encodingStart, encodingEnd);
+    return encoding;
+
+  }
+
+  static getItemTooltipText(item, itemNumber) {
+    let tooltipText = TextTools.toPlainText(item.description);
+    if (tooltipText.length > 310) {
+      tooltipText = tooltipText.substring(0, 310) + '...';
+    }
+    tooltipText = itemNumber + '. ' + item.title + '\n\n' + tooltipText;
+    return tooltipText;
   }
 
   //private stuffs
@@ -205,22 +151,6 @@ class FeedParser { /*exported FeedParser*/
       feedFormat += ' ' + version;
     }
     return feedFormat;
-  }
-
-  static _feedInfoToHtml(feedInfo) {
-    let htmlHead = FeedParser._getHtmlHead(feedInfo.channel);
-    let feedHtml = '';
-    feedHtml += htmlHead;
-    feedHtml += FeedParser._getHtmlChannel(feedInfo.channel, feedInfo.isError);
-    let htmlItemList = [];
-    feedInfo.itemList = ItemSorter.instance.sort(feedInfo.itemList);
-    for (let i = 0; i < feedInfo.itemList.length; i++) {
-      let htmlItem = FeedParser._getHtmlItem(feedInfo.itemList[i], i + 1, feedInfo.isError);
-      htmlItemList.push(htmlItem);
-    }
-    feedHtml += htmlItemList.join('\n');
-    feedHtml += FeedParser._getHtmFoot();
-    return feedHtml;
   }
 
   static _get1stUsedTag(text, tagArray) {
@@ -339,7 +269,7 @@ class FeedParser { /*exported FeedParser*/
 
   static _parseChannelToObj(feedText, tagItem, defaultTitle) {
     let channel = DefaultValues.getDefaultChannelInfo();
-    channel.encoding = FeedParser._getEncoding(feedText);
+    channel.encoding = FeedParser.getFeedEncoding(feedText);
     let channelText = FeedParser._getChannelText(feedText, tagItem);
     channel.link = FeedParser._extractValue(channelText, tagList.LINK);
     if (!channel.link) {
@@ -362,30 +292,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
 
-  static _getHtmlHead(channel) {
-    let iconUrl = browser.extension.getURL(ThemeManager.instance.iconDF32Url);
-    let cssUrl = browser.extension.getURL(ThemeManager.instance.getCssUrl('feed.css'));
-    let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
-    let htmlHead = '';
-    htmlHead += '<html>\n';
-    htmlHead += '  <head>\n';
-    htmlHead += '    <meta http-equiv="Content-Type" content="text/html; charset=' + encoding + '">\n';
-    htmlHead += '    <link rel="icon" type="image/png" href="' + iconUrl + '">\n';
-    htmlHead += '    <link rel="stylesheet" type="text/css" href="' + cssUrl + '">\n';
-    if (channel.title) { htmlHead += '    <title>' + channel.title + ' - Drop-Feed</title>\n'; }
-    htmlHead += '  </head>\n';
-    htmlHead += '  <body>\n';
-    return htmlHead;
-  }
-
-  static _getHtmFoot() {
-    let htmlFoot = '';
-    htmlFoot += '  </body>\n';
-    htmlFoot += '</html>\n';
-    return htmlFoot;
-  }
-
-  static _parseItems(feedText, tagItem) {
+  static async _parseItems_async(feedText, tagItem) {
     if (!feedText) return null;
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let itemList = [];
@@ -398,7 +305,7 @@ class FeedParser { /*exported FeedParser*/
       item.link = FeedParser._getItemLink(itemText);
       item.title = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.TITLE));
       if (!item.title) { item.title = item.link; }
-      item.description = FeedParser._getDescription(itemText);
+      item.description = await FeedParser._getDescription_async(itemText);
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
       item.enclosure = FeedParser._getEnclosure(itemText);
@@ -432,30 +339,6 @@ class FeedParser { /*exported FeedParser*/
       }
     }
     return itemLink;
-  }
-
-  static _getEncoding(text) {
-    if (!text) { return null; }
-    let pattern = 'encoding="';
-    let encodingStart = text.indexOf(pattern);
-    if (encodingStart == -1) { return null; }
-    encodingStart += pattern.length;
-    let encodingEnd = text.indexOf('"', encodingStart);
-    let encoding = text.substring(encodingStart, encodingEnd);
-    return encoding;
-
-  }
-
-  static _getHtmlChannel(channel, isError) {
-    let htmlChannel = '';
-    let title = channel.title;
-    if (!title) { title = '(No Title)'; }
-    let error = (isError ? 'error' : '');
-    htmlChannel += '    <div class="channelHead ' + error + '">\n';
-    if (channel.title) { htmlChannel += '      <h1 class="channelTitle"><a class="channelLink" href="' + channel.link + '">' + channel.title + '</a></h1>\n'; }
-    if (channel.description) { htmlChannel += '      <p class="channelDescription">' + channel.description + '</p>\n'; } else { htmlChannel += '<p class="channelDescription"/>'; }
-    htmlChannel += '    </div>\n';
-    return htmlChannel;
   }
 
   static _getItemCategory(itemText) {
@@ -503,74 +386,6 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-  static _getEnclosureHTML(item) {
-    if (!item || !item.enclosure)
-      return '';
-
-    if (item.enclosure.mimetype.startsWith('audio/')) {
-      let html = '<div class="itemAudioPlayer"><audio preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></audio></div>\n' +
-        '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
-      return html;
-    }
-
-    if (item.enclosure.mimetype.startsWith('video/')) {
-      let html = '<div class="itemVideoPlayer"><video width=640 height=480 preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></video></div>\n' +
-        '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';
-      return html;
-    }
-
-    return '';
-  }
-
-  static _getHtmlItem(item, itemNumber, isError) {
-    let htmlItem = '';
-    let title = item.title;
-    if (!title) { title = '(No Title)'; }
-    let error = (isError ? 'error' : '');    
-    htmlItem += '    <div class="item">\n';
-    htmlItem += '      <h2 class="itemTitle ' + error + '">\n';
-    htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
-    let linkTarget = RenderOptions.instance.itemNewTab ? 'target="_blank" rel="noopener noreferrer"' : '';
-    htmlItem += '        <a ' + linkTarget + ' href="' + item.link + '">' + title + '</a>\n';
-    htmlItem += '      </h2>\n';
-    if (item.description) { htmlItem += '      <div class="itemDescription">' + item.description + ' </div>\n'; }
-    htmlItem += '      <div class="itemInfo">\n';
-    if (item.category) { htmlItem += '        <div class="itemCat">[' + item.category + ']</div>\n'; }
-    if (item.author) { htmlItem += '        <div class="itemAuthor">Posted by ' + item.author + '</div>\n'; }
-    if (item.pubDate) { htmlItem += '        <div class="itemPubDate">' + item.pubDateText + '</div>\n'; }
-    if (item.enclosure) { htmlItem += '        <div class="itemEnclosure">' + FeedParser._getEnclosureHTML(item) + ' </div>\n'; }
-    htmlItem += '      </div>\n';
-    htmlItem += '    </div>\n';
-    return htmlItem;
-  }
-
-  static async _getHtmlItemLine_async(item, itemNumber, tooltipsVisible) {
-    //item: { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
-    let title = item.title;
-    if (!title) { title = '(No Title)'; }
-    let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
-    let num = itemNumber ? itemNumber : item.number;
-    let visited = undefined;
-    try { visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : ''; }
-    catch (e) { }
-    let tooltipText = FeedParser._getItemTooltipText(item, num);
-    let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
-    let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '">' + num + '. ' + title + '</span><br/>';
-
-    return htmlItemLine;
-  }
-
-  static _getItemTooltipText(item, itemNumber) {
-    /*eslint-disable no-control-regex*/
-    let tooltipText = TextTools.toPlainText(item.description).replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
-    /*eslint-enable no-control-regex*/
-    if (tooltipText.length > 310) {
-      tooltipText = tooltipText.substring(0, 310) + '...';
-    }
-    tooltipText = itemNumber + '. ' + item.title + '\n\n' + tooltipText;
-    return tooltipText;
-  }
-
   static _extractOpenTag(text, tagList) {
     if (!text) { return null; }
     for (let tag of tagList) {
@@ -585,11 +400,11 @@ class FeedParser { /*exported FeedParser*/
     return null;
   }
 
-  static _getDescription(itemText) {
+  static async _getDescription_async(itemText) {
     let description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
     if (!description) { return ''; }
     description = FeedParser._fixDescriptionTags(description);
-    description = FeedParser._applySecurityFilters(description);
+    description = await SecurityFilters.instance.applySecurityFilters_async(description);
     return description;
   }
 
@@ -611,92 +426,6 @@ class FeedParser { /*exported FeedParser*/
       text += '</div>'.repeat(diff);
     }
     return text;
-  }
-
-  static _applySecurityFilters(text) {
-    if (!text) { return; }
-    // Perform basic sanitization of the HTML content to disable unwanted content
-    // TODO: do a real sanitization code
-    let hide = null;
-    let blackListShow = SecurityFilters.instance.blackListHtmlTagsTopShow;
-    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
-    whiteListTags.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
-    let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
-    textTagList = textTagList.map(x => TextTools.escapeRegExp(x));
-    let toBlackListTagList = [...new Set(textTagList.filter(x => !FeedParser._tagListIncludes(whiteListTags, x)) || [])];
-    let toWhiteListTagList = [...new Set(textTagList.filter(x => FeedParser._tagListIncludes(whiteListTags, x)) || [])];
-    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => FeedParser._tagListIncludes(blackListShow, x)))];
-    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !FeedParser._tagListIncludes(blackListShow, x)))];
-    hide = false; text = FeedParser._disableTags(text, toBlackListAndShowTagList, hide);
-    hide = true; text = FeedParser._disableTags(text, toBlackListAndHideTagList, hide);
-    text = FeedParser._disableAttributes(text, toWhiteListTagList);
-    text = FeedParser._applyInlineCssRejection(text, toWhiteListTagList);
-    return text;
-  }
-
-  static _tagListIncludes(tagList, x) {
-    return (tagList.findIndex(e => Object.keys(e) == x)) >= 0;
-  }
-
-  static _disableTags(text, tagToDisableList, hide) {
-    /*
-    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
-    let attObj = whiteListTags.find(tg => Object.keys(tg) == tag);
-    let allowedAttList = attObj[tag];
-    */
-    for (let tag of tagToDisableList) {
-      if (!tag) { continue; }
-      text = text.replace(new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
-      text = text.replace(new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
-    }
-    return text;
-  }
-
-  static _disableAttributes(text, textTagList) {
-    if (!textTagList) {return; }
-    let whiteListTags = SecurityFilters.instance.whiteListHtmlTags;
-    let textTagListWithAllowedAtt = [...new Set(textTagList.filter(x => {
-      let tagObj = whiteListTags.find(y => Object.keys(y) == x);
-      return (tagObj[x].length !=0);
-    }))];
-
-    for (let tag of textTagList) {
-      if (!tag) { continue; }
-      let regexExtractAtt = /(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/gi;
-      if (textTagListWithAllowedAtt.includes(tag)) {
-        let allowedAttList = whiteListTags.find(x => Object.keys(x) == tag)[tag];
-        let regexExtractTags = new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi');
-        let textTagWithAttList = text.match(regexExtractTags);
-        if (!textTagWithAttList) { continue; }
-        for (let tagWithAtt of textTagWithAttList) {
-          let attList = tagWithAtt.match(regexExtractAtt);
-          let cleanedTag = tagWithAtt;
-          if (!attList) { continue; }
-          for (let att of attList) {
-            let attName = att.match(/([^=]*)=/i)[0].slice(0, -1);
-            if (!allowedAttList.includes(attName)) {
-              cleanedTag = cleanedTag.replace(att, '');
-            }
-            else if (attName.toLowerCase() == 'style')  {
-              let cleanedAttStyle = this._applyInlineCssRejection(att);
-              cleanedTag = cleanedTag.replace(att, cleanedAttStyle);
-            }
-          }
-          text = text.replace(tagWithAtt, cleanedTag);
-        }
-      }
-      else {
-        text = text.replace(new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>');
-      }
-    }
-    return text;
-  }
-
-  static _applyInlineCssRejection(attStyle) {    
-    let cleanedAttStyle = attStyle;
-    let rejectedCssFragmentsList = SecurityFilters.instance.rejectedCssFragmentsList;
-    rejectedCssFragmentsList.map(filter => cleanedAttStyle = attStyle.replace(new RegExp(filter), ''));
-    return cleanedAttStyle;    
   }
 
 }

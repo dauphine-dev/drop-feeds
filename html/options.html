@@ -3,8 +3,8 @@
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <link href="/themes/_any/css/options.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/themes/_any/img/favicon.png" />
+  <link href="/themes/_templates/css/options.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
   <title>#Drop Feeds (options)</title>
   <script src="/js/tools/defaultValues.js"></script>
   <script src="/js/tools/browserManager.js"></script>
@@ -16,6 +16,7 @@
   <script src="/js/tools/listener.js"></script>
   <script src="/js/tools/progressBar.js"></script>
   <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/xmlTools.js"></script>
   <script src="/js/tools/cssManager.js"></script>
 </head>
 
@@ -27,6 +28,7 @@
     <button class="tabLinks" id="viewItemsButton" target="viewItems">#Items</button>
     <button class="tabLinks" id="viewTabButton" target="viewTab">#View</button>
     <button class="tabLinks" id="contentsAreaTabButton" target="contentsAreaTab">#Contents area</button>
+    <button class="tabLinks" id="themeTabButton" target="themeTab">#Theme</button>
     <button class="tabLinks" id="managementTabButton" target="managementTab">#Management</button>
     <button class="tabLinks" id="scriptsTabButton" target="scriptsTab">#Advanced</button>
   </div>
@@ -52,27 +54,10 @@
         </td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">#Do
-            not display root folder</span></td>
+        <td><input type="checkbox" id="notDisplayRootFolderCheckBox"><span id="textDoNotDisplayRootFolder" class="checkboxText">#Do not display root folder</span></td>
         <td />
         <td />
       </tr>
-      <tr>
-        <td>
-          <label id="lblSelectTheme">#Select theme</label><span>&nbsp;</span>
-        </td>
-        <td>
-          <div id="themeList">
-            <!--
-              <select id="themeSelect">
-                <option value="themeName1">themeName1</option>
-              </select>
-              -->
-          </div>
-        </td>
-        <td></td>
-      </tr>
-
       <tr>
         <td>
           <label id="feedItemOrder">#Feed item order</label><span>&nbsp;</span>
@@ -117,58 +102,111 @@
   </div>
   <!-- ~~~~~~ Tab Items ~~~~~~ -->
   <div id="viewItems" class="tabContent">
-    <table>
-      <tr>
-        <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed
-            item list</span></td>
-        <td><input type="checkbox" id="feedItemListToolbarCheckbox"><span id="textFeedItemListToolbar" class="checkboxText">#Feed
-            item list toolbar<small>(*)</small></span></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description
-            tooltips</span></td>
-        <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving"
-            class="checkboxText">#Mark all items as read before leaving feeds</span></td>
-      </tr>
-    </table>
-    <small><br /></small>
-    <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation
-      history !</small>
+    <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item list</span></td>
+    <fieldset>
+      <table>
+        <tr>
+          <td><input type="checkbox" id="feedItemListToolbarCheckbox"><span id="textFeedItemListToolbar" class="checkboxText">#Feed item list toolbar<small>(*)</small></span></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span>
+            <input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving feeds</span></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" id="feedItemRenderInSidebarCheckbox"><span id="textFeedItemRenderInSidebar" class="checkboxText">#Render selected item in the sidebar</span></td>
+        </tr>
+      </table>
+      <small><br /></small>
+      <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation history !</small>
+    </fieldset>
   </div>
   <!-- ~~~~~~ Tab view ~~~~~~ -->
   <div id="viewTab" class="tabContent">
     <table>
       <tr>
-        <td><input type="checkbox" id="showUpdatedFeedCountCheckbox"><span id="textShowUpdatedFeedCount" class="checkboxText">#Show
-            updated feed count</span></td>
+        <td><input type="checkbox" id="showUpdatedFeedCountCheckbox"><span id="textShowUpdatedFeedCount" class="checkboxText">#Show updated feed count</span></td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">#Show
-            errors as unread</span></td>
+        <td><input type="checkbox" id="showErrorsAsUnreadCheckbox"><span id="textShowErrorsAsUnread" class="checkboxText">#Show errors as unread</span></td>
       </tr>
     </table>
   </div>
   <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
   <div id="contentsAreaTab" class="tabContent">
+    <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span></span>
+    <fieldset>
+      <table>
+        <tr>
+          <td>
+            <span><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></span>
+            <span><input type="checkbox" id="reuseDropFeedsTabCheckbox"><span id="textReuseDropFeedsTab" class="checkboxText">#Reuse Drop Feeds tab</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">#Open new tab in foreground</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span><input type="checkbox" id="itemNewTabCheckbox"><span id="textItemNewTab" class="checkboxText">#Open items on new tab</span></span>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+  </div>
+  <!-- ~~~~~~ Tab Theme ~~~~~~ -->
+  <div id="themeTab" class="tabContent">
     <table>
       <tr>
         <td>
-          <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span></span>
-          <span><input type="checkbox" id="itemNewTabCheckbox"><span id="textItemNewTab" class="checkboxText">#Open items on new page</span></span>
+          <label id="lblSelectMainTheme">#Select main theme</label><span>&nbsp;</span>
         </td>
+        <td>
+          <div id="mainThemeList">
+            <!--
+              <select id="mainThemeSelect">
+                <option value="themeName1">themeName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
       </tr>
+
       <tr>
         <td>
-          <span><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></span>
-          <span><input type="checkbox" id="reuseDropFeedsTabCheckbox"><span id="textReuseDropFeedsTab" class="checkboxText">#Reuse Drop Feeds tab</span></span>
+          <label id="lblSelectRenderTemplate">#Select render tab template</label><span>&nbsp;</span>
         </td>
+        <td>
+          <div id="renderTemplateList">
+            <!--
+              <select id="renderTemplateSelect">
+                <option value="template1">templateName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
       </tr>
+
       <tr>
         <td>
-          <input type="checkbox" id="openNewTabForegroundCheckbox"><span id="textOpenNewTabForeground" class="checkboxText">#Open
-            new tab in foreground</span>
+          <label id="lblSelectRenderTheme">#Select render tab theme</label><span>&nbsp;</span>
         </td>
+        <td>
+          <div id="renderThemeList">
+            <!--
+              <select id="renderThemeSelect">
+                <option value="renderTheme1">renderThemeName1</option>
+              </select>
+              -->
+          </div>
+        </td>
+        <td></td>
       </tr>
+
+
     </table>
   </div>
 
@@ -223,6 +261,7 @@
   <script src="/js/ui/options/opmlExporter.js"></script>
   <script src="/js/ui/options/opmlImporter.js"></script>
   <script src="/js/ui/options/tabManagement.js"></script>
+  <script src="/js/ui/options/tabTheme.js"></script>
   <script src="/js/ui/options/tabContentArea.js"></script>
   <script src="/js/ui/options/tabUpdateChecker.js"></script>
   <script src="/js/ui/options/tabGeneral.js"></script>

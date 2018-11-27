@@ -22,14 +22,45 @@ class Timeout { /*exported Timeout*/
 }
 
 class Transfer { /*exported Transfer*/
+
   static async downloadTextFile_async(url) {
     return new Promise((resolve, reject) => {
+      Transfer.downloadFile_async(url, 'text').then((xhr) => {
+        resolve(xhr.responseText);
+      }, (status) => {
+        reject(status);
+      });
+    });
+  }
+
+  static async downloadXmlFile_async(url) {
+    return new Promise((resolve, reject) => {
+      Transfer.downloadFile_async(url, 'document').then((xhr) => {
+        resolve(xhr.responseXML);
+      }, (status) => {
+        reject(status);
+      });
+    });
+  }
+
+  static async downloadXlsFile_async(url) {
+    return new Promise((resolve, reject) => {
+      Transfer.downloadFile_async(url, 'document', 'application/xslt+xml').then((xhr) => {
+        resolve(xhr.responseXML);
+      }, (status) => {
+        reject(status);
+      });
+    });
+  }
+
+  static async downloadFile_async(url, responseType, overrideMimeType) {
+    return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
-      xhr.responseType = 'text';
-      xhr.onloadend = function() {
+      xhr.responseType = responseType;
+      xhr.onloadend = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            resolve(xhr.responseText);
+            resolve(xhr);
           } else {
             reject(xhr.status);
           }
@@ -37,6 +68,9 @@ class Transfer { /*exported Transfer*/
       };
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
+      if (overrideMimeType) {
+        xhr.overrideMimeType(overrideMimeType);
+      }
       xhr.send();
     });
   }
@@ -45,7 +79,7 @@ class Transfer { /*exported Transfer*/
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'arraybuffer';
-      xhr.onloadend = function() {
+      xhr.onloadend = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             // Decode the response as UTF-8 then apply the feed's specified encoding (if present)
@@ -54,14 +88,14 @@ class Transfer { /*exported Transfer*/
             let utf8Decoder = new TextDecoder(defaultEncoding);
             let utf8Content = utf8Decoder.decode(response);
             try {
-              let encoding = FeedParser._getEncoding(utf8Content);
+              let encoding = FeedParser.getFeedEncoding(utf8Content);
               if (encoding && encoding != defaultEncoding) {
                 let decoder = new TextDecoder(encoding.toLowerCase());
                 let decodedContent = decoder.decode(response);
                 resolve(decodedContent);
               }
             }
-            catch(e) {
+            catch (e) {
               /*eslint-disable no-console*/
               console.log('downloadTextFileEx_async encoding failed "' + e);
               /*eslint-enable no-console*/
@@ -78,15 +112,15 @@ class Transfer { /*exported Transfer*/
       };
       if (urlNoCache) {
         let sep = url.includes('?') ? '&' : '?';
-        url += sep + 'dpNoCache=' +  new Date().getTime();
+        url += sep + 'dpNoCache=' + new Date().getTime();
       }
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = Timeout.instance.timeOutMs;
-      xhr.ontimeout = function() {
+      xhr.ontimeout = function () {
         reject('timeout');
       };
-      xhr.onerror = function() {
+      xhr.onerror = function () {
         let statusText = xhr.statusText ? xhr.statusText : 'unknown error';
         let statusCode = xhr.status ? ' (' + xhr.status + ')' : '';
         reject(statusText + statusCode);

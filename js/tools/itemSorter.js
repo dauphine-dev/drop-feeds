@@ -18,6 +18,7 @@ class ItemSorter { /*exported ItemSorter */
   }
 
   sort(itemList) {
+    if (!itemList) { return itemList; }
     switch(this._sortOrder) {
       case itemSortOrder.newerFirst: //0
         itemList.sort((item1, item2) => {
