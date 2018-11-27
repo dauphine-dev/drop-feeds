@@ -10,4 +10,5 @@ onmessage = ((e)=> {
   //name: wkReplace.js
   //params: [str, regexpOrSubstr, newSubstr]
   postMessage(run(e.data));
+  this.close();
 });
