@@ -53,6 +53,7 @@ class FeedTransform { /*exported FeedTransform*/
   }
 
   static _getItemXmlFragments(item, itemNumber) {
+    let pubDateText = (item.pubDateText ? item.pubDateText : String.fromCharCode(160));
     let itemXmlFragments = '';
     itemXmlFragments = `
     <item>
@@ -65,7 +66,7 @@ class FeedTransform { /*exported FeedTransform*/
       </description>
       <category><![CDATA[` + item.category + `]]></category>
       <author><![CDATA[` + item.author + `]]></author>
-      <pubDateText><![CDATA[` + item.pubDateText + `]]></pubDateText>
+      <pubDateText><![CDATA[` + pubDateText + `]]></pubDateText>
       <enclosures>
         <enclosure>
           <mimetype><![CDATA[` + (item.enclosure ? item.enclosure.mimetype : '') + `]]></mimetype>
