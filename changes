@@ -1,5 +1,5 @@
 0.9.1
-New 3rd in the sidebar to display item.
+Add a 3rd layout in the sidebar to display item.
 Theme management have been improved :
  - you can select independently the positioning called template (like column number), and the theme (font and colors)
  - theme ares easiest to create/modified (a theme editor should come in a next version)
@@ -12,6 +12,10 @@ Fix OPML import/export
 Fix discovering feeds display
 Fix script editor
 Fix discovering feeds state on window get focus
+a:
+Fix missing folders in tree view
+Fix null publication dates in render view
+
 
 0.9
 Add sidebar filter feature
