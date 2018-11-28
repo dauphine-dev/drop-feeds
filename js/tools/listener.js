@@ -81,7 +81,12 @@ class Listener { /*exported Listener*/
 
   async _storageChanged_event(changes) {
     let changeKeys = Object.keys(changes);
-
+    for (let subscriber of this._localStorageSubscriberList) {
+      if (changeKeys.includes(subscriber[_listenerFields.key])) {
+        subscriber[_listenerFields.callback](changes[subscriber[_listenerFields.key]].newValue);
+      }
+    }
+/*
     if (this._localStorageSubscriberList.length <= changes.length) {
       for (let subscriber of this._localStorageSubscriberList) {
         if (changeKeys.includes(subscriber[_listenerFields.key])) {
@@ -99,6 +104,7 @@ class Listener { /*exported Listener*/
         }
       }
     }
+*/    
   }
 
   async _runtimeOnMessage_event(request) {
