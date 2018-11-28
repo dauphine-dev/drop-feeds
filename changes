@@ -15,7 +15,8 @@ Fix discovering feeds state on window get focus
 a:
 Fix missing folders in tree view
 Fix null publication dates in render view
-
+b:
+Fix the issue "The "traditional" 2-row layout doesn't work anymore in 0.9.1"
 
 0.9
 Add sidebar filter feature
