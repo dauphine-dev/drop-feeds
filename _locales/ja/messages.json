@@ -36,10 +36,10 @@
     "message": "RSS購読ページを表示"
   },
   "sbFilter": {
-    "message": "Filter"
+    "message": "フィルター"
   },
   "sbFilterClearButton": {
-    "message": "Clear filter"
+    "message": "フィルターをクリア"
   },
   "sbSubscriptionAdd": {
     "message": "RSSを追加"
@@ -228,7 +228,7 @@
     "message": "コンテンツエリア"
   },
   "optTheme": {
-    "message": "Theme"
+    "message": "テーマ"
   },
 "optManagement": {
     "message": "インポート/エクスポート"
@@ -246,10 +246,10 @@
     "message": "テーマ"
   },
   "optSelectRenderTemplate": { 
-    "message": "Select render tab template"
+    "message": "表示するタブのテンプレート"
   },
   "optSelectRenderTheme": { 
-    "message": "Select render tab theme"
+    "message": "表示するタブのテーマ"
   },
   "optFeedItemOrder": {
     "message": "項目の並び順"
@@ -303,7 +303,7 @@
     "message": "フィードを離れる前に全て既読にする。"
   },
   "optFeedItemRenderInSidebar": {
-    "message": "Render selected item in the sidebar"
+    "message": "サイドバーにアイテムの中身を表示"
   },
   "optShowUpdatedFeedCount": {
     "message": "更新数を表示"
