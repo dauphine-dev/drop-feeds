@@ -91,4 +91,8 @@ class DateTime { /*exported DateTime*/
     let plural =  browser.i18n.getMessage(interval>1 ? 'dtMany' : 'dtSingle');
     return browser.i18n.getMessage('dtSeconds', [interval, plural]);
   }
+
+  static async sleep_async(dealyMs) {
+    return new Promise(resolve => setTimeout(resolve, dealyMs));
+  }
 }
