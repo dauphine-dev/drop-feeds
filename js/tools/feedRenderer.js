@@ -1,4 +1,4 @@
-/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform*/
+/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform TextTools*/
 'use strict';
 class RenderOptions {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -27,13 +27,15 @@ class FeedRenderer { /*exported FeedRenderer*/
   }
 
   static feedErrorToHtml(error, url, title) {
-    let feedHtml = USTools.rssHeader(title, url, 'Error');
+    error = TextTools.replaceAll(error, '\n' , '<br/>');
+    let feedHtml = USTools.rssHeader(title, url, 'Error');  
     let description = `<table>
     <tr><td>Name: </td><td>` + title + `</td></tr>
     <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
+    <tr><td></td><td></td></tr>
     <tr><td>Error: </td><td>` + error + `</td></tr>
     </table>`;
-    feedHtml += USTools.rssItem('Error: ' + error, url, new Date(), description);
+    feedHtml += USTools.rssItem('Error: ' + error.split('<br/>')[0], url, new Date(), description);
     feedHtml += USTools.rssFooter();
     return feedHtml;
   }

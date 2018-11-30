@@ -84,7 +84,7 @@ class Feed { /*exported Feed*/
 
     //there is no error then get html from feed parsing
     try { feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title); }
-    catch (e) { this._error = e; }
+    catch (e) { this._error = e + '\n\n' + e.stack; }
 
     //if an error has occurred  during feed parsing then get html from the error
     if (this._error != null) {
@@ -227,13 +227,13 @@ class Feed { /*exported Feed*/
                 this._download_async(ignoreRedirection, true, scriptData);
               }
               catch (e3) {
-                this._error = e3;
+                this._error = e3 + '\n\n' + e3.stack;
               }
             }
           }
         }
         if (!retry) {
-          this._error = e2;
+          this._error = e2 + '\n\n' + e2.stack;
         }
       }
     }
