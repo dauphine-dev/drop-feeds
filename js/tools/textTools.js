@@ -120,7 +120,7 @@ class TextTools { /* exported TextTools*/
   }
 
   static toTextCharCodeArray(text) {
-    //if (!text) { return [];}
+    if (!text) { return [];}
     let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString(16)).join(',');
     return textCharCodeArray;
   }
