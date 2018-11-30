@@ -6,8 +6,6 @@ class WorkerPool { /* exported WorkerPool*/
     this._size = size;
     this._workerList = [];
     this._workList = [];
-    this._nextWork = undefined;
-    this._processing = false;
     this._disposed = false;
   }
 
