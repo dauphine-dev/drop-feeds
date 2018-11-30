@@ -136,10 +136,6 @@ html, body {
   background-image: var(--feeds-checkFeedsButtonAnim-image);
 }
 
-.checkFeedsButtonCursorRestart::before {
-  cursor: var(--feeds-checkFeedsButtonCursorRestart-cursor);
-}
-
 #discoverFeedsButton::before {
   background-image: var(--feeds-discoverFeedsButton-image);
 }
@@ -745,7 +741,7 @@ li.feedError {
   z-index: 2;
 }
 
-.infoTitle {
+.dialogTitle {
   text-align: center;
   font-weight: bold;
   color: var(--dialog-title-color);
@@ -753,24 +749,24 @@ li.feedError {
   border-bottom: 1px solid var(--dialog-border-color);
 }
 
-#infoViewInner {
+.dialogViewInner {
   padding: 10px 10px 10px 10px;
 }
 
-#infoViewTable {
+.dialogViewTable {
   table-layout: fixed;
 }
 
-#infoViewTable td:last-child {
+.dialogViewTable td:last-child {
   width: 100%;
 }
 
-.infoLabel {
+.dialogLabel {
   font-weight: bold;
   color: var(--dialog-label-color);
 }
 
-.infoField {
+.dialogField {
   border: 1px inset #000000;
   white-space: pre;
   -moz-user-select: text;
@@ -780,6 +776,6 @@ li.feedError {
   user-select: text;
 }
 
-.infoButton {
+.dialogButton {
   font-size: 99%;
 }

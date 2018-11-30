@@ -169,6 +169,15 @@
     </ul>
   </div>
 
+  <!-- Option menu -->
+  <div id="optionMenu" class="contextMenuStyle hide">
+    <ul>
+      <li id="ctxOptReload" class="ctxMenuItem">#Reload Drop Feeds</li>
+      <li id="ctxOptSubscribe" class="ctxMenuItem">#Subscribe by url</li>
+      <li id="ctxOptSettings" class="ctxMenuItem">#Open settings...</li>
+    </ul>
+  </div>
+
   <!-- New folder dialog -->
   <div id="newFolderDialog" class="hide">
     <table>
@@ -192,32 +201,54 @@
 
   <!-- Info view -->
   <div id="infoView" class="hide">
-    <div class="infoTitle">Info</div>
-    <div id="infoViewInner">
-      <table id="infoViewTable">
+    <div class="dialogTitle">Info</div>
+    <div class="dialogViewInner">
+      <table class="dialogViewTable">
         <tr>
-          <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
+          <td><label id="infoIdLbl" class="dialogLabel">#ID: </label></td>
           <td>
-            <div id="infoIdField" class="infoField"></div>
+            <div id="infoIdField" class="dialogField"></div>
           </td>
         </tr>
         <tr>
-          <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
-          <td><input type="text" id="infoNameField" class="infoField" value=""></td>
+          <td><label id="infoNameLbl" class="dialogLabel">#Name:</label></td>
+          <td><input type="text" id="infoNameField" class="dialogField" value=""></td>
         </tr>
         <tr>
-          <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
-          <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
+          <td><label id="infoAddressLbl" class="dialogLabel">#Address: </label></td>
+          <td><input type="text" id="infoAddressField" class="dialogField" value=""></td>
         </tr>
       </table>
       <p />
       <div class="atRight">
-        <button id="infoUpdateButton" class="infoButton">#Update</button>
-        <button id="infoCloseButton" class="infoButton">#Close</button>
+        <button id="infoUpdateButton" class="dialogButton">#Update</button>
+        <button id="infoCloseButton" class="dialogButton">#Close</button>
       </div>
       <p>&nbsp;</p>
     </div>
   </div>
+
+  <!-- Subscribe by url dialog -->
+  <div id="subscribeByUrlDialog" class="hide">
+    <div class="dialogTitle">#Subscribe by url</div>
+    <div class ="dialogViewInner">
+      <table class="dialogViewTable">
+        <tr>
+          <td><label id="subsUrlLbl" class="dialogLabel">#Url: </label></td>
+          <td>
+            <div id="subsUrlField" class="dialogField"></div>
+          </td>
+        </tr>
+      </table>
+      <p />
+      <div class="atRight">
+        <button id="subsByUrlSubscribeButton" class="dialogButton">#Subscribe</button>
+        <button id="subsByUrlCloseButton" class="dialogButton">#Close</button>
+      </div>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+
   <script src="/js/ui/sidebar/renderItemLayout.js"></script>
   <script src="/js/ui/sidebar/itemsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/itemsToolBar.js"></script>

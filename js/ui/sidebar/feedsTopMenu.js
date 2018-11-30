@@ -1,4 +1,5 @@
-/*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager Dialogs Listener ListenerProviders TabManager FeedsFilterBar*/
+/*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager*/
+/*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu*/
 'use strict';
 const _delayMsStopChecking = 1000;
 class FeedsTopMenu { /*exported FeedsTopMenu*/
@@ -63,23 +64,11 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');
-      setTimeout(() => {this._setCheckFeedsButtonCursorRestart();}, _delayMsStopChecking);
     }
     else {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
       checkFeedsButton.classList.add('checkFeedsButton');
       checkFeedsButton.classList.remove('checkFeedsButtonAnim');
-      this._setCheckFeedsButtonCursorRestart();
-    }
-  }
-
-  _setCheckFeedsButtonCursorRestart() {
-    let checkFeedsButton = document.getElementById('checkFeedsButton');
-    if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
-      checkFeedsButton.classList.add('checkFeedsButtonCursorRestart');
-    }
-    else {
-      checkFeedsButton.classList.remove('checkFeedsButtonCursorRestart');
     }
   }
 
@@ -109,11 +98,13 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    let checkingFeedsStartTimeDelay  = new Date(this._checkingFeedsStartTime.getTime() + _delayMsStopChecking);
-    if (FeedManager.instance.checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
-      await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
-      return;
-    }
+/*
+let checkingFeedsStartTimeDelay  = new Date(this._checkingFeedsStartTime.getTime() + _delayMsStopChecking);
+if (FeedManager.instance.checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
+  await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+  return;
+}
+*/
     FeedManager.instance.checkFeeds_async('feedsContentPanel');
   }
 
@@ -201,7 +192,9 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async _optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await browser.runtime.openOptionsPage();
+    //await browser.runtime.openOptionsPage();
+    let rec = event.currentTarget.getBoundingClientRect();
+    FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);
   }
 
   async showErrorsAsUnread_sbscrb() {

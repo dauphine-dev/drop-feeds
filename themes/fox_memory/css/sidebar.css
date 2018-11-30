@@ -9,7 +9,6 @@
   --feeds-topMenu-image-height: 20px;
   --feeds-checkFeedsButton-image: url(/themes/fox_memory/img/check-feeds.png);
   --feeds-checkFeedsButtonAnim-image: url(/themes/fox_memory/img/check-feeds-animation.gif);
-  --feeds-checkFeedsButtonCursorRestart-cursor: url(/themes/_templates/img/restart.png), not-allowed;
   --feeds-discoverFeedsButton-image: url(/themes/fox_memory/img/magnify.png);
   --feeds-onlyUpdatedFeedsButton-image: url(/themes/fox_memory/img/only-updated-feeds.png);
   --feeds-onlyErrorFeedsButton-image: url(/themes/fox_memory/img/feed-error.png);
