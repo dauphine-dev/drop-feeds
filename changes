@@ -1,3 +1,8 @@
+0.9.2
+Use workerpool (more efficient massive openning render tad)
+Add stack trace in error messages
+Fix error on empty item field
+
 0.9.1
 Add a 3rd layout in the sidebar to display item.
 Theme management have been improved :
