@@ -1,50 +1,72 @@
-/* global DateTime*/
+/* global browser Transfer*/
 'use strict';
 class WorkerPool { /* exported WorkerPool*/
   constructor(workerUrl, size) {
-    this._workers = [];
-    this._works = [];
-    for (let i = 0; i < size; ++i) {
-      this._workers.push(new Worker(workerUrl));
-    }
+    this._workerUrl = workerUrl;
+    this._size = size;
+    this._workerList = [];
+    this._workList = [];
+    this._nextWork = undefined;
+    this._processing = false;
     this._disposed = false;
+  }
+
+  async init_async() {
+    let workerBlobUrl = await this._createWorkerBlob_async(this._workerUrl);
+    for (let i = 0; i < this._size; ++i) {
+      this._workerList.push(new Worker(workerBlobUrl));
+    }
+    let self = this;
+    this._workerList.push = function () { let result = Array.prototype.push.apply(this, arguments); self._onWorkerListHasChanged_event({ method: 'push', array: result }); return result; };
+    this._workList.push = function () { let result = Array.prototype.push.apply(this, arguments); self._onWorkListHasChanged_event({ method: 'push', array: result }); return result; };
+  }
+
+  async _createWorkerBlob_async(workerUrl) {
+    workerUrl = browser.runtime.getURL(workerUrl);
+    let workerCode = await Transfer.downloadTextFile_async(workerUrl);
+    let workerBlob = new Blob([workerCode]);
+    let workerBlobUrl = window.URL.createObjectURL(workerBlob);
+    return workerBlobUrl;
   }
 
   queueWork(workParamArray, onComplete) {
     if (this._disposed) { return; }
-    this._works.push({ paramArray: workParamArray, onComplete: onComplete });
+    let work = { paramArray: workParamArray, onComplete: onComplete };
+    this._workList.push(work);
   }
 
-  async start_async() {
-    let work = undefined;
-    while (!this._disposed) {
-      if (this._disposed) { return; }
-      if (!work && this._works.length > 0) {
-        work = this._works.shift();
-      }
-      if (work) {
-        if (this._workerObjs.length > 0) {
-          let workerObj = this._workerObjs.shift();
-          this._startWork(workerObj, work);
-          work = undefined;
-        }
-      }
-      await DateTime.sleep_async(1);
-    }
+  async _onWorkerListHasChanged_event() {
+    this._processWorks();
+  }
+
+  async _onWorkListHasChanged_event() {
+    this._processWorks();
   }
 
   dispose() {
     this._disposed = true;
-    for (let workerObj of this._workerObjs) {
-      workerObj.worker.terminate();
+    for (let worker of this._workerList) {
+      worker.terminate();
+    }
+  }
+
+  async _processWorks() {
+    if (this._disposed) { return; }
+    if (this._workerList.length > 0 && this._workList.length > 0) {
+      this._startWork(this._workerList.shift(), this._workList.shift());
     }
   }
 
   _startWork(worker, work) {
-    worker.onmessage = (() => {
-      this._workerObjs.push(worker);
+    let onCompleteListener1 = ((e) => { work.onComplete(e); });
+    let onCompleteListener2 = (() => {
+      if (this._disposed) { return; }
+      worker.removeEventListener('message', onCompleteListener1);
+      worker.removeEventListener('message', onCompleteListener2);
+      this._workerList.push(worker);
     });
-    worker.addEventListener('message', (e) => work.onComplete(e));
+    worker.addEventListener('message', onCompleteListener1);
+    worker.addEventListener('message', onCompleteListener2);
     worker.postMessage(work.paramArray);
   }
 }
