@@ -86,25 +86,6 @@ class Listener { /*exported Listener*/
         subscriber[_listenerFields.callback](changes[subscriber[_listenerFields.key]].newValue);
       }
     }
-/*
-    if (this._localStorageSubscriberList.length <= changes.length) {
-      for (let subscriber of this._localStorageSubscriberList) {
-        if (changeKeys.includes(subscriber[_listenerFields.key])) {
-          subscriber[_listenerFields.callback](changes[subscriber[_listenerFields.key]].newValue);
-        }
-      }
-    }
-    else {
-      let subscriberKeyList = this._localStorageSubscriberList.map(sb => (sb[_listenerFields.key]));
-      for (let chgKey in changes) {
-        let chg = changes[chgKey];
-        if (subscriberKeyList.includes(chgKey)) {
-          let subscriberEntry = this._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == chgKey);
-          subscriberEntry[_listenerFields.key][_listenerFields.callback](chg.newValue);
-        }
-      }
-    }
-*/    
   }
 
   async _runtimeOnMessage_event(request) {
