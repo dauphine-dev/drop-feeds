@@ -1,4 +1,4 @@
-/*global browser FeedsTreeView FeedManager FeedsNewFolderDialog BookmarkManager FeedsInfoView LocalStorageManager Dialogs*/
+/*global browser FeedsTreeView FeedManager FeedsNewFolderDialog BookmarkManager FeedsInfoView LocalStorageManager OptionSubscribeDialog*/
 'use strict';
 class FeedsContextMenu { /*exported FeedsContextMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -132,8 +132,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     FeedsTreeView.instance.reload_async();
   }
 
-
-
   async _ctxMnNewFolderClicked_event() {
     this.hide();
     FeedsNewFolderDialog.instance.show(this._idComeFrom);
@@ -203,7 +201,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _ctxOptSubscribeMenuClicked_event() {
     this.hide();
-    FeedsSubscribeDialog.instance.show(this._xPosOri, this._yPosOri);
+    OptionSubscribeDialog.instance.show(this._idComeFrom);
     //Dialogs.openSubscribeDialog_async('', '');
   }
 

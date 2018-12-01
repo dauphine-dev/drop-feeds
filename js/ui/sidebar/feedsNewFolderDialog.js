@@ -36,7 +36,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   }
 
   _setPosition() {
-    let elMainDiv = document.getElementById('main');
+    let elMainDiv = document.getElementById('mainBoxTable');
     let elSelectedElement = document.getElementById(this._selectedId);
     let rectSelectedElement = elSelectedElement.getBoundingClientRect();
     let x = Math.round(rectSelectedElement.left);
@@ -65,7 +65,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     event.stopPropagation();
     event.preventDefault();
     try {
-      let folderName = document.getElementById('inputNewFolder').value;
+      let folderName = document.getElementById('subsByUrlSubscribeButton').value;
       let folderId = null;
       let index = 0 ;
       if (this._selectedId.startsWith('dv-')) {

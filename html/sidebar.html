@@ -179,29 +179,32 @@
   </div>
 
   <!-- New folder dialog -->
-  <div id="newFolderDialog" class="hide">
-    <table>
-      <tr>
-        <td><label id="newFolderButtonDialog">#New folder: </label></td>
-        <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <div class="atRight">
-            <button id="cancelNewFolderButton">#Cancel</button>
-            <span class="default">
-              <button id="createNewFolderButton">#Create</button>
-            </span>
-          </div>
-        </td>
-      </tr>
-    </table>
+  <div id="newFolderDialog" class="hide dialogBox">
+    <div class="dialogTitle">#New folder</div>
+    <div class="dialogViewInner">
+      <table class="dialogViewTable">
+        <tr>
+          <td><label id="newFolderButtonDialog" class="dialogLabel">#New folder: </label></td>
+          <td><input type="text" id="inputNewFolder" class="dialogField" value="New folder"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div class="atRight">
+              <button id="cancelNewFolderButton">#Cancel</button>
+              <span class="default">
+                <button id="createNewFolderButton">#Create</button>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <!-- Info view -->
-  <div id="infoView" class="hide">
-    <div class="dialogTitle">Info</div>
+  <div id="infoView" class="hide dialogBox">
+    <div class="dialogTitle">#Info</div>
     <div class="dialogViewInner">
       <table class="dialogViewTable">
         <tr>
@@ -229,15 +232,13 @@
   </div>
 
   <!-- Subscribe by url dialog -->
-  <div id="subscribeByUrlDialog" class="hide">
+  <div id="subscribeByUrlDialog" class="hide dialogBox">
     <div class="dialogTitle">#Subscribe by url</div>
-    <div class ="dialogViewInner">
+    <div class="dialogViewInner">
       <table class="dialogViewTable">
         <tr>
           <td><label id="subsUrlLbl" class="dialogLabel">#Url: </label></td>
-          <td>
-            <div id="subsUrlField" class="dialogField"></div>
-          </td>
+          <td><input type="text" id="subsUrlField" class="dialogField"></td>
         </tr>
       </table>
       <p />
@@ -257,6 +258,7 @@
   <script src="/js/ui/sidebar/feedsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/feedsContextMenu.js"></script>
   <script src="/js/ui/sidebar/feedsFilterBar.js"></script>
+  <script src="/js/ui/sidebar/optionSubscribeDialog.js"></script>
   <script src="/js/ui/sidebar/feedsInfoView.js"></script>
   <script src="/js/ui/sidebar/feedsNewFolderDialog.js"></script>
   <script src="/js/ui/sidebar/feedsStatusBar.js"></script>

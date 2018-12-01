@@ -1,5 +1,5 @@
-/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout
-FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager FeedsNewFolderDialog FeedsFilterBar*/
+/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
+/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -28,6 +28,7 @@ class SideBar { /*exported SideBar*/
     await FeedsTreeView.instance.load_async();
     RenderItemLayout.instance;
     await FeedsNewFolderDialog.instance.init_async();
+    await OptionSubscribeDialog.instance.init_async();
     
     document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
     FeedsTreeView.instance.selectionBar.refresh();
