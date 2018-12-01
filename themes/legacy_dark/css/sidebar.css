@@ -112,6 +112,6 @@
   --dialog-background-color: var(--main-dialog-background-color);
   --dialog-border-color: var(--main-border-color);
   --dialog-title-color: #4f4545;
-  --dialog-title-background-color: #e4e4e4;
-  --dialog-label-color: #4f4545;
+  --dialog-title-background-color: #7a7a7a;
+  --dialog-label-color: var(--main-text-color);
 }
