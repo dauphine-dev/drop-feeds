@@ -195,7 +195,7 @@
     "message": "Ultimo aggiornamento"
   },
   "disItems": {
-    "message": "Elementi"
+    "message": "Pannelli"
   },
   "disUrl": {
     "message": "Url"
@@ -297,7 +297,7 @@
     "message": "Mostra una breve descrizione (tooltip)"
   },
   "optNavigationHistoryWarning": {
-    "message": "(*) warning: mark read/unread features will impact your navigation history !"
+    "message": "(*) attenzione: segnando i feed come letti/non letti impatta sullo storico di navigazione !"
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Marca tutti gli elementi come già letti prima di uscire da feeds"
@@ -417,7 +417,7 @@
     "message": "Modifica"
   },
   "optCssRemoveAddButton": {
-    "message": "Remove"
+    "message": "Rimuovi"
   },
   "optCssFilterRestoreDefaultButton": {
     "message": "Ripristina i valori di default"
