@@ -19,6 +19,9 @@ b:
 Fix the issue "The "traditional" 2-row layout doesn't work anymore in 0.9.1"
 c:
 Update the Japanese translation (thank you to takepon1)
+d:
+Add Italian translation (thank you to  carlfranz)
+Fix bookmarks management (issue on subscribe dialog/create new folder )
 
 0.9
 Add sidebar filter feature
