@@ -1,6 +1,12 @@
 :root {
+
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
+
+  /* option menu */
+  --feeds-optionMenuReload-image: url(/themes/dauphine/img/restart.png);
+  --feeds-optionMenuSubscribe-image: url(/themes/dauphine/img/subscribe-url.png);
+  --feeds-optionMenuSettings-image: url(/themes/dauphine/img/settings.png);
 
   /* feeds top menu */
   --feeds-topMenu-background-color: #E8E8E8;

@@ -489,6 +489,18 @@ li.feedError {
   background-image: var(--feeds-feedContextMenuInfo-image);
 }
 
+#ctxOptReload::before {
+  background-image: var(--feeds-optionMenuReload-image);
+}
+
+#ctxOptSubscribe::before {
+  background-image: var(--feeds-optionMenuSubscribe-image);
+}
+
+#ctxOptSettings::before {
+  background-image: var(--feeds-optionMenuSettings-image);
+}
+
 .menuSep {
   margin: 2px 0 2px 0;
   border-color: #999999;

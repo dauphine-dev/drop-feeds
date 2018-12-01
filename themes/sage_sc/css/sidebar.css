@@ -2,6 +2,11 @@
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
 
+  /* option menu */
+  --feeds-optionMenuReload-image: url(/themes/sage_sc/img/restart.png);
+  --feeds-optionMenuSubscribe-image: url(/themes/sage_sc/img/subscribe-url.png);
+  --feeds-optionMenuSettings-image: url(/themes/sage_sc/img/settings.png);
+
   /* feeds top menu */
   --feeds-topMenu-background-color: var(--main-background-color);
   --feeds-topMenu-border-color: var(--main-border-color);
