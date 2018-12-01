@@ -6,7 +6,7 @@ const ListenerProviders = {
   bookmarks: 'bookmarks'
 };
 
-const bookmarkListeners =  {
+const bookmarkListeners = {
   created: 'created',
   removed: 'removed',
   changed: 'changed',
@@ -53,7 +53,7 @@ class Listener { /*exported Listener*/
 
   _getSubscriberList(provider) {
     let subscriberList = null;
-    switch(provider) {
+    switch (provider) {
       case ListenerProviders.localStorage:
         subscriberList = this._localStorageSubscriberList;
         break;
@@ -68,7 +68,7 @@ class Listener { /*exported Listener*/
   }
 
   _fire(provider, key, callback) {
-    switch(provider) {
+    switch (provider) {
       case ListenerProviders.localStorage:
         LocalStorageManager.getValue_async(key, undefined).then((newValue) => {
           if (typeof newValue != 'undefined') {
@@ -121,9 +121,9 @@ class Listener { /*exported Listener*/
   }
 
   async _bookmarkOnAny_event(key, id, eventInfo) {
-    let subscriberKeyList = this._localStorageSubscriberList.map(sb => (sb[0]));
+    let subscriberKeyList = this._bookmarksSubscriberList.map(sb => (sb[0]));
     if (subscriberKeyList.includes(key)) {
-      let subscriberEntry = this._localStorageSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == key);
+      let subscriberEntry = this._bookmarksSubscriberList.filter(subscriber => subscriber[_listenerFields.key] == key);
       subscriberEntry[_listenerFields.key][_listenerFields.callback](id, eventInfo);
     }
   }

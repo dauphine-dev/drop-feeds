@@ -7,6 +7,9 @@ class FeedsTreeView { /*exported FeedsTreeView*/
 
   constructor() {
     this._init();
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
   }
 
   _init() {
@@ -20,9 +23,6 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._rootBookmark = null;
     this._showUpdatedFeedCount = DefaultValues.showUpdatedFeedCount;
     this._feedsContentPanel = document.getElementById('feedsContentPanel');
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
   }
 
   async load_async() {
