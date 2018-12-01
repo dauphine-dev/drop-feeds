@@ -8,13 +8,13 @@ class BookmarkManager { /*exported BookmarkManager*/
     this.importInProgress = false;
     this._importInProgressCount = 0;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'importInProgress', (v) => { this.setImportInProgress_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.created, (id, info) => { this._bookmarkOnCreated_sbscrb(id, info); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.removed, (id, info) => { this._bookmarkOnRemoved_sbscrb(id, info); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.changed, (v) => { this._bookmarkOnChanged_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.moved, (id, info) => { this._bookmarkOnMoved_sbscrb(id, info); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.childrenReordered, (v) => { this.bookmarkOnChildrenReordered_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.importBegan, (v) => { this.bookmarkImportBegan_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, bookmarkListeners.importEnded, (v) => { this.bookmarkImportEnded_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.created, (id, info) => { this._bookmarkOnCreated_sbscrb(id, info); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.removed, (id, info) => { this._bookmarkOnRemoved_sbscrb(id, info); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.changed, (v) => { this._bookmarkOnChanged_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.moved, (id, info) => { this._bookmarkOnMoved_sbscrb(id, info); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.childrenReordered, (v) => { this.bookmarkOnChildrenReordered_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.importBegan, (v) => { this.bookmarkImportBegan_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.bookmarks, bookmarkListeners.importEnded, (v) => { this.bookmarkImportEnded_sbscrb(v); }, true);
   }
 
   async init_async() {
