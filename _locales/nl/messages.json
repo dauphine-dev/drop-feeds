@@ -652,12 +652,12 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ seconden$many$",
+    "message": "$seconds$ seconden$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"
       },
-      "many": {
+      "plural": {
         "content": "$2"
       }
     }
