@@ -26,6 +26,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxOptSubscribe').addEventListener('click', (e) => { this._ctxOptSubscribeMenuClicked_event(e); });
     document.getElementById('ctxOptSettings').addEventListener('click', (e) => { this._ctxOptSettingsMenuClicked_event(e); });
 
+    window.addEventListener('keyup', (e) => { this._windowOnKeyup_event(e); });
 
     this._updateLocalizedStrings();
     this._elContent = document.getElementById('feedsContentPanel');
@@ -113,6 +114,12 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   async _checkFeedsMenuClicked_event() {
     this.hide();
     FeedManager.instance.checkFeeds_async(this._idComeFrom);
+  }
+
+  async _windowOnKeyup_event(e) {
+    if(e.key == 'Escape') {
+      this.hide();      
+    }
   }
 
   async _openAllUpdatedFeedsMenuClicked_event() {
