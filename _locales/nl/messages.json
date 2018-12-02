@@ -1,0 +1,665 @@
+{
+  "comment1": {
+    "message": "------------------Manifest strings------------------"
+  },
+  "manExtensionDescription": {
+    "message": "Geeft een zijbalk weer om RSS-feeds te beheren middels een mappenstructuurweergave"
+  },
+  "manPageActionDefaultTitle": {
+    "message": "Ga naar de abonnementspagina"
+  },
+  "manPageActionGo": {
+    "message": "Ga naar de abonnementspagina"
+  },
+  "manPageActionAdd": {
+    "message": "Abonneer op Drop Feeds"
+  },
+  "comment2": {
+    "message": "------------------Sidebar strings------------------"
+  },
+  "sbCheckFeeds": {
+    "message": "Check feeds"
+  },
+  "sbStopAndRestart": {
+    "message": "Stop met checken en herstart Drop feeds"
+  },
+  "sbDiscoverFeeds": {
+    "message": "Nieuwe feeds ontdekken"
+  },
+  "sbViewOnlyUpdatedFeeds": {
+    "message": "Toon alleen bijgewerkte feeds"
+  },
+  "sbToggleFolders": {
+    "message": "Folders openen/sluiten"
+  },
+  "sbSubscriptionGo": {
+    "message": "Ga naar de abonnementspagina"
+  },
+  "sbFilter": {
+    "message": "Filter"
+  },  
+  "sbFilterClearButton": {
+    "message": "Filter opheffen"
+  },
+  "sbSubscriptionAdd": {
+    "message": "Abonneren"
+  },
+  "sbOpenOptionsTab": {
+    "message": "Open opties tab"
+  },
+  "sbMarkAsRead": {
+    "message": "Markeer item als gelezen"
+  },
+  "sbMarkAsUnread": {
+    "message": "Markeer item als ongelezen"
+  },
+  "sbMarkAllAsRead": {
+    "message": "Markeer alle items als gelezen"
+  },
+  "sbMarkAllAsUnread": {
+    "message": "Markeer alle items als ongelezen"
+  },
+  "sbOpenUnreadItemsInNewTabs": {
+    "message": "Open ongelezen items in nieuwe tabbladen"
+  },
+  "sbMarkAllAsUpdated": {
+    "message": "Werk alle items bij"
+  },
+  "sbOpenUpdatedFeeds": {
+    "message": "Open bijgewerkte feeds"
+  },
+  "sbOpenUpdatedAsUnified": {
+    "message": "Open bijgewerkte items als een uniforme feed"
+  },
+  "sbSortByName": {
+    "message": "Sorteer op naam"
+  },
+  "sbNewFolder": {
+    "message": "Nieuwe folder"
+  },
+  "sbDeleteFolder": {
+    "message": "Verwijder"
+  },
+  "sbFolderInfo": {
+    "message": "Info"
+  },
+  "sbGetFeedTitle": {
+    "message": "Haal de feedtitel op"
+  },
+  "sbOpenFeed": {
+    "message": "Open"
+  },
+  "sbMarkFeedAsRead": {
+    "message": "Markeer feed als gelezen"
+  },
+  "sbMarkFeedAsUpdated": {
+    "message": "Markeer feed als ongelezen"
+  },
+  "sbDeleteFeed": {
+    "message": "Verwijderen"
+  },
+  "sbFeedInfo": {
+    "message": "Info"
+  },
+  "sbUseButtonAbove": {
+    "message": "Gebruik de knop hierboven om een ​​feed toe te voegen!"
+  },
+  "sbChecking": {
+    "message": "controleren"
+  },
+  "sbPreparing": {
+    "message": "voorbereiden"
+  },
+  "sbOpening": {
+    "message": "openen"
+  },
+  "sbLoading": {
+    "message": "Laden"
+  },
+  "sbLoaded": {
+    "message": "geladen"
+  },
+  "sbMerging": {
+    "message": "Samenvoegen"
+  },
+  "sbComputingUnifiedView": {
+    "message": "Uniforme weergave opstellen"
+  },
+  "sbReceived": {
+    "message": "ontvangen"
+  },
+  "sbFeedsUpdated": {
+    "message": "feeds geüpdatet"
+  },
+  "sbOneFeedUpdated": {
+    "message": "Één feed geüpdatet"
+  },
+  "sbNoFeedHasBeenUpdated": {
+    "message": "Geen feeds bijgewerkt"
+  },
+  "comment3": {
+    "message": "------------------Subscribe strings------------------"
+  },
+  "subDropFeedsSubscribe": {
+    "message": "Drop Feeds (abonneren)"
+  },
+  "subSubscribeWithDropFeed": {
+    "message": "Abonneren met Drop Feeds"
+  },
+  "subName": {
+    "message": "Naam"
+  },
+  "subFolder": {
+    "message": "Folder"
+  },
+  "subNewFolder": {
+    "message": "Nieuwe folder"
+  },
+  "subWindowCloseError": {
+    "message": "Drop feeds kan het venster niet sluiten, sluit het handmatig."
+  },
+  "subCancel": {
+    "message": "Opheffen"
+  },
+  "subSubscribe": {
+    "message": "Abonneren"
+  },
+  "subCreate": {
+    "message": "Aanmaken"
+  },
+  "comment4": {
+    "message": "------------------Discover strings------------------"
+  },
+  "disDiscoverFeeds": {
+    "message": "Ontdek feeds"
+  },
+  "disDiscoveringFeeds": {
+    "message": "Feeds ontdekken"
+  },
+  "disNoFeedsHaveBeenDiscovered": {
+    "message": "Geen feeds ontdekt"
+  },
+  "disDiscovered": {
+    "message": "Ontdekt"
+  },
+  "disFeeds": {
+    "message": "feeds"
+  },
+  "disTitle": {
+    "message": "Titel"
+  },
+  "disFormat": {
+    "message": "Formaat"
+  },
+  "disLastUpdate": {
+    "message": "Laatste update"
+  },
+  "disItems": {
+    "message": "Items"
+  },
+  "disUrl": {
+    "message": "Url"
+  },
+  "disAddFeed": {
+    "message": "Feed toevoegen"
+  },
+  "disClose": {
+    "message": "Sluiten"
+  },
+  "comment5": {
+    "message": "------------------Options strings------------------"
+  },
+  "optDropFeedsOptions": {
+    "message": "Drop Feeds (opties)"
+  },
+  "optGeneral": {
+    "message": "Algemeen"
+  },
+  "optUpdateChecker": {
+    "message": "Update checker"
+  },
+  "optView": {
+    "message": "View"
+  },
+  "optItems": {
+    "message": "Items"
+  },
+  "optContentsArea": {
+    "message": "Inhoudsgebied"
+  },
+  "optTheme": {
+    "message": "Thema"
+  },
+  "optManagement": {
+    "message": "Beheer"
+  },
+  "optSelectFeedFolder": {
+    "message": "Selecteer feed folder"
+  },
+  "optApply": {
+    "message": "Toepassen"
+  },
+  "optDoNotDisplayRootFolder": {
+    "message": "Root folder niet tonen"
+  },
+  "optSelectMainTheme": { 
+    "message": "Selecteer hoofdthema"
+  },
+  "optSelectRenderTemplate": { 
+    "message": "Selecteer weergavesjabloon"
+  },
+  "optSelectRenderTheme": { 
+    "message": "Selecteer het weergavetabblad thema"
+  },
+  "optFeedItemOrder": {
+    "message": "Feed item volgorde"
+  },
+  "optNewerFirst": {
+    "message": "Nieuwere eerst"
+  },
+  "optOlderFirst": {
+    "message": "Oudere eerst"
+  },
+  "optOriginal": {
+    "message": "Origineel"
+  },
+  "optTimeout": {
+    "message": "Time-out"
+  },
+  "optSeconds": {
+    "message": "seconden"
+  },
+  "optAsynchronousFeedChecking": {
+    "message": "Asynchroon feeds checken"
+  },
+  "optAutoFeedUpdatesEvery": {
+    "message": "Automatisch feeds updaten, elke"
+  },
+  "optMinutes": {
+    "message": "minuten"
+  },
+  "optAutoFeedUpdatesOnStart": {
+    "message": "Automatisch feeds bijwerken bij opstarten"
+  },
+  "optShowNotifications": {
+    "message": "Toon notificatie popupscherm indien nieuwe items gevonden"
+  },
+  "optRetryWithHttp": {
+    "message": "Als https mislukt probeer dan met http"
+  },
+  "optFeedItemList": {
+    "message": "Feeditem lijst"
+  },
+  "optFeedItemListToolbar": {
+    "message": "Feeditem lijst werkbalk (*)"
+  },
+  "optDescriptionTooltips": {
+    "message": "Beschrijving tooltips"
+  },
+  "optNavigationHistoryWarning": {
+    "message": "(*) waarschuwing: gelezen/ongelezen markeerfuncties hebben invloed op de navigatiegeschiedenis!"
+  },
+  "optFeedItemMarkAsReadOnLeaving": {
+    "message": "Markeer alle items als gelezen bij verlaten feed"
+  },
+  "optFeedItemRenderInSidebar": {
+    "message": "Geef het geselecteerde item weer in de zijbalk"
+  },
+  "optShowUpdatedFeedCount": {
+    "message": "Toon bijgewerkte feedtelling"
+  },
+  "optShowErrorsAsUnread": {
+    "message": "Toon fouten als ongelezen"
+  },
+  "optRenderFeeds": {
+    "message": "Feeds weergeven"
+  },
+  "optItemNewTab": {
+    "message": "Items openen in nieuw tabblad"
+  },
+  "optAlwaysOpenNewTab": {
+    "message": "Altijd nieuwe tab openen"
+  },
+  "optOpenNewTabForeground": {
+    "message": "Open nieuwe tabs op de voorgrond"
+  },
+  "optReuseDropFeedsTab": {
+    "message": "Hergebruik Drop Feeds tab"
+  },
+  "optSelectOpmlFileToImport": {
+    "message": "Selecteer het te importeren opml bestand"
+  },
+  "optImport": {
+    "message": "Importeren..."
+  },
+  "optSelectOpmlFileToExport": {
+    "message": "Selecteer waarnaartoe het opml bestand te exporteren"
+  },
+  "optExport": {
+    "message": "Exporteren..."
+  },
+  "optAdvanced": {
+    "message": "Geadvanceerd"
+  },
+  "optLblScriptManager": {
+    "message": "Open scriptbeheer"
+  },
+  "optScriptManagerButton": {
+    "message": "Scriptbeheer..."
+  },
+  "optLblSecurityFilter": {
+    "message": "Open de instellingen van het beveiligingsfilter"
+  },
+  "optSecurityFilterButton": {
+    "message": "Beveiligingsfilterinstellingen..."
+  },
+  "optSecurityFilterSettings": {
+    "message": "Beveiligingsfilterinstellingen"
+  },
+  "optMessageDialogTitle": {
+    "message": "Bericht"
+  },
+  "optMessageDialogOk": {
+    "message": "ok"
+  },  
+  "optHtmlFilter": {
+    "message": "HTML Filters"
+  },
+  "optAllowedHtmlElements": {
+    "message": "Toegestane HTML-elementen (andere worden geweigerd)"
+  },
+  "optHtmlFilterThElm": {
+    "message": "Elementen"
+  },
+  "optHtmlFilterThAtt": {
+    "message": "Attributen"
+  },
+  "optHtmlFilterAddButton": {
+    "message": "Toevoegen"
+  },
+  "optHtmlFilterEditButton": {
+    "message": "Bewerken"
+  },
+  "optHtmlRemoveAddButton": {
+    "message": "Verwijderen"
+  },
+  "optHtmlFilterRestoreDefaultButton": {
+    "message": "Standaardwaarden herstellen"
+  },
+  "optHtmlFilterAddDialogTitle": {
+    "message": "Toevoegen"
+  },
+  "optHtmlFilterEditDialogTitle": {
+    "message": "Bewerken"
+  },
+  "optHtmlFilterAddDialogElementToAllow": {
+    "message": "Element om toe te staan"
+  },
+  "optHtmlFilterAddDialogAttributesToAllow": {
+    "message": "Attributen om toe te staan"
+  },
+  "optHtmlFilterAddDialogCancel": {
+    "message": "Opheffen"
+  },
+  "optHtmlFilterAddDialogOk": {
+    "message": "Ok"
+  },
+  "optCssFilter": {
+    "message": "CSS Filters"
+  },
+  "optRejectedCssFragments": {
+    "message": "Afgekeurde CSS-fragmenten (andere zijn toegestaan)"
+  },
+  "optCssFilterAddButton": {
+    "message": "Toevoegen"
+  },
+  "optCssFilterEditButton": {
+    "message": "Bewerken"
+  },
+  "optCssRemoveAddButton": {
+    "message": "Verwijderen"
+  },
+  "optCssFilterRestoreDefaultButton": {
+    "message": "Standaardwaarden herstellen"
+  },
+  "optCssInfo": {
+    "message": "CSS-filter is alleen ingeschakeld als STYLE elem/attr is toegestaan ​​door HTML-filter"
+  },
+  "optCssFilterAddDialogTitle": {
+    "message": "Toevoegen"
+  },
+  "optCssFilterDialogCssFragmentToRejected": {
+    "message": "CSS-fragment wordt geweigerd (reguliere expressie/case wordt genegeerd)"
+  },
+  "optCssFilterAddDialogCancel": {
+    "message": "Opheffen"
+  },
+  "optCssFilterAddDialogOk": {
+    "message": "ok"
+  },
+  "comment6": {
+    "message": "------------------Content script strings------------------"
+  },
+  "csSubscribeWithDropFeeds": {
+    "message": "Abonneer op Drop Feeds"
+  },
+  "ff56Text1": {
+    "message": "Dit pictogram om de zijbalk van Drop Feeds te openen werkt alleen in Firefox 57 of hoger"
+  },
+  "ff56Text2": {
+    "message": "In Firefox 56 is de WebApi om de zijbalk te openen niet geïmplementeerd."
+  },
+  "ff56Text3": {
+    "message": ""
+  },
+  "ff56Text4": {
+    "message": "Drop Feeds gebruiken in Firefox56:"
+  },
+  "ff56Text5": {
+    "message": "Klik op het Firefox-pictogram 'Zijbalk tonen'"
+  },
+  "ff56Text6": {
+    "message": "en in selecteer Drop feeds in de zijbalklijst"
+  },
+  "ff56Text7": {
+    "message": "klik hier om te sluiten"
+  },
+  "comment7": {
+    "message": "------------------Subscribe this feed strings------------------"
+  },
+  "stfSubscribeUsing": {
+    "message": "Abonneer u op deze feed met"
+  },
+  "stfSubscribeNow": {
+    "message": "Abonneer nu"
+  },
+  "comment8": {
+    "message": "------------------Info view strings------------------"
+  },
+  "sbInfoIdLdl": {
+    "message": "ID"
+  },
+  "sbInfoNameLbl": {
+    "message": "Naam"
+  },
+  "sbInfoAddressLbl": {
+    "message": "Adres"
+  },
+  "sbInfoUpdateButton": {
+    "message": "Bijwerken"
+  },
+  "sbInfoCloseButton": {
+    "message": "Sluiten"
+  },
+  "comment9": {
+    "message": "------------------Script manager strings------------------"
+  },
+  "usUScriptCreateNew": {
+    "message": "Maak een nieuw script"
+  },
+  "usUScriptEdit": {
+    "message": "Wijzig script"
+  },
+  "usUScriptEnableDisable": {
+    "message": "Activeer/deactiveer script"
+  },
+  "usUScriptType": {
+    "message": "Script type"
+  },
+  "usUScriptFeedTransformer": {
+    "message": "Feed omzetter"
+  },
+  "usUScriptVirtualFeed": {
+    "message": "Virtuele feed"
+  },
+  "usUScriptUrlMatchPatterns": {
+    "message": "URL-overeenkomstpatronen"
+  },
+  "usUScriptSubscribe": {
+    "message": "Abonneren"
+  },
+  "usUScriptLastEdition": {
+    "message": "Laatste editie"
+  },
+  "usUScriptDelete": {
+    "message": "Verwijder script"
+  },
+  "comment10": {
+    "message": "------------------Script editor strings------------------"
+  },
+  "usUScriptCommands": {
+    "message": "Commando's"
+  },
+  "usUScriptSave": {
+    "message": "Bewaren"
+  },
+  "usUScriptClose": {
+    "message": "Sluiten"
+  },
+  "usUScriptSaveAndClose": {
+    "message": "Bewaren en sluiten"
+  },
+  "usUScriptUrlMatchPatternsHelp": {
+    "message": "Help voor URL-overeenkomende patronen"
+  },
+  "usUScriptTestFeedUrl": {
+    "message": "Test feed url"
+  },
+  "usUScriptSaveAndTest": {
+    "message": "Bewaren en testen..."
+  },
+  "usUScriptFtInfo": {
+    "message": "Feed omzetter (info)"
+  },
+  "usUScriptVfInfo": {
+    "message": "Virtuele feed (info)"
+  },
+  "usUScriptHelp": {
+    "message": "help"
+  },
+  "usUScriptExample": {
+    "message": "voorbeeld"
+  },
+  "usUScriptSaveAndSubscribe": {
+    "message": "Bewaren en abonneren..."
+  },
+  "comment11": {
+    "message": "------------------Text editor strings------------------"
+  },
+  "usUScriptFont": {
+    "message": "Font"
+  },
+  "usUScriptFamily": {
+    "message": "Familie"
+  },
+  "usUScriptSize": {
+    "message": "Grootte"
+  },
+  "usUScriptTabSize": {
+    "message": "Tab grootte"
+  },
+  "comment12": {
+    "message": "------------------Editor console strings------------------"
+  },
+  "edConsoleClear": {
+    "message": "Wissen"
+  },
+  "edConsoleCopy": {
+    "message": "Kopieer consoletekst"
+  },
+  "comment13": {
+    "message": "------------------DateTime.getDateDiff strings------------------"
+  },
+  "dtMany": {
+    "message": "s"
+  },
+  "dtSingle": {
+    "message": ""
+  },
+  "dtYears": {
+    "message": "$years$ jaren$plural$",
+    "placeholders": {
+      "years": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMonths": {
+    "message": "$months$ maanden$plural$",
+    "placeholders": {
+      "months": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtDays": {
+    "message": "$days$ dagen$plural$",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtHours": {
+    "message": "$hours$ uren$plural$",
+    "placeholders": {
+      "hours": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtMinutes": {
+    "message": "$minutes$ minuten$plural$",
+    "placeholders": {
+      "minutes": {
+        "content": "$1"
+      },
+      "plural": {
+        "content": "$2"
+      }
+    }
+  },
+  "dtSeconds": {
+    "message": "$seconds$ seconden$many$",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      },
+      "many": {
+        "content": "$2"
+      }
+    }
+  }
+}
