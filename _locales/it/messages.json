@@ -619,7 +619,7 @@
     }
   },
   "dtDays": {
-    "message": "$days$ giorno$plural$",
+    "message": "$days$ giorn$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
@@ -630,7 +630,7 @@
     }
   },
   "dtHours": {
-    "message": "$hours$ ora(i)",
+    "message": "$hours$ ora(e)",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -641,7 +641,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minuto$plural$",
+    "message": "$minutes$ minut$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
@@ -657,7 +657,7 @@
       "seconds": {
         "content": "$1"
       },
-      "many": {
+      "plural": {
         "content": "$2"
       }
     }
