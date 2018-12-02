@@ -591,13 +591,13 @@
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "s"
+    "message": "i"
   },
   "dtSingle": {
-    "message": ""
+    "message": "o"
   },
   "dtYears": {
-    "message": "$years$ year$plural$",
+    "message": "$years$ ann$plural$",
     "placeholders": {
       "years": {
         "content": "$1"
@@ -608,7 +608,7 @@
     }
   },
   "dtMonths": {
-    "message": "$months$ month$plural$",
+    "message": "$months$ mese(i)",
     "placeholders": {
       "months": {
         "content": "$1"
@@ -619,7 +619,7 @@
     }
   },
   "dtDays": {
-    "message": "$days$ day$plural$",
+    "message": "$days$ giorn$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
@@ -630,7 +630,7 @@
     }
   },
   "dtHours": {
-    "message": "$hours$ hour$plural$",
+    "message": "$hours$ ora(e)",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -641,7 +641,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minute$plural$",
+    "message": "$minutes$ minut$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
