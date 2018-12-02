@@ -597,7 +597,7 @@
     "message": "o"
   },
   "dtYears": {
-    "message": "$years$ ann$plural$",
+    "message": "$years$ year$plural$",
     "placeholders": {
       "years": {
         "content": "$1"
@@ -608,7 +608,7 @@
     }
   },
   "dtMonths": {
-    "message": "$months$ mese(i)",
+    "message": "$months$ month$plural$",
     "placeholders": {
       "months": {
         "content": "$1"
@@ -619,7 +619,7 @@
     }
   },
   "dtDays": {
-    "message": "$days$ giorno$plural$",
+    "message": "$days$ day$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
@@ -630,7 +630,7 @@
     }
   },
   "dtHours": {
-    "message": "$hours$ ora(i)",
+    "message": "$hours$ hour$plural$",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -641,7 +641,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minuto$plural$",
+    "message": "$minutes$ minute$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
@@ -652,7 +652,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ secondo$many$",
+    "message": "$seconds$ second$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"
