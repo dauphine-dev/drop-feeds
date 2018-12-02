@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager*/
+/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager Feed*/
 'use strict';
 class Subscribe {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -25,7 +25,14 @@ class Subscribe {
     FolderTreeView.instance.load_async();
     FeedsNewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
-    document.getElementById('inputName').value = this._feedTitle;
+    if (this._feedTitle == '') {  
+      document.getElementById('inputName').disabled = true;
+      document.getElementById('inputName').value = 'Getting feed title, please wait...';
+      await this._updateFeedTitle_async();     
+    }
+    else {
+      document.getElementById('inputName').value = this._feedTitle;
+    }
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
     document.getElementById('cancelButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
     document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
@@ -33,6 +40,14 @@ class Subscribe {
       this._subscribeInfoWinId = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
     } catch (e) { }
     await LocalStorageManager.setValue_async('subscribeInfoWinId', null);
+  }
+
+  async _updateFeedTitle_async() {
+    let feed = await Feed.newByUrl(this._feedUrl);
+    await feed.updateTitle_async();
+    this._feedTitle = feed.title;
+    document.getElementById('inputName').disabled = false;
+    document.getElementById('inputName').value = this._feedTitle;
   }
 
   _updateLocalizedStrings() {

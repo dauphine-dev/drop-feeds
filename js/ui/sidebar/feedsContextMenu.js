@@ -202,7 +202,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   async _ctxOptSubscribeMenuClicked_event() {
     this.hide();
     OptionSubscribeDialog.instance.show(this._idComeFrom);
-    //Dialogs.openSubscribeDialog_async('', '');
   }
 
   async _ctxOptSettingsMenuClicked_event() {

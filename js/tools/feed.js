@@ -132,7 +132,9 @@ class Feed { /*exported Feed*/
     await this._download_async(ignoreRedirection, false, null);
     this._parseTitle();
     await this.save_async();
-    browser.bookmarks.update(this._storedFeed.id, { title: this._storedFeed.title });
+    if (this._storedFeed.id) {
+      browser.bookmarks.update(this._storedFeed.id, { title: this._storedFeed.title });
+    }
   }
 
 
