@@ -20,7 +20,7 @@ Support:
 - For any resquest or bug resport please visit this page:
     https://github.com/dauphine-dev/drop-feeds
 
-# Know-issues:
+# Know-issues
 https://github.com/dauphine-dev/drop-feeds/wiki/Know-issues
 
 # How to test
