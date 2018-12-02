@@ -652,7 +652,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ seconde$many$",
+    "message": "$seconds$ seconde$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"
