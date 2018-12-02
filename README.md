@@ -1,9 +1,34 @@
-# drop-feeds
-Drop Feeds is a RSS and Atom feed reader webextension for Mozilla Firefox.
-It works with a folder tree in sidebar panel.
+# Drop Feeds
+Drop Feeds is a lightweight RSS and Atom feed aggregator extension for Mozilla Firefox, inspired from Sage feed reader by Peter Andrews / Sage++ (Higmmer's Edition) by Higmmer
 
-# how to build
+Features:
+- Reads RSS and Atom feeds
+- Feed Discovery
+- User scripts editor
+- Imports and exports OPML feed lists
+- Security filters
+- Many themes (a theme editor should come soon)
+- Support for the following locales: English, French, Japanese, Chinese, German, Italian, Dutch
+
+Thank you to the contributors:
+- Development: Jeff T.
+- Translation: takepon1 (ja), yfdyh000 (zh), itsBeen (de), carlfranz (it), Judy85 (nl)
+- Miscellaneous (bug report, feature request, beta testing, ...): Decopi, lorenzolamas, meganomix, jinkama-san, DSpammy, readyblue, Bumbadawg, ChrisBertrandDotNet, StanGets, atomGit
+- And to the others that I can have forgotten...
+
+Support:
+- For any resquest or bug resport please visit this page:
+    https://github.com/dauphine-dev/drop-feeds
+
+# Note:
+Some times popup windows can be empty,  when it happens resize the window to force it to display his contains.# how to build
 Zip the entire source folder and that it all
 
-# how to test
-from about:debugging page open the file manifest.json
+# How to build
+Zip the entire source folder and that it all
+
+# How to test
+From `about:debugging` page open the file manifest.json (more details (here)[https://github.com/dauphine-dev/drop-feeds/wiki/How-to-test-Drop-Feed-from-source-code-%3F])
+
+# For more information visit Drop Feeds wiki
+https://github.com/dauphine-dev/drop-feeds/wiki
