@@ -35,7 +35,7 @@ class SideBar { /*exported SideBar*/
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    window.onresize = ((e) => { this._windowOnResize_event(e); });
+    window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
     document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
@@ -56,7 +56,7 @@ class SideBar { /*exported SideBar*/
   async _windowOnResize_event() {
     this.resize();
   }
-
+  
   _computeContentTop() {
     let refElementId = (FeedsFilterBar.instance.enabled ? 'filterBar' : 'statusBar');
     let refElement = document.getElementById(refElementId);
