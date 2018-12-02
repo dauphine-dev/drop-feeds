@@ -28,7 +28,7 @@ Zip the entire source folder and that it all
 Zip the entire source folder and that it all
 
 # How to test
-From `about:debugging` page open the file manifest.json (more details (here)[https://github.com/dauphine-dev/drop-feeds/wiki/How-to-test-Drop-Feed-from-source-code-%3F])
+From `about:debugging` page open the file manifest.json (more details here: https://github.com/dauphine-dev/drop-feeds/wiki/How-to-test-Drop-Feed-from-source-code-%3F)
 
 # For more information visit Drop Feeds wiki
 https://github.com/dauphine-dev/drop-feeds/wiki
