@@ -35,7 +35,8 @@ class SideBar { /*exported SideBar*/
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    this._addListeners();
+    window.onresize = ((e) => { this._windowOnResize_event(e); });
+    document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 
@@ -46,11 +47,6 @@ class SideBar { /*exported SideBar*/
   async openSubscribeDialog_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
     Dialogs.openSubscribeDialog_async(tabInfo.title, tabInfo.url);
-  }
-
-  _addListeners() {
-    window.onresize = ((e) => { this._windowOnResize_event(e); });
-    document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
   }
 
   async _contentOnScroll_event() {
