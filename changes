@@ -30,6 +30,8 @@ Add Italian translation (thank you to  carlfranz)
 Fix bookmarks management (issue on subscribe dialog/create new folder )
 e:
 Add Dutch translation (thank you to  Judy85)
+f:
+Fix date/time translations, fix Italian translation, fix English translation.
 
 0.9
 Add sidebar filter feature
