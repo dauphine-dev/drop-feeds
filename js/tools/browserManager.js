@@ -375,7 +375,18 @@ class BrowserManager { /* exported BrowserManager*/
     });
   }
 
+  static setElementHeight(element, height) {
+    element.style.height = height + 'px';
+    let weirdOffsetWorkAround = element.offsetHeight - height;
+    element.style.height = Math.max(height - weirdOffsetWorkAround, 0) + 'px';
+  }
 
+  static getDropFeedGUID() {
+    let baseUrl = this._getBaseFeedUrl();
+    let guid = baseUrl.substring(baseUrl.indexOf('//') + 2);
+    return guid;
+  }
+  
   //private stuffs
   _setAlwaysOpenNewTab_sbscrb(value) {
     this._alwaysOpenNewTab = value;
@@ -423,11 +434,5 @@ class BrowserManager { /* exported BrowserManager*/
     let feedBlob = new Blob([]);
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     return feedUrl.protocol + feedUrl.origin;
-  }
-
-  static setElementHeight(element, height) {
-    element.style.height = height + 'px';
-    let weirdOffsetWorkAround = element.offsetHeight - height;
-    element.style.height = Math.max(height - weirdOffsetWorkAround, 0) + 'px';
   }
 }
