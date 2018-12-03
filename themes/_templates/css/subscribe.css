@@ -54,8 +54,26 @@ tr>td {
   padding-bottom: 4px;
 }
 /* other */
+.smallButton::before {
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#updateFeedTitleButton::before {
+  background-image: var(--feeds-feedContextMenuFeedTitle-image);
+}
+
+#stopUpdatingFeedTitleButton::before {
+  background-image: var(--feeds-feedContextMenuDelete-image);
+}
+
 #inputName {
   white-space: nowrap;
+  width: calc(100% - 45px);
 }
 
 .atTop {
@@ -106,7 +124,7 @@ input:checked ~ .folderOpen {
   display: inline;
 }
 .folderOpen::before {
-  background-image: url(/themes/legacy/img/folder-open.png);
+  background-image: var(--feeds-folderOpen-image);
   background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -118,7 +136,7 @@ input:checked ~ .folderOpen {
 
 }
 .folderClose::before {
-  background-image: url(/themes/legacy/img/folder-closed.png);
+  background-image: var(--feeds-folderClose-image);
   background-size: 16px 16px;
   background-repeat: no-repeat;
   display: inline-block;

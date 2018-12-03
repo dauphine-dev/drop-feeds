@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager Feed*/
+/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager Feed CssManager*/
 'use strict';
 class Subscribe {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -7,6 +7,7 @@ class Subscribe {
     this._feedTitle = null;
     this._feedUrl = null;
     this._subscribeInfoWinId = null;
+    this._feedTitleUpdatingAborted = false;
   }
 
   async init_async() {
@@ -26,13 +27,15 @@ class Subscribe {
     FeedsNewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
     if (this._feedTitle == '') {  
-      document.getElementById('inputName').disabled = true;
-      document.getElementById('inputName').value = 'Getting feed title, please wait...';
-      await this._updateFeedTitle_async();     
+      await this._updateFeedTitle_async();
     }
     else {
       document.getElementById('inputName').value = this._feedTitle;
     }
+    CssManager.setElementEnableById('updateFeedTitleButton', true);
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
+    document.getElementById('updateFeedTitleButton').addEventListener('click', (e) => { this._updateFeedTitleButtonClicked_event(e); });
+    document.getElementById('stopUpdatingFeedTitleButton').addEventListener('click', (e) => { this.stopUpdatingFeedTitleButtonClicked_event(e); });
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
     document.getElementById('cancelButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
     document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
@@ -40,14 +43,6 @@ class Subscribe {
       this._subscribeInfoWinId = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
     } catch (e) { }
     await LocalStorageManager.setValue_async('subscribeInfoWinId', null);
-  }
-
-  async _updateFeedTitle_async() {
-    let feed = await Feed.newByUrl(this._feedUrl);
-    await feed.updateTitle_async();
-    this._feedTitle = feed.title;
-    document.getElementById('inputName').disabled = false;
-    document.getElementById('inputName').value = this._feedTitle;
   }
 
   _updateLocalizedStrings() {
@@ -63,6 +58,43 @@ class Subscribe {
     document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
     document.getElementById('inputNewFolder').value = browser.i18n.getMessage('subNewFolder');
+  }
+
+  async _updateFeedTitle_async() {
+    this._feedTitleUpdatingAborted = false;
+    CssManager.setElementEnableById('updateFeedTitleButton', false);
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', true);
+    document.getElementById('inputName').disabled = true;
+    document.getElementById('inputName').value = 'Updating feed title, please wait...';
+    let feed = await Feed.newByUrl(this._feedUrl);
+    await feed.updateTitle_async();
+    if (!this._feedTitleUpdatingAborted) {
+      this._feedTitle = feed.title;
+      document.getElementById('inputName').value = this._feedTitle;
+      document.getElementById('inputName').disabled = false;  
+      CssManager.setElementEnableById('updateFeedTitleButton', true);
+      CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
+    }
+  }
+
+  async _stopUpdatingFeedTitle_async() {
+    this._feedTitleUpdatingAborted = true;
+    document.getElementById('inputName').value = this._feedTitle;
+    document.getElementById('inputName').disabled = false;
+    CssManager.setElementEnableById('updateFeedTitleButton', true);
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
+}
+
+  async _updateFeedTitleButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this._updateFeedTitle_async();
+  }
+
+  async stopUpdatingFeedTitleButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this._stopUpdatingFeedTitle_async();
   }
 
   async _newFolderButtonClicked_event(event) {
