@@ -1,4 +1,4 @@
-/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog BrowserManager Feed CssManager SecurityFilters DefaultValues*/
+/*global browser FolderTreeView LocalStorageManager FeedsNewFolderDialog Feed CssManager SecurityFilters DefaultValues*/
 'use strict';
 class Subscribe {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -15,24 +15,18 @@ class Subscribe {
   async init_async() {
     let urlLoading = URL.createObjectURL(new Blob(['Loading...']));
     document.getElementById('feedPreview').setAttribute('src', urlLoading);
-
-    let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
     await FolderTreeView.instance.init_async();
     await SecurityFilters.instance.init_async();
+    let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
     if (subscribeInfo) {
       this._feedTitle = subscribeInfo.feedTitle;
       this._feedUrl = subscribeInfo.feedUrl;
     }
+    this._feed = await Feed.newByUrl(this._feedUrl);
+    this._setFeedTitle_async();
     FolderTreeView.instance.load_async();
     FeedsNewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
-    this._feed = await Feed.newByUrl(this._feedUrl);
-    if (this._feedTitle == '') {  
-      await this._updateFeedTitle_async();
-    }
-    else {
-      document.getElementById('inputName').value = this._feedTitle;
-    }
     this._updateFeedPreview_async();
     CssManager.setElementEnableById('updateFeedTitleButton', true);
     CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
@@ -40,18 +34,33 @@ class Subscribe {
     document.getElementById('stopUpdatingFeedTitleButton').addEventListener('click', (e) => { this.stopUpdatingFeedTitleButtonClicked_event(e); });
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
     document.getElementById('cancelButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
-    document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });    
+    document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
     document.getElementById('chkShowFeedPreview').addEventListener('click', (e) => { this._chkShowFeedPreviewClicked_event(e); });
     document.getElementById('chkShowFeedPreview').addEventListener('click', (e) => { this._chkShowFeedPreviewClicked_event(e); });
+    this._setFeedPreviewVisibility_async();
+    this._setSubscribeInfoWinId_async();
+  }
 
+  async _setFeedTitle_async() {
+    if (this._feedTitle == '') {
+      await this._updateFeedTitle_async();
+    }
+    else {
+      document.getElementById('inputName').value = this._feedTitle;
+    }    
+  }
+
+  async _setFeedPreviewVisibility_async() {
     let showFeedPreview = await LocalStorageManager.getValue_async('showFeedPreview', DefaultValues.showFeedPreview);
     document.getElementById('chkShowFeedPreview').checked = showFeedPreview;
     this._updateFeedPreviewVisibility_async(showFeedPreview);
+  }
+
+  async _setSubscribeInfoWinId_async() {
     try {
       this._subscribeInfoWinId = (await LocalStorageManager.getValue_async('subscribeInfoWinId')).winId;
     } catch (e) { }
     await LocalStorageManager.setValue_async('subscribeInfoWinId', null);
-    this._windowOnResize_event();
   }
 
   _updateLocalizedStrings() {
@@ -85,7 +94,7 @@ class Subscribe {
     if (!this._feedTitleUpdatingAborted) {
       this._feedTitle = this._feed.title;
       document.getElementById('inputName').value = this._feedTitle;
-      document.getElementById('inputName').disabled = false;  
+      document.getElementById('inputName').disabled = false;
       CssManager.setElementEnableById('updateFeedTitleButton', true);
       CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
     }
@@ -145,6 +154,7 @@ class Subscribe {
     await LocalStorageManager.setValue_async('showFeedPreview', showFeedPreview);
     if (showFeedPreview) {
       document.getElementById('feedPreview').classList.remove('hide');
+      this._windowOnResize_event();
     }
     else {
       document.getElementById('feedPreview').classList.add('hide');
@@ -170,7 +180,7 @@ class Subscribe {
   async _windowOnResize_event() {
     let rec = document.getElementById('feedPreview').getBoundingClientRect();
     let height = Math.max(window.innerHeight - rec.top - 10, 0);
-    document.getElementById('feedPreview').style.height  = height + 'px';
+    document.getElementById('feedPreview').style.height = height + 'px';
   }
 }
 Subscribe.instance.init_async();
