@@ -13,6 +13,7 @@ class SecurityFilters { /* exported SecurityFilters*/
   }
 
   async init_async() {
+    await this._wkRplc.init_async();
     this._allowedHtmlTagList = await LocalStorageManager.getValue_async('allowedHtmlElementsList', DefaultValues.allowedTagList);
     this._rejectedCssFragmentList = await LocalStorageManager.getValue_async('rejectedCssFragmentList', DefaultValues.rejectedCssFragmentList);
   }
