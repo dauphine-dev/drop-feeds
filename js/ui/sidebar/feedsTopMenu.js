@@ -1,7 +1,6 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager*/
 /*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu*/
 'use strict';
-const _delayMsStopChecking = 1000;
 class FeedsTopMenu { /*exported FeedsTopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -98,13 +97,6 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-/*
-let checkingFeedsStartTimeDelay  = new Date(this._checkingFeedsStartTime.getTime() + _delayMsStopChecking);
-if (FeedManager.instance.checkingFeeds && new Date() > checkingFeedsStartTimeDelay ) {
-  await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
-  return;
-}
-*/
     FeedManager.instance.checkFeeds_async('feedsContentPanel');
   }
 
