@@ -1,4 +1,4 @@
-html {
+html, body, #mainDiv {
   height: 100%;
 }
 
@@ -16,6 +16,7 @@ body{
   text-align: center;
   height: 15px;
 }
+
 
 #content {
   margin-top: -1px;
@@ -105,22 +106,26 @@ tr>td {
 }
 
 /* folders */
-input[type="checkbox"] {
+/*
+.foldercheckbox{
+
+}*/
+.folder input[type="checkbox"] {
   display: none;
 }
-input ~ ul {
+.folder input ~ ul {
   display: none;
 }
-input:checked ~ ul {
+.folder input:checked ~ ul {
   display: block;
 }
-input ~ .folderOpen {
+.folder input ~ .folderOpen {
   display: none;
 }
-input:checked ~ .folderClose {
+.folder input:checked ~ .folderClose {
   display: none;
 }
-input:checked ~ .folderOpen {
+.folder input:checked ~ .folderOpen {
   display: inline;
 }
 .folderOpen::before {
@@ -167,11 +172,17 @@ li {
   z-index: 1;
 }
 
+/* Feed preview */
+#feedPreview {
+  width: 98%;
+  height: 0;
+}
+
 .hide {
   display: none;
 }
 
 .show {
-  display:block;
+  display: block;
 }
 

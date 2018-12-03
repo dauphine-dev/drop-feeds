@@ -1,86 +1,102 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link href="/themes/_templates/css/subscribe.css" rel="stylesheet">
-    <link id="cssMain" href="/themes/legacy/css/main.css" rel="stylesheet">
-    <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png"/>
-    <script src="/js/tools/browserManager.js"></script>
-    <script src="/js/tools/cssManager.js"></script>
-    <script src="/js/tools/defaultValues.js"></script>
-    <script src="/js/tools/feed.js"></script>
-    <script src="/js/tools/feedParser.js"></script>
-    <script src="/js/tools/listener.js"></script>
-    <script src="/js/tools/localStorageManager.js"></script>
-    <script src="/js/tools/textTools.js"></script>
-    <script src="/js/tools/themeManager.js"></script>
-    <script src="/js/tools/transfer.js"></script>
-    <script src="/js/tools/userScriptTools.js"></script>
-    <script src="/js/tools/theme-refresh.js"></script>
 
-    <title>Drop Feeds (subscribe)</title>
-  </head>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_templates/css/subscribe.css" rel="stylesheet">
+  <link id="cssMain" href="/themes/legacy/css/main.css" rel="stylesheet">
+  <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
+  <script src="/js/tools/browserManager.js"></script>
+  <script src="/js/tools/compute.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/feed.js"></script>
+  <script src="/js/tools/feedParser.js"></script>
+  <script src="/js/tools/feedRenderer.js"></script>
+  <script src="/js/tools/feedTransform.js"></script>
+  <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/securityFilters.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/userScriptTools.js"></script>
+  <script src="/js/tools/usScriptTools.js"></script>
+  <script src="/js/tools/workerPool.js"></script>
+  <script src="/js/tools/theme-refresh.js"></script>
 
-  <body>
-    <div id="mainDiv">
-      <h3 id="title" class="title">Subscribe with Drop Feeds</h3>
-      <table>
-        <tr class="spaceUnder">
-          <td><label id="labelName">Name: </label></td>
-          <td>
-            <input type="text" id="inputName" class="fieldText">
-            <span id="updateFeedTitleButton" title="Update feed title" class="smallButton"></span>
-            <span id="stopUpdatingFeedTitleButton" title="Stop updating feed title" class="smallButton"></span>
-          </td>
-        </tr>
+  <title>Drop Feeds (subscribe)</title>
+</head>
+
+<body>
+  <div id="mainDiv">
+    <h3 id="title" class="title">Subscribe with Drop Feeds</h3>
+    <table>
+      <tr class="spaceUnder">
+        <td><label id="labelName">Name: </label></td>
+        <td>
+          <input type="text" id="inputName" class="fieldText">
+          <span id="updateFeedTitleButton" title="Update feed title" class="smallButton"></span>
+          <span id="stopUpdatingFeedTitleButton" title="Stop updating feed title" class="smallButton"></span>
+        </td>
+      </tr>
+      <tr>
         <!-- folder treeview start -->
+        <td class="atTop"><label id="labelFolder">Folder: </label></td>
+        <td>
+          <div id="folderView">
+            <ul id="content">
+            </ul>
+          </div>
+        </td>
+      </tr> <!-- folder treeview end -->
+      <tr>
+        <td></td>
+        <td><button id="newFolderButton">New folder</button></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <span id="windowCloseError" style="color: red; visibility: hidden;">#Drop feeds has failed to close the windows, please close it manually.</span>
+          <div class="atRight">
+            <button id="cancelButton">Cancel</button>
+            <button id="subscribeButton">Subscribe</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- feed preview -->
+    <div>
+      <input type="checkbox" id="chkShowFeedPreview">
+      <span id="textShowFeedPreview">#Show feed preview</span>
+    </div>
+    <iframe id="feedPreview" src="loading..." class="hide"></iframe>
+    <!-- new folder dialog -->
+    <div id="newFolderDialog" class="hide">
+      <table>
         <tr>
-          <td class="atTop"><label id="labelFolder">Folder: </label></td>
-          <td>
-            <div id="folderView">
-              <ul id="content">
-              </ul>
-            </div>
-          </td>
+          <td><label id="newFolderButtonDialog">New folder: </label></td>
+          <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
         </tr>
-        <!-- folder treeview end -->
         <tr>
           <td></td>
-          <td><button id="newFolderButton">New folder</button></td>
-        </tr>
-        <tr>
-          <td></td>
           <td>
-            <span id="windowCloseError" style="color: red; visibility: hidden;">#Drop feeds has failed to close the windows, please close it manually.</span>
-            <div class="atRight">
-              <button id="cancelButton">Cancel</button>
-              <button id="subscribeButton">Subscribe</button>
+            <div style="display: inline-flex;">
+              <button id="cancelNewFolderButton">Cancel</button>&nbsp;
+              <button id="createNewFolderButton">Subscribe</button>
             </div>
           </td>
         </tr>
       </table>
-
-      <div id="newFolderDialog" class="hide">
-        <table>
-          <tr>
-            <td><label id="newFolderButtonDialog" >New folder: </label></td>
-            <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-                <div style="display: inline-flex;">
-                  <button id="cancelNewFolderButton">Cancel</button>&nbsp;
-                  <button id="createNewFolderButton">Subscribe</button>
-                </div>
-            </td>
-          </tr>
-        </table>
-      </div>
     </div>
-    <script src="/js/ui/subscribe/newFolderDialog.js"></script>
-    <script src="/js/ui/subscribe/folderTreeView.js"></script>
-    <script src="/js/ui/subscribe/subscribe.js"></script>
-  </body>
+  </div>
+  <script src="/js/ui/subscribe/newFolderDialog.js"></script>
+  <script src="/js/ui/subscribe/folderTreeView.js"></script>
+  <script src="/js/ui/subscribe/subscribe.js"></script>
+</body>
+
 </html>

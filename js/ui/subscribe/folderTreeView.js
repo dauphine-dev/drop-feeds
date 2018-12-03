@@ -4,7 +4,7 @@ class FolderTreeView { /*exported FolderTreeView*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._html= [];
+    this._html = [];
     this._rootBookmarkId = DefaultValues.rootBookmarkId;
     this._selectedId = DefaultValues.rootBookmarkId;
   }
@@ -27,7 +27,7 @@ class FolderTreeView { /*exported FolderTreeView*/
   }
 
   async _createItemsForSubTree_async(bookmarkItems) {
-    this._html= [];
+    this._html = [];
     await this._prepareSbItemsRecursively_async(bookmarkItems[0], 10, this._selectedId);
     BrowserManager.setInnerHtmlById('content', '\n' + this._html.join(''));
   }
@@ -39,25 +39,26 @@ class FolderTreeView { /*exported FolderTreeView*/
       await this._createFolderSbItem_async(bookmarkItem, indent, idToSelect);
       indent += 2;
     }
-    indent -=2;
+    indent -= 2;
   }
 
-  async _createFolderSbItem_async (bookmarkItem, indent, idToSelect) {
+  async _createFolderSbItem_async(bookmarkItem, indent, idToSelect) {
     let id = bookmarkItem.id;
     let folderName = bookmarkItem.title.trim();
     if (folderName == '') { folderName = '&nbsp;&nbsp;'; }
-    let selected = (idToSelect == id ? ' class="selected"' : '');
-    let selected1 = (idToSelect == id ? ' class="selected1"' : '');
+    let selected = (idToSelect == id ? 'selected' : '');
+    let selected1 = (idToSelect == id ? 'selected1' : '');
     let folderLine = '';
     folderLine += TextTools.makeIndent(indent) +
-    '<div id="dv-' + id + '" class="folder">\n';
+      '<div id="dv-' + id + '" class="folder">\n';
     indent += 2;
     folderLine += TextTools.makeIndent(indent) +
-    '<li>' +
-    '<input type="checkbox" id="cb-' + id + '" checked' + selected1 + '/>' +
-    '<label for="cb-' + id + '" class="folderClose"' + selected1 + '></label>' +
-    '<label for="cb-' + id + '" class="folderOpen"' + selected1 + '></label>' +
-    '<label id="lbl-' + id + '" class="folderLabel"' + selected + '>' + folderName + '</label>\n';
+      '<li>' +
+      '<input type="checkbox" id="cb-' + id + '" checked class="folderCheckbox ' + selected1 + '"/>' +
+      '<label for="cb-' + id + '" class="folderClose ' + selected1 + '"></label>' +
+      '<label for="cb-' + id + '" class="folderOpen ' + selected1 + '"></label>' +
+      '<label id="lbl-' + id + '" class="folderLabel ' + selected + '">' + folderName + '</label>\n';
+
     folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '">\n';
     indent += 2;
     this._html.push(folderLine);
@@ -86,8 +87,8 @@ class FolderTreeView { /*exported FolderTreeView*/
     //event.preventDefault();
     let element = event.currentTarget;
     let attributeId = element.getAttribute('id');
-    let rawId  = attributeId ? attributeId : element.getAttribute('for');
-    let id  = attributeId ? rawId.substring(4) : rawId.substring(3);
+    let rawId = attributeId ? attributeId : element.getAttribute('for');
+    let id = attributeId ? rawId.substring(4) : rawId.substring(3);
     this._selectFolder(id);
   }
 
