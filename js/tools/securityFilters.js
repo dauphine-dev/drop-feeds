@@ -1,4 +1,4 @@
-/* global Listener ListenerProviders DefaultValues LocalStorageManager TextTools Wk*/
+/* global Listener ListenerProviders DefaultValues LocalStorageManager TextTools WorkerReplace*/
 'use strict';
 const _blackListHtmlTagsTopShow = [{ 'blink': [] }, { 'marquee': [] }];
 class SecurityFilters { /* exported SecurityFilters*/
