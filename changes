@@ -4,6 +4,7 @@ Add stack trace in error messages
 Fix error on empty item field
 Subscribe by feed url
 Esc close the context menu
+Display GUID in Options/Advanced
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.

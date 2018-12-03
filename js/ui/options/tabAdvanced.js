@@ -1,4 +1,4 @@
-/*global browser */
+/*global browser BrowserManager*/
 'use strict';
 class TabAdvanced { /*exported TabAdvanced*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -7,6 +7,7 @@ class TabAdvanced { /*exported TabAdvanced*/
     this._updateLocalizedStrings();
     document.getElementById('scriptManagerButton').addEventListener('click', (e) => { this._scriptManagerButtonOnClicked_event(e); });
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
+    document.getElementById('fieldGuid').value = BrowserManager.getDropFeedGUID();
   }
 
   async init_async() {
