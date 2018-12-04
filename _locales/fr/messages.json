@@ -138,13 +138,13 @@
     "message": "Aucun flux n'a été mis à jour"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "Recharger Drop Feeds"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "S'abonner à l'aide d'une url"
   },
   "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "Ouvrir les réglages..."
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
@@ -159,19 +159,19 @@
     "message": "Nom"
   },
   "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
+    "message": "Mettre à jour le nom du flux"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "Arrêter la mise à jour du nom"
   },
   "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed name, please wait..."
+    "message": "Mise à du nom de flux en cours, veuillez patienter..."
   },
   "subFolder": {
     "message": "Dossier"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "Nouveau dossier"
   },
   "subNewFolder": {
     "message": "Nouveau dossier"
@@ -192,8 +192,8 @@
     "message": "Show feed preview"
   },
   "subLoading": {
-    "message": "Loading..."
-  },  
+    "message": "Chargement en cours..."
+  },
   "comment4": {
     "message": "------------------Discover strings------------------"
   },
@@ -257,7 +257,7 @@
   "optTheme": {
     "message": "Theme"
   },
-"optManagement": {
+  "optManagement": {
     "message": "Gestion"
   },
   "optSelectFeedFolder": {
@@ -272,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "Theme principal"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Modèle de l'onglet de rendu"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Theme de l'onglet de rendu"
   },
   "optFeedItemOrder": {
@@ -388,7 +388,7 @@
   },
   "messageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "Fitres HTML"
   },
@@ -525,17 +525,18 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "S'abonner à l'aide d'une url"
   },
   "sbSubsDiaUrlLbl": {
     "message": "Url"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Close"
+    "message": "Fermer"
   },
   "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
-  },  "comment9": {
+    "message": "S’abonner"
+  },
+  "comment9": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
