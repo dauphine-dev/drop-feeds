@@ -521,7 +521,7 @@
   "sbInfoCloseButton": {
     "message": "Chiudi"
   },
-  "comment8.1": {
+  "comment9": {
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
@@ -535,7 +535,8 @@
   },
   "sbsubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
-  },  "comment9": {
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -568,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Elimina script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -607,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Salva e sottoscrivi..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -622,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Dimensione Tab"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -631,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Copia il testo della console"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
@@ -696,7 +697,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ secondo$many$",
+    "message": "$seconds$ secondo$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"

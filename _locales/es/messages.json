@@ -37,7 +37,7 @@
   },
   "sbFilter": {
     "message": "Filtro"
-  },  
+  },
   "sbFilterClearButton": {
     "message": "Borrar filtro"
   },
@@ -193,7 +193,7 @@
   },
   "subLoading": {
     "message": "Loading..."
-  },  
+  },
   "comment4": {
     "message": "------------------Cadenas de descubrimiento------------------"
   },
@@ -269,13 +269,13 @@
   "optDoNotDisplayRootFolder": {
     "message": "No mostrar la carpeta raíz"
   },
-  "optSelectMainTheme": { 
+  "optSelectMainTheme": {
     "message": "Seleccionar tema principal"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Select render tab template"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
@@ -388,7 +388,7 @@
   },
   "optMessageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "Filtros HTML"
   },
@@ -521,7 +521,7 @@
   "sbInfoCloseButton": {
     "message": "Cerrar"
   },
-  "comment8.1": {
+  "comment9": {
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
@@ -535,7 +535,8 @@
   },
   "sbsubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
-  },  "comment9": {
+  },
+  "comment10": {
     "message": "------------------Cadenas de gestor de scripts------------------"
   },
   "usUScriptCreateNew": {
@@ -568,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Eliminar script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Cadenas de editor de scripts------------------"
   },
   "usUScriptCommands": {
@@ -607,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Guardar y suscribirse..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Cadenas de editor de texto------------------"
   },
   "usUScriptFont": {
@@ -622,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Tamaño de la pestaña"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Cadenas de editor de consola------------------"
   },
   "edConsoleClear": {
@@ -631,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Copiar consola de texto"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------cadenas de DateTime.getDateDiff------------------"
   },
   "dtMany": {
@@ -696,14 +697,14 @@
     }
   },
   "dtSeconds": {
-    "message": "$segundos$ segundo$many$",
+    "message": "$segundos$ segundo$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"
       },
-      "many": {
+      "plural": {
         "content": "$2"
       }
     }
-    }
-    }
+  }
+}

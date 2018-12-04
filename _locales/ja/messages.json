@@ -257,7 +257,7 @@
   "optTheme": {
     "message": "テーマ"
   },
-"optManagement": {
+  "optManagement": {
     "message": "インポート/エクスポート"
   },
   "optSelectFeedFolder": {
@@ -272,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "テーマ"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "表示領域のテンプレート"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "表示領域のテーマ"
   },
   "optFeedItemOrder": {
@@ -388,7 +388,7 @@
   },
   "messageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTMLフィルタ"
   },
@@ -521,7 +521,7 @@
   "sbInfoCloseButton": {
     "message": "閉じる"
   },
-  "comment8.1": {
+  "comment9": {
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
@@ -535,7 +535,8 @@
   },
   "sbsubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
-  },  "comment9": {
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -568,7 +569,7 @@
   "usUScriptDelete": {
     "message": "スクリプトの削除"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -594,11 +595,9 @@
   },
   "usUScriptFtInfo": {
     "message": "フィード変換 (info)",
-    "comment": "Note for the translator: Info. means Information (you can delete the note)"
   },
   "usUScriptVfInfo": {
     "message": "仮想フィード (info)",
-    "comment": "Note for the translator: Info. means Information (you can delete the note)"
   },
   "usUScriptHelp": {
     "message": "ヘルプ"
@@ -609,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "保存して購読..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -624,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "タブサイズ"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -633,7 +632,7 @@
   "edConsoleCopy": {
     "message": "テキストコンソールをコピー"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {

@@ -37,7 +37,7 @@
   },
   "sbFilter": {
     "message": "Filter"
-  },  
+  },
   "sbFilterClearButton": {
     "message": "Filter opheffen"
   },
@@ -269,13 +269,13 @@
   "optDoNotDisplayRootFolder": {
     "message": "Root folder niet tonen"
   },
-  "optSelectMainTheme": { 
+  "optSelectMainTheme": {
     "message": "Selecteer hoofdthema"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Selecteer weergavesjabloon"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Selecteer het weergavetabblad thema"
   },
   "optFeedItemOrder": {
@@ -388,7 +388,7 @@
   },
   "optMessageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTML Filters"
   },
@@ -521,7 +521,7 @@
   "sbInfoCloseButton": {
     "message": "Sluiten"
   },
-  "comment8.1": {
+  "comment9": {
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
@@ -535,7 +535,8 @@
   },
   "sbsubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
-  },  "comment9": {
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -568,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Verwijder script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -607,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Bewaren en abonneren..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -622,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Tab grootte"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -631,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Kopieer consoletekst"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
