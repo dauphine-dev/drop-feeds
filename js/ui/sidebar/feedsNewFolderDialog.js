@@ -16,6 +16,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   }
 
   show(selectedId) {
+    console.log('selectedId:', selectedId);
     this._selectedId = selectedId;
     this._elNewFolderDialog.classList.remove('hide');
     this._elNewFolderDialog.classList.add('show');
@@ -41,7 +42,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     let elSelectedElement = document.getElementById(this._selectedId);
     let rectSelectedElement = elSelectedElement.getBoundingClientRect();
     let x = Math.round(rectSelectedElement.left);
-    let y = Math.round(rectSelectedElement.bottom);
+    let y = Math.round(rectSelectedElement.top) + 20;
     let xMax  = Math.max(0, elMainDiv.offsetWidth - this._elNewFolderDialog.offsetWidth + 18);
     let yMax  = Math.max(0, elMainDiv.offsetHeight - this._elNewFolderDialog.offsetHeight + 20);
     x = Math.min(xMax, x);
