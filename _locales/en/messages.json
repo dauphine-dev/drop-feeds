@@ -157,6 +157,9 @@
   },
   "subName": {
     "message": "Name"
+  },  
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Updating feed title, please wait..."
   },
   "subFolder": {
     "message": "Folder"
@@ -181,6 +184,9 @@
   },
   "subShowFeedPreview": {
     "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Loading..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"

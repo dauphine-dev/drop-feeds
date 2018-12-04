@@ -13,7 +13,8 @@ class Subscribe {
   }
 
   async init_async() {
-    let urlLoading = URL.createObjectURL(new Blob(['Loading...']));
+    let loadingMessage = browser.i18n.getMessage('subLoading');
+    let urlLoading = URL.createObjectURL(new Blob([loadingMessage]));
     document.getElementById('feedPreview').setAttribute('src', urlLoading);
     await FolderTreeView.instance.init_async();
     await SecurityFilters.instance.init_async();
@@ -90,7 +91,7 @@ class Subscribe {
     CssManager.setElementEnableById('updateFeedTitleButton', false);
     CssManager.setElementEnableById('stopUpdatingFeedTitleButton', true);
     document.getElementById('inputName').disabled = true;
-    document.getElementById('inputName').value = 'Updating feed title, please wait...';
+    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlswait');    
     await this._feed.updateTitle_async();
     if (!this._feedTitleUpdatingAborted) {
       this._feedTitle = this._feed.title;
