@@ -8,11 +8,11 @@ Features:
 - Imports and exports OPML feed lists
 - Security filters
 - Many themes (a theme editor should come soon)
-- Support for the following locales: English, French, Japanese, Chinese, German, Italian, Dutch
+- Support for the following locales: English, French, Japanese, Chinese, German, Italian, Dutch, Spanish
 
 Thank you to the contributors:
 - Development: Jeff T.
-- Translation: takepon1 (ja), yfdyh000 (zh), itsBeen (de), carlfranz (it), Judy85 (nl)
+- Translation: takepon1 (ja), yfdyh000 (zh), itsBeen (de), carlfranz (it), Judy85 (nl), anauta (es)
 - Miscellaneous (bug report, feature request, beta testing, ...): Decopi, lorenzolamas, meganomix, jinkama-san, DSpammy, readyblue, Bumbadawg, ChrisBertrandDotNet, StanGets, atomGit
 - And to the others that I can have forgotten...
 
