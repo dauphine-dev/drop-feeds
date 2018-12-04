@@ -16,7 +16,6 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   }
 
   show(selectedId) {
-    console.log('selectedId:', selectedId);
     this._selectedId = selectedId;
     this._elNewFolderDialog.classList.remove('hide');
     this._elNewFolderDialog.classList.add('show');
