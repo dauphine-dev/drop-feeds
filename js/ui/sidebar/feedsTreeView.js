@@ -34,7 +34,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._html = [];
     this._computeHtmlTree(cacheLocalStorage, this._rootBookmark, 10, this._displayRootFolder);
     this._html = this._html.slice(0, -3);
-    BrowserManager.setInnerHtmlById('feedsContentPanel', '\n' + this._html.join(''), true);
+    BrowserManager.setInnerHtmlById('feedsContentPanel', '\n' + this._html.join(''));
     this.updateAllFolderCount();
     this._addEventListenerOnFeedItems();
     this._addEventListenerOnFeedFolders();

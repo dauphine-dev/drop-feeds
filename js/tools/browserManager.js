@@ -164,47 +164,19 @@ class BrowserManager { /* exported BrowserManager*/
     return result;
   }
 
-  static setInnerHtmlByElement(element, textHtml, forceFixMissingTag) {
-    BrowserManager.removeAllChild(element);
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, forceFixMissingTag);
+  static setInnerHtmlByElement(element, textHtml) {
+    this.removeAllChild(element);
+    let documentFragment = document.createRange().createContextualFragment(textHtml);
     element.appendChild(documentFragment);
   }
 
-  static setInnerHtmlById(id, textHtml, forceFixMissingTag) {
-    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml, forceFixMissingTag);
+  static setInnerHtmlById(id, textHtml) {
+    BrowserManager.setInnerHtmlByElement(document.getElementById(id), textHtml);
   }
 
-  static insertAdjacentHTMLBeforeEnd(element, textHtml, forceFixMissingTag) {
-    let documentFragment = BrowserManager.textHtmlToDocumentFragment(textHtml, forceFixMissingTag);
+  static insertAdjacentHTMLBeforeEnd(element, textHtml) {
+    let documentFragment = document.createRange().createContextualFragment(textHtml);
     element.appendChild(documentFragment);
-  }
-
-  static textHtmlToDocumentFragment(textHtml, forceFixMissingTag) {
-    let documentFragment = document.createDocumentFragment();
-    textHtml = textHtml.trim();
-    try {
-      let nodes = this._textHtmlToNodes(textHtml, forceFixMissingTag);
-      documentFragment.appendChild(nodes);
-    }
-    catch (e) {
-      let nodes = this._textHtmlToNodes(textHtml, true);
-      documentFragment.appendChild(nodes);
-    }
-    return documentFragment;
-  }
-
-  static _textHtmlToNodes(textHtml, fixMissingTag) {
-    let nodes = null;
-    let parser = new DOMParser();
-    if (TextTools.isNullOrEmpty(textHtml)) {
-      nodes = document.createTextNode('');
-    }
-    else {
-      if (fixMissingTag) { textHtml = '<span>' + textHtml + '</span>'; }
-      nodes = parser.parseFromString(textHtml, 'text/html').documentElement.childNodes[1];
-      nodes = nodes.childNodes[0];
-    }
-    return nodes;
   }
 
   static removeAllChild(element) {
