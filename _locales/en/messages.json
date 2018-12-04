@@ -37,7 +37,7 @@
   },
   "sbFilter": {
     "message": "Filter"
-  },  
+  },
   "sbFilterClearButton": {
     "message": "Clear filter"
   },
@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "No Feed has been updated"
   },
+  "sbCtxOptReload": {
+    "message": "Reload Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Subscribe by url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Open settings..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -152,6 +161,9 @@
   "subFolder": {
     "message": "Folder"
   },
+  "subFolderDialogTitle": {
+    "message": "New folder"
+  },
   "subNewFolder": {
     "message": "New folder"
   },
@@ -166,6 +178,9 @@
   },
   "subCreate": {
     "message": "Create"
+  },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -242,13 +257,13 @@
   "optDoNotDisplayRootFolder": {
     "message": "Do not display root folder"
   },
-  "optSelectMainTheme": { 
+  "optSelectMainTheme": {
     "message": "Select main theme"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Select render tab template"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
@@ -361,7 +376,7 @@
   },
   "optMessageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTML Filters"
   },
@@ -474,7 +489,10 @@
     "message": "Subscribe now"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Info"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -489,6 +507,21 @@
     "message": "Update"
   },
   "sbInfoCloseButton": {
+    "message": "Close"
+  },
+  "comment8.1": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Subscribe by url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Subscribe"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
     "message": "Close"
   },
   "comment9": {

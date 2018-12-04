@@ -27,6 +27,7 @@ class FeedsInfoView { /*exported FeedsInfoView*/
   }
 
   _updateLocalizedStrings() {
+    document.getElementById('infoDialogTitle').textContent = browser.i18n.getMessage('sbInfoDialogTitle');
     document.getElementById('infoIdLbl').textContent = browser.i18n.getMessage('sbInfoIdLdl');
     document.getElementById('infoNameLbl').textContent = browser.i18n.getMessage('sbInfoNameLbl');
     document.getElementById('infoAddressLbl').textContent = browser.i18n.getMessage('sbInfoAddressLbl');

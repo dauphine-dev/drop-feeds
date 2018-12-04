@@ -30,6 +30,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   }
 
   _updateLocalizedStrings() {
+    document.getElementById('newFolderDialogTitle').textContent = browser.i18n.getMessage('subFolderDialogTitle');
     document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');

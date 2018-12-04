@@ -72,6 +72,7 @@ class Subscribe {
     document.getElementById('windowCloseError').textContent = browser.i18n.getMessage('subWindowCloseError');
     document.getElementById('cancelButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('subscribeButton').textContent = browser.i18n.getMessage('subSubscribe');
+    document.getElementById('textShowFeedPreview').textContent = browser.i18n.getMessage('subShowFeedPreview');
     document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');

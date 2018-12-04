@@ -12,3 +12,14 @@ version;line;messageName;message;where;note
 0.9.1;248;optSelectRenderTemplate;Select render tab template;in options / theme;n/a
 0.9.1;251;optSelectRenderTheme;Select render tab theme;in options / theme;n/a
 0.9.1;305;optFeedItemRenderInSidebar;Render selected item in the sidebar;in options / Items;n/a
+
+0.9.2  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9.2;140;sbCtxOptReload;Reload Drop Feeds;Option/1st entry;n/a
+0.9.2;143;sbCtxOptSubscribe;Subscribe by url;Option/2nd entry;n/a
+0.9.2;146;sbCtxOptSettings;Open settings...;Option/3rd entry;n/a
+0.9.2;155;subFolderDialogTitle;New folder;Right-click on folder/new folder/the dialogbox title;n/a
+0.9.2;482;sbInfoDialogTitle;Info;Right-click on folder/info/the dialogbox title;n/a
+0.9.2;503;sbSubsDiaTitle;Subscribe by url;Option/Subscribe by url/the dialog title;n/a
+0.9.2;506;sbSubsDiaUrlLbl;Url;Option/Subscribe by url/dialog field url;n/a
+0.9.2;509;sbSubsDiaByUrlCloseButton;Subscribe;Option/Subscribe by url/dialog close button;n/a
+0.9.2;512;sbsubsDiaByUrlSubscribeButton;Close;Option/Subscribe by url/dialog Subscribe button;n/a

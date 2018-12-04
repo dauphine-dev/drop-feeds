@@ -94,9 +94,9 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
     document.getElementById('ctxFdMnInfo').textContent = browser.i18n.getMessage('sbFeedInfo');
 
-    //document.getElementById('ctxOptReload').textContent = browser.i18n.getMessage('sbCtxOptReload');
-    //document.getElementById('ctxOptSubscribe').textContent = browser.i18n.getMessage('sbCttxOptSubscribe');
-    //document.getElementById('ctxOptSettings').textContent = browser.i18n.getMessage('sbCtxOptSettings');
+    document.getElementById('ctxOptReload').textContent = browser.i18n.getMessage('sbCtxOptReload');
+    document.getElementById('ctxOptSubscribe').textContent = browser.i18n.getMessage('sbCtxOptSubscribe');
+    document.getElementById('ctxOptSettings').textContent = browser.i18n.getMessage('sbCtxOptSettings');
 
   }
 

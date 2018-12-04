@@ -1,4 +1,4 @@
-/*global Dialogs */
+/*global browser Dialogs*/
 'use strict';
 class OptionSubscribeDialog { /*exported OptionSubscribeDialog*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -29,11 +29,10 @@ class OptionSubscribeDialog { /*exported OptionSubscribeDialog*/
   }
 
   _updateLocalizedStrings() {
-    /*
-    document.getElementById('subsUrlLbl').textContent = browser.i18n.getMessage('subsUrlLbl');
-    document.getElementById('subsByUrlCloseButton').textContent = browser.i18n.getMessage('subsByUrlCloseButton');
-    document.getElementById('subsByUrlSubscribeButton').textContent = browser.i18n.getMessage('subsByUrlSubscribeButton');
-    */
+    document.getElementById('subscribeDialogTitle').textContent = browser.i18n.getMessage('sbSubsDiaTitle');
+    document.getElementById('subsUrlLbl').textContent = browser.i18n.getMessage('sbSubsDiaUrlLbl');
+    document.getElementById('subsByUrlCloseButton').textContent = browser.i18n.getMessage('sbSubsDiaByUrlCloseButton');
+    document.getElementById('subsByUrlSubscribeButton').textContent = browser.i18n.getMessage('sbsubsDiaByUrlSubscribeButton');
   }
 
   _setPosition() {
