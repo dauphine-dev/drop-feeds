@@ -3,7 +3,7 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "0.9.2beta",
+  "version": "0.9.2beta1",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
