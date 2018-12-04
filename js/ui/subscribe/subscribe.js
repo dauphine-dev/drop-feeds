@@ -9,6 +9,10 @@ class Subscribe {
     this._subscribeInfoWinId = null;
     this._feedTitleUpdatingAborted = false;
     this._feed = null;
+    this._updateFeedTitleButtonEnabled = true;
+    this._stopUpdatingFeedTitleButtonEnabled = false;
+    CssManager.setElementEnableById('updateFeedTitleButton', this._updateFeedTitleButtonEnabled);
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
   }
 
@@ -29,8 +33,6 @@ class Subscribe {
     FeedsNewFolderDialog.instance.init_async();
     this._updateLocalizedStrings();
     this._updateFeedPreview_async();
-    CssManager.setElementEnableById('updateFeedTitleButton', true);
-    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
     document.getElementById('updateFeedTitleButton').addEventListener('click', (e) => { this._updateFeedTitleButtonClicked_event(e); });
     document.getElementById('stopUpdatingFeedTitleButton').addEventListener('click', (e) => { this.stopUpdatingFeedTitleButtonClicked_event(e); });
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
@@ -48,7 +50,7 @@ class Subscribe {
     }
     else {
       document.getElementById('inputName').value = this._feedTitle;
-    }    
+    }
   }
 
   async _setFeedPreviewVisibility_async() {
@@ -87,27 +89,35 @@ class Subscribe {
   }
 
   async _updateFeedTitle_async() {
+    if (!this._updateFeedTitleButtonEnabled) { return; }
     this._feedTitleUpdatingAborted = false;
-    CssManager.setElementEnableById('updateFeedTitleButton', false);
-    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', true);
+    this._updateFeedTitleButtonEnabled = false;
+    CssManager.setElementEnableById('updateFeedTitleButton', this._updateFeedTitleButtonEnabled);
+    this._stopUpdatingFeedTitleButtonEnabled = true;
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     document.getElementById('inputName').disabled = true;
-    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlswait');    
+    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlswait');
     await this._feed.updateTitle_async();
     if (!this._feedTitleUpdatingAborted) {
       this._feedTitle = this._feed.title;
       document.getElementById('inputName').value = this._feedTitle;
       document.getElementById('inputName').disabled = false;
-      CssManager.setElementEnableById('updateFeedTitleButton', true);
-      CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
+      this._updateFeedTitleButtonEnabled = true;
+      CssManager.setElementEnableById('updateFeedTitleButton', this._updateFeedTitleButtonEnabled);
+      this._stopUpdatingFeedTitleButtonEnabled = false;
+      CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     }
   }
 
   async _stopUpdatingFeedTitle_async() {
+    if (!this._stopUpdatingFeedTitleButtonEnabled) { return; }
     this._feedTitleUpdatingAborted = true;
     document.getElementById('inputName').value = this._feedTitle;
     document.getElementById('inputName').disabled = false;
-    CssManager.setElementEnableById('updateFeedTitleButton', true);
-    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', false);
+    this._updateFeedTitleButtonEnabled = true;
+    CssManager.setElementEnableById('updateFeedTitleButton', this._updateFeedTitleButtonEnabled);
+    this._stopUpdatingFeedTitleButtonEnabled = false;
+    CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
   }
 
   async _updateFeedTitleButtonClicked_event(event) {
