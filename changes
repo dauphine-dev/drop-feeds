@@ -6,6 +6,8 @@ Subscribe by feed url
 Esc close the context menu
 Display GUID in Options/Advanced
 Feed preview in the subscribe window
+Remove Unsafe assignment to innerHTML
+Remove unsafe content_security_policy (blob:)
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.
