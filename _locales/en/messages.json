@@ -519,10 +519,10 @@
     "message": "Url"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Subscribe"
+    "message": "Close"
   },
   "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Close"
+    "message": "Subscribe"
   },
   "comment9": {
     "message": "------------------Script manager strings------------------"
