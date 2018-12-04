@@ -138,13 +138,13 @@
     "message": "Nessun feed è stato aggioranto"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "Ricarica Drop Feeds"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "Sottoscrizione URL"
   },
   "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "Impostazioni..."
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
@@ -159,19 +159,19 @@
     "message": "Nome"
   },
   "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
+    "message": "Aggiorna il nome del feed"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "Interrompi l'aggiornamento del nome"
   },
   "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed name, please wait..."
+    "message": "Aggiorno il nome del feed, attendi..."
   },
   "subFolder": {
     "message": "Cartella"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "Nuova Cartella"
   },
   "subNewFolder": {
     "message": "Nuova cartella"
@@ -189,10 +189,10 @@
     "message": "Crea"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "Mostra anteprima del feed"
   },
   "subLoading": {
-    "message": "Loading..."
+    "message": "Caricamento..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -504,7 +504,7 @@
     "message": "------------------Info dialog strings------------------"
   },
   "sbInfoDialogTitle": {
-    "message": "Info"
+    "message": "Informazioni"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -525,16 +525,16 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "Sottoscrivi tramite url"
   },
   "sbSubsDiaUrlLbl": {
     "message": "Url"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Close"
+    "message": "Chiudi"
   },
   "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
+    "message": "Sottoscrivi"
   },
   "comment10": {
     "message": "------------------Script manager strings------------------"
