@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "No se ha actualizado ningún feed"
   },
+  "sbCtxOptReload": {
+    "message": "Reload Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Subscribe by url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Open settings..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "Nombre"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Update feed name"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Stop updating feed name"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Updating feed name, please wait..."
+  },
   "subFolder": {
     "message": "Carpeta"
+  },
+  "subFolderDialogTitle": {
+    "message": "New folder"
   },
   "subNewFolder": {
     "message": "Nueva carpeta"
@@ -167,6 +188,12 @@
   "subCreate": {
     "message": "Crear"
   },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Loading..."
+  },  
   "comment4": {
     "message": "------------------Cadenas de descubrimiento------------------"
   },
@@ -476,6 +503,9 @@
   "comment8": {
     "message": "------------------Cadenas de vista de información------------------"
   },
+  "sbInfoDialogTitle": {
+    "message": "Info"
+  },
   "sbInfoIdLdl": {
     "message": "ID"
   },
@@ -491,7 +521,21 @@
   "sbInfoCloseButton": {
     "message": "Cerrar"
   },
-  "comment9": {
+  "comment8.1": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Subscribe by url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Close"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "Subscribe"
+  },  "comment9": {
     "message": "------------------Cadenas de gestor de scripts------------------"
   },
   "usUScriptCreateNew": {

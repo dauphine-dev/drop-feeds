@@ -3,274 +3,247 @@
     "message": "------------------Manifest strings------------------"
   },
   "manExtensionDescription": {
-    "message": "一个侧栏，使您可以在文件夹树视图中管理 RSS 源"
+    "message": "Displays a sidebar that lets you manage your RSS feeds in a folder tree view"
   },
   "manPageActionDefaultTitle": {
-    "message": "转至订阅页面"
+    "message": "Go to Subscription page"
   },
   "manPageActionGo": {
-    "message": "转至订阅页面"
+    "message": "Go to Subscription page"
   },
   "manPageActionAdd": {
-    "message": "使用 Drop Feeds 订阅"
+    "message": "Subscribe with Drop Feeds"
   },
   "comment2": {
     "message": "------------------Sidebar strings------------------"
   },
   "sbCheckFeeds": {
-    "message": "检查订阅点"
+    "message": "Check feeds"
   },
   "sbStopAndRestart": {
     "message": "Stop checking and restart Drop feeds"
   },
   "sbDiscoverFeeds": {
-    "message": "发现订阅点"
+    "message": "Discover feeds"
   },
   "sbViewOnlyUpdatedFeeds": {
-    "message": "只查看更新的订阅点"
+    "message": "View only updated feeds"
   },
   "sbToggleFolders": {
-    "message": "切换文件夹（打开/关闭）"
+    "message": "Toggle folders (open/close)"
   },
   "sbSubscriptionGo": {
-    "message": "转至订阅页面"
+    "message": "Go to subscription page"
   },
   "sbFilter": {
     "message": "Filter"
-  },
+  },  
   "sbFilterClearButton": {
     "message": "Clear filter"
   },
   "sbSubscriptionAdd": {
-    "message": "订阅"
+    "message": "Subscribe"
   },
   "sbOpenOptionsTab": {
-    "message": "打开选项标签页"
+    "message": "Open options tab"
   },
   "sbMarkAsRead": {
-    "message": "标为已读"
+    "message": "Mark as read"
   },
   "sbMarkAsUnread": {
-    "message": "标为未读"
+    "message": "Mark as unread"
   },
   "sbMarkAllAsRead": {
-    "message": "全部标为已读"
+    "message": "Mark all as read"
   },
   "sbMarkAllAsUnread": {
-    "message": "全部标为未读"
+    "message": "Mark all as unread"
   },
   "sbOpenUnreadItemsInNewTabs": {
-    "message": "新建标签页打开未读项目"
+    "message": "Open unread items in new tabs"
   },
   "sbMarkAllAsUpdated": {
-    "message": "全部设为已更新"
+    "message": "Set all to updated"
   },
   "sbOpenUpdatedFeeds": {
-    "message": "打开已更新订阅点"
+    "message": "Open updated feeds"
   },
   "sbOpenUpdatedAsUnified": {
-    "message": "打开已更新为一个统一订阅点"
+    "message": "Open updated as an unified feed"
   },
   "sbSortByName": {
-    "message": "按名称排序"
+    "message": "Sort by name"
   },
   "sbNewFolder": {
-    "message": "新建文件夹"
+    "message": "New folder"
   },
   "sbDeleteFolder": {
-    "message": "删除"
+    "message": "Delete"
   },
   "sbFolderInfo": {
-    "message": "信息"
+    "message": "Info"
   },
   "sbGetFeedTitle": {
-    "message": "获取订阅点标题"
+    "message": "Get feed title"
   },
   "sbOpenFeed": {
-    "message": "打开"
+    "message": "Open"
   },
   "sbMarkFeedAsRead": {
-    "message": "标为已读"
+    "message": "Mark as read"
   },
   "sbMarkFeedAsUpdated": {
-    "message": "标为未读"
+    "message": "Mark as unread"
   },
   "sbDeleteFeed": {
-    "message": "删除"
+    "message": "Delete"
   },
   "sbFeedInfo": {
-    "message": "信息"
+    "message": "Info"
   },
   "sbUseButtonAbove": {
-    "message": "使用上方的按钮添加订阅点！"
+    "message": "To add a Feed use the button above !"
   },
   "sbChecking": {
-    "message": "正在检查"
+    "message": "checking"
   },
   "sbPreparing": {
     "message": "preparing"
   },
   "sbOpening": {
-    "message": "正在打开"
+    "message": "opening"
   },
   "sbLoading": {
-    "message": "正在加载"
+    "message": "Loading"
   },
   "sbLoaded": {
-    "message": "已加载"
+    "message": "loaded"
   },
   "sbMerging": {
-    "message": "正在合并"
+    "message": "Merging"
   },
   "sbComputingUnifiedView": {
-    "message": "正在计算统一视图"
+    "message": "Computing unified view"
   },
   "sbReceived": {
-    "message": "已接收"
+    "message": "received"
   },
   "sbFeedsUpdated": {
-    "message": "个订阅点已更新"
+    "message": "feeds updated"
   },
   "sbOneFeedUpdated": {
-    "message": "一个订阅点已更新"
+    "message": "One feed updated"
   },
   "sbNoFeedHasBeenUpdated": {
-    "message": "没有订阅点有更新"
-  },
-  "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
-  },
-  "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
-  },
-  "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "No Feed has been updated"
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
   "subDropFeedsSubscribe": {
-    "message": "Drop Feeds (定义)"
+    "message": "Drop Feeds (subscribe)"
   },
   "subSubscribeWithDropFeed": {
-    "message": "使用 Drop Feeds 订阅"
+    "message": "Subscribe with Drop Feeds"
   },
   "subName": {
-    "message": "名称"
-  },
-  "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
-  },
-  "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
-  },
-  "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed name, please wait..."
+    "message": "Name"
   },
   "subFolder": {
-    "message": "文件夹"
-  },
-  "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "Folder"
   },
   "subNewFolder": {
-    "message": "新建文件夹"
+    "message": "New folder"
   },
   "subWindowCloseError": {
     "message": "Drop feeds has failed to close the window, please close it manually."
   },
   "subCancel": {
-    "message": "取消"
+    "message": "Cancel"
   },
   "subSubscribe": {
-    "message": "订阅"
+    "message": "Subscribe"
   },
   "subCreate": {
-    "message": "创建"
-  },
-  "subShowFeedPreview": {
-    "message": "Show feed preview"
-  },
-  "subLoading": {
-    "message": "Loading..."
+    "message": "Create"
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
   },
   "disDiscoverFeeds": {
-    "message": "发现订阅点"
+    "message": "Discover feeds"
   },
   "disDiscoveringFeeds": {
-    "message": "正在发现订阅点"
+    "message": "Discovering feeds"
   },
   "disNoFeedsHaveBeenDiscovered": {
-    "message": "没有发现到订阅点"
+    "message": "No feeds have been discovered"
   },
   "disDiscovered": {
-    "message": "已发现"
+    "message": "Discovered"
   },
   "disFeeds": {
-    "message": "个订阅点"
+    "message": "feeds"
   },
   "disTitle": {
-    "message": "标题"
+    "message": "Title"
   },
   "disFormat": {
-    "message": "格式"
+    "message": "Format"
   },
   "disLastUpdate": {
-    "message": "上次更新"
+    "message": "Last update"
   },
   "disItems": {
-    "message": "项目"
+    "message": "Items"
   },
   "disUrl": {
-    "message": "网址"
+    "message": "Url"
   },
   "disAddFeed": {
-    "message": "添加订阅点"
+    "message": "Add feed"
   },
   "disClose": {
-    "message": "关闭"
+    "message": "Close"
   },
   "comment5": {
     "message": "------------------Options strings------------------"
   },
   "optDropFeedsOptions": {
-    "message": "Drop Feeds (选项)"
+    "message": "Drop Feeds (options)"
   },
   "optGeneral": {
-    "message": "常规"
+    "message": "General"
   },
   "optUpdateChecker": {
-    "message": "更新检查器"
+    "message": "Update checker"
   },
   "optView": {
-    "message": "查看"
+    "message": "View"
   },
   "optItems": {
-    "message": "项目"
+    "message": "Items"
   },
   "optContentsArea": {
-    "message": "内容区"
+    "message": "Contents area"
   },
   "optTheme": {
     "message": "Theme"
   },
-"optManagement": {
-    "message": "管理"
+  "optManagement": {
+    "message": "Management"
   },
   "optSelectFeedFolder": {
-    "message": "选择订阅点文件夹"
+    "message": "Select feed folder"
   },
   "optApply": {
-    "message": "应用"
+    "message": "Apply"
   },
   "optDoNotDisplayRootFolder": {
-    "message": "不显示根文件夹"
+    "message": "Do not display root folder"
   },
-  "optSelectMainTheme": {
-    "message": "选择主题"
+  "optSelectMainTheme": { 
+    "message": "Select main theme"
   },
   "optSelectRenderTemplate": { 
     "message": "Select render tab template"
@@ -279,52 +252,52 @@
     "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
-    "message": "订阅点项目顺序"
+    "message": "Feed item order"
   },
   "optNewerFirst": {
-    "message": "新的优先"
+    "message": "Newer first"
   },
   "optOlderFirst": {
-    "message": "旧的优先"
+    "message": "Older first"
   },
   "optOriginal": {
-    "message": "原始"
+    "message": "Original"
   },
   "optTimeout": {
-    "message": "超时"
+    "message": "Timeout"
   },
   "optSeconds": {
-    "message": "秒"
+    "message": "seconds"
   },
   "optAsynchronousFeedChecking": {
-    "message": "异步订阅点检查"
+    "message": "Asynchronous feed checking"
   },
   "optAutoFeedUpdatesEvery": {
-    "message": "自动更新订阅点，每隔"
+    "message": "Automatic feed updates every"
   },
   "optMinutes": {
-    "message": "分钟"
+    "message": "minutes"
   },
   "optAutoFeedUpdatesOnStart": {
     "message": "Run an automatic feed update on start"
   },
   "optShowNotifications": {
-    "message": "更新后显示通知"
+    "message": "Show notification popup after update"
   },
   "optRetryWithHttp": {
-    "message": "当 https 失败时用 http 重试"
+    "message": "If https failed then retry with http"
   },
   "optFeedItemList": {
-    "message": "订阅点项目列表"
+    "message": "Feed item list"
   },
   "optFeedItemListToolbar": {
-    "message": "订阅点项目列表工具栏 (*)"
+    "message": "Feed item list toolbar (*)"
   },
   "optDescriptionTooltips": {
-    "message": "工具提示显示描述"
+    "message": "Description tooltips"
   },
   "optNavigationHistoryWarning": {
-    "message": "(*) 警告：标为已读/未读功能将修改您的浏览器历史记录！"
+    "message": "(*) warning: mark read/unread features will impact your navigation history !"
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Mark all items as read before leaving feeds"
@@ -333,37 +306,37 @@
     "message": "Render selected item in the sidebar"
   },
   "optShowUpdatedFeedCount": {
-    "message": "显示已更新订阅点数量"
+    "message": "Show updated feed count"
   },
   "optShowErrorsAsUnread": {
-    "message": "将出错显示为未读"
+    "message": "Show errors as unread"
   },
   "optRenderFeeds": {
-    "message": "渲染订阅点"
+    "message": "Render feeds"
   },
   "optItemNewTab": {
     "message": "Open items on new tab"
   },
   "optAlwaysOpenNewTab": {
-    "message": "始终新建标签页打开"
+    "message": "Always open new tab"
   },
   "optOpenNewTabForeground": {
-    "message": "前台打开新标签页"
+    "message": "Open new tab in foreground"
   },
   "optReuseDropFeedsTab": {
-    "message": "重用 Drop Feeds 标签页"
+    "message": "Reuse Drop Feeds tab"
   },
   "optSelectOpmlFileToImport": {
-    "message": "打开 opml 文件以导入"
+    "message": "Select the opml file to import"
   },
   "optImport": {
-    "message": "导入..."
+    "message": "Import..."
   },
   "optSelectOpmlFileToExport": {
-    "message": "选择导出 ompl 文件的位置"
+    "message": "Select where to export the opml file"
   },
   "optExport": {
-    "message": "导出..."
+    "message": "Export..."
   },
   "optAdvanced": {
     "message": "Advanced"
@@ -383,14 +356,14 @@
   "optSecurityFilterSettings": {
     "message": "Security filter settings"
   },
-  "messageDialogTitle": {
+  "optMessageDialogTitle": {
     "message": "Message"
   },
-  "messageDialogOk": {
+  "optMessageDialogOk": {
     "message": "ok"
   },  
   "optHtmlFilter": {
-    "message": "HTML Filter"
+    "message": "HTML Filters"
   },
   "optAllowedHtmlElements": {
     "message": "Allowed HTML elements (others are rejected)"
@@ -468,73 +441,55 @@
     "message": "------------------Content script strings------------------"
   },
   "csSubscribeWithDropFeeds": {
-    "message": "使用 Drop Feeds 订阅"
+    "message": "Subscribe with Drop Feeds"
   },
   "ff56Text1": {
-    "message": "要使此图标打开 Drop Feeds 侧栏，请更新到 Firefox 57 或更高版本"
+    "message": "To get this icon opens the Drop Feeds sidebar please update to Firefox 57 or higher"
   },
   "ff56Text2": {
-    "message": "在 Firefox 56 中，本扩展无法打开侧栏。"
+    "message": "On Firefox 56 the WebApi to open the addon-side bar is not implemented."
   },
   "ff56Text3": {
     "message": ""
   },
   "ff56Text4": {
-    "message": "要在 Firefox 56 中使用 Drop Feeds："
+    "message": "To use Drop Feeds in Firefox56:"
   },
   "ff56Text5": {
-    "message": "您必须点击 Firefox 提供的“显示侧栏”图标。"
+    "message": "You have to click on the 'Show sidebars' Firefox icon"
   },
   "ff56Text6": {
-    "message": "然后在侧栏列表中选择 Drop feeds"
+    "message": "and in select Drop feeds in the sidebar list"
   },
   "ff56Text7": {
-    "message": "点击这里来关闭"
+    "message": "click here to close"
   },
   "comment7": {
     "message": "------------------Subscribe this feed strings------------------"
   },
   "stfSubscribeUsing": {
-    "message": "订阅此订阅点，使用"
+    "message": "Subscribe to this feed using"
   },
   "stfSubscribeNow": {
-    "message": "立即订阅"
+    "message": "Subscribe now"
   },
   "comment8": {
-    "message": "------------------Info dialog strings------------------"
-  },
-  "sbInfoDialogTitle": {
-    "message": "Info"
+    "message": "------------------Info view strings------------------"
   },
   "sbInfoIdLdl": {
     "message": "ID"
   },
   "sbInfoNameLbl": {
-    "message": "名称"
+    "message": "Name"
   },
   "sbInfoAddressLbl": {
-    "message": "地址"
+    "message": "Address"
   },
   "sbInfoUpdateButton": {
-    "message": "更新"
+    "message": "Update"
   },
   "sbInfoCloseButton": {
-    "message": "关闭"
-  },
-  "comment8.1": {
-    "message": "------------------Subscribe by url dialog strings------------------"
-  },
-  "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
-  },
-  "sbSubsDiaUrlLbl": {
-    "message": "Url"
-  },
-  "sbSubsDiaByUrlCloseButton": {
     "message": "Close"
-  },
-  "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
   },
   "comment9": {
     "message": "------------------Script manager strings------------------"
@@ -636,10 +591,10 @@
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "s"
+    "message": "i"
   },
   "dtSingle": {
-    "message": ""
+    "message": "o"
   },
   "dtYears": {
     "message": "$years$ year$plural$",
@@ -702,7 +657,7 @@
       "seconds": {
         "content": "$1"
       },
-      "plural": {
+      "many": {
         "content": "$2"
       }
     }

@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "Es wurden keine Feeds aktualisiert"
   },
+  "sbCtxOptReload": {
+    "message": "Reload Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Subscribe by url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Open settings..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "Name"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Update feed name"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Stop updating feed name"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Updating feed name, please wait..."
+  },
   "subFolder": {
     "message": "Ordner"
+  },
+  "subFolderDialogTitle": {
+    "message": "New folder"
   },
   "subNewFolder": {
     "message": "Neuer Ordner"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "Erstellen"
+  },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Loading..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -245,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "Theme auswählen"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Select render tab template"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
@@ -305,7 +332,7 @@
   "optFeedItemRenderInSidebar": {
     "message": "Render selected item in the sidebar"
   },
-"optShowUpdatedFeedCount": {
+  "optShowUpdatedFeedCount": {
     "message": "Zeige die aktualisierte Feed Anzahl"
   },
   "optShowErrorsAsUnread": {
@@ -361,7 +388,7 @@
   },
   "optMessageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTML Filter"
   },
@@ -476,6 +503,9 @@
   "comment8": {
     "message": "------------------Info view strings------------------"
   },
+  "sbInfoDialogTitle": {
+    "message": "Info"
+  },
   "sbInfoIdLdl": {
     "message": "ID"
   },
@@ -490,6 +520,21 @@
   },
   "sbInfoCloseButton": {
     "message": "Schließen"
+  },
+  "comment8.1": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Subscribe by url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Close"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "Subscribe"
   },
   "comment9": {
     "message": "------------------Script manager strings------------------"
