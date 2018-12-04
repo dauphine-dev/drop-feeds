@@ -642,7 +642,7 @@
     "message": ""
   },
   "dtYears": {
-    "message": "$años$ año$plural$",
+    "message": "$years$ año$plural$",
     "placeholders": {
       "years": {
         "content": "$1"
@@ -653,7 +653,7 @@
     }
   },
   "dtMonths": {
-    "message": "$meses$ mes$plural$",
+    "message": "$months$ mes$plural$",
     "placeholders": {
       "months": {
         "content": "$1"
@@ -664,7 +664,7 @@
     }
   },
   "dtDays": {
-    "message": "$días$ día$plural$",
+    "message": "$days$ día$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
@@ -675,7 +675,7 @@
     }
   },
   "dtHours": {
-    "message": "$horas$ hora$plural$",
+    "message": "$hours$ hora$plural$",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -686,7 +686,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutos$ minuto$plural$",
+    "message": "$minutes$ minuto$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
@@ -697,7 +697,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$segundos$ segundo$plural$",
+    "message": "$seconds$ segundo$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"
