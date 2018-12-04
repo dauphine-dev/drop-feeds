@@ -70,6 +70,8 @@ class Subscribe {
     document.title = browser.i18n.getMessage('subDropFeedsSubscribe');
     document.getElementById('title').textContent = browser.i18n.getMessage('subSubscribeWithDropFeed');
     document.getElementById('labelName').textContent = browser.i18n.getMessage('subName') + ': ';
+    document.getElementById('updateFeedTitleButton').setAttribute('title', browser.i18n.getMessage('subUpdateFeedTitleButton'));
+    document.getElementById('stopUpdatingFeedTitleButton').setAttribute('title', browser.i18n.getMessage('subStopUpdatingFeedTitleButton'));
     document.getElementById('labelFolder').textContent = browser.i18n.getMessage('subFolder') + ': ';
     document.getElementById('newFolderButton').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('windowCloseError').textContent = browser.i18n.getMessage('subWindowCloseError');

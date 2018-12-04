@@ -157,9 +157,15 @@
   },
   "subName": {
     "message": "Name"
-  },  
+  },
+  "subUpdateFeedTitleButton": {
+    "message": "Update feed name"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Stop updating feed name"
+  },
   "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed title, please wait..."
+    "message": "Updating feed name, please wait..."
   },
   "subFolder": {
     "message": "Folder"
