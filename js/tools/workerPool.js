@@ -1,8 +1,8 @@
-/* global browser Transfer*/
+/* global browser*/
 'use strict';
 class WorkerPool { /* exported WorkerPool*/
   constructor(workerUrl, size) {
-    this._workerUrl = workerUrl;
+    this._workerUrl = browser.runtime.getURL(workerUrl);
     this._size = size;
     this._workerList = [];
     this._workList = [];
@@ -10,21 +10,12 @@ class WorkerPool { /* exported WorkerPool*/
   }
 
   async init_async() {
-    let workerBlobUrl = await this._createWorkerBlob_async(this._workerUrl);
     for (let i = 0; i < this._size; ++i) {
-      this._workerList.push(new Worker(workerBlobUrl));
+      this._workerList.push(new Worker(this._workerUrl));
     }
     let self = this;
     this._workerList.push = function () { let result = Array.prototype.push.apply(this, arguments); self._onWorkerListHasChanged_event({ method: 'push', array: result }); return result; };
     this._workList.push = function () { let result = Array.prototype.push.apply(this, arguments); self._onWorkListHasChanged_event({ method: 'push', array: result }); return result; };
-  }
-
-  async _createWorkerBlob_async(workerUrl) {
-    workerUrl = browser.runtime.getURL(workerUrl);
-    let workerCode = await Transfer.downloadTextFile_async(workerUrl);
-    let workerBlob = new Blob([workerCode]);
-    let workerBlobUrl = window.URL.createObjectURL(workerBlob);
-    return workerBlobUrl;
   }
 
   queueWork(workParamArray, onComplete) {
@@ -72,7 +63,6 @@ class WorkerPool { /* exported WorkerPool*/
 class WorkerReplace {  /*exported WorkerReplace*/
   constructor(size) {
     this._workerPool =  new WorkerPool('js/workers/wkReplace.js', size);
-    this._workerPool.init_async();
   }
 
   async init_async() {
@@ -86,5 +76,4 @@ class WorkerReplace {  /*exported WorkerReplace*/
       });
     });
   }
-
 }
