@@ -209,7 +209,7 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
     } finally {
       if (--self._feedsToProcessCounter == 0) {
-        let unifiedDocUrl = self._getUnifiedDocUrl();
+        let unifiedDocUrl = await self._getUnifiedDocUrl_async();
         let openNewTabForce = false;
         let isUnified = true; let feedNull = null;
         await self._displayItems_async(true, isSingle, isUnified, feedNull, folderTitle);
@@ -251,8 +251,8 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  _getUnifiedDocUrl() {
-    let unifiedFeedHtml = FeedRenderer.feedItemsListToUnifiedHtml(this._unifiedFeedItems, this._unifiedChannelTitle);
+  async _getUnifiedDocUrl_async() {
+    let unifiedFeedHtml = await FeedRenderer.feedItemsListToUnifiedHtml_async(this._unifiedFeedItems, this._unifiedChannelTitle);
     let unifiedFeedBlob = new Blob([unifiedFeedHtml]);
     let unifiedFeedHtmlUrl = URL.createObjectURL(unifiedFeedBlob);
     return unifiedFeedHtmlUrl;
