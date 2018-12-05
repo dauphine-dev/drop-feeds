@@ -4,7 +4,6 @@
   <xsl:template match="/">
     <html>
      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
           <xsl:element name="link">
             <xsl:attribute name="rel">icon</xsl:attribute>
             <xsl:attribute name="type">image/png/css</xsl:attribute>
