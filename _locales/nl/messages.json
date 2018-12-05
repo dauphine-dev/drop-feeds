@@ -636,13 +636,13 @@
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "s"
+    "message": "en"
   },
   "dtSingle": {
     "message": ""
   },
   "dtYears": {
-    "message": "$years$ jaar$plural$",
+    "message": "$years$ ja(a)r(en)",
     "placeholders": {
       "years": {
         "content": "$1"
@@ -675,7 +675,7 @@
     }
   },
   "dtHours": {
-    "message": "$hours$ uur$plural$",
+    "message": "$hours$ u(u)r$plural$",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -686,7 +686,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minuut$plural$",
+    "message": "$minutes$ minu(u)t$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
@@ -697,7 +697,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ seconde$plural$",
+    "message": "$seconds$ seconde(n)",
     "placeholders": {
       "seconds": {
         "content": "$1"
