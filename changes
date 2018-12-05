@@ -1,13 +1,14 @@
 0.9.2
 Use workerpool (more efficient for massive openning render tad)
 Add stack trace in error messages
-Fix error on empty item field
 Subscribe by feed url
 Esc close the context menu
 Display GUID in Options/Advanced
 Feed preview in the subscribe window
 Remove Unsafe assignment to innerHTML
 Remove unsafe content_security_policy (blob:)
+Fix error on empty item field
+Fix Html filter tag edition (remove old value)
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.

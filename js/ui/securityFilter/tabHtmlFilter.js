@@ -146,7 +146,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
         let attList = attLine.split(',');
         tagEntry = {[tag]: attList};
       }
-      this._allowedTagList = this._allowedTagList.filter(entry => Object.keys(entry) != tag);
+      this._allowedTagList = this._allowedTagList.filter(entry => Object.keys(entry) != initialTag);
       this._allowedTagList.push(tagEntry);
       this._allowedTagListSort();
       LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
