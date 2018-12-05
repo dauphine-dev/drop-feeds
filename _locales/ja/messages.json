@@ -138,13 +138,13 @@
     "message": "更新はありません"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "Drop Feedsを更新"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "URLから購読"
   },
   "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "設定を開く"
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
@@ -159,19 +159,19 @@
     "message": "名前"
   },
   "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
+    "message": "フィードのタイトルを更新"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "タイトル更新の中止"
   },
   "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed name, please wait..."
+    "message": "更新中, お待ちください..."
   },
   "subFolder": {
     "message": "フォルダ"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "新しいフォルダ"
   },
   "subNewFolder": {
     "message": "新しいフォルダ"
@@ -189,10 +189,10 @@
     "message": "作成"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "プレビューを表示"
   },
   "subLoading": {
-    "message": "Loading..."
+    "message": "読み込み中..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -525,16 +525,16 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "URLから購読"
   },
   "sbSubsDiaUrlLbl": {
     "message": "Url"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Close"
+    "message": "閉じる"
   },
   "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
+    "message": "購読"
   },
   "comment10": {
     "message": "------------------Script manager strings------------------"
