@@ -443,7 +443,7 @@
       The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>rssItem()</strong></span> method
       generate a RSS item.
       <h4>Syntax</h4>
-        <pre class="syntax"><code>USTools.rssItem(<var>title</var>, <var>link</var>, <var>pubDate</var>, <var>description</var>)</code></pre>
+        <pre class="syntax"><code>USTools.rssItem(<var>title</var>, <var>link</var>, <var>pubDate</var>, <var>description</var>, <var>unique</var>)</code></pre>
         <h3>Parameters</h3>
         <p></p><span class="highlighted"><strong><code><var>title</var></code></strong></span>
         <div class="paragraph">The item title.</div>
@@ -453,6 +453,8 @@
         <div class="paragraph">The item pubDate.</div>
         <p></p><span class="highlighted"><strong><code><var>description</var></code></strong></span>
         <div class="paragraph">The item description.</div>
+        <p></p><span class="highlighted"><strong><code><var>unique</var></code></strong></span>
+        <div class="paragraph">Some thing unique (it can be the item position).</div>
         <h3>Return value</h3>
         <div class="paragraph">A string that contains a RSS item</div>
       <h4>Examples</h4>
@@ -463,8 +465,9 @@
           <code>let url = 'http://www.example.com/article/1337';</code>
           <code>let puDate = new Date();</code>
           <code>let description = 'RSS item example';</code>
+          <code>let postion = 1;</code>
           <code></code>
-          <code>let result = USTools.rssItem(title, url, puDate, description);</code>
+          <code>let result = USTools.rssItem(title, url, puDate, description, postion);</code>
           <code></code>
           <code>console.log('Result: ' + result);</code>
           <code>/* logs Result:</code>
@@ -472,7 +475,7 @@
           <code>&lt;item&gt;</code>
           <code>  &lt;title&gt;Item example&lt;/title&gt;</code>
           <code>  &lt;link&gt;http://www.example.com/article/1337&lt;/link&gt;</code>
-          <code>  &lt;guid&gt;http://www.example.com/article/1337&lt;/guid&gt;</code>
+          <code>  &lt;guid&gt;http://www.example.com/article/1337/1&lt;/guid&gt;</code>
           <code>  &lt;pubDate&gt;Thu Jun 28 2018 15:49:24 GMT+0200 (CEST)&lt;/pubDate&gt;</code>
           <code>  &lt;description&gt;&lt;![CDATA[RSS item example]]&gt;&lt;/description&gt;</code>
           <code>&lt;/item&gt;</code>
