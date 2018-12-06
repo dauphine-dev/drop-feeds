@@ -636,10 +636,10 @@
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "i"
+    "message": "s"
   },
   "dtSingle": {
-    "message": "o"
+    "message": ""
   },
   "dtYears": {
     "message": "$years$ year$plural$",
