@@ -1,5 +1,5 @@
 /*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues TextConsole*/
-/*global scriptCodeKey scriptObjKey scriptType*/
+/*global scriptCodeKey scriptObjKey scriptType SecurityFilters*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
@@ -31,6 +31,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   async init_async() {
+    await SecurityFilters.instance.init_async();
   }
 
   async display_async(scriptId) {
