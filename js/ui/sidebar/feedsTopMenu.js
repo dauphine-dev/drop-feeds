@@ -184,9 +184,14 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async _optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    //await browser.runtime.openOptionsPage();
-    let rec = event.currentTarget.getBoundingClientRect();
-    FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);
+    let optionOpenned =  FeedsContextMenu.instance.visible && (FeedsContextMenu.instance.type == 'optionMenu');
+    if ( optionOpenned) {
+      FeedsContextMenu.instance.hide();
+    }
+    else {
+      let rec = event.currentTarget.getBoundingClientRect();
+      FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);  
+    }
   }
 
   async showErrorsAsUnread_sbscrb() {

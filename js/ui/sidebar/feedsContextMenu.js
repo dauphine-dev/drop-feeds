@@ -33,9 +33,11 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     this._elContextMenu = null;
     this._idComeFrom = null;
     this._yOffset = 0;
+    this._visible = false;
   }
 
   hide() {
+    this._visible = false;
     document.getElementById('folderContextMenuId').classList.remove('show');
     document.getElementById('folderContextMenuId').classList.add('hide');
     document.getElementById('feedContextMenuId').classList.remove('show');
@@ -55,6 +57,15 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     this._elContextMenu.classList.add('show');
     this._setPosition(xPos, yPos);
     FeedsTreeView.instance.selectionBar.put(elTarget);
+    this._visible = true;
+  }
+
+  get visible() {
+    return this._visible;
+  }
+
+  get type() {
+    return this._contextMenuId;
   }
 
   _accordingComeFrom() {
