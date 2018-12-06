@@ -101,7 +101,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   }
 
   _setPosition(xPos, yPos) {
-    let xMax = Math.max(0, this._elContent.offsetWidth - this._elContextMenu.offsetWidth - 36);
+    let xMax = Math.max(0, this._elContent.offsetWidth - this._elContextMenu.offsetWidth - 26);
     let x = Math.min(xMax, xPos);
 
     let yMax = Math.max(0, this._elContent.offsetHeight - this._elContextMenu.offsetHeight + 60);
