@@ -1,4 +1,4 @@
-/*global browser BrowserManager RenderOptions ItemSorter Transfer TextTools ThemeManager*/
+/*global browser RenderOptions ItemSorter Transfer TextTools ThemeManager*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
