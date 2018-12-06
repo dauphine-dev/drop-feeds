@@ -9,6 +9,7 @@ Remove Unsafe assignment to innerHTML
 Remove unsafe content_security_policy (blob:)
 Fix error on empty item field
 Fix Html filter tag edition (remove old value)
+Fix unified feeds (use xslt transform instead of the old render way)
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.

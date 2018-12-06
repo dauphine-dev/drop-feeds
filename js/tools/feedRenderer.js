@@ -61,7 +61,6 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static async feedItemsListToUnifiedHtml_async(feedItems, unifiedChannelTitle) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
-    feedInfo.channel = DefaultValues.getDefaultChannelInfo();
     feedInfo.channel.title = unifiedChannelTitle;
     feedInfo.channel.description = 'Unified Feed';
     feedInfo.itemList = feedItems;

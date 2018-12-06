@@ -64,7 +64,7 @@ class DefaultValues { /*exported DefaultValues*/
   }
 
   static getDefaultFeedInfo() {
-    return { tagItem: null, channel: null, isError: null, itemList: [] };
+    return { tagItem: null, channel: DefaultValues.getDefaultChannelInfo(), isError: null, itemList: [] };
   }
 
   static getDefaultChannelInfo() {
