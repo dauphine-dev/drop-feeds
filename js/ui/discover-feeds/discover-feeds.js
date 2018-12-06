@@ -1,4 +1,5 @@
-/*global browser BrowserManager LocalStorageManager Feed ProgressBar SelectionRaw Dialogs CssManager*/
+/*global browser BrowserManager LocalStorageManager Feed ProgressBar*/
+/*global SelectionRaw Dialogs CssManager SecurityFilters*/
 'use strict';
 class DiscoverFeeds {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -14,6 +15,7 @@ class DiscoverFeeds {
   }
 
   async init_async() {
+    await SecurityFilters.instance.init_async();
     this._updateLocalizedStrings();
     this._progressBar = new ProgressBar('progressBar', true);
     this._progressBar.show();
