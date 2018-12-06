@@ -107,7 +107,7 @@ class TextTools { /* exported TextTools*/
     /*eslint-disable no-control-regex*/
     let plainText = inputText.replace(/[\x01-\x1f]/g, ' ').replace(/\s\s+/g, ' ');
     /*eslint-enable no-control-regex*/
-    return plainText.replace(/<(?:.|\n)*?>/gm, '');      
+    return plainText.replace(/<(?:.|\n)*?>/gm, '');
   }
 
   static isNullOrEmpty(obj) {
@@ -120,7 +120,15 @@ class TextTools { /* exported TextTools*/
   }
 
   static toTextCharCodeArray(text) {
+    if (!text) { return []; }
     let textCharCodeArray = Array.from(text).map(char => char.charCodeAt(0).toString(16)).join(',');
     return textCharCodeArray;
+  }
+
+  static isStringUrl(textUrl) {
+    let isValidUrl = true;
+    try { new URL(textUrl); }
+    catch(e) { isValidUrl = false; }
+    return isValidUrl;
   }
 }

@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "Nessun feed è stato aggioranto"
   },
+  "sbCtxOptReload": {
+    "message": "Ricarica Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Sottoscrizione URL"
+  },
+  "sbCtxOptSettings": {
+    "message": "Impostazioni..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "Nome"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Aggiorna il nome del feed"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Interrompi l'aggiornamento del nome"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Aggiorno il nome del feed, attendi..."
+  },
   "subFolder": {
     "message": "Cartella"
+  },
+  "subFolderDialogTitle": {
+    "message": "Nuova Cartella"
   },
   "subNewFolder": {
     "message": "Nuova cartella"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "Crea"
+  },
+  "subShowFeedPreview": {
+    "message": "Mostra anteprima del feed"
+  },
+  "subLoading": {
+    "message": "Caricamento..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -474,7 +501,10 @@
     "message": "Sottoscrivi ora"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Informazioni"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -492,6 +522,21 @@
     "message": "Chiudi"
   },
   "comment9": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Sottoscrivi tramite url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Chiudi"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "Sottoscrivi"
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -524,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Elimina script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -563,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Salva e sottoscrivi..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -578,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Dimensione Tab"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -587,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Copia il testo della console"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
@@ -652,7 +697,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ secondo$many$",
+    "message": "$seconds$ secondo$plural$",
     "placeholders": {
       "seconds": {
         "content": "$1"

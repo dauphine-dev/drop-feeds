@@ -37,7 +37,7 @@
   },
   "sbFilter": {
     "message": "Filter"
-  },  
+  },
   "sbFilterClearButton": {
     "message": "Filter opheffen"
   },
@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "Geen feeds bijgewerkt"
   },
+  "sbCtxOptReload": {
+    "message": "Reload Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Subscribe by url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Open settings..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "Naam"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Update feed name"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Stop updating feed name"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Updating feed name, please wait..."
+  },
   "subFolder": {
     "message": "Folder"
+  },
+  "subFolderDialogTitle": {
+    "message": "New folder"
   },
   "subNewFolder": {
     "message": "Nieuwe folder"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "Aanmaken"
+  },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Loading..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -242,13 +269,13 @@
   "optDoNotDisplayRootFolder": {
     "message": "Root folder niet tonen"
   },
-  "optSelectMainTheme": { 
+  "optSelectMainTheme": {
     "message": "Selecteer hoofdthema"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Selecteer weergavesjabloon"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Selecteer het weergavetabblad thema"
   },
   "optFeedItemOrder": {
@@ -361,7 +388,7 @@
   },
   "optMessageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTML Filters"
   },
@@ -474,7 +501,10 @@
     "message": "Abonneer nu"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Info"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -492,6 +522,21 @@
     "message": "Sluiten"
   },
   "comment9": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Subscribe by url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Close"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "Subscribe"
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -524,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Verwijder script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -563,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Bewaren en abonneren..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -578,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Tab grootte"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -587,17 +632,17 @@
   "edConsoleCopy": {
     "message": "Kopieer consoletekst"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "s"
+    "message": "en"
   },
   "dtSingle": {
     "message": ""
   },
   "dtYears": {
-    "message": "$years$ jaren$plural$",
+    "message": "$years$ ja(a)r(en)",
     "placeholders": {
       "years": {
         "content": "$1"
@@ -608,7 +653,7 @@
     }
   },
   "dtMonths": {
-    "message": "$months$ maanden$plural$",
+    "message": "$months$ maand$plural$",
     "placeholders": {
       "months": {
         "content": "$1"
@@ -619,7 +664,7 @@
     }
   },
   "dtDays": {
-    "message": "$days$ dagen$plural$",
+    "message": "$days$ dag$plural$",
     "placeholders": {
       "days": {
         "content": "$1"
@@ -630,7 +675,7 @@
     }
   },
   "dtHours": {
-    "message": "$hours$ uren$plural$",
+    "message": "$hours$ u(u)r$plural$",
     "placeholders": {
       "hours": {
         "content": "$1"
@@ -641,7 +686,7 @@
     }
   },
   "dtMinutes": {
-    "message": "$minutes$ minuten$plural$",
+    "message": "$minutes$ minu(u)t$plural$",
     "placeholders": {
       "minutes": {
         "content": "$1"
@@ -652,7 +697,7 @@
     }
   },
   "dtSeconds": {
-    "message": "$seconds$ seconden$plural$",
+    "message": "$seconds$ seconde(n)",
     "placeholders": {
       "seconds": {
         "content": "$1"

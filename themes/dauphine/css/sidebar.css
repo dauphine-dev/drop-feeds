@@ -1,6 +1,12 @@
 :root {
+
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
+
+  /* option menu */
+  --feeds-optionMenuReload-image: url(/themes/dauphine/img/restart.png);
+  --feeds-optionMenuSubscribe-image: url(/themes/dauphine/img/subscribe-url.png);
+  --feeds-optionMenuSettings-image: url(/themes/dauphine/img/settings.png);
 
   /* feeds top menu */
   --feeds-topMenu-background-color: #E8E8E8;
@@ -9,7 +15,6 @@
   --feeds-topMenu-image-height: 20px;
   --feeds-checkFeedsButton-image: url(/themes/dauphine/img/check-feeds.png);
   --feeds-checkFeedsButtonAnim-image: url(/themes/dauphine/img/check-feeds-animation.gif);
-  --feeds-checkFeedsButtonCursorRestart-cursor: url(/themes/_templates/img/restart.png), not-allowed;
   --feeds-discoverFeedsButton-image: url(/themes/dauphine/img/magnify.png);
   --feeds-onlyUpdatedFeedsButton-image: url(/themes/dauphine/img/only-updated-feeds.png);
   --feeds-onlyErrorFeedsButton-image: url(/themes/dauphine/img/feed-error.png);

@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "没有订阅点有更新"
   },
+  "sbCtxOptReload": {
+    "message": "Reload Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "Subscribe by url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Open settings..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "名称"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Update feed name"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Stop updating feed name"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Updating feed name, please wait..."
+  },
   "subFolder": {
     "message": "文件夹"
+  },
+  "subFolderDialogTitle": {
+    "message": "New folder"
   },
   "subNewFolder": {
     "message": "新建文件夹"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "创建"
+  },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Loading..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -230,7 +257,7 @@
   "optTheme": {
     "message": "Theme"
   },
-"optManagement": {
+  "optManagement": {
     "message": "管理"
   },
   "optSelectFeedFolder": {
@@ -245,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "选择主题"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Select render tab template"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Select render tab theme"
   },
   "optFeedItemOrder": {
@@ -361,7 +388,7 @@
   },
   "messageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTML Filter"
   },
@@ -474,7 +501,10 @@
     "message": "立即订阅"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Info"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -492,6 +522,21 @@
     "message": "关闭"
   },
   "comment9": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "Subscribe by url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Close"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "Subscribe"
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -524,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Delete script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -563,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Save and subscribe..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -578,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Tab size"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -587,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Copy text console"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {

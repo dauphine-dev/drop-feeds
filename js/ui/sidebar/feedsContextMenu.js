@@ -1,4 +1,4 @@
-/*global browser FeedsTreeView FeedManager FeedsNewFolderDialog BookmarkManager FeedsInfoView*/
+/*global browser FeedsTreeView FeedManager FeedsNewFolderDialog BookmarkManager FeedsInfoView LocalStorageManager OptionSubscribeDialog*/
 'use strict';
 class FeedsContextMenu { /*exported FeedsContextMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -22,39 +22,68 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', (e) => { this._ctxMnDeleteFeedMenuClicked_event(e); });
     document.getElementById('ctxFdMnInfo').addEventListener('click', (e) => { this.ctxMnInfoFeedMenuClicked_event(e); });
 
+    document.getElementById('ctxOptReload').addEventListener('click', (e) => { this._ctxOptReloadMenuClicked_event(e); });
+    document.getElementById('ctxOptSubscribe').addEventListener('click', (e) => { this._ctxOptSubscribeMenuClicked_event(e); });
+    document.getElementById('ctxOptSettings').addEventListener('click', (e) => { this._ctxOptSettingsMenuClicked_event(e); });
+
+    window.addEventListener('keyup', (e) => { this._windowOnKeyup_event(e); });
+
     this._updateLocalizedStrings();
     this._elContent = document.getElementById('feedsContentPanel');
     this._elContextMenu = null;
     this._idComeFrom = null;
+    this._yOffset = 0;
+    this._visible = false;
   }
 
-  hide(){
+  hide() {
+    this._visible = false;
     document.getElementById('folderContextMenuId').classList.remove('show');
     document.getElementById('folderContextMenuId').classList.add('hide');
     document.getElementById('feedContextMenuId').classList.remove('show');
     document.getElementById('feedContextMenuId').classList.add('hide');
+    document.getElementById('optionMenu').classList.remove('show');
+    document.getElementById('optionMenu').classList.add('hide');
   }
 
-  show(xPos, yPos, elTarget){
+  show(xPos, yPos, elTarget) {
+    this._idComeFrom = elTarget.getAttribute('id');
+    this._accordingComeFrom();
     this._xPosOri = xPos;
     this._yPosOri = yPos;
-    this._idComeFrom = elTarget.getAttribute('id');
-    let contextMenuId = null;
-    if (this._idComeFrom.startsWith('dv-')) {
-      contextMenuId = 'folderContextMenuId';
-      document.getElementById('feedContextMenuId').classList.remove('show');
-      document.getElementById('feedContextMenuId').classList.add('hide');
-    }
-    else {
-      contextMenuId = 'feedContextMenuId';
-      document.getElementById('folderContextMenuId').classList.remove('show');
-      document.getElementById('folderContextMenuId').classList.add('hide');
-    }
-    this._elContextMenu = document.getElementById(contextMenuId);
+    this.hide();
+    this._elContextMenu = document.getElementById(this._contextMenuId);
     this._elContextMenu.classList.remove('hide');
     this._elContextMenu.classList.add('show');
     this._setPosition(xPos, yPos);
     FeedsTreeView.instance.selectionBar.put(elTarget);
+    this._visible = true;
+  }
+
+  get visible() {
+    return this._visible;
+  }
+
+  get type() {
+    return this._contextMenuId;
+  }
+
+  _accordingComeFrom() {
+    switch (this._idComeFrom) {
+      case 'optionsMenuButton':
+        this._contextMenuId = 'optionMenu';
+        this._yOffset = 0;
+        break;
+      default:
+        this._yOffset = 17;
+        if (this._idComeFrom.startsWith('dv-')) {
+          this._contextMenuId = 'folderContextMenuId';
+        }
+        else {
+          this._contextMenuId = 'feedContextMenuId';
+        }
+        break;
+    }
   }
 
   _updateLocalizedStrings() {
@@ -68,7 +97,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFldMnDeleteFolder').textContent = browser.i18n.getMessage('sbDeleteFolder');
     document.getElementById('ctxFldMnInfo').textContent = browser.i18n.getMessage('sbFolderInfo');
 
-
     document.getElementById('ctxFdtMnGetFeedTitle').textContent = browser.i18n.getMessage('sbGetFeedTitle');
     document.getElementById('ctxFdMnOpenFeed').textContent = browser.i18n.getMessage('sbOpenFeed');
     document.getElementById('ctxFdMnMarkFeedAsRead').textContent = browser.i18n.getMessage('sbMarkFeedAsRead');
@@ -77,14 +105,18 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
     document.getElementById('ctxFdMnInfo').textContent = browser.i18n.getMessage('sbFeedInfo');
 
+    document.getElementById('ctxOptReload').textContent = browser.i18n.getMessage('sbCtxOptReload');
+    document.getElementById('ctxOptSubscribe').textContent = browser.i18n.getMessage('sbCtxOptSubscribe');
+    document.getElementById('ctxOptSettings').textContent = browser.i18n.getMessage('sbCtxOptSettings');
+
   }
 
   _setPosition(xPos, yPos) {
-    let xMax  = Math.max(0, this._elContent.offsetWidth - this._elContextMenu.offsetWidth - 36);
+    let xMax = Math.max(0, this._elContent.offsetWidth - this._elContextMenu.offsetWidth - 26);
     let x = Math.min(xMax, xPos);
 
-    let yMax  = Math.max(0, this._elContent.offsetHeight - this._elContextMenu.offsetHeight + 60);
-    let y = Math.min(yMax, yPos + 17);
+    let yMax = Math.max(0, this._elContent.offsetHeight - this._elContextMenu.offsetHeight + 60);
+    let y = Math.min(yMax, yPos + this._yOffset);
 
     this._elContextMenu.style.left = x + 'px';
     this._elContextMenu.style.top = y + 'px';
@@ -93,6 +125,12 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   async _checkFeedsMenuClicked_event() {
     this.hide();
     FeedManager.instance.checkFeeds_async(this._idComeFrom);
+  }
+
+  async _windowOnKeyup_event(e) {
+    if(e.key == 'Escape') {
+      this.hide();      
+    }
   }
 
   async _openAllUpdatedFeedsMenuClicked_event() {
@@ -112,8 +150,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     FeedsTreeView.instance.reload_async();
   }
 
-
-
   async _ctxMnNewFolderClicked_event() {
     this.hide();
     FeedsNewFolderDialog.instance.show(this._idComeFrom);
@@ -130,9 +166,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     let bookmarkId = this._idComeFrom.substring(3);
     FeedsInfoView.instance.show(this._xPosOri, this._yPosOri, bookmarkId);
   }
-
-
-
 
   async _markAllFeedsAsReadMenuClicked_event() {
     this.hide();
@@ -178,4 +211,20 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     this.hide();
     FeedsInfoView.instance.show(this._xPosOri, this._yPosOri, this._idComeFrom);
   }
+
+  async _ctxOptReloadMenuClicked_event() {
+    this.hide();
+    LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+  }
+
+  async _ctxOptSubscribeMenuClicked_event() {
+    this.hide();
+    OptionSubscribeDialog.instance.show(this._idComeFrom);
+  }
+
+  async _ctxOptSettingsMenuClicked_event() {
+    this.hide();
+    browser.runtime.openOptionsPage();
+  }
+
 }

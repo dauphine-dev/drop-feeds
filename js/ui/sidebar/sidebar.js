@@ -1,5 +1,5 @@
-/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout
-FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager FeedsNewFolderDialog FeedsFilterBar*/
+/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
+/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -28,13 +28,15 @@ class SideBar { /*exported SideBar*/
     await FeedsTreeView.instance.load_async();
     RenderItemLayout.instance;
     await FeedsNewFolderDialog.instance.init_async();
+    await OptionSubscribeDialog.instance.init_async();
     
     document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
     FeedsTreeView.instance.selectionBar.refresh();
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    this._addListeners();
+    window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
+    document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 
@@ -47,11 +49,6 @@ class SideBar { /*exported SideBar*/
     Dialogs.openSubscribeDialog_async(tabInfo.title, tabInfo.url);
   }
 
-  _addListeners() {
-    window.onresize = ((e) => { this._windowOnResize_event(e); });
-    document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
-  }
-
   async _contentOnScroll_event() {
     FeedsTreeView.instance.selectionBar.refresh();
   }
@@ -59,7 +56,7 @@ class SideBar { /*exported SideBar*/
   async _windowOnResize_event() {
     this.resize();
   }
-
+  
   _computeContentTop() {
     let refElementId = (FeedsFilterBar.instance.enabled ? 'filterBar' : 'statusBar');
     let refElement = document.getElementById(refElementId);

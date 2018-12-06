@@ -12,3 +12,18 @@ version;line;messageName;message;where;note
 0.9.1;248;optSelectRenderTemplate;Select render tab template;in options / theme;n/a
 0.9.1;251;optSelectRenderTheme;Select render tab theme;in options / theme;n/a
 0.9.1;305;optFeedItemRenderInSidebar;Render selected item in the sidebar;in options / Items;n/a
+
+0.9.2  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9.2;140;sbCtxOptReload;Reload Drop Feeds;Option/1st entry;n/a
+0.9.2;143;sbCtxOptSubscribe;Subscribe by url;Option/2nd entry;n/a
+0.9.2;146;sbCtxOptSettings;Open settings...;Option/3rd entry;n/a
+0.9.2;161;subUpdateFeedTitleButton;Update feed name;Subscribe dialog/tooltip on button update feed name;(the tag at the right of the feed name)
+0.9.2;164;subStopUpdatingFeedTitleButton;Stop updating feed name;Subscribe dialog/tooltip on button abort feed name updating;(the red cross at the right of the feed name)
+0.9.2;167;subUpdatingFeedTitlePlswait;Updating feed name, please wait...;Subscribe dialog/in feed name during Updating;n/a
+0.9.2;173;subFolderDialogTitle;New folder;Right-click on folder/new folder/the dialogbox title;n/a
+0.9.2;194;subLoading;Loading...;Subscribe dialog/in feed preview during loading;n/a
+0.9.2;506;sbInfoDialogTitle;Info;Right-click on folder/info/the dialogbox title;n/a
+0.9.2;527;sbSubsDiaTitle;Subscribe by url;Option/Subscribe by url/the dialog title;n/a
+0.9.2;530;sbSubsDiaUrlLbl;Url;Option/Subscribe by url/dialog field url;n/a
+0.9.2;533;sbSubsDiaByUrlCloseButton;Close;Option/Subscribe by url/dialog close button;n/a
+0.9.2;536;sbsubsDiaByUrlSubscribeButton;Subscribe;Option/Subscribe by url/dialog Subscribe button;n/a

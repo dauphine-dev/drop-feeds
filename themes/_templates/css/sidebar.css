@@ -136,10 +136,6 @@ html, body {
   background-image: var(--feeds-checkFeedsButtonAnim-image);
 }
 
-.checkFeedsButtonCursorRestart::before {
-  cursor: var(--feeds-checkFeedsButtonCursorRestart-cursor);
-}
-
 #discoverFeedsButton::before {
   background-image: var(--feeds-discoverFeedsButton-image);
 }
@@ -493,6 +489,18 @@ li.feedError {
   background-image: var(--feeds-feedContextMenuInfo-image);
 }
 
+#ctxOptReload::before {
+  background-image: var(--feeds-optionMenuReload-image);
+}
+
+#ctxOptSubscribe::before {
+  background-image: var(--feeds-optionMenuSubscribe-image);
+}
+
+#ctxOptSettings::before {
+  background-image: var(--feeds-optionMenuSettings-image);
+}
+
 .menuSep {
   margin: 2px 0 2px 0;
   border-color: #999999;
@@ -713,39 +721,20 @@ li.feedError {
   overflow-y: auto;
 }
 
-
 /* ---- dialog box ---- */
 
-/* new folder dialog */
-
-#newFolderDialog {
-  position: absolute;
-  left: 80px;
-  top: 80px;
-  background-color: var(--dialog-background-color);
-  border: 1px solid var(--dialog-border-color);
-  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
-  padding: 10px;
-  z-index: 1;
-}
-
-/* info view */
-
-#infoView {
+.dialogBox {
   position: absolute;
   background-color: var(--dialog-background-color);
-  left: 80px;
-  top: 200px;
   font-size: 99%;
   min-width: 160px;
   border: 1px solid var(--dialog-border-color);
   box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
-  ;
   padding: 0;
   z-index: 2;
 }
 
-.infoTitle {
+.dialogTitle {
   text-align: center;
   font-weight: bold;
   color: var(--dialog-title-color);
@@ -753,24 +742,24 @@ li.feedError {
   border-bottom: 1px solid var(--dialog-border-color);
 }
 
-#infoViewInner {
+.dialogViewInner {
   padding: 10px 10px 10px 10px;
 }
 
-#infoViewTable {
+.dialogViewTable {
   table-layout: fixed;
 }
 
-#infoViewTable td:last-child {
+.dialogViewTable td:last-child {
   width: 100%;
 }
 
-.infoLabel {
+.dialogLabel {
   font-weight: bold;
   color: var(--dialog-label-color);
 }
 
-.infoField {
+.dialogField {
   border: 1px inset #000000;
   white-space: pre;
   -moz-user-select: text;
@@ -780,6 +769,6 @@ li.feedError {
   user-select: text;
 }
 
-.infoButton {
+.dialogButton {
   font-size: 99%;
 }

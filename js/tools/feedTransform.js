@@ -1,4 +1,4 @@
-/*global browser BrowserManager RenderOptions ItemSorter Transfer TextTools ThemeManager*/
+/*global browser RenderOptions ItemSorter Transfer TextTools ThemeManager*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
@@ -110,7 +110,7 @@ class FeedTransform { /*exported FeedTransform*/
     let element = htmlDoc.querySelector('.encodedHtml');
     while (element) {
       let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
-      let decodedElement = BrowserManager.textHtmlToDocumentFragment(decodedHtml, true);
+      let decodedElement = document.createRange().createContextualFragment(decodedHtml);
       element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedHtml');
     }

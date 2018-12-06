@@ -1,4 +1,4 @@
-/* global Listener ListenerProviders DefaultValues LocalStorageManager TextTools Wk*/
+/* global Listener ListenerProviders DefaultValues LocalStorageManager TextTools WorkerReplace*/
 'use strict';
 const _blackListHtmlTagsTopShow = [{ 'blink': [] }, { 'marquee': [] }];
 class SecurityFilters { /* exported SecurityFilters*/
@@ -9,9 +9,11 @@ class SecurityFilters { /* exported SecurityFilters*/
     this._rejectedCssFragmentList = DefaultValues.rejectedCssFragmentList;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'allowedHtmlElementsList', (v) => this._setAllowedHtmlElementsList_sbscrb(v), true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'rejectedCssFragmentList', (v) => this._setRejectedCssFragmentsList_sbscrb(v), true);
+    this._wkRplc =  new WorkerReplace(20);
   }
 
   async init_async() {
+    await this._wkRplc.init_async();
     this._allowedHtmlTagList = await LocalStorageManager.getValue_async('allowedHtmlElementsList', DefaultValues.allowedTagList);
     this._rejectedCssFragmentList = await LocalStorageManager.getValue_async('rejectedCssFragmentList', DefaultValues.rejectedCssFragmentList);
   }
@@ -50,8 +52,8 @@ class SecurityFilters { /* exported SecurityFilters*/
     for (let tag of tagToDisableList) {
       if (!tag) { continue; }
       //use worker to try to avoid message "Warning: Unresponsive script."
-      text = await Wk.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
-      text = await Wk.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
+      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
+      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
     }
     return text;
   }
@@ -89,7 +91,7 @@ class SecurityFilters { /* exported SecurityFilters*/
       }
       else {
         //use worker to try to avoid message "Warning: Unresponsive script."
-        text = await Wk.replace_async(text, new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>');
+        text = await this._wkRplc.replace_async(text, new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>');
       }
     }
     return text;
@@ -98,7 +100,7 @@ class SecurityFilters { /* exported SecurityFilters*/
   async _applyInlineCssRejection_async(attStyle) {
     let cleanedAttStyle = attStyle;
     //use worker to try to avoid message "Warning: Unresponsive script." (to test set dom.max_script_run_time to 1)
-    await this._rejectedCssFragmentList.map(async filter => cleanedAttStyle = await Wk.replace_async(attStyle, new RegExp(filter), ''));
+    await this._rejectedCssFragmentList.map(async filter => cleanedAttStyle = await this._wkRplc.replace_async(attStyle, new RegExp(filter), ''));
 
     return cleanedAttStyle;
   }

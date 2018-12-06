@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "更新はありません"
   },
+  "sbCtxOptReload": {
+    "message": "Drop Feedsを更新"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "URLから購読"
+  },
+  "sbCtxOptSettings": {
+    "message": "設定を開く"
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "名前"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "フィードのタイトルを更新"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "タイトル更新の中止"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "更新中, お待ちください..."
+  },
   "subFolder": {
     "message": "フォルダ"
+  },
+  "subFolderDialogTitle": {
+    "message": "新しいフォルダ"
   },
   "subNewFolder": {
     "message": "新しいフォルダ"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "作成"
+  },
+  "subShowFeedPreview": {
+    "message": "プレビューを表示"
+  },
+  "subLoading": {
+    "message": "読み込み中..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -230,7 +257,7 @@
   "optTheme": {
     "message": "テーマ"
   },
-"optManagement": {
+  "optManagement": {
     "message": "インポート/エクスポート"
   },
   "optSelectFeedFolder": {
@@ -245,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "テーマ"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "表示領域のテンプレート"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "表示領域のテーマ"
   },
   "optFeedItemOrder": {
@@ -361,7 +388,7 @@
   },
   "messageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "HTMLフィルタ"
   },
@@ -474,7 +501,10 @@
     "message": "購読する"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Info"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -492,6 +522,21 @@
     "message": "閉じる"
   },
   "comment9": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "URLから購読"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "閉じる"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "購読"
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -524,7 +569,7 @@
   "usUScriptDelete": {
     "message": "スクリプトの削除"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -549,12 +594,10 @@
     "message": "保存してテスト..."
   },
   "usUScriptFtInfo": {
-    "message": "フィード変換 (info)",
-    "comment": "Note for the translator: Info. means Information (you can delete the note)"
+    "message": "フィード変換 (info)"
   },
   "usUScriptVfInfo": {
-    "message": "仮想フィード (info)",
-    "comment": "Note for the translator: Info. means Information (you can delete the note)"
+    "message": "仮想フィード (info)"
   },
   "usUScriptHelp": {
     "message": "ヘルプ"
@@ -565,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "保存して購読..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -580,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "タブサイズ"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -589,7 +632,7 @@
   "edConsoleCopy": {
     "message": "テキストコンソールをコピー"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {

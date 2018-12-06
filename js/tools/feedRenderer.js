@@ -1,4 +1,4 @@
-/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform*/
+/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform TextTools*/
 'use strict';
 class RenderOptions {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -27,13 +27,15 @@ class FeedRenderer { /*exported FeedRenderer*/
   }
 
   static feedErrorToHtml(error, url, title) {
-    let feedHtml = USTools.rssHeader(title, url, 'Error');
+    error = TextTools.replaceAll(error, '\n' , '<br/>');
+    let feedHtml = USTools.rssHeader(title, url, 'Error');  
     let description = `<table>
     <tr><td>Name: </td><td>` + title + `</td></tr>
     <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
+    <tr><td></td><td></td></tr>
     <tr><td>Error: </td><td>` + error + `</td></tr>
     </table>`;
-    feedHtml += USTools.rssItem('Error: ' + error, url, new Date(), description);
+    feedHtml += USTools.rssItem('Error: ' + error.split('<br/>')[0], url, new Date(), description);
     feedHtml += USTools.rssFooter();
     return feedHtml;
   }
@@ -57,29 +59,15 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   }
 
-  static feedItemsListToUnifiedHtml(feedItems, unifiedChannelTitle) {
-    let unifiedChannel = DefaultValues.getDefaultChannelInfo();
-    unifiedChannel.title = unifiedChannelTitle;
-    unifiedChannel.description = 'Unified Feed';
-    let htmlHead = FeedRenderer._getHtmlHead(unifiedChannel);
-    let feedHtml = '';
-    feedHtml += htmlHead;
-    feedHtml += FeedRenderer._getHtmlChannel(unifiedChannel);
-    let htmlItemList = [];
-    feedItems.sort((item1, item2) => {
-      if (item1.pubDate > item2.pubDate) return -1;
-      if (item1.pubDate < item2.pubDate) return 1;
-      return 0;
-    });
-    for (let i = 0; i < feedItems.length && i < DefaultValues.maxItemsInUnifiedView; i++) {
-      let htmlItem = FeedRenderer._getHtmlItem(feedItems[i], i + 1);
-      htmlItemList.push(htmlItem);
-    }
-    feedHtml += htmlItemList.join('\n');
-    feedHtml += FeedRenderer._getHtmFoot();
+  static async feedItemsListToUnifiedHtml_async(feedItems, unifiedChannelTitle) {
+    let feedInfo = DefaultValues.getDefaultFeedInfo();
+    feedInfo.channel.title = unifiedChannelTitle;
+    feedInfo.channel.description = 'Unified Feed';
+    feedInfo.itemList = feedItems;
+    let feedHtml = await FeedTransform.transformFeedToHtml_async(feedInfo);
     return feedHtml;
   }
-
+  
   //private stuffs
 
   static _feedInfoToHtml(feedInfo) {

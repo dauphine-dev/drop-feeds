@@ -9,30 +9,30 @@
   <link id="cssMain" href="/themes/legacy/css/main.css" rel="stylesheet">
   <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
-  <script src="/js/tools/defaultValues.js"></script>
-  <script src="/js/tools/localStorageManager.js"></script>
-  <script src="/js/tools/themeManager.js"></script>
-  <script src="/js/tools/cssManager.js"></script>
-  <script src="/js/tools/compute.js"></script>
-  <script src="/js/tools/textTools.js"></script>
-  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/bookmarkManager.js"></script>
   <script src="/js/tools/browserManager.js"></script>
-  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/compute.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/dateTime.js"></script>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/dialogs.js"></script>
+  <script src="/js/tools/feed.js"></script>
   <script src="/js/tools/feedManager.js"></script>
   <script src="/js/tools/feedParser.js"></script>
   <script src="/js/tools/feedRenderer.js"></script>
   <script src="/js/tools/feedTransform.js"></script>
-  <script src="/js/tools/bookmarkManager.js"></script>
-  <script src="/js/tools/feed.js"></script>
-  <script src="/js/tools/listener.js"></script>
   <script src="/js/tools/itemManager.js"></script>
-  <script src="/js/tools/dialogs.js"></script>
-  <script src="/js/tools/tabManager.js"></script>
   <script src="/js/tools/itemSorter.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
   <script src="/js/tools/securityFilters.js"></script>
+  <script src="/js/tools/tabManager.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/transfer.js"></script>
   <script src="/js/tools/userScriptTools.js"></script>
   <script src="/js/tools/usScriptTools.js"></script>
-  <script src="/js/tools/workerManager.js"></script>
+  <script src="/js/tools/workerPool.js"></script>
   <script src="/js/tools/theme-refresh.js"></script>
 </head>
 
@@ -169,55 +169,87 @@
     </ul>
   </div>
 
+  <!-- Option menu -->
+  <div id="optionMenu" class="contextMenuStyle hide">
+    <ul>
+      <li id="ctxOptReload" class="ctxMenuItem">#Reload Drop Feeds</li>
+      <li id="ctxOptSubscribe" class="ctxMenuItem">#Subscribe by url</li>
+      <li id="ctxOptSettings" class="ctxMenuItem">#Open settings...</li>
+    </ul>
+  </div>
+
   <!-- New folder dialog -->
-  <div id="newFolderDialog" class="hide">
-    <table>
-      <tr>
-        <td><label id="newFolderButtonDialog">#New folder: </label></td>
-        <td><input type="text" id="inputNewFolder" class="fieldText" value="New folder"></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <div class="atRight">
-            <button id="cancelNewFolderButton">#Cancel</button>
-            <span class="default">
-              <button id="createNewFolderButton">#Create</button>
-            </span>
-          </div>
-        </td>
-      </tr>
-    </table>
+  <div id="newFolderDialog" class="hide dialogBox">
+    <div id="newFolderDialogTitle" class="dialogTitle">#New folder</div>
+    <div class="dialogViewInner">
+      <table class="dialogViewTable">
+        <tr>
+          <td><label id="newFolderButtonDialog" class="dialogLabel">#New folder: </label></td>
+          <td><input type="text" id="inputNewFolder" class="dialogField" value="New folder"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div class="atRight">
+              <button id="cancelNewFolderButton">#Cancel</button>
+              <span class="default">
+                <button id="createNewFolderButton">#Create</button>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <!-- Info view -->
-  <div id="infoView" class="hide">
-    <div class="infoTitle">Info</div>
-    <div id="infoViewInner">
-      <table id="infoViewTable">
+  <div id="infoView" class="hide dialogBox">
+    <div id="infoDialogTitle" class="dialogTitle">#Info</div>
+    <div class="dialogViewInner">
+      <table id="dialogViewTable">
         <tr>
-          <td><label id="infoIdLbl" class="infoLabel">#ID: </label></td>
+          <td><label id="infoIdLbl" class="dialogLabel">#ID: </label></td>
           <td>
-            <div id="infoIdField" class="infoField"></div>
+            <div id="infoIdField" class="dialogField"></div>
           </td>
         </tr>
         <tr>
-          <td><label id="infoNameLbl" class="infoLabel">#Name:</label></td>
-          <td><input type="text" id="infoNameField" class="infoField" value=""></td>
+          <td><label id="infoNameLbl" class="dialogLabel">#Name:</label></td>
+          <td><input type="text" id="infoNameField" class="dialogField" value=""></td>
         </tr>
         <tr>
-          <td><label id="infoAddressLbl" class="infoLabel">#Address: </label></td>
-          <td><input type="text" id="infoAddressField" class="infoField" value=""></td>
+          <td><label id="infoAddressLbl" class="dialogLabel">#Address: </label></td>
+          <td><input type="text" id="infoAddressField" class="dialogField" value=""></td>
         </tr>
       </table>
       <p />
       <div class="atRight">
-        <button id="infoUpdateButton" class="infoButton">#Update</button>
-        <button id="infoCloseButton" class="infoButton">#Close</button>
+        <button id="infoUpdateButton" class="dialogButton">#Update</button>
+        <button id="infoCloseButton" class="dialogButton">#Close</button>
       </div>
       <p>&nbsp;</p>
     </div>
   </div>
+
+  <!-- Subscribe by url dialog -->
+  <div id="subscribeByUrlDialog" class="hide dialogBox">
+    <div id="subscribeDialogTitle" class="dialogTitle">#Subscribe by url</div>
+    <div class="dialogViewInner">
+      <table class="dialogViewTable">
+        <tr>
+          <td><label id="subsUrlLbl" class="dialogLabel">#Url: </label></td>
+          <td><input type="text" id="subsUrlField" class="dialogField"></td>
+        </tr>
+      </table>
+      <p />
+      <div class="atRight">
+        <button id="subsByUrlSubscribeButton" class="dialogButton">#Subscribe</button>
+        <button id="subsByUrlCloseButton" class="dialogButton">#Close</button>
+      </div>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+
   <script src="/js/ui/sidebar/renderItemLayout.js"></script>
   <script src="/js/ui/sidebar/itemsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/itemsToolBar.js"></script>
@@ -226,6 +258,7 @@
   <script src="/js/ui/sidebar/feedsSelectionBar.js"></script>
   <script src="/js/ui/sidebar/feedsContextMenu.js"></script>
   <script src="/js/ui/sidebar/feedsFilterBar.js"></script>
+  <script src="/js/ui/sidebar/optionSubscribeDialog.js"></script>
   <script src="/js/ui/sidebar/feedsInfoView.js"></script>
   <script src="/js/ui/sidebar/feedsNewFolderDialog.js"></script>
   <script src="/js/ui/sidebar/feedsStatusBar.js"></script>

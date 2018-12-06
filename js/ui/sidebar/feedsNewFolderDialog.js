@@ -30,17 +30,18 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
   }
 
   _updateLocalizedStrings() {
+    document.getElementById('newFolderDialogTitle').textContent = browser.i18n.getMessage('subFolderDialogTitle');
     document.getElementById('newFolderButtonDialog').textContent = browser.i18n.getMessage('subNewFolder');
     document.getElementById('cancelNewFolderButton').textContent = browser.i18n.getMessage('subCancel');
     document.getElementById('createNewFolderButton').textContent = browser.i18n.getMessage('subCreate');
   }
 
   _setPosition() {
-    let elMainDiv = document.getElementById('main');
+    let elMainDiv = document.getElementById('mainBoxTable');
     let elSelectedElement = document.getElementById(this._selectedId);
     let rectSelectedElement = elSelectedElement.getBoundingClientRect();
     let x = Math.round(rectSelectedElement.left);
-    let y = Math.round(rectSelectedElement.bottom);
+    let y = Math.round(rectSelectedElement.top) + 20;
     let xMax  = Math.max(0, elMainDiv.offsetWidth - this._elNewFolderDialog.offsetWidth + 18);
     let yMax  = Math.max(0, elMainDiv.offsetHeight - this._elNewFolderDialog.offsetHeight + 20);
     x = Math.min(xMax, x);
@@ -65,7 +66,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     event.stopPropagation();
     event.preventDefault();
     try {
-      let folderName = document.getElementById('inputNewFolder').value;
+      let folderName = document.getElementById('subsByUrlSubscribeButton').value;
       let folderId = null;
       let index = 0 ;
       if (this._selectedId.startsWith('dv-')) {

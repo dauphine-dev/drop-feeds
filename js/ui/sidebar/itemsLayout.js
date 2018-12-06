@@ -142,7 +142,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   async _displayItems_async(itemList) {
     this._itemList = itemList;
     let itemsHtml = await FeedRenderer.renderItemListToHtml_async(itemList, this._feedItemDescriptionTooltips);
-    BrowserManager.setInnerHtmlById('itemsContentPanel', itemsHtml, true);
+    BrowserManager.setInnerHtmlById('itemsContentPanel', itemsHtml);
 
     if (itemsHtml.length > 0) {
       ItemsToolBar.instance.enableButtons();

@@ -2,6 +2,11 @@
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
 
+  /* option menu */
+  --feeds-optionMenuReload-image: url(/themes/sage_sc/img/restart.png);
+  --feeds-optionMenuSubscribe-image: url(/themes/sage_sc/img/subscribe-url.png);
+  --feeds-optionMenuSettings-image: url(/themes/sage_sc/img/settings.png);
+
   /* feeds top menu */
   --feeds-topMenu-background-color: var(--main-background-color);
   --feeds-topMenu-border-color: var(--main-border-color);
@@ -9,7 +14,6 @@
   --feeds-topMenu-image-height: 24px;
   --feeds-checkFeedsButton-image: url(/themes/sage_sc/img/check-feeds.png);
   --feeds-checkFeedsButtonAnim-image: url(/themes/sage_sc/img/check-feeds-animation.gif);
-  --feeds-checkFeedsButtonCursorRestart-cursor: url(/themes/_templates/img/restart.png), not-allowed;
   --feeds-discoverFeedsButton-image: url(/themes/sage_sc/img/magnify.png);
   --feeds-onlyUpdatedFeedsButton-image: url(/themes/sage_sc/img/only-updated-feeds.png);
   --feeds-onlyErrorFeedsButton-image: url(/themes/sage_sc/img/feed-error.png);

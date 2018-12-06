@@ -137,6 +137,15 @@
   "sbNoFeedHasBeenUpdated": {
     "message": "Aucun flux n'a été mis à jour"
   },
+  "sbCtxOptReload": {
+    "message": "Recharger Drop Feeds"
+  },
+  "sbCtxOptSubscribe": {
+    "message": "S'abonner à l'aide d'une url"
+  },
+  "sbCtxOptSettings": {
+    "message": "Ouvrir les réglages..."
+  },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
   },
@@ -149,8 +158,20 @@
   "subName": {
     "message": "Nom"
   },
+  "subUpdateFeedTitleButton": {
+    "message": "Mettre à jour le nom du flux"
+  },
+  "subStopUpdatingFeedTitleButton": {
+    "message": "Arrêter la mise à jour du nom"
+  },
+  "subUpdatingFeedTitlePlswait": {
+    "message": "Mise à du nom de flux en cours, veuillez patienter..."
+  },
   "subFolder": {
     "message": "Dossier"
+  },
+  "subFolderDialogTitle": {
+    "message": "Nouveau dossier"
   },
   "subNewFolder": {
     "message": "Nouveau dossier"
@@ -166,6 +187,12 @@
   },
   "subCreate": {
     "message": "Créer"
+  },
+  "subShowFeedPreview": {
+    "message": "Show feed preview"
+  },
+  "subLoading": {
+    "message": "Chargement en cours..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -230,7 +257,7 @@
   "optTheme": {
     "message": "Theme"
   },
-"optManagement": {
+  "optManagement": {
     "message": "Gestion"
   },
   "optSelectFeedFolder": {
@@ -245,10 +272,10 @@
   "optSelectMainTheme": {
     "message": "Theme principal"
   },
-  "optSelectRenderTemplate": { 
+  "optSelectRenderTemplate": {
     "message": "Modèle de l'onglet de rendu"
   },
-  "optSelectRenderTheme": { 
+  "optSelectRenderTheme": {
     "message": "Theme de l'onglet de rendu"
   },
   "optFeedItemOrder": {
@@ -361,7 +388,7 @@
   },
   "messageDialogOk": {
     "message": "ok"
-  },  
+  },
   "optHtmlFilter": {
     "message": "Fitres HTML"
   },
@@ -474,7 +501,10 @@
     "message": "S’abonner maintenant"
   },
   "comment8": {
-    "message": "------------------Info view strings------------------"
+    "message": "------------------Info dialog strings------------------"
+  },
+  "sbInfoDialogTitle": {
+    "message": "Info"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -492,6 +522,21 @@
     "message": "Fermer"
   },
   "comment9": {
+    "message": "------------------Subscribe by url dialog strings------------------"
+  },
+  "sbSubsDiaTitle": {
+    "message": "S'abonner à l'aide d'une url"
+  },
+  "sbSubsDiaUrlLbl": {
+    "message": "Url"
+  },
+  "sbSubsDiaByUrlCloseButton": {
+    "message": "Fermer"
+  },
+  "sbsubsDiaByUrlSubscribeButton": {
+    "message": "S’abonner"
+  },
+  "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
@@ -524,7 +569,7 @@
   "usUScriptDelete": {
     "message": "Effacer le script"
   },
-  "comment10": {
+  "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
@@ -563,7 +608,7 @@
   "usUScriptSaveAndSubscribe": {
     "message": "Saver et s'abonner..."
   },
-  "comment11": {
+  "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
@@ -578,7 +623,7 @@
   "usUScriptTabSize": {
     "message": "Largeur tab"
   },
-  "comment12": {
+  "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
@@ -587,7 +632,7 @@
   "edConsoleCopy": {
     "message": "Copier le texte de la console"
   },
-  "comment13": {
+  "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
