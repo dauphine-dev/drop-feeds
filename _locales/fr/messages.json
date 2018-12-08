@@ -132,7 +132,7 @@
     "message": "reçu"
   },
   "sbWaitingNextFeed": {
-    "message": "En attente du prochain flux"
+    "message": "En attente du prochain flux..."
   },
   "sbFeedsUpdated": {
     "message": "flux mis à jour"
