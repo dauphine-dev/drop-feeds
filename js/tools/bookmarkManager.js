@@ -136,9 +136,9 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
     if (!isChid) { return; }
     if (id == this._lastCreatedBookmarkId) {
-      FeedsStatusBar.instance.text = browser.i18n.getMessage('sbUseButtonAbove');
+      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbUseButtonAbove'));
       await DateTime.delay_async(1);
-      FeedsStatusBar.instance.text = '';
+      FeedsStatusBar.instance.setText('');
     }
     LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }

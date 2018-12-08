@@ -139,7 +139,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       FeedManager.instance.openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce);
     }
     finally {
-      FeedsStatusBar.instance.text = '';
+      FeedsStatusBar.instance.setText('');
       FeedsTopMenu.instance.animateCheckFeedButton(false);
       FeedsStatusBar.instance.workInProgress = false;
     }
