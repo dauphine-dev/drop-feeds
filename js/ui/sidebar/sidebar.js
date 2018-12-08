@@ -13,9 +13,9 @@ class SideBar { /*exported SideBar*/
 
   async init_async() {
     await ThemeManager.instance.init_async();
+    await BookmarkManager.instance.init_async();
     await FeedsTreeView.instance.load_async();
     BrowserManager.instance.init_async();
-    BookmarkManager.instance.init_async();
     RenderOptions.instance;
     ItemSorter.instance;
     SecurityFilters.instance;
