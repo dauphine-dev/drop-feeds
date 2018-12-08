@@ -129,7 +129,7 @@
     "message": "recibido"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed"
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "feeds actualizados"

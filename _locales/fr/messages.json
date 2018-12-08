@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "chargé"
   },
+  "sbLoadingNextFeed": {
+    "message": "Chargement du flux suivant..."
+  },
   "sbMerging": {
     "message": "Fusionne"
   },

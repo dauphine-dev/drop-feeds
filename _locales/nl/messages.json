@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "geladen"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "Samenvoegen"
   },
@@ -129,7 +132,7 @@
     "message": "ontvangen"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed"
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "feeds geüpdatet"

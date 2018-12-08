@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "已加载"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "正在合并"
   },
@@ -129,7 +132,7 @@
     "message": "已接收"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed"
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "个订阅点已更新"

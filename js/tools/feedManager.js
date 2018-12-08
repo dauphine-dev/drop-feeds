@@ -176,8 +176,8 @@ class FeedManager { /*exported FeedManager*/
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
-      feed.updateUiStatus_async();
-      FeedsStatusBar.instance.setText(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ');
+      feed.updateUiStatus_async();      
+      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();

@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "完了"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "マージ中"
   },
@@ -129,7 +132,7 @@
     "message": "受信しました"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed"
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "件更新されています"
