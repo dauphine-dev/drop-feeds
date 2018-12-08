@@ -15,16 +15,8 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._checkingFeedsStartTime = new Date();
     this._forceAnimateCheckFeedButton = false;
     this._filterEnabled = DefaultValues.filterEnabled;
-  }
-
-  async init_async() {
-    this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
-    this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
-    await this.updatedFeedsSetVisibility_async();
-    await this._isRootFolderChecked_async();
-    await this._updateLocalizedStrings_async();
-    this._updateFilterBar();
-    this.activateButton('toggleFoldersButton', this._foldersOpened);
+    this._isRootFolderChecked_async();
+    this._updateLocalizedStrings();
     document.getElementById('checkFeedsButton').addEventListener('click', (e) => { this.checkFeedsButtonClicked_event(e); });
     document.getElementById('discoverFeedsButton').addEventListener('click', (e) => { this._discoverFeedsButtonClicked_event(e); });
     document.getElementById('onlyUpdatedFeedsButton').addEventListener('click', (e) => { this._onlyUpdatedFeedsButtonClicked_event(e); });
@@ -33,6 +25,13 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     document.getElementById('filterButton').addEventListener('click', (e) => { this._filterButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
+  }
+
+  async init_async() {
+    this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    this.updatedFeedsSetVisibility_async();    
+    this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
+    this._updateFilterBar();
   }
 
   set workInProgress(value) {
@@ -100,7 +99,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     FeedManager.instance.checkFeeds_async('feedsContentPanel');
   }
 
-  async _updateLocalizedStrings_async() {
+  async _updateLocalizedStrings() {
     document.getElementById('checkFeedsButton').setAttribute('title', browser.i18n.getMessage('sbCheckFeeds'));
     document.getElementById('discoverFeedsButton').setAttribute('title', browser.i18n.getMessage('sbDiscoverFeeds'));
     document.getElementById('onlyUpdatedFeedsButton').setAttribute('title', browser.i18n.getMessage('sbViewOnlyUpdatedFeeds'));
@@ -116,6 +115,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
       let rootFolder = await LocalStorageManager.getValue_async(rootFolderId, DefaultValues.getStoredFolder(rootFolderId));
       this._foldersOpened = rootFolder.checked;
     } catch (e) { }
+    this.activateButton('toggleFoldersButton', this._foldersOpened);
   }
 
   _updateFilterBar() {

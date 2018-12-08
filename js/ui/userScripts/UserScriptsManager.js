@@ -9,12 +9,12 @@ class UserScriptsManager { /* exported UserScriptsManager */
     this._scriptList = [];
     document.getElementById('createNewScript').addEventListener('click', (e) => { this._createNewScriptClicked_event(e); });
     this._updateLocalizedStrings();
+    UserScriptsEditor.instance;
+    this._loadScriptList_async();
+    this.display();
   }
 
   async init_async() {
-    UserScriptsEditor.instance.init_async();
-    this._loadScriptList_async();
-    this.display();
   }
 
   display() {

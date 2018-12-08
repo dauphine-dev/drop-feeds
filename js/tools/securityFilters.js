@@ -1,4 +1,4 @@
-/* global Listener ListenerProviders DefaultValues LocalStorageManager TextTools WorkerReplace*/
+/* global Listener ListenerProviders DefaultValues TextTools WorkerReplace*/
 'use strict';
 const _blackListHtmlTagsTopShow = [{ 'blink': [] }, { 'marquee': [] }];
 class SecurityFilters { /* exported SecurityFilters*/
@@ -10,12 +10,7 @@ class SecurityFilters { /* exported SecurityFilters*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'allowedHtmlElementsList', (v) => this._setAllowedHtmlElementsList_sbscrb(v), true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'rejectedCssFragmentList', (v) => this._setRejectedCssFragmentsList_sbscrb(v), true);
     this._wkRplc =  new WorkerReplace(20);
-  }
-
-  async init_async() {
-    await this._wkRplc.init_async();
-    this._allowedHtmlTagList = await LocalStorageManager.getValue_async('allowedHtmlElementsList', DefaultValues.allowedTagList);
-    this._rejectedCssFragmentList = await LocalStorageManager.getValue_async('rejectedCssFragmentList', DefaultValues.rejectedCssFragmentList);
+    this._wkRplc.init_async();
   }
 
   async _setAllowedHtmlElementsList_sbscrb(value) {

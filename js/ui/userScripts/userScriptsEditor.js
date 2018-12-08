@@ -15,6 +15,8 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     this._isResizing = false;
     this._lastDownX = 0;
     this._updateLocalizedStrings();
+    SecurityFilters.instance;
+    BrowserManager.instance.init_async();
     document.getElementById('saveButton').addEventListener('click', (e) => { this._saveButtonClicked_event(e); });
     document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
     document.getElementById('saveAndCloseButton').addEventListener('click', (e) => { this._saveAndCloseButtonClicked_event(e); });
@@ -28,10 +30,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
 
     this._loadEditorScripts();
     window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });
-  }
-
-  async init_async() {
-    await SecurityFilters.instance.init_async();
   }
 
   async display_async(scriptId) {

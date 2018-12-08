@@ -1,14 +1,10 @@
-/*global DefaultValues LocalStorageManager Listener ListenerProviders FeedParser*/
+/*global DefaultValues Listener ListenerProviders FeedParser*/
 'use strict';
 class Timeout { /*exported Timeout*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._timeOut = DefaultValues.timeOut;
-  }
-
-  async init_async() {
-    this._timeOut = await LocalStorageManager.getValue_async('timeOut', this._timeOut);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'timeOut', (v) => { this.setTimeout_sbscrb(v); }, true);
   }
 

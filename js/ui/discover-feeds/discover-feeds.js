@@ -15,7 +15,7 @@ class DiscoverFeeds {
   }
 
   async init_async() {
-    await SecurityFilters.instance.init_async();
+    SecurityFilters.instance;
     this._updateLocalizedStrings();
     this._progressBar = new ProgressBar('progressBar', true);
     this._progressBar.show();

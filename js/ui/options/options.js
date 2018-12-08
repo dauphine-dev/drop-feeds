@@ -3,11 +3,11 @@
 class Options {
   static get instance() { return (this._instance = this._instance || new this()); }
 
-  async init_async() {
-    await ThemeManager.instance.init_async();
-    await AllTabControl.instance.init_async();
-    await Timeout.instance.init_async();
-    Options.instance._updateLocalizedStrings();
+  constructor() {
+    ThemeManager.instance.init_async();
+    Timeout.instance;
+    this._updateLocalizedStrings();
+    AllTabControl.instance.init_async();
   }
 
   _updateLocalizedStrings() {
@@ -15,4 +15,4 @@ class Options {
   }
 
 }
-Options.instance.init_async();
+Options.instance;

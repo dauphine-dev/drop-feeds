@@ -5,10 +5,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
 
   constructor() {
     this._filterEnabled = DefaultValues.filterEnabled;
-  }
-
-  async init_async() {
-    this._updateLocalizedStrings_async();
+    this._updateLocalizedStrings();
     document.getElementById('filterField').addEventListener('input', (e) => { this._filterFieldInput_event(e); });
     document.getElementById('filterClearButton').addEventListener('click', (e) => { this._filterClearButtonClicked_event(e); });
   }
@@ -28,7 +25,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
     return this._filterEnabled;
   }
 
-  async _updateLocalizedStrings_async() {
+  async _updateLocalizedStrings() {
     document.getElementById('filterClearButton').setAttribute('title', browser.i18n.getMessage('sbFilterClearButton'));
   }
 

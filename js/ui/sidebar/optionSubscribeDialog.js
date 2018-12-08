@@ -9,9 +9,6 @@ class OptionSubscribeDialog { /*exported OptionSubscribeDialog*/
     document.getElementById('subsByUrlSubscribeButton').disabled = true;
     CssManager.setElementEnableById('subsByUrlSubscribeButton', false);
     this._updateLocalizedStrings();
-  }
-
-  async init_async() {
     document.getElementById('subsByUrlCloseButton').addEventListener('click', (e) => { this._closeButtonClicked_event(e); });
     document.getElementById('subsByUrlSubscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
     document.getElementById('subsUrlField').addEventListener('change', (e) => { this._subsUrlFieldHasChanged_event(e); });
