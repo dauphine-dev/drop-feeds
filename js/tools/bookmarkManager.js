@@ -213,8 +213,8 @@ class BookmarkManager { /*exported BookmarkManager*/
     let rootBookmark = await browser.bookmarks.create({ title: 'Drop Feeds' });
     await browser.bookmarks.create({
       parentId: rootBookmark.id,
-      title: 'The Mozilla Blog',
-      url: 'https://blog.mozilla.org/feed/'
+      title: 'Drop Feeds releases',
+      url: 'https://github.com/dauphine-dev/drop-feeds/releases.atom'
     });
     return rootBookmark.id;
   }
