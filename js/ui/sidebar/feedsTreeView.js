@@ -59,6 +59,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._init();
     await this.load_async();
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 
   get selectionBar() {

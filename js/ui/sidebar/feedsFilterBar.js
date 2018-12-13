@@ -14,6 +14,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
     this._filterEnabled = enable;
     document.getElementById('filterBar').style.display = enable ? '' : 'none';
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);
     let filterText = enable ? document.getElementById('filterField').value : '';
     this._applyFilter(filterText);
     if (enable) {

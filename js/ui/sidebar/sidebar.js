@@ -34,6 +34,7 @@ class SideBar { /*exported SideBar*/
     document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
     window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
     FeedsTreeView.instance.selectionBar.refresh();
+    SideBar.instance.resize();
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 

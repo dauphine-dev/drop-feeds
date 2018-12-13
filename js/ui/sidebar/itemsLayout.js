@@ -186,6 +186,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     document.getElementById('itemLayoutBackground').style.display = this._visible ? 'block' : 'none';
     this._splitterBar1.visible = this._visible;
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);    
     RenderItemLayout.instance.setVisibility();
   }
 

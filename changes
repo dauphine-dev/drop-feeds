@@ -14,6 +14,9 @@ Remove unsafe content_security_policy (blob:)
 Fix error on empty item field
 Fix Html filter tag edition (remove old value)
 Fix unified feeds (use xslt transform instead of the old render way)
+a:
+Fix sidebar treeview refreshing (afer create new, folder, add a new feed, etc...)
+Fix new folder name is empty
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.
