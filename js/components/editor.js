@@ -200,8 +200,7 @@ class Editor { /*exported Editor*/
   async _textAreaKeydown_event(event) {
     //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
     if (event.ctrlKey) {
-      this._textAreaKeyCtrlPressed(event);
-      return false;
+      return this._textAreaKeyCtrlPressed(event);
     }
     switch (event.key) {
       case 'Tab':
