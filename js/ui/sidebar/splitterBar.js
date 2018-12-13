@@ -45,6 +45,7 @@ class SplitterBar { /*exported SplitterBar*/
     this._newPos = this._startPos - event.clientY;
     this._startPos = event.clientY;
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 
   _closeDragElement_event() {
