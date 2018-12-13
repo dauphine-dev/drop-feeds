@@ -199,6 +199,10 @@ class Editor { /*exported Editor*/
 
   async _textAreaKeydown_event(event) {
     //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+    if (event.ctrlKey) {
+      this._textAreaKeyCtrlPressed(event);
+      return false;
+    }
     switch (event.key) {
       case 'Tab':
         event.stopPropagation();
@@ -221,28 +225,32 @@ class Editor { /*exported Editor*/
     this._highlightText();
   }
 
-  async _textAreaKeypress_event(event) {
+  async _textAreaKeypress_event() {
+  }
+
+  async _textAreaKeyCtrlPressed(event) {
     let key = event.key.toLowerCase();
-    if (event.ctrlKey && key == 's') {
+    if (key == 's') {
       event.preventDefault();
       this._saveCallback();
       return false;
     }
-    else if (event.ctrlKey && key == 'z') {
+    else if (key == 'z') {
       this._undoRedo.undo();
       event.preventDefault();
       return false;
     }
-    else if (event.ctrlKey && key == 'y') {
+    else if (key == 'y') {
       this._undoRedo.redo();
       event.preventDefault();
       return false;
     }
-    else if (event.ctrlKey && (key == ',' || key == ',')) {
+    else if (key == ',' || key == ',') {
       this._undoRedo.debug();
       event.preventDefault();
       return false;
     }
+
   }
 
   async _textAreaKey_event() {
