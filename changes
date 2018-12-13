@@ -13,6 +13,9 @@ Fix unified feeds (use xslt transform instead of the old render way)
 a:
 Fix sidebar treeview refreshing (after create new, folder, add a new feed, etc...)
 Fix new folder name is empty
+b:
+Set the default feed to 'Drop Feeds releases' 
+Better layout size on 1st Drop Feeds run
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.
