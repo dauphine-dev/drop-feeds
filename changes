@@ -1,5 +1,5 @@
 0.9.2
-Use workerpool (more efficient for massive openning render tad)
+Use workerpool (more efficient for massive opening render tad)
 Add stack trace in error messages
 Subscribe by feed url
 Esc close the context menu
@@ -11,7 +11,7 @@ Fix error on empty item field
 Fix Html filter tag edition (remove old value)
 Fix unified feeds (use xslt transform instead of the old render way)
 a:
-Fix sidebar treeview refreshing (afer create new, folder, add a new feed, etc...)
+Fix sidebar treeview refreshing (after create new, folder, add a new feed, etc...)
 Fix new folder name is empty
 
 0.9.1

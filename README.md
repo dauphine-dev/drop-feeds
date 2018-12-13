@@ -17,7 +17,7 @@ Thank you to the contributors:
 - And to the others that I can have forgotten...
 
 Support:
-- For any resquest or bug resport please visit this page:
+- For any request or bug report please visit this page:
     https://github.com/dauphine-dev/drop-feeds
 
 # Know-issues
