@@ -66,7 +66,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     event.stopPropagation();
     event.preventDefault();
     try {
-      let folderName = document.getElementById('subsByUrlSubscribeButton').value;
+      let folderName = document.getElementById('inputNewFolder').value;
       let folderId = null;
       let index = 0 ;
       if (this._selectedId.startsWith('dv-')) {

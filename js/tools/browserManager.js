@@ -279,7 +279,9 @@ class BrowserManager { /* exported BrowserManager*/
   static async _isFeedWorkaround_async(url) {
     //Workaround for Firefox 60
     let isFeed = false;
-    if (url.startsWith('about:')) { return false; }
+    if ( url.startsWith('about:')
+      || url.startsWith('view-source:')
+    ) { return false; }
     /*
     let result = url.match(/rss|feed|atom|syndicate/i);
     if (result) {

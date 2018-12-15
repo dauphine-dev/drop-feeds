@@ -37,6 +37,7 @@ class SideBar { /*exported SideBar*/
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
     window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
     document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+    SideBar.instance.resize();
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }
 

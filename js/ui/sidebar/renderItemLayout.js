@@ -51,6 +51,7 @@ class RenderItemLayout { /*exported RenderItemLayout */
       ItemsLayout.instance.setContentHeight(this._itemsContentHeightRenderOpened);
     }
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);    
   }
 
   displayItem(item) {

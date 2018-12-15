@@ -13,7 +13,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._itemsPaneToolBar = document.getElementById('itemsPaneToolBar');
     this._itemsContentPanel = document.getElementById('itemsContentPanel');
     this._feedItemListVisible = DefaultValues.feedItemList;
-    this._visible = this._feedItemListVisible;
+    this._visible = false;
     this._feedItemListToolbar = DefaultValues.feedItemListToolbar;
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
@@ -39,12 +39,12 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
 
   get visible() {
-    return this._visible;
+    return this._feedItemListVisible;
   }
 
   get top() {
     let top = window.innerHeight;
-    if (this._visible) {
+    if (this._feedItemListVisible) {
       top = this._splitterBar1.top;
     }
     return top;
@@ -186,6 +186,7 @@ class ItemsLayout { /*exported ItemsLayout*/
     document.getElementById('itemLayoutBackground').style.display = this._visible ? 'block' : 'none';
     this._splitterBar1.visible = this._visible;
     SideBar.instance.resize();
+    setTimeout(() => { SideBar.instance.resize(); }, 20);    
     RenderItemLayout.instance.setVisibility();
   }
 
