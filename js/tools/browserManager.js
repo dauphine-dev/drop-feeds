@@ -361,7 +361,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static isProtocolValid(url) {
-    return url.toLowerCase.startsWith('https:') || url.toLowerCase.startsWith('http:');
+    return url.toLowerCase().startsWith('https:') || url.toLowerCase().startsWith('http:');
   }
   
   //private stuffs
