@@ -16,6 +16,7 @@ Fix new folder name is empty
 b:
 Set the default feed to 'Drop Feeds releases' 
 Better layout size on 1st Drop Feeds run
+c:
 Fix Firefox crashes when sidebar is showed and page source code opened
 
 0.9.1
