@@ -11,7 +11,7 @@ const VERSION_ENUM = { /*exported VERSION_ENUM */
   REV: 2
 };
 
-const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
+//const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -131,7 +131,8 @@ class BrowserManager { /* exported BrowserManager*/
 
   //statics
   static isTabEmpty(tab) {
-    return _emptyTabSet.has(tab.url) && tab.status == 'complete';
+    //return _emptyTabSet.has(tab.url) && tab.status == 'complete';
+    return (!BrowserManager.isProtocolValid(tab.url) && tab.status == 'complete');
   }
 
   static isDropFeedsTab(tab) {
@@ -266,7 +267,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _activeTabIsFeedCore_async(tabInfo) {
     let isFeed = false;
-    if (tabInfo.url.startsWith('about:')) { return false; }
+    if (!BrowserManager.isProtocolValid(tabInfo.url))  { return false; }
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, { key: 'isFeed' });
     }
@@ -279,9 +280,7 @@ class BrowserManager { /* exported BrowserManager*/
   static async _isFeedWorkaround_async(url) {
     //Workaround for Firefox 60
     let isFeed = false;
-    if ( url.startsWith('about:')
-      || url.startsWith('view-source:')
-    ) { return false; }
+    if (!BrowserManager.isProtocolValid(url))  { return false; }
     /*
     let result = url.match(/rss|feed|atom|syndicate/i);
     if (result) {
@@ -359,6 +358,10 @@ class BrowserManager { /* exported BrowserManager*/
     let baseUrl = this._getBaseFeedUrl();
     let guid = baseUrl.substring(baseUrl.indexOf('//') + 2);
     return guid;
+  }
+
+  static isProtocolValid(url) {
+    return url.toLowerCase.startsWith('https:') || url.toLowerCase.startsWith('http:');
   }
   
   //private stuffs
