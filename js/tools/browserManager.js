@@ -11,7 +11,7 @@ const VERSION_ENUM = { /*exported VERSION_ENUM */
   REV: 2
 };
 
-//const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
+const _emptyTabSet = new Set(['about:blank', 'about:newtab', 'about:home']);
 
 class BrowserManager { /* exported BrowserManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -131,8 +131,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   //statics
   static isTabEmpty(tab) {
-    //return _emptyTabSet.has(tab.url) && tab.status == 'complete';
-    return (!BrowserManager.isProtocolValid(tab.url) && tab.status == 'complete');
+    return _emptyTabSet.has(tab.url) && tab.status == 'complete';
   }
 
   static isDropFeedsTab(tab) {
