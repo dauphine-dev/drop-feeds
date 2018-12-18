@@ -29,8 +29,8 @@ class FeedParser { /*exported FeedParser*/
     let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
     for (let i = 0; i < itemNumber; i++) {
       let itemId = FeedParser._getItemId(itemText);
-      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
-      let pubDate = FeedParser._extractDateTime(pubDateText);
+      let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      let pubDate = FeedParser._extractDateTime(pubDateString);
       pubDateList.push(pubDate);
       itemText = FeedParser._getNextItem(feedText, itemId, tagItem);
     }
@@ -309,10 +309,11 @@ class FeedParser { /*exported FeedParser*/
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
       item.enclosure = FeedParser._getEnclosure(itemText);
-      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
-      item.pubDate = FeedParser._extractDateTime(pubDateText);
+      let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      item.pubDate = FeedParser._extractDateTime(pubDateString);
+      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
       let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-      item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateText;
+      item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateString;
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
