@@ -37,6 +37,8 @@ class DefaultValues { /*exported DefaultValues*/
   static get filterEnabled()                 { return false; }
   static get itemNewTab()                    { return false; }
   static get showFeedPreview()               { return true; }
+  static get dateOptions()                   { return '"weekday": "long", "year": "numeric", "month": "short", "day": "2-digit"'; }
+  static get timeOptions()                   { return '"hour": "2-digit", "minute": "2-digit"'; }
 
   static get allowedTagList() {
     return [{'*':['style']}, {'a':['href', 'title']}, {'b':[]}, {'blockquote':[]}, {'br':[]}, {'cite':[]}, {'code':[]}, {'del':[]},

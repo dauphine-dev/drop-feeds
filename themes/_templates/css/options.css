@@ -18,6 +18,19 @@ input[type="number"] {
   display: none;
 }
 
+input.textField {
+  resize: horizontal;
+  width: 400px;
+}
+
+input.textField:active {
+  width: auto;   
+}
+
+input.textField:focus {
+  min-width: 200px;
+}
+
 /* tabs */
 .tab {
     overflow: hidden;

@@ -311,13 +311,28 @@ class FeedParser { /*exported FeedParser*/
       item.enclosure = FeedParser._getEnclosure(itemText);
       let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = FeedParser._extractDateTime(pubDateString);
-      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
-      let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-      item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateString;
+      item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
     return itemList;
+  }
+
+
+  static _getPubDateText(pubDate) {
+    let localesString = 'System';
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+    let optionsDateString = DefaultValues.dateOptions;
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString    
+    let optionsTimeString = DefaultValues.timeOptions;
+    let locales = (localesString == 'System' ? window.navigator.language : localesString);
+    let optionsDate = JSON.parse('{' + optionsDateString + '}');
+    let optionsTime = JSON.parse('{' + optionsTimeString + '}');
+    let pubDateText = pubDate.toLocaleDateString(locales, optionsDate);
+    let pubTimeText = pubDate.toLocaleTimeString(locales, optionsTime);
+    let pubDateTimeText = pubDateText + ' ' + pubTimeText;
+    return pubDateTimeText;
+
   }
 
   static _getItemLink(itemText) {
