@@ -1,6 +1,7 @@
 0.9.3
 Improve UIs loading time
 Improve statusbar messages
+When filter is active displays all feeds
 Fix script editor ctrl hot keys management (ctrl+s, ctrl+z, ctrl+y)
 
 0.9.2

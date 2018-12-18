@@ -1,4 +1,4 @@
-/*global FeedsTreeView DefaultValues SideBar browser BrowserManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager FeedsTopMenu CssManager*/
 'use strict';
 class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -48,11 +48,14 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       if (!rootFolder) { return; }
       let feedElementList = [];
       if (filterText == '' ) { 
+        FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
         feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
         feedElementList.map(item => item.style.display = '');
         FeedsTreeView.instance.selectionBar.refresh();
         return; 
       }
+      CssManager.replaceStyle('.feedRead', 'visibility:visible;');
+      CssManager.replaceStyle('.feedError', 'visibility:visible;');
       FeedsTreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
