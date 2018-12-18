@@ -179,7 +179,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   _setVisibility() {
     let prevVisible = this._visible;
     this._visible = this._feedItemListVisible;
-    if (!prevVisible && this._visible) {
+    if (!prevVisible && this._visible && this._feedsContentHeightRenderOpened) {
       FeedsTreeView.instance.setContentHeight(this._feedsContentHeightRenderOpened);
     }
     this._itemLayoutCell.style.display = this._visible ? 'table-cell' : 'none';
