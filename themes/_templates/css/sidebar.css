@@ -256,7 +256,7 @@ html, body {
 /* feeds tree view folders */
 label {
   font-weight: var(--feeds-folderLabel-font-weight);
-  color: var(-folderLabel-color);
+  color: var(--folderLabel-color);
 }
 
 input[type="checkbox"] {
