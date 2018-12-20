@@ -1,4 +1,4 @@
-/*global TextTools DateTime DefaultValues Compute SecurityFilters*/
+/*global TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -318,21 +318,8 @@ class FeedParser { /*exported FeedParser*/
     return itemList;
   }
 
-
   static _getPubDateText(pubDate) {
-    let localesString = 'System';
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
-    let optionsDateString = DefaultValues.dateOptions;
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString    
-    let optionsTimeString = DefaultValues.timeOptions;
-    let locales = (localesString == 'System' ? window.navigator.language : localesString);
-    let optionsDate = JSON.parse('{' + optionsDateString + '}');
-    let optionsTime = JSON.parse('{' + optionsTimeString + '}');
-    let pubDateText = pubDate.toLocaleDateString(locales, optionsDate);
-    let pubTimeText = pubDate.toLocaleTimeString(locales, optionsTime);
-    let pubDateTimeText = pubDateText + ' ' + pubTimeText;
-    return pubDateTimeText;
-
+    return pubDate.toLocaleString(window.navigator.language, FeedRendererOptions.instance.dateTimeOptions);
   }
 
   static _getItemLink(itemText) {

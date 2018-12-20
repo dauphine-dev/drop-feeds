@@ -31,6 +31,13 @@ input.textField:focus {
   min-width: 200px;
 }
 
+.borderError {
+  border: 1px solid red;
+}
+
+.textColorError {
+  color: red;
+}
 /* tabs */
 .tab {
     overflow: hidden;

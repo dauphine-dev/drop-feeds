@@ -1,4 +1,4 @@
-/*global ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
+/*global ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
 /*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -16,7 +16,7 @@ class SideBar { /*exported SideBar*/
     await BookmarkManager.instance.init_async();
     await FeedsTreeView.instance.load_async();
     BrowserManager.instance.init_async();
-    RenderOptions.instance;
+    FeedRendererOptions.instance;
     ItemSorter.instance;
     SecurityFilters.instance;
     FeedManager.instance;

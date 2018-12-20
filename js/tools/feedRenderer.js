@@ -1,22 +1,5 @@
-/*global browser BrowserManager FeedParser DefaultValues Listener ListenerProviders USTools ItemSorter ThemeManager FeedTransform TextTools*/
+/*global browser BrowserManager FeedParser DefaultValues USTools ItemSorter ThemeManager FeedTransform TextTools FeedRendererOptions*/
 'use strict';
-class RenderOptions {
-  static get instance() { return (this._instance = this._instance || new this()); }
-
-  constructor() {
-    this._itemNewTab = DefaultValues.itemNewTab;
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'itemNewTab', (v) => { this._setItemNewTab_sbscrb(v); }, true);
-  }
-
-  _setItemNewTab_sbscrb(value) {
-    this._itemNewTab = value;
-  }
-
-  get itemNewTab() {
-    return this._itemNewTab;
-  }
-}
-
 class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderFeedToHtml_async(feedText, defaultTitle, isError) {
@@ -150,7 +133,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     htmlItem += '    <div class="item">\n';
     htmlItem += '      <h2 class="itemTitle ' + error + '">\n';
     htmlItem += '        <span class="itemNumber">' + (itemNumber ? itemNumber : item.number) + '.</span>\n';
-    let linkTarget = RenderOptions.instance.itemNewTab ? 'target="_blank" rel="noopener noreferrer"' : '';
+    let linkTarget = FeedRendererOptions.instance.itemNewTab ? 'target="_blank" rel="noopener noreferrer"' : '';
     htmlItem += '        <a ' + linkTarget + ' href="' + item.link + '">' + title + '</a>\n';
     htmlItem += '      </h2>\n';
     if (item.description) { htmlItem += '      <div class="itemDescription">' + item.description + ' </div>\n'; }

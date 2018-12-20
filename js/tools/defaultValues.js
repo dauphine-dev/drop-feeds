@@ -37,15 +37,14 @@ class DefaultValues { /*exported DefaultValues*/
   static get filterEnabled()                 { return false; }
   static get itemNewTab()                    { return false; }
   static get showFeedPreview()               { return true; }
-  static get dateOptions()                   { return '"weekday": "long", "year": "numeric", "month": "short", "day": "2-digit"'; }
-  static get timeOptions()                   { return '"hour": "2-digit", "minute": "2-digit"'; }
+  static get dateTimeOptions()               { return { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' }; }
 
   static get allowedTagList() {
-    return [{'*':['style']}, {'a':['href', 'title']}, {'b':[]}, {'blockquote':[]}, {'br':[]}, {'cite':[]}, {'code':[]}, {'del':[]},
-      {'div':[]}, {'em':[]}, {'font':['color', 'size']}, {'h1':[]}, {'h2':[]}, {'h3':[]}, {'h4':[]}, {'h5':[]}, {'h6':[]}, {'hr':[]}, {'i':[]},
-      {'img':['alt', 'border', 'src', 'title']}, {'ins':[]}, {'li':[]}, {'ol':[]}, {'p':[]}, {'pre':[]}, {'q':[]}, {'s':[]}, {'span':[]}, {'strong':[]},
-      {'table':['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width']}, {'tbody':['align']}, {'td':['bgcolor', 'colspan', 'height', 'rowspan', 'width']},
-      {'th':['bgcolor', 'colspan', 'height', 'rowspan', 'width']}, {'tr':['bgcolor']}, {'u':[]}, {'ul':[]}];
+    return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },
+      { 'div': [] }, { 'em': [] }, { 'font': ['color', 'size'] }, { 'h1': [] }, { 'h2': [] }, { 'h3': [] }, { 'h4': [] }, { 'h5': [] }, { 'h6': [] }, { 'hr': [] }, { 'i': [] },
+      { 'img': ['alt', 'border', 'src', 'title'] }, { 'ins': [] }, { 'li': [] }, { 'ol': [] }, { 'p': [] }, { 'pre': [] }, { 'q': [] }, { 's': [] }, { 'span': [] }, { 'strong': [] },
+      { 'table': ['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width'] }, { 'tbody': ['align'] }, { 'td': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] },
+      { 'th': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] }, { 'tr': ['bgcolor'] }, { 'u': [] }, { 'ul': [] }];
   }
 
   static get rejectedCssFragmentList() {
@@ -54,15 +53,15 @@ class DefaultValues { /*exported DefaultValues*/
 
 
   static getStoredFolder(folderId) {
-    return {id: folderId, checked: true};
+    return { id: folderId, checked: true };
   }
 
   static getStoredFeed(id) {
-    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null, prevValues: {hash: null, pubDate: null} };
+    return { id: id, hash: null, pubDate: null, status: feedStatus.UPDATED, isFeedInfo: true, title: null, prevValues: { hash: null, pubDate: null } };
   }
 
   static getDefaultItem(id) {
-    return { id: id, number: 0, title: '', link: '', description: '', category : '', author: '', pubDate: '', pubDateText: '' };
+    return { id: id, number: 0, title: '', link: '', description: '', category: '', author: '', pubDate: '', pubDateText: '' };
   }
 
   static getDefaultFeedInfo() {
@@ -70,7 +69,7 @@ class DefaultValues { /*exported DefaultValues*/
   }
 
   static getDefaultChannelInfo() {
-    return { encoding: '', title: '', link: '', description: '', category : '', pubDate: '' };
+    return { encoding: '', title: '', link: '', description: '', category: '', pubDate: '' };
   }
 
 }

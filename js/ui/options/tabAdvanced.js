@@ -1,4 +1,4 @@
-/*global browser BrowserManager DefaultValues*/
+/*global browser BrowserManager*/
 'use strict';
 class TabAdvanced { /*exported TabAdvanced*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -8,9 +8,6 @@ class TabAdvanced { /*exported TabAdvanced*/
     document.getElementById('scriptManagerButton').addEventListener('click', (e) => { this._scriptManagerButtonOnClicked_event(e); });
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
     document.getElementById('fieldGuid').value = BrowserManager.getDropFeedGUID();
-    document.getElementById('dateTimeLocale').value = 'System';
-    document.getElementById('dateOptions').value = DefaultValues.dateOptions;
-    document.getElementById('timeOptions').value = DefaultValues.timeOptions;
   }
 
   async init_async() {
@@ -24,10 +21,10 @@ class TabAdvanced { /*exported TabAdvanced*/
   }
 
   async _scriptManagerButtonOnClicked_event() {
-    await browser.tabs.create({url: '/html/userScripts.html', active: true});
+    await browser.tabs.create({ url: '/html/userScripts.html', active: true });
   }
 
   async _securityFilterButtonOnClicked_event() {
-    await browser.tabs.create({url: '/html/securityFilter.html', active: true});
+    await browser.tabs.create({ url: '/html/securityFilter.html', active: true });
   }
 }

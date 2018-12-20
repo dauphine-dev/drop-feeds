@@ -1,4 +1,4 @@
-/*global browser RenderOptions ItemSorter Transfer TextTools ThemeManager*/
+/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
@@ -59,7 +59,7 @@ class FeedTransform { /*exported FeedTransform*/
     <item>
       <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
       <title>` + FeedTransform._transformEncode(item.title) + `</title>
-      <target><![CDATA[` + (RenderOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
+      <target><![CDATA[` + (FeedRendererOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
       <link><![CDATA[` + item.link + `]]></link>
       <description>
         <![CDATA[` + FeedTransform._transformEncode(item.description) + ']]>' + `
