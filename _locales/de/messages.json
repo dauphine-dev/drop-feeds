@@ -39,7 +39,7 @@
     "message": "Filter"
   },
   "sbFilterClearButton": {
-    "message": "Clear filter"
+    "message": "Filter löschen"
   },
   "sbSubscriptionAdd": {
     "message": "Abonnieren"
@@ -120,7 +120,7 @@
     "message": "geladen"
   },
   "sbMerging": {
-    "message": "vereinigen"
+    "message": "vereinen"
   },
   "sbComputingUnifiedView": {
     "message": "berechne einheitliche View"
@@ -138,10 +138,10 @@
     "message": "Es wurden keine Feeds aktualisiert"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "Drop Feeds neuladen"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "Abonnieren per URL"
   },
   "sbCtxOptSettings": {
     "message": "Open settings..."
@@ -162,22 +162,22 @@
     "message": "Update feed name"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "Aktualisieren des Feed Namen stoppen"
   },
   "subUpdatingFeedTitlePlswait": {
-    "message": "Updating feed name, please wait..."
+    "message": "Feed Name wird aktualisiert, bitte warten..."
   },
   "subFolder": {
     "message": "Ordner"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "Neuer Ordner"
   },
   "subNewFolder": {
     "message": "Neuer Ordner"
   },
   "subWindowCloseError": {
-    "message": "Drop feeds has failed to close the window, please close it manually."
+    "message": "Drop feeds konnte das Fenster nicht schließen, bitte schließe es manuell."
   },
   "subCancel": {
     "message": "Abbrechen"
@@ -189,10 +189,10 @@
     "message": "Erstellen"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "Feed Vorschau anzeigen"
   },
   "subLoading": {
-    "message": "Loading..."
+    "message": "Laden..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -225,7 +225,7 @@
     "message": "items"
   },
   "disUrl": {
-    "message": "Url"
+    "message": "URL"
   },
   "disAddFeed": {
     "message": "Feed hinzufügen"
@@ -273,10 +273,10 @@
     "message": "Theme auswählen"
   },
   "optSelectRenderTemplate": {
-    "message": "Select render tab template"
+    "message": "Render Tab Template auswählen"
   },
   "optSelectRenderTheme": {
-    "message": "Select render tab theme"
+    "message": "Render Tab Theme auswählen"
   },
   "optFeedItemOrder": {
     "message": "Feed item Ordner"
@@ -339,10 +339,10 @@
     "message": "Zeige Fehler als ungelesen an"
   },
   "optRenderFeeds": {
-    "message": "Render Feeds"
+    "message": "Feeds rendern"
   },
   "optItemNewTab": {
-    "message": "Open items on new tab"
+    "message": "Item in neuem Tab öffnen"
   },
   "optAlwaysOpenNewTab": {
     "message": "Immer neue Tabs öffnen"
@@ -384,7 +384,7 @@
     "message": "Sicherheitsfiltereinstellungen"
   },
   "optMessageDialogTitle": {
-    "message": "Message"
+    "message": "Nachricht"
   },
   "optMessageDialogOk": {
     "message": "ok"
@@ -525,16 +525,16 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "Abonnieren per URL"
   },
   "sbSubsDiaUrlLbl": {
-    "message": "Url"
+    "message": "URL"
   },
   "sbSubsDiaByUrlCloseButton": {
     "message": "Close"
   },
   "sbsubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
+    "message": "Abonnieren"
   },
   "comment10": {
     "message": "------------------Script manager strings------------------"
