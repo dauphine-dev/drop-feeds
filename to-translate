@@ -33,5 +33,5 @@ version;line;messageName;message;where;note
 0.9.3;134;sbWaitingNextFeed;Waiting for next feed...;Status bar;During feed update, when Waiting for next feed
 0.9.3;350;optRenderFeedsOptions;Options;Settings / Contents area;n/a
 0.9.3;365;optContentsDateTimeLegend;Date time format;Settings / Contents area;n/a
-0.9.3;368;optContentsDateTimeResetButton;Date time format;Settings / Contents area;n/a
-0.9.3;371;optUrlDatetimeHelp;Date time formats (see section 'Options');Settings / Contents area;n/a
+0.9.3;368;optContentsDateTimeResetButton;Reset to default;Settings / Contents area;n/a
+0.9.3;371;optUrlDatetimeHelp;Date time formats (see section 'Options');Settings / Contents area;Do not translate 'Options' because the help link it's in English

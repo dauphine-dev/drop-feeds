@@ -347,6 +347,9 @@
   "optRenderFeeds": {
     "message": "フィードを整形して表示する"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "アイテムを新しいタブで開く"
   },
@@ -358,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Drop Feedsで開いたタブを使う"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"

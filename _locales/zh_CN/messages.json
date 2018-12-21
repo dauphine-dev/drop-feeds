@@ -347,6 +347,9 @@
   "optRenderFeeds": {
     "message": "渲染订阅点"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Open items on new tab"
   },
@@ -358,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "重用 Drop Feeds 标签页"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "打开 opml 文件以导入"

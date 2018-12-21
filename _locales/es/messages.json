@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "cargado"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "fusionando"
   },
@@ -344,6 +347,9 @@
   "optRenderFeeds": {
     "message": "Render feeds"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Abrir elementos en una nueva pestaña"
   },
@@ -355,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Reutilizar la pestaña de Drop Feeds"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "Seleccione el archivo opml para importar"

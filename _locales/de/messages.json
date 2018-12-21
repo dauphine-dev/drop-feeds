@@ -347,6 +347,9 @@
   "optRenderFeeds": {
     "message": "Feeds rendern"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Item in neuem Tab öffnen"
   },
@@ -358,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Tab Drop Feeds erneut verwenden"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "Wähle die zu importierende opml-Datei aus"
