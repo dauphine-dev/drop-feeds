@@ -40,7 +40,7 @@ class TabContentArea { /*exported TabContentArea*/
 
   _updateLocalizedStrings() {
     document.getElementById('textRenderFeeds').textContent = browser.i18n.getMessage('optRenderFeeds');
-    document.getElementById('contentsAreaTabOptions').textContent = browser.i18n.getMessage('optRenderFeedsOptions');
+    document.getElementById('contentsAreaTabOptionsLegend').textContent = browser.i18n.getMessage('optRenderFeedsOptions');
     document.getElementById('textItemNewTab').textContent = browser.i18n.getMessage('optItemNewTab');
     document.getElementById('textAlwaysOpenNewTab').textContent = browser.i18n.getMessage('optAlwaysOpenNewTab');
     document.getElementById('textOpenNewTabForeground').textContent = browser.i18n.getMessage('optOpenNewTabForeground');
@@ -98,15 +98,14 @@ class TabContentArea { /*exported TabContentArea*/
 
   _enableItemOptions() {
     let enabled = document.getElementById('renderFeedsCheckbox').checked;
-    this._enableCheckbox('itemNewTabCheckbox', 'textItemNewTab', enabled);
-    this._enableCheckbox('alwaysOpenNewTabCheckbox', 'textAlwaysOpenNewTab', enabled);
-    this._enableCheckbox('openNewTabForegroundCheckbox', 'textOpenNewTabForeground', enabled);
-    this._enableCheckbox('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled && document.getElementById('alwaysOpenNewTabCheckbox').checked);
+    this._enableElement('contentsAreaTabOptionsFieldset', null, enabled);
+    this._enableElement('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled && document.getElementById('alwaysOpenNewTabCheckbox').checked);
+    this._enableElement('contentsDateTimeFieldset', null, enabled);
   }
 
-  _enableCheckbox(checkboxId, textId, enabled) {
-    document.getElementById(checkboxId).disabled = !enabled;
-    CssManager.setElementEnableById(checkboxId, enabled);
-    CssManager.setElementEnableById(textId, enabled);
+  _enableElement(elementId, textId, enabled) {
+    document.getElementById(elementId).disabled = !enabled;
+    CssManager.setElementEnableById(elementId, enabled);
+    if (textId) { CssManager.setElementEnableById(textId, enabled); }
   }
 }
