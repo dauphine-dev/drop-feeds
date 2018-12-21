@@ -15,8 +15,10 @@ Fix new folder name is empty
 Set the default feed to 'Drop Feeds releases' 
 Better layout size on 1st Drop Feeds run
 Fix Firefox crashes when sidebar is showed and page source code opened
-d:
 Fix empty tab detection
+Update German locale
+f:
+Fix Run an automatic feed update on start
 
 0.9.1
 Add a 3rd layout in the sidebar to display item.

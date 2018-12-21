@@ -19,13 +19,13 @@ class SideBar { /*exported SideBar*/
     await Timeout.instance.init_async();
     await ItemSorter.instance.init_async();
     await SecurityFilters.instance.init_async();
-    FeedManager.instance;
     TabManager.instance;
 
     await ItemsLayout.instance.init_async();
     await FeedsTopMenu.instance.init_async();
     await FeedsFilterBar.instance.init_async();
     await FeedsTreeView.instance.load_async();
+    FeedManager.instance;
     RenderItemLayout.instance;
     await FeedsNewFolderDialog.instance.init_async();
     await OptionSubscribeDialog.instance.init_async();
