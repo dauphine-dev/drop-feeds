@@ -77,7 +77,7 @@ class TabContentArea { /*exported TabContentArea*/
     let dateTimeString = null;
     try {
       contentsDateTimeOptions = JSON.parse(document.getElementById('contentsDateTimeFormat').value);
-      dateTimeString = (new Date(2055, 12, 31, 13, 37, 0)).toLocaleString(window.navigator.language, contentsDateTimeOptions);
+      dateTimeString = (new Date(2099, 11, 31, 13, 37, 0)).toLocaleString(window.navigator.language, contentsDateTimeOptions);
     }
     catch (e) {
       document.getElementById('contentsDateTimeFormat').classList.add('borderError');
