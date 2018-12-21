@@ -29,13 +29,8 @@ class TabContentArea { /*exported TabContentArea*/
     let contentsDateTimeFormat = document.getElementById('contentsDateTimeFormat');
     let contentsDateTimeOptions = await LocalStorageManager.getValue_async('dateTimeOptions', DefaultValues.dateTimeOptions);
     contentsDateTimeFormat.value = JSON.stringify(contentsDateTimeOptions);
-    contentsDateTimeFormat.addEventListener('keydown', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('keypress', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('cut', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('paste', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('change', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('input', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
-    contentsDateTimeFormat.addEventListener('blur', (e) => { this._contentsDateTimeFormatOnchange_event(e); });
+    ['keydown', 'keypress', 'cut', 'paste', 'change', 'input', 'blur'].forEach(evt =>
+      contentsDateTimeFormat.addEventListener(evt, (e) => { this._contentsDateTimeFormatOnchange_event(e); }));
     let contentsDateTimeResetButton = document.getElementById('contentsDateTimeResetButton');
     contentsDateTimeResetButton.addEventListener('click', (e) => { this._contentsDateTimeResetButtonClicked_event(e); });
 
