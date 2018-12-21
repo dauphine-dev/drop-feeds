@@ -170,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "タイトル更新の中止"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "更新中, お待ちください..."
   },
   "subFolder": {
@@ -539,7 +539,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "閉じる"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "購読"
   },
   "comment10": {

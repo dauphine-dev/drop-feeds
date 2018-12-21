@@ -98,7 +98,7 @@ class Subscribe {
     this._stopUpdatingFeedTitleButtonEnabled = true;
     CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     document.getElementById('inputName').disabled = true;
-    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlswait');
+    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlsWait');
     await this._feed.updateTitle_async();
     if (!this._feedTitleUpdatingAborted) {
       this._feedTitle = this._feed.title;

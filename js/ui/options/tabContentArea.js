@@ -40,10 +40,14 @@ class TabContentArea { /*exported TabContentArea*/
 
   _updateLocalizedStrings() {
     document.getElementById('textRenderFeeds').textContent = browser.i18n.getMessage('optRenderFeeds');
+    document.getElementById('contentsAreaTabOptions').textContent = browser.i18n.getMessage('optRenderFeedsOptions');
     document.getElementById('textItemNewTab').textContent = browser.i18n.getMessage('optItemNewTab');
     document.getElementById('textAlwaysOpenNewTab').textContent = browser.i18n.getMessage('optAlwaysOpenNewTab');
     document.getElementById('textOpenNewTabForeground').textContent = browser.i18n.getMessage('optOpenNewTabForeground');
     document.getElementById('textReuseDropFeedsTab').textContent = browser.i18n.getMessage('optReuseDropFeedsTab');
+    document.getElementById('contentsDateTimeLegend').textContent = browser.i18n.getMessage('optContentsDateTimeLegend');
+    document.getElementById('contentsDateTimeResetButton').textContent = browser.i18n.getMessage('optContentsDateTimeResetButton');
+    document.getElementById('urlDatetimeHelp').textContent = browser.i18n.getMessage('optUrlDatetimeHelp');
   }
 
   async _renderFeedsCheckBoxClicked_event() {

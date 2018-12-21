@@ -170,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "Interrompi l'aggiornamento del nome"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "Aggiorno il nome del feed, attendi..."
   },
   "subFolder": {
@@ -539,7 +539,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "Chiudi"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "Sottoscrivi"
   },
   "comment10": {

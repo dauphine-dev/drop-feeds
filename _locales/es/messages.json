@@ -167,7 +167,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "Stop updating feed name"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "Updating feed name, please wait..."
   },
   "subFolder": {
@@ -536,7 +536,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "Close"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
   },
   "comment10": {
