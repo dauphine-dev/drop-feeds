@@ -147,7 +147,6 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     this.hide();
     let bookmarkId = this._idComeFrom.substring(3);
     await BookmarkManager.instance.sortBookmarks_async(bookmarkId);
-    FeedsTreeView.instance.reload_async();
   }
 
   async _ctxMnNewFolderClicked_event() {

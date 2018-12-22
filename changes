@@ -3,6 +3,7 @@ Improve UIs loading time
 Improve statusbar messages
 When filter is active displays all feeds
 Fix script editor ctrl hot keys management (ctrl+s, ctrl+z, ctrl+y)
+Fix feed sort when many Firefox windows are opened
 
 0.9.2
 Use workerpool (more efficient for massive opening render tad)
