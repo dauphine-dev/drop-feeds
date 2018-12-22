@@ -300,6 +300,7 @@ class FeedParser { /*exported FeedParser*/
     for (let i = 0; i < itemNumber; i++) {
       let item = DefaultValues.getDefaultItem(null);
       let itemIdRaw = FeedParser._getItemId(itemText);
+      item.text = itemText;
       item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
       item.link = FeedParser._getItemLink(itemText);
