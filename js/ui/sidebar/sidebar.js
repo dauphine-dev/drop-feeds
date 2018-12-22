@@ -1,4 +1,4 @@
-/*global ThemeManager FeedsTopMenu Timeout Dialogs BrowserManager ItemSorter SecurityFilters RenderOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
+/*global ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
 /*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -13,30 +13,27 @@ class SideBar { /*exported SideBar*/
 
   async init_async() {
     await ThemeManager.instance.init_async();
-    await BrowserManager.instance.init_async();
     await BookmarkManager.instance.init_async();
-    await RenderOptions.instance;
-    await Timeout.instance.init_async();
-    await ItemSorter.instance.init_async();
-    await SecurityFilters.instance.init_async();
+    await FeedsTreeView.instance.load_async();
+    BrowserManager.instance.init_async();
+    FeedRendererOptions.instance;
+    ItemSorter.instance;
+    SecurityFilters.instance;
     FeedManager.instance;
     TabManager.instance;
-
-    await ItemsLayout.instance.init_async();
-    await FeedsTopMenu.instance.init_async();
-    await FeedsFilterBar.instance.init_async();
-    await FeedsTreeView.instance.load_async();
+    ItemsLayout.instance.init_async();
+    FeedsTopMenu.instance.init_async();
+    FeedsFilterBar.instance;
     RenderItemLayout.instance;
-    await FeedsNewFolderDialog.instance.init_async();
-    await OptionSubscribeDialog.instance.init_async();
-    
-    document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
-    FeedsTreeView.instance.selectionBar.refresh();
-    this._computeContentTop();
+    FeedsNewFolderDialog.instance;
+    OptionSubscribeDialog.instance;
+    this._computeContentTop();    
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
-    window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
+    document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
     document.getElementById('feedsContentPanel').addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+    window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
+    FeedsTreeView.instance.selectionBar.refresh();
     SideBar.instance.resize();
     setTimeout(() => { SideBar.instance.resize(); }, 20);
   }

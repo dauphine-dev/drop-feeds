@@ -1,14 +1,11 @@
-/*global FeedsTreeView DefaultValues SideBar browser BrowserManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager FeedsTopMenu CssManager*/
 'use strict';
 class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
     this._filterEnabled = DefaultValues.filterEnabled;
-  }
-
-  async init_async() {
-    this._updateLocalizedStrings_async();
+    this._updateLocalizedStrings();
     document.getElementById('filterField').addEventListener('input', (e) => { this._filterFieldInput_event(e); });
     document.getElementById('filterClearButton').addEventListener('click', (e) => { this._filterClearButtonClicked_event(e); });
   }
@@ -29,7 +26,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
     return this._filterEnabled;
   }
 
-  async _updateLocalizedStrings_async() {
+  async _updateLocalizedStrings() {
     document.getElementById('filterClearButton').setAttribute('title', browser.i18n.getMessage('sbFilterClearButton'));
   }
 
@@ -51,11 +48,14 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       if (!rootFolder) { return; }
       let feedElementList = [];
       if (filterText == '' ) { 
+        FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
         feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
         feedElementList.map(item => item.style.display = '');
         FeedsTreeView.instance.selectionBar.refresh();
         return; 
       }
+      CssManager.replaceStyle('.feedRead', 'visibility:visible;');
+      CssManager.replaceStyle('.feedError', 'visibility:visible;');
       FeedsTreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);

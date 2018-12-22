@@ -1,7 +1,7 @@
 /*global  browser*/
 'use strict';
 class ContentManager {
-  static async runtimeOnMessageEvent(request) {
+  static async runtimeOnMessage_event(request) {
     let response = null;
     switch (request.key) {
       case 'isFeed':
@@ -11,7 +11,7 @@ class ContentManager {
         response = ContentManager._discoverFeedLinkInfoList();
         break;
       case 'getFeedLinkInfoList':
-        response = ContentManager._getFeedLinkInfoList();
+        response = await ContentManager._getFeedLinkInfoList_async();
         break;
     }
     return Promise.resolve(response);
@@ -67,10 +67,10 @@ class ContentManager {
     return feedLinkList;
   }
 
-  static _getFeedLinkInfoList() {
+  static async _getFeedLinkInfoList_async() {
     let feedLinkList = [];
     if (ContentManager._isYoutubeTab()) {
-      return ContentManager._getYoutubeFeeds();
+      return await ContentManager._getYoutubeFeeds();
     }
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     for (let elLink of elLinkList) {
@@ -92,13 +92,14 @@ class ContentManager {
     return isYoutubeTab;
   }
 
-  static _getYoutubeFeeds() {
+  static async _getYoutubeFeeds() {
     let feedLinkList = [];
+    let pageSource = await (await fetch(document.location.href)).text();
     /*eslint-disable no-useless-escape*/
-    let channelId = (document.body.innerHTML.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
+    let channelId = (pageSource.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
     /*eslint-enable no-useless-escape*/
     feedLinkList.push({ title: document.title, link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
     return feedLinkList;
   }
 }
-browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessageEvent);
+browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessage_event);

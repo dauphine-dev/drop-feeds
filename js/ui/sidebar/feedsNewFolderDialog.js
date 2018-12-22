@@ -7,9 +7,6 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     this._selectedId = null;
     this._elNewFolderDialog = document.getElementById('newFolderDialog');
     this._updateLocalizedStrings();
-  }
-
-  async init_async() {
     document.getElementById('cancelNewFolderButton').addEventListener('click', (e) => { this._cancelButtonClicked_event(e); });
     document.getElementById('createNewFolderButton').addEventListener('click', (e) => { this._createButtonClicked_event(e); });
     document.getElementById('inputNewFolder').addEventListener('keyup', (e) => { this._inputNewFolderKeyup_event(e); });

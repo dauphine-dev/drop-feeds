@@ -11,9 +11,6 @@ class ItemSorter { /*exported ItemSorter */
 
   constructor() {
     this._sortOrder = DefaultValues.itemSortOrder;
-  }
-
-  async init_async() {
     Listener.instance.subscribe(ListenerProviders.localStorage, 'itemSortOrder', (v) => { this._setItemSortOrder_sbscrb(v); }, true);
   }
 

@@ -18,9 +18,6 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._feedItemDescriptionTooltips = DefaultValues.feedItemDescriptionTooltips;
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
     this._itemList = [];
-  }
-
-  async init_async() {
     Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
@@ -28,6 +25,9 @@ class ItemsLayout { /*exported ItemsLayout*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemMarkAsReadOnLeaving', (v) => { this._feedItemMarkAsReadOnLeaving_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedsContentHeightItemsOpened', (v) => { this._feedsContentHeightRenderOpened_async(v); }, true);
     this._itemsContentPanel.addEventListener('scroll', (e) => { this._contentOnScroll_event(e); });
+  }
+
+  async init_async() {
     let itemsContentHeightRenderClosed = await LocalStorageManager.getValue_async('itemsContentHeightRenderClosed', window.innerHeight / 3);
     let itemsContentHeightRenderOpened = await LocalStorageManager.getValue_async('itemsContentHeightRenderOpened', window.innerHeight / 3);
     setTimeout(() => { 
@@ -179,7 +179,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   _setVisibility() {
     let prevVisible = this._visible;
     this._visible = this._feedItemListVisible;
-    if (!prevVisible && this._visible) {
+    if (!prevVisible && this._visible && this._feedsContentHeightRenderOpened) {
       FeedsTreeView.instance.setContentHeight(this._feedsContentHeightRenderOpened);
     }
     this._itemLayoutCell.style.display = this._visible ? 'table-cell' : 'none';

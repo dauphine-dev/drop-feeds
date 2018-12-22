@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "caricato"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "Unendo"
   },
@@ -127,6 +130,9 @@
   },
   "sbReceived": {
     "message": "ricevuto"
+  },
+  "sbWaitingNextFeed": {
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "feeds aggiornati"
@@ -164,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "Interrompi l'aggiornamento del nome"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "Aggiorno il nome del feed, attendi..."
   },
   "subFolder": {
@@ -341,6 +347,9 @@
   "optRenderFeeds": {
     "message": "Mostra feeds"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Apri gli elementi in una nuova scheda"
   },
@@ -352,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Riutilizza la scheda di Drop Feed"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "Seleziona il file opml da importare"
@@ -533,7 +551,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "Chiudi"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "Sottoscrivi"
   },
   "comment10": {

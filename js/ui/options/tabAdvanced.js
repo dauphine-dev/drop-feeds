@@ -21,10 +21,10 @@ class TabAdvanced { /*exported TabAdvanced*/
   }
 
   async _scriptManagerButtonOnClicked_event() {
-    await browser.tabs.create({url: '/html/userScripts.html', active: true});
+    await browser.tabs.create({ url: '/html/userScripts.html', active: true });
   }
 
   async _securityFilterButtonOnClicked_event() {
-    await browser.tabs.create({url: '/html/securityFilter.html', active: true});
+    await browser.tabs.create({ url: '/html/securityFilter.html', active: true });
   }
 }

@@ -1,4 +1,4 @@
-/* global UserScriptsEditor*/
+/* global UserScriptsEditor FeedParser*/
 'use strict';
 class USTools { /* exported USTools*/
   static get console() {
@@ -55,6 +55,10 @@ class USTools { /* exported USTools*/
 
   //--------------------------------------------------------------------------
   //Feed parsing methods
+  static async getFeedInfo(feedText) {
+    return await FeedParser.getFeedInfo_async(feedText, '', false);
+  }
+
   static get1stUsedTag(text, tagArray) {
     if (!text) { return null; }
     for (let tag of tagArray) {
@@ -135,6 +139,15 @@ class USTools { /* exported USTools*/
 
   //--------------------------------------------------------------------------
   //RSS generator methods
+  static rssFromFeedInfo(feedInfo) {
+    let rssText = USTools.rssHeader(feedInfo.channel.title, feedInfo.channel.link, (feedInfo.channel.description || ''), '');
+    for (let item of feedInfo.itemList) {
+      rssText += USTools.rssItem(item.title, item.link, item.pubDate, item.description, item.number);
+    }
+    rssText += USTools.rssFooter();
+    return rssText;
+  }
+
   static rssHeader(channelTitle, channelLink, channelDescription, channelImage) {
     let rssHeader = '<?xml version="1.0" encoding="utf-8"?>\
     <rss version="2.0">\

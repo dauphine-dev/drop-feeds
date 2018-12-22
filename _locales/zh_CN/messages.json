@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "已加载"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "正在合并"
   },
@@ -127,6 +130,9 @@
   },
   "sbReceived": {
     "message": "已接收"
+  },
+  "sbWaitingNextFeed": {
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "个订阅点已更新"
@@ -164,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "Stop updating feed name"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "Updating feed name, please wait..."
   },
   "subFolder": {
@@ -341,6 +347,9 @@
   "optRenderFeeds": {
     "message": "渲染订阅点"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Open items on new tab"
   },
@@ -352,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "重用 Drop Feeds 标签页"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "打开 opml 文件以导入"
@@ -533,7 +551,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "Close"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "Subscribe"
   },
   "comment10": {

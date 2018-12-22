@@ -5,8 +5,8 @@ class Scripts {
 
   async init_async() {
     await BrowserManager.instance.init_async();
-    await UserScriptsManager.instance.init_async();
-    await UserScriptsEditor.instance.init_async();
+    UserScriptsManager.instance;
+    UserScriptsEditor.instance;
   }
 }
 Scripts.instance.init_async();

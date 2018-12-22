@@ -1,4 +1,4 @@
-/*global TextTools DateTime DefaultValues Compute SecurityFilters*/
+/*global TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -29,8 +29,8 @@ class FeedParser { /*exported FeedParser*/
     let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
     for (let i = 0; i < itemNumber; i++) {
       let itemId = FeedParser._getItemId(itemText);
-      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
-      let pubDate = FeedParser._extractDateTime(pubDateText);
+      let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      let pubDate = FeedParser._extractDateTime(pubDateString);
       pubDateList.push(pubDate);
       itemText = FeedParser._getNextItem(feedText, itemId, tagItem);
     }
@@ -300,6 +300,7 @@ class FeedParser { /*exported FeedParser*/
     for (let i = 0; i < itemNumber; i++) {
       let item = DefaultValues.getDefaultItem(null);
       let itemIdRaw = FeedParser._getItemId(itemText);
+      item.text = itemText;
       item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
       item.link = FeedParser._getItemLink(itemText);
@@ -309,14 +310,17 @@ class FeedParser { /*exported FeedParser*/
       item.category = FeedParser._getItemCategory(itemText);
       item.author = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.AUTHOR));
       item.enclosure = FeedParser._getEnclosure(itemText);
-      let pubDateText = FeedParser._extractValue(itemText, tagList.PUBDATE);
-      item.pubDate = FeedParser._extractDateTime(pubDateText);
-      let optionsDateTime = { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-      item.pubDateText = item.pubDate ? item.pubDate.toLocaleString(window.navigator.language, optionsDateTime) : pubDateText;
+      let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
+      item.pubDate = FeedParser._extractDateTime(pubDateString);
+      item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
     return itemList;
+  }
+
+  static _getPubDateText(pubDate) {
+    return pubDate.toLocaleString(window.navigator.language, FeedRendererOptions.instance.dateTimeOptions);
   }
 
   static _getItemLink(itemText) {

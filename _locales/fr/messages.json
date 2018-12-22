@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "chargé"
   },
+  "sbLoadingNextFeed": {
+    "message": "Chargement du flux suivant..."
+  },
   "sbMerging": {
     "message": "Fusionne"
   },
@@ -127,6 +130,9 @@
   },
   "sbReceived": {
     "message": "reçu"
+  },
+  "sbWaitingNextFeed": {
+    "message": "En attente du prochain flux..."
   },
   "sbFeedsUpdated": {
     "message": "flux mis à jour"
@@ -164,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "Arrêter la mise à jour du nom"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "Mise à du nom de flux en cours, veuillez patienter..."
   },
   "subFolder": {
@@ -249,7 +255,7 @@
     "message": "Affichage"
   },
   "optItems": {
-    "message": "articles"
+    "message": "Articles"
   },
   "optContentsArea": {
     "message": "Contenu"
@@ -341,6 +347,9 @@
   "optRenderFeeds": {
     "message": "Afficher les flux"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "Ouvrir les articles dans un nouvel onglet"
   },
@@ -352,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Toujours utiliser le même onglet pour ouvrir les flux"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Format date et heure"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Retour au réglage par défaut"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Formats date et heure (voir la section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"
@@ -533,7 +551,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "Fermer"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "S’abonner"
   },
   "comment10": {

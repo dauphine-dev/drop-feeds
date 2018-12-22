@@ -17,9 +17,14 @@ class FeedsStatusBar { /*exported FeedsStatusBar*/
     }
   }
 
-  set text(text) {
+  setText(text) {
     clearTimeout(this._messageTimeOut);
     BrowserManager.setInnerHtmlById('statusText', text);
-    this._messageTimeOut = setTimeout(() => { BrowserManager.setInnerHtmlById('statusText', ''); }, 2000);
+  }
+
+  setTextWithTimeOut(text, textAfterTimeout, timeOut) {
+    clearTimeout(this._messageTimeOut);
+    BrowserManager.setInnerHtmlById('statusText', text);
+    this._messageTimeOut = setTimeout(() => { BrowserManager.setInnerHtmlById('statusText', textAfterTimeout); }, timeOut);
   }
 }

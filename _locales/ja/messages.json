@@ -119,6 +119,9 @@
   "sbLoaded": {
     "message": "完了"
   },
+  "sbLoadingNextFeed": {
+    "message": "Loading next feed..."
+  },
   "sbMerging": {
     "message": "マージ中"
   },
@@ -127,6 +130,9 @@
   },
   "sbReceived": {
     "message": "受信しました"
+  },
+  "sbWaitingNextFeed": {
+    "message": "Wainting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "件更新されています"
@@ -164,7 +170,7 @@
   "subStopUpdatingFeedTitleButton": {
     "message": "タイトル更新の中止"
   },
-  "subUpdatingFeedTitlePlswait": {
+  "subUpdatingFeedTitlePlsWait": {
     "message": "更新中, お待ちください..."
   },
   "subFolder": {
@@ -341,6 +347,9 @@
   "optRenderFeeds": {
     "message": "フィードを整形して表示する"
   },
+  "optRenderFeedsOptions": {
+    "message": "Options"
+  },
   "optItemNewTab": {
     "message": "アイテムを新しいタブで開く"
   },
@@ -352,6 +361,15 @@
   },
   "optReuseDropFeedsTab": {
     "message": "Drop Feedsで開いたタブを使う"
+  },
+  "optContentsDateTimeLegend": {
+    "message": "Date time format"
+  },
+  "optContentsDateTimeResetButton": {
+    "message": "Reset to default"
+  },
+  "optUrlDatetimeHelp": {
+    "message": "Date time formats (see section 'Options')"
   },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
@@ -533,7 +551,7 @@
   "sbSubsDiaByUrlCloseButton": {
     "message": "閉じる"
   },
-  "sbsubsDiaByUrlSubscribeButton": {
+  "sbSubsDiaByUrlSubscribeButton": {
     "message": "購読"
   },
   "comment10": {

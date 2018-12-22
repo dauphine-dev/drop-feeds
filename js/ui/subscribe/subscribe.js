@@ -14,25 +14,10 @@ class Subscribe {
     CssManager.setElementEnableById('updateFeedTitleButton', this._updateFeedTitleButtonEnabled);
     CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     window.addEventListener('resize', (e) => { this._windowOnResize_event(e); });
-  }
-
-  async init_async() {
     let loadingMessage = browser.i18n.getMessage('subLoading');
     let urlLoading = URL.createObjectURL(new Blob([loadingMessage]));
     document.getElementById('feedPreview').setAttribute('src', urlLoading);
-    await FolderTreeView.instance.init_async();
-    await SecurityFilters.instance.init_async();
-    let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
-    if (subscribeInfo) {
-      this._feedTitle = subscribeInfo.feedTitle;
-      this._feedUrl = subscribeInfo.feedUrl;
-    }
-    this._feed = await Feed.newByUrl(this._feedUrl);
-    this._setFeedTitle_async();
-    FolderTreeView.instance.load_async();
-    FeedsNewFolderDialog.instance.init_async();
-    this._updateLocalizedStrings();
-    this._updateFeedPreview_async();
+    SecurityFilters.instance;
     document.getElementById('updateFeedTitleButton').addEventListener('click', (e) => { this._updateFeedTitleButtonClicked_event(e); });
     document.getElementById('stopUpdatingFeedTitleButton').addEventListener('click', (e) => { this.stopUpdatingFeedTitleButtonClicked_event(e); });
     document.getElementById('newFolderButton').addEventListener('click', (e) => { this._newFolderButtonClicked_event(e); });
@@ -40,8 +25,23 @@ class Subscribe {
     document.getElementById('subscribeButton').addEventListener('click', (e) => { this._subscribeButtonClicked_event(e); });
     document.getElementById('chkShowFeedPreview').addEventListener('click', (e) => { this._chkShowFeedPreviewClicked_event(e); });
     document.getElementById('chkShowFeedPreview').addEventListener('click', (e) => { this._chkShowFeedPreviewClicked_event(e); });
+    this._updateLocalizedStrings();
     this._setFeedPreviewVisibility_async();
     this._setSubscribeInfoWinId_async();
+    FeedsNewFolderDialog.instance.init_async();
+  }
+
+  async init_async() {
+    await FolderTreeView.instance.init_async();
+    FolderTreeView.instance.load_async();
+    let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
+    if (subscribeInfo) {
+      this._feedTitle = subscribeInfo.feedTitle;
+      this._feedUrl = subscribeInfo.feedUrl;
+    }
+    this._feed = await Feed.newByUrl(this._feedUrl);
+    this._setFeedTitle_async();
+    this._updateFeedPreview_async();
   }
 
   async _setFeedTitle_async() {
@@ -98,7 +98,7 @@ class Subscribe {
     this._stopUpdatingFeedTitleButtonEnabled = true;
     CssManager.setElementEnableById('stopUpdatingFeedTitleButton', this._stopUpdatingFeedTitleButtonEnabled);
     document.getElementById('inputName').disabled = true;
-    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlswait');
+    document.getElementById('inputName').value = browser.i18n.getMessage('subUpdatingFeedTitlePlsWait');
     await this._feed.updateTitle_async();
     if (!this._feedTitleUpdatingAborted) {
       this._feedTitle = this._feed.title;

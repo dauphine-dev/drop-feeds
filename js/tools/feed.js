@@ -26,6 +26,7 @@ class Feed { /*exported Feed*/
   }
 
   constructor(id) {
+    Transfer.instance;
     this._storedFeed = DefaultValues.getStoredFeed(id);
     this._bookmark = null;
     this._feedText = null;

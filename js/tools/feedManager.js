@@ -89,8 +89,8 @@ class FeedManager { /*exported FeedManager*/
           try {
             let feedId = feedElementList[i].getAttribute('id');
             feed = await Feed.new(feedId);
-
-            FeedsStatusBar.instance.text = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
+            let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
+            FeedsStatusBar.instance.setText(statusText);
             this._feedsToProcessList.push(feed);
           }
           catch (e) {
@@ -130,7 +130,7 @@ class FeedManager { /*exported FeedManager*/
   }
 
   _processFeedsFinished() {
-    FeedsStatusBar.instance.text = '';
+    FeedsStatusBar.instance.setText('');
     this._checkingFeeds = false;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     FeedsStatusBar.instance.workInProgress = false;
@@ -165,19 +165,19 @@ class FeedManager { /*exported FeedManager*/
     let self = FeedManager.instance;
     try {
       let loadingMessage = browser.i18n.getMessage('sbLoading') + ' ' + feed.title;
-      FeedsStatusBar.instance.text = loadingMessage;
+      FeedsStatusBar.instance.setText(loadingMessage);
       await feed.update_async();
       let feedHtmlUrl = await feed.getDocUrl_async();
       self._itemList.push(... (await feed.getInfo_async()).itemList);
       let isUnified = false;
       await self._displayItems_async(displayItems, isSingle, isUnified, feed, folderTitle);
-      FeedsStatusBar.instance.text = loadingMessage;
+      FeedsStatusBar.instance.setText(loadingMessage);
       await self._openTabFeed_async(feedHtmlUrl, openNewTabForce, openNewTabBackGroundForce);
-      FeedsStatusBar.instance.text = loadingMessage;
+      FeedsStatusBar.instance.setText(loadingMessage);
       await feed.setStatus_async(feedStatus.OLD);
-      FeedsStatusBar.instance.text = loadingMessage;
-      feed.updateUiStatus_async();
-      FeedsStatusBar.instance.text = feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ';
+      FeedsStatusBar.instance.setText(loadingMessage);
+      feed.updateUiStatus_async();      
+      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
@@ -195,12 +195,12 @@ class FeedManager { /*exported FeedManager*/
   static async _unifyingThenOpenProcessedFeedsInner_async(feed, isSingle, openNewTabForce, displayItems, folderTitle) {
     let self = FeedManager.instance;
     try {
-      FeedsStatusBar.instance.text = browser.i18n.getMessage('sbMerging') + ' ' + feed.title;
+      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbMerging') + ' ' + feed.title);
       await feed.update_async();
       self._unifiedFeedItems.push(...(await feed.getInfo_async()).itemList);
       await feed.setStatus_async(feedStatus.OLD);
       feed.updateUiStatus_async();
-      FeedsStatusBar.instance.text = browser.i18n.getMessage('sbComputingUnifiedView');
+      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbComputingUnifiedView'));
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
@@ -237,16 +237,16 @@ class FeedManager { /*exported FeedManager*/
 
   _statusMessageBeforeCheck(feed) {
     if (!this._asynchronousFeedChecking) {
-      FeedsStatusBar.instance.text = browser.i18n.getMessage('sbChecking') + ': ' + feed.title;
+      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ': ' + feed.title);
     }
   }
 
   _statusMessageAfterCheck(feed) {
     if (feed.status == feedStatus.ERROR) {
-      FeedsStatusBar.instance.text = feed.title + ' : ' + feed.error;
+      FeedsStatusBar.instance.setText(feed.title + ' : ' + feed.error);
     } else {
       if (this._asynchronousFeedChecking) {
-        FeedsStatusBar.instance.text = feed.title + ' : ' + browser.i18n.getMessage('sbReceived');
+        FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' : ' + browser.i18n.getMessage('sbReceived'), browser.i18n.getMessage('sbWaitingNextFeed'), 2000);
       }
     }
   }

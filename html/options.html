@@ -134,7 +134,8 @@
   <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
   <div id="contentsAreaTab" class="tabContent">
     <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span></span>
-    <fieldset>
+    <fieldset id="contentsAreaTabOptionsFieldset">
+      <legend id="contentsAreaTabOptionsLegend">#Options</legend>
       <table>
         <tr>
           <td>
@@ -153,6 +154,13 @@
           </td>
         </tr>
       </table>
+    </fieldset>
+    <fieldset id="contentsDateTimeFieldset">
+      <legend id="contentsDateTimeLegend">#Date time format</legend>
+      <textarea id="contentsDateTimeFormat" style="width: 100%"></textarea>
+      <div id="contentsDateTimeExample">&nbsp;</div>
+      <button id="contentsDateTimeResetButton">#Reset to default</button>&nbsp;&nbsp;
+      <a id="urlDatetimeHelp" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">#Date time formats (see section 'Options')</a>
     </fieldset>
   </div>
   <!-- ~~~~~~ Tab Theme ~~~~~~ -->
@@ -247,10 +255,10 @@
       <tr>
         <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
         <td>&nbsp;<button id="securityFilterButton">#Security filter settings...</button></td>
+      </tr>
       <tr>
         <td><label id="lblGuid">GUID</label></td>
         <td><input type="text" id="fieldGuid" size="30" readonly="readonly" value=""></td>
-      </tr>
       </tr>
     </table>
   </div>
