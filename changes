@@ -2,6 +2,7 @@
 Improve UIs loading time
 Improve statusbar messages
 When filter is active displays all feeds
+Custom date time format for the render feed tab
 Add methods getFeedInfo() and rssFromFeedInfo() to USTools lib for user scripts (documentation will come later, in the meantime you can take a look to the youtube  userscript exemple)
 Fix script editor ctrl hot keys management (ctrl+s, ctrl+z, ctrl+y)
 Fix feed sort when many Firefox windows are opened
