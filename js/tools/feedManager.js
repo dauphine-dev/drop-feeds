@@ -16,16 +16,16 @@ class FeedManager { /*exported FeedManager*/
     this._itemList = [];
     this._autoUpdateInterval = undefined;
     this._automaticUpdatesOnStartDone = false;
-    this._automaticUpdatesOnStar = DefaultValues.automaticFeedUpdatesOnStart;
+    this._automaticUpdatesOnStart = DefaultValues.automaticFeedUpdatesOnStart;
     this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
-    this._automaticUpdatesMilliseconds = undefined;
+    this._automaticUpdatesMilliseconds = DefaultValues.automaticFeedUpdateMinutes * 60000;
     this._checkingFeeds = false;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
 
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
   }
 
@@ -360,7 +360,7 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _setAutomaticUpdatesOnStar_sbscrb(value) {
-    this._automaticUpdatesOnStar = value;
+    this._automaticUpdatesOnStart = value;
   }
 
   async _setAutomaticUpdatesMilliseconds_sbscrb(value) {
@@ -377,12 +377,13 @@ class FeedManager { /*exported FeedManager*/
     }
     if (this._automaticUpdatesEnabled && this._automaticUpdatesMilliseconds) {
       this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
-      this._doAutomaticUpdatesOnStart();
+      this._doAutomaticUpdatesOnStart_async();
     }
   }
 
-  _doAutomaticUpdatesOnStart() {
-    if (this._automaticUpdatesOnStar && !this._automaticUpdatesOnStartDone) {
+  async _doAutomaticUpdatesOnStart_async() {
+    let windowCount = (await browser.windows.getAll({ populate: false, windowTypes: ['normal'] })).length;
+    if (this._automaticUpdatesOnStart && !this._automaticUpdatesOnStartDone && windowCount < 2 ) {
       this._automaticFeedUpdate_async();
     }
     this._automaticUpdatesOnStartDone = true;
