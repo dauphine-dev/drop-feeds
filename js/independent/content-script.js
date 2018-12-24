@@ -73,9 +73,10 @@ class ContentManager {
       return await ContentManager._getYoutubeFeeds();
     }
     let elLinkList = Array.from(document.getElementsByTagName('link'));
+    let count = 1;
     for (let elLink of elLinkList) {
       if (elLink.href.match(/rss|feed|atom|syndicate/i)) {
-        feedLinkList.push({ title: elLink.title, link: elLink.href });
+        feedLinkList.push({ title: (elLink.title || 'Feed ' + count++), link: elLink.href });
       }
     }
     //remove duplicates

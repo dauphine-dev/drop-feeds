@@ -11,6 +11,8 @@ Fix youtube feed detection
 a:
 Update USTools help
 Fix autoupdate on start with many opened windows
+Fix subscribe feed list when titles are empty (use a default title)
+Fix discovering feeds view
 
 0.9.2
 Use workerpool (more efficient for massive opening render tad)
