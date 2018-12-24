@@ -29,7 +29,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
 
   async init_async() {
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
-    this.updatedFeedsSetVisibility_async();    
+    this.updatedFeedsSetVisibility_async();
     this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
     this._updateFilterBar();
   }
@@ -170,9 +170,9 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     let tabInfo = await BrowserManager.getActiveTab_async();
     await LocalStorageManager.setValue_async('discoverInfo', { tabInfos: tabInfo });
     let win = await BrowserManager.openPopup_async(Dialogs.discoverFeedsUrl, 800, 300, '');
-    await LocalStorageManager.setValue_async('discoverInfoWinId', {winId: win.id});
+    await LocalStorageManager.setValue_async('discoverInfoWinId', { winId: win.id });
   }
-  
+
   async _filterButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -184,13 +184,13 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async _optionsMenuClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    let optionOpenned =  FeedsContextMenu.instance.visible && (FeedsContextMenu.instance.type == 'optionMenu');
-    if ( optionOpenned) {
+    let optionOpened = FeedsContextMenu.instance.visible && (FeedsContextMenu.instance.type == 'optionMenu');
+    if (optionOpened) {
       FeedsContextMenu.instance.hide();
     }
     else {
       let rec = event.currentTarget.getBoundingClientRect();
-      FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);  
+      FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);
     }
   }
 
