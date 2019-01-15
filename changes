@@ -3,11 +3,18 @@ Improve UIs loading time
 Improve statusbar messages
 When filter is active displays all feeds
 Custom date time format for the render feed tab
-Add methods getFeedInfo() and rssFromFeedInfo() to USTools lib for user scripts (documentation will come later, in the meantime you can take a look to the youtube  userscript exemple)
+Add methods getFeedInfo() and rssFromFeedInfo() to USTools lib for user scripts (documentation will come later, in the meantime you can take a look to the youtube  userscript example)
 Fix script editor ctrl hot keys management (ctrl+s, ctrl+z, ctrl+y)
 Fix feed sort when many Firefox windows are opened
 Fix Run an automatic feed update on start 
 Fix youtube feed detection
+a:
+Update USTools help
+Fix autoupdate on start with many opened windows
+Fix subscribe feed list when titles are empty (use a default title)
+Fix discovering feeds view
+b:
+Fix attribute extraction in ATOM Feeds
 
 0.9.2
 Use workerpool (more efficient for massive opening render tad)
