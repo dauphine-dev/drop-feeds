@@ -6,45 +6,59 @@ class BackgroundManager {
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._version = null;
-    this._sidebarActionIsOpen = false;
+    this._windowList = [];
+    this._windowId = null;
   }
 
   async init_async() {
-    this._version = await this._getBrowserVersion_async();
-    this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
+    this._sidebarListener();
+    let windowInfo = await browser.windows.getCurrent({ populate: true });
+    this._windowId = windowInfo.id;
+    browser.windows.onFocusChanged.addListener((windowId) => { this._windowOnFocused_event(windowId); });
     browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
+
   }
 
-  async _getBrowserVersion_async() {
-    let browserInfo = await browser.runtime.getBrowserInfo();
-    let version = browserInfo.version.split('.');
-    return version;
-  }
-
-  async _sidebarActionIsOpen_async() {
-    let isOpen = false;
-    try {
-      isOpen = await browser.sidebarAction.isOpen();
+  async _windowOnFocused_event(windowId) {
+    if (windowId >= 0) {
+      this._windowId = windowId;
     }
-    catch(e) {
-      isOpen = ! this._sidebarActionIsOpen;
-    }
-    return isOpen;
   }
 
-  async _toggleDropFeedsPanel_async(){
-    if (this._sidebarActionIsOpen) {
+  async _toggleDropFeedsPanel_async() {
+    let sidebarActionIsOpen = this._windowList.includes(this._windowId);
+    if (sidebarActionIsOpen) {
       browser.sidebarAction.close();
     }
     else {
       let panelUrl = browser.runtime.getURL(SIDEBAR_URL);
-      browser.sidebarAction.setPanel({panel: panelUrl});
+      browser.sidebarAction.setPanel({ panel: panelUrl });
       browser.sidebarAction.open();
     }
-    this._sidebarActionIsOpen = await this._sidebarActionIsOpen_async();
   }
 
-}
+  _sidebarListener() {
+    browser.runtime.onConnect.addListener((port) => { this.runtimeOnConnect_event(port); });
+  }
 
+  runtimeOnConnect_event(port) {
+    let self = BackgroundManager.instance;
+    if (port.sender.id == browser.runtime.id) {
+      port.onDisconnect.addListener((port) => { self.portOnDisconnect_event(port); });
+      port.onMessage.addListener((message) => { self.portOnMessage_event(message); });
+    }
+  }
+
+  portOnDisconnect_event(port) {
+    let self = BackgroundManager.instance;
+    let portNameInfoList = port.name.split(':');
+    let sidebarWindowId = parseInt(portNameInfoList[1], 10);
+    self._windowList = self._windowList.filter(item => item !== sidebarWindowId);
+  }
+
+  portOnMessage_event(message) {
+    let self = BackgroundManager.instance;
+    self._windowList.push(message.sidebarWindowId);
+  }
+}
 BackgroundManager.instance.init_async();
