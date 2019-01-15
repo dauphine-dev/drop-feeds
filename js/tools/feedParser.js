@@ -236,18 +236,29 @@ class FeedParser { /*exported FeedParser*/
     let textOpenTag = FeedParser._extractOpenTag(text, tagList);
     if (!textOpenTag) { return null; }
     for (let attribute of attributeList) {
-      let attStart = attribute + '="';
-      let attEnd = '"';
-      let i = textOpenTag.indexOf(attStart);
-      if (i == -1) { continue; }
-      let valueStart = textOpenTag.indexOf('"', i);
-      if (valueStart == -1) { continue; }
-      let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
-      if (valueEnd == -1) { continue; }
-      let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
+      let result = FeedParser._extractOneAttribute(attribute, textOpenTag, '"');
+      if (!result) {
+        /*eslint-disable quotes*/
+        result = FeedParser._extractOneAttribute(attribute, textOpenTag, "'");        
+        /*eslint-enable quotes*/
+      }
+      if (result === null) { continue; }
       return result;
     }
     return null;
+  }
+
+  static _extractOneAttribute(attribute, textOpenTag, quote) {
+    let attStart = attribute + '=' + quote;
+    let attEnd = quote;
+    let i = textOpenTag.indexOf(attStart);
+    if (i == -1) { return null; }
+    let valueStart = textOpenTag.indexOf(quote, i);
+    if (valueStart == -1) { return null; }
+    let valueEnd = textOpenTag.indexOf(attEnd, valueStart + 1);
+    if (valueEnd == -1) { return null; }
+    let result = textOpenTag.substring(valueStart + 1, valueEnd).trim();
+    return result;
   }
 
   static _extractDateTime(dateTimeText) {
@@ -333,7 +344,9 @@ class FeedParser { /*exported FeedParser*/
         inputIndex = outputIndex.value;
         let link = TextTools.getOuterTextEx(itemText, '<' + tagList.LINK, '/>', inputIndex, outputIndex, false);
         if (link) {
-          if (link.includes('type="text/html"')) {
+          /*eslint-disable quotes*/
+          if (link.includes('type="text/html"') || link.includes("type='text/html'")) {
+            /*eslint-enable quotes*/
             itemLink = FeedParser._extractAttribute(link, tagList.LINK, tagList.ATT_LINK);
           }
         }
