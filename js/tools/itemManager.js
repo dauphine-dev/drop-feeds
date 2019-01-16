@@ -109,7 +109,7 @@ class ItemManager { /*exported ItemManager*/
       let item = ItemsLayout.instance.itemList[itemNum];
       RenderItemLayout.instance.displayItem(item);
     } 
-    if (!this._feedItemRenderInSidebar || openNewTabBackGroundForce) {
+    if (!this._feedItemRenderInSidebar || openNewTabForce || openNewTabBackGroundForce) {
       this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
     }
   }
