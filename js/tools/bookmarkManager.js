@@ -80,6 +80,17 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
   }
 
+  async moveBeforeBookmark_async(idToMove, idToMoveBefore) {
+    let bookmarkToMove = (await browser.bookmarks.get(idToMove))[0];
+    let bookmarkToMoveBefore = (await browser.bookmarks.get(idToMoveBefore))[0];
+    if (bookmarkToMove.parentId != bookmarkToMoveBefore.parentId) {
+      await browser.bookmarks.move(idToMove, { parentId: bookmarkToMoveBefore.parentId, index: Math.max(bookmarkToMoveBefore.index - 1, 0) });
+    }
+    else {
+      await browser.bookmarks.move(idToMove, { index: Math.max(bookmarkToMoveBefore.index - 1, 0) });
+    }
+  }
+
   async _sortBookmarksCore_async(bookmarkId) {
     try {
       let bookmarkList = (await browser.bookmarks.getSubTree(bookmarkId))[0].children;

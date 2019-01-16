@@ -47,6 +47,11 @@ html, body {
   visibility: hidden;
 }
 
+.dropZone {
+  filter: drop-shadow(1px 1px gray);
+  text-decoration: underline;
+}
+
 /* splitter/selection bar */
 
 .splitterBar {
