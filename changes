@@ -2,6 +2,7 @@
 Update USTools help
 Fix need to click twice on Drop Feeds icon to display the sidebar panel
 Improve Drag and Drop management
+For Atom feed get channel link to main page instead of to feed
 
 0.9.3
 Improve UIs loading time
