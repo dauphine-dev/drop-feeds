@@ -137,12 +137,11 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._foldersOpened = !this._foldersOpened;
     let query = this._foldersOpened ? 'not(checked)' : 'checked';
     let folders = document.querySelectorAll('input[type=checkbox]:' + query);
-    let i = folders.length;
     this.activateButton('toggleFoldersButton', this._foldersOpened);
-    while (i--) {
-      let folderId = folders[i].id;
+    for (let folder of folders) {
+      let folderId = folder.id;
       let storedFolder = DefaultValues.getStoredFolder(folderId);
-      folders[i].checked = this._foldersOpened;
+      folder.checked = this._foldersOpened;
       storedFolder.checked = this._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }

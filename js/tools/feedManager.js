@@ -176,7 +176,7 @@ class FeedManager { /*exported FeedManager*/
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
-      feed.updateUiStatus_async();      
+      feed.updateUiStatus_async();
       FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
@@ -269,22 +269,14 @@ class FeedManager { /*exported FeedManager*/
 
   async markFeedAsRead_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     await feed.setStatus_async(feedStatus.OLD);
   }
 
   async markFeedAsReadById_async(feedId) {
-    let feedElement = document.getElementById(feedId);
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     await feed.setStatus_async(feedStatus.OLD);
   }
-
 
   async markAllFeedsAsUpdated_async(folderId) {
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
@@ -304,22 +296,14 @@ class FeedManager { /*exported FeedManager*/
 
   async markFeedAsUpdated_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     feed.setStatus_async(feedStatus.UPDATED);
   }
 
   async markFeedAsUpdatedById_async(feedId) {
-    let feedElement = document.getElementById(feedId);
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     feed.setStatus_async(feedStatus.UPDATED);
   }
-
 
   _displayUpdatedFeedsNotification() {
     if (this._showFeedUpdatePopup) {
@@ -383,7 +367,7 @@ class FeedManager { /*exported FeedManager*/
 
   async _doAutomaticUpdatesOnStart_async() {
     let windowCount = (await browser.windows.getAll({ populate: false, windowTypes: ['normal'] })).length;
-    if (this._automaticUpdatesOnStart && !this._automaticUpdatesOnStartDone && windowCount < 2 ) {
+    if (this._automaticUpdatesOnStart && !this._automaticUpdatesOnStartDone && windowCount < 2) {
       this._automaticFeedUpdate_async();
     }
     this._automaticUpdatesOnStartDone = true;

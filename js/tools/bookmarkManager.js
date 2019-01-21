@@ -62,10 +62,11 @@ class BookmarkManager { /*exported BookmarkManager*/
     }
   }
 
-  async changeParentFolder(parentFolderId, bookmarkId) {
+  async changeParentFolder(parentFolderId, bookmarkId, first) {
     let bookmark = await browser.bookmarks.get(bookmarkId);
     if (bookmark.parentId != parentFolderId) {
-      await browser.bookmarks.move(bookmarkId, { parentId: parentFolderId });
+      let destination = (first ? { parentId: parentFolderId, index: 0 } : { parentId: parentFolderId });
+      await browser.bookmarks.move(bookmarkId, destination);
     }
   }
 

@@ -47,9 +47,21 @@ html, body {
   visibility: hidden;
 }
 
+.folderDiv {
+  display: inline-block;
+  width: 100%;
+}
+
+.afterFolder {
+  height: 4px;
+}
+
+.dropZoneAfterFolder {
+  box-shadow: 0 4px 0px 0px gray;
+}
+
 .dropZone {
-  filter: drop-shadow(1px 1px gray);
-  text-decoration: underline;
+  box-shadow: 0 4px 0px -1px gray;
 }
 
 /* splitter/selection bar */
