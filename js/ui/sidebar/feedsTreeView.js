@@ -225,7 +225,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     }
 
   }
-  // *********************** Feed events ***********************
+  
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
