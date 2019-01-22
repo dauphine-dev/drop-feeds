@@ -1,4 +1,4 @@
-/*global FeedsTreeView DefaultValues SideBar browser BrowserManager FeedsTopMenu CssManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager CssManager*/
 'use strict';
 class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
