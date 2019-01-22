@@ -58,6 +58,8 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       CssManager.replaceStyle('.feedError', 'visibility:visible;');
       FeedsTreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
+      toHideList = toHideList.concat([].slice.call(rootFolder.querySelectorAll('[after]')));
+      toHideList = toHideList.concat([].slice.call(rootFolder.querySelectorAll('.folderDiv')));
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
       let toShowLblList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label', filterText, true);
       toHideList.map(item => item.style.display = 'none');
