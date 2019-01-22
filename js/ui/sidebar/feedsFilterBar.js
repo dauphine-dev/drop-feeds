@@ -46,12 +46,8 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       let rootFolderId =  FeedsTreeView.instance.rootFolderUiId;
       let rootFolder = document.getElementById(rootFolderId);
       if (!rootFolder) { return; }
-      let feedElementList = [];
       if (filterText == '' ) { 
-        FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
-        feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
-        feedElementList.map(item => item.style.display = '');
-        FeedsTreeView.instance.selectionBar.refresh();
+        FeedsTreeView.instance.reload_async();
         return; 
       }
       CssManager.replaceStyle('.feedRead', 'visibility:visible;');
@@ -67,8 +63,10 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       toShowLblList.map((item) => { 
         let forId = item.getAttribute('for');
         let toShowLblForList = [].slice.call(rootFolder.querySelectorAll('label[for="' + forId + '"]'));
-        toShowLblForList.map(lbl => lbl.style.display = '');
+        toShowLblForList.map(lbl => lbl.style.display = '');    
       });
+      let folders = [].slice.call(document.querySelectorAll('input[type=checkbox]'));
+      folders.map(folder => folder.checked = true);
     }
     catch (e) {
       /*eslint-disable no-console*/
