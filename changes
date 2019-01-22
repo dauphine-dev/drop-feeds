@@ -1,10 +1,12 @@
 0.9.4
 Update USTools help
-Fix need to click twice on Drop Feeds icon to display the sidebar panel
 Improve Drag and Drop management
 For Atom feed get channel link to main page instead of to feed
 Make filter works with folders closed
 Improve automatic updates to keep timing even when Firefox is closed
+Add an button to hide read articles 
+Fix need to click twice on Drop Feeds icon to display the sidebar panel
+Fix mark article as read when it has opened in sidebar
 
 0.9.3
 Improve UIs loading time

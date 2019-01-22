@@ -6,6 +6,7 @@ class ItemsLayout { /*exported ItemsLayout*/
 
   constructor() {
     this._splitterBar1 = new SplitterBar('splitterBar1');
+    ItemsToolBar.instance.init_async();
     ItemsToolBar.instance.disableButtons();
     this._selectionBarItems = new ItemsSelectionBar();
     this._itemLayoutCell = document.getElementById('itemLayoutCell');

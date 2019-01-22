@@ -97,6 +97,7 @@
   --items-MarkAllAsReadButton-image: url(/themes/legacy/img/itemMarkAllAsReadButton.png);
   --items-MarkAllAsUnreadButton-image: url(/themes/legacy/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/legacy/img/itemOpenUnreadButton.png);
+  --items-HideReadArticles-image: url(/themes/legacy/img/articles-hide.png);
 
   /* items */
   --items-item-color: var(--main-text-color);

@@ -99,6 +99,7 @@
   --items-MarkAllAsReadButton-image: url(/themes/sage_sc_dark/img/itemMarkAllAsReadButton.png);
   --items-MarkAllAsUnreadButton-image: url(/themes/sage_sc_dark/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/sage_sc_dark/img/itemOpenUnreadButton.png);
+  --items-HideReadArticles-image: url(/themes/sage_sc_dark/img/articles-hide.png);
 
   /* items */
   --items-item-color: var(--main-text-color);

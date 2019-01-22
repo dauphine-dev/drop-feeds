@@ -633,7 +633,6 @@ li.feedError {
   height: 34px;
   margin-top: 1px;
   padding: 0;
-  border: solid 1px #00000000;
   border-radius: 4px;
 }
 
@@ -660,6 +659,10 @@ li.feedError {
 
 #itemOpenUnreadButton::before {
   background-image: var(--items-OpenUnreadButton-image);
+}
+
+#itemHideReadArticlesButton::before {
+  background-image: var(--items-HideReadArticles-image);
 }
 
 .itemsContentHeight {
@@ -689,6 +692,10 @@ li.feedError {
 .item.visited {
   color: var(--items-itemVisited-color);
   font-weight: normal;
+}
+
+.visitedVisible {
+  visibility: visible;
 }
 
 .item:hover {

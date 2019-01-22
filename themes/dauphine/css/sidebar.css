@@ -98,6 +98,7 @@
   --items-MarkAllAsReadButton-image: url(/themes/dauphine/img/itemMarkAllAsReadButton.png);
   --items-MarkAllAsUnreadButton-image: url(/themes/dauphine/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/dauphine/img/itemOpenUnreadButton.png);
+  --items-HideReadArticles-image: url(/themes/dauphine/img/articles-hide.png);
 
   /* items */
   --items-item-color: #000000;

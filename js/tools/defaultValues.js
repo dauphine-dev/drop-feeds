@@ -38,6 +38,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get itemNewTab()                    { return false; }
   static get showFeedPreview()               { return true; }
   static get dateTimeOptions()               { return { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' }; }
+  static get hideReadArticles()              { return false; }
 
   static get allowedTagList() {
     return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },

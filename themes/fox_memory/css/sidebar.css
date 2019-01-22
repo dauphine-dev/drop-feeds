@@ -97,6 +97,7 @@
   --items-MarkAllAsReadButton-image: url(/themes/fox_memory/img/itemMarkAllAsReadButton.png);
   --items-MarkAllAsUnreadButton-image: url(/themes/fox_memory/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/fox_memory/img/itemOpenUnreadButton.png);
+  --items-HideReadArticles-image: url(/themes/fox_memory/img/articles-hide.png);
 
   /* items */
   --items-item-color: var(--main-text-color);
