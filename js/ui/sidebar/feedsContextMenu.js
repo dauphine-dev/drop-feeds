@@ -76,7 +76,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
         break;
       default:
         this._yOffset = 17;
-        if (this._idComeFrom.startsWith('dv-')) {
+        if (this._idComeFrom.startsWith('dv-') || this._idComeFrom.startsWith('fd-')) {
           this._contextMenuId = 'folderContextMenuId';
         }
         else {

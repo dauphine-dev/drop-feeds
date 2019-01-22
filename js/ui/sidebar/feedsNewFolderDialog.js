@@ -39,8 +39,8 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     let rectSelectedElement = elSelectedElement.getBoundingClientRect();
     let x = Math.round(rectSelectedElement.left);
     let y = Math.round(rectSelectedElement.top) + 20;
-    let xMax  = Math.max(0, elMainDiv.offsetWidth - this._elNewFolderDialog.offsetWidth + 18);
-    let yMax  = Math.max(0, elMainDiv.offsetHeight - this._elNewFolderDialog.offsetHeight + 20);
+    let xMax = Math.max(0, elMainDiv.offsetWidth - this._elNewFolderDialog.offsetWidth + 18);
+    let yMax = Math.max(0, elMainDiv.offsetHeight - this._elNewFolderDialog.offsetHeight + 20);
     x = Math.min(xMax, x);
     y = Math.min(yMax, y);
     this._elNewFolderDialog.style.left = x + 'px';
@@ -65,9 +65,9 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     try {
       let folderName = document.getElementById('inputNewFolder').value;
       let folderId = null;
-      let index = 0 ;
-      if (this._selectedId.startsWith('dv-')) {
-        folderId = this._selectedId.substring(3);
+      let index = 0;
+      if (this._selectedId.startsWith('dv-') || this._selectedId.startsWith('fd-')) {
+        folderId = this._selectedId.substring(this._selectedId.indexOf('-') + 1);
       }
       else {
         let feedId = this._selectedId;
@@ -75,9 +75,9 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
         folderId = bookmarks[0].parentId;
         index = bookmarks[0].index + 1;
       }
-      await browser.bookmarks.create({parentId: folderId, title: folderName, index: index});
+      await browser.bookmarks.create({ parentId: folderId, title: folderName, index: index });
     }
-    catch(e) {
+    catch (e) {
       /* eslint-disable no-console */
       console.log(e);
       /* eslint-enable no-console */

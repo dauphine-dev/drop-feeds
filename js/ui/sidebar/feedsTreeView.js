@@ -225,7 +225,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     }
 
   }
-
+  // *********************** Feed events ***********************
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -255,6 +255,47 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       let feedId = event.currentTarget.getAttribute('id');
       let openNewTabForce = true; let openNewTabBackGroundForce = true;
       this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+    }
+  }
+
+  async _feedOnDragStart_event(event) {
+    event.stopPropagation();
+    let origin = event.target.getAttribute('origin');
+    let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
+    event.dataTransfer.setData('text', data);
+  }
+
+  async _feedOnDragOver_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  async _feedOnDragEnter_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let targetFeedId = this._getTargetFeedId(event);
+    let targetFeed = document.getElementById(targetFeedId);
+    targetFeed.classList.add('dropZone');
+  }
+
+  async _feedOnDragLeave_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let targetFeedId = this._getTargetFeedId(event);
+    let targetFeed = document.getElementById(targetFeedId);
+    targetFeed.classList.remove('dropZone');
+  }
+
+  async _feedOnDrop_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let data = event.dataTransfer.getData('text');
+    let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
+    let targetId = this._getTargetFeedId(event);
+    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
+    let dropZoneList = document.getElementsByClassName('dropZone');
+    for (let el of dropZoneList) {
+      el.classList.remove('dropZone');
     }
   }
 
@@ -355,47 +396,6 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     }
   }
 
-  async _feedOnDragStart_event(event) {
-    event.stopPropagation();
-    let origin = event.target.getAttribute('origin');
-    let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
-    event.dataTransfer.setData('text', data);
-  }
-
-  async _feedOnDragOver_event(event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  async _feedOnDragEnter_event(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    let targetFeedId = this._getTargetFeedId(event);
-    let targetFeed = document.getElementById(targetFeedId);
-    targetFeed.classList.add('dropZone');
-  }
-
-  async _feedOnDragLeave_event(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    let targetFeedId = this._getTargetFeedId(event);
-    let targetFeed = document.getElementById(targetFeedId);
-    targetFeed.classList.remove('dropZone');
-  }
-
-  async _feedOnDrop_event(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    let data = event.dataTransfer.getData('text');
-    let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
-    let targetId = this._getTargetFeedId(event);
-    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
-    let dropZoneList = document.getElementsByClassName('dropZone');
-    for (let el of dropZoneList) {
-      el.classList.remove('dropZone');
-    }
-  }
-
   _getTargetFolderId(event) {
     let target = event.target;
     if (target.nodeType == Node.TEXT_NODE) {
@@ -419,13 +419,10 @@ class FeedsTreeView { /*exported FeedsTreeView*/
 
 
   _cleanId(elementId) {
-    let start = 0;
     if (!elementId) { return null; }
-    if (elementId.startsWith('cb-') || elementId.startsWith('ul-') || elementId.startsWith('dv-')) {
-      start = 3;
-    }
-    else if (elementId.startsWith('lbl-')) {
-      start = 4;
+    let start = 0;
+    if (elementId.startsWith('cb-') || elementId.startsWith('ul-') || elementId.startsWith('dv-') || elementId.startsWith('fd-') || elementId.startsWith('lbl-')) {
+      start = elementId.indexOf('-') + 1;
     }
     elementId = elementId.substring(start);
     return elementId;
@@ -451,7 +448,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
 
   _createTreeFolder(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     let id = bookmarkItem.id;
-    let folderName = bookmarkItem.title;
+    let folderName = (TextTools.isNullOrEmpty(bookmarkItem.title.trim()) ? '&nbsp;' : bookmarkItem.title);
     let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
     let checked = storedFolder.checked ? 'checked=""' : '';
 
@@ -475,6 +472,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
          <label for="cb-` + id + '" id="lbl-' + id + '">' + folderName + '<span id="cpt-' + id + '"></span></label></span>\n';
       let paddingLeft = displayThisFolder ? '' : 'style="padding-left: 22px;"';
       folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '" ' + paddingLeft + '>\n';
+
     }
     indent += 2;
     this._html.push(folderLine);
