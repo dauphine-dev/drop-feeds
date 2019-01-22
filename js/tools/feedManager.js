@@ -382,8 +382,8 @@ class FeedManager { /*exported FeedManager*/
   async _doAutomaticUpdatesOnStart_async() {
     let lastAutoUpdate = await LocalStorageManager.getValue_async('lastAutoUpdate', new Date(0).getTime());
     let diff = Date.now() - lastAutoUpdate;
-    if (diff >= this._automaticUpdatesMilliseconds) {
-      this._automaticFeedUpdate_async();
+    if (diff >= this._automaticUpdatesMilliseconds || this._automaticUpdatesOnStart) {
+      this._start1stAutoUpdate();
     }
     else {
       let delay = this._automaticUpdatesMilliseconds - diff;
