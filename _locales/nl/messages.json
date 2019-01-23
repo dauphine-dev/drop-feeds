@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "Open ongelezen items in nieuwe tabbladen"
   },
+  "sbItemHideReadArticles": {
+    "message": "Hide read articles"
+  },
   "sbMarkAllAsUpdated": {
     "message": "Werk alle items bij"
   },

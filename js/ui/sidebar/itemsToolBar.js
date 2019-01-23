@@ -74,7 +74,7 @@ class ItemsToolBar { /*exported ItemsToolBar*/
     document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsRead'));
     document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsUnread'));
     document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
-//document.getElementById('itemHideReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemHideReadArticles'));
+    document.getElementById('itemHideReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemHideReadArticles'));
   }
 
   _updateHideReadArticles() {

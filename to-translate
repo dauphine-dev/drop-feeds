@@ -35,3 +35,6 @@ version;line;messageName;message;where;note
 0.9.3;365;optContentsDateTimeLegend;Date time format;Settings / Contents area;n/a
 0.9.3;368;optContentsDateTimeResetButton;Reset to default;Settings / Contents area;n/a
 0.9.3;371;optUrlDatetimeHelp;Date time formats (see section 'Options');Settings / Contents area;Do not translate 'Options' because the help link it's in English
+
+0.9.4  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+0.9.4;65;sbItemHideReadArticles;Hide read articles;Article panel/Tool bar;n/a

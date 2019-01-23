@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "未読を新しいタブで開く"
   },
+  "sbItemHideReadArticles": {
+    "message": "Hide read articles"
+  },
   "sbMarkAllAsUpdated": {
     "message": "全てを更新済みにする"
   },

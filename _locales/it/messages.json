@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "Apri gli elementi non letti in nuove schede"
   },
+  "sbItemHideReadArticles": {
+    "message": "Hide read articles"
+  },
   "sbMarkAllAsUpdated": {
     "message": "Marca tutti come aggiornati"
   },
