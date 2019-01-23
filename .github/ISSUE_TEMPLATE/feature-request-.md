@@ -1,6 +1,6 @@
 ---
 name: Feature request.
-about: Suggest an idea for this projec
+about: Suggest an idea for this project
 title: "[Feature] A clear and concise title of what you want"
 labels: enhancement
 assignees: dauphine-dev
