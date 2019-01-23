@@ -1,7 +1,7 @@
 ---
 name: Bug report.
 about: Create a report to help us improv
-title: "[bug] A clear and concise title of what the bug is"
+title: "[Bug] A clear and concise title of what the bug is"
 labels: bug
 assignees: dauphine-dev
 
