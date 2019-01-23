@@ -1,13 +1,13 @@
 ---
 name: 'Bug report'
 about: 'Create a report to help us improve'
-title: '[issue] <title>'
+title: '[bug] A clear and concise title of what the bug is.
 labels: bug
 ---
 Note: Don't esistate to add screenshots 
 
 #### System: 
- * Opearting System:  
+ * Opearating System:  
  * Firefox: 
 
 #### Steps to reproduce:
