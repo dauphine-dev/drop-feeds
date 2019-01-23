@@ -1,12 +1,10 @@
 :root {
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
-  
   /* option menu */
   --feeds-optionMenuReload-image: url(/themes/fox_memory/img/restart.png);
   --feeds-optionMenuSubscribe-image: url(/themes/fox_memory/img/subscribe-url.png);
   --feeds-optionMenuSettings-image: url(/themes/fox_memory/img/settings.png);
-
   /* feeds top menu */
   --feeds-topMenu-background-color: var(--main-background-color);
   --feeds-topMenu-border-color: var(--main-border-color);
@@ -22,40 +20,35 @@
   --feeds-subscribeAdd-image: url(/themes/fox_memory/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/fox_memory/img/filter.png);
   --feeds-optionsMenuButton-image: url(/themes/fox_memory/img/options.png);
-
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--main-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);
   --feeds-statusButtonUpdating-image: url(/themes/fox_memory/img/updating.gif);
   --feeds-statusBar-image-width: 16px;
   --feeds-statusBar-image-height: 16px;
-
   /* feeds filter bar */
   --feeds-filterBar-background-color: var(--main-background-color);
   --feeds-filterClearButton-image: url(/themes/_templates/img/filter-clean.png);
-
   /* feeds tree view folders */
   --feeds-folderOpen-image: url(/themes/fox_memory/img/folder-open.png);
-  --feeds-folderOpen-content: "" ;
+  --feeds-folderOpen-content: "";
   --feeds-folderClose-image: url(/themes/fox_memory/img/folder-closed.png);
-  --feeds-folderClose-content: "" ;
+  --feeds-folderClose-content: "";
   --feeds-folderLabel-font-weight: normal;
   --feeds-folderLabel-color: var(--main-text-color);
-
   /* feeds tree view feeds */
   --feeds-feed-prefix-vertical-align: text-bottom;
   --feeds-feed-image-width: 12px;
   --feeds-feed-image-height: 16px;
   --feeds-feedRead-image: url(/themes/fox_memory/img/feed-read.png);
-  --feeds-feedRead-content: "" ;
+  --feeds-feedRead-content: "";
   --feeds-feedRead-color: var(--main-text-color);
   --feeds-feedUnread-image: url(/themes/fox_memory/img/feed-unread.png);
-  --feeds-feedUnread-content: "" ;
+  --feeds-feedUnread-content: "";
   --feeds-feedUnread-color: var(--main-text-color);
   --feeds-feedError-image: url(/themes/fox_memory/img/feed-error.png);
-  --feeds-feedError-content: "" ;
+  --feeds-feedError-content: "";
   --feeds-feedError-color: var(--main-text-color);
-
   /* feeds context menu */
   --feeds-contextMenu-background-color: var(--main-background-color);
   --feeds-folderContextMenuCheckFeeds-image: url(/themes/fox_memory/img/check-feeds.png);
@@ -74,19 +67,15 @@
   --feeds-feedContextMenuNew-image: url(/themes/fox_memory/img/folder-new.png);
   --feeds-feedContextMenuDelete-image: url(/themes/fox_memory/img/delete.png);
   --feeds-feedContextMenuInfo-image: url(/themes/fox_memory/img/feed-info.png);
-  
   /* feeds selection bar */
   --feeds-selectionBar-color: var(--main-selection-background-color);
-
   /* ---- items layout ---- */
   --items-Layout-background-color: var(--main-background-color);
   --items-Layout-border-color: var(--main-border-color);
-
   /* items title bar*/
   --items-Title-background-color: var(--main-background-color);
   --items-Title-border-color: var(--main-border-color);
   --items-Title-color: var(--main-text-color);
-
   /* items tool bar*/
   --items-ToolBar-background-color: var(--main-background-color);
   --items-ToolBar-border-color: var(--main-border-color);
@@ -98,21 +87,19 @@
   --items-MarkAllAsUnreadButton-image: url(/themes/fox_memory/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/fox_memory/img/itemOpenUnreadButton.png);
   --items-HideReadArticles-image: url(/themes/fox_memory/img/articles-hide.png);
-
   /* items */
   --items-item-color: var(--main-text-color);
   --items-itemVisited-color: #888888;
-
   /* items selection bar */
   --items-selectionBar-color: var(--feeds-selectionBar-color);
-
   /* --- Item render layout ---- */
   --renderItems-Layout-background-color: var(--main-background-color);
-
   /* ---- dialog box ---- */
   --dialog-background-color: var(--main-dialog-background-color);
   --dialog-border-color: var(--main-border-color);
   --dialog-title-color: #4f4545;
   --dialog-title-background-color: #e4e4e4;
   --dialog-label-color: #4f4545;
+  /* ---- misc. ---- */
+  --main-dropTarget-color: gray;
 }

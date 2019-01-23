@@ -57,11 +57,11 @@ html, body {
 }
 
 .dropZoneAfterFolder {
-  box-shadow: 0 4px 0px 0px gray;
+  box-shadow: 0 4px 0px 0px var(--main-dropTarget-color);
 }
 
 .dropZone {
-  box-shadow: 0 4px 0px -1px gray;
+  box-shadow: 0 4px 0px -1px var(--main-dropTarget-color);
 }
 
 /* splitter/selection bar */

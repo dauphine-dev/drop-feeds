@@ -1,13 +1,10 @@
 :root {
-
   /* ---- feeds layout ---- */
   --feeds-Layout-background-color: var(--main-background-secondary-color);
-
   /* option menu */
   --feeds-optionMenuReload-image: url(/themes/dauphine/img/restart.png);
   --feeds-optionMenuSubscribe-image: url(/themes/dauphine/img/subscribe-url.png);
   --feeds-optionMenuSettings-image: url(/themes/dauphine/img/settings.png);
-
   /* feeds top menu */
   --feeds-topMenu-background-color: #E8E8E8;
   --feeds-topMenu-border-color: var(--main-border-color);
@@ -23,40 +20,36 @@
   --feeds-subscribeAdd-image: url(/themes/dauphine/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/dauphine/img/filter.png);
   --feeds-optionsMenuButton-image: url(/themes/dauphine/img/options.png);
-
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);
   --feeds-statusButtonUpdating-image: url(/themes/dauphine/img/updating.gif);
   --feeds-statusBar-image-width: 20px;
   --feeds-statusBar-image-height: 20px;
-
   /* feeds filter bar */
   --feeds-filterBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-filterClearButton-image: url(/themes/_templates/img/filter-clean.png);
-
   /* feeds folders */
   --feeds-folderOpen-image: ;
-  --feeds-folderOpen-content: "-" ;
+  --feeds-folderOpen-content: "-";
   --feeds-folderClose-image: ;
   --feeds-folderClose-content: "+";
   --feeds-folderLabel-font-weight: bold;
   --feeds-folderLabel-color: #4f4545;
-
   /* feeds feeds */
   --feeds-feed-prefix-vertical-align: ;
   --feeds-feed-image-width: 8px;
   --feeds-feed-image-height: 8px;
   --feeds-feedRead-image: ;
-  --feeds-feedRead-content: "." ;
+  --feeds-feedRead-content: ".";
   --feeds-feedRead-color: #7F7F70;
   --feeds-feedUnread-image: ;
-  --feeds-feedUnread-content: "." ;
+  --feeds-feedUnread-content: ".";
   --feeds-feedUnread-color: #44486E;
-  --feeds-feedError-image: url(/themes/dauphine/img/feed-error.png);;
-  --feeds-feedError-content: "" ;
+  --feeds-feedError-image: url(/themes/dauphine/img/feed-error.png);
+  ;
+  --feeds-feedError-content: "";
   --feeds-feedError-color: #c44700;
-
   /* feeds context menu */
   --feeds-contextMenu-background-color: #f9f9f9;
   --feeds-folderContextMenuCheckFeeds-image: url(/themes/dauphine/img/check-feeds.png);
@@ -75,19 +68,15 @@
   --feeds-feedContextMenuNew-image: url(/themes/dauphine/img/folder-new.png);
   --feeds-feedContextMenuDelete-image: url(/themes/dauphine/img/delete.png);
   --feeds-feedContextMenuInfo-image: url(/themes/dauphine/img/feed-info.png);
-
   /* feeds selection bar */
   --feeds-selectionBar-color: var(--main-selection-background-color);
-
   /* ---- items layout ---- */
   --items-Layout-background-color: var(--main-background-color);
   --items-Layout-border-color: var(--main-border-color);
-
   /* items title bar*/
   --items-Title-background-color: var(--main-background-color);
   --items-Title-border-color: var(--main-border-color);
   --items-Title-color: #444444;
-
   /* items tool bar*/
   --items-ToolBar-background-color: var(--main-background-color);
   --items-ToolBar-border-color: var(--main-border-color);
@@ -99,21 +88,19 @@
   --items-MarkAllAsUnreadButton-image: url(/themes/dauphine/img/itemMarkAllAsUnreadButton.png);
   --items-OpenUnreadButton-image: url(/themes/dauphine/img/itemOpenUnreadButton.png);
   --items-HideReadArticles-image: url(/themes/dauphine/img/articles-hide.png);
-
   /* items */
   --items-item-color: #000000;
   --items-itemVisited-color: #888888;
-
   /* items selection bar */
   --items-selectionBar-color: var(--feeds-selectionBar-color);
-
   /* --- Item render layout ---- */
   --renderItems-Layout-background-color: var(--main-background-color);
-
   /* ---- dialog box ---- */
   --dialog-background-color: var(--main-dialog-background-color);
   --dialog-border-color: var(--main-border-color);
   --dialog-title-color: #4f4545;
   --dialog-title-background-color: #e4e4e4;
   --dialog-label-color: #4f4545;
+  /* ---- misc. ---- */
+  --main-dropTarget-color: gray;
 }
