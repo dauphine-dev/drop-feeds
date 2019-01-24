@@ -66,7 +66,7 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
     let idTargetElement = selectedElementRawId;
     this._selectedElementIsFolder = false;
     if (selectedElementRawId.startsWith('dv-') || selectedElementRawId.startsWith('fd-')) {
-      this._selectedElementId = selectedElementRawId.substring(this._selectedId.indexOf('-') + 1);
+      this._selectedElementId = selectedElementRawId.substring(selectedElementRawId.indexOf('-') + 1);
       idTargetElement = 'lbl-' + this._selectedElementId;
       this._selectedElementIsFolder = true;
     }
