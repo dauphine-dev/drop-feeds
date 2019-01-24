@@ -155,11 +155,9 @@ class FeedRenderer { /*exported FeedRenderer*/
     let num = itemNumber ? itemNumber : item.number;
     let visited = undefined;
     try {
-      console.log('visited1:', visited);
       visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited visitedVisible' : '';
-      console.log('visited2:', visited);
     }
-    catch (e) { console.log(e); }
+    catch (e) { }
     let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
     let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '<br/></span>';
