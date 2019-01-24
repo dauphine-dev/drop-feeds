@@ -1,23 +1,29 @@
 /*global  browser*/
 'use strict';
 class ContentManager {
+  static get instance() { return (this._instance = this._instance || new this()); }
+
+  constructor() {
+    this._youtubeFeedLinkList = null;
+  }
+
   static async runtimeOnMessage_event(request) {
     let response = null;
     switch (request.key) {
       case 'isFeed':
-        response = ContentManager._isFeed();
+        response = ContentManager.instance._isFeed();
         break;
       case 'discoverFeedLinkInfoList':
-        response = ContentManager._discoverFeedLinkInfoList();
+        response = ContentManager.instance._discoverFeedLinkInfoList();
         break;
       case 'getFeedLinkInfoList':
-        response = await ContentManager._getFeedLinkInfoList_async();
+        response = await ContentManager.instance._getFeedLinkInfoList_async();
         break;
     }
     return Promise.resolve(response);
   }
 
-  static _isFeed() {
+  _isFeed() {
     let feedHandler = null;
     try {
       feedHandler = document.getElementById('feedHandler').innerHTML;
@@ -27,11 +33,11 @@ class ContentManager {
     if (!isFeed) {
       isFeed = window.location.href.match(/rss|feed|atom|syndicate/i);
     }
-    if (isFeed) { ContentManager._addSubscribeButton(); }
+    if (isFeed) { this._addSubscribeButton(); }
     return isFeed;
   }
 
-  static _addSubscribeButton() {
+  _addSubscribeButton() {
     if (!document.getElementById('subscribeWithDropFeedsButton')) {
       let feedSubscribeLine = document.getElementById('feedSubscribeLine');
       let subscribeButton = document.createElement('button');
@@ -45,13 +51,13 @@ class ContentManager {
     }
   }
 
-  async _addSubscribeButtonOnClick_event(event) {
+  _addSubscribeButtonOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
     browser.runtime.sendMessage({ key: 'openSubscribeDialog' });
   }
 
-  static _discoverFeedLinkInfoList() {
+  _discoverFeedLinkInfoList() {
     let feedLinkList = [];
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     elLinkList.push(...Array.from(document.getElementsByTagName('a')));
@@ -67,10 +73,10 @@ class ContentManager {
     return feedLinkList;
   }
 
-  static async _getFeedLinkInfoList_async() {
+  async _getFeedLinkInfoList_async() {
     let feedLinkList = [];
-    if (ContentManager._isYoutubeTab()) {
-      return await ContentManager._getYoutubeFeeds();
+    if (this._isYoutubeTab()) {
+      return await this._getYoutubeFeeds();
     }
     let elLinkList = Array.from(document.getElementsByTagName('link'));
     let count = 1;
@@ -86,21 +92,24 @@ class ContentManager {
     return feedLinkList;
   }
 
-  static _isYoutubeTab() {
+  _isYoutubeTab() {
     /*eslint-disable no-useless-escape*/
     let isYoutubeTab = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/g.test(window.location.href);
     /*eslint-enable no-useless-escape*/
     return isYoutubeTab;
   }
 
-  static async _getYoutubeFeeds() {
-    let feedLinkList = [];
-    let pageSource = await (await fetch(document.location.href)).text();
-    /*eslint-disable no-useless-escape*/
-    let channelId = (pageSource.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
-    /*eslint-enable no-useless-escape*/
-    feedLinkList.push({ title: document.title, link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
-    return feedLinkList;
+  async _getYoutubeFeeds() {
+    if (!this._youtubeFeedLinkList) {
+      let feedLinkList = [];
+      let pageSource = await (await fetch(document.location.href)).text();
+      /*eslint-disable no-useless-escape*/
+      let channelId = (pageSource.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
+      /*eslint-enable no-useless-escape*/
+      feedLinkList.push({ title: document.title, link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
+      this._youtubeFeedLinkList = feedLinkList;
+    }
+    return this._youtubeFeedLinkList;
   }
 }
 browser.runtime.onMessage.addListener(ContentManager.runtimeOnMessage_event);
