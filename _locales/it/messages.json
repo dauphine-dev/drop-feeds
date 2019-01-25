@@ -63,7 +63,7 @@
     "message": "Apri gli elementi non letti in nuove schede"
   },
   "sbItemHideReadArticles": {
-    "message": "Hide read articles"
+    "message": "Nascondi gli articoli già letti"
   },
   "sbMarkAllAsUpdated": {
     "message": "Marca tutti come aggiornati"
@@ -135,7 +135,7 @@
     "message": "ricevuto"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "In attesa del feed successivo..."
   },
   "sbFeedsUpdated": {
     "message": "feeds aggiornati"
@@ -351,7 +351,7 @@
     "message": "Mostra feeds"
   },
   "optRenderFeedsOptions": {
-    "message": "Options"
+    "message": "Opzioni"
   },
   "optItemNewTab": {
     "message": "Apri gli elementi in una nuova scheda"
@@ -366,13 +366,13 @@
     "message": "Riutilizza la scheda di Drop Feed"
   },
   "optContentsDateTimeLegend": {
-    "message": "Date time format"
+    "message": "Formato data/ora"
   },
   "optContentsDateTimeResetButton": {
-    "message": "Reset to default"
+    "message": "Ripristina"
   },
   "optUrlDatetimeHelp": {
-    "message": "Date time formats (see section 'Options')"
+    "message": "Formato data/ora (vedi sezione 'Opzioni')"
   },
   "optSelectOpmlFileToImport": {
     "message": "Seleziona il file opml da importare"
