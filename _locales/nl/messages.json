@@ -63,7 +63,7 @@
     "message": "Open ongelezen items in nieuwe tabbladen"
   },
   "sbItemHideReadArticles": {
-    "message": "Hide read articles"
+    "message": "Verberg gelezen artikelen"
   },
   "sbMarkAllAsUpdated": {
     "message": "Werk alle items bij"
@@ -123,7 +123,7 @@
     "message": "geladen"
   },
   "sbLoadingNextFeed": {
-    "message": "Loading next feed..."
+    "message": "Volgende feed laden..."
   },
   "sbMerging": {
     "message": "Samenvoegen"
@@ -135,7 +135,7 @@
     "message": "ontvangen"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "Wachten op volgende feed..."
   },
   "sbFeedsUpdated": {
     "message": "feeds geüpdatet"
@@ -147,13 +147,13 @@
     "message": "Geen feeds bijgewerkt"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "Drop Feeds herladen"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "Abonneren op url"
   },
   "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "Open instellingen..."
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
@@ -168,19 +168,19 @@
     "message": "Naam"
   },
   "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
+    "message": "Update feed naam"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "Stop met het bijwerken van de feednaam"
   },
   "subUpdatingFeedTitlePlsWait": {
-    "message": "Updating feed name, please wait..."
+    "message": "De feednaam bijwerken, een ogenblik geduld aub..."
   },
   "subFolder": {
     "message": "Folder"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "Nieuwe folder"
   },
   "subNewFolder": {
     "message": "Nieuwe folder"
@@ -201,7 +201,7 @@
     "message": "Show feed preview"
   },
   "subLoading": {
-    "message": "Loading..."
+    "message": "Laden..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -351,7 +351,7 @@
     "message": "Feeds weergeven"
   },
   "optRenderFeedsOptions": {
-    "message": "Options"
+    "message": "Opties"
   },
   "optItemNewTab": {
     "message": "Items openen in nieuw tabblad"
@@ -366,13 +366,13 @@
     "message": "Hergebruik Drop Feeds tab"
   },
   "optContentsDateTimeLegend": {
-    "message": "Date time format"
+    "message": "Datum tijd notatie"
   },
   "optContentsDateTimeResetButton": {
-    "message": "Reset to default"
+    "message": "Reset naar standaardinstellingen"
   },
   "optUrlDatetimeHelp": {
-    "message": "Date time formats (see section 'Options')"
+    "message": "Datum tijd notatie (zie 'Options' sectie)"
   },
   "optSelectOpmlFileToImport": {
     "message": "Selecteer het te importeren opml bestand"
@@ -546,16 +546,16 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "Abonneer op url"
   },
   "sbSubsDiaUrlLbl": {
     "message": "Url"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Close"
+    "message": "Sluiten"
   },
   "sbSubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
+    "message": "Abonneren"
   },
   "comment10": {
     "message": "------------------Script manager strings------------------"
