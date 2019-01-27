@@ -6,9 +6,9 @@
   --renderTab-error-background-color: #FF8888 !important;
   --renderTab-tableHead-background-color: #323234;
   --renderTab-link-color: revert;
-  --renderTab-link-font-weight: revert;
-  --renderTab-link-decoration: revert;
-  --renderTab-link-visited-color: #739Aa5;
+  --renderTab-link-font-weight: bold;
+  --renderTab-link-decoration: underline dotted;
+  --renderTab-link-visited-color: revert;
   --renderTab-link-hover-decoration: underline;
   /* channel */
   --renderTab-channel-background: #222224 !important;
