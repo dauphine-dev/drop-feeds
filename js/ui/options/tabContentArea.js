@@ -99,7 +99,7 @@ class TabContentArea { /*exported TabContentArea*/
   _enableItemOptions() {
     let enabled = document.getElementById('renderFeedsCheckbox').checked;
     this._enableElement('contentsAreaTabOptionsFieldset', null, enabled);
-    this._enableElement('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled && document.getElementById('alwaysOpenNewTabCheckbox').checked);
+    this._enableElement('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled);
     this._enableElement('contentsDateTimeFieldset', null, enabled);
   }
 
