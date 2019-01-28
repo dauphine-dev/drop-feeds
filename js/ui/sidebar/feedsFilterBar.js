@@ -1,4 +1,4 @@
-/*global FeedsTreeView DefaultValues SideBar browser BrowserManager CssManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager CssManager FeedsTopMenu*/
 'use strict';
 class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -48,6 +48,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       if (!rootFolder) { return; }
       if (filterText == '' ) { 
         FeedsTreeView.instance.reload_async();
+        FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
         return; 
       }
       CssManager.replaceStyle('.feedRead', 'visibility:visible;');

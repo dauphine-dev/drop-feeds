@@ -84,12 +84,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
 
   async updatedFeedsSetVisibility_async() {
     this.activateButton('onlyUpdatedFeedsButton', this._updatedFeedsVisible);
-    let visibleValue = this._updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
-    let unreadValue = '  visibility: visible;\n  font-weight: bold;';
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    CssManager.replaceStyle('.feedUnread', unreadValue);
-    CssManager.replaceStyle('.feedRead', visibleValue);
-    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
+    FeedsTreeView.instance.updatedFeedsSetVisibility_async(this._updatedFeedsVisible);
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 

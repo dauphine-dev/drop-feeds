@@ -1,5 +1,5 @@
 /*global  browser DefaultValues BrowserManager FeedsSelectionBar FeedsTopMenu FeedManager FeedsStatusBar ItemsLayout
-FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
+FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar CssManager*/
 'use strict';
 const _dropfeedsId = 'dropfeedsId=';
 class FeedsTreeView { /*exported FeedsTreeView*/
@@ -146,6 +146,16 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     }
 
   }
+
+  async updatedFeedsSetVisibility_async(updatedFeedsVisible) {
+    let visibleValue = updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
+    let unreadValue = '  visibility: visible;\n  font-weight: bold;';
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    CssManager.replaceStyle('.feedUnread', unreadValue);
+    CssManager.replaceStyle('.feedRead', visibleValue);
+    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);  
+  }
+
   _updateFolderCount(bookmarkItem) {
     if (!bookmarkItem) { return; }
     if (bookmarkItem.children) {
