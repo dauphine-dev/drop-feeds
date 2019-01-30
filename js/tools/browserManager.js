@@ -93,7 +93,7 @@ class BrowserManager { /* exported BrowserManager*/
       }
       else {
         // Option 1b - New tab unless active tab is empty or DF tab
-        doCreate = !isEmptyActiveTab || !activeTabIsDfTab;
+        doCreate = !(isEmptyActiveTab || activeTabIsDfTab);
       }
     }
     else {

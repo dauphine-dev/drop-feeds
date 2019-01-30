@@ -1,4 +1,4 @@
-/*global ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
+/*global browser ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
 /*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
 'use strict';
 class SideBar { /*exported SideBar*/
@@ -12,6 +12,7 @@ class SideBar { /*exported SideBar*/
   }
 
   async init_async() {
+    this._sendWindowIdToBgScript();
     await ThemeManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await FeedsTreeView.instance.load_async();
@@ -27,7 +28,7 @@ class SideBar { /*exported SideBar*/
     RenderItemLayout.instance;
     FeedsNewFolderDialog.instance;
     OptionSubscribeDialog.instance;
-    this._computeContentTop();    
+    this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
     document.getElementById('mainBoxTable').addEventListener('click', (e) => { FeedsContextMenu.instance.hide(e); });
@@ -36,6 +37,14 @@ class SideBar { /*exported SideBar*/
     FeedsTreeView.instance.selectionBar.refresh();
     SideBar.instance.resize();
     setTimeout(() => { SideBar.instance.resize(); }, 20);
+  }
+
+  async _sendWindowIdToBgScript() {
+    let windowInfo = await browser.windows.getCurrent({ populate: true });
+    let connectInfo = { 'name': 'sidebarWindowId:' + windowInfo.id };
+    let port = browser.runtime.connect(connectInfo);
+    port.postMessage({ sidebarWindowId: windowInfo.id });
+
   }
 
   async reloadPanelWindow_sbscrb() {
@@ -54,7 +63,7 @@ class SideBar { /*exported SideBar*/
   async _windowOnResize_event() {
     this.resize();
   }
-  
+
   _computeContentTop() {
     let refElementId = (FeedsFilterBar.instance.enabled ? 'filterBar' : 'statusBar');
     let refElement = document.getElementById(refElementId);

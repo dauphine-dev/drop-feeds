@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "Ouvrir les articles non lus dans de nouveaux onglets"
   },
+  "sbItemHideReadArticles": {
+    "message": "Masquer les articles visités"
+  },
   "sbMarkAllAsUpdated": {
     "message": "Marquer comme à jour (non lu)"
   },

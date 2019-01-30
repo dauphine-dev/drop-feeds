@@ -6,9 +6,9 @@
   --renderTab-error-background-color: #FF8888 !important;
   --renderTab-tableHead-background-color: #e8e8e8;
   --renderTab-link-color: revert;
-  --renderTab-link-font-weight: revert;
-  --renderTab-link-decoration: revert;
-  --renderTab-link-visited-color: #739Aa5;
+  --renderTab-link-font-weight: bold;
+  --renderTab-link-decoration: underline dotted;
+  --renderTab-link-visited-color: revert;
   --renderTab-link-hover-decoration: underline;
   /* channel */
   --renderTab-channel-background: #E4ECEC;
@@ -28,7 +28,7 @@
   --renderTab-items-background: ghostwhite;
   --renderTab-items-border: 1px solid #97969A;
   --renderTab-items-border-radius: 10px;
-  --renderTab-items-text-color: #333;
+  --renderTab-items-text-color: #222;
   --renderTab-items-font-size: 18px;
   --renderTab-items-number-text-color: var(--renderTab-text-color);
   --renderTab-items-number-font-size: revert;

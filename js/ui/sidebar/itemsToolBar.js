@@ -1,4 +1,4 @@
-/*global browser ItemManager ItemsLayout CssManager*/
+/*global browser ItemManager ItemsLayout CssManager DefaultValues LocalStorageManager*/
 'use strict';
 class ItemsToolBar { /*exported ItemsToolBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -6,12 +6,19 @@ class ItemsToolBar { /*exported ItemsToolBar*/
   constructor() {
     this._buttonsEnabled = false;
     this._buttonsForSingleElementEnabled = false;
+    this._hideReadArticles = DefaultValues.hideReadArticles;
     this._updateLocalizedStrings();
     document.getElementById('itemMarkAsReadButton').addEventListener('click', (e) => { this._itemMarkAsReadButtonClicked_event(e); });
     document.getElementById('itemMarkAsUnreadButton').addEventListener('click', (e) => { this._itemMarkAsUnreadButtonClicked_event(e); });
     document.getElementById('itemMarkAllAsReadButton').addEventListener('click', (e) => { this._itemMarkAllAsReadButtonClicked_event(e); });
     document.getElementById('itemMarkAllAsUnreadButton').addEventListener('click', (e) => { this._itemMarkAllAsUnreadButtonClicked_event(e); });
     document.getElementById('itemOpenUnreadButton').addEventListener('click', (e) => { this._itemOpenUnreadButtonClicked_event(e); });
+    document.getElementById('itemHideReadArticlesButton').addEventListener('click', (e) => { this._itemHideReadArticlesButtonClicked_event(e); });
+  }
+
+  async init_async() {
+    this._hideReadArticles = await LocalStorageManager.getValue_async('hideReadArticles', this._hideReadArticles);
+    this._updateHideReadArticles();
   }
 
   disableButtons() {
@@ -28,6 +35,7 @@ class ItemsToolBar { /*exported ItemsToolBar*/
     CssManager.enableElementById('itemMarkAllAsReadButton');
     CssManager.enableElementById('itemMarkAllAsUnreadButton');
     CssManager.enableElementById('itemOpenUnreadButton');
+    CssManager.enableElementById('itemHideReadArticlesButton');
     let selectedElement = ItemsLayout.instance.selectionBarItems.selectedElement;
     if (selectedElement) {
       CssManager.enableElementById('itemMarkAsReadButton');
@@ -43,7 +51,7 @@ class ItemsToolBar { /*exported ItemsToolBar*/
 
   enableButtonsForSingleElement() {
     this._buttonsForSingleElementEnabled = true;
-    let selectedElement =  ItemsLayout.instance.selectionBarItems.selectedElement;
+    let selectedElement = ItemsLayout.instance.selectionBarItems.selectedElement;
     if (selectedElement) {
       let isVisited = selectedElement.classList.contains('visited');
       if (isVisited) {
@@ -66,6 +74,27 @@ class ItemsToolBar { /*exported ItemsToolBar*/
     document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsRead'));
     document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsUnread'));
     document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
+    document.getElementById('itemHideReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemHideReadArticles'));
+  }
+
+  _updateHideReadArticles() {
+    LocalStorageManager.setValue_async('hideReadArticles', this._hideReadArticles);
+    this._activateButton('itemHideReadArticlesButton', this._hideReadArticles);
+    let visibleValue = this._hideReadArticles ? 'display:none !important;' : 'visibility:visible;';
+    CssManager.replaceStyle('.visitedVisible', visibleValue);
+    ItemsLayout.instance.selectionBarItems.refresh();
+  }
+
+  _activateButton(buttonId, activated) {
+    let el = document.getElementById(buttonId);
+    if (activated) {
+      el.classList.add('topMenuItemActivated');
+      el.classList.remove('topMenuItemInactivated');
+    }
+    else {
+      el.classList.add('topMenuItemInactivated');
+      el.classList.remove('topMenuItemActivated');
+    }
   }
 
   async _itemMarkAsReadButtonClicked_event(event) {
@@ -104,4 +133,12 @@ class ItemsToolBar { /*exported ItemsToolBar*/
     if (!this._buttonsEnabled) { return; }
     ItemManager.instance.openAllUnreadItems_async();
   }
+
+  async _itemHideReadArticlesButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this._hideReadArticles = !this._hideReadArticles;
+    this._updateHideReadArticles();
+  }
+
 }

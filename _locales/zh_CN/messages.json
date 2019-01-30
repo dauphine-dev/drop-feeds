@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "新建标签页打开未读项目"
   },
+  "sbItemHideReadArticles": {
+    "message": "Hide read articles"
+  },
   "sbMarkAllAsUpdated": {
     "message": "全部设为已更新"
   },

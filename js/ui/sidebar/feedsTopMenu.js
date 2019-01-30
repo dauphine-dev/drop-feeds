@@ -84,19 +84,14 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
 
   async updatedFeedsSetVisibility_async() {
     this.activateButton('onlyUpdatedFeedsButton', this._updatedFeedsVisible);
-    let visibleValue = this._updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
-    let unreadValue = '  visibility: visible;\n  font-weight: bold;';
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    CssManager.replaceStyle('.feedUnread', unreadValue);
-    CssManager.replaceStyle('.feedRead', visibleValue);
-    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
+    FeedsTreeView.instance.updatedFeedsSetVisibility_async(this._updatedFeedsVisible);
     LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    FeedManager.instance.checkFeeds_async('feedsContentPanel');
+    FeedManager.instance.checkFeeds_async('feedsContentPanel', true);
   }
 
   async _updateLocalizedStrings() {
@@ -137,12 +132,11 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._foldersOpened = !this._foldersOpened;
     let query = this._foldersOpened ? 'not(checked)' : 'checked';
     let folders = document.querySelectorAll('input[type=checkbox]:' + query);
-    let i = folders.length;
     this.activateButton('toggleFoldersButton', this._foldersOpened);
-    while (i--) {
-      let folderId = folders[i].id;
+    for (let folder of folders) {
+      let folderId = folder.id;
       let storedFolder = DefaultValues.getStoredFolder(folderId);
-      folders[i].checked = this._foldersOpened;
+      folder.checked = this._foldersOpened;
       storedFolder.checked = this._foldersOpened;
       LocalStorageManager.setValue_async(folderId, storedFolder);
     }

@@ -1,4 +1,4 @@
-/*global FeedsTreeView DefaultValues SideBar browser BrowserManager FeedsTopMenu CssManager*/
+/*global FeedsTreeView DefaultValues SideBar browser BrowserManager CssManager FeedsTopMenu*/
 'use strict';
 class FeedsFilterBar { /*exported FeedsFilterBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -46,18 +46,17 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       let rootFolderId =  FeedsTreeView.instance.rootFolderUiId;
       let rootFolder = document.getElementById(rootFolderId);
       if (!rootFolder) { return; }
-      let feedElementList = [];
       if (filterText == '' ) { 
+        FeedsTreeView.instance.reload_async();
         FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
-        feedElementList = [].slice.call(rootFolder.getElementsByTagName('*'));
-        feedElementList.map(item => item.style.display = '');
-        FeedsTreeView.instance.selectionBar.refresh();
         return; 
       }
       CssManager.replaceStyle('.feedRead', 'visibility:visible;');
       CssManager.replaceStyle('.feedError', 'visibility:visible;');
       FeedsTreeView.instance.selectionBar.hide();
       let toHideList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, false);
+      toHideList = toHideList.concat([].slice.call(rootFolder.querySelectorAll('[after]')));
+      toHideList = toHideList.concat([].slice.call(rootFolder.querySelectorAll('.folderDiv')));
       let toShowLiList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label, li', filterText, true);
       let toShowLblList = BrowserManager.querySelectorAllOnTextContent(rootFolder, 'label', filterText, true);
       toHideList.map(item => item.style.display = 'none');
@@ -65,8 +64,10 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       toShowLblList.map((item) => { 
         let forId = item.getAttribute('for');
         let toShowLblForList = [].slice.call(rootFolder.querySelectorAll('label[for="' + forId + '"]'));
-        toShowLblForList.map(lbl => lbl.style.display = '');
+        toShowLblForList.map(lbl => lbl.style.display = '');    
       });
+      let folders = [].slice.call(document.querySelectorAll('input[type=checkbox]'));
+      folders.map(folder => folder.checked = true);
     }
     catch (e) {
       /*eslint-disable no-console*/

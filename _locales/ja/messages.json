@@ -62,6 +62,9 @@
   "sbOpenUnreadItemsInNewTabs": {
     "message": "未読を新しいタブで開く"
   },
+  "sbItemHideReadArticles": {
+    "message": "既読記事を隠す"
+  },
   "sbMarkAllAsUpdated": {
     "message": "全てを更新済みにする"
   },
@@ -120,7 +123,7 @@
     "message": "完了"
   },
   "sbLoadingNextFeed": {
-    "message": "Loading next feed..."
+    "message": "次のフィードを読み込み中..."
   },
   "sbMerging": {
     "message": "マージ中"
@@ -132,7 +135,7 @@
     "message": "受信しました"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "次のフィードを待機中..."
   },
   "sbFeedsUpdated": {
     "message": "件更新されています"
@@ -348,7 +351,7 @@
     "message": "フィードを整形して表示する"
   },
   "optRenderFeedsOptions": {
-    "message": "Options"
+    "message": "オプション"
   },
   "optItemNewTab": {
     "message": "アイテムを新しいタブで開く"
@@ -363,13 +366,13 @@
     "message": "Drop Feedsで開いたタブを使う"
   },
   "optContentsDateTimeLegend": {
-    "message": "Date time format"
+    "message": "日時のフォーマット"
   },
   "optContentsDateTimeResetButton": {
-    "message": "Reset to default"
+    "message": "デフォルトに戻す"
   },
   "optUrlDatetimeHelp": {
-    "message": "Date time formats (see section 'Options')"
+    "message": "日時のフォーマット ('オプション'を参照)"
   },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"

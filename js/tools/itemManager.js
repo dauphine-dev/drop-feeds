@@ -21,6 +21,7 @@ class ItemManager { /*exported ItemManager*/
     let itemLink = elItem.getAttribute('href');
     browser.history.addUrl({ url: itemLink });
     elItem.classList.add('visited');
+    elItem.classList.add('visitedVisible');    
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
 
@@ -28,6 +29,7 @@ class ItemManager { /*exported ItemManager*/
     let itemLink = elItem.getAttribute('href');
     browser.history.deleteUrl({ url: itemLink });
     elItem.classList.remove('visited');
+    elItem.classList.remove('visitedVisible');    
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
 
@@ -38,6 +40,7 @@ class ItemManager { /*exported ItemManager*/
         let itemLink = elItem.getAttribute('href');
         browser.history.addUrl({ url: itemLink });
         elItem.classList.add('visited');
+        elItem.classList.add('visitedVisible');
       }
       catch (e) { }
     }
@@ -51,6 +54,7 @@ class ItemManager { /*exported ItemManager*/
       let itemLink = elItem.getAttribute('href');
       browser.history.deleteUrl({ url: itemLink });
       elItem.classList.remove('visited');
+      elItem.classList.remove('visitedVisible');    
     }
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
@@ -61,6 +65,7 @@ class ItemManager { /*exported ItemManager*/
       let itemLink = elItem.getAttribute('href');
       await this.openItem_async(itemLink, true);
       elItem.classList.add('visited');
+      elItem.classList.add('visitedVisible');
     }
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
@@ -81,6 +86,7 @@ class ItemManager { /*exported ItemManager*/
     let openNewTabForce = false, openNewTabBackGroundForce = false;
     await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum);
     event.target.classList.add('visited');
+    event.target.classList.add('visitedVisible');    
     ItemsToolBar.instance.enableButtonsForSingleElement();
   }
 
@@ -96,6 +102,7 @@ class ItemManager { /*exported ItemManager*/
       let openNewTabForce = true, openNewTabBackGroundForce = true;
       await this.openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum);
       event.target.classList.add('visited');
+      event.target.classList.add('visitedVisible');
       ItemsToolBar.instance.enableButtonsForSingleElement();
     }
   }
@@ -107,6 +114,7 @@ class ItemManager { /*exported ItemManager*/
   async openItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce, itemNum) {
     if (this._feedItemRenderInSidebar) {
       let item = ItemsLayout.instance.itemList[itemNum];
+      browser.history.addUrl({ url: itemLink });
       RenderItemLayout.instance.displayItem(item);
     } 
     if (!this._feedItemRenderInSidebar || openNewTabForce || openNewTabBackGroundForce) {

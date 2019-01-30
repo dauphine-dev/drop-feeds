@@ -1,5 +1,5 @@
 /*global  browser DefaultValues BrowserManager FeedsSelectionBar FeedsTopMenu FeedManager FeedsStatusBar ItemsLayout
-FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar*/
+FeedsContextMenu LocalStorageManager Listener ListenerProviders TextTools Feed BookmarkManager SideBar CssManager*/
 'use strict';
 const _dropfeedsId = 'dropfeedsId=';
 class FeedsTreeView { /*exported FeedsTreeView*/
@@ -41,8 +41,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let feedsContentHeightItemsClosed = await LocalStorageManager.getValue_async('feedsContentHeightItemsClosed', window.innerHeight / 3);
     let feedsContentHeightItemsOpened = await LocalStorageManager.getValue_async('feedsContentHeightItemsOpened', window.innerHeight / 3);
     let feedsContentHeight = ItemsLayout.instance.visible ? feedsContentHeightItemsOpened : feedsContentHeightItemsClosed;
-    setTimeout(() => {       
-      FeedsTreeView.instance.setContentHeight(feedsContentHeight); 
+    setTimeout(() => {
+      FeedsTreeView.instance.setContentHeight(feedsContentHeight);
     }, 15);
 
   }
@@ -78,10 +78,10 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let rec = this._feedsContentPanel.getBoundingClientRect();
     let height = Math.max(ItemsLayout.instance.top - rec.top, 0);
     BrowserManager.setElementHeight(this._feedsContentPanel, height);
-    document.getElementById('topMenu').style.width  = window.innerWidth + 'px';
-    document.getElementById('statusBar').style.width  = window.innerWidth + 'px';
-    document.getElementById('filterBar').style.width  = window.innerWidth + 'px';
-    document.getElementById('treeView').style.width  = window.innerWidth + 'px';
+    document.getElementById('topMenu').style.width = window.innerWidth + 'px';
+    document.getElementById('statusBar').style.width = window.innerWidth + 'px';
+    document.getElementById('filterBar').style.width = window.innerWidth + 'px';
+    document.getElementById('treeView').style.width = window.innerWidth + 'px';
     this._resizeBackgroundDiv();
   }
 
@@ -98,7 +98,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     BrowserManager.setElementHeight(this._feedsContentPanel, height);
     let rec = this._feedsContentPanel.getBoundingClientRect();
     let maxHeight = Math.max(window.innerHeight - rec.top - ItemsLayout.instance.splitterBar1.element.offsetHeight - 1, 0);
-    if (this._feedsContentPanel.offsetHeight  > maxHeight) {
+    if (this._feedsContentPanel.offsetHeight > maxHeight) {
       height = maxHeight;
       BrowserManager.setElementHeight(this._feedsContentPanel, height);
     }
@@ -146,6 +146,16 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     }
 
   }
+
+  async updatedFeedsSetVisibility_async(updatedFeedsVisible) {
+    let visibleValue = updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
+    let unreadValue = '  visibility: visible;\n  font-weight: bold;';
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    CssManager.replaceStyle('.feedUnread', unreadValue);
+    CssManager.replaceStyle('.feedRead', visibleValue);
+    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);  
+  }
+
   _updateFolderCount(bookmarkItem) {
     if (!bookmarkItem) { return; }
     if (bookmarkItem.children) {
@@ -165,8 +175,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
         countTextEl.classList.add('countBold');
         document.getElementById('lbl-' + bookmarkItem.id).classList.add('countBold');
       }
-      else
-      {
+      else {
         countTextEl.textContent = '';
         countTextEl.classList.remove('countBold');
         document.getElementById('lbl-' + bookmarkItem.id).classList.remove('countBold');
@@ -188,31 +197,45 @@ class FeedsTreeView { /*exported FeedsTreeView*/
 
   _addEventListenerOnFeedItems() {
     let feedItems = document.querySelectorAll('[role="feedItem"]');
-    for (let i = 0; i < feedItems.length; i++) {
-      feedItems[i].addEventListener('contextmenu', (e) => { this._feedOnRightClicked_event(e); });
-      feedItems[i].addEventListener('click', (e) => { this._feedClicked_event(e); });
-      feedItems[i].addEventListener('mouseup', (e) => { this._feedOnMouseUp_event(e); });
-      feedItems[i].addEventListener('dragstart', (e) => { this._feedOnDragStart_event(e); });
-      feedItems[i].addEventListener('dragover', (e) => { this._feedOnDragOver_event(e); });
-      feedItems[i].addEventListener('drop', (e) => { this._feedOnDrop_event(e); });
+    for (let feedItem of feedItems) {
+      feedItem.addEventListener('contextmenu', (e) => { this._feedOnRightClicked_event(e); });
+      feedItem.addEventListener('click', (e) => { this._feedClicked_event(e); });
+      feedItem.addEventListener('mouseup', (e) => { this._feedOnMouseUp_event(e); });
+      feedItem.addEventListener('dragstart', (e) => { this._feedOnDragStart_event(e); });
+      feedItem.addEventListener('dragover', (e) => { this._feedOnDragOver_event(e); });
+      feedItem.addEventListener('dragenter', (e) => { this._feedOnDragEnter_event(e); });
+      feedItem.addEventListener('dragleave', (e) => { this._feedOnDragLeave_event(e); });
+      feedItem.addEventListener('drop', (e) => { this._feedOnDrop_event(e); });
     }
   }
 
   _addEventListenerOnFeedFolders() {
     let checkboxItems = document.querySelectorAll('[type="checkbox"]');
-    for (let i = 0; i < checkboxItems.length; i++) {
-      checkboxItems[i].addEventListener('change', (e) => { this._folderChanged_event(e); });
+    for (let checkboxItem of checkboxItems) {
+      checkboxItem.addEventListener('change', (e) => { this._folderChanged_event(e); });
     }
-    let divItems = document.querySelectorAll('.folder');
-    for (let i = 0; i < divItems.length; i++) {
-      divItems[i].addEventListener('contextmenu', (e) => { this._folderOnRightClicked_event(e); });
-      divItems[i].addEventListener('click', (e) => { this._folderOnClicked_event(e); });
-      divItems[i].addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
-      divItems[i].addEventListener('dragover', (e) => { this._folderOnDragOver_event(e); });
-      divItems[i].addEventListener('drop', (e) => { this._folderOnDrop_event(e); });
-    }
-  }
 
+    let folderDivs = document.querySelectorAll('.folderDiv');
+    for (let folderDiv of folderDivs) {
+      folderDiv.addEventListener('contextmenu', (e) => { this._folderOnRightClicked_event(e); });
+      folderDiv.addEventListener('click', (e) => { this._folderOnClicked_event(e); });
+      folderDiv.addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
+      folderDiv.addEventListener('dragover', (e) => { this._folderOnDragOver_event(e); });
+      folderDiv.addEventListener('dragenter', (e) => { this._folderOnDragEnter_event(e); });
+      folderDiv.addEventListener('dragleave', (e) => { this._folderOnDragLeave_event(e); });
+      folderDiv.addEventListener('drop', (e) => { this._folderOnDrop_event(e); });
+    }
+
+    let afterFolders = document.querySelectorAll('.afterFolder');
+    for (let afterFolder of afterFolders) {
+      afterFolder.addEventListener('dragover', (e) => { this._afterFolderOnDragOver_event(e); });
+      afterFolder.addEventListener('dragenter', (e) => { this._afterFolderOnDragEnter_event(e); });
+      afterFolder.addEventListener('dragleave', (e) => { this._afterFolderOnDragLeave_event(e); });
+      afterFolder.addEventListener('drop', (e) => { this._afterFolderOnDrop_event(e); });
+    }
+
+  }
+  
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -229,7 +252,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     FeedsContextMenu.instance.hide();
     this._selectionBar.put(event.currentTarget);
     let feedId = event.currentTarget.getAttribute('id');
-    let openNewTabForce=null; let openNewTabBackGroundForce=null;
+    let openNewTabForce = null; let openNewTabBackGroundForce = null;
     this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
   }
 
@@ -240,8 +263,49 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       FeedsContextMenu.instance.hide();
       this._selectionBar.put(event.currentTarget);
       let feedId = event.currentTarget.getAttribute('id');
-      let openNewTabForce=true; let openNewTabBackGroundForce=true;
+      let openNewTabForce = true; let openNewTabBackGroundForce = true;
       this.openFeed(feedId, openNewTabForce, openNewTabBackGroundForce);
+    }
+  }
+
+  async _feedOnDragStart_event(event) {
+    event.stopPropagation();
+    let origin = event.target.getAttribute('origin');
+    let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
+    event.dataTransfer.setData('text', data);
+  }
+
+  async _feedOnDragOver_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  async _feedOnDragEnter_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let targetFeedId = this._getTargetFeedId(event);
+    let targetFeed = document.getElementById(targetFeedId);
+    targetFeed.classList.add('dropZone');
+  }
+
+  async _feedOnDragLeave_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let targetFeedId = this._getTargetFeedId(event);
+    let targetFeed = document.getElementById(targetFeedId);
+    targetFeed.classList.remove('dropZone');
+  }
+
+  async _feedOnDrop_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let data = event.dataTransfer.getData('text');
+    let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
+    let targetId = this._getTargetFeedId(event);
+    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
+    let dropZoneList = document.getElementsByClassName('dropZone');
+    for (let el of dropZoneList) {
+      el.classList.remove('dropZone');
     }
   }
 
@@ -254,77 +318,127 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     LocalStorageManager.setValue_async(folderId, storedFolder);
   }
 
-  async _folderOnRightClicked_event(event){
+  async _folderOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    let elFolder = event.currentTarget;
+    let elFolder = event.currentTarget.parentNode.parentNode;
     let xPos = event.clientX;
     let yPos = event.currentTarget.getBoundingClientRect().top;
     FeedsContextMenu.instance.show(xPos, yPos, elFolder);
   }
 
-
-  async _folderOnClicked_event(event){
+  async _folderOnClicked_event(event) {
     event.stopPropagation();
     FeedsContextMenu.instance.hide();
-    this._selectionBar.put(event.currentTarget);
+    this._selectionBar.put(event.currentTarget.parentNode.parentNode);
   }
 
-  async _folderOnDragStart_event(event){
+  async _folderOnDragStart_event(event) {
     event.stopPropagation();
-    let elementId = this._cleanId(event.target.id);
-    event.dataTransfer.setData('text', elementId);
-  }
-
-  async _folderOnDragOver_event(event){
-    event.stopPropagation();
-    event.preventDefault();
-  }
-
-  async _folderOnDrop_event(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let sourceId = event.dataTransfer.getData('text');
-    let targetId = event.target.id;
-    if (!targetId) { targetId = event.target.htmlFor; }
-    let folderId = this._cleanId(targetId);
-    await BookmarkManager.instance.changeParentFolder(folderId, sourceId);
-  }
-
-  async _feedOnDragStart_event(event){
-    event.stopPropagation();
-    let origin = event.target.getAttribute('origin');
     let data = origin + (origin.includes('?') ? '&' : '?') + _dropfeedsId + this._cleanId(event.target.id);
     event.dataTransfer.setData('text', data);
   }
 
-  async _feedOnDragOver_event(event){
+  async _folderOnDragOver_event(event) {
     event.stopPropagation();
     event.preventDefault();
   }
 
-  async _feedOnDrop_event(event){
+  async _folderOnDragEnter_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let target = event.target;
+    if (target.nodeType == Node.TEXT_NODE) { target = target.parentNode; }
+    target = target.closest('.folderDiv');
+    target.classList.add('dropZone');
+
+  }
+
+  async _folderOnDragLeave_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let target = event.target;
+    if (target.nodeType == Node.TEXT_NODE) { target = target.parentNode; }
+    target = target.closest('.folderDiv');
+    target.classList.remove('dropZone');
+  }
+
+  async _folderOnDrop_event(event) {
     event.stopPropagation();
     event.preventDefault();
     let data = event.dataTransfer.getData('text');
-    let feedToMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
-    let targetFeedId = this._cleanId(event.target.id);
-    await BookmarkManager.instance.moveAfterBookmark_async(feedToMoveId, targetFeedId);
+    let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
+    let folderId = this._getTargetFeedId(event);
+    BookmarkManager.instance.changeParentFolder(folderId, toMoveId, true);
+    let dropZoneList = document.getElementsByClassName('dropZone');
+    for (let el of dropZoneList) {
+      el.classList.remove('dropZone');
+    }
   }
 
-  _cleanId(elementId) {
-    let start = 0;
-    if (elementId.startsWith('cb-') || elementId.startsWith('ul-') || elementId.startsWith('dv-')) {
-      start = 3;
+  async _afterFolderOnDragOver_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  async _afterFolderOnDragEnter_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.target.classList.add('dropZoneAfterFolder');
+  }
+
+  async _afterFolderOnDragLeave_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.target.classList.remove('dropZoneAfterFolder');
+  }
+
+  async _afterFolderOnDrop_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    let data = event.dataTransfer.getData('text');
+    let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
+    let folderId = event.target.getAttribute('after');
+    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
+    let dropZoneList = document.getElementsByClassName('dropZone');
+    for (let el of dropZoneList) {
+      el.classList.remove('dropZone');
     }
-    else if (elementId.startsWith('lbl-')) {
-      start = 4;
+  }
+
+  _getTargetFolderId(event) {
+    let target = event.target;
+    if (target.nodeType == Node.TEXT_NODE) {
+      target = event.target.parentNode;
+    }
+    let targetId = target.id;
+    if (!targetId) { targetId = target.htmlFor; }
+    let folderId = this._cleanId(targetId);
+    return folderId;
+  }
+
+  _getTargetFeedId(event) {
+    let target = event.target;
+    if (target.nodeType == Node.TEXT_NODE) {
+      target = event.target.parentNode;
+    }
+    let targetId = target.id;
+    let feedId = this._cleanId(targetId);
+    return feedId;
+  }
+
+
+  _cleanId(elementId) {
+    if (!elementId) { return null; }
+    let start = 0;
+    if (elementId.startsWith('cb-') || elementId.startsWith('ul-') || elementId.startsWith('dv-') || elementId.startsWith('fd-') || elementId.startsWith('lbl-')) {
+      start = elementId.indexOf('-') + 1;
     }
     elementId = elementId.substring(start);
     return elementId;
   }
 
-  _setAs1stFolder(id)  {
+  _setAs1stFolder(id) {
     this._is1stFolder = false;
     this._1stFolderDivId = 'dv-' + id;
   }
@@ -339,12 +453,12 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     } else {
       this._createTreeFeed(cacheLocalStorage, bookmarkItem, indent);
     }
-    indent -=2;
+    indent -= 2;
   }
 
-  _createTreeFolder (cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
+  _createTreeFolder(cacheLocalStorage, bookmarkItem, indent, displayThisFolder) {
     let id = bookmarkItem.id;
-    let folderName = bookmarkItem.title;
+    let folderName = (TextTools.isNullOrEmpty(bookmarkItem.title.trim()) ? '&nbsp;' : bookmarkItem.title);
     let storedFolder = this._getStoredFolder(cacheLocalStorage, id);
     let checked = storedFolder.checked ? 'checked=""' : '';
 
@@ -360,13 +474,15 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       folderLine += '<div id="dv-' + id + '" class="folder"  draggable="true">\n';
       indent += 2;
       folderLine += TextTools.makeIndent(indent) +
-      '<li>' +
-      '<input type="checkbox" id="cb-' + id + '" ' + checked + '>' +
-      '<label for="cb-' + id + '" class="folderClose"></label>' +
-      '<label for="cb-' + id + '" class="folderOpen"></label>' +
-      '<label for="cb-' + id + '" id="lbl-' + id + '">' + folderName + '<span id="cpt-' + id + '"></span></label>\n';
+        `<li>
+         <input type="checkbox" id="cb-` + id + '" ' + checked + `>
+         <label for="cb-` + id + `" class="folderClose"></label>
+         <label for="cb-` + id + `" class="folderOpen"></label>
+         <span id="fd-` + id + `" class="folderDiv">
+         <label for="cb-` + id + '" id="lbl-' + id + '">' + folderName + '<span id="cpt-' + id + '"></span></label></span>\n';
       let paddingLeft = displayThisFolder ? '' : 'style="padding-left: 22px;"';
-      folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '" ' +  paddingLeft + '>\n';
+      folderLine += TextTools.makeIndent(indent) + '<ul id="ul-' + id + '" ' + paddingLeft + '>\n';
+
     }
     indent += 2;
     this._html.push(folderLine);
@@ -380,13 +496,14 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._html.push(TextTools.makeIndent(indent) + '</li>\n');
     indent -= 2;
     this._html.push(TextTools.makeIndent(indent) + '</div>\n');
+    this._html.push(TextTools.makeIndent(indent) + '<div class="afterFolder" after="' + id + '" ></div>\n');
   }
 
-  _createTreeFeed (cacheLocalStorage, bookmarkItem, indent) {
+  _createTreeFeed(cacheLocalStorage, bookmarkItem, indent) {
     let feedName = bookmarkItem.title;
     let className = this._getFeedClassName(cacheLocalStorage, bookmarkItem.id);
     let feedLine = TextTools.makeIndent(indent) +
-    '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true" origin="' + bookmarkItem.url + '">' + feedName + '</li>\n';
+      '<li role="feedItem" class="' + className + '" id="' + bookmarkItem.id + '" draggable="true" origin="' + bookmarkItem.url + '">' + feedName + '</li>\n';
     this._html.push(feedLine);
   }
 
@@ -416,7 +533,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   _getDisplayRootFolder(cacheLocalStorage) {
     let displayRootFolder = cacheLocalStorage['displayRootFolder'];
     if (typeof displayRootFolder == 'undefined') {
-      displayRootFolder =  DefaultValues.displayRootFolder;
+      displayRootFolder = DefaultValues.displayRootFolder;
     }
     return displayRootFolder;
   }

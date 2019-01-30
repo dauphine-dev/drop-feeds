@@ -10,8 +10,8 @@ class FeedRenderer { /*exported FeedRenderer*/
   }
 
   static feedErrorToHtml(error, url, title) {
-    error = TextTools.replaceAll(error, '\n' , '<br/>');
-    let feedHtml = USTools.rssHeader(title, url, 'Error');  
+    error = TextTools.replaceAll(error, '\n', '<br/>');
+    let feedHtml = USTools.rssHeader(title, url, 'Error');
     let description = `<table>
     <tr><td>Name: </td><td>` + title + `</td></tr>
     <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
@@ -50,7 +50,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     let feedHtml = await FeedTransform.transformFeedToHtml_async(feedInfo);
     return feedHtml;
   }
-  
+
   //private stuffs
 
   static _feedInfoToHtml(feedInfo) {
@@ -154,11 +154,13 @@ class FeedRenderer { /*exported FeedRenderer*/
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
     let visited = undefined;
-    try { visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited' : ''; }
+    try {
+      visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited visitedVisible' : '';
+    }
     catch (e) { }
     let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
-    let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '</span><br/>';
+    let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '<br/></span>';
 
     return htmlItemLine;
   }

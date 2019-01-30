@@ -37,10 +37,11 @@ class FeedManager { /*exported FeedManager*/
     await Feed.delete_async(feedId);
   }
 
-  async checkFeeds_async(folderId) {
+  async checkFeeds_async(folderId, resetAutoUpdateInterval) {
     if (this._feedProcessingInProgress) { return; }
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
+    if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
     await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
     await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
@@ -176,7 +177,7 @@ class FeedManager { /*exported FeedManager*/
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
-      feed.updateUiStatus_async();      
+      feed.updateUiStatus_async();
       FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
@@ -269,22 +270,14 @@ class FeedManager { /*exported FeedManager*/
 
   async markFeedAsRead_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     await feed.setStatus_async(feedStatus.OLD);
   }
 
   async markFeedAsReadById_async(feedId) {
-    let feedElement = document.getElementById(feedId);
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     await feed.setStatus_async(feedStatus.OLD);
   }
-
 
   async markAllFeedsAsUpdated_async(folderId) {
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
@@ -304,22 +297,14 @@ class FeedManager { /*exported FeedManager*/
 
   async markFeedAsUpdated_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     feed.setStatus_async(feedStatus.UPDATED);
   }
 
   async markFeedAsUpdatedById_async(feedId) {
-    let feedElement = document.getElementById(feedId);
-    feedElement.classList.remove('feedError');
-    feedElement.classList.remove('feedUnread');
-    feedElement.classList.add('feedRead');
     let feed = await Feed.new(feedId);
     feed.setStatus_async(feedStatus.UPDATED);
   }
-
 
   _displayUpdatedFeedsNotification() {
     if (this._showFeedUpdatePopup) {
@@ -345,6 +330,7 @@ class FeedManager { /*exported FeedManager*/
   async _automaticFeedUpdate_async() {
     if (!this._automaticUpdatesEnabled) { return; }
     try {
+      LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
       await FeedManager.instance.checkFeeds_async('feedsContentPanel');
     }
     catch (e) {
@@ -356,7 +342,7 @@ class FeedManager { /*exported FeedManager*/
 
   async _setAutomaticUpdatesEnabled_sbscrb(value) {
     this._automaticUpdatesEnabled = value;
-    this._setAutoUpdateInterval();
+    this._setAutoUpdateInterval_async();
   }
 
   async _setAutomaticUpdatesOnStar_sbscrb(value) {
@@ -364,29 +350,49 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _setAutomaticUpdatesMilliseconds_sbscrb(value) {
-    let newValueMilliseconds = Math.max(value * 60000, 30000);
+    let newValueMilliseconds = Math.max(value, 5) * 60000;
     if (this._automaticUpdatesMilliseconds != newValueMilliseconds) {
       this._automaticUpdatesMilliseconds = newValueMilliseconds;
-      this._setAutoUpdateInterval();
+      this._setAutoUpdateInterval_async();
     }
   }
 
-  _setAutoUpdateInterval() {
+  async _resetAutoUpdateInterval() {
+    clearInterval(this._autoUpdateInterval);
+    this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+  }
+
+  async _setAutoUpdateInterval_async() {
     if (this._autoUpdateInterval) {
       clearInterval(this._autoUpdateInterval);
     }
     if (this._automaticUpdatesEnabled && this._automaticUpdatesMilliseconds) {
-      this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
-      this._doAutomaticUpdatesOnStart_async();
+      let browserAlreadyOpen = ((await browser.windows.getAll({ populate: false, windowTypes: ['normal'] })).length >= 2);
+      if (!browserAlreadyOpen && !this._automaticUpdatesOnStartDone) {
+        this._automaticUpdatesOnStartDone = true;
+        this._doAutomaticUpdatesOnStart_async();
+      }
+      else {
+        this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+      }
+      this._automaticUpdatesOnStartDone = true;
     }
   }
 
   async _doAutomaticUpdatesOnStart_async() {
-    let windowCount = (await browser.windows.getAll({ populate: false, windowTypes: ['normal'] })).length;
-    if (this._automaticUpdatesOnStart && !this._automaticUpdatesOnStartDone && windowCount < 2 ) {
-      this._automaticFeedUpdate_async();
+    let lastAutoUpdate = await LocalStorageManager.getValue_async('lastAutoUpdate', new Date(0).getTime());
+    let diff = Date.now() - lastAutoUpdate;
+    if (diff >= this._automaticUpdatesMilliseconds || this._automaticUpdatesOnStart) {
+      this._start1stAutoUpdate();
     }
-    this._automaticUpdatesOnStartDone = true;
+    else {
+      let delay = this._automaticUpdatesMilliseconds - diff;
+      setTimeout(() => { this._start1stAutoUpdate(); }, delay);
+    }
   }
 
+  _start1stAutoUpdate() {
+    this._automaticFeedUpdate_async();
+    this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+  }
 }

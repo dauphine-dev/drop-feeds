@@ -47,6 +47,23 @@ html, body {
   visibility: hidden;
 }
 
+.folderDiv {
+  display: inline-block;
+  width: 100%;
+}
+
+.afterFolder {
+  height: 4px;
+}
+
+.dropZoneAfterFolder {
+  box-shadow: 0 4px 0px 0px var(--main-dropTarget-color);
+}
+
+.dropZone {
+  box-shadow: 0 4px 0px -1px var(--main-dropTarget-color);
+}
+
 /* splitter/selection bar */
 
 .splitterBar {
@@ -616,7 +633,6 @@ li.feedError {
   height: 34px;
   margin-top: 1px;
   padding: 0;
-  border: solid 1px #00000000;
   border-radius: 4px;
 }
 
@@ -643,6 +659,10 @@ li.feedError {
 
 #itemOpenUnreadButton::before {
   background-image: var(--items-OpenUnreadButton-image);
+}
+
+#itemHideReadArticlesButton::before {
+  background-image: var(--items-HideReadArticles-image);
 }
 
 .itemsContentHeight {
@@ -672,6 +692,10 @@ li.feedError {
 .item.visited {
   color: var(--items-itemVisited-color);
   font-weight: normal;
+}
+
+.visitedVisible {
+  visibility: visible;
 }
 
 .item:hover {

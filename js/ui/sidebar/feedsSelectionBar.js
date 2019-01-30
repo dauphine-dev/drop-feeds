@@ -34,7 +34,7 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
   }
 
   _removeOld() {
-    if (! this._selectedElement) { return; }
+    if (!this._selectedElement) { return; }
     this._selectedElement.removeEventListener('scroll', this._selectedElementOnScrollEvent);
     this._selectionBarElement.style.top = '0px';
     let selectedElementId = this._selectedElementId;
@@ -49,7 +49,7 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
 
   _putNew(selectedElement) {
     this._selectedElement = selectedElement;
-    if (! this._selectedElement) { return; }
+    if (!this._selectedElement) { return; }
     let targetElement = this._getTargetElement(selectedElement);
     if (targetElement) {
       targetElement.style.color = 'var(--main-selection-text-color)';
@@ -65,8 +65,8 @@ class FeedsSelectionBar { /*exported FeedsSelectionBar*/
     this._selectedElementId = selectedElementRawId;
     let idTargetElement = selectedElementRawId;
     this._selectedElementIsFolder = false;
-    if (selectedElementRawId.startsWith('dv-')) {
-      this._selectedElementId = selectedElementRawId.substring(3);
+    if (selectedElementRawId.startsWith('dv-') || selectedElementRawId.startsWith('fd-')) {
+      this._selectedElementId = selectedElementRawId.substring(selectedElementRawId.indexOf('-') + 1);
       idTargetElement = 'lbl-' + this._selectedElementId;
       this._selectedElementIsFolder = true;
     }
