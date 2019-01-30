@@ -106,7 +106,7 @@ class ContentManager {
       /*eslint-disable no-useless-escape*/
       let channelId = (pageSource.match(/(\/|\\\/)channel(\/|\\\/){1}(\w|-)+/)[0]).match(/[^\/channel\/](\w|-)+/)[0];
       /*eslint-enable no-useless-escape*/
-      feedLinkList.push({ title: document.title, link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
+      feedLinkList.push({ title: '', link: 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId });
       this._youtubeFeedLinkList = feedLinkList;
     }
     return this._youtubeFeedLinkList;
