@@ -59,7 +59,19 @@
   "sbMarkAllAsUnread": {
     "message": "全部标为未读"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "标为已读"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "标为未读"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "全部标为已读"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "全部标为未读"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "新建标签页打开未读项目"
   },
   "sbItemHideReadArticles": {

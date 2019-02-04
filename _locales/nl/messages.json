@@ -59,7 +59,19 @@
   "sbMarkAllAsUnread": {
     "message": "Markeer alle items als ongelezen"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Markeer item als gelezen"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Markeer item als ongelezen"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Markeer alle items als gelezen"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Markeer alle items als ongelezen"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Open ongelezen items in nieuwe tabbladen"
   },
   "sbItemHideReadArticles": {

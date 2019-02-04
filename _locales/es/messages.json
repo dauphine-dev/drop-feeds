@@ -59,7 +59,19 @@
   "sbMarkAllAsUnread": {
     "message": "Marcar todo como no leído"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Marcar como leído"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Marcar como no leído"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Marcar todo como leído"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Marcar todo como no leído"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Abrir elementos no leídos en nuevas pestañas"
   },
   "sbItemHideReadArticles": {

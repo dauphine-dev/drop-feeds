@@ -59,7 +59,19 @@
   "sbMarkAllAsUnread": {
     "message": "全て未読"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "既読にする"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "未読にする"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "全て既読"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "全て未読"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "未読を新しいタブで開く"
   },
   "sbItemHideReadArticles": {
