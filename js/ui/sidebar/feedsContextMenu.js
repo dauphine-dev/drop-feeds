@@ -5,8 +5,10 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   constructor() {
     document.getElementById('ctxFldMnCheckFeeds').addEventListener('click', (e) => { this._checkFeedsMenuClicked_event(e); });
-    document.getElementById('ctxFldMnMarkAsRead').addEventListener('click', (e) => { this._markAllFeedsAsReadMenuClicked_event(e); });
-    document.getElementById('ctxFldMnMarkAsUpdated').addEventListener('click', (e) => { this._markAllFeedsAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAsRead').addEventListener('click', (e) => { this._markFeedsAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAsUpdated').addEventListener('click', (e) => { this._markFeedsAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAllAsRead').addEventListener('click', (e) => { this._markAllFeedsAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAllAsUpdated').addEventListener('click', (e) => { this._markAllFeedsAsUpdatedMenuClicked_event(e); });
     document.getElementById('ctxFldMnOpenAllUpdated').addEventListener('click', (e) => { this._openAllUpdatedFeedsMenuClicked_event(e); });
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', (e) => { this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event(e); });
     document.getElementById('ctxFldMnSortByName').addEventListener('click', (e) => { this._ctxMnSortByNameMenuClicked_event(e); });
@@ -18,6 +20,9 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdMnOpenFeed').addEventListener('click', (e) => { this._ctxMnOpenFeedMenuClicked_event(e); });
     document.getElementById('ctxFdMnMarkFeedAsRead').addEventListener('click', (e) => { this._ctxMnMarkFeedAsReadMenuClicked_event(e); });
     document.getElementById('ctxFdMnMarkFeedAsUpdated').addEventListener('click', (e) => { this._ctxMnMarkFeedAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFdMnMarkAllAsRead').addEventListener('click', (e) => { this._ctxMnMarkAllFeedsAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFdMnMarkAllAsUpdated').addEventListener('click', (e) => { this._ctxMnMarkAllFeedsAsUpdatedMenuClicked_event(e); });
+
     document.getElementById('ctxFdMnNewFolder').addEventListener('click', (e) => { this._ctxMnFdNewFolderClicked_event(e); });
     document.getElementById('ctxFdtMnDeleteFeed').addEventListener('click', (e) => { this._ctxMnDeleteFeedMenuClicked_event(e); });
     document.getElementById('ctxFdMnInfo').addEventListener('click', (e) => { this.ctxMnInfoFeedMenuClicked_event(e); });
@@ -92,8 +97,8 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFldMnMarkAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
     document.getElementById('ctxFldMnMarkAsUpdated').textContent = browser.i18n.getMessage('sbMarkAsUpdated');
     document.getElementById('ctxFldMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAllAsRead');
-    document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
-    document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');  
+    document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUnread');
+    document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
     document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
     document.getElementById('ctxFldMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
@@ -106,7 +111,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     document.getElementById('ctxFdMnMarkFeedAsRead').textContent = browser.i18n.getMessage('sbMarkFeedAsRead');
     document.getElementById('ctxFdMnMarkFeedAsUpdated').textContent = browser.i18n.getMessage('sbMarkFeedAsUpdated');
     document.getElementById('ctxFdMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAllAsRead');
-    document.getElementById('ctxFdMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
+    document.getElementById('ctxFdMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUnread');
     document.getElementById('ctxFdMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
     document.getElementById('ctxFdMnInfo').textContent = browser.i18n.getMessage('sbFeedInfo');
@@ -135,8 +140,8 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   }
 
   async _windowOnKeyup_event(e) {
-    if(e.key == 'Escape') {
-      this.hide();      
+    if (e.key == 'Escape') {
+      this.hide();
     }
   }
 
@@ -173,14 +178,24 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     FeedsInfoView.instance.show(this._xPosOri, this._yPosOri, bookmarkId);
   }
 
-  async _markAllFeedsAsReadMenuClicked_event() {
+  async _markFeedsAsReadMenuClicked_event() {
     this.hide();
     FeedManager.instance.markAllFeedsAsRead_async(this._idComeFrom);
   }
 
-  async _markAllFeedsAsUpdatedMenuClicked_event() {
+  async _markFeedsAsUpdatedMenuClicked_event() {
     this.hide();
     FeedManager.instance.markAllFeedsAsUpdated_async(this._idComeFrom);
+  }
+
+  async _markAllFeedsAsReadMenuClicked_event() {
+    this.hide();
+    FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
+  }
+
+  async _markAllFeedsAsUpdatedMenuClicked_event() {
+    this.hide();
+    FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
   }
 
   async _ctxMnGetFeedTitleMenuClicked_event() {
@@ -201,6 +216,16 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   async _ctxMnMarkFeedAsUpdatedMenuClicked_event() {
     this.hide();
     FeedManager.instance.markFeedAsUpdatedById_async(this._idComeFrom);
+  }
+
+  async _ctxMnMarkAllFeedsAsReadMenuClicked_event() {
+    this.hide();
+    FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
+  }
+
+  async _ctxMnMarkAllFeedsAsUpdatedMenuClicked_event() {
+    this.hide();
+    FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
   }
 
   async _ctxMnFdNewFolderClicked_event() {
