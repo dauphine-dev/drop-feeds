@@ -69,11 +69,11 @@ class ItemsToolBar { /*exported ItemsToolBar*/
   }
 
   _updateLocalizedStrings() {
-    document.getElementById('itemMarkAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAsRead'));
-    document.getElementById('itemMarkAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAsUnread'));
-    document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsRead'));
-    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllAsUnread'));
-    document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadItemsInNewTabs'));
+    document.getElementById('itemMarkAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkArticleAsRead'));
+    document.getElementById('itemMarkAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkArticleAsUnread'));
+    document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllArticlesAsRead'));
+    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllArticlesAsUnread'));
+    document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadArticlesInNewTabs'));
     document.getElementById('itemHideReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemHideReadArticles'));
   }
 
