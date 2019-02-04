@@ -87,24 +87,31 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
   }
 
   _updateLocalizedStrings() {
+    //Folder context menu
     document.getElementById('ctxFldMnCheckFeeds').textContent = browser.i18n.getMessage('sbCheckFeeds');
     document.getElementById('ctxFldMnMarkAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
     document.getElementById('ctxFldMnMarkAsUpdated').textContent = browser.i18n.getMessage('sbMarkAsUpdated');
-    document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');
+    document.getElementById('ctxFldMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAllAsRead');
+    document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
+    document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');  
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
     document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
     document.getElementById('ctxFldMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
     document.getElementById('ctxFldMnDeleteFolder').textContent = browser.i18n.getMessage('sbDeleteFolder');
     document.getElementById('ctxFldMnInfo').textContent = browser.i18n.getMessage('sbFolderInfo');
 
+    //Feed context menu
     document.getElementById('ctxFdtMnGetFeedTitle').textContent = browser.i18n.getMessage('sbGetFeedTitle');
     document.getElementById('ctxFdMnOpenFeed').textContent = browser.i18n.getMessage('sbOpenFeed');
     document.getElementById('ctxFdMnMarkFeedAsRead').textContent = browser.i18n.getMessage('sbMarkFeedAsRead');
     document.getElementById('ctxFdMnMarkFeedAsUpdated').textContent = browser.i18n.getMessage('sbMarkFeedAsUpdated');
+    document.getElementById('ctxFdMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAllAsRead');
+    document.getElementById('ctxFdMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
     document.getElementById('ctxFdMnNewFolder').textContent = browser.i18n.getMessage('sbNewFolder');
     document.getElementById('ctxFdtMnDeleteFeed').textContent = browser.i18n.getMessage('sbDeleteFeed');
     document.getElementById('ctxFdMnInfo').textContent = browser.i18n.getMessage('sbFeedInfo');
 
+    //Option context menu
     document.getElementById('ctxOptReload').textContent = browser.i18n.getMessage('sbCtxOptReload');
     document.getElementById('ctxOptSubscribe').textContent = browser.i18n.getMessage('sbCtxOptSubscribe');
     document.getElementById('ctxOptSettings').textContent = browser.i18n.getMessage('sbCtxOptSettings');
