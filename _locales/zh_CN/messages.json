@@ -78,7 +78,7 @@
     "message": "Hide read articles"
   },
   "sbMarkAsUpdated": {
-    "message": "全部设为已更新"
+    "message": "Mark as unread"
   },
   "sbOpenUpdatedFeeds": {
     "message": "打开已更新订阅点"

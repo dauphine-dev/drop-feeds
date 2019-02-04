@@ -78,7 +78,7 @@
     "message": "Hide read articles"
   },
   "sbMarkAsUpdated": {
-    "message": "Set all to updated"
+    "message": "Mark as unread"
   },
   "sbOpenUpdatedFeeds": {
     "message": "Open updated feeds"
