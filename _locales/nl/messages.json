@@ -65,7 +65,7 @@
   "sbItemHideReadArticles": {
     "message": "Verberg gelezen artikelen"
   },
-  "sbMarkAllAsUpdated": {
+  "sbMarkAsUpdated": {
     "message": "Werk alle items bij"
   },
   "sbOpenUpdatedFeeds": {

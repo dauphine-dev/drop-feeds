@@ -65,7 +65,7 @@
   "sbItemHideReadArticles": {
     "message": "既読記事を隠す"
   },
-  "sbMarkAllAsUpdated": {
+  "sbMarkAsUpdated": {
     "message": "全てを更新済みにする"
   },
   "sbOpenUpdatedFeeds": {

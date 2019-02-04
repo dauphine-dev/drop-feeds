@@ -65,7 +65,7 @@
   "sbItemHideReadArticles": {
     "message": "Nascondi gli articoli già letti"
   },
-  "sbMarkAllAsUpdated": {
+  "sbMarkAsUpdated": {
     "message": "Marca tutti come aggiornati"
   },
   "sbOpenUpdatedFeeds": {

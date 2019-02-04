@@ -65,7 +65,7 @@
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
   },
-  "sbMarkAllAsUpdated": {
+  "sbMarkAsUpdated": {
     "message": "全部设为已更新"
   },
   "sbOpenUpdatedFeeds": {

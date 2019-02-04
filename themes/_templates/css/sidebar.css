@@ -446,11 +446,11 @@ li.feedError {
   background-image: var(--feeds-folderContextMenuCheckFeeds-image);
 }
 
-#ctxFldMnMarkAllAsRead::before {
+#ctxFldMnMarkAsRead::before {
   background-image: var(--feeds-folderContextMenuMarkAllAsRead-image);
 }
 
-#ctxFldMnMarkAllAsUpdated::before {
+#ctxFldMnMarkAsUpdated::before {
   background-image: var(--feeds-folderContextMenuMarkAllAsUpdated-image);
 }
 

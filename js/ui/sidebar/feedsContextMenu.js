@@ -5,8 +5,8 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   constructor() {
     document.getElementById('ctxFldMnCheckFeeds').addEventListener('click', (e) => { this._checkFeedsMenuClicked_event(e); });
-    document.getElementById('ctxFldMnMarkAllAsRead').addEventListener('click', (e) => { this._markAllFeedsAsReadMenuClicked_event(e); });
-    document.getElementById('ctxFldMnMarkAllAsUpdated').addEventListener('click', (e) => { this._markAllFeedsAsUpdatedMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAsRead').addEventListener('click', (e) => { this._markAllFeedsAsReadMenuClicked_event(e); });
+    document.getElementById('ctxFldMnMarkAsUpdated').addEventListener('click', (e) => { this._markAllFeedsAsUpdatedMenuClicked_event(e); });
     document.getElementById('ctxFldMnOpenAllUpdated').addEventListener('click', (e) => { this._openAllUpdatedFeedsMenuClicked_event(e); });
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').addEventListener('click', (e) => { this._ctxMnOpenUpdatedAsUnifiedMenuClicked_event(e); });
     document.getElementById('ctxFldMnSortByName').addEventListener('click', (e) => { this._ctxMnSortByNameMenuClicked_event(e); });
@@ -88,8 +88,8 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   _updateLocalizedStrings() {
     document.getElementById('ctxFldMnCheckFeeds').textContent = browser.i18n.getMessage('sbCheckFeeds');
-    document.getElementById('ctxFldMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
-    document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUpdated');
+    document.getElementById('ctxFldMnMarkAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
+    document.getElementById('ctxFldMnMarkAsUpdated').textContent = browser.i18n.getMessage('sbMarkAsUpdated');
     document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');
     document.getElementById('ctxFldMnOpenUpdatedAsUnified').textContent = browser.i18n.getMessage('sbOpenUpdatedAsUnified');
     document.getElementById('ctxFldMnSortByName').textContent = browser.i18n.getMessage('sbSortByName');
