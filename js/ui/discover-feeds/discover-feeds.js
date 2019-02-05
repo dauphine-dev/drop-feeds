@@ -34,12 +34,22 @@ class DiscoverFeeds {
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }
 
+  /*
   get selectedFeed() {
     let selectedFeed = null;
     if (SelectionRow.instance.selectedRows.length > 0) {
       selectedFeed = this._feedList[SelectionRow.instance.selectedRows[0]];
     }
     return selectedFeed;
+  }
+  */
+
+  get selectedFeeds() {
+    let selectedFeeds = [];
+    for(let rowIndex in SelectionRow.instance.selectedRows) {
+      selectedFeeds.push(this._feedList[rowIndex]);
+    }
+    return selectedFeeds;
   }
 
   set addFeedButtonEnabled(value) {
@@ -218,8 +228,15 @@ class DiscoverFeeds {
   async _addFeedButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    let feedInfo = await this.selectedFeed.getInfo_async();
-    await Dialogs.openSubscribeDialog_async(feedInfo.channel.title, this.selectedFeed.url);
+    //let feedInfo = await this.selectedFeeds[0].getInfo_async();
+    let titles = [];
+    let urls = [];
+    for (let feed of this.selectedFeeds) {
+      let feedInfo = await feed.getInfo_async();
+      titles.push(feedInfo.channel.title);
+      urls.push(feed.url);
+    }
+    await Dialogs.openSubscribeDialog_async(titles, urls);
     this._windowClose_async();
   }
 
@@ -247,7 +264,7 @@ class DiscoverFeeds {
     if (isRowDisabled && !force) { return; }
     if (!shiftKey && !ctrlKey) {
       SelectionRow.instance.select(trElement);
-      this.addFeedButtonEnabled = (this.selectedFeed && !isRowDisabled);
+      this.addFeedButtonEnabled = (this.selectedFeeds.length > 0 && !isRowDisabled);
     }
     else if (!shiftKey && ctrlKey) {
       SelectionRow.instance.addRemove(trElement);

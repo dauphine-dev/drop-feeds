@@ -253,9 +253,12 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _getUnifiedDocUrl_async() {
+    /*
     let unifiedFeedHtml = await FeedRenderer.feedItemsListToUnifiedHtml_async(this._unifiedFeedItems, this._unifiedChannelTitle);
     let unifiedFeedBlob = new Blob([unifiedFeedHtml]);
     let unifiedFeedHtmlUrl = URL.createObjectURL(unifiedFeedBlob);
+    */
+    let unifiedFeedHtmlUrl = await Feed.getUnifiedDocUrl_async(this._unifiedFeedItems, this._unifiedChannelTitle);
     return unifiedFeedHtmlUrl;
 
   }
