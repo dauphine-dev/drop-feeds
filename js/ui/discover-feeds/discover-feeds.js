@@ -139,7 +139,7 @@ class DiscoverFeeds {
     let html = await this._feedLinkInfoListToHtm_async();
     BrowserManager.setInnerHtmlById('tableContainer', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    this._selectRaw_async(fstLine, true);
+    this._selectRow_async(fstLine, true);
   }
 
   async _feedLinkInfoListToHtm_async() {
@@ -159,7 +159,7 @@ class DiscoverFeeds {
     for (let feed of this._feedList) {
       let feedInfo = await feed.getInfo_async();
       let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString() + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
-      let className = (feedInfo.format != null ? '' : 'rawDisabled');
+      let className = (feedInfo.format != null ? '' : 'rowDisabled');
       html += '<tr pos="' + pos++ + '" class="' + className + '">';
       html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
       html += '<td>' + (feedInfo.format ? feedInfo.format : 'N/A') + '</td>';
@@ -210,7 +210,7 @@ class DiscoverFeeds {
     this._progressBar.value = 99;
     await this._sortFeedList_async();
     await this._displayFeedList_async();
-    this._addTableRawClickEvents();
+    this._addTableRowClickEvents();
     this._progressBar.value = 100;
     this._progressBar.hide();
   }
@@ -229,25 +229,25 @@ class DiscoverFeeds {
     this._windowClose_async();
   }
 
-  _addTableRawClickEvents() {
+  _addTableRowClickEvents() {
     let elTrList = document.getElementById('tableContent').querySelectorAll('tr');
     for (let elTr of elTrList) {
-      elTr.addEventListener('click', (e) => { this._tableRawOnClick_event(e); });
+      elTr.addEventListener('click', (e) => { this._tableRowOnClick_event(e); });
     }
   }
 
-  async _tableRawOnClick_event(event) {
+  async _tableRowOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._selectRaw_async(event.target.parentNode, false, event.shiftKey, event.ctrlKey);
+    this._selectRow_async(event.target.parentNode, false, event.shiftKey, event.ctrlKey);
   }
 
-  async _selectRaw_async(trElement, force, shiftKey, ctrlKey) {
-    let isRawDisabled = trElement.classList.contains('rawDisabled');
-    if (isRawDisabled && !force) { return; }
+  async _selectRow_async(trElement, force, shiftKey, ctrlKey) {
+    let isRowDisabled = trElement.classList.contains('rowDisabled');
+    if (isRowDisabled && !force) { return; }
     if (!shiftKey && !ctrlKey) {
       SelectionRow.instance.select(trElement);
-      this.addFeedButtonEnabled = (this.selectedFeed && !isRawDisabled);
+      this.addFeedButtonEnabled = (this.selectedFeed && !isRowDisabled);
     }
     else if (!shiftKey && ctrlKey) {
       SelectionRow.instance.addRemove(trElement);
