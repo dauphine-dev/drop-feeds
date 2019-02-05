@@ -60,6 +60,7 @@ class SelectionRow { /*exported SelectionRow*/
 
   _add(element) {
     if (!element) { return; }
+    if (element.classList.contains('rowDisabled')) { return; }
     this._lastElementPos = parseInt(element.getAttribute('pos'), 10);
     this._selectedElements.push(element);
     element.style.color = 'var(--main-selection-text-color)';
