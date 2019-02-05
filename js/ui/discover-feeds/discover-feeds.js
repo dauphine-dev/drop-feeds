@@ -1,5 +1,5 @@
 /*global browser BrowserManager LocalStorageManager Feed ProgressBar*/
-/*global SelectionRaw Dialogs CssManager SecurityFilters*/
+/*global SelectionRow Dialogs CssManager SecurityFilters*/
 'use strict';
 class DiscoverFeeds {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -15,6 +15,7 @@ class DiscoverFeeds {
   }
 
   async init_async() {
+    document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
     SecurityFilters.instance;
     this._updateLocalizedStrings();
     this._progressBar = new ProgressBar('progressBar', true);
@@ -24,20 +25,19 @@ class DiscoverFeeds {
     await this._getActiveTabFeedLinkList_async();
     await this._getFeedList_async();
     await this._updateFeedList_async();
-    document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
-    document.getElementById('closeButton').addEventListener('click', (e) => { this._closeButtonOnClicked_event(e); });
-    this.addFeedButtonEnabled = this._addFeedButtonEnabled;
     try {
       this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
     }
     catch (e) { }
     LocalStorageManager.setValue_async('discoverInfoWinId', null);
+    document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
+    this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }
 
   get selectedFeed() {
     let selectedFeed = null;
-    if (SelectionRaw.instance.selectedRaw) {
-      selectedFeed = this._feedList[SelectionRaw.instance.selectedRaw - 1];
+    if (SelectionRow.instance.selectedRows.length > 0) {
+      selectedFeed = this._feedList[SelectionRow.instance.selectedRows[0]];
     }
     return selectedFeed;
   }
@@ -139,7 +139,7 @@ class DiscoverFeeds {
     let html = await this._feedLinkInfoListToHtm_async();
     BrowserManager.setInnerHtmlById('tableContainer', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    this._selectRaw_async(fstLine);
+    this._selectRaw_async(fstLine, true);
   }
 
   async _feedLinkInfoListToHtm_async() {
@@ -155,11 +155,12 @@ class DiscoverFeeds {
         </tr>
       </thead>
       <tbody id="tableContent">`;
-    let pos = 1;
+    let pos = 0;
     for (let feed of this._feedList) {
       let feedInfo = await feed.getInfo_async();
       let lastUpdate = feed.lastUpdate ? feed.lastUpdate.toLocaleDateString() + ' ' + feed.lastUpdate.toLocaleTimeString() : 'N/A';
-      html += '<tr pos="' + pos++ + '">';
+      let className = (feedInfo.format != null ? '' : 'rawDisabled');
+      html += '<tr pos="' + pos++ + '" class="' + className + '">';
       html += '<td>' + (feedInfo.channel.title ? feedInfo.channel.title : 'N/A') + '</td>';
       html += '<td>' + (feedInfo.format ? feedInfo.format : 'N/A') + '</td>';
       html += '<td>' + lastUpdate + '</td>';
@@ -236,13 +237,26 @@ class DiscoverFeeds {
   }
 
   async _tableRawOnClick_event(event) {
-    this._selectRaw_async(event.target.parentNode);
+    event.stopPropagation();
+    event.preventDefault();
+    this._selectRaw_async(event.target.parentNode, false, event.shiftKey, event.ctrlKey);
   }
 
-  async _selectRaw_async(trElement) {
-    SelectionRaw.instance.put(trElement);
-    let feedInfo = await this.selectedFeed.getInfo_async();
-    this.addFeedButtonEnabled = (this.selectedFeed && feedInfo.format != null);
+  async _selectRaw_async(trElement, force, shiftKey, ctrlKey) {
+    let isRawDisabled = trElement.classList.contains('rawDisabled');
+    if (isRawDisabled && !force) { return; }
+    if (!shiftKey && !ctrlKey) {
+      SelectionRow.instance.select(trElement);
+      this.addFeedButtonEnabled = (this.selectedFeed && !isRawDisabled);
+    }
+    else if (!shiftKey && ctrlKey) {
+      SelectionRow.instance.addRemove(trElement);
+      this.addFeedButtonEnabled = true;
+    }
+    else if (shiftKey) {
+      SelectionRow.instance.extend(trElement);
+      this.addFeedButtonEnabled = true;
+    }
   }
 
   async _windowClose_async() {

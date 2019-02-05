@@ -13,4 +13,5 @@
   --main-progressBar-foreground-color: #6d8eb3;
   --main-table-background-color: #434345;
   --main-table-header-color: #545456;
+  --main-table-cellDisabled-color: gray;
 }
