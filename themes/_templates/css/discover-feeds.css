@@ -79,6 +79,6 @@ tbody {
 .SelectionRow {
   background-color: var(--main-selection-background-color);
 }
-.rawDisabled td {
+.rowDisabled td {
   color: var(--main-table-cellDisabled-color);
 }
