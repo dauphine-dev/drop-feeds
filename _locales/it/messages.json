@@ -77,9 +77,6 @@
   "sbItemHideReadArticles": {
     "message": "Nascondi gli articoli già letti"
   },
-  "sbMarkAsUpdated": {
-    "message": "Mark as unread"
-  },
   "sbOpenUpdatedFeeds": {
     "message": "Apri i feed aggiornati"
   },

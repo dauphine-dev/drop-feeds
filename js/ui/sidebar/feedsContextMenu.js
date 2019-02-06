@@ -95,7 +95,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
     //Folder context menu
     document.getElementById('ctxFldMnCheckFeeds').textContent = browser.i18n.getMessage('sbCheckFeeds');
     document.getElementById('ctxFldMnMarkAsRead').textContent = browser.i18n.getMessage('sbMarkAsRead');
-    document.getElementById('ctxFldMnMarkAsUpdated').textContent = browser.i18n.getMessage('sbMarkAsUpdated');
+    document.getElementById('ctxFldMnMarkAsUpdated').textContent = browser.i18n.getMessage('sbMarkAsUnread');
     document.getElementById('ctxFldMnMarkAllAsRead').textContent = browser.i18n.getMessage('sbMarkAllAsRead');
     document.getElementById('ctxFldMnMarkAllAsUpdated').textContent = browser.i18n.getMessage('sbMarkAllAsUnread');
     document.getElementById('ctxFldMnOpenAllUpdated').textContent = browser.i18n.getMessage('sbOpenUpdatedFeeds');

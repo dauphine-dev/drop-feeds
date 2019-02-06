@@ -1,12 +1,14 @@
 version;line;messageName;message;where;note
 
 0.9 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
 0.9;38;sbFilter;Filter;on the side bar top menu;n/a
 0.9;41;sbFilterClearButton;Clear filter;on filter bar;n/a
 0.9;158;subWindowCloseError;Drop feeds has failed to close the window, please close it manually.;on the subscribe window (but visible only on window closing error);n/a
 0.9;305;optItemNewTab;Open items on new tag;in Settings / Contents area;n/a
 
 0.9.1 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
 0.9.1;230;optTheme;Theme;in Settings / the theme tab title;n/a
 0.9.1;245;optSelectMainTheme;Select main theme;in Settings / theme;was updated from 'optSelectTheme:Select theme' to 'optSelectMainTheme:Select main theme'
 0.9.1;248;optSelectRenderTemplate;Select render tab template;in Settings / theme;n/a
@@ -14,6 +16,7 @@ version;line;messageName;message;where;note
 0.9.1;305;optFeedItemRenderInSidebar;Render selected item in the sidebar;in Settings / Items;n/a
 
 0.9.2  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
 0.9.2;140;sbCtxOptReload;Reload Drop Feeds;Option/1st entry;n/a
 0.9.2;143;sbCtxOptSubscribe;Subscribe by url;Option/2nd entry;n/a
 0.9.2;146;sbCtxOptSettings;Open settings...;Option/3rd entry;n/a
@@ -29,6 +32,7 @@ version;line;messageName;message;where;note
 0.9.2;536;sbSubsDiaByUrlSubscribeButton;Subscribe;Option/Subscribe by url/dialog Subscribe button;n/a
 
 0.9.3  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
 0.9.3;131;sbLoadingNextFeed;Loading next feed...;Status bar;During loading many render tabs, when Waiting for next tab
 0.9.3;134;sbWaitingNextFeed;Waiting for next feed...;Status bar;During feed update, when Waiting for next feed
 0.9.3;350;optRenderFeedsOptions;Options;Settings / Contents area;n/a
@@ -37,4 +41,20 @@ version;line;messageName;message;where;note
 0.9.3;371;optUrlDatetimeHelp;Date time formats (see section 'Options');Settings / Contents area;Do not translate 'Options' because the help link it's in English
 
 0.9.4  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
 0.9.4;65;sbItemHideReadArticles;Hide read articles;Article panel/Tool bar;n/a
+
+0.9.5  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+0.9.5;50;sbMarkAsRead;Mark as read;Side bar/Folder context menu;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;53;sbMarkAsUnread;Mark as unread;Side bar/Folder context menu;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;56;sbMarkAllAsRead;Mark all as read;Side bar/Folder and Feed context menu;;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;59;sbMarkAllAsUnread;Mark all as unread;;Side bar/Folder and Feed context menu;;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;62;sbMarkArticleAsRead;Mark as read;Article panel/Tool bar;nShould be ok because I have recycled a old translation, but please take a look
+0.9.5;65;sbMarkArticleAsUnread;Mark as unread;Article panel/Tool bar;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;68;sbMarkAllArticlesAsRead;Mark all as read;Article panel/Tool bar;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;71;sbMarkAllArticlesAsUnread;Mark all as unread;Article panel/Tool bar;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;74;sbOpenUnreadArticlesInNewTabs;Open unread items in new tabs;Article panel/Tool bar;Previously was called sbOpenUnreadItemsInNewTabs (on li
+0.9.5;104;sbMarkFeedAsRead;Mark as read;Side bar/Feed context menu;Should be ok because I have recycled a old translation, but please take a look
+0.9.5;117;sbMarkFeedAsUpdated;Mark as unread;Side bar/Feed context menu;Should be ok because I have recycled a old translation, but please take a look
+

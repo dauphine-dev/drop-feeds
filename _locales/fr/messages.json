@@ -77,9 +77,6 @@
   "sbItemHideReadArticles": {
     "message": "Masquer les articles visités"
   },
-  "sbMarkAsUpdated": {
-    "message": "Marquer comme à jour (non lu)"
-  },
   "sbOpenUpdatedFeeds": {
     "message": "Ouvrir les flux non lus"
   },

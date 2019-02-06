@@ -77,9 +77,6 @@
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
   },
-  "sbMarkAsUpdated": {
-    "message": "Mark as unread"
-  },
   "sbOpenUpdatedFeeds": {
     "message": "Öffne aktualisierte Feeds"
   },

@@ -77,9 +77,6 @@
   "sbItemHideReadArticles": {
     "message": "既読記事を隠す"
   },
-  "sbMarkAsUpdated": {
-    "message": "Mark as unread"
-  },
   "sbOpenUpdatedFeeds": {
     "message": "更新されたページを開く"
   },
