@@ -326,7 +326,6 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   }
 
   async _folderOnRightClicked_event(event) {
-    event.stopPropagation();
     event.preventDefault();
     let elFolder = event.currentTarget.parentNode.parentNode;
     let xPos = event.clientX;
