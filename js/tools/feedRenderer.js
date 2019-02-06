@@ -153,15 +153,16 @@ class FeedRenderer { /*exported FeedRenderer*/
     if (!title) { title = '(No Title)'; }
     let target = BrowserManager.instance.alwaysOpenNewTab ? 'target="_blank"' : '';
     let num = itemNumber ? itemNumber : item.number;
-    let visited = undefined;
+    let visited = '';
     try {
       visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited visitedVisible' : '';
     }
-    catch (e) { }
+    catch (e) {
+      console.log(e);
+    }
     let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
     let htmlItemLine = '<span class="item' + visited + '" ' + tooltip + '" ' + target + ' href="' + item.link + '" num="' + num + '">' + num + '. ' + title + '<br/></span>';
-
     return htmlItemLine;
   }
 }
