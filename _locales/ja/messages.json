@@ -54,10 +54,10 @@
     "message": "未読にする"
   },
   "sbMarkAllAsRead": {
-    "message": "全て既読"
+    "message": "全て既読にする"
   },
   "sbMarkAllAsUnread": {
-    "message": "全て未読"
+    "message": "全て未読にする"
   },
   "sbMarkArticleAsRead": {
     "message": "既読にする"
@@ -66,16 +66,16 @@
     "message": "未読にする"
   },
   "sbMarkAllArticlesAsRead": {
-    "message": "全て既読"
+    "message": "全て既読にする"
   },
   "sbMarkAllArticlesAsUnread": {
-    "message": "全て未読"
+    "message": "全て未読にする"
   },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "未読を新しいタブで開く"
   },
   "sbItemHideReadArticles": {
-    "message": "既読記事を隠す"
+    "message": "既読を隠す"
   },
   "sbOpenUpdatedFeeds": {
     "message": "更新されたページを開く"
@@ -105,7 +105,7 @@
     "message": "既読にする"
   },
   "sbMarkFeedAsUpdated": {
-    "message": "未読にする"
+    "message": "更新済みにする"
   },
   "sbDeleteFeed": {
     "message": "消去"
