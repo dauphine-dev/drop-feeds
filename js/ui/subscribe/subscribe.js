@@ -74,6 +74,14 @@ class Subscribe {
     return titleList;
   }
 
+  _setTitleList(feeds) {
+    let feedTitles = [];
+    for (let feed of feeds) {
+      feedTitles.push(feed.title);
+    }
+    return feedTitles;
+  }
+
   async _setFeedPreviewVisibility_async() {
     let showFeedPreview = await LocalStorageManager.getValue_async('showFeedPreview', DefaultValues.showFeedPreview);
     document.getElementById('chkShowFeedPreview').checked = showFeedPreview;
@@ -136,6 +144,7 @@ class Subscribe {
       await feed.updateTitle_async();
     }
     if (!this._feedTitleUpdatingAborted) {
+      this._feedTitles =this._setTitleList(this._feeds);
       document.getElementById('inputName').value = this._getTitleList(this._feedTitles);
       document.getElementById('inputName').disabled = false;
       this._updateFeedTitleButtonEnabled = true;
