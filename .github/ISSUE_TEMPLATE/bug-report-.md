@@ -12,7 +12,7 @@ Note: Don't esitate to add screenshots
 #### System: 
  * Operating System:  
  * Firefox version: 
-* Drop Feeds version :
+ * Drop Feeds version :
 
 #### Steps to reproduce:
 
