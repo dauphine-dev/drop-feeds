@@ -11,7 +11,8 @@ Note: Don't esitate to add screenshots
 
 #### System: 
  * Operating System:  
- * Firefox: 
+ * Firefox version: 
+* Drop Feeds version :
 
 #### Steps to reproduce:
 
