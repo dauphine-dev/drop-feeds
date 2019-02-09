@@ -1,5 +1,5 @@
 /*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer*/
-/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol FeedTransform*/
+/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
 
 const feedStatus = {
