@@ -1,4 +1,4 @@
-/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedRenderer ItemsLayout LocalStorageManager*/
+/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
