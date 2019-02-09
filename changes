@@ -1,7 +1,10 @@
 0.9.5
 Add entries in context menu to set all feeds to read/unread status
 Subscribe to many feeds from discovery-feeds view
+Update Japanese translation by takepon1
+Add history.getVisits workaround for Firefox Nightly 67
 Fix right click on folder icons
+Fix "Reuse Drop Feeds Tabs" management
 
 0.9.4
 Update USTools help
