@@ -158,7 +158,9 @@ class FeedRenderer { /*exported FeedRenderer*/
       visited = (await BrowserManager.isVisitedLink_async(item.link)) ? ' visited visitedVisible' : '';
     }
     catch (e) {
+      /*eslint-disable no-console*/
       console.log(e);
+      /*eslint-enable no-console*/
     }
     let tooltipText = FeedParser.getItemTooltipText(item, num);
     let tooltip = (tooltipsVisible ? 'title' : 'title1') + '="' + BrowserManager.htmlToText(tooltipText) + '"';
