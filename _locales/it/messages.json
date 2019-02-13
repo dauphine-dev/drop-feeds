@@ -59,14 +59,23 @@
   "sbMarkAllAsUnread": {
     "message": "Segna tutto come non letto"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Segna come già letto"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Segna come non letto"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Segna tutto come già letto"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Segna tutto come non letto"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Apri gli elementi non letti in nuove schede"
   },
   "sbItemHideReadArticles": {
     "message": "Nascondi gli articoli già letti"
-  },
-  "sbMarkAllAsUpdated": {
-    "message": "Marca tutti come aggiornati"
   },
   "sbOpenUpdatedFeeds": {
     "message": "Apri i feed aggiornati"

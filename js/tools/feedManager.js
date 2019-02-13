@@ -1,4 +1,4 @@
-/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders FeedRenderer ItemsLayout LocalStorageManager*/
+/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager*/
 'use strict';
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -253,9 +253,12 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _getUnifiedDocUrl_async() {
+    /*
     let unifiedFeedHtml = await FeedRenderer.feedItemsListToUnifiedHtml_async(this._unifiedFeedItems, this._unifiedChannelTitle);
     let unifiedFeedBlob = new Blob([unifiedFeedHtml]);
     let unifiedFeedHtmlUrl = URL.createObjectURL(unifiedFeedBlob);
+    */
+    let unifiedFeedHtmlUrl = await Feed.getUnifiedDocUrl_async(this._unifiedFeedItems, this._unifiedChannelTitle);
     return unifiedFeedHtmlUrl;
 
   }

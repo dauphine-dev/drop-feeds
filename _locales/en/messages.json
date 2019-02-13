@@ -59,14 +59,23 @@
   "sbMarkAllAsUnread": {
     "message": "Mark all as unread"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Mark as read"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Mark as unread"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Mark all as read"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Mark all as unread"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Open unread items in new tabs"
   },
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
-  },
-  "sbMarkAllAsUpdated": {
-    "message": "Set all to updated"
   },
   "sbOpenUpdatedFeeds": {
     "message": "Open updated feeds"

@@ -76,6 +76,9 @@ tbody {
   font-size: 90%;
 }
 
-.selectionRaw {
+.SelectionRow {
   background-color: var(--main-selection-background-color);
+}
+.rowDisabled td {
+  color: var(--main-table-cellDisabled-color);
 }

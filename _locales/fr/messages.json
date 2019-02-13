@@ -59,14 +59,23 @@
   "sbMarkAllAsUnread": {
     "message": "Tout marquer comme non lu"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Marquer comme lu"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Marquer comme non lu"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Tout marquer comme lu"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Tout marquer comme non lu"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Ouvrir les articles non lus dans de nouveaux onglets"
   },
   "sbItemHideReadArticles": {
     "message": "Masquer les articles visités"
-  },
-  "sbMarkAllAsUpdated": {
-    "message": "Marquer comme à jour (non lu)"
   },
   "sbOpenUpdatedFeeds": {
     "message": "Ouvrir les flux non lus"

@@ -1,4 +1,5 @@
-/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
+/*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer*/
+/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
 'use strict';
 
 const feedStatus = {
@@ -23,6 +24,13 @@ class Feed { /*exported Feed*/
 
   static delete_async(feedId) {
     browser.bookmarks.remove(feedId);
+  }
+
+  static async getUnifiedDocUrl_async(unifiedFeedItems, unifiedChannelTitle) {
+    let unifiedFeedHtml = await FeedRenderer.feedItemsListToUnifiedHtml_async(unifiedFeedItems, unifiedChannelTitle);
+    let unifiedFeedBlob = new Blob([unifiedFeedHtml]);
+    let unifiedFeedHtmlUrl = URL.createObjectURL(unifiedFeedBlob);
+    return unifiedFeedHtmlUrl;
   }
 
   constructor(id) {

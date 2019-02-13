@@ -59,14 +59,23 @@
   "sbMarkAllAsUnread": {
     "message": "Alle als ungelesen markieren"
   },
-  "sbOpenUnreadItemsInNewTabs": {
+  "sbMarkArticleAsRead": {
+    "message": "Als gelesen markieren"
+  },
+  "sbMarkArticleAsUnread": {
+    "message": "Als ungelesen markieren"
+  },
+  "sbMarkAllArticlesAsRead": {
+    "message": "Alle als gelesen markieren"
+  },
+  "sbMarkAllArticlesAsUnread": {
+    "message": "Alle als ungelesen markieren"
+  },
+  "sbOpenUnreadArticlesInNewTabs": {
     "message": "Öffne ungelesene items in neuen Tabs"
   },
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
-  },
-  "sbMarkAllAsUpdated": {
-    "message": "Alle als aktualisiert markieren"
   },
   "sbOpenUpdatedFeeds": {
     "message": "Öffne aktualisierte Feeds"

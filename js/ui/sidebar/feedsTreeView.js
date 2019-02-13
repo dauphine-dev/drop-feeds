@@ -234,6 +234,13 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       afterFolder.addEventListener('drop', (e) => { this._afterFolderOnDrop_event(e); });
     }
 
+    let labelForList = document.querySelectorAll('label');
+    for (let label of labelForList) {
+      label.addEventListener('contextmenu', (e) => { this._folderOnRightClicked_event(e); });
+    }
+
+
+
   }
   
   async _feedOnRightClicked_event(event) {
@@ -319,7 +326,6 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   }
 
   async _folderOnRightClicked_event(event) {
-    event.stopPropagation();
     event.preventDefault();
     let elFolder = event.currentTarget.parentNode.parentNode;
     let xPos = event.clientX;

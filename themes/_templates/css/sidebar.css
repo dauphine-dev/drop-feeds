@@ -446,6 +446,14 @@ li.feedError {
   background-image: var(--feeds-folderContextMenuCheckFeeds-image);
 }
 
+#ctxFldMnMarkAsRead::before {
+  background-image: var(--feeds-folderContextMenuMarkAsRead-image);
+}
+
+#ctxFldMnMarkAsUpdated::before {
+  background-image: var(--feeds-folderContextMenuMarkAsUpdated-image);
+}
+
 #ctxFldMnMarkAllAsRead::before {
   background-image: var(--feeds-folderContextMenuMarkAllAsRead-image);
 }
@@ -493,6 +501,15 @@ li.feedError {
 #ctxFdMnMarkFeedAsUpdated::before {
   background-image: var(--feeds-feedContextMenuMarkFeedAsUpdated-image);
 }
+
+#ctxFdMnMarkAllAsRead::before {
+  background-image: var(--feeds-feedContextMenuMarkAllAsRead-image);
+}
+
+#ctxFdMnMarkAllAsUpdated::before {
+  background-image: var(--feeds-feedContextMenuMarkAllAsUpdated-image);
+}
+
 
 #ctxFdMnNewFolder::before {
   background-image: var(--feeds-feedContextMenuNew-image);

@@ -71,8 +71,10 @@ class BrowserManager { /* exported BrowserManager*/
     //   1. "Always Open in New Tab" == True || openNewTabForce == True
     //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Open a new tab, unless the active tab is empty
-    //     b. "Reuse Drop Feeds Tabs" == True
-    //        -> Open a new tab unless the active tab is empty or an existing DF tab
+    //     b. "Reuse Drop Feeds Tabs" == True AND at least a Drop Feeds Tab is available
+    //        -> Update the 1st Drop Feeds tab
+    //     c. "Reuse Drop Feeds Tabs" == True AND at no Drop Feeds Tab is available
+    //        -> Open a new tab unless the active tab is empty
     //   2. "Always Open in New Tab" == False
     //     a. "Reuse Drop Feeds Tabs" == False
     //        -> Update the current active tab
@@ -92,8 +94,16 @@ class BrowserManager { /* exported BrowserManager*/
         doCreate = !isEmptyActiveTab;
       }
       else {
-        // Option 1b - New tab unless active tab is empty or DF tab
-        doCreate = !(isEmptyActiveTab || activeTabIsDfTab);
+        if (dfTab) {
+          // Option 1b - Update the first or current DF
+          targetTabId = dfTab.id;
+          doCreate = false;
+        }
+        else {
+          // Option 1c - New tab unless active tab is empty or DF tab
+          targetTabId = activeTab.id;
+          doCreate = !(isEmptyActiveTab || activeTabIsDfTab);
+        }
       }
     }
     else {
@@ -266,7 +276,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static async _activeTabIsFeedCore_async(tabInfo) {
     let isFeed = false;
-    if (!BrowserManager.isProtocolValid(tabInfo.url))  { return false; }
+    if (!BrowserManager.isProtocolValid(tabInfo.url)) { return false; }
     try {
       isFeed = await browser.tabs.sendMessage(tabInfo.id, { key: 'isFeed' });
     }
@@ -279,7 +289,7 @@ class BrowserManager { /* exported BrowserManager*/
   static async _isFeedWorkaround_async(url) {
     //Workaround for Firefox 60
     let isFeed = false;
-    if (!BrowserManager.isProtocolValid(url))  { return false; }
+    if (!BrowserManager.isProtocolValid(url)) { return false; }
     /*
     let result = url.match(/rss|feed|atom|syndicate/i);
     if (result) {
@@ -362,7 +372,7 @@ class BrowserManager { /* exported BrowserManager*/
   static isProtocolValid(url) {
     return url.toLowerCase().startsWith('https:') || url.toLowerCase().startsWith('http:');
   }
-  
+
   //private stuffs
   _setAlwaysOpenNewTab_sbscrb(value) {
     this._alwaysOpenNewTab = value;
