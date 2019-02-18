@@ -58,3 +58,11 @@ version;line;messageName;message;where;note
 0.9.5;104;sbMarkFeedAsRead;Mark as read;Side bar/Feed context menu;Should be ok because I have recycled a old translation, but please take a look
 0.9.5;117;sbMarkFeedAsUpdated;Mark as unread;Side bar/Feed context menu;Should be ok because I have recycled a old translation, but please take a look
 
+0.9.6  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+0.9.6;389;optOpmlImport;Import...;Settings/Management;optImport has renamed to optOpmlImport, the translation should be unchanged, but please take a look
+0.9.6;395;optOpmlExport;Export...;Settings/Management;optExport has renamed to optOpmlExport, the translation should be unchanged, but please take a look
+0.9.6;398;optSelectSettingFileToImport;Select the setting file to import;Settings/Management;;I have recycled a old translation, but I guess the word 'setting' need to be translated
+0.9.6;401;optSettingImport;Import...;Settings/Management;I have recycled a old translation, but please take a look
+0.9.6;404;optSelectSettingFileToExport;Select where to export the setting file;Settings/Management;I have recycled a old translation, but I guess the word 'setting' need to be translated
+0.9.6;407;optSettingExport;Export...;Settings/Management;I have recycled a old translation, but please take a look

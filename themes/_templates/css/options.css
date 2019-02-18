@@ -14,7 +14,7 @@ input[type="number"] {
   width:55px;
 }
 
-#inputImportFile {
+.inputImportFile {
   display: none;
 }
 

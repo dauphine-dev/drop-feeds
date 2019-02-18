@@ -386,14 +386,26 @@
   "optSelectOpmlFileToImport": {
     "message": "Selecteer het te importeren opml bestand"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "Importeren..."
   },
   "optSelectOpmlFileToExport": {
     "message": "Selecteer waarnaartoe het opml bestand te exporteren"
   },
-  "optExport": {
+  "optOpmlExport": {
     "message": "Exporteren..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "Selecteer het te importeren setting bestand"
+  },
+  "optSettingImport": {
+    "message": "Importeren..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "Selecteer waarnaartoe het opml setting te exporteren"
+  },
+  "optSettingExport": {
+    "message": "Export..."
   },
   "optAdvanced": {
     "message": "Geadvanceerd"

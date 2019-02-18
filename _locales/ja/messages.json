@@ -386,13 +386,13 @@
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "インポート..."
   },
   "optSelectOpmlFileToExport": {
     "message": "opmlのエクスポート"
   },
-  "optExport": {
+  "optOpmlExport": {
     "message": "エクスポート..."
   },
   "optAdvanced": {

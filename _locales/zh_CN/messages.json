@@ -386,13 +386,25 @@
   "optSelectOpmlFileToImport": {
     "message": "打开 opml 文件以导入"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "导入..."
   },
   "optSelectOpmlFileToExport": {
     "message": "选择导出 ompl 文件的位置"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "导出..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "打开 setting 文件以导入"
+  },
+  "optSettingImport": {
+    "message": "导入..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "选择导出 setting 文件的位置"
+  },
+  "optSettingExport": {
     "message": "导出..."
   },
   "optAdvanced": {
