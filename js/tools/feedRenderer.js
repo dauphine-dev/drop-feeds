@@ -2,10 +2,10 @@
 'use strict';
 class FeedRenderer { /*exported FeedRenderer*/
 
-  static async renderFeedToHtml_async(feedText, defaultTitle, isError) {
+  static async renderFeedToHtml_async(feedText, defaultTitle, isError, addSubscribeButton) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
     //let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
-    let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo);
+    let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo, addSubscribeButton);
     return feedHtml;
   }
 

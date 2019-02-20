@@ -1,5 +1,5 @@
 /*global browser ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
-/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
+/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog FeedTabHandler*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -28,6 +28,7 @@ class SideBar { /*exported SideBar*/
     RenderItemLayout.instance;
     FeedsNewFolderDialog.instance;
     OptionSubscribeDialog.instance;
+    FeedTabHandler.instance;
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);

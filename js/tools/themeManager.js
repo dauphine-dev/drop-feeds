@@ -88,10 +88,14 @@ class ThemeManager { /*exported ThemeManager*/
     return cssTemplateUrl;
   }
 
-
   getRenderCssUrl() {
     let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
     return cssRenderUrl;
+  }
+
+  getRenderSubscribeButtonCssUrl() {
+    let cssSubscribeButtonUrl = this.themeBaseFolderUrl + '_renderTab/_templates/_any/css/subscribeButton.css';
+    return cssSubscribeButtonUrl;
   }
 
   getImgUrl(imgName) {
