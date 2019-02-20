@@ -99,8 +99,16 @@ class FeedParser { /*exported FeedParser*/
     }
     let isJson = feedText.startsWith('{');
     if (isJson) {
-      try { JSON.parse(feedText); }
+      let jsonFeed = undefined;
+      try { jsonFeed = JSON.parse(feedText); }
       catch (e) { return e; }
+      if (!jsonFeed) {
+        return 'Unable to parse the json feed';
+      }
+      if (!jsonFeed.items) {
+        return 'This json feed has no "items" element';
+      }
+
     }
     else {
       //Assume that's a xml feed
