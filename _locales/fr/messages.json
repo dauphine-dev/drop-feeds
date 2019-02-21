@@ -387,7 +387,7 @@
     "message": "Avancé"
   },  
   "optHandlesFeedTabCheckbox": {
-    "message": "Handles feed tab"
+    "message": "Afficher les onglets flux RSS, ATOM, ...  avec Drop Feeds"
   },  
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"

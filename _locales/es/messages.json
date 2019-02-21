@@ -387,7 +387,7 @@
     "message": "Advanced"
   },  
   "optHandlesFeedTabCheckbox": {
-    "message": "Handles feed tab"
+    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
   },  
   "optSelectOpmlFileToImport": {
     "message": "Seleccione el archivo opml para importar"
