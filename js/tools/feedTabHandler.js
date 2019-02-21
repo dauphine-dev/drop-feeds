@@ -5,7 +5,7 @@ class FeedTabHandler { /*exported FeedTabHandler*/
 
   constructor() {
     this._last = { details: null, date: new Date() };
-    this._isFeedRegex = /rss|feed|atom|syndicate/i;
+    this._isFeedRegex = /rss|feed|atom|syndicate|xml|json/i;
     this._handlesFeedTab = DefaultValues.handlesFeedTab;
     let filter = { url: [{ urlMatches: this._isFeedRegex.source }] };
     browser.webNavigation.onBeforeNavigate.addListener((details) => { this._webNavigationOnBeforeNavigate_event(details); }, filter);
@@ -21,6 +21,7 @@ class FeedTabHandler { /*exported FeedTabHandler*/
     if (details.frameId != 0) { return; } //we check only the main frame
     let isFeed = details.url.match(this._isFeedRegex);
     if (isFeed) {
+      if (details.url.includes('addons.mozilla.org')) { return; }
       try {
         let now = new Date();
         if (this._isInProgress(details, now)) { return; }
