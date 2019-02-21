@@ -34,6 +34,11 @@ class TabContentArea { /*exported TabContentArea*/
     let contentsDateTimeResetButton = document.getElementById('contentsDateTimeResetButton');
     contentsDateTimeResetButton.addEventListener('click', (e) => { this._contentsDateTimeResetButtonClicked_event(e); });
 
+    let elHandlesFeedTabCheckbox = document.getElementById('handlesFeedTabCheckbox');
+    elHandlesFeedTabCheckbox.checked = await LocalStorageManager.getValue_async('handlesFeedTab', DefaultValues.handlesFeedTab);
+    elHandlesFeedTabCheckbox.addEventListener('click', (e) => { this._handlesFeedTabCheckboxClicked_event(e); });
+
+
     this._contentsDateTimeFormatOnchange_event();
     this._enableItemOptions();
   }
@@ -107,5 +112,9 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById(elementId).disabled = !enabled;
     CssManager.setElementEnableById(elementId, enabled);
     if (textId) { CssManager.setElementEnableById(textId, enabled); }
+  }
+
+  async _handlesFeedTabCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('handlesFeedTab', document.getElementById('handlesFeedTabCheckbox').checked);
   }
 }

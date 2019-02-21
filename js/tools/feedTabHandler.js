@@ -1,4 +1,4 @@
-/*global browser Feed*/
+/*global browser Feed Listener ListenerProviders DefaultValues*/
 'use strict';
 class FeedTabHandler { /*exported FeedTabHandler*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -6,11 +6,14 @@ class FeedTabHandler { /*exported FeedTabHandler*/
   constructor() {
     this._last = { details: null, date: new Date() };
     this._isFeedRegex = /rss|feed|atom|syndicate/i;
+    this._handlesFeedTab = DefaultValues.handlesFeedTab;
     let filter = { url: [{ urlMatches: this._isFeedRegex.source }] };
     browser.webNavigation.onBeforeNavigate.addListener((details) => { this._webNavigationOnBeforeNavigate_event(details); }, filter);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'handlesFeedTab', (v) => { this._setHandlesFeedTab_sbscrb(v); }, true);
   }
 
   _webNavigationOnBeforeNavigate_event(details) {
+    if (!this._handlesFeedTab) { return; }
     this._interceptFeedDocuments_async(details);
   }
 
@@ -43,5 +46,9 @@ class FeedTabHandler { /*exported FeedTabHandler*/
     let isExpired = (now > expirationDate);
     let inProgress = !isExpired && sameAsPrev;
     return inProgress;
+  }
+
+  async _setHandlesFeedTab_sbscrb(value) {
+    this._handlesFeedTab = value;
   }
 }
