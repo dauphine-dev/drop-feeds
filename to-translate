@@ -60,12 +60,13 @@ version;line;messageName;message;where;note
 
 0.9.6  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
 version;line;messageName;message;where;note
-0.9.6;386;optHandlesFeedTabCheckbox;Handles feed tab;Settings/Content area;This is option is intercepting direct feed url instead of FF save dialog...
-0.9.6;391;optOpmlImport;Import...;Settings/Management;optImport has renamed to optOpmlImport, the translation should be unchanged, but please take a look
-0.9.6;398;optOpmlExport;Export...;Settings/Management;optExport has renamed to optOpmlExport, the translation should be unchanged, but please take a look
-0.9.6;401;optSelectSettingFileToImport;Select the setting file to import;Settings/Management;;I have recycled a old translation, but I guess the word 'setting' need to be translated
-0.9.6;404;optSettingImport;Import...;Settings/Management;I have recycled a old translation, but please take a look
-0.9.6;407;optSelectSettingFileToExport;Select where to export the setting file;Settings/Management;I have recycled a old translation, but I guess the word 'setting' need to be translated
-0.9.6;410;optSettingExport;Export...;Settings/Management;I have recycled a old translation, but please take a look
-0.9.6;431;optLblDebugView;Open the debug view;Settings/Advanced;n/a
-0.9.6;434;optDebugViewButton;Debug view...;Settings/Advanced;n/a
+0.9.6;389;optContentsAreaAdvLegend;Advanced;n/a
+0.9.6;389;optHandlesFeedTabCheckbox;Handles feed tab;Settings/Content area;This is option is intercepting direct feed url instead of FF save dialog...
+0.9.6;394;optOpmlImport;Import...;Settings/Management;optImport has renamed to optOpmlImport, the translation should be unchanged, but please take a look
+0.9.6;401;optOpmlExport;Export...;Settings/Management;optExport has renamed to optOpmlExport, the translation should be unchanged, but please take a look
+0.9.6;404;optSelectSettingFileToImport;Select the setting file to import;Settings/Management;;I have recycled a old translation, but I guess the word 'setting' need to be translated
+0.9.6;407;optSettingImport;Import...;Settings/Management;I have recycled a old translation, but please take a look
+0.9.6;410;optSelectSettingFileToExport;Select where to export the setting file;Settings/Management;I have recycled a old translation, but I guess the word 'setting' need to be translated
+0.9.6;413;optSettingExport;Export...;Settings/Management;I have recycled a old translation, but please take a look
+0.9.6;434;optLblDebugView;Open the debug view;Settings/Advanced;n/a
+0.9.6;437;optDebugViewButton;Debug view...;Settings/Advanced;n/a

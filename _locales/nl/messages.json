@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "Datum tijd notatie (zie 'Options' sectie)"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Advanced"
+  },  
   "optHandlesFeedTabCheckbox": {
     "message": "Handles feed tab"
   },  

@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "Formato data/ora (vedi sezione 'Opzioni')"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Advanced"
+  },  
   "optHandlesFeedTabCheckbox": {
     "message": "Handles feed tab"
   },  

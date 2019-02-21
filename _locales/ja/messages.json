@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "日時のフォーマット ('オプション'を参照)"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Advanced"
+  },  
   "optHandlesFeedTabCheckbox": {
     "message": "Handles feed tab"
   },  
