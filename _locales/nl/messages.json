@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "Datum tijd notatie (zie 'Options' sectie)"
   },
+  "optHandlesFeedTabCheckbox": {
+    "message": "Handles feed tab"
+  },  
   "optSelectOpmlFileToImport": {
     "message": "Selecteer het te importeren opml bestand"
   },
@@ -424,6 +427,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Beveiligingsfilterinstellingen"
+  },
+  "optLblDebugView": {
+    "message": "Open the debug view"
+  },
+  "optDebugViewButton": {
+    "message": "Debug view..."
   },
   "optMessageDialogTitle": {
     "message": "Bericht"

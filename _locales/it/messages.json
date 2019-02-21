@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "Formato data/ora (vedi sezione 'Opzioni')"
   },
+  "optHandlesFeedTabCheckbox": {
+    "message": "Handles feed tab"
+  },  
   "optSelectOpmlFileToImport": {
     "message": "Seleziona il file opml da importare"
   },
@@ -424,6 +427,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Impostazioni dei filtri di sicurezza..."
+  },
+  "optLblDebugView": {
+    "message": "Open the debug view"
+  },
+  "optDebugViewButton": {
+    "message": "Debug view..."
   },
   "optMessageDialogTitle": {
     "message": "Messaggio"

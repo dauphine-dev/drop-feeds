@@ -53,6 +53,7 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById('contentsDateTimeLegend').textContent = browser.i18n.getMessage('optContentsDateTimeLegend');
     document.getElementById('contentsDateTimeResetButton').textContent = browser.i18n.getMessage('optContentsDateTimeResetButton');
     document.getElementById('urlDatetimeHelp').textContent = browser.i18n.getMessage('optUrlDatetimeHelp');
+    document.getElementById('handlesFeedTabCheckbox').textContent = browser.i18n.getMessage('optHandlesFeedTabCheckbox');  
   }
 
   async _renderFeedsCheckBoxClicked_event() {

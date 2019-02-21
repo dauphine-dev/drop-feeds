@@ -383,6 +383,9 @@
   "optUrlDatetimeHelp": {
     "message": "日時のフォーマット ('オプション'を参照)"
   },
+  "optHandlesFeedTabCheckbox": {
+    "message": "Handles feed tab"
+  },  
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
@@ -394,6 +397,18 @@
   },
   "optOpmlExport": {
     "message": "エクスポート..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "Select the setting file to import"
+  },
+  "optSettingImport": {
+    "message": "Import..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "Select where to export the setting file"
+  },
+  "optSettingExport": {
+    "message": "Export..."
   },
   "optAdvanced": {
     "message": "高度な設定"
@@ -412,6 +427,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "セキュリティフィルター"
+  },
+  "optLblDebugView": {
+    "message": "Open the debug view"
+  },
+  "optDebugViewButton": {
+    "message": "Debug view..."
   },
   "messageDialogTitle": {
     "message": "メッセージ"

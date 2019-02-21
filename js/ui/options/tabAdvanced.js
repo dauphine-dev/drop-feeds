@@ -19,7 +19,8 @@ class TabAdvanced { /*exported TabAdvanced*/
     document.getElementById('scriptManagerButton').textContent = browser.i18n.getMessage('optScriptManagerButton');
     document.getElementById('lblSecurityFilter').textContent = browser.i18n.getMessage('optLblSecurityFilter');
     document.getElementById('securityFilterButton').textContent = browser.i18n.getMessage('optSecurityFilterButton');
-    //document.getElementById('debugViewButton').textContent = browser.i18n.getMessage('optDebugViewButton');
+    document.getElementById('lblDebugView').textContent = browser.i18n.getMessage('optLblDebugView');
+    document.getElementById('debugViewButton').textContent = browser.i18n.getMessage('optDebugViewButton');
   }
 
   async _scriptManagerButtonOnClicked_event() {
