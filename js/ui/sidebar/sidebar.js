@@ -53,9 +53,12 @@ class SideBar { /*exported SideBar*/
   }
 
   async openSubscribeDialog_async(value) {
-    let tabInfo = await BrowserManager.getActiveTab_async();
-    let feedUrl = (value ? value: tabInfo.url);
-    Dialogs.openSubscribeDialog_async(tabInfo.title, feedUrl);
+    let feedUrl = value;
+    if (!feedUrl) {
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      feedUrl = tabInfo.url;
+    }
+    Dialogs.openSubscribeDialog_async('', feedUrl);
   }
 
   async _contentOnScroll_event() {

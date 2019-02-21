@@ -57,7 +57,7 @@ class Subscribe {
   }
 
   async _setFeedTitle_async() {
-    if (this._feedTitles.length == 1 && this._feedTitles[0] == '') {
+    if (this._feedTitles.length == 1 /*&& this._feedTitles[0] == ''*/) {
       await this._updateFeedTitle_async();
     }
     else {
