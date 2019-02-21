@@ -165,7 +165,6 @@ class FeedParser { /*exported FeedParser*/
     try {
       jsonFeed = JSON.parse(jsonFeedText);
     } catch (e) {
-      console.log(e);
       feedInfo.isError = true;
       return feedInfo;
     }

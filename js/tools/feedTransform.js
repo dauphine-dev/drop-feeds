@@ -3,9 +3,9 @@
 
 class FeedTransform { /*exported FeedTransform*/
 
-  static async transformFeedToHtml_async(feedInfo, addSubscribeButton) {
+  static async transformFeedToHtml_async(feedInfo, subscribeButtonTarget) {
     let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
-    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError, addSubscribeButton);
+    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError, subscribeButtonTarget);
     return htmlText;
   }
 
@@ -79,7 +79,7 @@ class FeedTransform { /*exported FeedTransform*/
     return itemXmlFragments;
   }
 
-  static async _transform_async(xmlText, isError, addSubscribeButton) {
+  static async _transform_async(xmlText, isError, subscribeButtonTarget) {
     let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
@@ -88,15 +88,15 @@ class FeedTransform { /*exported FeedTransform*/
     let xmlDoc = oParser.parseFromString(xmlText, 'application/xml');
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
     FeedTransform._decodeElements(htmlDoc);
-    if (addSubscribeButton) { FeedTransform._addSubscribeButton(htmlDoc); }
+    if (subscribeButtonTarget) { FeedTransform._addSubscribeButton(htmlDoc, subscribeButtonTarget); }
     let htmlText = htmlDoc.documentElement.outerHTML;
     return htmlText;
   }
 
-  static _addSubscribeButton(doc) {
+  static _addSubscribeButton(doc, subscribeButtonTarget) {
     try {
       let subscribeButtonHtml = `
-      <div id="feedHeaderContainer1">
+      <div id="dropFeeds_FeedHandler">
         <div id="rssLogo">
           <div>
             <label id="txtSubscribeUsing">#Subscribe to this feed using&nbsp;</label>
@@ -108,9 +108,17 @@ class FeedTransform { /*exported FeedTransform*/
             <button id="subscribeNow">#Subscribe now</button>
           </div>
         </div>
-      </div>`;
+      </div>
+      `;
       let subscribeButton = document.createRange().createContextualFragment(subscribeButtonHtml);
       doc.body.prepend(subscribeButton);
+      doc.getElementById('subscribeNow').setAttribute('target', subscribeButtonTarget);
+
+      let scriptUrl = browser.extension.getURL('/js/ui/subscribeButton/subscribeButton.js');
+      let subscribeButtonScriptHtml = '\r\n<script src="' + scriptUrl + '"></script>';
+      let subscribeButtonScript = document.createRange().createContextualFragment(subscribeButtonScriptHtml);
+      doc.body.append(subscribeButtonScript);
+
     }
     catch (e) { }
   }

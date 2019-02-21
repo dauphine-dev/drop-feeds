@@ -76,14 +76,14 @@ class Feed { /*exported Feed*/
     return this._error;
   }
 
-  async getDocUrl_async(addSubscribeButton) {
-    let feedHtml = await this._getFeedHtml_async(addSubscribeButton);
+  async getDocUrl_async(subscribeButtonTarget) {
+    let feedHtml = await this._getFeedHtml_async(subscribeButtonTarget);
     let feedBlob = new Blob([feedHtml]);
     let feedHtmlUrl = URL.createObjectURL(feedBlob);
     return feedHtmlUrl;
   }
 
-  async _getFeedHtml_async(addSubscribeButton) {
+  async _getFeedHtml_async(subscribeButtonTarget) {
     let feedHtml = '';
     //if there is an error then get html from the error and return
     if (this._error != null) {
@@ -92,7 +92,7 @@ class Feed { /*exported Feed*/
     }
 
     //there is no error then get html from feed parsing
-    try { feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title, false, addSubscribeButton); }
+    try { feedHtml = await FeedRenderer.renderFeedToHtml_async(this._feedText, this._storedFeed.title, false, subscribeButtonTarget); }
     catch (e) { this._error = e + '\n\n' + e.stack; }
 
     //if an error has occurred  during feed parsing then get html from the error
