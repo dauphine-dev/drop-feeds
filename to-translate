@@ -62,10 +62,8 @@ version;line;messageName;message;where;note
 version;line;messageName;message;where;note
 0.9.6;389;optContentsAreaAdvLegend;Advanced;n/a
 0.9.6;389;optHandlesFeedTabCheckbox;Handle RSS, ATOM, ... feed tabs with Drop Feeds;Settings/Content area;This is option is intercepting direct feed url instead of FF save dialog...
-
 0.9.6;392;optPreventOpenWith;Prevent Open With dialog displaying (*);Settings/Content area;Prevent Open With dialog during interception of feed RSS page.
 0.9.6;395;optWarningPreventOpenWith;(*) warning: with this option activated you can get a wierd behavior on some web pages;Settings/Content area;n/a
-
 0.9.6;401;optOpmlImport;Import...;Settings/Management;optImport has renamed to optOpmlImport, the translation should be unchanged, but please take a look
 0.9.6;407;optOpmlExport;Export...;Settings/Management;optExport has renamed to optOpmlExport, the translation should be unchanged, but please take a look
 0.9.6;410;optSelectSettingFileToImport;Select the setting file to import;Settings/Management;;I have recycled a old translation, but I guess the word 'setting' need to be translated
