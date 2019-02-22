@@ -195,7 +195,7 @@
     "message": "Nuova cartella"
   },
   "subWindowCloseError": {
-    "message": "Drop feeds ha sbagliato a chiudere la finestra, chiuderla a mano"
+    "message": "Drop feeds non è riuscito a chiudere la finestra, chiuderla a mano"
   },
   "subCancel": {
     "message": "Cancella"
@@ -291,10 +291,10 @@
     "message": "Seleziona il tema principale"
   },
   "optSelectRenderTemplate": {
-    "message": "Seleziona il template per la rappresentazione della scheda"
+    "message": "Seleziona il template per la visualizzazione della scheda"
   },
   "optSelectRenderTheme": {
-    "message": "Seleziona il tema per la rappresentazione della scheda"
+    "message": "Seleziona il tema per la visualizzazione della scheda"
   },
   "optFeedItemOrder": {
     "message": "Ordine dei feed"
@@ -342,7 +342,7 @@
     "message": "Mostra una breve descrizione (tooltip)"
   },
   "optNavigationHistoryWarning": {
-    "message": "(*) attenzione: segnando i feed come letti/non letti impatta sullo storico di navigazione !"
+    "message": "(*) attenzione: segnando i feed come letti/non letti impatta sullo storico di navigazione!"
   },
   "optFeedItemMarkAsReadOnLeaving": {
     "message": "Marca tutti gli elementi come già letti prima di uscire da feeds"
@@ -390,7 +390,7 @@
     "message": "Gestisci le schede di feed RSS, ATOM,... con  Drop Feeds"
   },  
   "optPreventOpenWith": {
-    "message": "Evita l'apertura dellla finestra di dialogo (*)"
+    "message": "Evita l'apertura della finestra di dialogo (*)"
   },
   "optWarningPreventOpenWith": {
     "message": "(*) attenzione: questa opzione potrebbe causare un comportamento anomalo su alcune pagine"
