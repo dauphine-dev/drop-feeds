@@ -384,16 +384,16 @@
     "message": "Formato data/ora (vedi sezione 'Opzioni')"
   },
   "optContentsAreaAdvLegend": {
-    "message": "Advanced"
+    "message": "Avanzate"
   },  
   "optHandlesFeedTabCheckbox": {
-    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+    "message": "Gestisci le schede di feed RSS, ATOM,... con  Drop Feeds"
   },  
   "optPreventOpenWith": {
-    "message": "Prevent Open With dialog displaying (*)"
+    "message": "Evita l'apertura dellla finestra di dialogo (*)"
   },
   "optWarningPreventOpenWith": {
-    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+    "message": "(*) attenzione: questa opzione potrebbe causare un comportamento anomalo su alcune pagine"
   },
   "optSelectOpmlFileToImport": {
     "message": "Seleziona il file opml da importare"
@@ -408,13 +408,13 @@
     "message": "Esporta..."
   },
   "optSelectSettingFileToImport": {
-    "message": "Seleziona il file setting da importare"
+    "message": "Seleziona il file di impostazioni da importare"
   },
   "optSettingImport": {
     "message": "Importa..."
   },
   "optSelectSettingFileToExport": {
-    "message": "Seleziona dove esportare il file setting"
+    "message": "Seleziona dove esportare il file di impostazioni"
   },
   "optSettingExport": {
     "message": "Esporta..."
@@ -438,10 +438,10 @@
     "message": "Impostazioni dei filtri di sicurezza..."
   },
   "optLblDebugView": {
-    "message": "Open the debug view"
+    "message": "Apri la finestra di debug"
   },
   "optDebugViewButton": {
-    "message": "Debug view..."
+    "message": "Finestra di debug..."
   },
   "optMessageDialogTitle": {
     "message": "Messaggio"
