@@ -38,6 +38,10 @@ class TabContentArea { /*exported TabContentArea*/
     elHandlesFeedTabCheckbox.checked = await LocalStorageManager.getValue_async('handlesFeedTab', DefaultValues.handlesFeedTab);
     elHandlesFeedTabCheckbox.addEventListener('click', (e) => { this._handlesFeedTabCheckboxClicked_event(e); });
 
+    let elPreventOpenWithCheckbox = document.getElementById('preventOpenWithCheckbox');
+    elPreventOpenWithCheckbox.checked = await LocalStorageManager.getValue_async('preventOpenWith', DefaultValues.preventOpenWith);
+    elPreventOpenWithCheckbox.addEventListener('click', (e) => { this._preventOpenWithCheckboxClicked_event(e); });
+
 
     this._contentsDateTimeFormatOnchange_event();
     this._enableItemOptions();
@@ -121,4 +125,9 @@ class TabContentArea { /*exported TabContentArea*/
   async _handlesFeedTabCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('handlesFeedTab', document.getElementById('handlesFeedTabCheckbox').checked);
   }
+
+  async _preventOpenWithCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('preventOpenWith', document.getElementById('preventOpenWithCheckbox').checked);
+  }
+
 }

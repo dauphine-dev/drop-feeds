@@ -40,6 +40,8 @@ class DefaultValues { /*exported DefaultValues*/
   static get dateTimeOptions()               { return { weekday: 'long', year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' }; }
   static get hideReadArticles()              { return false; }
   static get handlesFeedTab()                { return true; }
+  static get preventOpenWith()               { return false; }
+  
 
   static get allowedTagList() {
     return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },
