@@ -55,6 +55,8 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById('urlDatetimeHelp').textContent = browser.i18n.getMessage('optUrlDatetimeHelp');
     document.getElementById('contentsAreaAdvLegend').textContent = browser.i18n.getMessage('optContentsAreaAdvLegend');
     document.getElementById('textHandlesFeedTab').textContent = browser.i18n.getMessage('optHandlesFeedTabCheckbox');
+    document.getElementById('textPreventOpenWith').textContent = browser.i18n.getMessage('optPreventOpenWith');
+    document.getElementById('texWarningPreventOpenWith').textContent = browser.i18n.getMessage('optWarningPreventOpenWith');    
   }
 
   async _renderFeedsCheckBoxClicked_event() {

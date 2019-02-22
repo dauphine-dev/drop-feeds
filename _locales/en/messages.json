@@ -385,9 +385,15 @@
   },
   "optContentsAreaAdvLegend": {
     "message": "Advanced"
-  },  
+  },
   "optHandlesFeedTabCheckbox": {
     "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+  },
+  "optPreventOpenWith": {
+    "message": "Prevent Open With dialog displaying (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
   },
   "optSelectOpmlFileToImport": {
     "message": "Select the opml file to import"
