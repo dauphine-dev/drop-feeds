@@ -13,10 +13,10 @@ class SubscribeButton {
     document.getElementById('subscribeNow').textContent = browser.i18n.getMessage('stfSubscribeNow');
   }
 
-  _subscribeNowButtonOnClicked_event(e) {
+  _subscribeNowButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    let targetFeed = e.target.getAttribute('target');
+    let targetFeed = event.target.getAttribute('target');
     browser.runtime.sendMessage({key:'openSubscribeDialog', value: targetFeed });
   }
 }
