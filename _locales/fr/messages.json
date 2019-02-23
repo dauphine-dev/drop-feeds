@@ -390,10 +390,10 @@
     "message": "Afficher les onglets flux RSS, ATOM, ...  avec Drop Feeds"
   },  
   "optPreventOpenWith": {
-    "message": "Prevent Open With dialog displaying (*)"
+    "message": "Prévenir l'affichage de la boite de dialogue Ouvrir Avec... (*)"
   },
   "optWarningPreventOpenWith": {
-    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+    "message": "(*) attention: en activant cette vous pouvez obtenir des comportement anormaux sur certaine pages web"
   },
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"
