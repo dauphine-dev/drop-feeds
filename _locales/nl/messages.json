@@ -3,7 +3,7 @@
     "message": "------------------Manifest strings------------------"
   },
   "manExtensionDescription": {
-    "message": "Geeft een zijbalk weer om RSS-feeds te beheren middels een mappenstructuurweergave"
+    "message": "Toont RSS-feeds in een zijbalk en beheer deze in een mappenstuctuurweergave"
   },
   "manPageActionDefaultTitle": {
     "message": "Ga naar de abonnementspagina"
@@ -21,7 +21,7 @@
     "message": "Check feeds"
   },
   "sbStopAndRestart": {
-    "message": "Stop met checken en herstart Drop feeds"
+    "message": "Stop met checken van feeds en herstart Drop Feeds"
   },
   "sbDiscoverFeeds": {
     "message": "Nieuwe feeds ontdekken"
@@ -207,7 +207,7 @@
     "message": "Aanmaken"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "Toon feed preview"
   },
   "subLoading": {
     "message": "Laden..."
@@ -384,16 +384,16 @@
     "message": "Datum tijd notatie (zie 'Options' sectie)"
   },
   "optContentsAreaAdvLegend": {
-    "message": "Advanced"
+    "message": "Geavanceerd"
   },  
   "optHandlesFeedTabCheckbox": {
-    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+    "message": "Bewerk RSS, ATOM, ... feedtabs met Drop Feeds"
   },  
   "optPreventOpenWith": {
-    "message": "Prevent Open With dialog displaying (*)"
+    "message": "Voorkom het tonen van Openen Met scherm (*)"
   },
   "optWarningPreventOpenWith": {
-    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+    "message": "(*) waarschuwing: met deze optie geactiveerd, kunnen sommige webpagina's raar gedrag vertonen"
   },
   "optSelectOpmlFileToImport": {
     "message": "Selecteer het te importeren opml bestand"
@@ -402,25 +402,25 @@
     "message": "Importeren..."
   },
   "optSelectOpmlFileToExport": {
-    "message": "Selecteer waarnaartoe het opml bestand te exporteren"
+    "message": "Selecteer de export lokatie voor het opml bestand"
   },
   "optOpmlExport": {
     "message": "Exporteren..."
   },
   "optSelectSettingFileToImport": {
-    "message": "Selecteer het te importeren setting bestand"
+    "message": "Selecteer het te importeren instellingen bestand"
   },
   "optSettingImport": {
     "message": "Importeren..."
   },
   "optSelectSettingFileToExport": {
-    "message": "Selecteer waarnaartoe het opml setting te exporteren"
+    "message": "Selecteer de export lokatie voor het instellingen bestand"
   },
   "optSettingExport": {
-    "message": "Export..."
+    "message": "Exporteren..."
   },
   "optAdvanced": {
-    "message": "Geadvanceerd"
+    "message": "Geavanceerd"
   },
   "optLblScriptManager": {
     "message": "Open scriptbeheer"
@@ -438,10 +438,10 @@
     "message": "Beveiligingsfilterinstellingen"
   },
   "optLblDebugView": {
-    "message": "Open the debug view"
+    "message": "Open het debug scherm"
   },
   "optDebugViewButton": {
-    "message": "Debug view..."
+    "message": "Debug scherm..."
   },
   "optMessageDialogTitle": {
     "message": "Bericht"
