@@ -45,6 +45,7 @@ class TabContentArea { /*exported TabContentArea*/
 
     this._contentsDateTimeFormatOnchange_event();
     this._enableItemOptions();
+    this._enablePreventOpenWith();
   }
 
   _updateLocalizedStrings() {
@@ -116,18 +117,27 @@ class TabContentArea { /*exported TabContentArea*/
     this._enableElement('contentsDateTimeFieldset', null, enabled);
   }
 
+  _enablePreventOpenWith() {
+    let enabled = document.getElementById('handlesFeedTabCheckbox').checked;
+    this._enableElement('preventOpenWithCheckbox', 'textPreventOpenWith', enabled);
+  }
+
+
   _enableElement(elementId, textId, enabled) {
     document.getElementById(elementId).disabled = !enabled;
     CssManager.setElementEnableById(elementId, enabled);
     if (textId) { CssManager.setElementEnableById(textId, enabled); }
   }
 
+
   async _handlesFeedTabCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('handlesFeedTab', document.getElementById('handlesFeedTabCheckbox').checked);
+    this._enablePreventOpenWith();
   }
 
   async _preventOpenWithCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('preventOpenWith', document.getElementById('preventOpenWithCheckbox').checked);
   }
+
 
 }
