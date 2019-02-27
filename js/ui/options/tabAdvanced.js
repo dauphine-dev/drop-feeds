@@ -7,6 +7,7 @@ class TabAdvanced { /*exported TabAdvanced*/
     this._updateLocalizedStrings();
     document.getElementById('scriptManagerButton').addEventListener('click', (e) => { this._scriptManagerButtonOnClicked_event(e); });
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
+    document.getElementById('debugViewButton').addEventListener('click', (e) => { this._debugViewButtonOnClicked_event(e); });
     document.getElementById('fieldGuid').value = BrowserManager.getDropFeedGUID();
   }
 
@@ -18,6 +19,8 @@ class TabAdvanced { /*exported TabAdvanced*/
     document.getElementById('scriptManagerButton').textContent = browser.i18n.getMessage('optScriptManagerButton');
     document.getElementById('lblSecurityFilter').textContent = browser.i18n.getMessage('optLblSecurityFilter');
     document.getElementById('securityFilterButton').textContent = browser.i18n.getMessage('optSecurityFilterButton');
+    document.getElementById('lblDebugView').textContent = browser.i18n.getMessage('optLblDebugView');
+    document.getElementById('debugViewButton').textContent = browser.i18n.getMessage('optDebugViewButton');
   }
 
   async _scriptManagerButtonOnClicked_event() {
@@ -27,4 +30,9 @@ class TabAdvanced { /*exported TabAdvanced*/
   async _securityFilterButtonOnClicked_event() {
     await browser.tabs.create({ url: '/html/securityFilter.html', active: true });
   }
+
+  async _debugViewButtonOnClicked_event() {
+    await browser.tabs.create({ url: '/html/debug.html', active: true });
+  }
+
 }

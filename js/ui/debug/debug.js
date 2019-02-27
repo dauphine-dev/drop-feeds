@@ -70,8 +70,8 @@ class Debug {
     });
 
     let htmlText = '';
-    htmlText += '  ' + Debug._addSectionHtml('Test button colors');
-    htmlText += '  ' + Debug._testButtonWithHueRotate();
+    //htmlText += '  ' + Debug._addSectionHtml('Test button colors');
+    //htmlText += '  ' + Debug._testButtonWithHueRotate();
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);

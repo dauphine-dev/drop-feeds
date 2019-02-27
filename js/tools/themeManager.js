@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager Listener ListenerProviders*/
 'use strict';
-const _themeKind = {'mainTheme':1, 'renderTemplate':2, 'renderTheme':3};
+const _themeKind = { 'mainTheme': 1, 'renderTemplate': 2, 'renderTheme': 3 };
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -9,7 +9,11 @@ class ThemeManager { /*exported ThemeManager*/
     this._mainThemesListUrl = '/themes/themes.list';
     this._renderTemplateListUrl = '/themes/_renderTab/_templates/template.list';
     this._renderThemeListUrl = '/themes/_renderTab/themes.list';
+    this._iconDF08Url = '/themes/_templates/img/drop-feeds-08.png';
+    this._iconDF16Url = '/themes/_templates/img/drop-feeds-16.png';
     this._iconDF32Url = '/themes/_templates/img/drop-feeds-32.png';
+    this._iconDF48Url = '/themes/_templates/img/drop-feeds-48.png';
+    this._iconDF64Url = '/themes/_templates/img/drop-feeds-64.png';
     this._iconDF96Url = '/themes/_templates/img/drop-feeds-96.png';
 
     this._mainThemeFolderName = DefaultValues.mainThemeFolderName;
@@ -52,37 +56,27 @@ class ThemeManager { /*exported ThemeManager*/
     }
   }
 
-  get kind() {
-    return _themeKind;
-  }
+  get kind() { return _themeKind; }
 
-  get mainThemeFolderName() {
-    return this._mainThemeFolderName;
-  }
+  get mainThemeFolderName() { return this._mainThemeFolderName; }
 
   set mainThemeFolderName(value) {
     LocalStorageManager.setValue_async('mainThemeFolderName', value);
   }
 
-  get renderTemplateFolderName() {
-    return this._renderTemplateFolderName;
-  }
-  
+  get renderTemplateFolderName() { return this._renderTemplateFolderName; }
+
   set renderTemplateFolderName(value) {
     LocalStorageManager.setValue_async('renderTemplateFolderName', value);
   }
 
-  get renderThemeFolderName() {
-    return this._renderThemeFolderName;
-  }
-  
+  get renderThemeFolderName() { return this._renderThemeFolderName; }
+
   set renderThemeFolderName(value) {
     LocalStorageManager.setValue_async('renderThemeFolderName', value);
   }
 
-  get mainThemeFolderUrl() {
-    return this.themeBaseFolderUrl + this._mainThemeFolderName + '/';
-  }
+  get mainThemeFolderUrl() { return this.themeBaseFolderUrl + this._mainThemeFolderName + '/'; }
 
   getRenderCssTemplateUrl(isError) {
     let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + (isError ? '_error' : this._renderTemplateFolderName) + '/css/template.css';
@@ -94,10 +88,14 @@ class ThemeManager { /*exported ThemeManager*/
     return cssTemplateUrl;
   }
 
-
   getRenderCssUrl() {
     let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
     return cssRenderUrl;
+  }
+
+  getRenderSubscribeButtonCssUrl() {
+    let cssSubscribeButtonUrl = this.themeBaseFolderUrl + '_renderTab/_templates/_any/css/subscribeButton.css';
+    return cssSubscribeButtonUrl;
   }
 
   getImgUrl(imgName) {
@@ -134,29 +132,25 @@ class ThemeManager { /*exported ThemeManager*/
     }
   }
 
-  get iconDF32Url() {
-    return this._iconDF32Url;
-  }
+  get iconDF08Url() { return this._iconDF08Url; }
 
-  get iconDF96Url() {
-    return this._iconDF96Url;
-  }
+  get iconDF16Url() { return this._iconDF16Url; }
 
-  get themeBaseFolderUrl() {
-    return this._themeBaseFolderUrl;
-  }
+  get iconDF32Url() { return this._iconDF32Url; }
 
-  get mainThemesListUrl() {
-    return this._mainThemesListUrl;
-  }
+  get iconDF48Url() { return this._iconDF48Url; }
 
-  get renderTemplateListUrl() {
-    return this._renderTemplateListUrl;
-  }
+  get iconDF64Url() { return this._iconDF64Url; }
 
-  get renderThemeListUrl() {
-    return this._renderThemeListUrl;
-  }
+  get iconDF96Url() { return this._iconDF96Url; }
+
+  get themeBaseFolderUrl() { return this._themeBaseFolderUrl; }
+
+  get mainThemesListUrl() { return this._mainThemesListUrl; }
+
+  get renderTemplateListUrl() { return this._renderTemplateListUrl; }
+
+  get renderThemeListUrl() { return this._renderThemeListUrl; }
 
 
 }

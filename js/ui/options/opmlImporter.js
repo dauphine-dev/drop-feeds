@@ -10,7 +10,7 @@ class OpmlImporter { /*exported OpmlImporter*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   async import_async() {
-    let file = document.getElementById('inputImportFile').files[0];
+    let file = document.getElementById('inputOpmlImportFile').files[0];
     let reader = new FileReader();
     reader.onload = ((e) => { this._fileReaderOnLoad_event(e); });
     reader.readAsText(file);
@@ -18,7 +18,7 @@ class OpmlImporter { /*exported OpmlImporter*/
 
   async _fileReaderOnLoad_event(event) {
     let opmlText = event.target.result;
-    this._progressBarImport = new ProgressBar('progressBarImport');
+    this._progressBarImport = new ProgressBar('progressBarOpmlImport');
     let isOpmlValid = this._opmlIsValid(opmlText);
     if (isOpmlValid) {
       await this._importOpmlOutlinesAsync(opmlText);

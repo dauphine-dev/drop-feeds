@@ -3,7 +3,7 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "applications": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
@@ -63,14 +63,15 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "permissions": [
     "<all_urls>",
-    "webRequest",
     "bookmarks",
-    "menus",
     "contextMenus",
-    "storage",
     "downloads",
-    "tabs",
+    "history",
+    "menus",
     "notifications",
-    "history"
+    "storage",
+    "tabs",
+    "webNavigation",
+    "webRequest"
   ]
 }

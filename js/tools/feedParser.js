@@ -22,37 +22,52 @@ const tagList = {
 class FeedParser { /*exported FeedParser*/
   static parsePubdate(feedText) {
     if (!feedText) return null;
-    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
-    let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let pubDateList = [];
-
-    let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
-    for (let i = 0; i < itemNumber; i++) {
-      let itemId = FeedParser._getItemId(itemText);
-      let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
-      let pubDate = FeedParser._extractDateTime(pubDateString);
-      pubDateList.push(pubDate);
-      itemText = FeedParser._getNextItem(feedText, itemId, tagItem);
+    let isJson = feedText.startsWith('{');
+    if (isJson) {
+      //get all json feed items date
+      try {
+        let jsonFeed = JSON.parse(feedText);
+        for (let feed of jsonFeed.feeds) {
+          pubDateList.push(feed.feed);
+        }
+      }
+      catch (e) { }
     }
-
+    else {
+      //get all xml feed items date
+      let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+      let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
+      let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
+      for (let i = 0; i < itemNumber; i++) {
+        let itemId = FeedParser._getItemId(itemText);
+        let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
+        let pubDate = FeedParser._extractDateTime(pubDateString);
+        pubDateList.push(pubDate);
+        itemText = FeedParser._getNextItem(feedText, itemId, tagItem);
+      }
+    }
+    //sort dates
     pubDateList.sort((date1, date2) => {
       if (date1 > date2) return -1;
       if (date1 < date2) return 1;
       return 0;
     });
+    //get last pubDate
     let pubDate = pubDateList[0];
-    if (!pubDate || pubDate == new Date(null)) {
-      /*
-      let lastBuildDateText = FeedParser._extractValue(feedText, tagList.LASTBUILDDATE);
-      pubDate = FeedParser._extractDateTime(lastBuildDateText);
-      */
-      pubDate = null;
-    }
+    if (!pubDate || pubDate == new Date(null)) { pubDate = null; }
     return pubDate;
   }
 
   static parseTitle(feedText) {
     if (!feedText) return null;
+    let isJson = feedText.startsWith('{');
+    if (isJson) {
+      try {
+        return JSON.parse(feedText).title;
+      }
+      catch (e) { return null; }
+    }
     let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     let channelText = FeedParser._getChannelText(feedText, tagItem);
     let title = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.TITLE));
@@ -61,11 +76,18 @@ class FeedParser { /*exported FeedParser*/
 
   static getFeedBody(feedText) {
     let feedBody = feedText;
-    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
-    if (tagItem) {
-      let i = feedText.indexOf(tagItem);
-      if (i >= 0) {
-        feedBody = feedText.substring(i);
+    let isJson = feedText.startsWith('{');
+    if (isJson) {
+      try { feedBody = JSON.stringify(JSON.parse(feedText).items, null, 1); }
+      catch (e) { }
+    }
+    else {
+      let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+      if (tagItem) {
+        let i = feedText.indexOf(tagItem);
+        if (i >= 0) {
+          feedBody = feedText.substring(i);
+        }
       }
     }
     return feedBody;
@@ -75,39 +97,88 @@ class FeedParser { /*exported FeedParser*/
     if (!feedText) {
       return 'Feed is empty!';
     }
-
-    let tagFeed = null;
-    for (let tag of tagList.FEED) {
-      if (feedText.includes('<' + tag)) {
-        tagFeed = tag;
-        break;
+    let isJson = feedText.startsWith('{');
+    if (isJson) {
+      let jsonFeed = undefined;
+      try { jsonFeed = JSON.parse(feedText); }
+      catch (e) { return e; }
+      if (!jsonFeed) {
+        return 'Unable to parse the json feed';
       }
-    }
-    if (!tagFeed) {
-      return 'Feed tags are missing';
-    }
+      if (!jsonFeed.items) {
+        return 'This json feed has no "items" element';
+      }
 
-    let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
-    if (!tagItem) {
-      return 'Feed doesn\'t contain items';
     }
+    else {
+      //Assume that's a xml feed
+      let tagFeed = null;
+      for (let tag of tagList.FEED) {
+        if (feedText.includes('<' + tag)) {
+          tagFeed = tag;
+          break;
+        }
+      }
+      if (!tagFeed) {
+        return 'Feed tags are missing';
+      }
 
-    let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
-    if (!tagChannel) {
-      return 'Feed has no channels';
+      let tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
+      if (!tagItem) {
+        return 'Feed doesn\'t contain items';
+      }
+
+      let tagChannel = FeedParser._get1stUsedTag(feedText, tagList.CHANNEL);
+      if (!tagChannel) {
+        return 'Feed has no channels';
+      }
     }
     return null;
   }
 
   static async getFeedInfo_async(feedText, defaultTitle, isError) {
+    let isJson = feedText.startsWith('{');
+    let feedInfo = undefined;
+    if (isJson) {
+      feedInfo = FeedParser._getFeedJsonInfo_async(feedText, defaultTitle, isError);
+    }
+    else {
+      feedInfo = FeedParser._getFeedXmlInfo_async(feedText, defaultTitle, isError);
+    }
+    return feedInfo;
+  }
+
+  static async _getFeedXmlInfo_async(feedText, defaultTitle, isError) {
     let feedInfo = DefaultValues.getDefaultFeedInfo();
     feedInfo.isError = isError;
     feedInfo.tagItem = FeedParser._get1stUsedTag(feedText, tagList.ITEM);
     feedInfo.format = FeedParser._getFeedFormat(feedInfo.tagItem, feedText);
     feedInfo.channel = FeedParser._parseChannelToObj(feedText, feedInfo.tagItem, defaultTitle);
-    feedInfo.itemList = await FeedParser._parseItems_async(feedText, feedInfo.tagItem);
+    feedInfo.itemList = await FeedParser._parseXmlItems_async(feedText, feedInfo.tagItem);
     return feedInfo;
   }
+
+
+  static async _getFeedJsonInfo_async(jsonFeedText, defaultTitle, isError) {
+    let feedInfo = DefaultValues.getDefaultFeedInfo();
+    let jsonFeed = undefined;
+    try {
+      jsonFeed = JSON.parse(jsonFeedText);
+    } catch (e) {
+      feedInfo.isError = true;
+      return feedInfo;
+    }
+    feedInfo.isError = isError;
+    feedInfo.tagItem = 'json';
+    feedInfo.format = 'json';
+    feedInfo.channel = DefaultValues.getDefaultChannelInfo();
+    feedInfo.channel.title = jsonFeed.title;
+    feedInfo.channel.link = jsonFeed.home_page_url;
+    feedInfo.channel.description = jsonFeed.description;
+    feedInfo.itemList = await FeedParser._parseJsonItems_async(jsonFeed);
+    return feedInfo;
+  }
+
 
   static getFeedEncoding(text) {
     if (!text) { return null; }
@@ -313,7 +384,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
 
-  static async _parseItems_async(feedText, tagItem) {
+  static async _parseXmlItems_async(feedText, tagItem) {
     if (!feedText) return null;
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let itemList = [];
@@ -336,6 +407,31 @@ class FeedParser { /*exported FeedParser*/
       item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
+    }
+    return itemList;
+  }
+
+  static async _parseJsonItems_async(jsonFeed) {
+    if (!jsonFeed) return null;
+    let i = 0;
+    let itemList = [];
+    for (let jsonItem of jsonFeed.items) {
+      let item = DefaultValues.getDefaultItem(null);
+      item.id = Compute.hashCode(jsonItem.id);
+      item.number = ++i;
+      item.link = jsonItem.url;
+      item.title = jsonItem.title;
+      item.description = TextTools.replaceAll(TextTools.replaceAll(jsonItem.html_content, '\r\n', '\n'), '\n', '<br/>');
+      item.author = jsonItem.author.name;
+      let enclosures = [];
+      for (let att of jsonItem.attachments) {
+        enclosures.push({ 'url': att.url, 'mimetype': att.mime_type, 'size': att.size });
+      }
+      item.enclosure = enclosures[0]; //Todo: manage many enclosures
+      let pubDateString = jsonItem.date_modified;
+      item.pubDate = FeedParser._extractDateTime(pubDateString);
+      item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
+      itemList.push(item);
     }
     return itemList;
   }

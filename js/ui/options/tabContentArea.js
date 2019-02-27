@@ -34,8 +34,18 @@ class TabContentArea { /*exported TabContentArea*/
     let contentsDateTimeResetButton = document.getElementById('contentsDateTimeResetButton');
     contentsDateTimeResetButton.addEventListener('click', (e) => { this._contentsDateTimeResetButtonClicked_event(e); });
 
+    let elHandlesFeedTabCheckbox = document.getElementById('handlesFeedTabCheckbox');
+    elHandlesFeedTabCheckbox.checked = await LocalStorageManager.getValue_async('handlesFeedTab', DefaultValues.handlesFeedTab);
+    elHandlesFeedTabCheckbox.addEventListener('click', (e) => { this._handlesFeedTabCheckboxClicked_event(e); });
+
+    let elPreventOpenWithCheckbox = document.getElementById('preventOpenWithCheckbox');
+    elPreventOpenWithCheckbox.checked = await LocalStorageManager.getValue_async('preventOpenWith', DefaultValues.preventOpenWith);
+    elPreventOpenWithCheckbox.addEventListener('click', (e) => { this._preventOpenWithCheckboxClicked_event(e); });
+
+
     this._contentsDateTimeFormatOnchange_event();
     this._enableItemOptions();
+    this._enablePreventOpenWith();
   }
 
   _updateLocalizedStrings() {
@@ -48,6 +58,10 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById('contentsDateTimeLegend').textContent = browser.i18n.getMessage('optContentsDateTimeLegend');
     document.getElementById('contentsDateTimeResetButton').textContent = browser.i18n.getMessage('optContentsDateTimeResetButton');
     document.getElementById('urlDatetimeHelp').textContent = browser.i18n.getMessage('optUrlDatetimeHelp');
+    document.getElementById('contentsAreaAdvLegend').textContent = browser.i18n.getMessage('optContentsAreaAdvLegend');
+    document.getElementById('textHandlesFeedTab').textContent = browser.i18n.getMessage('optHandlesFeedTabCheckbox');
+    document.getElementById('textPreventOpenWith').textContent = browser.i18n.getMessage('optPreventOpenWith');
+    document.getElementById('texWarningPreventOpenWith').textContent = browser.i18n.getMessage('optWarningPreventOpenWith');    
   }
 
   async _renderFeedsCheckBoxClicked_event() {
@@ -103,9 +117,27 @@ class TabContentArea { /*exported TabContentArea*/
     this._enableElement('contentsDateTimeFieldset', null, enabled);
   }
 
+  _enablePreventOpenWith() {
+    let enabled = document.getElementById('handlesFeedTabCheckbox').checked;
+    this._enableElement('preventOpenWithCheckbox', 'textPreventOpenWith', enabled);
+  }
+
+
   _enableElement(elementId, textId, enabled) {
     document.getElementById(elementId).disabled = !enabled;
     CssManager.setElementEnableById(elementId, enabled);
     if (textId) { CssManager.setElementEnableById(textId, enabled); }
   }
+
+
+  async _handlesFeedTabCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('handlesFeedTab', document.getElementById('handlesFeedTabCheckbox').checked);
+    this._enablePreventOpenWith();
+  }
+
+  async _preventOpenWithCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('preventOpenWith', document.getElementById('preventOpenWithCheckbox').checked);
+  }
+
+
 }

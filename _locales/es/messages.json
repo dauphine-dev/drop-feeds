@@ -383,16 +383,40 @@
   "optUrlDatetimeHelp": {
     "message": "Date time formats (see section 'Options')"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Advanced"
+  },  
+  "optHandlesFeedTabCheckbox": {
+    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+  },  
+  "optPreventOpenWith": {
+    "message": "Prevent Open With dialog displaying (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+  },
   "optSelectOpmlFileToImport": {
     "message": "Seleccione el archivo opml para importar"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "Importar..."
   },
   "optSelectOpmlFileToExport": {
     "message": "Seleccione dónde exportar el archivo opml"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "Exportar..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "Seleccione el archivo setting para importar"
+  },
+  "optSettingImport": {
+    "message": "Importar..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "Seleccione dónde exportar el archivo setting"
+  },
+  "optSettingExport": {
     "message": "Exportar..."
   },
   "optAdvanced": {
@@ -412,6 +436,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Configuración de filtros de seguridad"
+  },
+  "optLblDebugView": {
+    "message": "Open the debug view"
+  },
+  "optDebugViewButton": {
+    "message": "Debug view..."
   },
   "optMessageDialogTitle": {
     "message": "Mensaje"

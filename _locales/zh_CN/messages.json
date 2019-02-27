@@ -383,16 +383,40 @@
   "optUrlDatetimeHelp": {
     "message": "Date time formats (see section 'Options')"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Advanced"
+  },  
+  "optHandlesFeedTabCheckbox": {
+    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+  },  
+  "optPreventOpenWith": {
+    "message": "Prevent Open With dialog displaying (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+  },
   "optSelectOpmlFileToImport": {
     "message": "打开 opml 文件以导入"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "导入..."
   },
   "optSelectOpmlFileToExport": {
     "message": "选择导出 ompl 文件的位置"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "导出..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "打开 setting 文件以导入"
+  },
+  "optSettingImport": {
+    "message": "导入..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "选择导出 setting 文件的位置"
+  },
+  "optSettingExport": {
     "message": "导出..."
   },
   "optAdvanced": {
@@ -412,6 +436,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Security filter settings"
+  },
+  "optLblDebugView": {
+    "message": "Open the debug view"
+  },
+  "optDebugViewButton": {
+    "message": "Debug view..."
   },
   "messageDialogTitle": {
     "message": "Message"

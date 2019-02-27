@@ -383,16 +383,40 @@
   "optUrlDatetimeHelp": {
     "message": "Formats date et heure (voir la section 'Options')"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Avancé"
+  },  
+  "optHandlesFeedTabCheckbox": {
+    "message": "Afficher les onglets flux RSS, ATOM, ...  avec Drop Feeds"
+  },  
+  "optPreventOpenWith": {
+    "message": "Prévenir l'affichage de la boite de dialogue Ouvrir Avec... (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) attention: en activant cette vous pouvez obtenir des comportement anormaux sur certaine pages web"
+  },
   "optSelectOpmlFileToImport": {
     "message": "Sélectionnez le fichier opml à importer"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "Importer..."
   },
   "optSelectOpmlFileToExport": {
     "message": "Sélectionnez l'emplacement où exporter le fichier opml"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "Exporter..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "Sélectionnez le fichier de réglages à importer"
+  },
+  "optSettingImport": {
+    "message": "Importer..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "Sélectionnez l'emplacement où exporter le fichier de réglages"
+  },
+  "optSettingExport": {
     "message": "Exporter..."
   },
   "optAdvanced": {
@@ -412,6 +436,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Réglage des filtres de sécurité"
+  },
+  "optLblDebugView": {
+    "message": "Ouvrir la vue de déboguage"
+  },
+  "optDebugViewButton": {
+    "message": "Vue de déboguage..."
   },
   "messageDialogTitle": {
     "message": "Message"

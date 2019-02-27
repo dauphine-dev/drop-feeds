@@ -12,6 +12,11 @@
           <xsl:element name="link">
             <xsl:attribute name="rel">stylesheet</xsl:attribute>
             <xsl:attribute name="type">text/css</xsl:attribute>
+            <xsl:attribute name="href"><xsl:value-of select="/render/context/subscribeButtonStyle"/></xsl:attribute>
+          </xsl:element>
+          <xsl:element name="link">
+            <xsl:attribute name="rel">stylesheet</xsl:attribute>
+            <xsl:attribute name="type">text/css</xsl:attribute>
             <xsl:attribute name="href"><xsl:value-of select="/render/context/template"/></xsl:attribute>
           </xsl:element>
           <xsl:element name="link">

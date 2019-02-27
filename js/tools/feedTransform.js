@@ -3,9 +3,9 @@
 
 class FeedTransform { /*exported FeedTransform*/
 
-  static async transformFeedToHtml_async(feedInfo) {
+  static async transformFeedToHtml_async(feedInfo, subscribeButtonTarget) {
     let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
-    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError);
+    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError, subscribeButtonTarget);
     return htmlText;
   }
 
@@ -16,6 +16,7 @@ class FeedTransform { /*exported FeedTransform*/
 
   static _getFeedXml(feedInfo) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
+    let subscribeButtonCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderSubscribeButtonCssUrl());
     let templateCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl(feedInfo.isError));
     let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(feedInfo.isError));
     let themeUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
@@ -25,6 +26,7 @@ class FeedTransform { /*exported FeedTransform*/
 <render>
   <context>
     <icon><![CDATA[` + iconUrl + `]]></icon>
+    <subscribeButtonStyle><![CDATA[` + subscribeButtonCssUrl + `]]></subscribeButtonStyle>
     <template><![CDATA[` + templateCssUrl + `]]></template>
     <theme><![CDATA[` + themeUrl + `]]></theme>  
   </context>
@@ -77,7 +79,7 @@ class FeedTransform { /*exported FeedTransform*/
     return itemXmlFragments;
   }
 
-  static async _transform_async(xmlText, isError) {
+  static async _transform_async(xmlText, isError, subscribeButtonTarget) {
     let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
@@ -86,8 +88,39 @@ class FeedTransform { /*exported FeedTransform*/
     let xmlDoc = oParser.parseFromString(xmlText, 'application/xml');
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
     FeedTransform._decodeElements(htmlDoc);
+    if (subscribeButtonTarget) { FeedTransform._addSubscribeButton(htmlDoc, subscribeButtonTarget); }
     let htmlText = htmlDoc.documentElement.outerHTML;
     return htmlText;
+  }
+
+  static _addSubscribeButton(doc, subscribeButtonTarget) {
+    try {
+      let subscribeButtonHtml = `
+      <div id="dropFeeds_FeedHandler">
+        <div id="rssLogo">
+          <div>
+            <label id="txtSubscribeUsing">#Subscribe to this feed using&nbsp;</label>
+              <select id="handlersMenuList1">
+                <option selected="true">Drop Feeds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </option>
+              </select>        
+            <button id="subscribeNow">#Subscribe now</button>
+          </div>
+        </div>
+      </div>
+      `;
+      let subscribeButton = document.createRange().createContextualFragment(subscribeButtonHtml);
+      doc.body.prepend(subscribeButton);
+      doc.getElementById('subscribeNow').setAttribute('target', subscribeButtonTarget);
+
+      let scriptUrl = browser.extension.getURL('/js/ui/subscribeButton/subscribeButton.js');
+      let subscribeButtonScriptHtml = '\r\n<script src="' + scriptUrl + '"></script>';
+      let subscribeButtonScript = document.createRange().createContextualFragment(subscribeButtonScriptHtml);
+      doc.body.append(subscribeButtonScript);
+
+    }
+    catch (e) { }
   }
 
   static _decodeElements(htmlDoc) {

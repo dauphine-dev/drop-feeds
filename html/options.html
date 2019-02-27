@@ -155,12 +155,22 @@
         </tr>
       </table>
     </fieldset>
+
     <fieldset id="contentsDateTimeFieldset">
       <legend id="contentsDateTimeLegend">#Date time format</legend>
       <textarea id="contentsDateTimeFormat" style="width: 100%"></textarea>
       <div id="contentsDateTimeExample">&nbsp;</div>
       <button id="contentsDateTimeResetButton">#Reset to default</button>&nbsp;&nbsp;
       <a id="urlDatetimeHelp" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">#Date time formats (see section 'Options')</a>
+    </fieldset>
+
+    <fieldset id="contentsAreaAdvFieldset">
+      <legend id="contentsAreaAdvLegend">#Advanced</legend>
+      <span><input type="checkbox" id="handlesFeedTabCheckbox"><span id="textHandlesFeedTab" class="checkboxText">#Handle RSS, ATOM, ... feed tabs with Drop Feeds</span></span>
+      <br/>
+      <span><input type="checkbox" id="preventOpenWithCheckbox"><span id="textPreventOpenWith" class="checkboxText">#Prevent Open With dialog displaying (*)</span></span>
+      <small><br /></small>
+      <small id="texWarningPreventOpenWith">#(*) warning: with this option activated you can get a wierd behavior on some web pages</small>
     </fieldset>
   </div>
   <!-- ~~~~~~ Tab Theme ~~~~~~ -->
@@ -220,29 +230,57 @@
 
   <!-- ~~~~~~ Tab Management ~~~~~~ -->
   <div id="managementTab" class="tabContent">
-    <table>
-      <tr>
-        <td><label id="lblSelectOpmlFileToImport">#Select the opml file to import</label></td>
-        <td>
-          <input type="file" accept=".opml" id="inputImportFile" />
-          <button id="importButton">#Import...</button>
-        </td>
-        <td>
-          <div id="progressBarImportTotal" class="progressBarTotal">
-            <div id="progressBarImport" class="progressBarValue" style="width:0">0%</div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td><label id="lblSelectOpmlFileToExport">#Select where to export the opml file</label></td>
-        <td><button id="exportButton">#Export...</button></td>
-        <td>
-          <div id="progressBarExportTotal" class="progressBarTotal">
-            <div id="progressBarExport" class="progressBarValue" style="width:0">0%</div>
-          </div>
-        </td>
-      </tr>
-    </table>
+    <fieldset>
+      <table>
+        <tr>
+          <td><label id="lblSelectOpmlFileToImport">#Select the opml file to import</label></td>
+          <td>
+            <input type="file" accept=".opml" id="inputOpmlImportFile" class="inputImportFile" />
+            <button id="importOpmlButton">#Import...</button>
+          </td>
+          <td>
+            <div id="progressBarOpmlImportTotal" class="progressBarTotal">
+              <div id="progressBarOpmlImport" class="progressBarValue" style="width:0">0%</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><label id="lblSelectOpmlFileToExport">#Select where to export the opml file</label></td>
+          <td><button id="exportOpmlButton">#Export...</button></td>
+          <td>
+            <div id="progressBarOpmlExportTotal" class="progressBarTotal">
+              <div id="progressBarOpmlExport" class="progressBarValue" style="width:0">0%</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+    <p />
+    <fieldset>
+      <table>
+        <tr>
+          <td><label id="lblSelectSettingFileToImport">#Select the setting file to import</label></td>
+          <td>
+            <input type="file" accept=".json" id="inputImportSettingFile" class="inputImportFile" />
+            <button id="importSettingButton">#Import...</button>
+          </td>
+          <td>
+            <div id="progressBarImportSettingTotal" class="progressBarTotal">
+              <div id="progressBarImportSetting" class="progressBarValue" style="width:0">0%</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><label id="lblSelectSettingFileToExport">#Select where to export the setting file</label></td>
+          <td><button id="exportSettingButton">#Export...</button></td>
+          <td>
+            <div id="progressBarSettingExportTotal" class="progressBarTotal">
+              <div id="progressBarSettingExport" class="progressBarValue" style="width:0">0%</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
   </div>
 
   <!-- ~~~~~~ Tab advanced ~~~~~~ -->
@@ -255,6 +293,10 @@
       <tr>
         <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
         <td>&nbsp;<button id="securityFilterButton">#Security filter settings...</button></td>
+      </tr>
+      <tr>
+        <td><label id="lblDebugView">#Open the debug view</label></td>
+        <td>&nbsp;<button id="debugViewButton">#Debug view...</button></td>
       </tr>
       <tr>
         <td><label id="lblGuid">GUID</label></td>

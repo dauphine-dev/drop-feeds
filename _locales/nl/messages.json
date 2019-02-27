@@ -3,7 +3,7 @@
     "message": "------------------Manifest strings------------------"
   },
   "manExtensionDescription": {
-    "message": "Geeft een zijbalk weer om RSS-feeds te beheren middels een mappenstructuurweergave"
+    "message": "Toont RSS-feeds in een zijbalk en beheer deze in een mappenstuctuurweergave"
   },
   "manPageActionDefaultTitle": {
     "message": "Ga naar de abonnementspagina"
@@ -21,7 +21,7 @@
     "message": "Check feeds"
   },
   "sbStopAndRestart": {
-    "message": "Stop met checken en herstart Drop feeds"
+    "message": "Stop met checken van feeds en herstart Drop Feeds"
   },
   "sbDiscoverFeeds": {
     "message": "Nieuwe feeds ontdekken"
@@ -207,7 +207,7 @@
     "message": "Aanmaken"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "Toon feed preview"
   },
   "subLoading": {
     "message": "Laden..."
@@ -383,20 +383,44 @@
   "optUrlDatetimeHelp": {
     "message": "Datum tijd notatie (zie 'Options' sectie)"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "Geavanceerd"
+  },  
+  "optHandlesFeedTabCheckbox": {
+    "message": "Bewerk RSS, ATOM, ... feedtabs met Drop Feeds"
+  },  
+  "optPreventOpenWith": {
+    "message": "Voorkom het tonen van Openen Met scherm (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) waarschuwing: met deze optie geactiveerd, kunnen sommige webpagina's raar gedrag vertonen"
+  },
   "optSelectOpmlFileToImport": {
     "message": "Selecteer het te importeren opml bestand"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "Importeren..."
   },
   "optSelectOpmlFileToExport": {
-    "message": "Selecteer waarnaartoe het opml bestand te exporteren"
+    "message": "Selecteer de export lokatie voor het opml bestand"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "Exporteren..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "Selecteer het te importeren instellingen bestand"
+  },
+  "optSettingImport": {
+    "message": "Importeren..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "Selecteer de export lokatie voor het instellingen bestand"
+  },
+  "optSettingExport": {
     "message": "Exporteren..."
   },
   "optAdvanced": {
-    "message": "Geadvanceerd"
+    "message": "Geavanceerd"
   },
   "optLblScriptManager": {
     "message": "Open scriptbeheer"
@@ -412,6 +436,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "Beveiligingsfilterinstellingen"
+  },
+  "optLblDebugView": {
+    "message": "Open het debug scherm"
+  },
+  "optDebugViewButton": {
+    "message": "Debug scherm..."
   },
   "optMessageDialogTitle": {
     "message": "Bericht"

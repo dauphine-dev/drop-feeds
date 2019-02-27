@@ -1,5 +1,5 @@
 /*global browser ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
-/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog*/
+/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog FeedTabHandler*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -28,6 +28,7 @@ class SideBar { /*exported SideBar*/
     RenderItemLayout.instance;
     FeedsNewFolderDialog.instance;
     OptionSubscribeDialog.instance;
+    FeedTabHandler.instance;
     this._computeContentTop();
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadPanelWindow', (v) => { this.reloadPanelWindow_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'openSubscribeDialog', (v) => { this.openSubscribeDialog_async(v); }, false);
@@ -51,9 +52,13 @@ class SideBar { /*exported SideBar*/
     window.location.reload();
   }
 
-  async openSubscribeDialog_async() {
-    let tabInfo = await BrowserManager.getActiveTab_async();
-    Dialogs.openSubscribeDialog_async(tabInfo.title, tabInfo.url);
+  async openSubscribeDialog_async(value) {
+    let feedUrl = value;
+    if (!feedUrl) {
+      let tabInfo = await BrowserManager.getActiveTab_async();
+      feedUrl = tabInfo.url;
+    }
+    Dialogs.openSubscribeDialog_async('', feedUrl);
   }
 
   async _contentOnScroll_event() {

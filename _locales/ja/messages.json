@@ -383,16 +383,40 @@
   "optUrlDatetimeHelp": {
     "message": "日時のフォーマット ('オプション'を参照)"
   },
+  "optContentsAreaAdvLegend": {
+    "message": "高度な設定"
+  },  
+  "optHandlesFeedTabCheckbox": {
+    "message": "RSS, ATOM, ... フィードをDrop Feedsで処理する"
+  },  
+  "optPreventOpenWith": {
+    "message": "ダイアログが表示されないようにする (*)"
+  },
+  "optWarningPreventOpenWith": {
+    "message": "(*) 注意: このオプションを有効にすると、ページによっては正常に動作しない可能性があります。"
+  },
   "optSelectOpmlFileToImport": {
     "message": "opmlのインポート"
   },
-  "optImport": {
+  "optOpmlImport": {
     "message": "インポート..."
   },
   "optSelectOpmlFileToExport": {
     "message": "opmlのエクスポート"
   },
-  "optExport": {
+  "optOpmlExport": {
+    "message": "エクスポート..."
+  },
+  "optSelectSettingFileToImport": {
+    "message": "設定をインポート"
+  },
+  "optSettingImport": {
+    "message": "インポート..."
+  },
+  "optSelectSettingFileToExport": {
+    "message": "設定をエクスポート"
+  },
+  "optSettingExport": {
     "message": "エクスポート..."
   },
   "optAdvanced": {
@@ -412,6 +436,12 @@
   },
   "optSecurityFilterSettings": {
     "message": "セキュリティフィルター"
+  },
+  "optLblDebugView": {
+    "message": "デバッグビューを開く"
+  },
+  "optDebugViewButton": {
+    "message": "デバッグビュー..."
   },
   "messageDialogTitle": {
     "message": "メッセージ"

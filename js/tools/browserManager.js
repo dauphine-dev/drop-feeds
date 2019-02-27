@@ -160,7 +160,7 @@ class BrowserManager { /* exported BrowserManager*/
   static displayNotification(message) {
     browser.notifications.create({
       'type': 'basic',
-      'iconUrl': browser.runtime.getURL(ThemeManager.instance.iconDF96Url),
+      'iconUrl': browser.runtime.getURL(ThemeManager.instance.iconDF48Url),
       'title': 'Drop Feeds',
       'message': message
     });
