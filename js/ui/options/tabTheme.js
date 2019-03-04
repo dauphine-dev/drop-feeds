@@ -12,9 +12,10 @@ class TabTheme { /*exported TabTheme*/
     await this._initThemeDropdown_async(ThemeManager.instance.mainThemesListUrl, 'mainThemeList', ThemeManager.instance.mainThemeFolderName);
     await this._initThemeDropdown_async(ThemeManager.instance.renderTemplateListUrl, 'renderTemplateList', ThemeManager.instance.renderTemplateFolderName);
     await this._initThemeDropdown_async(ThemeManager.instance.renderThemeListUrl, 'renderThemeList', ThemeManager.instance.renderThemeFolderName);
+    document.getElementById('themeEditorButton').addEventListener('click', (e) => { this._themeEditorButtonOnClicked_event(e); });
   }
 
-  _updateLocalizedStrings() {    
+  _updateLocalizedStrings() {
     document.getElementById('themeTabButton').textContent = browser.i18n.getMessage('optTheme');
     document.getElementById('lblSelectMainTheme').textContent = browser.i18n.getMessage('optSelectMainTheme');
     document.getElementById('lblSelectRenderTemplate').textContent = browser.i18n.getMessage('optSelectRenderTemplate');
@@ -63,6 +64,10 @@ class TabTheme { /*exported TabTheme*/
         await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.renderTheme, themeName);
         break;
     }
+  }
+
+  async _themeEditorButtonOnClicked_event() {
+    await browser.tabs.create({ url: '/html/themeEditor.html', active: true });
   }
 
 }

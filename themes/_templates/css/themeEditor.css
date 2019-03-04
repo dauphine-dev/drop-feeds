@@ -1,0 +1,13 @@
+html, body, #mainDiv {
+  height: 100%;
+}
+
+body{
+  background-color: var(--main-background-color);
+  color: var(--main-text-color);
+  padding: 0 0 0 10px;
+  margin: 0;
+  font-weight: normal;
+  overflow: hidden;
+	font-size: small;
+}
