@@ -1,0 +1,3 @@
+This project (Drop Feeds) is under license 'Mozilla Public License Version 2.0', except the folder 'js/lib' it can store libraries with another licenses:
+ - Drop Feeds uses the library JSZip released under the MIT license, by Stuart Knightley
+ - Drop Feeds uses the library JSZipUtils released under the MIT license, by Stuart Knightley, David Duponchel

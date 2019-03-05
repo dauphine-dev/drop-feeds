@@ -7,13 +7,15 @@
   <link id="cssMain" href="/themes/legacy/css/main.css" rel="stylesheet">
   <link id="cssLink" href="/themes/legacy/css/sidebar.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
-  <script src="/js/tools/themeManager.js"></script>
   <script src="/js/tools/defaultValues.js"></script>
-  <script src="/js/tools/localStorageManager.js"></script>
   <script src="/js/tools/listener.js"></script>
-  <script src="/js/tools/browserManager.js"></script>
-  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
   <script src="/js/tools/theme-refresh.js"></script>
+  <script src="/js/tools/transfer.js"></script>  
+  <script src="/js/tools/zipTools.js"></script>
+  <script src="/js/lib/jszip/jszip.min.js"></script>
+  <script src="/js/lib/jszip/jszip-utils.min.js "></script>  
   <title>Drop Feeds - Theme Editor</title>
 </head>
 
@@ -28,9 +30,14 @@
       </div>
 
       <div class="rowBox">
+
         <div class="cellBox tab autoHeight">
-          <button id="aaa">#aaa</button>
+          <button id="aaa">#Export</button><br/>
+          <input type="file" accept=".zip" id="inputBbb" style="display: none;"/>
+          <button id="bbb">#Import</button><br/>
+          <button id="ccc">#Test</button><br/>
         </div>
+
       </div>
     </div>
   </div>
