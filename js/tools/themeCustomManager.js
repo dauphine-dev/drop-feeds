@@ -10,36 +10,41 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   get kind() { return ThemeManager.instance.kind; }
 
   async exportCustomMainTheme_async(themeName) {
-    try {
-
-      let zip = new JSZip();
-      let themeInfo = { themeName: themeName };
-      let themeInfoJson = JSON.stringify(themeInfo);
-      zip.file('themeInfo.json', themeInfoJson);
-      let folderCss = zip.folder('css');
-      let cssUrlMain = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/main.css');
-      //folderCss.file('main.css', ZipTools.getBinaryContent_async(cssUrlMain), { binary: true });
-      this._addCssToZip_async(folderCss, 'main.css', cssUrlMain, themeName);
-      let cssSidebarUrl = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/sidebar.css');
-      //folderCss.file('sidebar.css', ZipTools.getBinaryContent_async(cssSidebarUrl), { binary: true });
-      this._addCssToZip_async(folderCss, 'sidebar.css', cssSidebarUrl, themeName);
-
-      let folderImg = zip.folder('img');
-      let urlList1 = await this._urlListFromCss_async(cssUrlMain);
-      let urlList2 = await this._urlListFromCss_async(cssSidebarUrl);
-      let urlList = [...new Set([...urlList1, ...urlList2])];
-      for (let url of urlList) {
-        let url1 = browser.runtime.getURL(url);
-        let filename = url.split('/').pop();
-        folderImg.file(filename, ZipTools.getBinaryContent_async(url1), { binary: true });
-      }
-      let zipBlob = await zip.generateAsync({ type: 'blob' });
-      let url = URL.createObjectURL(zipBlob);
-      browser.downloads.download({ url: url, filename: 'df-theme.zip', saveAs: true });
+    let isCustomTheme = await this.isCustomTheme_async(themeName);
+    let zipCustomTheme = null;
+    if (isCustomTheme) {
+      zipCustomTheme = await this.getCustomThemeArchive_async(themeName);
     }
-    catch (e) {
-      console.error(e);
+    else {
+      zipCustomTheme = await this.getCustomThemeFromBuiltinTheme_async(themeName);
     }
+    let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
+    let url = URL.createObjectURL(zipBlob);
+    browser.downloads.download({ url: url, filename: 'df-theme.zip', saveAs: true });
+  }
+
+  async getCustomThemeFromBuiltinTheme_async(themeName) {
+    let zipCustomTheme = new JSZip();
+    let themeInfo = { themeName: themeName };
+    let themeInfoJson = JSON.stringify(themeInfo);
+    zipCustomTheme.file('themeInfo.json', themeInfoJson);
+    let folderCss = zipCustomTheme.folder('css');
+    let cssUrlMain = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/main.css');
+    //folderCss.file('main.css', ZipTools.getBinaryContent_async(cssUrlMain), { binary: true });
+    this._addCssToZip_async(folderCss, 'main.css', cssUrlMain, themeName);
+    let cssSidebarUrl = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/sidebar.css');
+    //folderCss.file('sidebar.css', ZipTools.getBinaryContent_async(cssSidebarUrl), { binary: true });
+    this._addCssToZip_async(folderCss, 'sidebar.css', cssSidebarUrl, themeName);
+    let folderImg = zipCustomTheme.folder('img');
+    let urlList1 = await this._urlListFromCss_async(cssUrlMain);
+    let urlList2 = await this._urlListFromCss_async(cssSidebarUrl);
+    let urlList = [...new Set([...urlList1, ...urlList2])];
+    for (let url of urlList) {
+      let url1 = browser.runtime.getURL(url);
+      let filename = url.split('/').pop();
+      folderImg.file(filename, ZipTools.getBinaryContent_async(url1), { binary: true });
+    }
+    return zipCustomTheme;
   }
 
   async importCustomMainTheme_async(zipFile) {
@@ -77,6 +82,12 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return customCss;
   }
 
+  async isCustomTheme_async(themeName) {
+    themeName = this.getThemeNameWithoutPrefix(themeName);
+    let themesList = await LocalStorageManager.getValue_async('themeListMain', []);
+    return themesList.includes(themeName);
+  }
+
   async _addCssToZip_async(zipFolder, fileName, cssUrl, themeName) {
     let cssMainText = await Transfer.downloadTextFile_async(cssUrl);
     cssMainText = TextTools.replaceAll(cssMainText, 'url(/themes/' + themeName + '/', 'url([archive]/');
@@ -102,6 +113,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   }
 
   async getCustomThemeArchive_async(themeName) {
+    themeName = this.getThemeNameWithPrefix(themeName);
     let zipFile = await LocalStorageManager.getValue_async(themeName, null);
     if (!zipFile) { return null; }
     let zipArchive = await JSZip.loadAsync(zipFile);
@@ -136,8 +148,18 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return urlList;
   }
 
-  async removeCustomTheme_async(themeName) {
+  getThemeNameWithPrefix(themeName) {
+    themeName = (themeName.startsWith('theme:') ? themeName : 'theme:' + themeName);
+    return themeName;
+  }
+
+  getThemeNameWithoutPrefix(themeName) {
     themeName = (themeName.startsWith('theme:') ? themeName.replace('theme:', '') : themeName);
+    return themeName;
+  }
+
+  async removeCustomTheme_async(themeName) {
+    themeName = this.getThemeNameWithoutPrefix(themeName);
     let storageKey = this._themeStorageKeyFromKind(ThemeManager.instance.kind.mainTheme);
     let themeCustomList = await LocalStorageManager.getValue_async(storageKey, []);
     themeCustomList = themeCustomList.filter((thName) => thName !== themeName);
