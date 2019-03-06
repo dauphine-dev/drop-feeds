@@ -1,4 +1,4 @@
-/*global browser DefaultValues LocalStorageManager Listener ListenerProviders*/
+/*global browser DefaultValues LocalStorageManager Listener ListenerProviders Transfer ThemeCustomManager*/
 'use strict';
 const _themeKind = { 'mainTheme': 1, 'renderTemplate': 2, 'renderTheme': 3 };
 class ThemeManager { /*exported ThemeManager*/
@@ -121,14 +121,52 @@ class ThemeManager { /*exported ThemeManager*/
     this._mainThemeFolderName = await LocalStorageManager.getValue_async('mainThemeFolderName', this._mainThemeFolderName);
     let elCssLink = document.getElementById('cssLink');
     if (elCssLink) {
-      let cssUrl = this.mainThemeFolderUrl + 'css/sidebar.css';
+      let cssUrl = await this._getCssUrl_async('sidebar.css');
       elCssLink.setAttribute('href', cssUrl);
     }
 
     let elCssMain = document.getElementById('cssMain');
     if (elCssMain) {
-      let cssUrlMain = this.mainThemeFolderUrl + 'css/main.css';
+      let cssUrlMain = await this._getCssUrl_async('main.css');
       elCssMain.setAttribute('href', cssUrlMain);
+    }
+  }
+
+  async _getCssUrl_async(cssFile) {
+    let cssUrl = '';
+    if (this._mainThemeFolderName.startsWith('theme:')) {
+      cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile);
+    }
+    else {
+      cssUrl = this.mainThemeFolderUrl + 'css/' + cssFile;
+    }
+    return cssUrl;
+  }
+
+  async getThemeBuiltinList_async(themeKind) {
+    let mainThemesListUrl = this._themeUrlFromKind(themeKind);
+    let themeListUrl = browser.runtime.getURL(mainThemesListUrl);
+    let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
+    let themeList = themeListText.trim().split('\n');
+    themeList.shift();
+    return themeList;
+  }
+
+  async getThemeAllList_async(themeKind) {
+    let themeList1 = await this.getThemeBuiltinList_async(themeKind);
+    let themeList2 = await ThemeCustomManager.instance.getThemeCustomList_async(themeKind);
+    let themeList = [...themeList1, ...themeList2];
+    return themeList;
+  }
+
+  _themeUrlFromKind(themeKind) {
+    switch (themeKind) {
+      case _themeKind.mainTheme:
+        return this.mainThemesListUrl;
+      case _themeKind.renderTemplate:
+        return this.renderTemplateListUrl;
+      case _themeKind.renderTheme:
+        return this.renderThemeListUrl;
     }
   }
 
