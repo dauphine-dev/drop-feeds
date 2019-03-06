@@ -4,10 +4,19 @@ class ThemeEditor { /*exported ThemeEditor*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    //browser.storage.local.remove('test');
+    /*
+    browser.storage.local.remove('themeListMain');
+    browser.storage.local.remove('theme:legacy');
+    browser.storage.local.remove('theme:legacy2');
+    browser.storage.local.remove('theme:sage_sc');
+    browser.storage.local.remove('theme:sage_sc1');
+    browser.storage.local.remove('theme:test');
+    browser.storage.local.remove('theme:test2');    
+    */
     this._updateLocalizedStrings();
     //Main custom theme
     this._initSelectMainCustomTheme_async();
+    document.getElementById('deleteMainCustomTheme').addEventListener('click', (e) => { this._deleteMainCustomThemeOnClicked_event(e); });
     document.getElementById('exportMainCustomTheme').addEventListener('click', (e) => { this._exportMainCustomThemeOnClicked_event(e); });
     document.getElementById('importMainCustomTheme').addEventListener('click', (e) => { this._importMainCustomThemeOnClicked_event(e); });
     document.getElementById('inputImportMainCustomTheme').addEventListener('change', (e) => { this._inputImportMainCustomThemeChanged_event(e); });
@@ -51,6 +60,13 @@ class ThemeEditor { /*exported ThemeEditor*/
   }
 
   //Main custom theme events
+  async _deleteMainCustomThemeOnClicked_event() {
+    let selectMainCustomTheme = document.getElementById('selectMainCustomTheme');
+    let themeName = selectMainCustomTheme.options[selectMainCustomTheme.selectedIndex].value;
+    await ThemeCustomManager.instance.removeCustomTheme_async(themeName);
+    window.location.reload();
+  }
+
   async _exportMainCustomThemeOnClicked_event() {
     let selectMainCustomTheme = document.getElementById('selectMainCustomTheme');
     let themeName = selectMainCustomTheme.options[selectMainCustomTheme.selectedIndex].value;
@@ -68,6 +84,9 @@ class ThemeEditor { /*exported ThemeEditor*/
       BrowserManager.setInnerHtmlById('errorMessage', 'A theme already exist with the name: ' + themeNameNotAvailable);
       setTimeout(() => { BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;'); }, 2000);
     }
+    else {
+      window.location.reload();
+    }
   }
 
   async _applyMainCustomThemeOnClicked_event() {
@@ -75,6 +94,7 @@ class ThemeEditor { /*exported ThemeEditor*/
     let themeName = selectMainCustomTheme.options[selectMainCustomTheme.selectedIndex].value;
     await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.mainTheme, themeName);
     await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+    window.location.reload();
   }
 
 }
