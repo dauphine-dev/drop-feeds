@@ -10,16 +10,16 @@ class FeedTransform { /*exported FeedTransform*/
   }
 
   static async _exportFeedToXml_async(feedInfo, xsltUrl) {
-    let feedXml = FeedTransform._getFeedXml(feedInfo, xsltUrl);
+    let feedXml = await FeedTransform._getFeedXml_async(feedInfo, xsltUrl);
     return feedXml;
   }
 
-  static _getFeedXml(feedInfo) {
+  static async _getFeedXml_async(feedInfo) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
     let subscribeButtonCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderSubscribeButtonCssUrl());
-    let templateCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl(feedInfo.isError));
-    let xsltUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(feedInfo.isError));
-    let themeUrl = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
+    let templateCssUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssTemplateUrl_async(feedInfo.isError));
+    let xsltUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
+    let themeUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssUrl_async());
     let description = (feedInfo.channel.description || '');
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
@@ -80,7 +80,7 @@ class FeedTransform { /*exported FeedTransform*/
   }
 
   static async _transform_async(xmlText, isError, subscribeButtonTarget) {
-    let xslDocUrl = browser.runtime.getURL(ThemeManager.instance.getRenderXslTemplateUrl(isError));
+    let xslDocUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderXslTemplateUrl_async(isError));
     let xslStylesheet = await Transfer.downloadXlsFile_async(xslDocUrl);
     let xsltProcessor = new XSLTProcessor();
     xsltProcessor.importStylesheet(xslStylesheet);
