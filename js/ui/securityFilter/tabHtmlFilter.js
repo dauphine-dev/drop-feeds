@@ -108,7 +108,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
     if (this._selectedCellTag) {
       this._allowedTagList = this._allowedTagList.filter(entry => Object.keys(entry) != this._selectedCellTag.textContent);
       this._allowedTagListSort();
-      LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
+      await LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
       this._updateHtmlTagsTable();
     }
   }
@@ -116,7 +116,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
   async _htmlFilterRestoreDefaultButtonOnClicked_event() {
     this._allowedTagList = DefaultValues.allowedTagList;
     this._allowedTagListSort();
-    LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
+    await LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
     this._updateHtmlTagsTable();
   }
 
@@ -149,7 +149,7 @@ class TabHtmlFilter { /*exported TabHtmlFilter*/
       this._allowedTagList = this._allowedTagList.filter(entry => Object.keys(entry) != initialTag);
       this._allowedTagList.push(tagEntry);
       this._allowedTagListSort();
-      LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
+      await LocalStorageManager.setValue_async('allowedHtmlElementsList', this._allowedTagList);
     }
     let htmlFilterDialog = document.getElementById('htmlFilterDialog');
     htmlFilterDialog.classList.remove('show');

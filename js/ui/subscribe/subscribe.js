@@ -226,7 +226,7 @@ class Subscribe {
   }
 
   async _windowClose_async() {
-    LocalStorageManager.setValue_async('subscribeInfo', null);
+    await LocalStorageManager.setValue_async('subscribeInfo', null);
     try {
       await browser.windows.remove(this._subscribeInfoWinId);
     }

@@ -102,7 +102,7 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById('contentsDateTimeFormat').classList.remove('borderError');
     document.getElementById('contentsDateTimeExample').classList.remove('textColorError');
     document.getElementById('contentsDateTimeExample').textContent = dateTimeString;
-    LocalStorageManager.setValue_async('dateTimeOptions', contentsDateTimeOptions);
+    await LocalStorageManager.setValue_async('dateTimeOptions', contentsDateTimeOptions);
   }
 
   async _contentsDateTimeResetButtonClicked_event() {

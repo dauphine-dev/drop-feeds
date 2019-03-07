@@ -85,7 +85,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async updatedFeedsSetVisibility_async() {
     this.activateButton('onlyUpdatedFeedsButton', this._updatedFeedsVisible);
     FeedsTreeView.instance.updatedFeedsSetVisibility_async(this._updatedFeedsVisible);
-    LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    await LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
   }
 
   async checkFeedsButtonClicked_event(event) {
@@ -171,7 +171,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     event.stopPropagation();
     event.preventDefault();
     this._filterEnabled = !this._filterEnabled;
-    LocalStorageManager.setValue_async('filterEnabled', this._filterEnabled);
+    await LocalStorageManager.setValue_async('filterEnabled', this._filterEnabled);
     this._updateFilterBar();
   }
 

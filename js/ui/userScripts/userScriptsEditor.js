@@ -129,7 +129,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     UserScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
     scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch).source;
     scriptObj.testUrl = document.getElementById('testUrl').value;
-    LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
+    await LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
 
     let scriptCode = this._jsEditor.getText();
     await LocalStorageManager.setValue_async(scriptCodeKey + this._scriptId, scriptCode);

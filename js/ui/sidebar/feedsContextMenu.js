@@ -245,7 +245,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _ctxOptReloadMenuClicked_event() {
     this.hide();
-    LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+    await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
 
   async _ctxOptSubscribeMenuClicked_event() {

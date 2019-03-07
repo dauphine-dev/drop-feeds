@@ -333,7 +333,7 @@ class FeedManager { /*exported FeedManager*/
   async _automaticFeedUpdate_async() {
     if (!this._automaticUpdatesEnabled) { return; }
     try {
-      LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
+      await LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
       await FeedManager.instance.checkFeeds_async('feedsContentPanel');
     }
     catch (e) {

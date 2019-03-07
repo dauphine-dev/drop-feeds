@@ -29,7 +29,7 @@ class DiscoverFeeds {
       this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
     }
     catch (e) { }
-    LocalStorageManager.setValue_async('discoverInfoWinId', null);
+    await LocalStorageManager.setValue_async('discoverInfoWinId', null);
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }

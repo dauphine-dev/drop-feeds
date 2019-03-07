@@ -22,7 +22,7 @@ class OpmlImporter { /*exported OpmlImporter*/
     let isOpmlValid = this._opmlIsValid(opmlText);
     if (isOpmlValid) {
       await this._importOpmlOutlinesAsync(opmlText);
-      LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+      await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
     }
     else {
       this._progressBarImport.text = 'Invalid opml file!';
