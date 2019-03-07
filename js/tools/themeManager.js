@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager Listener ListenerProviders Transfer ThemeCustomManager*/
 'use strict';
-const _themeKind = { 'mainTheme': 1, 'renderTemplate': 2, 'renderTheme': 3 };
+const _themeKind = { 'mainTheme': 'mainTheme', 'renderTemplate': 'renderTemplate', 'renderTheme': 'renderTheme' };
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -134,8 +134,9 @@ class ThemeManager { /*exported ThemeManager*/
 
   async _getCssUrl_async(cssFile) {
     let cssUrl = '';
-    if (this._mainThemeFolderName.startsWith('theme:')) {
-      cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile);
+    
+    if (ThemeCustomManager.instance.isCustomTheme(this._mainThemeFolderName)) {
+      cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme);
     }
     else {
       cssUrl = this.mainThemeFolderUrl + 'css/' + cssFile;
@@ -154,7 +155,7 @@ class ThemeManager { /*exported ThemeManager*/
 
   async getThemeAllList_async(themeKind) {
     let themeList1 = await this.getThemeBuiltinList_async(themeKind);
-    let themeList2 = await ThemeCustomManager.instance.getThemeCustomList_async(themeKind);
+    let themeList2 = await ThemeCustomManager.instance.getCustomThemeList_async(themeKind);
     let themeList = [...themeList1, ...themeList2];
     return themeList;
   }

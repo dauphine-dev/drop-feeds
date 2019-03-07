@@ -1,5 +1,6 @@
 /*global browser ThemeManager JSZip ZipTools LocalStorageManager Transfer TextTools*/
 'use strict';
+
 class ThemeCustomManager { /*exported ThemeCustomManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -9,61 +10,142 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
 
   get kind() { return ThemeManager.instance.kind; }
 
-  async exportCustomMainTheme_async(themeName) {
-    let isCustomTheme = await this.isCustomTheme_async(themeName);
+  async exportThemeCustom_async(themeKind, themeName) {
+    let isCustomTheme = this.isCustomTheme(themeName);
     let zipCustomTheme = null;
+    let suffix = '';
     if (isCustomTheme) {
-      zipCustomTheme = await this.getCustomThemeArchive_async(themeName);
+      zipCustomTheme = await this.getThemeArchive_async(themeKind, themeName);
     }
     else {
-      zipCustomTheme = await this.getCustomThemeFromBuiltinTheme_async(themeName);
+      suffix = ' (copy of)';
+      zipCustomTheme = await this.getCustomFromBuiltin_async(themeKind, themeName, suffix);
     }
+    let newName = themeName + suffix;
     let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
     let url = URL.createObjectURL(zipBlob);
-    browser.downloads.download({ url: url, filename: 'df-theme.zip', saveAs: true });
+    browser.downloads.download({ url: url, filename: 'df - ' + themeKind + ' - ' + newName + '.zip', saveAs: true });
   }
 
-  async getCustomThemeFromBuiltinTheme_async(themeName) {
-    let zipCustomTheme = new JSZip();
-    let themeInfo = { themeName: themeName };
-    let themeInfoJson = JSON.stringify(themeInfo);
-    zipCustomTheme.file('themeInfo.json', themeInfoJson);
-    let folderCss = zipCustomTheme.folder('css');
-    let cssUrlMain = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/main.css');
-    //folderCss.file('main.css', ZipTools.getBinaryContent_async(cssUrlMain), { binary: true });
-    this._addCssToZip_async(folderCss, 'main.css', cssUrlMain, themeName);
-    let cssSidebarUrl = browser.runtime.getURL(ThemeManager.instance.themeBaseFolderUrl + themeName + '/css/sidebar.css');
-    //folderCss.file('sidebar.css', ZipTools.getBinaryContent_async(cssSidebarUrl), { binary: true });
-    this._addCssToZip_async(folderCss, 'sidebar.css', cssSidebarUrl, themeName);
-    let folderImg = zipCustomTheme.folder('img');
-    let urlList1 = await this._urlListFromCss_async(cssUrlMain);
-    let urlList2 = await this._urlListFromCss_async(cssSidebarUrl);
-    let urlList = [...new Set([...urlList1, ...urlList2])];
-    for (let url of urlList) {
-      let url1 = browser.runtime.getURL(url);
-      let filename = url.split('/').pop();
-      folderImg.file(filename, ZipTools.getBinaryContent_async(url1), { binary: true });
+  getBaseFolderForThemeKind(themeKind, themeName) {
+    let baseFolder = '';
+    switch (themeKind) {
+      case this.kind.mainTheme:
+        baseFolder = 'themes/' + themeName;
+        break;
+      case this.kind.renderTheme:
+        baseFolder = 'themes/_renderTab/' + themeName;
+        break;
+      case this.kind.renderTemplate:
+        baseFolder = 'themes/_renderTab/_templates/' + themeName;
+        break;
     }
-    return zipCustomTheme;
+    return baseFolder;
   }
 
-  async importCustomMainTheme_async(zipFile) {
+  async getCssUrl_async(themeName, cssFile, themeKind) {
+    let customCss = this._customCssList.find((customCss) => customCss.themeName == themeName && customCss.cssFile == cssFile);
+    if (customCss) { return customCss.cssUrl; }
+
+    this._customCssList = this._customCssList.filter(customCss => customCss.themeName != themeName && customCss.cssFile == cssFile);
+    customCss = await this._loadCustomCss_async(themeName, cssFile, themeKind);
+    return customCss.cssUrl;
+  }
+
+  async getCustomFromBuiltin_async(themeKind, themeName, suffix) {
+    let zip = new JSZip();
+    let baseFolder = this.getBaseFolderForThemeKind(themeKind, themeName);
+    let fileListUrl = browser.runtime.getURL(baseFolder + '/files.list');
+    let fileList = (await Transfer.downloadTextFile_async(fileListUrl)).trim().split('\n');
+    for (let file of fileList) {
+      if (file == './files.list') { continue; }
+      file = file.replace('./', '');
+      let fileUrl = browser.runtime.getURL(baseFolder + '/' + file);
+      zip.file(file, ZipTools.getBinaryContent_async(fileUrl), { binary: true });
+    }
+    let themeInfo = { themeName: themeName + suffix };
+    let themeInfoJson = JSON.stringify(themeInfo);
+    zip.file('themeInfo.json', themeInfoJson);
+    return zip;
+  }
+
+  async getCustomThemeList_async(themeKind) {
+    let storageKey = this._themeStorageKeyFromKind(themeKind);
+    let themeList = await LocalStorageManager.getValue_async(storageKey, []);
+    themeList = themeList.map((themeName) => this.getThemeNameWithPrefix(themeKind, themeName) + ';' + themeName);
+    return themeList;
+  }
+
+  async getThemeArchive_async(kind, themeName) {
+    let themeNameWithPrefix = this.getThemeNameWithPrefix(kind, themeName);
+    let zipFile = await LocalStorageManager.getValue_async(themeNameWithPrefix, null);
+    if (!zipFile) { return null; }
+    let zipArchive = await JSZip.loadAsync(zipFile);
+    return zipArchive;
+  }
+
+  getThemeNameWithoutPrefix(kind, themeName) {
+    let prefix = kind + ':';
+    themeName = (themeName.startsWith(prefix) ? themeName.replace(prefix, '') : themeName);
+    return themeName;
+  }
+
+  getThemeNameWithPrefix(kind, themeName) {
+    let prefix = kind + ':';
+    themeName = (themeName.startsWith(prefix) ? themeName : prefix + themeName);
+    return themeName;
+  }
+
+  async importThemeCustom_async(themeKind, zipFile) {
     let zipArchive = await JSZip.loadAsync(zipFile);
     let themeInfoJson = await zipArchive.file('themeInfo.json').async('text');
     let themeInfo = JSON.parse(themeInfoJson);
-    let themesList = await LocalStorageManager.getValue_async('themeListMain', []);
+    let listStorageKey = this._themeStorageKeyFromKind(themeKind);
+    let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
     if (themesList.includes(themeInfo.themeName)) {
       return themeInfo.themeName;
     }
     themesList.push(themeInfo.themeName);
     themesList = [...new Set(themesList)];
-    LocalStorageManager.setValue_async('themeListMain', themesList);
-    LocalStorageManager.setValue_async('theme:' + themeInfo.themeName, zipFile);
+    await LocalStorageManager.setValue_async(listStorageKey, themesList);
+    let themeNameWithPrefix = this.getThemeNameWithPrefix(themeKind, themeInfo.themeName);
+    await LocalStorageManager.setValue_async(themeNameWithPrefix, zipFile);
     return null;
+
   }
 
-  async _loadCustomCss_async(themeName, cssFile) {
-    let themeArchive = await this.getCustomThemeArchive_async(themeName);
+  isCustomTheme(themeName) {
+    let isCustomTheme = themeName.startsWith(this.kind.mainTheme + ':')
+      || themeName.startsWith(this.kind.renderTemplate + ':')
+      || themeName.startsWith(this.kind.renderTheme + ':');
+    return isCustomTheme;
+  }
+
+  async isThemeKindOf_async(kind, themeName) {
+    themeName = this.getThemeNameWithoutPrefix(kind, themeName);
+    let listStorageKey = this._themeStorageKeyFromKind(kind);
+    let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
+    return themesList.includes(themeName);
+  }
+
+  async removeTheme_async(kind, themeName) {
+    let themeNameWithoutPrefix = this.getThemeNameWithoutPrefix(kind, themeName);
+    let themeNameWithPrefix = this.getThemeNameWithPrefix(kind, themeName);
+    let storageKey = this._themeStorageKeyFromKind(ThemeManager.instance.kind.mainTheme);
+    let themeCustomList = await LocalStorageManager.getValue_async(storageKey, []);
+    themeCustomList = themeCustomList.filter((thName) => thName !== themeNameWithoutPrefix);
+    await LocalStorageManager.setValue_async(this._themeStorageKeyFromKind(kind), themeCustomList);
+    await browser.storage.local.remove(themeNameWithPrefix);
+  }
+
+  async _addCssToZip_async(zipFolder, fileName, cssUrl, themeName) {
+    let cssMainText = await Transfer.downloadTextFile_async(cssUrl);
+    cssMainText = TextTools.replaceAll(cssMainText, 'url(/themes/' + themeName + '/', 'url([archive]/');
+    zipFolder.file(fileName, cssMainText);
+  }
+
+  async _loadCustomCss_async(themeName, cssFile, kind) {
+    let themeArchive = await this.getThemeArchive_async(kind, themeName);
     let cssText = await themeArchive.file('css/' + cssFile).async('text');
 
     let urlList = [...new Set(await this._urlListFromTextCss(cssText))];
@@ -82,51 +164,8 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return customCss;
   }
 
-  async isCustomTheme_async(themeName) {
-    themeName = this.getThemeNameWithoutPrefix(themeName);
-    let themesList = await LocalStorageManager.getValue_async('themeListMain', []);
-    return themesList.includes(themeName);
-  }
-
-  async _addCssToZip_async(zipFolder, fileName, cssUrl, themeName) {
-    let cssMainText = await Transfer.downloadTextFile_async(cssUrl);
-    cssMainText = TextTools.replaceAll(cssMainText, 'url(/themes/' + themeName + '/', 'url([archive]/');
-    zipFolder.file(fileName, cssMainText);
-  }
-
-  async getThemeCustomList_async(themeKind) {
-    let storageKey = this._themeStorageKeyFromKind(themeKind);
-    let themeList = await LocalStorageManager.getValue_async(storageKey, []);
-    themeList = themeList.map((themeName) => 'theme:' + themeName + ';' + themeName);
-    return themeList;
-  }
-
   _themeStorageKeyFromKind(themeKind) {
-    switch (themeKind) {
-      case this.kind.mainTheme:
-        return 'themeListMain';
-      case this.kind.renderTemplate:
-        return 'themeListRenderTemplate';
-      case this.kind.renderTheme:
-        return 'themeListRenderTheme';
-    }
-  }
-
-  async getCustomThemeArchive_async(themeName) {
-    themeName = this.getThemeNameWithPrefix(themeName);
-    let zipFile = await LocalStorageManager.getValue_async(themeName, null);
-    if (!zipFile) { return null; }
-    let zipArchive = await JSZip.loadAsync(zipFile);
-    return zipArchive;
-  }
-
-  async getCssUrl_async(themeName, cssFile) {
-    let customCss = this._customCssList.find((customCss) => customCss.themeName == themeName && customCss.cssFile == cssFile);
-    if (customCss) { return customCss.cssUrl; }
-
-    this._customCssList = this._customCssList.filter(customCss => customCss.themeName != themeName && customCss.cssFile == cssFile);
-    customCss = await this._loadCustomCss_async(themeName, cssFile);
-    return customCss.cssUrl;
+    return themeKind + 'List';
   }
 
   async _urlListFromCss_async(cssUrl) {
@@ -147,24 +186,4 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     });
     return urlList;
   }
-
-  getThemeNameWithPrefix(themeName) {
-    themeName = (themeName.startsWith('theme:') ? themeName : 'theme:' + themeName);
-    return themeName;
-  }
-
-  getThemeNameWithoutPrefix(themeName) {
-    themeName = (themeName.startsWith('theme:') ? themeName.replace('theme:', '') : themeName);
-    return themeName;
-  }
-
-  async removeCustomTheme_async(themeName) {
-    themeName = this.getThemeNameWithoutPrefix(themeName);
-    let storageKey = this._themeStorageKeyFromKind(ThemeManager.instance.kind.mainTheme);
-    let themeCustomList = await LocalStorageManager.getValue_async(storageKey, []);
-    themeCustomList = themeCustomList.filter((thName) => thName !== themeName);
-    await LocalStorageManager.setValue_async('themeListMain', themeCustomList);
-    await browser.storage.local.remove('theme:' + themeName);
-  }
-
 }
