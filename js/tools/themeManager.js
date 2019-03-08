@@ -20,7 +20,7 @@ class ThemeManager { /*exported ThemeManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'mainThemeFolderName', (v) => this._setMainThemeFolderName_sbscrb(v), true);
     this._renderTemplateFolderName = DefaultValues.renderTemplateFolderName;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderTemplateFolderName', (v) => this._setRenderTemplateFolderName_sbscrb(v), true);
-    this._renderThemeFolderName = DefaultValues.mainThemeFolderName;
+    this._renderThemeFolderName = DefaultValues.renderThemeFolderName;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderThemeFolderName', (v) => this._setRenderThemeFolderName_sbscrb(v), true);
 
   }
@@ -116,6 +116,70 @@ class ThemeManager { /*exported ThemeManager*/
     }
     return cssRenderUrl;
   }
+
+  getBaseFolderForThemeKind(themeKind, themeName) {
+    let baseFolder = '';
+    switch (themeKind) {
+      case this.kind.mainTheme:
+        baseFolder = 'themes/' + themeName;
+        break;
+      case this.kind.renderTheme:
+        baseFolder = 'themes/_renderTab/' + themeName;
+        break;
+      case this.kind.renderTemplate:
+        baseFolder = 'themes/_renderTab/_templates/' + themeName;
+        break;
+    }
+    return baseFolder;
+  }
+
+  getThemeFolderForThemeKind(themeKind) {
+    let themeFolder = '';
+    switch (themeKind) {
+      case this.kind.mainTheme:
+        themeFolder = this._mainThemeFolderName;
+        break;
+      case this.kind.renderTheme:
+        themeFolder = this._renderThemeFolderName;
+        break;
+      case this.kind.renderTemplate:
+        themeFolder = this._renderTemplateFolderName;
+        break;
+    }
+    return themeFolder;
+  }
+
+  getBaseAndThemeFolderForThemeKind(themeKind) {
+    let baseAndThemeFolder = '';
+    switch (themeKind) {
+      case this.kind.mainTheme:
+        baseAndThemeFolder = 'themes/' + this._mainThemeFolderName;
+        break;
+      case this.kind.renderTheme:
+        baseAndThemeFolder = 'themes/_renderTab/' + this._renderThemeFolderName;
+        break;
+      case this.kind.renderTemplate:
+        baseAndThemeFolder = 'themes/_renderTab/_templates/' + this._renderTemplateFolderName;
+        break;
+    }
+    return baseAndThemeFolder;
+  }
+
+
+  async getThemeResourceUrl_async(themeKind, targetResource) {
+    let resourceUrl = '';
+    let baseThemeFolder = this.getBaseAndThemeFolderForThemeKind(themeKind);
+    let themeName = this.getThemeFolderForThemeKind(themeKind);
+    if (ThemeCustomManager.instance.isCustomTheme(themeName)) {
+      resourceUrl = await ThemeCustomManager.instance.getThemeResourceUrl_async(themeKind, targetResource);
+    }
+    else {
+      resourceUrl = baseThemeFolder + '/' + targetResource;
+    }
+    return resourceUrl;
+
+  }
+
 
   getRenderSubscribeButtonCssUrl() {
     let cssSubscribeButtonUrl = this.themeBaseFolderUrl + '_renderTab/_templates/_any/css/subscribeButton.css';

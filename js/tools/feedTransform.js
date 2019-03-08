@@ -20,6 +20,7 @@ class FeedTransform { /*exported FeedTransform*/
     let templateCssUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssTemplateUrl_async(feedInfo.isError));
     let xsltUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
     let themeUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssUrl_async());
+    let scriptUrl = browser.runtime.getURL(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kind.renderTemplate, 'js/template.js'));
     let description = (feedInfo.channel.description || '');
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
@@ -28,7 +29,8 @@ class FeedTransform { /*exported FeedTransform*/
     <icon><![CDATA[` + iconUrl + `]]></icon>
     <subscribeButtonStyle><![CDATA[` + subscribeButtonCssUrl + `]]></subscribeButtonStyle>
     <template><![CDATA[` + templateCssUrl + `]]></template>
-    <theme><![CDATA[` + themeUrl + `]]></theme>  
+    <theme><![CDATA[` + themeUrl + `]]></theme>
+    <script><![CDATA[` + scriptUrl + `]]></script>
   </context>
   <channel>
     <title><![CDATA[` + FeedTransform._transformEncode((feedInfo.channel.title || '(no title)')) + `]]></title>

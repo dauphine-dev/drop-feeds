@@ -139,8 +139,9 @@
           </xsl:for-each>
         </div>
         <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
           <xsl:attribute name="src">
-            <xsl:value-of select="/render/context/template"/>/../../js/template.js
+            <xsl:value-of select="/render/context/script"/>
           </xsl:attribute>
         </xsl:element>
       </body>

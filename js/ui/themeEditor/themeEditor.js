@@ -1,4 +1,4 @@
-/*global ThemeManager ThemeCustomManager BrowserManager LocalStorageManager*/
+/*global ThemeManager ThemeCustomManager BrowserManager LocalStorageManager DefaultValues*/
 'use strict';
 class ThemeEditor { /*exported ThemeEditor*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -50,12 +50,14 @@ class ThemeEditor { /*exported ThemeEditor*/
   }
 
   async _exportMainThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectMainThemeCustom');
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeCustomManager.instance.exportThemeCustom_async(ThemeManager.instance.kind.mainTheme, themeName);
   }
 
   async _importMainThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     document.getElementById('inputImportMainThemeCustom').click();
   }
 
@@ -81,12 +83,14 @@ class ThemeEditor { /*exported ThemeEditor*/
   }
 
   async _exportRenderTemplateCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderTemplateCustom');
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeCustomManager.instance.exportThemeCustom_async(ThemeManager.instance.kind.renderTemplate, themeName);
   }
 
   async _importRenderTemplateCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     document.getElementById('inputImportRenderTemplateCustom').click();
   }
 
@@ -110,12 +114,14 @@ class ThemeEditor { /*exported ThemeEditor*/
   }
 
   async _exportRenderThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderThemeCustom');
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeCustomManager.instance.exportThemeCustom_async(ThemeManager.instance.kind.renderTheme, themeName);
   }
 
   async _importRenderThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     document.getElementById('inputImportRenderThemeCustom').click();
   }
 
@@ -148,10 +154,20 @@ class ThemeEditor { /*exported ThemeEditor*/
 
   async _importThemeCustom_async(inputImportId, themeKind) {
     let zipFile = document.getElementById(inputImportId).files[0];
-    let themeNameNotAvailable = await ThemeCustomManager.instance.importThemeCustom_async(themeKind, zipFile);
-    if (themeNameNotAvailable) {
-      BrowserManager.setInnerHtmlById('errorMessage', 'A theme already exist with the name: ' + themeNameNotAvailable);
-      setTimeout(() => { BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;'); }, 2000);
+    let importError = await ThemeCustomManager.instance.importThemeCustom_async(themeKind, zipFile);
+    if (importError) {
+      switch (importError.error) {
+        case 'notValidThemeArchive':
+          let moreInfo = (importError.value ? ': ' + importError.value : '');
+          BrowserManager.setInnerHtmlById('errorMessage', 'This file is not a valid theme archive' + moreInfo);
+          break;
+        case 'wrongKind':
+          BrowserManager.setInnerHtmlById('errorMessage', 'This theme archive is not a ' + themeKind + ' theme (is ' + importError.value + ')');
+          break;
+        case 'alreadyExist':
+          BrowserManager.setInnerHtmlById('errorMessage', 'A theme already exist with the name: ' + importError.value);
+          break;
+      }
     }
     else {
       window.location.reload();
@@ -159,15 +175,35 @@ class ThemeEditor { /*exported ThemeEditor*/
   }
 
   async _applyThemeCustom_async(selectId, themeKind) {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById(selectId);
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeManager.instance.setThemeFolderName_async(themeKind, themeName);
   }
 
   async _deleteThemeCustom_async(selectId, themeKind) {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById(selectId);
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeCustomManager.instance.removeTheme_async(themeKind, themeName);
+    switch (themeKind) {
+      case ThemeManager.instance.kind.mainTheme:
+        if (themeName == ThemeManager.instance.mainThemeFolderName) {
+          ThemeManager.instance.mainThemeFolderName = DefaultValues.mainThemeFolderName;
+          await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+        }
+        break;
+      case ThemeManager.instance.kind.renderTheme:
+        if (themeName == ThemeManager.instance.renderThemeFolderName) {
+          ThemeManager.instance.renderThemeFolderName = DefaultValues.renderThemeFolderName;
+        }
+        break;
+      case ThemeManager.instance.kind.renderTemplate:
+        if (themeName == ThemeManager.instance.renderTemplateFolderName) {
+          ThemeManager.instance.renderTemplateFolderName = DefaultValues.renderTemplateFolderName;
+        }
+        break;
+    }
     window.location.reload();
   }
 
