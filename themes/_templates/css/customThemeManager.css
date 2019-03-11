@@ -15,3 +15,12 @@ body {
 #errorMessage {
   color: var(--main-text-error-color);
 }
+
+.themeSelect {
+  min-width: 300px;
+}
+
+.buttonBox button {
+  margin-left: 8px;
+  margin-bottom: 4px;
+}

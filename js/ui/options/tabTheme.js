@@ -14,7 +14,7 @@ class TabTheme { /*exported TabTheme*/
     await this._initThemeDropdown_async(this._tm.kind.mainTheme, 'mainThemeList', this._tm.mainThemeFolderName);
     await this._initThemeDropdown_async(this._tm.kind.renderTemplate, 'renderTemplateList', this._tm.renderTemplateFolderName);
     await this._initThemeDropdown_async(this._tm.kind.renderTheme, 'renderThemeList', this._tm.renderThemeFolderName);
-    document.getElementById('themeEditorButton').addEventListener('click', (e) => { this._themeEditorButtonOnClicked_event(e); });
+    document.getElementById('customThemeManagerButton').addEventListener('click', (e) => { this._customThemeManagerButtonButtonOnClicked_event(e); });
   }
 
   _updateLocalizedStrings() {
@@ -63,8 +63,8 @@ class TabTheme { /*exported TabTheme*/
     }
   }
 
-  async _themeEditorButtonOnClicked_event() {
-    await browser.tabs.create({ url: '/html/themeEditor.html', active: true });
+  async _customThemeManagerButtonButtonOnClicked_event() {
+    await browser.tabs.create({ url: '/html/customThemeManager.html', active: true });
   }
 
 }

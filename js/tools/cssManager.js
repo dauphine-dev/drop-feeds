@@ -50,6 +50,12 @@ class CssManager { /*exported CssManager*/
       CssManager.disableElementById(elementId);
     }
   }
+  
+  static setElementEnableByIdEx(elementId, textId, enabled) {
+    document.getElementById(elementId).disabled = !enabled;
+    CssManager.setElementEnableById(elementId, enabled);
+    if (textId) { CssManager.setElementEnableById(textId, enabled); }
+  }
 
   static enableElementById(elementId) {
     CssManager.enableElement(document.getElementById(elementId));
@@ -68,4 +74,5 @@ class CssManager { /*exported CssManager*/
     element.style.opacity = '0.66';
     element.style.filter = 'grayscale(100%)';
   }
+
 }

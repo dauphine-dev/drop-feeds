@@ -77,7 +77,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return resourceUrl;
   }
 
-  async importThemeCustom_async(themeKind, zipFile) {
+  async importThemeCustom_async(zipFile) {
     try {
       let zipArchive = await JSZip.loadAsync(zipFile);
       if (!zipArchive) { return { error: 'notValidThemeArchive', value: null }; }
@@ -87,20 +87,26 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       if (!themeInfoJson) { return { error: 'notValidThemeArchive', value: null }; }
       let themeInfo = JSON.parse(themeInfoJson);
       if (!themeInfo) { return { error: 'notValidThemeArchive', value: null }; }
-      if (themeInfo.themeKind != themeKind) { return { error: 'wrongKind', value: themeInfo.themeKind }; }
-      let listStorageKey = this._themeStorageKeyFromKind(themeKind);
+      if(!this._isValidThemeKind(themeInfo.themeKind)) {
+        if (!themeInfo) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
+      }
+      let listStorageKey = this._themeStorageKeyFromKind(themeInfo.themeKind);
       let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
       if (themesList.includes(themeInfo.themeName)) { return { error: 'alreadyExist', value: themeInfo.themeName }; }
       themesList.push(themeInfo.themeName);
       themesList = [...new Set(themesList)];
       await LocalStorageManager.setValue_async(listStorageKey, themesList);
-      let themeNameWithPrefix = this.getThemeNameWithPrefix(themeKind, themeInfo.themeName);
+      let themeNameWithPrefix = this.getThemeNameWithPrefix(themeInfo.themeKind, themeInfo.themeName);
       await LocalStorageManager.setValue_async(themeNameWithPrefix, zipFile);
     }
     catch (e) {
       return { error: 'notValidThemeArchive', value: e };
     }
     return null;
+  }
+
+  _isValidThemeKind(themeKind) {
+    return Object.values(this.kind).includes(themeKind);
   }
 
   isCustomTheme(themeName) {

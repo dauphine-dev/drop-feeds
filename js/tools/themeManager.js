@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager Listener ListenerProviders Transfer ThemeCustomManager*/
 'use strict';
-const _themeKind = { 'mainTheme': 'mainTheme', 'renderTemplate': 'renderTemplate', 'renderTheme': 'renderTheme' };
+const _themeKind = { mainTheme: 'mainTheme', renderTemplate: 'renderTemplate', renderTheme: 'renderTheme' };
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
