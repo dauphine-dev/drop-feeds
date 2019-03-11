@@ -69,15 +69,9 @@ class TabItems { /*exported TabItems*/
 
   _enableItemOptions() {
     let enabled = document.getElementById('feedItemListCheckbox').checked;
-    this._enableCheckbox('feedItemListToolbarCheckbox', 'textFeedItemListToolbar', enabled);
-    this._enableCheckbox('feedItemDescriptionTooltipsCheckbox', 'textDescriptionTooltips', enabled);
-    this._enableCheckbox('feedItemMarkAsReadOnLeavingCheckbox', 'textFeedItemMarkAsReadOnLeaving', enabled);
-    this._enableCheckbox('feedItemRenderInSidebarCheckbox', 'textFeedItemRenderInSidebar', enabled);
-  }
-
-  _enableCheckbox(checkboxId, textId, enabled) {
-    document.getElementById(checkboxId).disabled = ! enabled;
-    CssManager.setElementEnableById(checkboxId, enabled);
-    CssManager.setElementEnableById(textId, enabled);
+    CssManager.setElementEnableByIdEx('feedItemListToolbarCheckbox', 'textFeedItemListToolbar', enabled);
+    CssManager.setElementEnableByIdEx('feedItemDescriptionTooltipsCheckbox', 'textDescriptionTooltips', enabled);
+    CssManager.setElementEnableByIdEx('feedItemMarkAsReadOnLeavingCheckbox', 'textFeedItemMarkAsReadOnLeaving', enabled);
+    CssManager.setElementEnableByIdEx('feedItemRenderInSidebarCheckbox', 'textFeedItemRenderInSidebar', enabled);
   }
 }

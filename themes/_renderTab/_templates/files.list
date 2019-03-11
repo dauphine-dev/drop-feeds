@@ -2,11 +2,9 @@
 ./two_columns/css/template.css
 ./two_columns/xsl/template.xsl
 ./template.list
-./_any/files.list
 ./_any/img/feedIcon.png
 ./_any/css/subscribeButton.css
 ./files.list
-./_error/files.list
 ./_error/css/template.css
 ./_error/xsl/template.xsl
 ./two_panels/js/template.js
