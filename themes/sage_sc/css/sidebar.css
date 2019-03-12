@@ -98,12 +98,6 @@
   --items-selectionBar-color: var(--feeds-selectionBar-color);
   /* --- Item render layout ---- */
   --renderItems-Layout-background-color: var(--main-background-color);
-  /* ---- dialog box ---- */
-  --dialog-background-color: var(--main-dialog-background-color);
-  --dialog-border-color: #9d9d99;
-  --dialog-title-color: #4f4545;
-  --dialog-title-background-color: #e4e4e4;
-  --dialog-label-color: #4f4545;
   /* ---- misc. ---- */
   --main-dropTarget-color: gray;
 }

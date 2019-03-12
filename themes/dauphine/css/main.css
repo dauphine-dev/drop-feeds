@@ -9,6 +9,9 @@
   --main-selection-background-color: #60698f;
   --main-selection-text-color: var(--main-text-complementary-color);
   --main-dialog-background-color: var(--main-background-color);
+  --main-dialog-title-color: #4f4545;
+  --main-dialog-title-background-color: #e4e4e4;
+  --main-dialog-label-color: #4f4545;
   --main-progressBar-background-color: #d1d1d1;
   --main-progressBar-foreground-color: #2196F3;
   --main-table-background-color: #ffffff;
