@@ -18,6 +18,7 @@ class Debug {
     let folderStateList = [];
     let feedInfoList = [];
     let scriptsList = [];
+    let customThemeList = [];
     //let keysToRemove = [];
 
     for (let property in localStorage) {
@@ -48,6 +49,12 @@ class Debug {
           continue;
         }
 
+        // Custom theme list
+        if (property.startsWith('mainTheme') || property.startsWith('renderTemplate') || property.startsWith('renderTheme')) {
+          customThemeList.push([property, typeof localStorage[property], localStorage[property] ]);
+          continue;
+        }
+
         // No data list (again)
         if (localStorage[property] === null) {
           nodataList.push([property, typeof localStorage[property], 'null']);
@@ -75,6 +82,8 @@ class Debug {
     htmlText += '  ' + Debug._addSectionHtml('Misc.');
     htmlText += '  ' + Debug._listToHtml(nodataList);
     htmlText += '  ' + Debug._listToHtml(miscList);
+    htmlText += '  ' + Debug._addSectionHtml('Custom themes info');
+    htmlText += '  ' + Debug._listToHtml(customThemeList);
     htmlText += '  ' + Debug._addSectionHtml('Scripts info');
     htmlText += '  ' + Debug._listToHtml(scriptsList);
     htmlText += '  ' + Debug._addSectionHtml('Feeds info');

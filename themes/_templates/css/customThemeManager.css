@@ -12,6 +12,34 @@ body {
   font-size: small;
 }
 
+.show {
+  display: block;
+}
+
+.displayBlock {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.displayNone {
+  display: none;
+}
+
+.displayNone::before {
+  display: none;
+}
+
+.visibilityVisible {
+  visibility: visible;
+}
+
+.visibilityHidden {
+  visibility: hidden;
+}
+
 #errorMessage {
   color: var(--main-text-error-color);
 }
@@ -23,4 +51,53 @@ body {
 .buttonBox button {
   margin-left: 8px;
   margin-bottom: 4px;
+}
+
+/* ---- dialog box ---- */
+
+.dialogBox {
+  position: absolute;
+  background-color: var(--main-dialog-background-color);
+  font-size: 99%;
+  min-width: 320px;
+  border: 1px solid var(--main-border-color);
+  box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
+  padding: 0;
+  z-index: 2;
+}
+
+.dialogTitle {
+  text-align: center;
+  font-weight: bold;
+  color: var(--main-dialog-title-color);
+  background-color: var(--main-dialog-title-background-color);
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.dialogViewInner {
+  padding: 10px 10px 10px 10px;
+}
+
+.dialogViewTable {
+  table-layout: fixed;
+}
+
+.dialogLabel {
+  font-weight: bold;
+  color: var(--main-dialog-label-color);
+}
+
+.dialogField {
+  width: 101%;
+  border: 1px inset #000000;
+  white-space: pre;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.dialogButton {
+  font-size: 99%;
 }

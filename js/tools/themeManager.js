@@ -61,19 +61,31 @@ class ThemeManager { /*exported ThemeManager*/
   get mainThemeFolderName() { return this._mainThemeFolderName; }
 
   set mainThemeFolderName(value) {
-    LocalStorageManager.setValue_async('mainThemeFolderName', value);
+    this.setMainThemeFolderName_async(value);
+  }
+
+  async setMainThemeFolderName_async(value) {
+    await LocalStorageManager.setValue_async('mainThemeFolderName', value);
   }
 
   get renderTemplateFolderName() { return this._renderTemplateFolderName; }
 
   set renderTemplateFolderName(value) {
-    LocalStorageManager.setValue_async('renderTemplateFolderName', value);
+    this.setRenderTemplateFolderName_async(value);
+  }
+
+  async setRenderTemplateFolderName_async(value) {
+    await LocalStorageManager.setValue_async('renderTemplateFolderName', value);
   }
 
   get renderThemeFolderName() { return this._renderThemeFolderName; }
 
   set renderThemeFolderName(value) {
-    LocalStorageManager.setValue_async('renderThemeFolderName', value);
+    this.setRenderThemeFolderName_async(value);
+  }
+
+  async setRenderThemeFolderName_async(value) {
+    await LocalStorageManager.setValue_async('renderThemeFolderName', value);
   }
 
   get mainThemeFolderUrl() { return this.themeBaseFolderUrl + this._mainThemeFolderName + '/'; }
@@ -86,6 +98,9 @@ class ThemeManager { /*exported ThemeManager*/
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
       let cssTemplateUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderTemplateFolderName, 'template.css', this.kind.renderTemplate, 'css');
+      if (!cssTemplateUrl) {
+        cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/css/template.css';
+      }
       return cssTemplateUrl;
     }
     let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/css/template.css';
@@ -99,6 +114,9 @@ class ThemeManager { /*exported ThemeManager*/
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
       let xslTemplateUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderTemplateFolderName, 'template.xsl', this.kind.renderTemplate, 'xsl');
+      if (!xslTemplateUrl) {
+        xslTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/xsl/template.xsl';
+      }
       return xslTemplateUrl;
     }
     let xslTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + this._renderTemplateFolderName + '/xsl/template.xsl';
@@ -110,6 +128,9 @@ class ThemeManager { /*exported ThemeManager*/
     let cssRenderUrl = '';
     if (ThemeCustomManager.instance.isCustomTheme(this._renderThemeFolderName)) {
       cssRenderUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderThemeFolderName, 'style.css', this.kind.renderTheme, 'css');
+      if (!cssRenderUrl) {
+        cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + DefaultValues.renderThemeFolderName + '/css/style.css';
+      }
     }
     else {
       cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
@@ -225,6 +246,9 @@ class ThemeManager { /*exported ThemeManager*/
 
     if (ThemeCustomManager.instance.isCustomTheme(this._mainThemeFolderName)) {
       cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme, 'css');
+      if (!cssUrl) {        
+        cssUrl = this.themeBaseFolderUrl + DefaultValues.mainThemeFolderName + '/css/' + cssFile;
+      }
     }
     else {
       cssUrl = this.mainThemeFolderUrl + 'css/' + cssFile;

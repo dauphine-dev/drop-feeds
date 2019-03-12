@@ -21,13 +21,13 @@ class LocalStorageManager { /*exported LocalStorageManager*/
     let value = defaultValue;
     let storedValue = (await browser.storage.local.get(valueName))[valueName];
     if (typeof storedValue != 'undefined') {
-      value  = storedValue;
+      value = storedValue;
     }
     return value;
   }
 
   static async setValue_async(valueName, value) {
-    await browser.storage.local.set({[valueName]: value});
+    await browser.storage.local.set({ [valueName]: value });
   }
 
   static async getCache_async() {
