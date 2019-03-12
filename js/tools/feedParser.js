@@ -421,7 +421,8 @@ class FeedParser { /*exported FeedParser*/
       item.number = ++i;
       item.link = jsonItem.url;
       item.title = jsonItem.title;
-      item.description = TextTools.replaceAll(TextTools.replaceAll(jsonItem.html_content, '\r\n', '\n'), '\n', '<br/>');
+      let htmlContent =  (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
+      item.description = TextTools.replaceAll(TextTools.replaceAll(htmlContent, '\r\n', '\n'), '\n', '<br/>');
       item.author = jsonItem.author.name;
       let enclosures = [];
       for (let att of jsonItem.attachments) {
