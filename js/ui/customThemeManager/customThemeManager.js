@@ -1,11 +1,11 @@
-/*global ThemeManager ThemeCustomManager BrowserManager LocalStorageManager DefaultValues CssManager CustomThemeRenameDialog*/
+/*global ThemeManager ThemeCustomManager BrowserManager LocalStorageManager DefaultValues CssManager CustomThemeNameDialog*/
 'use strict';
 const _internal_name = 0;
 const _ui_name = 1;
 class CustomThemeManager { /*exported CustomThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
-  constructor() {   
+  constructor() {
     this._updateLocalizedStrings();
     document.getElementById('importThemeCustom').addEventListener('click', (e) => { this._importThemeCustomOnClicked_event(e); });
     document.getElementById('inputImportThemeCustom').addEventListener('change', (e) => { this._inputImportThemeCustomChanged_event(e); });
@@ -76,7 +76,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectMainThemeCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeRenameDialog.instance.show(event.target, ThemeManager.instance.kind.mainTheme, oldName);
+    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kind.mainTheme, oldName, null, this.renameCustomTheme_async);
   }
 
   async _deleteMainThemeCustomOnClicked_event() {
@@ -119,7 +119,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderTemplateCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeRenameDialog.instance.show(event.target, ThemeManager.instance.kind.renderTemplate, oldName);
+    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kind.renderTemplate, oldName, null, this.renameCustomTheme_async);
   }
 
   async _deleteRenderTemplateCustomOnClicked_event() {
@@ -162,7 +162,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderThemeCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeRenameDialog.instance.show(event.target, ThemeManager.instance.kind.renderTheme, oldName);
+    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kind.renderTheme, oldName, null, this.renameCustomTheme_async);
   }
 
   async _deleteRenderThemeCustomOnClicked_event() {
@@ -170,14 +170,8 @@ class CustomThemeManager { /*exported CustomThemeManager*/
   }
 
   // Misc.
-  async _importThemeCustomOnClicked_event() {
-    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
-    document.getElementById('inputImportThemeCustom').click();
-  }
-
-  async _inputImportThemeCustomChanged_event() {
-    let zipFile = document.getElementById('inputImportThemeCustom').files[0];
-    let importError = await ThemeCustomManager.instance.importThemeCustom_async(zipFile);
+  async importCustomTheme_async(themeName, themKind, fileName, file) {
+    let importError = await ThemeCustomManager.instance.importThemeCustom_async(file, themeName);
     if (importError) {
       switch (importError.error) {
         case 'notValidThemeArchive':
@@ -194,6 +188,37 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     }
   }
 
+  async renameCustomTheme_async(newName, themKind, oldName) {
+    let self = CustomThemeManager.instance;
+    let renameError = await ThemeCustomManager.instance.renameCustomTheme_async(themKind, oldName, newName);
+    if (renameError) {
+      switch (renameError.error) {
+        case 'error':
+          let moreInfo = (renameError.value ? ': ' + renameError.value : '');
+          BrowserManager.setInnerHtmlById('errorMessage', 'Something went wrong' + moreInfo);
+          break;
+        case 'alreadyExist':
+          BrowserManager.setInnerHtmlById('errorMessage', 'A theme already exist with the name: ' + renameError.value);
+          break;
+      }
+    }
+    else {
+      await self._updateSelectedThemeName_async(newName, themKind, oldName);
+      window.location.reload();
+    }
+  }
+
+  async _importThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
+    document.getElementById('inputImportThemeCustom').click();
+  }
+
+  async _inputImportThemeCustomChanged_event() {
+    let file = document.getElementById('inputImportThemeCustom').files[0];
+    CustomThemeNameDialog.instance.getThemeName(false, event.target, ThemeManager.instance.kind.renderTheme, file.name, file, this.importCustomTheme_async);
+  }
+
+
   async _initSelectOptions_async(selectId, themeKind, builtinList, customList, selectedValue) {
     let abort = false;
     builtinList = builtinList.map((theme) => theme + ' [builtin]');
@@ -209,7 +234,9 @@ class CustomThemeManager { /*exported CustomThemeManager*/
       }
       window.location.reload();
       abort = true;
+      return abort;
     }
+    BrowserManager.setInnerHtmlByElement(selectElement[selectElement.selectedIndex], selectElement[selectElement.selectedIndex].innerText + ' [active]');
     return abort;
   }
 
@@ -262,6 +289,29 @@ class CustomThemeManager { /*exported CustomThemeManager*/
         break;
     }
   }
+
+  async _updateSelectedThemeName_async(newName, themKind, oldName) {
+    oldName = ThemeCustomManager.instance.getThemeNameWithPrefix(themKind, oldName);
+    newName = ThemeCustomManager.instance.getThemeNameWithPrefix(themKind, newName);
+    switch (themKind) {
+      case ThemeManager.instance.kind.mainTheme:
+        if (ThemeManager.instance.mainThemeFolderName == oldName) {
+          await ThemeManager.instance.setMainThemeFolderName_async(newName);
+        }
+        break;
+      case ThemeManager.instance.kind.renderTheme:
+        if (ThemeManager.instance.renderThemeFolderName == oldName) {
+          await ThemeManager.instance.setRenderThemeFolderName_async(newName);
+        }
+        break;
+      case ThemeManager.instance.kind.renderTemplate:
+        if (ThemeManager.instance.renderTemplateFolderName == oldName) {
+          await ThemeManager.instance.setRenderTemplateFolderName_async(newName);
+        }
+        break;
+    }
+  }
+
 }
 
 CustomThemeManager.instance.init_async();

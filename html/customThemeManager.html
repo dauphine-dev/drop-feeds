@@ -114,21 +114,21 @@
     </div>
   </div>
   <!-- --------------------- dialogs ----------------------- -->
-  <div id="renameDialog" class="hide dialogBox">
-    <div id="renameDialogDialogTitle" class="dialogTitle">#Rename</div>
+  <div id="nameDialog" class="hide dialogBox">
+    <div id="nameDialogDialogTitle" class="dialogTitle">#Rename</div>
     <div class="dialogViewInner">
       <table class="dialogViewTable">
         <tr>
-          <td><label id="renameButtonDialog" class="dialogLabel">#New name: </label></td>
-          <td><input type="text" id="inputNewName" class="dialogField" value="New name"></td>
+          <td><label id="nameButtonDialog" class="dialogLabel">#New name:</label> </td>
+          <td><input type="text" id="inputName" class="dialogField" value="New name"></td>
         </tr>
         <tr>
           <td></td>
           <td>
             <div class="atRight">
-              <button id="cancelRenameButton">#Cancel</button>
+              <button id="cancelNameButton">#Cancel</button>
               <span class="default">
-                <button id="applyRenameButton">#Apply</button>
+                <button id="okNameButton">#Ok</button>
               </span>
             </div>
           </td>
@@ -136,8 +136,7 @@
       </table>
     </div>
   </div>
-
-  <script src="/js/ui/customThemeManager/customThemeRenameDialog.js"></script>
+  <script src="/js/ui/customThemeManager/customThemeNameDialog.js"></script>
   <script src="/js/ui/customThemeManager/customThemeManager.js"></script>
 </body>
 
