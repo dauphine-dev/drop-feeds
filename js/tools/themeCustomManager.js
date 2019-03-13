@@ -15,7 +15,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     }
     else {
       suffix = ' (copy of)';
-      zipCustomTheme = await this.getCustomFromBuiltin_async(themeKind, themeName, suffix);
+      zipCustomTheme = await this.getCustomFromBuiltin_async(themeKind, themeName);
     }
     let newName = themeNameNoPrefix + suffix;
     let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
@@ -28,7 +28,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return sheetUrl;
   }
 
-  async getCustomFromBuiltin_async(themeKind, themeName, suffix) {
+  async getCustomFromBuiltin_async(themeKind, themeName) {
     let zip = new JSZip();
     let baseFolder = ThemeManager.instance.getBaseFolderForThemeKind(themeKind, themeName);
     let fileListUrl = browser.runtime.getURL(baseFolder + '/files.list');
@@ -39,7 +39,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       let fileUrl = browser.runtime.getURL(baseFolder + '/' + file);
       zip.file(file, ZipTools.getBinaryContent_async(fileUrl), { binary: true });
     }
-    let themeInfo = { themeKind: themeKind, themeName: themeName + suffix };
+    let themeInfo = { themeKind: themeKind };
     let themeInfoJson = JSON.stringify(themeInfo);
     zip.file('themeInfo.json', themeInfoJson);
     return zip;

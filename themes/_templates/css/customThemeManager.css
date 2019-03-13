@@ -1,4 +1,9 @@
-html, body, #mainDiv {
+html, body {
+  overflow: auto;
+}
+
+#mainDiv {
+  width: 100%;
   height: 100%;
 }
 

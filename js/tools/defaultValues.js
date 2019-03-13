@@ -12,6 +12,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get mainThemeFolderName()           { return 'legacy'; }
   static get renderTemplateFolderName()      { return 'two_columns'; }
   static get renderThemeFolderName()         { return 'legacy'; }
+  static get scriptEditorThemeFolderName()   { return 'studio_dark'; }
   static get updatedFeedsVisible()           { return false; }
   static get foldersOpened()                 { return true; }
   static get maxItemsInUnifiedView()         { return 100; }

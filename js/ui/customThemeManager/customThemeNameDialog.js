@@ -1,4 +1,5 @@
 /*global ThemeCustomManager*/
+//remove unused file.list
 'use strict';
 class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
   static get instance() { return (this._instance = this._instance || new this()); }

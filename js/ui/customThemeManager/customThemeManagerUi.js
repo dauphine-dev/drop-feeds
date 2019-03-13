@@ -2,7 +2,7 @@
 'use strict';
 const _internal_name = 0;
 const _ui_name = 1;
-class CustomThemeManager { /*exported CustomThemeManager*/
+class CustomThemeManagerUI {
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
@@ -30,6 +30,13 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     document.getElementById('exportRenderThemeCustom').addEventListener('click', (e) => { this._exportRenderThemeCustomOnClicked_event(e); });
     document.getElementById('renameRenderThemeCustom').addEventListener('click', (e) => { this._renameRenderThemeCustomOnClicked_event(e); });
     document.getElementById('deleteRenderThemeCustom').addEventListener('click', (e) => { this._deleteRenderThemeCustomOnClicked_event(e); });
+    //Script editor theme
+    this._initSelectScriptEditorThemeCustom_async();
+    document.getElementById('selectScriptEditorThemeCustom').addEventListener('change', (e) => { this._selectScriptEditorThemeCustomOnChange_event(e); });
+    document.getElementById('applyScriptEditorThemeCustom').addEventListener('click', (e) => { this._applyScriptEditorThemeCustomOnClicked_event(e); });
+    document.getElementById('exportScriptEditorThemeCustom').addEventListener('click', (e) => { this._exportScriptEditorThemeCustomOnClicked_event(e); });
+    document.getElementById('renameScriptEditorThemeCustom').addEventListener('click', (e) => { this._renameScriptEditorThemeCustomOnClicked_event(e); });
+    document.getElementById('deleteScriptEditorThemeCustom').addEventListener('click', (e) => { this._deleteScriptEditorThemeCustomOnClicked_event(e); });
   }
 
   async init_async() {
@@ -106,6 +113,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
 
   async _applyRenderTemplateCustomOnClicked_event() {
     this._applyThemeCustom_async('selectRenderTemplateCustom', ThemeManager.instance.kind.renderTemplate);
+    window.location.reload();
   }
 
   async _exportRenderTemplateCustomOnClicked_event() {
@@ -149,6 +157,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
 
   async _applyRenderThemeCustomOnClicked_event() {
     this._applyThemeCustom_async('selectRenderThemeCustom', ThemeManager.instance.kind.renderTheme);
+    window.location.reload();
   }
 
   async _exportRenderThemeCustomOnClicked_event() {
@@ -167,6 +176,50 @@ class CustomThemeManager { /*exported CustomThemeManager*/
 
   async _deleteRenderThemeCustomOnClicked_event() {
     await this._deleteThemeCustom_async('selectRenderThemeCustom', ThemeCustomManager.instance.kind.renderTheme);
+  }
+
+  // Script editor custom theme methods
+  async _initSelectScriptEditorThemeCustom_async() {
+    let tm = ThemeManager.instance, tc = ThemeCustomManager.instance;
+    let templateBuiltinList = await tm.getThemeBuiltinList_async(tm.kind.scriptEditorTheme);
+    let templateCustomList = await tc.getCustomThemeList_async(tm.kind.scriptEditorTheme);
+    let abort = await this._initSelectOptions_async('selectScriptEditorThemeCustom', tm.kind.scriptEditorTheme, templateBuiltinList, templateCustomList, tm.scriptEditorThemeFolderName);
+    if (abort) { return; }
+    let selectElement = document.getElementById('selectScriptEditorThemeCustom');
+    let enabled = (selectElement.options[selectElement.selectedIndex].type == 'custom');
+    CssManager.setElementEnableByIdEx('renameScriptEditorThemeCustom', null, enabled);
+    CssManager.setElementEnableByIdEx('deleteScriptEditorThemeCustom', null, enabled);
+  }
+
+  async _selectScriptEditorThemeCustomOnChange_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
+    let themeType = event.target.options[event.target.selectedIndex].type;
+    let enabled = (themeType == 'custom');
+    CssManager.setElementEnableByIdEx('renameScriptEditorThemeCustom', null, enabled);
+    CssManager.setElementEnableByIdEx('deleteScriptEditorThemeCustom', null, enabled);
+  }
+
+  async _applyScriptEditorThemeCustomOnClicked_event() {
+    this._applyThemeCustom_async('selectScriptEditorThemeCustom', ThemeManager.instance.kind.scriptEditorTheme);
+    window.location.reload();
+  }
+
+  async _exportScriptEditorThemeCustomOnClicked_event() {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
+    let selectElement = document.getElementById('selectScriptEditorThemeCustom');
+    let themeName = selectElement.options[selectElement.selectedIndex].value;
+    await ThemeCustomManager.instance.exportThemeCustom_async(ThemeManager.instance.kind.scriptEditorTheme, themeName);
+  }
+
+  async _renameScriptEditorThemeCustomOnClicked_event(event) {
+    BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
+    let selectElement = document.getElementById('selectScriptEditorThemeCustom');
+    let oldName = selectElement.options[selectElement.selectedIndex].value;
+    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kind.scriptEditorTheme, oldName, null, this.renameCustomTheme_async);
+  }
+
+  async _deleteScriptEditorThemeCustomOnClicked_event() {
+    await this._deleteThemeCustom_async('selectScriptEditorThemeCustom', ThemeCustomManager.instance.kind.scriptEditorTheme);
   }
 
   // Misc.
@@ -189,7 +242,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
   }
 
   async renameCustomTheme_async(newName, themKind, oldName) {
-    let self = CustomThemeManager.instance;
+    let self = CustomThemeManagerUI.instance;
     let renameError = await ThemeCustomManager.instance.renameCustomTheme_async(themKind, oldName, newName);
     if (renameError) {
       switch (renameError.error) {
@@ -229,7 +282,7 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     this._addOptionsToSelectElement(selectElement, customList, 'custom');
     selectElement.value = selectedValue;
     if (selectElement.selectedIndex < 0) {
-      await this._resetThemeName_async(themeKind, selectedValue);
+      await this._resetThemeName_async(themeKind, selectedValue, true);
       if (themeKind == ThemeManager.instance.kind.mainTheme) {
         await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
       }
@@ -264,28 +317,33 @@ class CustomThemeManager { /*exported CustomThemeManager*/
     let selectElement = document.getElementById(selectId);
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeCustomManager.instance.removeTheme_async(themeKind, themeName);
-    await this._resetThemeName_async(themeKind, themeName);
+    await this._resetThemeName_async(themeKind, themeName, false);
     if (themeKind == ThemeManager.instance.kind.mainTheme && themeName == ThemeManager.instance.mainThemeFolderName) {
       await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
     }
     window.location.reload();
   }
 
-  async _resetThemeName_async(themeKind, themeName) {
+  async _resetThemeName_async(themeKind, themeName, force) {
     switch (themeKind) {
       case ThemeManager.instance.kind.mainTheme:
-        if (themeName == ThemeManager.instance.mainThemeFolderName) {
+        if (themeName == ThemeManager.instance.mainThemeFolderName || force) {
           await ThemeManager.instance.setMainThemeFolderName_async(DefaultValues.mainThemeFolderName);
         }
         break;
       case ThemeManager.instance.kind.renderTheme:
-        if (themeName == ThemeManager.instance.renderThemeFolderName) {
+        if (themeName == ThemeManager.instance.renderThemeFolderName || force) {
           await ThemeManager.instance.setRenderThemeFolderName_async(DefaultValues.renderThemeFolderName);
         }
         break;
       case ThemeManager.instance.kind.renderTemplate:
-        if (themeName == ThemeManager.instance.renderTemplateFolderName) {
+        if (themeName == ThemeManager.instance.renderTemplateFolderName || force) {
           await ThemeManager.instance.setRenderTemplateFolderName_async(DefaultValues.renderTemplateFolderName);
+        }
+        break;
+      case ThemeManager.instance.kind.scriptEditorTheme:
+        if (themeName == ThemeManager.instance.scriptEditorThemeFolderName || force) {
+          await ThemeManager.instance.setScriptEditorThemeFolderName_async(DefaultValues.scriptEditorThemeFolderName);
         }
         break;
     }
@@ -310,9 +368,13 @@ class CustomThemeManager { /*exported CustomThemeManager*/
           await ThemeManager.instance.setRenderTemplateFolderName_async(newName);
         }
         break;
+      case ThemeManager.instance.kind.scriptEditorTheme:
+        if (ThemeManager.instance.scriptEditorThemeFolderName == oldName) {
+          await ThemeManager.instance.setScriptEditorThemeFolderName_async(newName);
+        }
+        break;
     }
   }
 
 }
-
-CustomThemeManager.instance.init_async();
+CustomThemeManagerUI.instance.init_async();

@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager Listener ListenerProviders Transfer ThemeCustomManager*/
 'use strict';
-const _themeKind = { mainTheme: 'mainTheme', renderTemplate: 'renderTemplate', renderTheme: 'renderTheme' };
+const _themeKind = { mainTheme: 'mainTheme', renderTemplate: 'renderTemplate', renderTheme: 'renderTheme', scriptEditorTheme: 'scriptEditorTheme' };
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -9,6 +9,7 @@ class ThemeManager { /*exported ThemeManager*/
     this._mainThemesListUrl = '/themes/themes.list';
     this._renderTemplateListUrl = '/themes/_renderTab/_templates/template.list';
     this._renderThemeListUrl = '/themes/_renderTab/themes.list';
+    this._scriptEditorThemeListUrl = '/themes/_editor/themes.list';
     this._iconDF08Url = '/themes/_templates/img/drop-feeds-08.png';
     this._iconDF16Url = '/themes/_templates/img/drop-feeds-16.png';
     this._iconDF32Url = '/themes/_templates/img/drop-feeds-32.png';
@@ -22,7 +23,8 @@ class ThemeManager { /*exported ThemeManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderTemplateFolderName', (v) => this._setRenderTemplateFolderName_sbscrb(v), true);
     this._renderThemeFolderName = DefaultValues.renderThemeFolderName;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderThemeFolderName', (v) => this._setRenderThemeFolderName_sbscrb(v), true);
-
+    this._scriptEditorThemeFolderName = DefaultValues.scriptEditorThemeFolderName;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'scriptEditorThemeFolderName', (v) => this._setScriptEditorThemeFolderName_sbscrb(v), true);
   }
 
   async init_async() {
@@ -39,6 +41,10 @@ class ThemeManager { /*exported ThemeManager*/
 
   async _setRenderThemeFolderName_sbscrb(value) {
     this._renderThemeFolderName = value;
+  }
+
+  async _setScriptEditorThemeFolderName_sbscrb(value) {
+    this._scriptEditorThemeFolderName = value;
   }
 
   async _update_async() {
@@ -87,6 +93,16 @@ class ThemeManager { /*exported ThemeManager*/
   async setRenderThemeFolderName_async(value) {
     await LocalStorageManager.setValue_async('renderThemeFolderName', value);
   }
+
+  set scriptEditorThemeFolderName(value) {
+    this.setScriptEditorThemeFolderName_async(value);
+  }
+
+  async setScriptEditorThemeFolderName_async(value) {
+    await LocalStorageManager.setValue_async('scriptEditorThemeFolderName', value);
+  }
+
+  get scriptEditorThemeFolderName() { return this._scriptEditorThemeFolderName; }
 
   get mainThemeFolderUrl() { return this.themeBaseFolderUrl + this._mainThemeFolderName + '/'; }
 
@@ -150,6 +166,10 @@ class ThemeManager { /*exported ThemeManager*/
       case this.kind.renderTemplate:
         baseFolder = 'themes/_renderTab/_templates/' + themeName;
         break;
+      case this.kind.scriptEditorTheme:
+        baseFolder = 'themes/_editor/' + themeName;
+        break;
+
     }
     return baseFolder;
   }
@@ -166,6 +186,10 @@ class ThemeManager { /*exported ThemeManager*/
       case this.kind.renderTemplate:
         themeFolder = this._renderTemplateFolderName;
         break;
+      case this.kind.scriptEditorTheme:
+        themeFolder = this._scriptEditorThemeFolderName;
+        break;
+
     }
     return themeFolder;
   }
@@ -182,10 +206,13 @@ class ThemeManager { /*exported ThemeManager*/
       case this.kind.renderTemplate:
         baseAndThemeFolder = 'themes/_renderTab/_templates/' + this._renderTemplateFolderName;
         break;
+      case this.kind.scriptEditorTheme:
+        baseAndThemeFolder = 'themes/_editor/' + this._scriptEditorThemeFolderName;
+        break;
+
     }
     return baseAndThemeFolder;
   }
-
 
   async getThemeResourceUrl_async(themeKind, targetResource) {
     let resourceUrl = '';
@@ -223,6 +250,9 @@ class ThemeManager { /*exported ThemeManager*/
       case _themeKind.renderTheme:
         this.renderThemeFolderName = themeFolderName;
         break;
+      case _themeKind.scriptEditorTheme:
+        this.scriptEditorThemeFolderName = themeFolderName;
+        break;
     }
   }
 
@@ -246,7 +276,7 @@ class ThemeManager { /*exported ThemeManager*/
 
     if (ThemeCustomManager.instance.isCustomTheme(this._mainThemeFolderName)) {
       cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme, 'css');
-      if (!cssUrl) {        
+      if (!cssUrl) {
         cssUrl = this.themeBaseFolderUrl + DefaultValues.mainThemeFolderName + '/css/' + cssFile;
       }
     }
@@ -257,8 +287,8 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   async getThemeBuiltinList_async(themeKind) {
-    let mainThemesListUrl = this._themeUrlFromKind(themeKind);
-    let themeListUrl = browser.runtime.getURL(mainThemesListUrl);
+    let themeListUrl = this._themeUrlFromKind(themeKind);
+    themeListUrl = browser.runtime.getURL(themeListUrl);
     let themeListText = await Transfer.downloadTextFile_async(themeListUrl);
     let themeList = themeListText.trim().split('\n');
     themeList.shift();
@@ -280,6 +310,8 @@ class ThemeManager { /*exported ThemeManager*/
         return this.renderTemplateListUrl;
       case _themeKind.renderTheme:
         return this.renderThemeListUrl;
+      case _themeKind.scriptEditorTheme:
+        return this.scriptEditorThemeListUrl;
     }
   }
 
@@ -302,6 +334,8 @@ class ThemeManager { /*exported ThemeManager*/
   get renderTemplateListUrl() { return this._renderTemplateListUrl; }
 
   get renderThemeListUrl() { return this._renderThemeListUrl; }
+
+  get scriptEditorThemeListUrl() { return this._scriptEditorThemeListUrl; }
 
 
 }
