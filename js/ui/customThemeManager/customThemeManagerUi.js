@@ -181,9 +181,9 @@ class CustomThemeManagerUI {
   // Script editor custom theme methods
   async _initSelectScriptEditorThemeCustom_async() {
     let tm = ThemeManager.instance, tc = ThemeCustomManager.instance;
-    let templateBuiltinList = await tm.getThemeBuiltinList_async(tm.kind.scriptEditorTheme);
-    let templateCustomList = await tc.getCustomThemeList_async(tm.kind.scriptEditorTheme);
-    let abort = await this._initSelectOptions_async('selectScriptEditorThemeCustom', tm.kind.scriptEditorTheme, templateBuiltinList, templateCustomList, tm.scriptEditorThemeFolderName);
+    let scriptEditorBuiltinList = await tm.getThemeBuiltinList_async(tm.kind.scriptEditorTheme);
+    let scriptEditorCustomList = await tc.getCustomThemeList_async(tm.kind.scriptEditorTheme);
+    let abort = await this._initSelectOptions_async('selectScriptEditorThemeCustom', tm.kind.scriptEditorTheme, scriptEditorBuiltinList, scriptEditorCustomList, tm.scriptEditorThemeFolderName);
     if (abort) { return; }
     let selectElement = document.getElementById('selectScriptEditorThemeCustom');
     let enabled = (selectElement.options[selectElement.selectedIndex].type == 'custom');

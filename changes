@@ -1,5 +1,6 @@
 0.9.7
 Add custom theme manager
+Make user can change script editor theme
 Fix empty html_content in json feeds
 
 0.9.6

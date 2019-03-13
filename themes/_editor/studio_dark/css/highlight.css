@@ -1,49 +1,48 @@
 .editorText {
-  background-color: #ffffff;
-  color: #1f2d8b;
+  background-color: #1e1e1e;
+  color: #a9dbfa;
 }
 
 .editorConsole {
-  background-color: #ffffff;
+  background-color: #1e1e1e;
 }
 
 .editorConsoleTextDefault {
-  color: #000000;
+  color: #ffffff;
 }
 
 .editorConsoleTextOk {
-  color: #5a5aef;
+  color: #6a6aff;
 }
 
 .editorConsoleTextError {
   color: #ff0000;
 }
 
-
 .editorConsoleLeft {
-  background-color: #e0e0e0;
+  background-color: #101010;
 }
 
 .editorCaret {
-  caret-color: #000000;
+  caret-color: #ffffff;
 }
 
 .jsString {
-  color: #ab3232;
+  color: #c5937c;
 }
 
 .jsDeclarationKeyword {
-  color: #1f1fff;
+  color: #669bd1;
 }
 
 .jsControlFlowKeyword {
-  color: #b61fde;
+  color: #bc8abd;
 }
 
 .jsOtherKeyword {
-  color: #856d3a;
+  color: #dcdbaf;
 }
 
 .jsComment {
-  color: #1f8b1f;
+  color: #698955;
 }

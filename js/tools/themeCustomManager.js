@@ -23,7 +23,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     browser.downloads.download({ url: url, filename: 'df - ' + themeKind + ' - ' + newName + '.zip', saveAs: true });
   }
 
-  async getCssUrl_async(themeName, sheetFile, themeKind, sheetFolder) {
+  async getCustomCssUrl_async(themeName, sheetFile, themeKind, sheetFolder) {
     let sheetUrl = await this._loadCustomSheet_async(themeName, sheetFile, themeKind, sheetFolder, sheetFolder);
     return sheetUrl;
   }
@@ -146,7 +146,8 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   isCustomTheme(themeName) {
     let isCustomTheme = themeName.startsWith(this.kind.mainTheme + ':')
       || themeName.startsWith(this.kind.renderTemplate + ':')
-      || themeName.startsWith(this.kind.renderTheme + ':');
+      || themeName.startsWith(this.kind.renderTheme + ':')
+      || themeName.startsWith(this.kind.scriptEditorTheme + ':');
     return isCustomTheme;
   }
 
@@ -158,13 +159,13 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   }
 
   async removeTheme_async(kind, themeName) {
-    let themeNameWithoutPrefix = this.getThemeNameWithoutPrefix(kind, themeName);
-    let themeNameWithPrefix = this.getThemeNameWithPrefix(kind, themeName);
-    let storageKey = this._themeStorageKeyFromKind(ThemeManager.instance.kind.mainTheme);
+    let themeNameNoPrefix = this.getThemeNameWithoutPrefix(kind, themeName);
+    let themeNamePrefix = this.getThemeNameWithPrefix(kind, themeName);
+    let storageKey = this._themeStorageKeyFromKind(kind);
     let themeCustomList = await LocalStorageManager.getValue_async(storageKey, []);
-    themeCustomList = themeCustomList.filter((thName) => thName !== themeNameWithoutPrefix);
-    await LocalStorageManager.setValue_async(this._themeStorageKeyFromKind(kind), themeCustomList);
-    await browser.storage.local.remove(themeNameWithPrefix);
+    themeCustomList = themeCustomList.filter((thName) => thName !== themeNameNoPrefix);
+    await LocalStorageManager.setValue_async(storageKey, themeCustomList);
+    await browser.storage.local.remove(themeNamePrefix);
   }
 
   async _addCssToZip_async(zipFolder, fileName, sheetUrl, themeName) {

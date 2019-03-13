@@ -106,6 +106,8 @@ class ThemeManager { /*exported ThemeManager*/
 
   get mainThemeFolderUrl() { return this.themeBaseFolderUrl + this._mainThemeFolderName + '/'; }
 
+  get scriptEditorThemeFolderUrl() { return this.themeBaseFolderUrl + '_editor/' + this._scriptEditorThemeFolderName; }
+
   async getRenderCssTemplateUrl_async(isError) {
     //let cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + (isError ? '_error' : this._renderTemplateFolderName) + '/css/template.css';
     if (isError) {
@@ -113,7 +115,7 @@ class ThemeManager { /*exported ThemeManager*/
       return cssTemplateUrl;
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
-      let cssTemplateUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderTemplateFolderName, 'template.css', this.kind.renderTemplate, 'css');
+      let cssTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.css', this.kind.renderTemplate, 'css');
       if (!cssTemplateUrl) {
         cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/css/template.css';
       }
@@ -129,7 +131,7 @@ class ThemeManager { /*exported ThemeManager*/
       return xslTemplateUrl;
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
-      let xslTemplateUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderTemplateFolderName, 'template.xsl', this.kind.renderTemplate, 'xsl');
+      let xslTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.xsl', this.kind.renderTemplate, 'xsl');
       if (!xslTemplateUrl) {
         xslTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/xsl/template.xsl';
       }
@@ -143,7 +145,7 @@ class ThemeManager { /*exported ThemeManager*/
     //let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
     let cssRenderUrl = '';
     if (ThemeCustomManager.instance.isCustomTheme(this._renderThemeFolderName)) {
-      cssRenderUrl = await ThemeCustomManager.instance.getCssUrl_async(this._renderThemeFolderName, 'style.css', this.kind.renderTheme, 'css');
+      cssRenderUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderThemeFolderName, 'style.css', this.kind.renderTheme, 'css');
       if (!cssRenderUrl) {
         cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + DefaultValues.renderThemeFolderName + '/css/style.css';
       }
@@ -269,13 +271,19 @@ class ThemeManager { /*exported ThemeManager*/
       let cssUrlMain = await this._getCssUrl_async('main.css');
       elCssMain.setAttribute('href', cssUrlMain);
     }
+
+    let elCssHighlight = document.getElementById('cssHighLight');
+    if (elCssHighlight) {
+      let cssHighLight = await this.getCssEditorUrl_async('highlight.css');
+      elCssHighlight.setAttribute('href', cssHighLight);
+    }
+
   }
 
   async _getCssUrl_async(cssFile) {
     let cssUrl = '';
-
     if (ThemeCustomManager.instance.isCustomTheme(this._mainThemeFolderName)) {
-      cssUrl = await ThemeCustomManager.instance.getCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme, 'css');
+      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme, 'css');
       if (!cssUrl) {
         cssUrl = this.themeBaseFolderUrl + DefaultValues.mainThemeFolderName + '/css/' + cssFile;
       }
@@ -285,6 +293,21 @@ class ThemeManager { /*exported ThemeManager*/
     }
     return cssUrl;
   }
+
+  async getCssEditorUrl_async(cssFile) {
+    let cssUrl = '';
+    if (ThemeCustomManager.instance.isCustomTheme(this._scriptEditorThemeFolderName)) {
+      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._scriptEditorThemeFolderName, cssFile, this.kind.scriptEditorTheme, 'css');
+      if (!cssUrl) {
+        cssUrl = this.themeBaseFolderUrl + '_editor/' + DefaultValues.scriptEditorThemeFolderName + '/css/' + cssFile;
+      }
+    }
+    else {
+      cssUrl = this.scriptEditorThemeFolderUrl + '/css/' + cssFile;
+    }
+    return cssUrl;
+  }
+
 
   async getThemeBuiltinList_async(themeKind) {
     let themeListUrl = this._themeUrlFromKind(themeKind);

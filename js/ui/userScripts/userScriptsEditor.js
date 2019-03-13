@@ -1,5 +1,5 @@
 /*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues TextConsole*/
-/*global scriptCodeKey scriptObjKey scriptType SecurityFilters*/
+/*global scriptCodeKey scriptObjKey scriptType SecurityFilters Listener ListenerProviders ThemeManager*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
@@ -29,6 +29,8 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     document.getElementById('resizeBar').addEventListener('mousedown', (e) => { this._resizeBarMousedown_event(e); });
 
     this._loadEditorScripts();
+    this._highLightCssUrl = undefined;
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'scriptEditorThemeFolderName', (v) => { this._setScriptEditorThemeFolderName_sbscrb(v); }, true);
     window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });
   }
 
@@ -84,7 +86,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     document.getElementById('virtualFeedInfoExample').textContent = browser.i18n.getMessage('usUScriptExample');
   }
 
-
   _loadEditorScripts() {
     BrowserManager.appendScript('/js/tools/syntaxHighlighter.js', typeof SyntaxHighlighter);
     BrowserManager.appendScript('/js/components/editorMenu.js', typeof EditorMenu);
@@ -95,10 +96,10 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   async _windowOnLoad_event() {
-    this._jsEditor = new Editor(_jsHighlighterPath, () => { this.save_async(); });
+    this._jsEditor = new Editor(_jsHighlighterPath, this._highLightCssUrl, () => { this.save_async(); });
     await this._jsEditor.init_async();
     this._jsEditor.attach(document.getElementById('editor'));
-    this._jsEditor.attachMenu(document.getElementById('fieldsetEditorBox'));
+    await this._jsEditor.attachMenu_async(document.getElementById('fieldsetEditorBox'));
     this._jsEditor.attachConsole();
     this._jsEditor.attachConsoleMenu();
   }
@@ -240,4 +241,10 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     }
   }
 
+  async _setScriptEditorThemeFolderName_sbscrb() {
+    this._highLightCssUrl = await ThemeManager.instance.getCssEditorUrl_async('highlight.css');
+    if (this._jsEditor) {
+      this._jsEditor.setHighlightCss(this._highLightCssUrl);
+    }
+  }
 }

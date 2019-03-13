@@ -7,7 +7,7 @@ const _overflow = {
 };
 
 class Editor { /*exported Editor*/
-  constructor(syntaxFilePath, saveCallback) {
+  constructor(syntaxFilePath, highLightCssUrl, saveCallback) {
     this._tabSize = 4;
     this._tabChar = ' '.repeat(this._tabSize);
     this._baseElement = null;
@@ -15,6 +15,7 @@ class Editor { /*exported Editor*/
     this._editorFontSize = DefaultValues.editorFontSize;
     this._highlighter = null;
     this._syntaxFilePath = syntaxFilePath;
+    this._highLightCssUrl = highLightCssUrl;
     this._saveCallback = saveCallback;
     this._isResizing = false;
     this._lastDownY = 0;
@@ -29,7 +30,6 @@ class Editor { /*exported Editor*/
     this._editorFontFamily = await LocalStorageManager.getValue_async('editorFontFamily', this._editorFontFamily);
     this._editorFontSize = await LocalStorageManager.getValue_async('editorFontSize', this._editorFontSize);
     this.tabSize = await LocalStorageManager.getValue_async('editorTabSize', this._tabSize);
-
     this._highlighter = new SyntaxHighlighter(this._syntaxFilePath);
     await this._highlighter.init_async();
   }
@@ -43,10 +43,11 @@ class Editor { /*exported Editor*/
     this._createElements();
     this._undoRedo.attach(this._editTextArea);
     this._appendCss();
+    this.setHighlightCss(this._highLightCssUrl);
   }
 
-  attachMenu(baseElement) {
-    this._editorMenu.attach(baseElement);
+  async attachMenu_async(baseElement) {
+    await this._editorMenu.attach_async(baseElement);
   }
 
   attachConsole() {
@@ -105,6 +106,17 @@ class Editor { /*exported Editor*/
   getText() {
     let text = this._editTextArea.value;
     return text;
+  }
+
+  setHighlightCss(cssHighLightUrl) {
+    this._highLightCssUrl = cssHighLightUrl;
+    let cssHighLight = document.getElementById('cssHighLight');
+    if (!cssHighLight) {
+      this._addHighlightCss(cssHighLightUrl);
+    }
+    else {
+      this._updateHighlightCss(cssHighLightUrl);
+    }
   }
 
   _updateLineNumbers(text) {
@@ -185,8 +197,6 @@ class Editor { /*exported Editor*/
     for (let editResizeBar of editResizeBarList) {
       editResizeBar.addEventListener('mousedown', (e) => { this._editResizeBarMousedown_event(e); });
     }
-
-
   }
 
   _appendCss() {
@@ -195,6 +205,20 @@ class Editor { /*exported Editor*/
     editorCss.setAttribute('rel', 'stylesheet');
     editorCss.setAttribute('type', 'text/css');
     document.head.appendChild(editorCss);
+  }
+
+  _addHighlightCss(cssHighLightUrl) {
+    let cssHighLight = document.createElement('link');
+    cssHighLight.setAttribute('id', 'cssHighLight');
+    cssHighLight.setAttribute('href', cssHighLightUrl);
+    cssHighLight.setAttribute('rel', 'stylesheet');
+    cssHighLight.setAttribute('type', 'text/css');
+    document.head.appendChild(cssHighLight);
+  }
+
+  _updateHighlightCss(cssHighLightUrl) {
+    let cssHighLight = document.getElementById('cssHighLight');
+    cssHighLight.setAttribute('href', cssHighLightUrl);
   }
 
   async _textAreaKeydown_event(event) {
