@@ -215,7 +215,8 @@ class CustomThemeManager { /*exported CustomThemeManager*/
 
   async _inputImportThemeCustomChanged_event() {
     let file = document.getElementById('inputImportThemeCustom').files[0];
-    CustomThemeNameDialog.instance.getThemeName(false, event.target, ThemeManager.instance.kind.renderTheme, file.name, file, this.importCustomTheme_async);
+    CustomThemeNameDialog.instance.getThemeName(false, document.getElementById('importThemeCustom'),
+      ThemeManager.instance.kind.renderTheme, file.name, file, this.importCustomTheme_async);
   }
 
 

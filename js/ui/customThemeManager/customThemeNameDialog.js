@@ -40,8 +40,8 @@ class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
   getThemeName(isRenameDialog, elementComeFrom, themKind, oldName, file, _callback_async) {
     this._isRenameDialog = isRenameDialog;
     this._callback_async = _callback_async;
-    this._themKind = themKind;
-    this._oldName = oldName;
+    this._themKind = themKind;    
+    this._oldName = (oldName.endsWith('.zip') ? oldName.split('.').slice(0, -1).join('.') : oldName);
     this._file = file;
     this._updateLocalizedStrings();
     this._show(elementComeFrom);

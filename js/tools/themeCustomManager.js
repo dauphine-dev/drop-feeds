@@ -6,6 +6,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   get kind() { return ThemeManager.instance.kind; }
 
   async exportThemeCustom_async(themeKind, themeName) {
+    let themeNameNoPrefix = this.getThemeNameWithoutPrefix(themeKind, themeName);
     let isCustomTheme = this.isCustomTheme(themeName);
     let zipCustomTheme = null;
     let suffix = '';
@@ -16,7 +17,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       suffix = ' (copy of)';
       zipCustomTheme = await this.getCustomFromBuiltin_async(themeKind, themeName, suffix);
     }
-    let newName = themeName + suffix;
+    let newName = themeNameNoPrefix + suffix;
     let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
     let url = URL.createObjectURL(zipBlob);
     browser.downloads.download({ url: url, filename: 'df - ' + themeKind + ' - ' + newName + '.zip', saveAs: true });
