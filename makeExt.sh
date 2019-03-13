@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#install jq before run this script (apt install jq)
+#install jq before run this script (apt install jq   or   https://stedolan.github.io/jq/download/)
 #
 NAME=drop_feeds
 BRANCH=${PWD##*/}
@@ -8,21 +8,26 @@ INITIAL_DIR=${PWD}
 #update files list
 for d in $INITIAL_DIR/themes/*/ ; do
     cd $d
-    find . -type f >files.list
+    find . ! -name '*.list' -type f >files.list
 done
 for d in $INITIAL_DIR/themes/_renderTab/*/ ; do
     cd $d
-    find . -type f >files.list
+    find . ! -name '*.list' -type f >files.list
 done
 for d in $INITIAL_DIR/themes/_renderTab/_templates/*/ ; do
     cd $d
-    find . -type f >files.list
+    find . ! -name '*.list' -type f >files.list
+done
+for d in $INITIAL_DIR/themes/_editor/*/ ; do
+    cd $d
+    find . ! -name '*.list' -type f >files.list
 done
 cd $INITIAL_DIR
 rm -rf themes/_renderTab/files.list
 rm -rf themes/_renderTab/_templates/_any/files.list
 rm -rf themes/_renderTab/_templates/_error/files.list
 rm -rf themes/_templates/files.list
+rm -rf themes/_editor/files.list
 #create a working folder in parent directory named '_ext'
 mkdir ../_ext/ > /dev/null 2>&1
 #copy all files in the working folder
