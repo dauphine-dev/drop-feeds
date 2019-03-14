@@ -39,9 +39,9 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       let fileUrl = browser.runtime.getURL(baseFolder + '/' + file);
       zip.file(file, ZipTools.getBinaryContent_async(fileUrl), { binary: true });
     }
-    let themeInfo = { themeKind: themeKind };
-    let themeInfoJson = JSON.stringify(themeInfo);
-    zip.file('themeInfo.json', themeInfoJson);
+    let archiveInfo = { fileType: 'df-custom-theme', themeInfo: { themeKind: themeKind } };
+    let archiveInfoJson = JSON.stringify(archiveInfo);
+    zip.file('archiveInfo.json', archiveInfoJson);
     return zip;
   }
 
@@ -82,23 +82,23 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     try {
       let zipArchive = await JSZip.loadAsync(zipFile);
       if (!zipArchive) { return { error: 'notValidThemeArchive', value: null }; }
-      let themeInfoJsonFile = zipArchive.file('themeInfo.json');
-      if (!themeInfoJsonFile) { return { error: 'notValidThemeArchive', value: null }; }
-      let themeInfoJson = await themeInfoJsonFile.async('text');
-      if (!themeInfoJson) { return { error: 'notValidThemeArchive', value: null }; }
-      let themeInfo = JSON.parse(themeInfoJson);
-      if (!themeInfo) { return { error: 'notValidThemeArchive', value: null }; }
-      if (!this._isValidThemeKind(themeInfo.themeKind)) {
-        if (!themeInfo) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
+      let archiveInfoJsonFile = zipArchive.file('archiveInfo.json');
+      if (!archiveInfoJsonFile) { return { error: 'notValidThemeArchive', value: null }; }
+      let archiveInfoJson = await archiveInfoJsonFile.async('text');
+      if (!archiveInfoJson) { return { error: 'notValidThemeArchive', value: null }; }
+      let archiveInfo = JSON.parse(archiveInfoJson);
+      if (!archiveInfo || !archiveInfo.fileType || !archiveInfo.themeInfo || archiveInfo.themeInfo.themeKind) {
+        return { error: 'notValidThemeArchive', value: null };
       }
-      let listStorageKey = this._themeStorageKeyFromKind(themeInfo.themeKind);
+      if (!this._isValidThemeKind(archiveInfo.themeKind)) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
+      let listStorageKey = this._themeStorageKeyFromKind(archiveInfo.themeInfo.themeKind);
       let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
       let isNewNameAvailable = !themesList.includes(themeName);
       if (!isNewNameAvailable) { return { error: 'alreadyExist', value: themeName }; }
       themesList.push(themeName);
       themesList = [...new Set(themesList)];
       await LocalStorageManager.setValue_async(listStorageKey, themesList);
-      let themeNameWithPrefix = this.getThemeNameWithPrefix(themeInfo.themeKind, themeName);
+      let themeNameWithPrefix = this.getThemeNameWithPrefix(archiveInfo.themeInfo.themeKind, themeName);
       await LocalStorageManager.setValue_async(themeNameWithPrefix, zipFile);
     }
     catch (e) {
