@@ -87,7 +87,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       let archiveInfoJson = await archiveInfoJsonFile.async('text');
       if (!archiveInfoJson) { return { error: 'notValidThemeArchive', value: null }; }
       let archiveInfo = JSON.parse(archiveInfoJson);
-      if (!archiveInfo || !archiveInfo.fileType || !archiveInfo.themeInfo || archiveInfo.themeInfo.themeKind) {
+      if (!archiveInfo || !archiveInfo.fileType || archiveInfo.fileType != 'df-custom-theme' || !archiveInfo.themeInfo || archiveInfo.themeInfo.themeKind) {
         return { error: 'notValidThemeArchive', value: null };
       }
       if (!this._isValidThemeKind(archiveInfo.themeKind)) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
