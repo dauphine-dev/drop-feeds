@@ -51,12 +51,12 @@ class BookmarkManager { /*exported BookmarkManager*/
 
   async sortBookmarks_async(bookmarkId) {
     try {
-      LocalStorageManager.setValue_async('importInProgress', true);
+      await LocalStorageManager.setValue_async('importInProgress', true);
       FeedsStatusBar.instance.workInProgress = true;
       await this._sortBookmarksCore_async(bookmarkId);
     }
     finally {
-      LocalStorageManager.setValue_async('importInProgress', false);
+      await LocalStorageManager.setValue_async('importInProgress', false);
       FeedsTreeView.instance.reload_async();
       FeedsStatusBar.instance.workInProgress = false;
     }

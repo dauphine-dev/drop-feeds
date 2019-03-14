@@ -32,7 +32,17 @@ class TabManagement { /*exported TabManagement*/
   }
 
   async _importOpmlInputChanged_event() {
-    OpmlImporter.instance.import_async();
+    let file = document.getElementById('inputOpmlImportFile').files[0];
+    let reader = new FileReader();
+    reader.onload = ((e) => { this._inputOpmlImportOnLoad_event(e); });
+    reader.readAsText(file);
+  }
+
+  async _inputOpmlImportOnLoad_event(event) {
+    let opmlText = event.target.result;
+    let progressBar = new ProgressBar('progressBarOpmlImport');
+    await OpmlImporter.instance.import_async(opmlText, progressBar, true);
+    setTimeout(() => { progressBar.hide(); }, 2000);
   }
 
   async _importOpmlButtonOnClicked_event() {
@@ -40,17 +50,18 @@ class TabManagement { /*exported TabManagement*/
   }
 
   async _exportOpmlButtonOnClicked_event() {
-    OpmlExporter.instance.export_async();
+    let opmlFileUrl = await OpmlExporter.instance.generateExportFile_async(false);
+    browser.downloads.download({ url: opmlFileUrl, filename: 'export.opml', saveAs: true });
   }
 
   async _importSettingInputChanged_event() {
     let file = document.getElementById('inputImportSettingFile').files[0];
     let reader = new FileReader();
-    reader.onload = ((e) => { this._fileReaderOnLoad_event(e); });
+    reader.onload = ((e) => { this._inputImportSettingOnLoad_event(e); });
     reader.readAsText(file);
   }
 
-  async _fileReaderOnLoad_event(event) {
+  async _inputImportSettingOnLoad_event(event) {
     let settingString = event.target.result;
     let progressBarImport = new ProgressBar('progressBarImportSetting');
     let settings = undefined;
@@ -102,4 +113,5 @@ class TabManagement { /*exported TabManagement*/
     }, {});
     return settings;
   }
+
 }

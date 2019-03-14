@@ -2,6 +2,7 @@
 Add custom theme manager
 Make user can change script editor theme
 Fix empty html_content in json feeds
+Add full export/import feature
 
 0.9.6
 Add Export/import settings
