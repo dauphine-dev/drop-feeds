@@ -97,7 +97,7 @@ version;line;messageName;message;where;note
 0.9.7;830;cthExportMainThemeCustom;Export as custom main theme...;Settings/Theme/Custom theme manager...;n/a
 0.9.7;833;cthExportRenderTemplateCustom;Export as custom tab template theme...;Settings/Theme/Custom theme manager...;n/a
 0.9.7;836;cthExportRenderThemeCustom;Export as custom tab theme...;Settings/Theme/Custom theme manager...;n/a
-0.9.7;839;cthExportScriptEditorThemeCustom;Script editor custom theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;839;cthExportScriptEditorThemeCustom;Export as custom script editor theme;Settings/Theme/Custom theme manager...;n/a
 0.9.7;842;cthDiagThemeName;Theme name:;Settings/Theme/Custom theme manager...;n/a
 0.9.7;845;cthDiagOk;Ok;Settings/Theme/Custom theme manager...;n/a
 0.9.7;848;cthDiagCancel;Cancel;Settings/Theme/Custom theme manager...;n/a
