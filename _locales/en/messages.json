@@ -837,7 +837,7 @@
     "message": "Export as custom tab theme..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "Export as custom script editor theme"
   },
   "cthDiagThemeName": {
     "message": "Theme name:"
