@@ -273,7 +273,7 @@
     "message": "Contenu"
   },
   "optTheme": {
-    "message": "Theme"
+    "message": "Thème"
   },
   "optManagement": {
     "message": "Gestion"
@@ -288,19 +288,19 @@
     "message": "Ne pas afficher le dossier racine"
   },
   "optSelectMainTheme": {
-    "message": "Theme principal"
+    "message": "Thème principal"
   },
   "optSelectRenderTemplate": {
     "message": "Modèle de l'onglet de rendu"
   },
   "optSelectRenderTheme": {
-    "message": "Theme de l'onglet de rendu"
+    "message": "Thème de l'onglet de rendu"
   },
   "optOpenCustomThemeManager": {
-    "message": "Open custom theme manager"
+    "message": "Ouvrir le gestionnaire de thèmes personnalisés"
   },
   "optThemeManager": {
-    "message": "Custom theme manager..."
+    "message": "Gestionnaire de thèmes personnalisés..."
   },
   "optFeedItemOrder": {
     "message": "Orde de tri des articles"
@@ -450,16 +450,16 @@
     "message": "Vue de déboguage..."
   },
   "optLblFullExport": {
-    "message": "Full export"
+    "message": "Tout exporter"
   },
   "opFullExportButton": {
-    "message": "Export every thing..."
+    "message": "Exporter tout..."
   },
   "optLblFullImport": {
-    "message": "Full import"
+    "message": "Tout importer"
   },
   "optFullImportButton": {
-    "message": "Import every thing..."
+    "message": "Importer tout..."
   },
   "optMessageDialogTitle": {
     "message": "Message"
@@ -702,7 +702,7 @@
     "message": "Largeur tab"
   },
   "usUScriptTheme": {
-    "message": "Theme"
+    "message": "Thème"
   },
   "comment13": {
     "message": "------------------Editor console strings------------------"
@@ -792,60 +792,60 @@
     "message": "------------------ Custom theme manager ------------------"
   },
   "cthTitleCustomThemeManager": {
-    "message": "Custom theme manager"
+    "message": "Gestionnaire de thèmes personnalisés"
   },
   "cthImportThemeCustom": {
-    "message": "Import a custom theme..."
+    "message": "Importer un thème personnalisé..."
   },
   "cthLegendMainThemeCustom": {
-    "message": "Main custom theme"
+    "message": "Thème pricipal"
   },
   "cthLegendRenderTemplateCustom": {
-    "message": "Render tab custom template"
+    "message": "Modèle de rendu d'onglet"
   },
   "cthLegendRenderThemeCustom": {
-    "message": "Render tab custom theme"
+    "message": "Thème de rendu d'onglet"
   },
   "cthLegendScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "Thème d'éditeur de scripts"
   },
   "cthApplyTheme": {
-    "message": "Apply"
+    "message": "Appliquer"
   },
   "cthRenameTheme": {
-    "message": "Rename"
+    "message": "Renommer"
   },
   "cthDeleteTheme": {
-    "message": "Delete"
+    "message": "Supprimer"
   },
   "cthDiagRename": {
-    "message": "Rename"
+    "message": "Renommer"
   },
   "cthDiagNewName": {
-    "message": "New name:"
+    "message": "Nouveau nom:"
   },
   "cthDiagImport": {
-    "message": "Import"
+    "message": "Importer"
   },
   "cthExportMainThemeCustom": {
-    "message": "Export as custom main theme..."
+    "message": "Exporter comme thème principal personnalisé..."
   },
   "cthExportRenderTemplateCustom": {
-    "message": "Export as custom tab template theme..."
+    "message": "Export comme modèle de rendu d'onglet personnalisé..."
   },
   "cthExportRenderThemeCustom": {
-    "message": "Export as custom tab theme..."
+    "message": "Export comme thème de rendu d'onglet personnalisé..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "Export comme thème d'éditeur de scripts..."
   },
   "cthDiagThemeName": {
-    "message": "Theme name:"
+    "message": "Thème name:"
   },
   "cthDiagOk": {
     "message": "Ok"
   },
   "cthDiagCancel": {
-    "message": "Cancel"
+    "message": "Annuler"
   }
 }
