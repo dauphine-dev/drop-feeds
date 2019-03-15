@@ -818,15 +818,6 @@
   "cthDeleteTheme": {
     "message": "Delete"
   },
-  "cthDiagRename": {
-    "message": "Rename"
-  },
-  "cthDiagNewName": {
-    "message": "New name:"
-  },
-  "cthDiagImport": {
-    "message": "Import"
-  },
   "cthExportMainThemeCustom": {
     "message": "Export as custom main theme..."
   },
@@ -838,6 +829,15 @@
   },
   "cthExportScriptEditorThemeCustom": {
     "message": "Export as custom script editor theme"
+  },
+  "cthDiagRename": {
+    "message": "Rename"
+  },
+  "cthDiagNewName": {
+    "message": "New name:"
+  },
+  "cthDiagImport": {
+    "message": "Import"
   },
   "cthDiagThemeName": {
     "message": "Theme name:"

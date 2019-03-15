@@ -91,13 +91,13 @@ version;line;messageName;message;where;note
 0.9.7;812;cthApplyTheme;Apply;Settings/Theme/Custom theme manager...;n/a
 0.9.7;815;cthRenameTheme;Rename;Settings/Theme/Custom theme manager...;n/a
 0.9.7;818;cthDeleteTheme;Delete;Settings/Theme/Custom theme manager...;n/a
-0.9.7;821;cthDiagRename;Rename;Settings/Theme/Custom theme manager...;n/a
-0.9.7;824;cthDiagNewName;New name:;Settings/Theme/Custom theme manager...;n/a
-0.9.7;827;cthDiagImport;Import;Settings/Theme/Custom theme manager...;n/a
-0.9.7;830;cthExportMainThemeCustom;Export as custom main theme...;Settings/Theme/Custom theme manager...;n/a
-0.9.7;833;cthExportRenderTemplateCustom;Export as custom tab template theme...;Settings/Theme/Custom theme manager...;n/a
-0.9.7;836;cthExportRenderThemeCustom;Export as custom tab theme...;Settings/Theme/Custom theme manager...;n/a
-0.9.7;839;cthExportScriptEditorThemeCustom;Export as custom script editor theme;Settings/Theme/Custom theme manager...;n/a
-0.9.7;842;cthDiagThemeName;Theme name:;Settings/Theme/Custom theme manager...;n/a
-0.9.7;845;cthDiagOk;Ok;Settings/Theme/Custom theme manager...;n/a
-0.9.7;848;cthDiagCancel;Cancel;Settings/Theme/Custom theme manager...;n/a
+0.9.7;821;cthExportMainThemeCustom;Export as custom main theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;824;cthExportRenderTemplateCustom;Export as custom tab template theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;827;cthExportRenderThemeCustom;Export as custom tab theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;830;cthExportScriptEditorThemeCustom;Export as custom script editor theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;833;cthDiagRename;Rename;Settings/Theme/Custom theme manager...;in the dialogbox after Rename button has been clicked
+0.9.7;836;cthDiagNewName;New name:;Settings/Theme/Custom theme manager...;in the dialogbox after Rename button has been clicked
+0.9.7;839;cthDiagImport;Import;Settings/Theme/Custom theme manager...;in the dialogbox after Import button has been clicked
+0.9.7;842;cthDiagThemeName;Theme name:;Settings/Theme/Custom theme manager...;in the dialogbox after Import button has been clicked
+0.9.7;845;cthDiagOk;Ok;Settings/Theme/Custom theme manager...;in the dialogbox after Rename/Import button has been clicked
+0.9.7;848;cthDiagCancel;Cancel;Settings/Theme/Custom theme manager...;in the dialogbox after Rename/Import button has been clicked
