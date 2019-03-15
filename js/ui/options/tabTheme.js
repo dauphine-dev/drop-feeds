@@ -22,6 +22,8 @@ class TabTheme { /*exported TabTheme*/
     document.getElementById('lblSelectMainTheme').textContent = browser.i18n.getMessage('optSelectMainTheme');
     document.getElementById('lblSelectRenderTemplate').textContent = browser.i18n.getMessage('optSelectRenderTemplate');
     document.getElementById('lblSelectRenderTheme').textContent = browser.i18n.getMessage('optSelectRenderTheme');
+    document.getElementById('lblOpenCustomThemeManager').textContent = browser.i18n.getMessage('optOpenCustomThemeManager');
+    document.getElementById('customThemeManagerButton').textContent = browser.i18n.getMessage('optThemeManager');
   }
 
   async _initThemeDropdown_async(themeKind, divId, selectedThemeName) {

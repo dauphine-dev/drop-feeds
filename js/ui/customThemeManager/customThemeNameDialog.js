@@ -1,5 +1,4 @@
-/*global ThemeCustomManager*/
-//remove unused file.list
+/*global browser ThemeCustomManager*/
 'use strict';
 class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -18,17 +17,16 @@ class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
 
   _updateLocalizedStrings() {
     if (this._isRenameDialog) {
-      //document.getElementById('nameDialogDialogTitle').textContent = browser.i18n.getMessage('');
-      document.getElementById('nameDialogDialogTitle').textContent = 'Rename';
-      document.getElementById('nameButtonDialog').textContent = 'New name:';
+      document.getElementById('nameDialogDialogTitle').textContent = browser.i18n.getMessage('cthDiagRename');
+      document.getElementById('nameButtonDialog').textContent = browser.i18n.getMessage('cthDiagNewName');
     }
     else {
-      document.getElementById('nameDialogDialogTitle').textContent = 'Import';
-      document.getElementById('nameButtonDialog').textContent = 'Theme name:';
-    }
-    document.getElementById('cancelNameButton').textContent = 'Cancel';
-    document.getElementById('okNameButton').textContent = 'Ok';
+      document.getElementById('nameDialogDialogTitle').textContent = browser.i18n.getMessage('cthDiagImport');
+      document.getElementById('nameButtonDialog').textContent = browser.i18n.getMessage('cthDiagThemeName');
 
+    }
+    document.getElementById('okNameButton').textContent = browser.i18n.getMessage('cthDiagOk');
+    document.getElementById('cancelNameButton').textContent = browser.i18n.getMessage('cthDiagCancel');
   }
 
   _show(elementComeFrom) {
@@ -41,7 +39,7 @@ class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
   getThemeName(isRenameDialog, elementComeFrom, themKind, oldName, file, _callback_async) {
     this._isRenameDialog = isRenameDialog;
     this._callback_async = _callback_async;
-    this._themKind = themKind;    
+    this._themKind = themKind;
     this._oldName = (oldName.endsWith('.zip') ? oldName.split('.').slice(0, -1).join('.') : oldName);
     this._file = file;
     this._updateLocalizedStrings();

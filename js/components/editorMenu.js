@@ -42,7 +42,7 @@ class EditorMenu { /*exported EditorMenu*/
     for (let font of fontList) {
       let option = document.createElement('option');
       option.text = font.family + ' (' + font.fallback + ')';
-      option.value = '"' + font.family + '", "' + font.fallback  + '"';
+      option.value = '"' + font.family + '", "' + font.fallback + '"';
       editSelectFontFamily.appendChild(option);
     }
     editSelectFontFamily.value = this._parentEditor.fontFamily;
@@ -59,7 +59,7 @@ class EditorMenu { /*exported EditorMenu*/
 
     //Add editor theme
     const internal_name = 0;
-    const ui_name = 1;    
+    const ui_name = 1;
     let editSelectTheme = document.getElementById('editSelectTheme');
     let tm = ThemeManager.instance, tc = ThemeCustomManager.instance;
     let themeEditorBuiltinList = await tm.getThemeBuiltinList_async(tm.kind.scriptEditorTheme);
@@ -82,6 +82,7 @@ class EditorMenu { /*exported EditorMenu*/
     document.getElementById('editFontFamily').textContent = browser.i18n.getMessage('usUScriptFamily');
     document.getElementById('editFontSize').textContent = browser.i18n.getMessage('usUScriptSize');
     document.getElementById('editTabSize').textContent = browser.i18n.getMessage('usUScriptTabSize');
+    document.getElementById('editThemeLegend').textContent = browser.i18n.getMessage('usUScriptTheme');
   }
 
   _appendEventListeners() {
@@ -101,7 +102,7 @@ class EditorMenu { /*exported EditorMenu*/
     this._parentEditor.fontSize = event.target.value;
   }
 
-  async _editInputTabSizeChange_event (event) {
+  async _editInputTabSizeChange_event(event) {
     event.stopPropagation();
     this._parentEditor.tabSize = event.target.value;
   }
@@ -112,5 +113,5 @@ class EditorMenu { /*exported EditorMenu*/
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.scriptEditorTheme, themeName);
   }
-  
+
 }

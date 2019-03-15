@@ -1,4 +1,4 @@
-/*global ThemeManager ThemeCustomManager BrowserManager LocalStorageManager DefaultValues CssManager CustomThemeNameDialog*/
+/*global browser ThemeManager ThemeCustomManager BrowserManager LocalStorageManager DefaultValues CssManager CustomThemeNameDialog*/
 'use strict';
 const _internal_name = 0;
 const _ui_name = 1;
@@ -40,6 +40,28 @@ class CustomThemeManagerUI {
   }
 
   async init_async() {
+    document.getElementById('title').textContent = browser.i18n.getMessage('cthTitleCustomThemeManager');
+    document.getElementById('importThemeCustom').textContent = browser.i18n.getMessage('cthImportThemeCustom');
+    document.getElementById('legendMainThemeCustom').textContent = browser.i18n.getMessage('cthLegendMainThemeCustom');
+    document.getElementById('legendRenderTemplateCustom').textContent = browser.i18n.getMessage('cthLegendRenderTemplateCustom');
+    document.getElementById('legendRenderThemeCustom').textContent = browser.i18n.getMessage('cthLegendRenderThemeCustom');
+    document.getElementById('legendScriptEditorThemeCustom').textContent = browser.i18n.getMessage('cthScriptEditorThemeCustom');
+    document.getElementById('applyMainThemeCustom').textContent = browser.i18n.getMessage('cthApplyTheme');
+    document.getElementById('exportMainThemeCustom').textContent = browser.i18n.getMessage('cthExportMainThemeCustom');
+    document.getElementById('renameMainThemeCustom').textContent = browser.i18n.getMessage('cthRenameTheme');
+    document.getElementById('deleteMainThemeCustom').textContent = browser.i18n.getMessage('cthDeleteTheme');
+    document.getElementById('applyRenderTemplateCustom').textContent = browser.i18n.getMessage('cthApplyTheme');
+    document.getElementById('exportRenderTemplateCustom').textContent = browser.i18n.getMessage('cthExportRenderTemplateCustom');
+    document.getElementById('renameRenderTemplateCustom').textContent = browser.i18n.getMessage('cthRenameTheme');
+    document.getElementById('deleteRenderTemplateCustom').textContent = browser.i18n.getMessage('cthDeleteTheme');
+    document.getElementById('applyRenderThemeCustom').textContent = browser.i18n.getMessage('cthApplyTheme');
+    document.getElementById('exportRenderThemeCustom').textContent = browser.i18n.getMessage('cthExportRenderThemeCustom');
+    document.getElementById('renameRenderThemeCustom').textContent = browser.i18n.getMessage('cthRenameTheme');
+    document.getElementById('deleteRenderThemeCustom').textContent = browser.i18n.getMessage('cthDeleteTheme');
+    document.getElementById('applyScriptEditorThemeCustom').textContent = browser.i18n.getMessage('cthApplyTheme');
+    document.getElementById('exportScriptEditorThemeCustom').textContent = browser.i18n.getMessage('cthExportScriptEditorThemeCustom');
+    document.getElementById('renameScriptEditorThemeCustom').textContent = browser.i18n.getMessage('cthRenameTheme');
+    document.getElementById('deleteScriptEditorThemeCustom').textContent = browser.i18n.getMessage('cthDeleteTheme');
   }
 
   _updateLocalizedStrings() {
