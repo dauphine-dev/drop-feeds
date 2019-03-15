@@ -84,7 +84,6 @@ class TabAdvanced { /*exported TabAdvanced*/
   async _fullImportFull_async(zipFile, progressBar) {
     try {
       await LocalStorageManager.setValue_async('importInProgress', true);
-      let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
       let zipFullImport = await JSZip.loadAsync(zipFile);
       if (!zipFullImport) { return { error: 'notValidArchive', value: null }; }
       //load 'archiveInfo.json'
@@ -106,10 +105,11 @@ class TabAdvanced { /*exported TabAdvanced*/
       let bookmarksOpml = await bookmarksOpmlFile.async('text');
       if (!bookmarksOpml) { return { error: 'notValidArchive', value: null }; }
       //overwrite local storage
+      let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
       await browser.storage.local.clear();
       await browser.storage.local.set(localStorage);
-      //add bookmarks
       await LocalStorageManager.setValue_async('rootBookmarkId', rootFolderId);
+      //add bookmarks
       await OpmlImporter.instance.import_async(bookmarksOpml, progressBar, false);
     }
     catch (e) {
