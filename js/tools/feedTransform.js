@@ -1,4 +1,4 @@
-/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager*/
+/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager BrowserManager*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
@@ -16,11 +16,11 @@ class FeedTransform { /*exported FeedTransform*/
 
   static async _getFeedXml_async(feedInfo) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
-    let subscribeButtonCssUrl = browser.runtime.getURL(ThemeManager.instance.getRenderSubscribeButtonCssUrl());
-    let templateCssUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssTemplateUrl_async(feedInfo.isError));
-    let xsltUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
-    let themeUrl = browser.runtime.getURL(await ThemeManager.instance.getRenderCssUrl_async());
-    let scriptUrl = browser.runtime.getURL(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kind.renderTemplate, 'js/template.js'));
+    let subscribeButtonCssUrl = BrowserManager.getRuntimeUrl(ThemeManager.instance.getRenderSubscribeButtonCssUrl());
+    let templateCssUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssTemplateUrl_async(feedInfo.isError));
+    let xsltUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
+    let themeUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssUrl_async());
+    let scriptUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kind.renderTemplate, 'js/template.js'));
     let description = (feedInfo.channel.description || '');
 
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>

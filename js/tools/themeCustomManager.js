@@ -20,7 +20,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     let newName = themeNameNoPrefix + suffix;
     let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
     let url = URL.createObjectURL(zipBlob);
-    browser.downloads.download({ url: url, filename: 'df - ' + themeKind + ' - ' + newName + '.zip', saveAs: true });
+    browser.downloads.download({ url: url, filename: 'df-' + themeKind + '-' + newName + '.zip', saveAs: true });
   }
 
   async getCustomCssUrl_async(themeName, sheetFile, themeKind, sheetFolder) {
@@ -87,10 +87,10 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       let archiveInfoJson = await archiveInfoJsonFile.async('text');
       if (!archiveInfoJson) { return { error: 'notValidThemeArchive', value: null }; }
       let archiveInfo = JSON.parse(archiveInfoJson);
-      if (!archiveInfo || !archiveInfo.fileType || archiveInfo.fileType != 'df-custom-theme' || !archiveInfo.themeInfo || archiveInfo.themeInfo.themeKind) {
+      if (!archiveInfo || !archiveInfo.fileType || archiveInfo.fileType != 'df-custom-theme' || !archiveInfo.themeInfo || !archiveInfo.themeInfo.themeKind) {
         return { error: 'notValidThemeArchive', value: null };
       }
-      if (!this._isValidThemeKind(archiveInfo.themeKind)) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
+      if (!this._isValidThemeKind(archiveInfo.themeInfo.themeKind)) { return { error: 'notValidThemeArchive', value: 'invalid theme kind' }; }
       let listStorageKey = this._themeStorageKeyFromKind(archiveInfo.themeInfo.themeKind);
       let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
       let isNewNameAvailable = !themesList.includes(themeName);
@@ -176,9 +176,12 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
 
   async _loadCustomResource_async(kind, themeName, targetResource) {
     let themeArchive = await this.getThemeArchive_async(kind, themeName);
-    let resourceBlob = await themeArchive.file(targetResource).async('blob');
+    if (!themeArchive) { return null; }
+    let resourceFile = themeArchive.file(targetResource);
+    if (!resourceFile) { return null; }
+    let resourceBlob = await resourceFile.async('blob');
+    if (!resourceBlob) { return null; }
     let resourceUrl = URL.createObjectURL(resourceBlob);
-    await Transfer.downloadTextFile_async(resourceUrl);
     return resourceUrl;
   }
 

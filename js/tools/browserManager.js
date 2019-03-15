@@ -421,4 +421,10 @@ class BrowserManager { /* exported BrowserManager*/
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     return feedUrl.protocol + feedUrl.origin;
   }
+
+  static getRuntimeUrl(url) {
+    if (!url) { return ''; }
+    return browser.runtime.getURL(url);
+  }
+
 }
