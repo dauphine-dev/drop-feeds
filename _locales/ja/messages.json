@@ -297,10 +297,10 @@
     "message": "表示領域のテーマ"
   },
   "optOpenCustomThemeManager": {
-    "message": "Open custom theme manager"
+    "message": "カスタムテーママネージャーを開く"
   },
   "optThemeManager": {
-    "message": "Custom theme manager..."
+    "message": "カスタムテーママネージャー..."
   },
   "optFeedItemOrder": {
     "message": "項目の並び順"
@@ -450,16 +450,16 @@
     "message": "デバッグビュー..."
   },
   "optLblFullExport": {
-    "message": "Full export"
+    "message": "全てエクスポート"
   },
   "opFullExportButton": {
-    "message": "Export every thing..."
+    "message": "全てエクスポートする..."
   },
   "optLblFullImport": {
-    "message": "Full import"
+    "message": "全てインポート"
   },
   "optFullImportButton": {
-    "message": "Import every thing..."
+    "message": "全てインポートする..."
   },
   "optMessageDialogTitle": {
     "message": "メッセージ"
@@ -702,7 +702,7 @@
     "message": "タブサイズ"
   },
   "usUScriptTheme": {
-    "message": "Theme"
+    "message": "テーマ"
   },
   "comment13": {
     "message": "------------------Editor console strings------------------"
@@ -792,60 +792,60 @@
     "message": "------------------ Custom theme manager ------------------"
   },
   "cthTitleCustomThemeManager": {
-    "message": "Custom theme manager"
+    "message": "カスタムテーママネージャー"
   },
   "cthImportThemeCustom": {
-    "message": "Import a custom theme..."
+    "message": "カスタムテーマをインポート..."
   },
   "cthLegendMainThemeCustom": {
-    "message": "Main custom theme"
+    "message": "メインのカスタムテーマ"
   },
   "cthLegendRenderTemplateCustom": {
-    "message": "Render tab custom template"
+    "message": "カスタムテンプレートの生成"
   },
   "cthLegendRenderThemeCustom": {
-    "message": "Render tab custom theme"
+    "message": "タブカスタムテーマの生成"
   },
   "cthLegendScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "スクリプトエディタのカスタムテーマ"
   },
   "cthApplyTheme": {
-    "message": "Apply"
+    "message": "適用"
   },
   "cthRenameTheme": {
-    "message": "Rename"
+    "message": "名前の変更"
   },
   "cthDeleteTheme": {
-    "message": "Delete"
+    "message": "削除"
   },
   "cthExportMainThemeCustom": {
-    "message": "Export as custom main theme..."
+    "message": "カスタムメインテーマをエクスポート..."
   },
   "cthExportRenderTemplateCustom": {
-    "message": "Export as custom tab template theme..."
+    "message": "カスタムタブテンプレートテーマとしてエクスポート..."
   },
   "cthExportRenderThemeCustom": {
-    "message": "Export as custom tab theme..."
+    "message": "カスタムタブテンプレートテーマのエクスポート..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Export as custom script editor theme"
+    "message": "カスタムスクリプトエディタテーマのエクスポート"
   },
   "cthDiagRename": {
-    "message": "Rename"
+    "message": "名前の変更"
   },
   "cthDiagNewName": {
-    "message": "New name:"
+    "message": "新しい名前:"
   },
   "cthDiagImport": {
-    "message": "Import"
+    "message": "インポート"
   },
   "cthDiagThemeName": {
-    "message": "Theme name:"
+    "message": "テーマ名:"
   },
   "cthDiagOk": {
     "message": "Ok"
   },
   "cthDiagCancel": {
-    "message": "Cancel"
+    "message": "キャンセル"
   }
 }
