@@ -1,6 +1,6 @@
 /*global browser DefaultValues LocalStorageManager Listener ListenerProviders Transfer ThemeCustomManager*/
 'use strict';
-const _themeKind = { mainTheme: 'mainTheme', renderTemplate: 'renderTemplate', renderTheme: 'renderTheme', scriptEditorTheme: 'scriptEditorTheme' };
+const _themeKinds = { mainTheme: 'mainTheme', renderTemplate: 'renderTemplate', renderTheme: 'renderTheme', scriptEditorTheme: 'scriptEditorTheme' };
 class ThemeManager { /*exported ThemeManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -62,7 +62,7 @@ class ThemeManager { /*exported ThemeManager*/
     }
   }
 
-  get kind() { return _themeKind; }
+  get kinds() { return _themeKinds; }
 
   get mainThemeFolderName() { return this._mainThemeFolderName; }
 
@@ -115,7 +115,7 @@ class ThemeManager { /*exported ThemeManager*/
       return cssTemplateUrl;
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
-      let cssTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.css', this.kind.renderTemplate, 'css');
+      let cssTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.css', this.kinds.renderTemplate, 'css');
       if (!cssTemplateUrl) {
         cssTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/css/template.css';
       }
@@ -131,7 +131,7 @@ class ThemeManager { /*exported ThemeManager*/
       return xslTemplateUrl;
     }
     if (ThemeCustomManager.instance.isCustomTheme(this._renderTemplateFolderName)) {
-      let xslTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.xsl', this.kind.renderTemplate, 'xsl');
+      let xslTemplateUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderTemplateFolderName, 'template.xsl', this.kinds.renderTemplate, 'xsl');
       if (!xslTemplateUrl) {
         xslTemplateUrl = this.themeBaseFolderUrl + '_renderTab/_templates/' + DefaultValues.renderTemplateFolderName + '/xsl/template.xsl';
       }
@@ -145,7 +145,7 @@ class ThemeManager { /*exported ThemeManager*/
     //let cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + this._renderThemeFolderName + '/css/style.css';
     let cssRenderUrl = '';
     if (ThemeCustomManager.instance.isCustomTheme(this._renderThemeFolderName)) {
-      cssRenderUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderThemeFolderName, 'style.css', this.kind.renderTheme, 'css');
+      cssRenderUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._renderThemeFolderName, 'style.css', this.kinds.renderTheme, 'css');
       if (!cssRenderUrl) {
         cssRenderUrl = this.themeBaseFolderUrl + '_renderTab/' + DefaultValues.renderThemeFolderName + '/css/style.css';
       }
@@ -159,16 +159,16 @@ class ThemeManager { /*exported ThemeManager*/
   getBaseFolderForThemeKind(themeKind, themeName) {
     let baseFolder = '';
     switch (themeKind) {
-      case this.kind.mainTheme:
+      case this.kinds.mainTheme:
         baseFolder = 'themes/' + themeName;
         break;
-      case this.kind.renderTheme:
+      case this.kinds.renderTheme:
         baseFolder = 'themes/_renderTab/' + themeName;
         break;
-      case this.kind.renderTemplate:
+      case this.kinds.renderTemplate:
         baseFolder = 'themes/_renderTab/_templates/' + themeName;
         break;
-      case this.kind.scriptEditorTheme:
+      case this.kinds.scriptEditorTheme:
         baseFolder = 'themes/_editor/' + themeName;
         break;
 
@@ -179,16 +179,16 @@ class ThemeManager { /*exported ThemeManager*/
   getThemeFolderForThemeKind(themeKind) {
     let themeFolder = '';
     switch (themeKind) {
-      case this.kind.mainTheme:
+      case this.kinds.mainTheme:
         themeFolder = this._mainThemeFolderName;
         break;
-      case this.kind.renderTheme:
+      case this.kinds.renderTheme:
         themeFolder = this._renderThemeFolderName;
         break;
-      case this.kind.renderTemplate:
+      case this.kinds.renderTemplate:
         themeFolder = this._renderTemplateFolderName;
         break;
-      case this.kind.scriptEditorTheme:
+      case this.kinds.scriptEditorTheme:
         themeFolder = this._scriptEditorThemeFolderName;
         break;
 
@@ -199,16 +199,16 @@ class ThemeManager { /*exported ThemeManager*/
   getBaseAndThemeFolderForThemeKind(themeKind) {
     let baseAndThemeFolder = '';
     switch (themeKind) {
-      case this.kind.mainTheme:
+      case this.kinds.mainTheme:
         baseAndThemeFolder = 'themes/' + this._mainThemeFolderName;
         break;
-      case this.kind.renderTheme:
+      case this.kinds.renderTheme:
         baseAndThemeFolder = 'themes/_renderTab/' + this._renderThemeFolderName;
         break;
-      case this.kind.renderTemplate:
+      case this.kinds.renderTemplate:
         baseAndThemeFolder = 'themes/_renderTab/_templates/' + this._renderTemplateFolderName;
         break;
-      case this.kind.scriptEditorTheme:
+      case this.kinds.scriptEditorTheme:
         baseAndThemeFolder = 'themes/_editor/' + this._scriptEditorThemeFolderName;
         break;
 
@@ -243,16 +243,16 @@ class ThemeManager { /*exported ThemeManager*/
 
   async setThemeFolderName_async(themeKind, themeFolderName) {
     switch (themeKind) {
-      case _themeKind.mainTheme:
+      case _themeKinds.mainTheme:
         this.mainThemeFolderName = themeFolderName;
         break;
-      case _themeKind.renderTemplate:
+      case _themeKinds.renderTemplate:
         this.renderTemplateFolderName = themeFolderName;
         break;
-      case _themeKind.renderTheme:
+      case _themeKinds.renderTheme:
         this.renderThemeFolderName = themeFolderName;
         break;
-      case _themeKind.scriptEditorTheme:
+      case _themeKinds.scriptEditorTheme:
         this.scriptEditorThemeFolderName = themeFolderName;
         break;
     }
@@ -283,7 +283,7 @@ class ThemeManager { /*exported ThemeManager*/
   async _getCssUrl_async(cssFile) {
     let cssUrl = '';
     if (ThemeCustomManager.instance.isCustomTheme(this._mainThemeFolderName)) {
-      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._mainThemeFolderName, cssFile, this.kind.mainTheme, 'css');
+      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._mainThemeFolderName, cssFile, this.kinds.mainTheme, 'css');
       if (!cssUrl) {
         cssUrl = this.themeBaseFolderUrl + DefaultValues.mainThemeFolderName + '/css/' + cssFile;
       }
@@ -297,7 +297,7 @@ class ThemeManager { /*exported ThemeManager*/
   async getCssEditorUrl_async(cssFile) {
     let cssUrl = '';
     if (ThemeCustomManager.instance.isCustomTheme(this._scriptEditorThemeFolderName)) {
-      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._scriptEditorThemeFolderName, cssFile, this.kind.scriptEditorTheme, 'css');
+      cssUrl = await ThemeCustomManager.instance.getCustomCssUrl_async(this._scriptEditorThemeFolderName, cssFile, this.kinds.scriptEditorTheme, 'css');
       if (!cssUrl) {
         cssUrl = this.themeBaseFolderUrl + '_editor/' + DefaultValues.scriptEditorThemeFolderName + '/css/' + cssFile;
       }
@@ -327,13 +327,13 @@ class ThemeManager { /*exported ThemeManager*/
 
   _themeUrlFromKind(themeKind) {
     switch (themeKind) {
-      case _themeKind.mainTheme:
+      case _themeKinds.mainTheme:
         return this.mainThemesListUrl;
-      case _themeKind.renderTemplate:
+      case _themeKinds.renderTemplate:
         return this.renderTemplateListUrl;
-      case _themeKind.renderTheme:
+      case _themeKinds.renderTheme:
         return this.renderThemeListUrl;
-      case _themeKind.scriptEditorTheme:
+      case _themeKinds.scriptEditorTheme:
         return this.scriptEditorThemeListUrl;
     }
   }

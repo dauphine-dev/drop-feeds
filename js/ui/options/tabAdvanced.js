@@ -1,4 +1,4 @@
-/*global browser BrowserManager JSZip ZipTools OpmlExporter OpmlImporter ProgressBar BookmarkManager LocalStorageManager*/
+/*global browser BrowserManager JSZip ZipTools OpmlExporter OpmlImporter ProgressBar BookmarkManager LocalStorageManager ThemeCustomManager*/
 'use strict';
 class TabAdvanced { /*exported TabAdvanced*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -9,7 +9,6 @@ class TabAdvanced { /*exported TabAdvanced*/
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
     document.getElementById('debugViewButton').addEventListener('click', (e) => { this._debugViewButtonOnClicked_event(e); });
     document.getElementById('fieldGuid').value = BrowserManager.getDropFeedGUID();
-
     document.getElementById('fullExportButton').addEventListener('click', (e) => { this._fullExportButtonOnClicked_event(e); });
     document.getElementById('fullImportButton').addEventListener('click', (e) => { this._fullImportButtonOnClicked_event(e); });
     document.getElementById('fullImportInput').addEventListener('change', (e) => { this._fullImportInputChanged_event(e); });
@@ -25,12 +24,10 @@ class TabAdvanced { /*exported TabAdvanced*/
     document.getElementById('securityFilterButton').textContent = browser.i18n.getMessage('optSecurityFilterButton');
     document.getElementById('lblDebugView').textContent = browser.i18n.getMessage('optLblDebugView');
     document.getElementById('debugViewButton').textContent = browser.i18n.getMessage('optDebugViewButton');
-
     document.getElementById('lblFullExport').textContent = browser.i18n.getMessage('optLblFullExport');
     document.getElementById('fullExportButton').textContent = browser.i18n.getMessage('opFullExportButton');
     document.getElementById('lblFullImport').textContent = browser.i18n.getMessage('optLblFullImport');
     document.getElementById('fullImportButton').textContent = browser.i18n.getMessage('optFullImportButton');
-
   }
 
   async _scriptManagerButtonOnClicked_event() {
@@ -78,9 +75,12 @@ class TabAdvanced { /*exported TabAdvanced*/
     let localStorage = await browser.storage.local.get();
     let localStorageString = JSON.stringify(localStorage, null, 2);
     zipFullExport.file('localStorage.json', localStorageString);
+    //add custom themes
+    let zipAllCustomThemes = await ThemeCustomManager.instance.exportAllThemesCustom_async();
+    zipFullExport.file('customThemes.zip', ZipTools.getBinaryContent_async(zipAllCustomThemes), { binary: true });
     //add bookmarks
     let opmlFileUrl = await OpmlExporter.instance.generateExportFile_async(true);
-    zipFullExport.file('bookmarks.opml', ZipTools.getBinaryContent_async(opmlFileUrl), { binary: true });
+    await zipFullExport.file('bookmarks.opml', ZipTools.getBinaryContent_async(opmlFileUrl), { binary: true });
     //save zip file
     let zipFullExportBlob = await zipFullExport.generateAsync({ type: 'blob' });
     let zipFullExportBlobUrl = URL.createObjectURL(zipFullExportBlob);
@@ -92,30 +92,37 @@ class TabAdvanced { /*exported TabAdvanced*/
       await LocalStorageManager.setValue_async('importInProgress', true);
       let zipFullImport = await JSZip.loadAsync(zipFile);
       if (!zipFullImport) { return { error: 'notValidArchive', value: null }; }
-      //load 'archiveInfo.json'
+      
+      //check archiveInfo
       let archiveInfoJsonFile = zipFullImport.file('archiveInfo.json');
       if (!archiveInfoJsonFile) { return { error: 'notValidArchive', value: null }; }
       let archiveInfoJson = await archiveInfoJsonFile.async('text');
       if (!archiveInfoJson) { return { error: 'notValidArchive', value: null }; }
       let archiveInfo = JSON.parse(archiveInfoJson);
       if (!archiveInfo || !archiveInfo.fileType || archiveInfo.fileType != 'df-full-export') { return { error: 'notValidArchive', value: null }; }
-      //load 'localStorage.json'
+
+      //load localStorage
       let localStorageJsonFile = zipFullImport.file('localStorage.json');
       if (!localStorageJsonFile) { return { error: 'notValidArchive', value: null }; }
       let localStorageJson = await localStorageJsonFile.async('text');
       if (!localStorageJson) { return { error: 'notValidArchive', value: null }; }
       let localStorage = JSON.parse(localStorageJson);
-      //load 'bookmarks.opml'
+      //Load custom themes
+      let customThemesFile = await zipFullImport.file('customThemes.zip').async('blob');
+      //load bookmarks
       let bookmarksOpmlFile = zipFullImport.file('bookmarks.opml');
       if (!bookmarksOpmlFile) { return { error: 'notValidArchive', value: null }; }
       let bookmarksOpml = await bookmarksOpmlFile.async('text');
       if (!bookmarksOpml) { return { error: 'notValidArchive', value: null }; }
-      //overwrite local storage
+
+      //write local storage
       let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
       await browser.storage.local.clear();
       await browser.storage.local.set(localStorage);
       await LocalStorageManager.setValue_async('rootBookmarkId', rootFolderId);
-      //add bookmarks
+      //write custom themes
+      await ThemeCustomManager.instance.importAllThemesCustom_async(customThemesFile);
+      //write bookmarks
       await OpmlImporter.instance.import_async(bookmarksOpml, progressBar, false);
     }
     catch (e) {
@@ -127,4 +134,5 @@ class TabAdvanced { /*exported TabAdvanced*/
 
     return null;
   }
+
 }

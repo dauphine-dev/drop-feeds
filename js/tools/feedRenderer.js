@@ -5,7 +5,7 @@ class FeedRenderer { /*exported FeedRenderer*/
   static async renderFeedToHtml_async(feedText, defaultTitle, isError, subscribeButtonTarget) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
     //let feedHtml = await FeedRenderer._feedInfoToHtml_async(feedInfo);
-    let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo, subscribeButtonTarget);
+    let feedHtml = await FeedTransform.transformFeedToHtml_async(feedInfo, subscribeButtonTarget);
     return feedHtml;
   }
 
@@ -159,7 +159,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     }
     catch (e) {
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e);
       /*eslint-enable no-console*/
     }
     let tooltipText = FeedParser.getItemTooltipText(item, num);

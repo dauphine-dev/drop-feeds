@@ -83,6 +83,7 @@ class Feed { /*exported Feed*/
     return feedHtmlUrl;
   }
 
+
   async _getFeedHtml_async(subscribeButtonTarget) {
     let feedHtml = '';
     //if there is an error then get html from the error and return

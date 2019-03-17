@@ -11,9 +11,9 @@ class TabTheme { /*exported TabTheme*/
 
   async init_async() {
     await this._tm.init_async();
-    await this._initThemeDropdown_async(this._tm.kind.mainTheme, 'mainThemeList', this._tm.mainThemeFolderName);
-    await this._initThemeDropdown_async(this._tm.kind.renderTemplate, 'renderTemplateList', this._tm.renderTemplateFolderName);
-    await this._initThemeDropdown_async(this._tm.kind.renderTheme, 'renderThemeList', this._tm.renderThemeFolderName);
+    await this._initThemeDropdown_async(this._tm.kinds.mainTheme, 'mainThemeList', this._tm.mainThemeFolderName);
+    await this._initThemeDropdown_async(this._tm.kinds.renderTemplate, 'renderTemplateList', this._tm.renderTemplateFolderName);
+    await this._initThemeDropdown_async(this._tm.kinds.renderTheme, 'renderThemeList', this._tm.renderThemeFolderName);
     document.getElementById('customThemeManagerButton').addEventListener('click', (e) => { this._customThemeManagerButtonButtonOnClicked_event(e); });
   }
 
@@ -53,14 +53,14 @@ class TabTheme { /*exported TabTheme*/
     let themeName = e.target.value;
     switch (e.target.id) {
       case 'mainThemeListSelect':
-        await this._tm.setThemeFolderName_async(this._tm.kind.mainTheme, themeName);
+        await this._tm.setThemeFolderName_async(this._tm.kinds.mainTheme, themeName);
         await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
         break;
       case 'renderTemplateListSelect':
-        await this._tm.setThemeFolderName_async(this._tm.kind.renderTemplate, themeName);
+        await this._tm.setThemeFolderName_async(this._tm.kinds.renderTemplate, themeName);
         break;
       case 'renderThemeListSelect':
-        await this._tm.setThemeFolderName_async(this._tm.kind.renderTheme, themeName);
+        await this._tm.setThemeFolderName_async(this._tm.kinds.renderTheme, themeName);
         break;
     }
   }

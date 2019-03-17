@@ -60,7 +60,7 @@ class OpmlImporter { /*exported OpmlImporter*/
         }
         catch (e) {
           /* eslint-disable no-console */
-          console.log(e);
+          console.error(e);
           /* eslint-enable no-console */
         }
       }

@@ -3,24 +3,43 @@
 class ThemeCustomManager { /*exported ThemeCustomManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
-  get kind() { return ThemeManager.instance.kind; }
+  get kinds() { return ThemeManager.instance.kinds; }
 
   async exportThemeCustom_async(themeKind, themeName) {
-    let themeNameNoPrefix = this.getThemeNameWithoutPrefix(themeKind, themeName);
-    let isCustomTheme = this.isCustomTheme(themeName);
     let zipCustomTheme = null;
-    let suffix = '';
-    if (isCustomTheme) {
+    if (this.isCustomTheme(themeName)) {
       zipCustomTheme = await this.getThemeArchive_async(themeKind, themeName);
     }
     else {
-      suffix = ' (copy of)';
       zipCustomTheme = await this.getCustomFromBuiltin_async(themeKind, themeName);
     }
-    let newName = themeNameNoPrefix + suffix;
     let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
     let url = URL.createObjectURL(zipBlob);
-    browser.downloads.download({ url: url, filename: 'df-' + themeKind + '-' + newName + '.zip', saveAs: true });
+    return url;
+  }
+
+  async exportAllThemesCustom_async() {
+    let zipAllCustomThemes = new JSZip();
+    let themeKindList = Object.values(this.kinds);
+    let themesListObjList = [];
+    for (let themeKind of themeKindList) {
+      let listStorageKey = this._themeStorageKeyFromKind(themeKind);
+      let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
+      for (let themeName of themesList) {
+        let zipCustomTheme = await this.getThemeArchive_async(themeKind, themeName);
+        let zipBlob = await zipCustomTheme.generateAsync({ type: 'blob' });
+        let zipThemeUrl = URL.createObjectURL(zipBlob);
+        zipAllCustomThemes.file(themeKind + '-' + themeName + '.zip', ZipTools.getBinaryContent_async(zipThemeUrl), { binary: true });
+      }
+      let themesListObj = { themeKind: themeKind, themesList: themesList };
+      themesListObjList.push(themesListObj);
+    }
+    let archiveInfo = { fileType: 'df-all-custom-themes', themesListInfo: themesListObjList };
+    let archiveInfoJson = JSON.stringify(archiveInfo);
+    zipAllCustomThemes.file('archiveInfo.json', archiveInfoJson);
+    let zipAllCustomThemesBlob = await zipAllCustomThemes.generateAsync({ type: 'blob' });
+    let zipAllCustomThemesUrl = URL.createObjectURL(zipAllCustomThemesBlob);
+    return zipAllCustomThemesUrl;
   }
 
   async getCustomCssUrl_async(themeName, sheetFile, themeKind, sheetFolder) {
@@ -52,22 +71,22 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return themeList;
   }
 
-  async getThemeArchive_async(kind, themeName) {
-    let themeNameWithPrefix = this.getThemeNameWithPrefix(kind, themeName);
+  async getThemeArchive_async(themeKind, themeName) {
+    let themeNameWithPrefix = this.getThemeNameWithPrefix(themeKind, themeName);
     let zipFile = await LocalStorageManager.getValue_async(themeNameWithPrefix, null);
     if (!zipFile) { return null; }
     let zipArchive = await JSZip.loadAsync(zipFile);
     return zipArchive;
   }
 
-  getThemeNameWithoutPrefix(kind, themeName) {
-    let prefix = kind + ':';
+  getThemeNameWithoutPrefix(themeKind, themeName) {
+    let prefix = themeKind + ':';
     themeName = (themeName.startsWith(prefix) ? themeName.replace(prefix, '') : themeName);
     return themeName;
   }
 
-  getThemeNameWithPrefix(kind, themeName) {
-    let prefix = kind + ':';
+  getThemeNameWithPrefix(themeKind, themeName) {
+    let prefix = themeKind + ':';
     themeName = (themeName.startsWith(prefix) ? themeName : prefix + themeName);
     return themeName;
   }
@@ -76,6 +95,22 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     let themeName = ThemeManager.instance.getThemeFolderForThemeKind(themeKind);
     let resourceUrl = await this._loadCustomResource_async(themeKind, themeName, targetResource);
     return resourceUrl;
+  }
+
+  async importAllThemesCustom_async(customThemesFile) {
+    let zipArchive = await JSZip.loadAsync(customThemesFile);
+    let archiveInfo = JSON.parse(await zipArchive.file('archiveInfo.json').async('text'));
+    if (archiveInfo.fileType != 'df-all-custom-themes') { return; }
+    for (let themesListObj of archiveInfo.themesListInfo) {
+      for (let themeName of themesListObj.themesList) {
+        let themeNameWithPrefix = this.getThemeNameWithPrefix(themesListObj.themeKind, themeName);
+        let zipThemName = themesListObj.themeKind + '-' + themeName + '.zip';
+        let zipCustomThemBlob = await zipArchive.file(zipThemName).async('blob');
+        await LocalStorageManager.setValue_async(themeNameWithPrefix, zipCustomThemBlob);
+      }
+      let listStorageKey = this._themeStorageKeyFromKind(themesListObj.themeKind);
+      await LocalStorageManager.setValue_async(listStorageKey, themesListObj.themesList);
+    }
   }
 
   async importThemeCustom_async(zipFile, themeName) {
@@ -140,28 +175,28 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   }
 
   _isValidThemeKind(themeKind) {
-    return Object.values(this.kind).includes(themeKind);
+    return Object.values(this.kinds).includes(themeKind);
   }
 
   isCustomTheme(themeName) {
-    let isCustomTheme = themeName.startsWith(this.kind.mainTheme + ':')
-      || themeName.startsWith(this.kind.renderTemplate + ':')
-      || themeName.startsWith(this.kind.renderTheme + ':')
-      || themeName.startsWith(this.kind.scriptEditorTheme + ':');
+    let isCustomTheme = themeName.startsWith(this.kinds.mainTheme + ':')
+      || themeName.startsWith(this.kinds.renderTemplate + ':')
+      || themeName.startsWith(this.kinds.renderTheme + ':')
+      || themeName.startsWith(this.kinds.scriptEditorTheme + ':');
     return isCustomTheme;
   }
 
-  async isThemeKindOf_async(kind, themeName) {
-    themeName = this.getThemeNameWithoutPrefix(kind, themeName);
-    let listStorageKey = this._themeStorageKeyFromKind(kind);
+  async isThemeKindOf_async(themeKind, themeName) {
+    themeName = this.getThemeNameWithoutPrefix(themeKind, themeName);
+    let listStorageKey = this._themeStorageKeyFromKind(themeKind);
     let themesList = await LocalStorageManager.getValue_async(listStorageKey, []);
     return themesList.includes(themeName);
   }
 
-  async removeTheme_async(kind, themeName) {
-    let themeNameNoPrefix = this.getThemeNameWithoutPrefix(kind, themeName);
-    let themeNamePrefix = this.getThemeNameWithPrefix(kind, themeName);
-    let storageKey = this._themeStorageKeyFromKind(kind);
+  async removeTheme_async(themeKind, themeName) {
+    let themeNameNoPrefix = this.getThemeNameWithoutPrefix(themeKind, themeName);
+    let themeNamePrefix = this.getThemeNameWithPrefix(themeKind, themeName);
+    let storageKey = this._themeStorageKeyFromKind(themeKind);
     let themeCustomList = await LocalStorageManager.getValue_async(storageKey, []);
     themeCustomList = themeCustomList.filter((thName) => thName !== themeNameNoPrefix);
     await LocalStorageManager.setValue_async(storageKey, themeCustomList);
@@ -174,8 +209,8 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     zipFolder.file(fileName, cssMainText);
   }
 
-  async _loadCustomResource_async(kind, themeName, targetResource) {
-    let themeArchive = await this.getThemeArchive_async(kind, themeName);
+  async _loadCustomResource_async(themeKind, themeName, targetResource) {
+    let themeArchive = await this.getThemeArchive_async(themeKind, themeName);
     if (!themeArchive) { return null; }
     let resourceFile = themeArchive.file(targetResource);
     if (!resourceFile) { return null; }
@@ -185,8 +220,8 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     return resourceUrl;
   }
 
-  async _loadCustomSheet_async(themeName, sheetFile, kind, sheetFolder) {
-    let themeArchive = await this.getThemeArchive_async(kind, themeName);
+  async _loadCustomSheet_async(themeName, sheetFile, themeKind, sheetFolder) {
+    let themeArchive = await this.getThemeArchive_async(themeKind, themeName);
     if (!themeArchive) { return null; }
     let cssText = await themeArchive.file(sheetFolder + '/' + sheetFile).async('text');
 

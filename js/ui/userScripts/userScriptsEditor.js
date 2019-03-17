@@ -204,10 +204,8 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     if (!this._isResizing) { return; }
     let delta = this._lastDownX - event.clientX;
     this._lastDownX = event.clientX;
-
     let leftBox = document.getElementById('leftBox');
     leftBox.style.width = Math.max(leftBox.clientWidth - delta, 0) + 'px';
-    //console.log('delta:', delta, ' clientWidth:', leftBox.clientWidth);
   }
 
   async _testScript_async(feedTestUrl) {

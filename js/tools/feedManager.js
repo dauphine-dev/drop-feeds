@@ -96,7 +96,7 @@ class FeedManager { /*exported FeedManager*/
           }
           catch (e) {
             /*eslint-disable no-console*/
-            console.log(e);
+            console.error(e);
             /*eslint-enable no-console*/
           }
         }
@@ -183,7 +183,7 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e, '\n', e.stack);      
       /*eslint-enable no-console*/
     }
     finally {
@@ -206,7 +206,7 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       feed.updateUiStatus_async();
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e);
       /*eslint-enable no-console*/
     } finally {
       if (--self._feedsToProcessCounter == 0) {
@@ -338,7 +338,7 @@ class FeedManager { /*exported FeedManager*/
     }
     catch (e) {
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e);
       /*eslint-enable no-console*/
     }
   }

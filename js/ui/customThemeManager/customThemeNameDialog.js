@@ -65,7 +65,10 @@ class CustomThemeNameDialog { /*exported CustomThemeNameDialog*/
 
   _selectAndFocusInputNewName() {
     let input = document.getElementById('inputName');
-    input.value = ThemeCustomManager.instance.getThemeNameWithoutPrefix(this._themKind, this._oldName);
+    input.value = this._oldName;
+    if (this._themKind) {
+      input.value = ThemeCustomManager.instance.getThemeNameWithoutPrefix(this._themKind, this._oldName);
+    }
     input.setSelectionRange(0, input.value.length);
     input.focus();
   }

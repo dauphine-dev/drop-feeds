@@ -20,7 +20,7 @@ class CssManager { /*exported CssManager*/
     let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
-      console.log('replaceStyle() styleName "' + styleName + '" not found!');
+      console.error('replaceStyle() styleName "' + styleName + '" not found!');
       /*eslint-enable no-console*/
       return;
     }
@@ -33,7 +33,7 @@ class CssManager { /*exported CssManager*/
     let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
-      console.log('getStyleText() styleName "' + styleName + '" not found!');
+      console.error('getStyleText() styleName "' + styleName + '" not found!');
       /*eslint-enable no-console*/
       return '';
     }

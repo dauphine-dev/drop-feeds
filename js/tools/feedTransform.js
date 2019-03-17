@@ -20,9 +20,8 @@ class FeedTransform { /*exported FeedTransform*/
     let templateCssUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssTemplateUrl_async(feedInfo.isError));
     let xsltUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
     let themeUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssUrl_async());
-    let scriptUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kind.renderTemplate, 'js/template.js'));
+    let scriptUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kinds.renderTemplate, 'js/template.js'));
     let description = (feedInfo.channel.description || '');
-
     let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
 <render>
   <context>

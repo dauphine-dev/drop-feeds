@@ -71,7 +71,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
     }
     catch (e) {
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e);
       /*eslint-enable no-console*/
     }
   }

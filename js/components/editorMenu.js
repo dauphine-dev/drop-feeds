@@ -62,9 +62,9 @@ class EditorMenu { /*exported EditorMenu*/
     const ui_name = 1;
     let editSelectTheme = document.getElementById('editSelectTheme');
     let tm = ThemeManager.instance, tc = ThemeCustomManager.instance;
-    let themeEditorBuiltinList = await tm.getThemeBuiltinList_async(tm.kind.scriptEditorTheme);
+    let themeEditorBuiltinList = await tm.getThemeBuiltinList_async(tm.kinds.scriptEditorTheme);
     themeEditorBuiltinList = themeEditorBuiltinList.map((theme) => theme + ' [builtin]');
-    let themeEditorCustomList = await tc.getCustomThemeList_async(tm.kind.scriptEditorTheme);
+    let themeEditorCustomList = await tc.getCustomThemeList_async(tm.kinds.scriptEditorTheme);
     themeEditorCustomList = themeEditorCustomList.map((theme) => theme + ' [custom]');
     let themeEditorList = [...themeEditorBuiltinList, ...themeEditorCustomList];
     for (let themeEntry of themeEditorList) {
@@ -111,7 +111,7 @@ class EditorMenu { /*exported EditorMenu*/
     event.stopPropagation();
     let selectElement = document.getElementById('editSelectTheme');
     let themeName = selectElement.options[selectElement.selectedIndex].value;
-    await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kind.scriptEditorTheme, themeName);
+    await ThemeManager.instance.setThemeFolderName_async(ThemeManager.instance.kinds.scriptEditorTheme, themeName);
   }
 
 }

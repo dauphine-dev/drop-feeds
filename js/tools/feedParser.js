@@ -353,25 +353,12 @@ class FeedParser { /*exported FeedParser*/
     let channel = DefaultValues.getDefaultChannelInfo();
     channel.encoding = FeedParser.getFeedEncoding(feedText);
     let channelText = FeedParser._getChannelText(feedText, tagItem);
-    channel.link = FeedParser._getChannelLink(channelText);
+    channel.link = FeedParser._getItemLink(channelText);
     channel.title = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.TITLE));
     if (!channel.title) { channel.title = defaultTitle; }
     if (!channel.title) { channel.title = channel.link; }
     channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
-  }
-
-  static _getChannelLink(channelText) {
-    /*
-    let channelLink = FeedParser._extractValue(channelText, tagList.LINK);
-    if (!channelLink) {
-      channelLink = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
-      //alternate
-      console.log(channelText);
-    }
-    */
-    let channelLink = FeedParser._getItemLink(channelText);
-    return channelLink;
   }
 
   static _getChannelText(feedText, tagItem) {
