@@ -297,10 +297,10 @@
     "message": "Selecteer het weergavetabblad thema"
   },
   "optOpenCustomThemeManager": {
-    "message": "Open custom theme manager"
+    "message": "Open thema aanpassen manager"
   },
   "optThemeManager": {
-    "message": "Custom theme manager..."
+    "message": "Thema aanpassen manager..."
   },
   "optFeedItemOrder": {
     "message": "Feed item volgorde"
@@ -450,16 +450,16 @@
     "message": "Debug scherm..."
   },
   "optLblFullExport": {
-    "message": "Full export"
+    "message": "Volledige export"
   },
   "opFullExportButton": {
-    "message": "Export every thing..."
+    "message": "Alles exporteren..."
   },
   "optLblFullImport": {
-    "message": "Full import"
+    "message": "Volledige import"
   },
   "optFullImportButton": {
-    "message": "Import every thing..."
+    "message": "Alles importeren..."
   },
   "optMessageDialogTitle": {
     "message": "Bericht"
@@ -702,7 +702,7 @@
     "message": "Tab grootte"
   },
   "usUScriptTheme": {
-    "message": "Theme"
+    "message": "Thema"
   },
   "comment13": {
     "message": "------------------Editor console strings------------------"
@@ -792,60 +792,60 @@
     "message": "------------------ Custom theme manager ------------------"
   },
   "cthTitleCustomThemeManager": {
-    "message": "Custom theme manager"
+    "message": "Thema aanpassen manager"
   },
   "cthImportThemeCustom": {
-    "message": "Import a custom theme..."
+    "message": "Importeer een aangepast thema..."
   },
   "cthLegendMainThemeCustom": {
-    "message": "Main custom theme"
+    "message": "Aangepast hoofdthema"
   },
   "cthLegendRenderTemplateCustom": {
-    "message": "Render tab custom template"
+    "message": "Weergeven tab aanpassen sjabloon"
   },
   "cthLegendRenderThemeCustom": {
-    "message": "Render tab custom theme"
+    "message": "Weergeven tab aanpassen thema"
   },
   "cthLegendScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "Scriptbewerker aanpassen thema"
   },
   "cthApplyTheme": {
-    "message": "Apply"
+    "message": "Indienen"
   },
   "cthRenameTheme": {
-    "message": "Rename"
+    "message": "Hernoemen"
   },
   "cthDeleteTheme": {
-    "message": "Delete"
+    "message": "Verwijderen"
   },
   "cthExportMainThemeCustom": {
-    "message": "Export as custom main theme..."
+    "message": "Exporteren als aangepast hoofdthema..."
   },
   "cthExportRenderTemplateCustom": {
-    "message": "Export as custom tab template theme..."
+    "message": "Exporteren als aangepast tab sjabloontthema..."
   },
   "cthExportRenderThemeCustom": {
-    "message": "Export as custom tab theme..."
+    "message": "Exporteren als aangepast tab thema..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Export as custom script editor theme"
+    "message": "Exporteren als aangepast script bewerker thema"
   },
   "cthDiagRename": {
-    "message": "Rename"
+    "message": "Hernoemen"
   },
   "cthDiagNewName": {
-    "message": "New name:"
+    "message": "Nieuwe naam:"
   },
   "cthDiagImport": {
-    "message": "Import"
+    "message": "Importeren"
   },
   "cthDiagThemeName": {
-    "message": "Theme name:"
+    "message": "Thema naam:"
   },
   "cthDiagOk": {
     "message": "Ok"
   },
   "cthDiagCancel": {
-    "message": "Cancel"
+    "message": "Annuleren"
   }
 }
