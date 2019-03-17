@@ -297,10 +297,10 @@
     "message": "Seleziona il tema per la visualizzazione della scheda"
   },
   "optOpenCustomThemeManager": {
-    "message": "Open custom theme manager"
+    "message": "Apri il gestore dei temi personalizzati"
   },
   "optThemeManager": {
-    "message": "Custom theme manager..."
+    "message": "Gestore temi personalizzati..."
   },
   "optFeedItemOrder": {
     "message": "Ordine dei feed"
@@ -450,16 +450,16 @@
     "message": "Finestra di debug..."
   },
   "optLblFullExport": {
-    "message": "Full export"
+    "message": "Esportazione Completa"
   },
   "opFullExportButton": {
-    "message": "Export every thing..."
+    "message": "Esporta tutto..."
   },
   "optLblFullImport": {
-    "message": "Full import"
+    "message": "Importazione Completa"
   },
   "optFullImportButton": {
-    "message": "Import every thing..."
+    "message": "Importa tutto..."
   },
   "optMessageDialogTitle": {
     "message": "Messaggio"
@@ -702,7 +702,7 @@
     "message": "Dimensione Tab"
   },
   "usUScriptTheme": {
-    "message": "Theme"
+    "message": "Tema"
   },
   "comment13": {
     "message": "------------------Editor console strings------------------"
@@ -792,60 +792,60 @@
     "message": "------------------ Custom theme manager ------------------"
   },
   "cthTitleCustomThemeManager": {
-    "message": "Custom theme manager"
+    "message": "Gestore temi personalizzati"
   },
   "cthImportThemeCustom": {
-    "message": "Import a custom theme..."
+    "message": "Importa un tema personalizzato..."
   },
   "cthLegendMainThemeCustom": {
-    "message": "Main custom theme"
+    "message": "Tema principale"
   },
   "cthLegendRenderTemplateCustom": {
-    "message": "Render tab custom template"
+    "message": "Template personalizzato della scheda di visualizzazione"
   },
   "cthLegendRenderThemeCustom": {
-    "message": "Render tab custom theme"
+    "message": "Tema personalizzato della scheda di visualizzazione"
   },
   "cthLegendScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "Tema dell'editor degli script"
   },
   "cthApplyTheme": {
-    "message": "Apply"
+    "message": "Applica"
   },
   "cthRenameTheme": {
-    "message": "Rename"
+    "message": "Rinonima"
   },
   "cthDeleteTheme": {
-    "message": "Delete"
+    "message": "Elimina"
   },
   "cthExportMainThemeCustom": {
-    "message": "Export as custom main theme..."
+    "message": "Esporta come tema personalizzato principale..."
   },
   "cthExportRenderTemplateCustom": {
-    "message": "Export as custom tab template theme..."
+    "message": "Esporta come template di visualizzazione della scheda personalizzato..."
   },
   "cthExportRenderThemeCustom": {
-    "message": "Export as custom tab theme..."
+    "message": "Esporta come tema di visualizzazione della scheda personalizzato..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Export as custom script editor theme"
+    "message": "Export come tema personalizzato dell'editor di script"
   },
   "cthDiagRename": {
-    "message": "Rename"
+    "message": "Rinomina"
   },
   "cthDiagNewName": {
-    "message": "New name:"
+    "message": "Nuovo nome:"
   },
   "cthDiagImport": {
-    "message": "Import"
+    "message": "Importa"
   },
   "cthDiagThemeName": {
-    "message": "Theme name:"
+    "message": "Nome del tema:"
   },
   "cthDiagOk": {
     "message": "Ok"
   },
   "cthDiagCancel": {
-    "message": "Cancel"
+    "message": "Cancella"
   }
 }
