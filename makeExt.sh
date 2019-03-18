@@ -28,6 +28,7 @@ rm -rf themes/_renderTab/_templates/_any/files.list
 rm -rf themes/_renderTab/_templates/_error/files.list
 rm -rf themes/_templates/files.list
 rm -rf themes/_editor/files.list
+rm -rf themes/_export/files.list
 #create a working folder in parent directory named '_ext'
 mkdir ../_ext/ > /dev/null 2>&1
 #copy all files in the working folder

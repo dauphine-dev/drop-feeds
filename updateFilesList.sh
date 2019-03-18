@@ -25,3 +25,4 @@ rm -rf themes/_renderTab/_templates/_any/files.list
 rm -rf themes/_renderTab/_templates/_error/files.list
 rm -rf themes/_templates/files.list
 rm -rf themes/_editor/files.list
+rm -rf themes/_export/files.list
