@@ -201,14 +201,11 @@ class ThemeManager { /*exported ThemeManager*/
   }
 
   async getThemeResourceUrl_async(themeKind, targetResource) {
-    let resourceUrl = '';
     let baseThemeFolder = this.getBaseAndThemeFolderForThemeKind(themeKind);
     let themeName = this.getThemeFolderForThemeKind(themeKind);
+    let resourceUrl = baseThemeFolder + '/' + targetResource;
     if (ThemeCustomManager.instance.isCustomTheme(themeName)) {
       resourceUrl = await ThemeCustomManager.instance.getThemeResourceUrl_async(themeKind, targetResource);
-    }
-    else {
-      resourceUrl = baseThemeFolder + '/' + targetResource;
     }
     return resourceUrl;
 
