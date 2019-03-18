@@ -56,8 +56,16 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       if (file == './files.list') { continue; }
       file = file.replace('./', '');
       let fileUrl = browser.runtime.getURL(baseFolder + '/' + file);
-      zip.file(file, ZipTools.getBinaryContent_async(fileUrl), { binary: true });
+      if (file.endsWith('.css')) {
+        let cssMainText = await Transfer.downloadTextFile_async(fileUrl);
+        cssMainText = TextTools.replaceAll(cssMainText, 'url(/themes/' + themeName + '/', 'url([archive]/');
+        zip.file(file, cssMainText);
+      }
+      else {
+        zip.file(file, await ZipTools.getBinaryContent_async(fileUrl), { binary: true });
+      }
     }
+    zip.file('readme.txt', await ZipTools.getBinaryContent_async('/themes/_export/readme.txt'), { binary: true });
     let archiveInfo = { fileType: 'df-custom-theme', themeInfo: { themeKind: themeKind } };
     let archiveInfoJson = JSON.stringify(archiveInfo);
     zip.file('archiveInfo.json', archiveInfoJson);
@@ -201,12 +209,6 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     themeCustomList = themeCustomList.filter((thName) => thName !== themeNameNoPrefix);
     await LocalStorageManager.setValue_async(storageKey, themeCustomList);
     await browser.storage.local.remove(themeNamePrefix);
-  }
-
-  async _addCssToZip_async(zipFolder, fileName, sheetUrl, themeName) {
-    let cssMainText = await Transfer.downloadTextFile_async(sheetUrl);
-    cssMainText = TextTools.replaceAll(cssMainText, 'url(/themes/' + themeName + '/', 'url([archive]/');
-    zipFolder.file(fileName, cssMainText);
   }
 
   async _loadCustomResource_async(themeKind, themeName, targetResource) {
