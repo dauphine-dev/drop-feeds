@@ -89,20 +89,20 @@ class CustomThemeManagerUI {
   }
 
   async _applyMainThemeCustomOnClicked_event() {
-    this._applyThemeCustom_async('selectMainThemeCustom', ThemeManager.instance.kinds.mainTheme);
+    await this._applyThemeCustom_async('selectMainThemeCustom', ThemeManager.instance.kinds.mainTheme);
     await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
     window.location.reload();
   }
 
   async _exportMainThemeCustomOnClicked_event() {
-    this._exportTheme_async('selectMainThemeCustom', ThemeManager.instance.kinds.mainTheme);
+    await this._exportTheme_async('selectMainThemeCustom', ThemeManager.instance.kinds.mainTheme);
   }
 
   async _renameMainThemeCustomOnClicked_event(event) {
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectMainThemeCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.mainTheme, oldName, null, this._renameCustomTheme_async);
+    await CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.mainTheme, oldName, null, this._renameCustomTheme_async);
   }
 
   async _deleteMainThemeCustomOnClicked_event() {
@@ -131,19 +131,19 @@ class CustomThemeManagerUI {
   }
 
   async _applyRenderTemplateCustomOnClicked_event() {
-    this._applyThemeCustom_async('selectRenderTemplateCustom', ThemeManager.instance.kinds.renderTemplate);
+    await this._applyThemeCustom_async('selectRenderTemplateCustom', ThemeManager.instance.kinds.renderTemplate);
     window.location.reload();
   }
 
   async _exportRenderTemplateCustomOnClicked_event() {
-    this._exportTheme_async('selectRenderTemplateCustom', ThemeManager.instance.kinds.renderTemplate);
+    await this._exportTheme_async('selectRenderTemplateCustom', ThemeManager.instance.kinds.renderTemplate);
   }
 
   async _renameRenderTemplateCustomOnClicked_event(event) {
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderTemplateCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.renderTemplate, oldName, null, this._renameCustomTheme_async);
+    await CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.renderTemplate, oldName, null, this._renameCustomTheme_async);
   }
 
   async _deleteRenderTemplateCustomOnClicked_event() {
@@ -172,19 +172,19 @@ class CustomThemeManagerUI {
   }
 
   async _applyRenderThemeCustomOnClicked_event() {
-    this._applyThemeCustom_async('selectRenderThemeCustom', ThemeManager.instance.kinds.renderTheme);
+    await this._applyThemeCustom_async('selectRenderThemeCustom', ThemeManager.instance.kinds.renderTheme);
     window.location.reload();
   }
 
   async _exportRenderThemeCustomOnClicked_event() {
-    this._exportTheme_async('selectRenderThemeCustom', ThemeManager.instance.kinds.renderTheme);
+    await this._exportTheme_async('selectRenderThemeCustom', ThemeManager.instance.kinds.renderTheme);
   }
 
   async _renameRenderThemeCustomOnClicked_event(event) {
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectRenderThemeCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.renderTheme, oldName, null, this._renameCustomTheme_async);
+    await CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.renderTheme, oldName, null, this._renameCustomTheme_async);
   }
 
   async _deleteRenderThemeCustomOnClicked_event() {
@@ -213,19 +213,19 @@ class CustomThemeManagerUI {
   }
 
   async _applyScriptEditorThemeCustomOnClicked_event() {
-    this._applyThemeCustom_async('selectScriptEditorThemeCustom', ThemeManager.instance.kinds.scriptEditorTheme);
+    await this._applyThemeCustom_async('selectScriptEditorThemeCustom', ThemeManager.instance.kinds.scriptEditorTheme);
     window.location.reload();
   }
 
   async _exportScriptEditorThemeCustomOnClicked_event() {
-    this._exportTheme_async('selectScriptEditorThemeCustom', ThemeManager.instance.kinds.scriptEditorTheme);
+    await this._exportTheme_async('selectScriptEditorThemeCustom', ThemeManager.instance.kinds.scriptEditorTheme);
   }
 
   async _renameScriptEditorThemeCustomOnClicked_event(event) {
     BrowserManager.setInnerHtmlById('errorMessage', '&nbsp;');
     let selectElement = document.getElementById('selectScriptEditorThemeCustom');
     let oldName = selectElement.options[selectElement.selectedIndex].value;
-    CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.scriptEditorTheme, oldName, null, this._renameCustomTheme_async);
+    await CustomThemeNameDialog.instance.getThemeName(true, event.target, ThemeManager.instance.kinds.scriptEditorTheme, oldName, null, this._renameCustomTheme_async);
   }
 
   async _deleteScriptEditorThemeCustomOnClicked_event() {
@@ -238,8 +238,8 @@ class CustomThemeManagerUI {
     let selectElement = document.getElementById(selectId);
     let themeName = selectElement.options[selectElement.selectedIndex].value;
     let zipThemeUrl = await ThemeCustomManager.instance.exportThemeCustom_async(themeKind, themeName);
-    let suffix = (this.isCustomTheme(themeName) ? ' (copy of)' : '');
-    let newName = this.getThemeNameWithoutPrefix(themeKind, themeName) + suffix;
+    let suffix = (ThemeCustomManager.instance.isCustomTheme(themeName) ? ' (copy of)' : '');
+    let newName = ThemeCustomManager.instance.getThemeNameWithoutPrefix(themeKind, themeName) + suffix;
     browser.downloads.download({ url: zipThemeUrl, filename: 'df-' + themeKind + '-' + newName + '.zip', saveAs: true });
   }
 
@@ -290,7 +290,7 @@ class CustomThemeManagerUI {
     let elementComeFrom = document.getElementById('importThemeCustom');
     let themeKind = undefined;
     let file = document.getElementById('inputImportThemeCustom').files[0];
-    CustomThemeNameDialog.instance.getThemeName(false, elementComeFrom, themeKind, file.name, file, this._importCustomTheme_async);
+    await CustomThemeNameDialog.instance.getThemeName(false, elementComeFrom, themeKind, file.name, file, this._importCustomTheme_async);
   }
 
   async _initSelectOptions_async(selectId, themeKind, builtinList, customList, selectedValue) {

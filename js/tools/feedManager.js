@@ -50,7 +50,7 @@ class FeedManager { /*exported FeedManager*/
     let feed = await Feed.new(feedId);
     this._itemList = [];
     let isSingle = true; let displayItems = true; let folderTitle = null;
-    FeedManager._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
+    await FeedManager._openOneFeedToTab_async(feed, isSingle, openNewTabForce, displayItems, folderTitle, openNewTabBackGroundForce);
   }
 
   async openAllUpdatedFeeds_async(folderId) {
@@ -145,13 +145,12 @@ class FeedManager { /*exported FeedManager*/
       await feed.update_async();
       self._statusMessageAfterCheck(feed);
       await feed.updateUiStatus_async();
-      feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
         self._updatedFeeds++;
       }
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus_async();
+      await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       /*eslint-enable no-console*/
     } finally {
@@ -177,11 +176,11 @@ class FeedManager { /*exported FeedManager*/
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
-      feed.updateUiStatus_async();
+      await feed.updateUiStatus_async();
       FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus_async();
+      await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       console.error(e, '\n', e.stack);      
       /*eslint-enable no-console*/
@@ -200,11 +199,11 @@ class FeedManager { /*exported FeedManager*/
       await feed.update_async();
       self._unifiedFeedItems.push(...(await feed.getInfo_async()).itemList);
       await feed.setStatus_async(feedStatus.OLD);
-      feed.updateUiStatus_async();
+      await feed.updateUiStatus_async();
       FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbComputingUnifiedView'));
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
-      feed.updateUiStatus_async();
+      await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
       console.error(e);
       /*eslint-enable no-console*/
@@ -267,7 +266,7 @@ class FeedManager { /*exported FeedManager*/
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedUnread, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      this.markFeedAsRead_async(feedElement);
+      await this.markFeedAsRead_async(feedElement);
     }
   }
 
@@ -286,7 +285,7 @@ class FeedManager { /*exported FeedManager*/
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      this.markFeedAsUpdated_async(feedElement);
+      await this.markFeedAsUpdated_async(feedElement);
     }
   }
 
@@ -301,12 +300,12 @@ class FeedManager { /*exported FeedManager*/
   async markFeedAsUpdated_async(feedElement) {
     let feedId = feedElement.getAttribute('id');
     let feed = await Feed.new(feedId);
-    feed.setStatus_async(feedStatus.UPDATED);
+    await feed.setStatus_async(feedStatus.UPDATED);
   }
 
   async markFeedAsUpdatedById_async(feedId) {
     let feed = await Feed.new(feedId);
-    feed.setStatus_async(feedStatus.UPDATED);
+    await feed.setStatus_async(feedStatus.UPDATED);
   }
 
   _displayUpdatedFeedsNotification() {
@@ -345,7 +344,7 @@ class FeedManager { /*exported FeedManager*/
 
   async _setAutomaticUpdatesEnabled_sbscrb(value) {
     this._automaticUpdatesEnabled = value;
-    this._setAutoUpdateInterval_async();
+    await this._setAutoUpdateInterval_async();
   }
 
   async _setAutomaticUpdatesOnStar_sbscrb(value) {
@@ -356,7 +355,7 @@ class FeedManager { /*exported FeedManager*/
     let newValueMilliseconds = Math.max(value, 5) * 60000;
     if (this._automaticUpdatesMilliseconds != newValueMilliseconds) {
       this._automaticUpdatesMilliseconds = newValueMilliseconds;
-      this._setAutoUpdateInterval_async();
+      await this._setAutoUpdateInterval_async();
     }
   }
 
@@ -373,7 +372,7 @@ class FeedManager { /*exported FeedManager*/
       let browserAlreadyOpen = ((await browser.windows.getAll({ populate: false, windowTypes: ['normal'] })).length >= 2);
       if (!browserAlreadyOpen && !this._automaticUpdatesOnStartDone) {
         this._automaticUpdatesOnStartDone = true;
-        this._doAutomaticUpdatesOnStart_async();
+        await this._doAutomaticUpdatesOnStart_async();
       }
       else {
         this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);

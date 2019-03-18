@@ -309,7 +309,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let targetId = this._getTargetFeedId(event);
-    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
+    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
@@ -405,7 +405,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let folderId = event.target.getAttribute('after');
-    BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
+    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');

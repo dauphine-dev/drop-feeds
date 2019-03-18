@@ -16,14 +16,14 @@ class SideBar { /*exported SideBar*/
     await ThemeManager.instance.init_async();
     await BookmarkManager.instance.init_async();
     await FeedsTreeView.instance.load_async();
-    BrowserManager.instance.init_async();
+    await BrowserManager.instance.init_async();
     FeedRendererOptions.instance;
     ItemSorter.instance;
     SecurityFilters.instance;
     FeedManager.instance;
     TabManager.instance;
-    ItemsLayout.instance.init_async();
-    FeedsTopMenu.instance.init_async();
+    await ItemsLayout.instance.init_async();
+    await FeedsTopMenu.instance.init_async();
     FeedsFilterBar.instance;
     RenderItemLayout.instance;
     FeedsNewFolderDialog.instance;
@@ -58,7 +58,7 @@ class SideBar { /*exported SideBar*/
       let tabInfo = await BrowserManager.getActiveTab_async();
       feedUrl = tabInfo.url;
     }
-    Dialogs.openSubscribeDialog_async('', feedUrl);
+    await Dialogs.openSubscribeDialog_async('', feedUrl);
   }
 
   async _contentOnScroll_event() {

@@ -120,7 +120,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   async _saveButtonClicked_event() {
-    this.save_async();
+    await this.save_async();
   }
 
   async save_async() {
@@ -174,7 +174,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this.save_async();
     let feedTestUrl = document.getElementById('testUrl').value;
     await this.displayUrlMatchToConsole_async(feedTestUrl);
-    this._testScript_async(feedTestUrl);
+    await this._testScript_async(feedTestUrl);
   }
 
   async displayUrlMatchToConsole_async(url) {
@@ -187,7 +187,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     await this.save_async();
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
-      this._testScript_async(scriptObj.virtualUrl);
+      await this._testScript_async(scriptObj.virtualUrl);
     }
   }
 
@@ -235,7 +235,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   async _virtualSubscribeScriptButton_event() {
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + this._scriptId, null);
     if (scriptObj) {
-      Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
+      await Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
     }
   }
 

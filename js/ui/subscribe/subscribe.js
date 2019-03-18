@@ -33,7 +33,7 @@ class Subscribe {
 
   async init_async() {
     await FolderTreeView.instance.init_async();
-    FolderTreeView.instance.load_async();
+    await FolderTreeView.instance.load_async();
     let subscribeInfo = await LocalStorageManager.getValue_async('subscribeInfo');
     if (subscribeInfo) {
       if (Array.isArray(subscribeInfo.feedTitle)) {
@@ -52,8 +52,8 @@ class Subscribe {
     for (let url of this._feedUrls) {
       this._feeds.push(await Feed.newByUrl(url));
     }
-    this._setFeedTitle_async();
-    this._updateFeedPreview_async();
+    await this._setFeedTitle_async();
+    await this._updateFeedPreview_async();
   }
 
   async _setFeedTitle_async() {
@@ -85,7 +85,7 @@ class Subscribe {
   async _setFeedPreviewVisibility_async() {
     let showFeedPreview = await LocalStorageManager.getValue_async('showFeedPreview', DefaultValues.showFeedPreview);
     document.getElementById('chkShowFeedPreview').checked = showFeedPreview;
-    this._updateFeedPreviewVisibility_async(showFeedPreview);
+    await this._updateFeedPreviewVisibility_async(showFeedPreview);
   }
 
   async _setSubscribeInfoWinId_async() {
@@ -168,13 +168,13 @@ class Subscribe {
   async _updateFeedTitleButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._updateFeedTitle_async();
+    await this._updateFeedTitle_async();
   }
 
   async stopUpdatingFeedTitleButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._stopUpdatingFeedTitle_async();
+    await this._stopUpdatingFeedTitle_async();
   }
 
   async _newFolderButtonClicked_event(event) {
@@ -211,7 +211,7 @@ class Subscribe {
 
   async _chkShowFeedPreviewClicked_event() {
     let showFeedPreview = document.getElementById('chkShowFeedPreview').checked;
-    this._updateFeedPreviewVisibility_async(showFeedPreview);
+    await this._updateFeedPreviewVisibility_async(showFeedPreview);
   }
 
   async _updateFeedPreviewVisibility_async(showFeedPreview) {

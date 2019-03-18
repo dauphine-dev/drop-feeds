@@ -150,7 +150,7 @@ class Feed { /*exported Feed*/
 
   async setStatus_async(status) {
     this._storedFeed.status = status;
-    this.updateUiStatus_async();
+    await this.updateUiStatus_async();
     await this.save_async();
   }
 
@@ -236,7 +236,7 @@ class Feed { /*exported Feed*/
             if (this._ifHttpsHAsFailedRetryWithHttp && this.url.startsWith('https:')) {
               try {
                 retry = true;
-                this._download_async(ignoreRedirection, true, scriptData);
+                await this._download_async(ignoreRedirection, true, scriptData);
               }
               catch (e3) {
                 this._error = e3 + '\n\n' + e3.stack;

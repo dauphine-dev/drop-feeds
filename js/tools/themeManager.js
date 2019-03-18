@@ -66,19 +66,11 @@ class ThemeManager { /*exported ThemeManager*/
 
   get mainThemeFolderName() { return this._mainThemeFolderName; }
 
-  set mainThemeFolderName(value) {
-    this.setMainThemeFolderName_async(value);
-  }
-
   async setMainThemeFolderName_async(value) {
     await LocalStorageManager.setValue_async('mainThemeFolderName', value);
   }
 
   get renderTemplateFolderName() { return this._renderTemplateFolderName; }
-
-  set renderTemplateFolderName(value) {
-    this.setRenderTemplateFolderName_async(value);
-  }
 
   async setRenderTemplateFolderName_async(value) {
     await LocalStorageManager.setValue_async('renderTemplateFolderName', value);
@@ -86,16 +78,8 @@ class ThemeManager { /*exported ThemeManager*/
 
   get renderThemeFolderName() { return this._renderThemeFolderName; }
 
-  set renderThemeFolderName(value) {
-    this.setRenderThemeFolderName_async(value);
-  }
-
   async setRenderThemeFolderName_async(value) {
     await LocalStorageManager.setValue_async('renderThemeFolderName', value);
-  }
-
-  set scriptEditorThemeFolderName(value) {
-    this.setScriptEditorThemeFolderName_async(value);
   }
 
   async setScriptEditorThemeFolderName_async(value) {
@@ -244,16 +228,16 @@ class ThemeManager { /*exported ThemeManager*/
   async setThemeFolderName_async(themeKind, themeFolderName) {
     switch (themeKind) {
       case _themeKinds.mainTheme:
-        this.mainThemeFolderName = themeFolderName;
+        await this.setMainThemeFolderName_async(themeFolderName);
         break;
       case _themeKinds.renderTemplate:
-        this.renderTemplateFolderName = themeFolderName;
+        await this.setRenderTemplateFolderName_async(themeFolderName);
         break;
       case _themeKinds.renderTheme:
-        this.renderThemeFolderName = themeFolderName;
+        await this.setRenderThemeFolderName_async(themeFolderName);
         break;
       case _themeKinds.scriptEditorTheme:
-        this.scriptEditorThemeFolderName = themeFolderName;
+        await this.setScriptEditorThemeFolderName_async(themeFolderName);
         break;
     }
   }

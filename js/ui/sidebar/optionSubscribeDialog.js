@@ -69,7 +69,7 @@ class OptionSubscribeDialog { /*exported OptionSubscribeDialog*/
     event.stopPropagation();
     event.preventDefault();
     let feedUrl = document.getElementById('subsUrlField').value;
-    Dialogs.openSubscribeDialog_async('', feedUrl);
+    await Dialogs.openSubscribeDialog_async('', feedUrl);
     this.hide();
   }
 

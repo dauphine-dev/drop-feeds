@@ -104,7 +104,7 @@ class UserScriptTools { /* exported UserScriptTools */
 
   async _updateScriptList_sbscrb(value) {
     this._scriptList = value;
-    this._listenScriptObjListUpdate_async();
+    await this._listenScriptObjListUpdate_async();
   }
 
   async _listenScriptObjListUpdate_async() {

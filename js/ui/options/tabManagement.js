@@ -68,7 +68,7 @@ class TabManagement { /*exported TabManagement*/
     try {
       settings = JSON.parse(settingString);
     } catch (e) {
-      this._settingFileIsNotValid_async(progressBarImport);
+      await this._settingFileIsNotValid_async(progressBarImport);
     }
     if (settings) {
       await browser.storage.local.set(settings);
@@ -76,7 +76,7 @@ class TabManagement { /*exported TabManagement*/
       window.location.reload();
     }
     else {
-      this._settingFileIsNotValid_async(progressBarImport);
+      await this._settingFileIsNotValid_async(progressBarImport);
     }
   }
 

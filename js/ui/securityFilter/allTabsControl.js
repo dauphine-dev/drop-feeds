@@ -6,9 +6,9 @@ class AllTabControl { /*exported AllTabControl*/
   async init_async() {
     this._updateLocalizedStrings();
     this._createTabLinks();
-    TabHtmlFilter.instance.init_async();
-    TabCssFilter.instance.init_async();
-    this._openLastTab_async();
+    await TabHtmlFilter.instance.init_async();
+    await TabCssFilter.instance.init_async();
+    await this._openLastTab_async();
   }
 
   _updateLocalizedStrings() {
@@ -20,7 +20,7 @@ class AllTabControl { /*exported AllTabControl*/
   async _openLastTab_async() {
     let currentOptionTabName = await LocalStorageManager.getValue_async('currentSecurityFilterTabName', DefaultValues.currentSecurityFilterTabName);
     let targetTabElement = document.getElementById(currentOptionTabName + 'Button');
-    this._openTab_async(targetTabElement);
+    await this._openTab_async(targetTabElement);
   }
 
   _createTabLinks() {
@@ -30,8 +30,8 @@ class AllTabControl { /*exported AllTabControl*/
     }
   }
 
-  _openTabClicked_event(event) {
-    this._openTab_async(event.target);
+  async _openTabClicked_event(event) {
+    await this._openTab_async(event.target);
   }
 
   async _openTab_async(targetTabElement) {

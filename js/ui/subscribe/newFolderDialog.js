@@ -60,7 +60,7 @@ class FeedsNewFolderDialog { /*exported FeedsNewFolderDialog*/
     try {
       let folderName = document.getElementById('inputNewFolder').value;
       let createBookmark = await browser.bookmarks.create({parentId: this._selectedId, title: folderName});
-      FolderTreeView.instance.load_async(createBookmark.id);
+      await FolderTreeView.instance.load_async(createBookmark.id);
     }
     catch(e) {
       /* eslint-disable no-console */

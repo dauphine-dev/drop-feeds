@@ -92,7 +92,7 @@ class TabAdvanced { /*exported TabAdvanced*/
       await LocalStorageManager.setValue_async('importInProgress', true);
       let zipFullImport = await JSZip.loadAsync(zipFile);
       if (!zipFullImport) { return { error: 'notValidArchive', value: null }; }
-      
+
       //check archiveInfo
       let archiveInfoJsonFile = zipFullImport.file('archiveInfo.json');
       if (!archiveInfoJsonFile) { return { error: 'notValidArchive', value: null }; }
@@ -117,9 +117,13 @@ class TabAdvanced { /*exported TabAdvanced*/
 
       //write local storage
       let rootFolderId = await BookmarkManager.instance.getRootFolderId_async();
+      let rootFolderState = await LocalStorageManager.getValue_async('cb-' + rootFolderId);
       await browser.storage.local.clear();
       await browser.storage.local.set(localStorage);
       await LocalStorageManager.setValue_async('rootBookmarkId', rootFolderId);
+      if (rootFolderState) {
+        await LocalStorageManager.setValue_async('cb-' + rootFolderId, rootFolderState);
+      }
       //write custom themes
       await ThemeCustomManager.instance.importAllThemesCustom_async(customThemesFile);
       //write bookmarks

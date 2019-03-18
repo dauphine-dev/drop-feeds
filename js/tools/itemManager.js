@@ -118,7 +118,7 @@ class ItemManager { /*exported ItemManager*/
       RenderItemLayout.instance.displayItem(item);
     } 
     if (!this._feedItemRenderInSidebar || openNewTabForce || openNewTabBackGroundForce) {
-      this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
+      await this._openTabItem_async(itemLink, openNewTabForce, openNewTabBackGroundForce);
     }
   }
 

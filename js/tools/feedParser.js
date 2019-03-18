@@ -140,10 +140,10 @@ class FeedParser { /*exported FeedParser*/
     let isJson = feedText.startsWith('{');
     let feedInfo = undefined;
     if (isJson) {
-      feedInfo = FeedParser._getFeedJsonInfo_async(feedText, defaultTitle, isError);
+      feedInfo = await FeedParser._getFeedJsonInfo_async(feedText, defaultTitle, isError);
     }
     else {
-      feedInfo = FeedParser._getFeedXmlInfo_async(feedText, defaultTitle, isError);
+      feedInfo = await FeedParser._getFeedXmlInfo_async(feedText, defaultTitle, isError);
     }
     return feedInfo;
   }

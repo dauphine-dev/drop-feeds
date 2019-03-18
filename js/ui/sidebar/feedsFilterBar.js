@@ -48,7 +48,7 @@ class FeedsFilterBar { /*exported FeedsFilterBar*/
       if (!rootFolder) { return; }
       if (filterText == '' ) { 
         FeedsTreeView.instance.reload_async();
-        FeedsTopMenu.instance.updatedFeedsSetVisibility_async();
+        FeedsTopMenu.instance.updatedFeedsSetVisibility_async(false);
         return; 
       }
       CssManager.replaceStyle('.feedRead', 'visibility:visible;');

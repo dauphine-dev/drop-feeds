@@ -16,9 +16,9 @@ class FeedTabHandler { /*exported FeedTabHandler*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'preventOpenWith', (v) => { this._setPreventOpenWith_sbscrb(v); }, true);
   }
 
-  _webNavigationOnBeforeNavigate_event(details) {
+  async _webNavigationOnBeforeNavigate_event(details) {
     if (!this._handlesFeedTab) { return; }
-    this._interceptFeedDocuments_async(details);
+    await this._interceptFeedDocuments_async(details);
   }
 
   async _interceptFeedDocuments_async(details) {
