@@ -63,7 +63,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
       }
       else if (file.endsWith('.js')) {
         zip.file(file + '.url', baseFolder + '/' + file);
-        zip.file(file, await ZipTools.getBinaryContent_async(fileUrl), { binary: true });
+        //zip.file(file, await ZipTools.getBinaryContent_async(fileUrl), { binary: true });
       }
       else {
         zip.file(file, await ZipTools.getBinaryContent_async(fileUrl), { binary: true });
@@ -107,7 +107,7 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
     let resourceUrl = null;
     let themeName = ThemeManager.instance.getThemeFolderForThemeKind(themeKind);
     if (targetResource.endsWith('.js')) {
-      resourceUrl = await this._loadCustomResourceJs_async(themeKind, themeName, targetResource);    
+      resourceUrl = await this._loadCustomResourceJs_async(themeKind, themeName, targetResource);
     }
     if (!resourceUrl) {
       resourceUrl = await this._loadCustomResource_async(themeKind, themeName, targetResource);
@@ -233,14 +233,21 @@ class ThemeCustomManager { /*exported ThemeCustomManager*/
   }
 
   async _loadCustomResourceJs_async(themeKind, themeName, targetResource) {
+    let resourceUrl = null;
     let themeArchive = await this.getThemeArchive_async(themeKind, themeName);
     if (!themeArchive) { return null; }
     let file = themeArchive.file(targetResource + '.url');
-    if (!file) { return null; }
-    let resourceUrl = file.async('text');
+    if (!file) {
+      file = themeArchive.file(targetResource);
+      if (!file) { return null; }
+      let fileBlob = await file.async('blob');
+      resourceUrl = URL.createObjectURL(fileBlob);
+      return resourceUrl;
+    }
+    resourceUrl = file.async('text');
     return resourceUrl;
   }
-  
+
   async _loadCustomSheet_async(themeName, sheetFile, themeKind, sheetFolder) {
     let themeArchive = await this.getThemeArchive_async(themeKind, themeName);
     if (!themeArchive) { return null; }
