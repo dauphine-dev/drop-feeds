@@ -266,7 +266,7 @@ class FeedManager { /*exported FeedManager*/
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedUnread, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      await this.markFeedAsRead_async(feedElement);
+      this.markFeedAsRead_async(feedElement);
     }
   }
 
@@ -285,7 +285,7 @@ class FeedManager { /*exported FeedManager*/
     let feedElementList = document.getElementById(folderId).querySelectorAll('.feedRead, .feedError');
     for (let i = 0; i < feedElementList.length; i++) {
       let feedElement = feedElementList[i];
-      await this.markFeedAsUpdated_async(feedElement);
+      this.markFeedAsUpdated_async(feedElement);
     }
   }
 
