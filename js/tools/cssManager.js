@@ -20,7 +20,7 @@ class CssManager { /*exported CssManager*/
     let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
-      console.log('replaceStyle() styleName "' + styleName + '" not found!');
+      console.error('replaceStyle() styleName "' + styleName + '" not found!');
       /*eslint-enable no-console*/
       return;
     }
@@ -33,7 +33,7 @@ class CssManager { /*exported CssManager*/
     let sheetAndRuleIndex = CssManager._getSheetAndRuleIndex(styleName);
     if (sheetAndRuleIndex == null) {
       /*eslint-disable no-console*/
-      console.log('getStyleText() styleName "' + styleName + '" not found!');
+      console.error('getStyleText() styleName "' + styleName + '" not found!');
       /*eslint-enable no-console*/
       return '';
     }
@@ -49,6 +49,12 @@ class CssManager { /*exported CssManager*/
     else {
       CssManager.disableElementById(elementId);
     }
+  }
+  
+  static setElementEnableByIdEx(elementId, textId, enabled) {
+    document.getElementById(elementId).disabled = !enabled;
+    CssManager.setElementEnableById(elementId, enabled);
+    if (textId) { CssManager.setElementEnableById(textId, enabled); }
   }
 
   static enableElementById(elementId) {
@@ -68,4 +74,5 @@ class CssManager { /*exported CssManager*/
     element.style.opacity = '0.66';
     element.style.filter = 'grayscale(100%)';
   }
+
 }

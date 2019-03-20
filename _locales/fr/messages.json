@@ -273,7 +273,7 @@
     "message": "Contenu"
   },
   "optTheme": {
-    "message": "Theme"
+    "message": "Thème"
   },
   "optManagement": {
     "message": "Gestion"
@@ -288,13 +288,19 @@
     "message": "Ne pas afficher le dossier racine"
   },
   "optSelectMainTheme": {
-    "message": "Theme principal"
+    "message": "Thème principal"
   },
   "optSelectRenderTemplate": {
     "message": "Modèle de l'onglet de rendu"
   },
   "optSelectRenderTheme": {
-    "message": "Theme de l'onglet de rendu"
+    "message": "Thème de l'onglet de rendu"
+  },
+  "optOpenCustomThemeManager": {
+    "message": "Ouvrir le gestionnaire de thèmes personnalisés"
+  },
+  "optThemeManager": {
+    "message": "Gestionnaire de thèmes personnalisés..."
   },
   "optFeedItemOrder": {
     "message": "Orde de tri des articles"
@@ -385,10 +391,10 @@
   },
   "optContentsAreaAdvLegend": {
     "message": "Avancé"
-  },  
+  },
   "optHandlesFeedTabCheckbox": {
     "message": "Afficher les onglets flux RSS, ATOM, ...  avec Drop Feeds"
-  },  
+  },
   "optPreventOpenWith": {
     "message": "Prévenir l'affichage de la boite de dialogue Ouvrir Avec... (*)"
   },
@@ -443,10 +449,22 @@
   "optDebugViewButton": {
     "message": "Vue de déboguage..."
   },
-  "messageDialogTitle": {
+  "optLblFullExport": {
+    "message": "Tout exporter"
+  },
+  "opFullExportButton": {
+    "message": "Exporter tout..."
+  },
+  "optLblFullImport": {
+    "message": "Tout importer"
+  },
+  "optFullImportButton": {
+    "message": "Importer tout..."
+  },
+  "optMessageDialogTitle": {
     "message": "Message"
   },
-  "messageDialogOk": {
+  "optMessageDialogOk": {
     "message": "ok"
   },
   "optHtmlFilter": {
@@ -683,6 +701,9 @@
   "usUScriptTabSize": {
     "message": "Largeur tab"
   },
+  "usUScriptTheme": {
+    "message": "Thème"
+  },
   "comment13": {
     "message": "------------------Editor console strings------------------"
   },
@@ -766,5 +787,65 @@
         "content": "$2"
       }
     }
+  },
+  "comment15": {
+    "message": "------------------ Custom theme manager ------------------"
+  },
+  "cthTitleCustomThemeManager": {
+    "message": "Gestionnaire de thèmes personnalisés"
+  },
+  "cthImportThemeCustom": {
+    "message": "Importer un thème personnalisé..."
+  },
+  "cthLegendMainThemeCustom": {
+    "message": "Thème pricipal"
+  },
+  "cthLegendRenderTemplateCustom": {
+    "message": "Modèle de rendu d'onglet"
+  },
+  "cthLegendRenderThemeCustom": {
+    "message": "Thème de rendu d'onglet"
+  },
+  "cthLegendScriptEditorThemeCustom": {
+    "message": "Thème d'éditeur de scripts"
+  },
+  "cthApplyTheme": {
+    "message": "Appliquer"
+  },
+  "cthRenameTheme": {
+    "message": "Renommer"
+  },
+  "cthDeleteTheme": {
+    "message": "Supprimer"
+  },
+  "cthExportMainThemeCustom": {
+    "message": "Exporter comme thème principal personnalisé..."
+  },
+  "cthExportRenderTemplateCustom": {
+    "message": "Export comme modèle de rendu d'onglet personnalisé..."
+  },
+  "cthExportRenderThemeCustom": {
+    "message": "Export comme thème de rendu d'onglet personnalisé..."
+  },
+  "cthExportScriptEditorThemeCustom": {
+    "message": "Export comme thème d'éditeur de scripts..."
+  },
+  "cthDiagRename": {
+    "message": "Renommer"
+  },
+  "cthDiagNewName": {
+    "message": "Nouveau nom:"
+  },
+  "cthDiagImport": {
+    "message": "Importer"
+  },
+  "cthDiagThemeName": {
+    "message": "Thème name:"
+  },
+  "cthDiagOk": {
+    "message": "Ok"
+  },
+  "cthDiagCancel": {
+    "message": "Annuler"
   }
 }

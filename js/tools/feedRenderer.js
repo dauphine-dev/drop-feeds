@@ -4,8 +4,8 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderFeedToHtml_async(feedText, defaultTitle, isError, subscribeButtonTarget) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
-    //let feedHtml = FeedRenderer._feedInfoToHtml(feedInfo);
-    let feedHtml = FeedTransform.transformFeedToHtml_async(feedInfo, subscribeButtonTarget);
+    //let feedHtml = await FeedRenderer._feedInfoToHtml_async(feedInfo);
+    let feedHtml = await FeedTransform.transformFeedToHtml_async(feedInfo, subscribeButtonTarget);
     return feedHtml;
   }
 
@@ -53,8 +53,8 @@ class FeedRenderer { /*exported FeedRenderer*/
 
   //private stuffs
 
-  static _feedInfoToHtml(feedInfo) {
-    let htmlHead = FeedRenderer._getHtmlHead(feedInfo.channel);
+  static async _feedInfoToHtml_async(feedInfo) {
+    let htmlHead = await FeedRenderer._getHtmlHead_async(feedInfo.channel);
     let feedHtml = '';
     feedHtml += htmlHead;
     feedHtml += FeedRenderer._getHtmlChannel(feedInfo.channel, feedInfo.isError);
@@ -69,10 +69,10 @@ class FeedRenderer { /*exported FeedRenderer*/
     return feedHtml;
   }
 
-  static _getHtmlHead(channel) {
+  static async _getHtmlHead_async(channel) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
-    let cssUrl1 = browser.runtime.getURL(ThemeManager.instance.getRenderCssTemplateUrl());
-    let cssUrl2 = browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl());
+    let cssUrl1 = browser.runtime.getURL(await ThemeManager.instance.getRenderCssTemplateUrl_async());
+    let cssUrl2 = await browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl_async());
     let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead += '<html>\n';
@@ -159,7 +159,7 @@ class FeedRenderer { /*exported FeedRenderer*/
     }
     catch (e) {
       /*eslint-disable no-console*/
-      console.log(e);
+      console.error(e);
       /*eslint-enable no-console*/
     }
     let tooltipText = FeedParser.getItemTooltipText(item, num);

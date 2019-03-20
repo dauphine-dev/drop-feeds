@@ -68,16 +68,7 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
     let syntaxFileUrl = browser.runtime.getURL(this._syntaxFilePath);
     let syntaxJson = await Transfer.downloadTextFile_async(syntaxFileUrl);
     let syntaxData = JSON.parse(syntaxJson);
-    this._loadSyntaxCss(syntaxData.cssPath);
     this._pairPatternClassList = SyntaxHighlighter.unStringifyPairPatternClassList(syntaxData.pairPatternClassList);
-  }
-
-  _loadSyntaxCss(cssSyntaxPath) {
-    let jsHighlightCss = document.createElement('link');
-    jsHighlightCss.setAttribute('href', cssSyntaxPath);
-    jsHighlightCss.setAttribute('rel', 'stylesheet');
-    jsHighlightCss.setAttribute('type', 'text/css');
-    document.head.appendChild(jsHighlightCss);
   }
 
   static stringifyPairPatternClassList(pairPatternClassList) {

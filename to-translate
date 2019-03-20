@@ -72,3 +72,32 @@ version;line;messageName;message;where;note
 0.9.6;419;optSettingExport;Export...;Settings/Management;I have recycled a old translation, but please take a look
 0.9.6;440;optLblDebugView;Open the debug view;Settings/Advanced;n/a
 0.9.6;443;optDebugViewButton;Debug view...;Settings/Advanced;n/a
+
+0.9.7  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+0.9.7;299;optOpenCustomThemeManager;Open custom theme manager;Settings/Theme;n/a
+0.9.7;302;optThemeManager;Custom theme manager...;Settings/Theme;n/a
+0.9.7;452;optLblFullExport;Full export;Settings/Advanced;n/a
+0.9.7;455;opFullExportButton;Export every thing...;Settings/Advanced;n/a
+0.9.7;458;optLblFullImport;Full import;Settings/Advanced;n/a
+0.9.7;461;optFullImportButton;Import every thing...;Settings/Advanced;n/a
+0.9.7;704;usUScriptTheme;Theme;Settings/Advanced/Script manager/+/<>;In the script editor at the bottom left
+0.9.7;794;cthTitleCustomThemeManager;Custom theme manager;Settings/Theme/Custom theme manager...;n/a
+0.9.7;797;cthImportThemeCustom;Import a custom theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;800;cthLegendMainThemeCustom;Main custom theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;803;cthLegendRenderTemplateCustom;Render tab custom template;Settings/Theme/Custom theme manager...;n/a
+0.9.7;806;cthLegendRenderThemeCustom;Render tab custom theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;809;cthLegendScriptEditorThemeCustom;Script editor custom theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;812;cthApplyTheme;Apply;Settings/Theme/Custom theme manager...;n/a
+0.9.7;815;cthRenameTheme;Rename;Settings/Theme/Custom theme manager...;n/a
+0.9.7;818;cthDeleteTheme;Delete;Settings/Theme/Custom theme manager...;n/a
+0.9.7;821;cthExportMainThemeCustom;Export as custom main theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;824;cthExportRenderTemplateCustom;Export as custom tab template theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;827;cthExportRenderThemeCustom;Export as custom tab theme...;Settings/Theme/Custom theme manager...;n/a
+0.9.7;830;cthExportScriptEditorThemeCustom;Export as custom script editor theme;Settings/Theme/Custom theme manager...;n/a
+0.9.7;833;cthDiagRename;Rename;Settings/Theme/Custom theme manager...;in the dialogbox after Rename button has been clicked
+0.9.7;836;cthDiagNewName;New name:;Settings/Theme/Custom theme manager...;in the dialogbox after Rename button has been clicked
+0.9.7;839;cthDiagImport;Import;Settings/Theme/Custom theme manager...;in the dialogbox after Import button has been clicked
+0.9.7;842;cthDiagThemeName;Theme name:;Settings/Theme/Custom theme manager...;in the dialogbox after Import button has been clicked
+0.9.7;845;cthDiagOk;Ok;Settings/Theme/Custom theme manager...;in the dialogbox after Rename/Import button has been clicked
+0.9.7;848;cthDiagCancel;Cancel;Settings/Theme/Custom theme manager...;in the dialogbox after Rename/Import button has been clicked

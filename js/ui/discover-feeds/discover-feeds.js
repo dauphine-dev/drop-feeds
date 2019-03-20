@@ -29,7 +29,7 @@ class DiscoverFeeds {
       this._discoverInfoWinId = (await LocalStorageManager.getValue_async('discoverInfoWinId')).winId;
     }
     catch (e) { }
-    LocalStorageManager.setValue_async('discoverInfoWinId', null);
+    await LocalStorageManager.setValue_async('discoverInfoWinId', null);
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonOnClicked_event(e); });
     this.addFeedButtonEnabled = this._addFeedButtonEnabled;
   }
@@ -149,7 +149,7 @@ class DiscoverFeeds {
     let html = await this._feedLinkInfoListToHtm_async();
     BrowserManager.setInnerHtmlById('tableContainer', html);
     let fstLine = document.getElementById('tableContent').getElementsByTagName('tr')[0];
-    this._selectRow_async(fstLine, true);
+    await this._selectRow_async(fstLine, true);
   }
 
   async _feedLinkInfoListToHtm_async() {
@@ -237,13 +237,13 @@ class DiscoverFeeds {
       urls.push(feed.url);
     }
     await Dialogs.openSubscribeDialog_async(titles, urls);
-    this._windowClose_async();
+    await this._windowClose_async();
   }
 
   async _closeButtonOnClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._windowClose_async();
+    await this._windowClose_async();
   }
 
   _addTableRowClickEvents() {
@@ -256,7 +256,7 @@ class DiscoverFeeds {
   async _tableRowOnClick_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    this._selectRow_async(event.target.parentNode, false, event.shiftKey, event.ctrlKey);
+    await this._selectRow_async(event.target.parentNode, false, event.shiftKey, event.ctrlKey);
   }
 
   async _selectRow_async(trElement, force, shiftKey, ctrlKey) {

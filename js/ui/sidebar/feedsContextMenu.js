@@ -136,7 +136,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _checkFeedsMenuClicked_event() {
     this.hide();
-    FeedManager.instance.checkFeeds_async(this._idComeFrom);
+    await FeedManager.instance.checkFeeds_async(this._idComeFrom);
   }
 
   async _windowOnKeyup_event(e) {
@@ -147,12 +147,12 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _openAllUpdatedFeedsMenuClicked_event() {
     this.hide();
-    FeedManager.instance.openAllUpdatedFeeds_async(this._idComeFrom);
+    await FeedManager.instance.openAllUpdatedFeeds_async(this._idComeFrom);
   }
 
   async _ctxMnOpenUpdatedAsUnifiedMenuClicked_event() {
     this.hide();
-    FeedManager.instance.openAsUnifiedFeed_async(this._idComeFrom);
+    await FeedManager.instance.openAsUnifiedFeed_async(this._idComeFrom);
   }
 
   async _ctxMnSortByNameMenuClicked_event() {
@@ -180,27 +180,27 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _markFeedsAsReadMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsRead_async(this._idComeFrom);
+    await FeedManager.instance.markAllFeedsAsRead_async(this._idComeFrom);
   }
 
   async _markFeedsAsUpdatedMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsUpdated_async(this._idComeFrom);
+    await FeedManager.instance.markAllFeedsAsUpdated_async(this._idComeFrom);
   }
 
   async _markAllFeedsAsReadMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
+    await FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
   }
 
   async _markAllFeedsAsUpdatedMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
+    await FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
   }
 
   async _ctxMnGetFeedTitleMenuClicked_event() {
     this.hide();
-    FeedManager.instance.updateFeedTitle_async(this._idComeFrom);
+    await FeedManager.instance.updateFeedTitle_async(this._idComeFrom);
   }
 
   async _ctxMnOpenFeedMenuClicked_event() {
@@ -210,22 +210,22 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _ctxMnMarkFeedAsReadMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markFeedAsReadById_async(this._idComeFrom);
+    await FeedManager.instance.markFeedAsReadById_async(this._idComeFrom);
   }
 
   async _ctxMnMarkFeedAsUpdatedMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markFeedAsUpdatedById_async(this._idComeFrom);
+    await FeedManager.instance.markFeedAsUpdatedById_async(this._idComeFrom);
   }
 
   async _ctxMnMarkAllFeedsAsReadMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
+    await FeedManager.instance.markAllFeedsAsRead_async('feedsContentPanel');
   }
 
   async _ctxMnMarkAllFeedsAsUpdatedMenuClicked_event() {
     this.hide();
-    FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
+    await FeedManager.instance.markAllFeedsAsUpdated_async('feedsContentPanel');
   }
 
   async _ctxMnFdNewFolderClicked_event() {
@@ -245,7 +245,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _ctxOptReloadMenuClicked_event() {
     this.hide();
-    LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
+    await LocalStorageManager.setValue_async('reloadPanelWindow', Date.now());
   }
 
   async _ctxOptSubscribeMenuClicked_event() {

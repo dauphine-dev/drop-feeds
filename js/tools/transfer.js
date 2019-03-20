@@ -93,7 +93,7 @@ class Transfer { /*exported Transfer*/
             }
             catch (e) {
               /*eslint-disable no-console*/
-              console.log('downloadTextFileEx_async encoding failed "' + e);
+              console.error('downloadTextFileEx_async encoding failed "' + e);
               /*eslint-enable no-console*/
             }
             // Fallback to the default encoding

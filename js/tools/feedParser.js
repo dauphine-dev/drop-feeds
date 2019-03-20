@@ -140,10 +140,10 @@ class FeedParser { /*exported FeedParser*/
     let isJson = feedText.startsWith('{');
     let feedInfo = undefined;
     if (isJson) {
-      feedInfo = FeedParser._getFeedJsonInfo_async(feedText, defaultTitle, isError);
+      feedInfo = await FeedParser._getFeedJsonInfo_async(feedText, defaultTitle, isError);
     }
     else {
-      feedInfo = FeedParser._getFeedXmlInfo_async(feedText, defaultTitle, isError);
+      feedInfo = await FeedParser._getFeedXmlInfo_async(feedText, defaultTitle, isError);
     }
     return feedInfo;
   }
@@ -353,25 +353,12 @@ class FeedParser { /*exported FeedParser*/
     let channel = DefaultValues.getDefaultChannelInfo();
     channel.encoding = FeedParser.getFeedEncoding(feedText);
     let channelText = FeedParser._getChannelText(feedText, tagItem);
-    channel.link = FeedParser._getChannelLink(channelText);
+    channel.link = FeedParser._getItemLink(channelText);
     channel.title = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.TITLE));
     if (!channel.title) { channel.title = defaultTitle; }
     if (!channel.title) { channel.title = channel.link; }
     channel.description = TextTools.decodeHtml(FeedParser._extractValue(channelText, tagList.DESC));
     return channel;
-  }
-
-  static _getChannelLink(channelText) {
-    /*
-    let channelLink = FeedParser._extractValue(channelText, tagList.LINK);
-    if (!channelLink) {
-      channelLink = FeedParser._extractAttribute(channelText, tagList.LINK, tagList.ATT_LINK);
-      //alternate
-      console.log(channelText);
-    }
-    */
-    let channelLink = FeedParser._getItemLink(channelText);
-    return channelLink;
   }
 
   static _getChannelText(feedText, tagItem) {
@@ -421,7 +408,8 @@ class FeedParser { /*exported FeedParser*/
       item.number = ++i;
       item.link = jsonItem.url;
       item.title = jsonItem.title;
-      item.description = TextTools.replaceAll(TextTools.replaceAll(jsonItem.html_content, '\r\n', '\n'), '\n', '<br/>');
+      let htmlContent =  (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
+      item.description = TextTools.replaceAll(TextTools.replaceAll(htmlContent, '\r\n', '\n'), '\n', '<br/>');
       item.author = jsonItem.author.name;
       let enclosures = [];
       for (let att of jsonItem.attachments) {

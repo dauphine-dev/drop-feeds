@@ -17,7 +17,7 @@ class FeedList {
     else {
       feedLinkList = await BrowserManager.getActiveTabFeedLinkList_async();
       if(feedLinkList.length == 1) {
-        Dialogs.openSubscribeDialog_async(feedLinkList[0].title, feedLinkList[0].link);
+        await Dialogs.openSubscribeDialog_async(feedLinkList[0].title, feedLinkList[0].link);
         return;
       }
     }
@@ -53,7 +53,7 @@ class FeedList {
   async _tableRawOnClick_event(event) {
     let feedUrl = event.target.parentNode.cells[1].innerHTML;
     let feedTitle = event.target.parentNode.cells[0].innerHTML;
-    Dialogs.openSubscribeDialog_async(feedTitle, feedUrl);
+    await Dialogs.openSubscribeDialog_async(feedTitle, feedUrl);
   }
 }
 

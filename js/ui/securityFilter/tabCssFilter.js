@@ -90,14 +90,14 @@ class TabCssFilter { /*exported TabCssFilter*/
   async _cssFilterRemoveButtonOnClicked_event() {
     if (this._selectedCell) {
       this._cssFilterList = this._cssFilterList.filter(entry => entry != this._selectedCell.textContent);
-      LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
+      await LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
       this._updateCssTagsTable();
     }
   }
 
   async _cssFilterRestoreDefaultButtonOnClicked_event() {
     this._cssFilterList = DefaultValues.rejectedCssFragmentList;
-    LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
+    await LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
     this._updateCssTagsTable();
   }
 
@@ -123,7 +123,7 @@ class TabCssFilter { /*exported TabCssFilter*/
       this._cssFilterList = this._cssFilterList.filter(entry =>  entry != initialFilter);
 
       this._cssFilterList.push(cssFilter);
-      LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
+      await LocalStorageManager.setValue_async('rejectedCssFragmentList', this._cssFilterList);
     }
     let cssFilterDialog = document.getElementById('cssFilterDialog');
     cssFilterDialog.classList.remove('show');

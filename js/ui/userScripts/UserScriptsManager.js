@@ -157,7 +157,7 @@ class UserScriptsManager { /* exported UserScriptsManager */
     window.getSelection().removeAllRanges();
     let currentScriptEntry = event.target.parentNode.parentNode;
     let scriptName = event.target.textContent;
-    this._updateScriptObj_async(currentScriptEntry, 'name', scriptName);
+    await this._updateScriptObj_async(currentScriptEntry, 'name', scriptName);
 
   }
 
@@ -176,7 +176,7 @@ class UserScriptsManager { /* exported UserScriptsManager */
 
   async _editScriptButtonClicked_event(event) {
     let scriptId = event.target.parentNode.parentNode.parentNode.getAttribute('id');
-    UserScriptsEditor.instance.display_async(scriptId);
+    await UserScriptsEditor.instance.display_async(scriptId);
   }
 
   async _enDisScriptButtonClicked_event(event) {
@@ -198,10 +198,10 @@ class UserScriptsManager { /* exported UserScriptsManager */
     return value;
   }
 
-  _scriptTypeChanged_event(event) {
+  async _scriptTypeChanged_event(event) {
     let currentScriptEntry = event.target.parentNode.parentNode.parentNode;
     let type = event.target.selectedIndex;
-    this._updateScriptObj_async(currentScriptEntry, 'type', type);
+    await this._updateScriptObj_async(currentScriptEntry, 'type', type);
     currentScriptEntry.querySelector('.urlMatchPatterns').style.display = (type == scriptType.feedTransformer ? 'inline-block' : 'none');
     currentScriptEntry.querySelector('.subscribeScriptButton').style.display = (type == scriptType.virtualFeed ? 'inline-block' : 'none');
   }
@@ -211,7 +211,7 @@ class UserScriptsManager { /* exported UserScriptsManager */
     let scriptId = parseInt(currentScriptEntry.getAttribute('id'));
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     if (scriptObj) {
-      Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
+      await Dialogs.openSubscribeDialog_async(scriptObj.name, scriptObj.virtualUrl);
     }
   }
 
@@ -230,6 +230,6 @@ class UserScriptsManager { /* exported UserScriptsManager */
     //Remove script obj from local storage
     await browser.storage.local.remove(scriptObjKey + scriptId);
     //Remove script code from local storage
-    UserScriptsEditor.instance.deleteScriptCode_async(scriptId);
+    await UserScriptsEditor.instance.deleteScriptCode_async(scriptId);
   }
 }

@@ -1,3 +1,10 @@
+0.9.7
+Add custom theme manager
+Make user can change script editor theme
+Add full export/import feature
+Fix empty html_content in json feeds
+Fix 'Promise resolved after context unloaded' console messages
+
 0.9.6
 Add Export/import settings
 Reduce he size of the notification icon

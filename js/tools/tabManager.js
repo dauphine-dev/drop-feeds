@@ -17,17 +17,17 @@ class TabManager { /*exported TabManager*/
 
   async _windowOnFocused_event() {
     let tabInfo = await BrowserManager.getActiveTab_async();
-    this._tabHasChanged_async(tabInfo);
+    await this._tabHasChanged_async(tabInfo);
   }
 
   async _tabOnActivated_event(activeInfo) {
     let tabInfo = await browser.tabs.get(activeInfo.tabId);
-    this._tabHasChanged_async(tabInfo);
+    await this._tabHasChanged_async(tabInfo);
   }
 
   async _tabOnUpdated_event(tabId, changeInfo, tabInfo) {
     if (changeInfo.status == 'complete') {
-      this._tabHasChanged_async(tabInfo);
+      await this._tabHasChanged_async(tabInfo);
     }
     else {
       FeedsTopMenu.instance.discoverFeedsButtonEnabled = false;
@@ -47,14 +47,14 @@ class TabManager { /*exported TabManager*/
         await this._subscriptionGoEnabled_async(tabInfo);
       }
       else if (activeTabIsFeed) {
-        this._subscriptionAddEnabled_async(tabInfo);
+        await this._subscriptionAddEnabled_async(tabInfo);
       }
       else {
-        this._subscriptionDisabled_async(tabInfo);
+        await this._subscriptionDisabled_async(tabInfo);
       }
     }
     else {
-      this._subscriptionDisabled_async(tabInfo);
+      await this._subscriptionDisabled_async(tabInfo);
     }
   }
 
@@ -77,7 +77,7 @@ class TabManager { /*exported TabManager*/
 
   async _forceTabOnChanged_async() {
     let tabInfo = await BrowserManager.getActiveTab_async();
-    this._tabHasChanged_async(tabInfo);
+    await this._tabHasChanged_async(tabInfo);
   }
 }
 

@@ -435,7 +435,7 @@ li.feedError {
 
 .contextMenuStyle {
   position: absolute;
-  background-color: var(--dialog-background-color);
+  background-color: var(--main-dialog-background-color);
   min-width: 160px;
   padding-right: 20px;
   box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
@@ -766,10 +766,10 @@ li.feedError {
 
 .dialogBox {
   position: absolute;
-  background-color: var(--dialog-background-color);
+  background-color: var(--main-dialog-background-color);
   font-size: 99%;
   min-width: 160px;
-  border: 1px solid var(--dialog-border-color);
+  border: 1px solid var(--main-border-color);
   box-shadow: 0px 1px 16px 0px rgba(26, 26, 26, 0.5);
   padding: 0;
   z-index: 2;
@@ -778,9 +778,9 @@ li.feedError {
 .dialogTitle {
   text-align: center;
   font-weight: bold;
-  color: var(--dialog-title-color);
-  background-color: var(--dialog-title-background-color);
-  border-bottom: 1px solid var(--dialog-border-color);
+  color: var(--main-dialog-title-color);
+  background-color: var(--main-dialog-title-background-color);
+  border-bottom: 1px solid var(--main-border-color);
 }
 
 .dialogViewInner {
@@ -797,7 +797,7 @@ li.feedError {
 
 .dialogLabel {
   font-weight: bold;
-  color: var(--dialog-label-color);
+  color: var(--main-dialog-label-color);
 }
 
 .dialogField {

@@ -224,7 +224,7 @@ class BrowserManager { /* exported BrowserManager*/
     let url = browser.runtime.getURL(dialogsUrl);
     let createData = { url: url, type: 'popup', width: width, height: height, allowScriptsToClose: true, titlePreface: titlePreface };
     let win = await browser.windows.create(createData);
-    BrowserManager._forcePopupToDisplayContent_async(win.id, width);
+    await BrowserManager._forcePopupToDisplayContent_async(win.id, width);
     return win;
   }
 
@@ -421,4 +421,10 @@ class BrowserManager { /* exported BrowserManager*/
     let feedUrl = new URL(URL.createObjectURL(feedBlob));
     return feedUrl.protocol + feedUrl.origin;
   }
+
+  static getRuntimeUrl(url) {
+    if (!url) { return ''; }
+    return browser.runtime.getURL(url);
+  }
+
 }

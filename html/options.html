@@ -6,18 +6,23 @@
   <link href="/themes/_templates/css/options.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
   <title>#Drop Feeds (options)</title>
+  <script src="/js/tools/bookmarkManager.js"></script>
   <script src="/js/tools/defaultValues.js"></script>
   <script src="/js/tools/browserManager.js"></script>
   <script src="/js/tools/textTools.js"></script>
   <script src="/js/tools/localStorageManager.js"></script>
   <script src="/js/tools/dateTime.js"></script>
   <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/themeCustomManager.js"></script>
   <script src="/js/tools/themeManager.js"></script>
   <script src="/js/tools/listener.js"></script>
   <script src="/js/tools/progressBar.js"></script>
   <script src="/js/tools/itemSorter.js"></script>
   <script src="/js/tools/xmlTools.js"></script>
   <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/zipTools.js"></script>
+  <script src="/js/lib/jszip/jszip.min.js"></script>
+  <script src="/js/lib/jszip/jszip-utils.min.js "></script>
 </head>
 
 <body>
@@ -167,7 +172,7 @@
     <fieldset id="contentsAreaAdvFieldset">
       <legend id="contentsAreaAdvLegend">#Advanced</legend>
       <span><input type="checkbox" id="handlesFeedTabCheckbox"><span id="textHandlesFeedTab" class="checkboxText">#Handle RSS, ATOM, ... feed tabs with Drop Feeds</span></span>
-      <br/>
+      <br />
       <span><input type="checkbox" id="preventOpenWithCheckbox"><span id="textPreventOpenWith" class="checkboxText">#Prevent Open With dialog displaying (*)</span></span>
       <small><br /></small>
       <small id="texWarningPreventOpenWith">#(*) warning: with this option activated you can get a wierd behavior on some web pages</small>
@@ -223,7 +228,11 @@
         </td>
         <td></td>
       </tr>
-
+      <tr>
+        <td><label id="lblOpenCustomThemeManager">#Open custom theme manager</label><span>&nbsp;</span></td>
+        <td><button id="customThemeManagerButton">#Custom theme manager...</button></td>
+        <td></td>
+      </tr>
 
     </table>
   </div>
@@ -288,19 +297,38 @@
     <table>
       <tr>
         <td><label id="lblScriptManager">#Open script manager</label></td>
-        <td>&nbsp;<button id="scriptManagerButton">#Script manager...</button></td>
+        <td><button id="scriptManagerButton">#Script manager...</button></td>
       </tr>
       <tr>
         <td><label id="lblSecurityFilter">#Open security filter settings</label></td>
-        <td>&nbsp;<button id="securityFilterButton">#Security filter settings...</button></td>
+        <td><button id="securityFilterButton">#Security filter settings...</button></td>
       </tr>
       <tr>
         <td><label id="lblDebugView">#Open the debug view</label></td>
-        <td>&nbsp;<button id="debugViewButton">#Debug view...</button></td>
+        <td><button id="debugViewButton">#Debug view...</button></td>
       </tr>
       <tr>
         <td><label id="lblGuid">GUID</label></td>
         <td><input type="text" id="fieldGuid" size="30" readonly="readonly" value=""></td>
+      </tr>
+      <tr>
+        <td><label id="lblFullExport">#Full export</label></td>
+        <td><button id="fullExportButton">#Export every thing...</button></td>
+      </tr>
+      <tr>
+        <td><label id="lblFullImport">#Full import</label></td>
+        <td>
+          <input type="file" accept=".zip" id="fullImportInput" class="inputImportFile" />
+          <button id="fullImportButton">#Import every thing...</button>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <div id="progressFullImportTotal" class="progressBarTotal">
+            <div id="progressFullImport" class="progressBarValue" style="width:0">0%</div>
+          </div>
+        </td>
       </tr>
     </table>
   </div>

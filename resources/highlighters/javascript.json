@@ -1,5 +1,5 @@
 {
-  "cssPath": "/themes/_templates/css/jsHighlight.css",
+  "cssPath": "/themes/_editor/studio_dark/css/highlight.css",
   "pairPatternClassList": [
     {
       "pattern": "\\b(abstract|arguments|Array|async|boolean|byte|char|class|const|constructor|Date|debugger|delete|double|enum|eval|extends|false|final|float|function|goto|implements|implements|in|instanceof|int|interface|let|long|native|new|null|Number|Object|of|package|private|protected|prototype|public|short|static|String|super|this|true|typeof|undefined|var|void|yield)\\b",

@@ -131,7 +131,7 @@ class ItemsToolBar { /*exported ItemsToolBar*/
     event.stopPropagation();
     event.preventDefault();
     if (!this._buttonsEnabled) { return; }
-    ItemManager.instance.openAllUnreadItems_async();
+    await ItemManager.instance.openAllUnreadItems_async();
   }
 
   async _itemHideReadArticlesButtonClicked_event(event) {

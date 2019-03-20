@@ -102,7 +102,7 @@ class TabContentArea { /*exported TabContentArea*/
     document.getElementById('contentsDateTimeFormat').classList.remove('borderError');
     document.getElementById('contentsDateTimeExample').classList.remove('textColorError');
     document.getElementById('contentsDateTimeExample').textContent = dateTimeString;
-    LocalStorageManager.setValue_async('dateTimeOptions', contentsDateTimeOptions);
+    await LocalStorageManager.setValue_async('dateTimeOptions', contentsDateTimeOptions);
   }
 
   async _contentsDateTimeResetButtonClicked_event() {
@@ -112,23 +112,15 @@ class TabContentArea { /*exported TabContentArea*/
 
   _enableItemOptions() {
     let enabled = document.getElementById('renderFeedsCheckbox').checked;
-    this._enableElement('contentsAreaTabOptionsFieldset', null, enabled);
-    this._enableElement('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled);
-    this._enableElement('contentsDateTimeFieldset', null, enabled);
+    CssManager.setElementEnableByIdEx('contentsAreaTabOptionsFieldset', null, enabled);
+    CssManager.setElementEnableByIdEx('reuseDropFeedsTabCheckbox', 'textReuseDropFeedsTab', enabled);
+    CssManager.setElementEnableByIdEx('contentsDateTimeFieldset', null, enabled);
   }
 
   _enablePreventOpenWith() {
     let enabled = document.getElementById('handlesFeedTabCheckbox').checked;
-    this._enableElement('preventOpenWithCheckbox', 'textPreventOpenWith', enabled);
+    CssManager.setElementEnableByIdEx('preventOpenWithCheckbox', 'textPreventOpenWith', enabled);
   }
-
-
-  _enableElement(elementId, textId, enabled) {
-    document.getElementById(elementId).disabled = !enabled;
-    CssManager.setElementEnableById(elementId, enabled);
-    if (textId) { CssManager.setElementEnableById(textId, enabled); }
-  }
-
 
   async _handlesFeedTabCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('handlesFeedTab', document.getElementById('handlesFeedTabCheckbox').checked);

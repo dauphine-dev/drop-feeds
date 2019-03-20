@@ -296,6 +296,12 @@
   "optSelectRenderTheme": {
     "message": "Select render tab theme"
   },
+  "optOpenCustomThemeManager": {
+    "message": "Open custom theme manager"
+  },
+  "optThemeManager": {
+    "message": "Custom theme manager..."
+  },
   "optFeedItemOrder": {
     "message": "Feed item order"
   },
@@ -442,6 +448,18 @@
   },
   "optDebugViewButton": {
     "message": "Debug view..."
+  },
+  "optLblFullExport": {
+    "message": "Full export"
+  },
+  "opFullExportButton": {
+    "message": "Export every thing..."
+  },
+  "optLblFullImport": {
+    "message": "Full import"
+  },
+  "optFullImportButton": {
+    "message": "Import every thing..."
   },
   "optMessageDialogTitle": {
     "message": "Message"
@@ -683,6 +701,9 @@
   "usUScriptTabSize": {
     "message": "Tab size"
   },
+  "usUScriptTheme": {
+    "message": "Theme"
+  },
   "comment13": {
     "message": "------------------Editor console strings------------------"
   },
@@ -766,5 +787,65 @@
         "content": "$2"
       }
     }
+  },
+  "comment15": {
+    "message": "------------------ Custom theme manager ------------------"
+  },
+  "cthTitleCustomThemeManager": {
+    "message": "Custom theme manager"
+  },
+  "cthImportThemeCustom": {
+    "message": "Import a custom theme..."
+  },
+  "cthLegendMainThemeCustom": {
+    "message": "Main custom theme"
+  },
+  "cthLegendRenderTemplateCustom": {
+    "message": "Render tab custom template"
+  },
+  "cthLegendRenderThemeCustom": {
+    "message": "Render tab custom theme"
+  },
+  "cthLegendScriptEditorThemeCustom": {
+    "message": "Script editor custom theme"
+  },
+  "cthApplyTheme": {
+    "message": "Apply"
+  },
+  "cthRenameTheme": {
+    "message": "Rename"
+  },
+  "cthDeleteTheme": {
+    "message": "Delete"
+  },
+  "cthExportMainThemeCustom": {
+    "message": "Export as custom main theme..."
+  },
+  "cthExportRenderTemplateCustom": {
+    "message": "Export as custom tab template theme..."
+  },
+  "cthExportRenderThemeCustom": {
+    "message": "Export as custom tab theme..."
+  },
+  "cthExportScriptEditorThemeCustom": {
+    "message": "Export as custom script editor theme"
+  },
+  "cthDiagRename": {
+    "message": "Rename"
+  },
+  "cthDiagNewName": {
+    "message": "New name:"
+  },
+  "cthDiagImport": {
+    "message": "Import"
+  },
+  "cthDiagThemeName": {
+    "message": "Theme name:"
+  },
+  "cthDiagOk": {
+    "message": "Ok"
+  },
+  "cthDiagCancel": {
+    "message": "Cancel"
   }
 }

@@ -296,6 +296,12 @@
   "optSelectRenderTheme": {
     "message": "Seleziona il tema per la visualizzazione della scheda"
   },
+  "optOpenCustomThemeManager": {
+    "message": "Apri il gestore dei temi personalizzati"
+  },
+  "optThemeManager": {
+    "message": "Gestore temi personalizzati..."
+  },
   "optFeedItemOrder": {
     "message": "Ordine dei feed"
   },
@@ -385,10 +391,10 @@
   },
   "optContentsAreaAdvLegend": {
     "message": "Avanzate"
-  },  
+  },
   "optHandlesFeedTabCheckbox": {
     "message": "Gestisci le schede di feed RSS, ATOM,... con  Drop Feeds"
-  },  
+  },
   "optPreventOpenWith": {
     "message": "Evita l'apertura della finestra di dialogo (*)"
   },
@@ -442,6 +448,18 @@
   },
   "optDebugViewButton": {
     "message": "Finestra di debug..."
+  },
+  "optLblFullExport": {
+    "message": "Esportazione Completa"
+  },
+  "opFullExportButton": {
+    "message": "Esporta tutto..."
+  },
+  "optLblFullImport": {
+    "message": "Importazione Completa"
+  },
+  "optFullImportButton": {
+    "message": "Importa tutto..."
   },
   "optMessageDialogTitle": {
     "message": "Messaggio"
@@ -683,6 +701,9 @@
   "usUScriptTabSize": {
     "message": "Dimensione Tab"
   },
+  "usUScriptTheme": {
+    "message": "Tema"
+  },
   "comment13": {
     "message": "------------------Editor console strings------------------"
   },
@@ -766,5 +787,65 @@
         "content": "$2"
       }
     }
+  },
+  "comment15": {
+    "message": "------------------ Custom theme manager ------------------"
+  },
+  "cthTitleCustomThemeManager": {
+    "message": "Gestore temi personalizzati"
+  },
+  "cthImportThemeCustom": {
+    "message": "Importa un tema personalizzato..."
+  },
+  "cthLegendMainThemeCustom": {
+    "message": "Tema principale"
+  },
+  "cthLegendRenderTemplateCustom": {
+    "message": "Template personalizzato della scheda di visualizzazione"
+  },
+  "cthLegendRenderThemeCustom": {
+    "message": "Tema personalizzato della scheda di visualizzazione"
+  },
+  "cthLegendScriptEditorThemeCustom": {
+    "message": "Tema dell'editor degli script"
+  },
+  "cthApplyTheme": {
+    "message": "Applica"
+  },
+  "cthRenameTheme": {
+    "message": "Rinonima"
+  },
+  "cthDeleteTheme": {
+    "message": "Elimina"
+  },
+  "cthExportMainThemeCustom": {
+    "message": "Esporta come tema personalizzato principale..."
+  },
+  "cthExportRenderTemplateCustom": {
+    "message": "Esporta come template di visualizzazione della scheda personalizzato..."
+  },
+  "cthExportRenderThemeCustom": {
+    "message": "Esporta come tema di visualizzazione della scheda personalizzato..."
+  },
+  "cthExportScriptEditorThemeCustom": {
+    "message": "Export come tema personalizzato dell'editor di script"
+  },
+  "cthDiagRename": {
+    "message": "Rinomina"
+  },
+  "cthDiagNewName": {
+    "message": "Nuovo nome:"
+  },
+  "cthDiagImport": {
+    "message": "Importa"
+  },
+  "cthDiagThemeName": {
+    "message": "Nome del tema:"
+  },
+  "cthDiagOk": {
+    "message": "Ok"
+  },
+  "cthDiagCancel": {
+    "message": "Cancella"
   }
 }

@@ -7,15 +7,15 @@ class AllTabControl { /*exported AllTabControl*/
   async init_async() {
     this._updateLocalizedStrings();
     this._createTabLinks();
-    TabGeneral.instance.init_async();
+    await TabGeneral.instance.init_async();
     TabUpdateChecker.instance.init();
-    TabContentArea.instance.init_async();
-    TabTheme.instance.init_async();
-    TabManagement.instance.init_async();
-    TabView.instance.init_async();
-    TabItems.instance.init_async();
-    TabAdvanced.instance.init_async();
-    this._openLastTab_async();
+    await TabContentArea.instance.init_async();
+    await TabTheme.instance.init_async();
+    await TabManagement.instance.init_async();
+    await TabView.instance.init_async();
+    await TabItems.instance.init_async();
+    await TabAdvanced.instance.init_async();
+    await this._openLastTab_async();
   }
 
   _updateLocalizedStrings() {
@@ -31,7 +31,7 @@ class AllTabControl { /*exported AllTabControl*/
   async _openLastTab_async() {
     let currentOptionTabName = await LocalStorageManager.getValue_async('currentOptionTabName', DefaultValues.currentOptionTabName);
     let targetTabElement = document.getElementById(currentOptionTabName + 'Button');
-    this._openTab_async(targetTabElement);
+    await this._openTab_async(targetTabElement);
   }
 
   _createTabLinks() {
@@ -41,8 +41,8 @@ class AllTabControl { /*exported AllTabControl*/
     }
   }
 
-  _openTabClicked_event(event) {
-    this._openTab_async(event.target);
+  async _openTabClicked_event(event) {
+    await this._openTab_async(event.target);
   }
 
   async _openTab_async(targetTabElement) {

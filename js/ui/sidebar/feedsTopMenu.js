@@ -29,7 +29,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
 
   async init_async() {
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
-    this.updatedFeedsSetVisibility_async();
+    await this.updatedFeedsSetVisibility_async(false);
     this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
     this._updateFilterBar();
   }
@@ -82,16 +82,18 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     }
   }
 
-  async updatedFeedsSetVisibility_async() {
+  async updatedFeedsSetVisibility_async(setValue) {
     this.activateButton('onlyUpdatedFeedsButton', this._updatedFeedsVisible);
-    FeedsTreeView.instance.updatedFeedsSetVisibility_async(this._updatedFeedsVisible);
-    LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    await FeedsTreeView.instance.updatedFeedsSetVisibility_async(this._updatedFeedsVisible);
+    if (setValue) {
+      await LocalStorageManager.setValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
+    }
   }
 
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    FeedManager.instance.checkFeeds_async('feedsContentPanel', true);
+    await FeedManager.instance.checkFeeds_async('feedsContentPanel', true);
   }
 
   async _updateLocalizedStrings() {
@@ -122,7 +124,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     event.stopPropagation();
     event.preventDefault();
     this._updatedFeedsVisible = !this._updatedFeedsVisible;
-    await this.updatedFeedsSetVisibility_async();
+    await this.updatedFeedsSetVisibility_async(true);
     FeedsTreeView.instance.selectionBar.refresh();
   }
 
@@ -138,7 +140,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
       let storedFolder = DefaultValues.getStoredFolder(folderId);
       folder.checked = this._foldersOpened;
       storedFolder.checked = this._foldersOpened;
-      LocalStorageManager.setValue_async(folderId, storedFolder);
+      await LocalStorageManager.setValue_async(folderId, storedFolder);
     }
     FeedsTreeView.instance.selectionBar.refresh();
   }
@@ -150,7 +152,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     let feedList = TabManager.instance.activeTabFeedLinkList;
     if (feedList.length == 1) {
       let tabInfo = await BrowserManager.getActiveTab_async();
-      Dialogs.openSubscribeDialog_async(tabInfo.title, feedList[0].link);
+      await Dialogs.openSubscribeDialog_async(tabInfo.title, feedList[0].link);
     }
     else {
       BrowserManager.openPageAction();
@@ -171,7 +173,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     event.stopPropagation();
     event.preventDefault();
     this._filterEnabled = !this._filterEnabled;
-    LocalStorageManager.setValue_async('filterEnabled', this._filterEnabled);
+    await LocalStorageManager.setValue_async('filterEnabled', this._filterEnabled);
     this._updateFilterBar();
   }
 
@@ -189,6 +191,6 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   }
 
   async showErrorsAsUnread_sbscrb() {
-    this.updatedFeedsSetVisibility_async();
+    await this.updatedFeedsSetVisibility_async(false);
   }
 }

@@ -51,13 +51,13 @@ class BookmarkManager { /*exported BookmarkManager*/
 
   async sortBookmarks_async(bookmarkId) {
     try {
-      LocalStorageManager.setValue_async('importInProgress', true);
+      await LocalStorageManager.setValue_async('importInProgress', true);
       FeedsStatusBar.instance.workInProgress = true;
       await this._sortBookmarksCore_async(bookmarkId);
     }
     finally {
-      LocalStorageManager.setValue_async('importInProgress', false);
-      FeedsTreeView.instance.reload_async();
+      await LocalStorageManager.setValue_async('importInProgress', false);
+      await FeedsTreeView.instance.reload_async();
       FeedsStatusBar.instance.workInProgress = false;
     }
   }
@@ -124,21 +124,21 @@ class BookmarkManager { /*exported BookmarkManager*/
     this._lastCreatedBookmarkId = id;
     let isChid = await this._isDropfeedsChildBookmark_async(bookmarkInfo.parentId);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _bookmarkOnRemoved_sbscrb(id, removeInfo) {
     if (this._importInProgress) { return; }
     let isChid = await this._isDropfeedsChildBookmark_async(removeInfo.parentId);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _bookmarkOnChanged_sbscrb(id) {
     if (this._importInProgress) { return; }
     let isChid = await this._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _bookmarkOnMoved_sbscrb(id, moveInfo) {
@@ -153,14 +153,14 @@ class BookmarkManager { /*exported BookmarkManager*/
       await DateTime.delay_async(1);
       FeedsStatusBar.instance.setText('');
     }
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _bookmarkOnChildrenReordered_sbscrb(id) {
     if (this._importInProgress) { return; }
     let isChid = await this._isDropfeedsChildBookmark_async(id);
     if (!isChid) { return; }
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _bookmarkImportBegan_sbscrb() {
@@ -169,7 +169,7 @@ class BookmarkManager { /*exported BookmarkManager*/
 
   async _bookmarkImportEnded_sbscrb() {
     this._importInProgress = false;
-    LocalStorageManager.setValue_async('reloadTreeView', Date.now());
+    await LocalStorageManager.setValue_async('reloadTreeView', Date.now());
   }
 
   async _createRootFolder_async() {

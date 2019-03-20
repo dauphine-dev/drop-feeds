@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link href="/themes/_templates/css/tableBox.css" rel="stylesheet">
+  <link href="/themes/_templates/css/customThemeManager.css" rel="stylesheet">
+  <link id="cssMain" href="/themes/legacy/css/main.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/themes/_templates/img/favicon.png" />
+  <script src="/js/tools/browserManager.js"></script>
+  <script src="/js/tools/cssManager.js"></script>
+  <script src="/js/tools/defaultValues.js"></script>
+  <script src="/js/tools/listener.js"></script>
+  <script src="/js/tools/localStorageManager.js"></script>
+  <script src="/js/tools/textTools.js"></script>
+  <script src="/js/tools/themeCustomManager.js"></script>
+  <script src="/js/tools/themeManager.js"></script>
+  <script src="/js/tools/theme-refresh.js"></script>
+  <script src="/js/tools/transfer.js"></script>
+  <script src="/js/tools/zipTools.js"></script>
+  <script src="/js/lib/jszip/jszip.min.js"></script>
+  <script src="/js/lib/jszip/jszip-utils.min.js "></script>
+  <title>Drop Feeds - Theme Manager</title>
+</head>
+
+<body>
+  <h1 id="title">#Custom theme manager</h1>
+  <div class="tableBox autoHeight">
+    <div class="rowGroupBox">
+
+      <div class="rowBox">
+        <div class="cellBox tab autoHeight">
+          <button id="importThemeCustom">#Import a custom theme...</button><br />
+          <input id="inputImportThemeCustom" type="file" accept=".zip" style="display: none;" />
+          <span id="errorMessage">&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="rowBox">
+        <div class="cellBox tab autoHeight">
+          <fieldset id="fieldsetMainThemeCustom">
+            <legend id="legendMainThemeCustom">#Main custom theme</legend>
+            <div class="tableBox">
+              <div class="rowGroupBox">
+                <div class="rowBox">
+                  <div class="cellBox autoHeight">
+                    <select id="selectMainThemeCustom" size="12" class="themeSelect"></select>
+                  </div>
+                  <div class="cellBox autoHeight" style="width:100%;">
+                    <div class="buttonBox">
+                      <button id="applyMainThemeCustom">#Apply</button><br />
+                      <button id="exportMainThemeCustom">#Export as custom main theme...</button><br />
+                      <button id="renameMainThemeCustom">#Rename</button><br />
+                      <button id="deleteMainThemeCustom">#Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="cellBox tab autoHeight">
+          <fieldset id="fieldsetRenderTemplateCustom">
+            <legend id="legendRenderTemplateCustom">#Render tab custom template</legend>
+            <div class="tableBox">
+              <div class="rowGroupBox">
+                <div class="rowBox">
+                  <div class="cellBox autoHeight">
+                    <select id="selectRenderTemplateCustom" size="12" class="themeSelect"></select>
+                  </div>
+                  <div class="cellBox autoHeight" style="width:100%;">
+                    <div class="buttonBox">
+                      <button id="applyRenderTemplateCustom">#Apply</button><br />
+                      <button id="exportRenderTemplateCustom">#Export as custom tab template theme...</button><br />
+                      <button id="renameRenderTemplateCustom">#Rename</button><br />
+                      <button id="deleteRenderTemplateCustom">#Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="rowBox">
+        <div class="cellBox tab autoHeight">
+          <fieldset id="fieldsetRenderThemeCustom">
+            <legend id="legendRenderThemeCustom">#Render tab custom theme</legend>
+            <div class="tableBox">
+              <div class="rowGroupBox">
+                <div class="rowBox">
+                  <div class="cellBox autoHeight">
+                    <select id="selectRenderThemeCustom" size="12" class="themeSelect"></select>
+                  </div>
+                  <div class="cellBox autoHeight" style="width:100%;">
+                    <div class="buttonBox">
+                      <button id="applyRenderThemeCustom">#Apply</button><br />
+                      <button id="exportRenderThemeCustom">#Export as custom tab theme...</button><br />
+                      <button id="renameRenderThemeCustom">#Rename</button><br />
+                      <button id="deleteRenderThemeCustom">#Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="cellBox tab autoHeight">
+          <fieldset id="fieldsetScriptEditorThemeCustom">
+            <legend id="legendScriptEditorThemeCustom">#Script editor custom theme</legend>
+            <div class="tableBox">
+              <div class="rowGroupBox">
+                <div class="rowBox">
+                  <div class="cellBox autoHeight">
+                    <select id="selectScriptEditorThemeCustom" size="12" class="themeSelect"></select>
+                  </div>
+                  <div class="cellBox autoHeight" style="width:100%;">
+                    <div class="buttonBox">
+                      <button id="applyScriptEditorThemeCustom">#Apply</button><br />
+                      <button id="exportScriptEditorThemeCustom">#Export as custom script editor theme...</button><br />
+                      <button id="renameScriptEditorThemeCustom">#Rename</button><br />
+                      <button id="deleteScriptEditorThemeCustom">#Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- --------------------- dialogs ----------------------- -->
+  <div id="nameDialog" class="hide dialogBox">
+    <div id="nameDialogDialogTitle" class="dialogTitle">#Rename</div>
+    <div class="dialogViewInner">
+      <table class="dialogViewTable">
+        <tr>
+          <td><label id="nameButtonDialog" class="dialogLabel">#New name:</label> </td>
+          <td><input type="text" id="inputName" class="dialogField" value="New name"></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <div class="atRight">
+              <button id="cancelNameButton">#Cancel</button>
+              <span class="default">
+                <button id="okNameButton">#Ok</button>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script src="/js/ui/customThemeManager/customThemeNameDialog.js"></script>
+  <script src="/js/ui/customThemeManager/customThemeManagerUi.js"></script>
+</body>
+
+</html>
