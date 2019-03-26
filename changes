@@ -4,6 +4,8 @@ Make user can change script editor theme
 Add full export/import feature
 Fix empty html_content in json feeds
 Fix 'Promise resolved after context unloaded' console messages
+a:
+Fix missing reference to themeCustomManager in discover-feeds.html and subscribe.html
 
 0.9.6
 Add Export/import settings
