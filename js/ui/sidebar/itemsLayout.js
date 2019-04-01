@@ -130,7 +130,7 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
 
   _markAllIPreviousItemsAsRead() {
-    if (this._feedItemMarkAsReadOnLeaving) {
+    if (this._feedItemListVisible && this._feedItemMarkAsReadOnLeaving) {
       ItemManager.instance.markAllItemsAsRead();
     }
   }
