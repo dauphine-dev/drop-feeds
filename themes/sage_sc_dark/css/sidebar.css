@@ -81,7 +81,7 @@
   /* items title bar*/
   --items-Title-background-color: var(--main-background-color);
   --items-Title-border-color: var(--main-border-color);
-  --items-Title-color: #444444;
+  --items-Title-color: var(--main-text-color);
   /* items tool bar*/
   --items-ToolBar-background-color: var(--main-background-color);
   --items-ToolBar-border-color: var(--main-border-color);
