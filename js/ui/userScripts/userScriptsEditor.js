@@ -31,7 +31,9 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     this._loadEditorScripts();
     this._highLightCssUrl = undefined;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'scriptEditorThemeFolderName', (v) => { this._setScriptEditorThemeFolderName_sbscrb(v); }, true);
-    window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });
+    //window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });  // Doesn't work any more, then...
+    //...use this workaround.
+    setTimeout(() => { this._windowOnLoad_event(); }, 1000);
   }
 
   async display_async(scriptId) {
