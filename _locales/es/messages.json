@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "Mostrar notificación emergente después de la actualización"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Don't notify if no feed has been updated"
+  },
   "optRetryWithHttp": {
     "message": "Si https falló, vuelva a intentarlo con http"
   },

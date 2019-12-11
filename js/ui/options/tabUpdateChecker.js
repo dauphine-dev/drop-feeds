@@ -11,19 +11,24 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     elTimeoutNumber.addEventListener('change', (e) => { this._timeoutValueChanged_event(e); });
 
     let elAsynchronousFeedCheckingCheckbox = document.getElementById('asynchronousFeedCheckingCheckbox');
-    elAsynchronousFeedCheckingCheckbox.checked =  await LocalStorageManager.getValue_async('asynchronousFeedChecking', DefaultValues.asynchronousFeedChecking);
+    elAsynchronousFeedCheckingCheckbox.checked = await LocalStorageManager.getValue_async('asynchronousFeedChecking', DefaultValues.asynchronousFeedChecking);
     elAsynchronousFeedCheckingCheckbox.addEventListener('click', (e) => { this._asynchronousFeedCheckingCheckboxClicked_event(e); });
 
     let elShowFeedUpdatePopupCheckbox = document.getElementById('showFeedUpdatePopupCheckbox');
-    elShowFeedUpdatePopupCheckbox.checked =  await LocalStorageManager.getValue_async('showFeedUpdatePopup', DefaultValues.showFeedUpdatePopup);
+    elShowFeedUpdatePopupCheckbox.checked = await LocalStorageManager.getValue_async('showFeedUpdatePopup', DefaultValues.showFeedUpdatePopup);
     elShowFeedUpdatePopupCheckbox.addEventListener('click', (e) => { this._showFeedUpdatePopupCheckbox_event(e); });
 
+    let elDontShowFeedUpdatePopupIfZeroFeedCheckbox = document.getElementById('dontShowFeedUpdatePopupIfZeroFeedCheckbox');
+    elDontShowFeedUpdatePopupIfZeroFeedCheckbox.checked = await LocalStorageManager.getValue_async('dontShowFeedUpdatePopupIfZeroFeed', DefaultValues.dontShowFeedUpdatePopupIfZeroFeed);
+    elDontShowFeedUpdatePopupIfZeroFeedCheckbox.addEventListener('click', (e) => { this._dontShowFeedUpdatePopupIfZeroFeedCheckbox_event(e); });
+
+
     let elIfHttpsHasFailedRetryWithHttp = document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox');
-    elIfHttpsHasFailedRetryWithHttp.checked =  await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
+    elIfHttpsHasFailedRetryWithHttp.checked = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
     elIfHttpsHasFailedRetryWithHttp.addEventListener('click', (e) => { this._ifHttpsHasFailedRetryWithHttpCheckboxClicked_event(e); });
 
     let elAutomaticFeedUpdates = document.getElementById('automaticFeedUpdatesCheckbox');
-    elAutomaticFeedUpdates.checked =  await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
+    elAutomaticFeedUpdates.checked = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
     elAutomaticFeedUpdates.addEventListener('click', (e) => { this._ifAutomaticFeedUpdatesCheckboxClicked_event(e); });
     this._automaticFeedUpdatesOnStartEnabled(elAutomaticFeedUpdates.checked);
 
@@ -34,9 +39,6 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     let elAutomaticFeedUpdatesOnStartCheckbox = document.getElementById('automaticFeedUpdatesOnStartCheckbox');
     elAutomaticFeedUpdatesOnStartCheckbox.checked = await LocalStorageManager.getValue_async('automaticFeedUpdatesOnStart', DefaultValues.automaticFeedUpdatesOnStart);
     elAutomaticFeedUpdatesOnStartCheckbox.addEventListener('click', (e) => { this._automaticFeedUpdatesOnStartClicked_event(e); });
-
-
-
   }
 
   _updateLocalizedStrings() {
@@ -47,6 +49,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     document.getElementById('txtAutoFeedUpdatesOnStart').textContent = browser.i18n.getMessage('optAutoFeedUpdatesOnStart');
     document.getElementById('txtMinutes').textContent = browser.i18n.getMessage('optMinutes');
     document.getElementById('textShowNotifications').textContent = browser.i18n.getMessage('optShowNotifications');
+    document.getElementById('textDontShowNotificationsIfZero').textContent = browser.i18n.getMessage('optDontShowNotificationsIfZero');
     document.getElementById('textRetryWithHttp').textContent = browser.i18n.getMessage('optRetryWithHttp');
   }
 
@@ -63,6 +66,10 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     await LocalStorageManager.setValue_async('showFeedUpdatePopup', document.getElementById('showFeedUpdatePopupCheckbox').checked);
   }
 
+  async _dontShowFeedUpdatePopupIfZeroFeedCheckbox_event() {
+    await LocalStorageManager.setValue_async('dontShowFeedUpdatePopupIfZeroFeed', document.getElementById('dontShowFeedUpdatePopupIfZeroFeedCheckbox').checked);
+  }
+
   async _ifHttpsHasFailedRetryWithHttpCheckboxClicked_event() {
     await LocalStorageManager.setValue_async('ifHttpsHasFailedRetryWithHttp', document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox').checked);
   }
@@ -71,7 +78,6 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     let checked = document.getElementById('automaticFeedUpdatesCheckbox').checked;
     await LocalStorageManager.setValue_async('automaticFeedUpdates', checked);
     this._automaticFeedUpdatesOnStartEnabled(checked);
-
   }
 
   _automaticFeedUpdatesOnStartEnabled(enabled) {

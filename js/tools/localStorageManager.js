@@ -27,7 +27,13 @@ class LocalStorageManager { /*exported LocalStorageManager*/
   }
 
   static async setValue_async(valueName, value) {
-    await browser.storage.local.set({ [valueName]: value });
+    try {
+      await browser.storage.local.set({ [valueName]: value });
+    }
+    catch(e) {
+      // eslint-disable-next-line no-console
+      console.log('Error writing to local storage:', e);
+    }
   }
 
   static async getCache_async() {

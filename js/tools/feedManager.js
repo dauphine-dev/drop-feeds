@@ -155,7 +155,7 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
     } finally {
       if (--self._feedsToProcessCounter == 0) {
-        self._displayUpdatedFeedsNotification();
+        await self._displayUpdatedFeedsNotification_async();
         self._processFeedsFinished();
       }
     }
@@ -182,7 +182,7 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
-      console.error(e, '\n', e.stack);      
+      console.error(e, '\n', e.stack);
       /*eslint-enable no-console*/
     }
     finally {
@@ -308,20 +308,21 @@ class FeedManager { /*exported FeedManager*/
     await feed.setStatus_async(feedStatus.UPDATED);
   }
 
-  _displayUpdatedFeedsNotification() {
+  async _displayUpdatedFeedsNotification_async() {
     if (this._showFeedUpdatePopup) {
       if (this._updatedFeeds > 1) {
         BrowserManager.displayNotification(this._updatedFeeds + ' ' + browser.i18n.getMessage('sbFeedsUpdated'));
-
       }
-      if (this._updatedFeeds == 1) {
+      else if (this._updatedFeeds == 1) {
         BrowserManager.displayNotification(browser.i18n.getMessage('sbOneFeedUpdated'));
       }
-      if (this._updatedFeeds == 0) {
-        BrowserManager.displayNotification(browser.i18n.getMessage('sbNoFeedHasBeenUpdated'));
+      else {
+        let dontShowPopupIfZeroFeedUpdated = await LocalStorageManager.getValue_async('dontShowFeedUpdatePopupIfZeroFeed', DefaultValues.dontShowFeedUpdatePopupIfZeroFeed);
+        if (this._updatedFeeds == 0 && !dontShowPopupIfZeroFeedUpdated) {
+          BrowserManager.displayNotification(browser.i18n.getMessage('sbNoFeedHasBeenUpdated'));
+        }
       }
     }
-
     this._updatedFeeds = 0;
   }
 

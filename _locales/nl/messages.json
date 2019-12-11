@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "Toon notificatie popupscherm indien nieuwe items gevonden"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Don't notify if no feed has been updated"
+  },
   "optRetryWithHttp": {
     "message": "Als https mislukt probeer dan met http"
   },

@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "更新通知をポップアップで表示"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Don't notify if no feed has been updated"
+  },
   "optRetryWithHttp": {
     "message": "httpsで失敗したらhttpを試す"
   },

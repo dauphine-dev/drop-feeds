@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "更新后显示通知"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Don't notify if no feed has been updated"
+  },
   "optRetryWithHttp": {
     "message": "当 https 失败时用 http 重试"
   },
