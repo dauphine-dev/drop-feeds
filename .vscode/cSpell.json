@@ -29,5 +29,14 @@
     // flagWords - list of words to be always considered incorrect
     // This is useful for offensive words and common spelling errors.
     // For example "hte" should be "the"
-    "flagWords": []
+    "flagWords": [],
+    "ignoreWords": [
+        "dont",
+        "if",
+        "mutilanguages",
+        "notifications",
+        "show",
+        "text",
+        "zero"
+    ]
 }

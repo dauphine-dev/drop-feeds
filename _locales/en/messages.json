@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "Show notification popup after update"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Don't notify if no feed has been updated"
+  },
   "optRetryWithHttp": {
     "message": "If https failed then retry with http"
   },
@@ -399,7 +402,7 @@
     "message": "Prevent Open With dialog displaying (*)"
   },
   "optWarningPreventOpenWith": {
-    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+    "message": "(*) warning: with this option activated you can get a weird behavior on some web pages"
   },
   "optSelectOpmlFileToImport": {
     "message": "Select the opml file to import"

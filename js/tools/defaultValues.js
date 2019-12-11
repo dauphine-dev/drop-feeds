@@ -23,6 +23,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get ifHttpsHasFailedRetryWithHttp() { return true; }
   static get currentOptionTabName()          { return 'generalTab'; }
   static get showFeedUpdatePopup()           { return true; }
+  static get dontShowFeedUpdatePopupIfZeroFeed() { return false; }
   static get automaticFeedUpdates()          { return false; }
   static get automaticFeedUpdateMinutes()    { return 30; }
   static get automaticFeedUpdatesOnStart()   { return false; }

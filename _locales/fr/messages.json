@@ -335,6 +335,9 @@
   "optShowNotifications": {
     "message": "Notifier une fois la vérification des flux terminée"
   },
+  "optDontShowNotificationsIfZero": {
+    "message": "Ne pas notifier, si aucun flux n'a été mis à jour"
+  },
   "optRetryWithHttp": {
     "message": "Si échec https alors réessayer avec http"
   },
