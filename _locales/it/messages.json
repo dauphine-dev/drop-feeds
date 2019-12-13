@@ -336,7 +336,7 @@
     "message": "Mostra una notifica al termine dell'aggiornamento"
   },
   "optDontShowNotificationsIfZero": {
-    "message": "Don't notify if no feed has been updated"
+    "message": "Evita le notifiche se nessun feed è stato aggiornato"
   },
   "optRetryWithHttp": {
     "message": "Se https fallisce riprova con http"
