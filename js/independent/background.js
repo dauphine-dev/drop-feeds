@@ -26,6 +26,12 @@ class BackgroundManager {
   }
 
   async _toggleDropFeedsPanel_async() {
+    if (typeof browser.sidebarAction.toggle !== 'undefined') { 
+      browser.sidebarAction.toggle();
+      return;
+    }
+  
+    
     let sidebarActionIsOpen = this._windowList.includes(this._windowId);
     if (sidebarActionIsOpen) {
       browser.sidebarAction.close();

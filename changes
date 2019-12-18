@@ -1,3 +1,9 @@
+1.0.3a
+Make Drop Feeds do not crash when the API browser.storage.local.set is broken.
+Add an option to do not notify when no feed has been updated.
+Update ja and it translations (thank you to takepon1 and  carlfranz)
+Use new toggle api browser.sidebarAction.toggle
+
 1.0.3
 Make Drop Feeds do not crash when the API browser.storage.local.set is broken.
 Add an option to do not notify when no feed has been updated.
