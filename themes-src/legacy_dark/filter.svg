@@ -17,7 +17,7 @@
    version="1.1"
    inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="filter.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/filter.png"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9/themes/legacy/img/filter.png"
    inkscape:export-xdpi="22.5"
    inkscape:export-ydpi="22.5">
   <defs
@@ -26,11 +26,11 @@
        inkscape:collect="always"
        id="linearGradient4577">
       <stop
-         style="stop-color:#4f4545;stop-opacity:1"
+         style="stop-color:#c4d5f1;stop-opacity:1"
          offset="0"
          id="stop4573" />
       <stop
-         style="stop-color:#706262;stop-opacity:1"
+         style="stop-color:#e4e4e4;stop-opacity:1"
          offset="1"
          id="stop4575" />
     </linearGradient>
@@ -71,9 +71,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.6979167"
-     inkscape:cx="48"
-     inkscape:cy="48"
+     inkscape:zoom="6.4228866"
+     inkscape:cx="32.727462"
+     inkscape:cy="46.602002"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"

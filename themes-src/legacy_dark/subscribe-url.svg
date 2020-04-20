@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="subscribe-url.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.2/themes/legacy_dark/img/subscribe-url.png"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.2/themes/legacy/img/subscribe-url.png"
    inkscape:export-xdpi="22.5"
    inkscape:export-ydpi="22.5">
   <defs
@@ -62,8 +62,7 @@
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true"
-     inkscape:pagecheckerboard="true" />
+     inkscape:guide-bbox="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -72,7 +71,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -105,21 +104,18 @@
        sodipodi:nodetypes="csccscc" />
     <g
        id="g917"
-       style="fill:#fffffc;fill-opacity:1;stroke:#000000;stroke-width:0.04657633;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       transform="matrix(2.5479769,0,0,2.5479769,-122.35412,112.07185)"
-       inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.2/themes/sage_sc_dark/img/g917.png"
-       inkscape:export-xdpi="22"
-       inkscape:export-ydpi="22">
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1"
+       transform="matrix(2.1470133,0,0,2.1470133,-89.634149,82.209663)">
       <path
          inkscape:connector-curvature="0"
          id="path898"
          d="m 70.777097,-75.004475 -6.408737,6.408737 6.99768,6.99768 2,-2 -4.99768,-4.99768 4.408737,-4.408737 z"
-         style="fill:#fffffc;fill-opacity:1;stroke:#000000;stroke-width:0.04657633;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path898-3"
          d="m 78.957303,-61.598058 6.408737,-6.408737 -6.99768,-6.99768 -2,2 4.99768,4.99768 -4.408737,4.408737 z"
-         style="display:inline;fill:#fffffc;fill-opacity:1;stroke:#000000;stroke-width:0.04657633;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
   </g>
 </svg>
