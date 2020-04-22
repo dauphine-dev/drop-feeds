@@ -1,20 +1,20 @@
 :root {
-  --main-background-color: #333335;
-  --main-background-secondary-color: var(--main-background-color);
-  --main-text-color: #ececec;
-  --main-text-complementary-color: #131313;
+  --main-background-color: #2a2a2e;
+  --main-background-secondary-color: #3a3a3e;
+  --main-text-color: #f9f9fa;
+  --main-text-complementary-color: #2a2a2e;
   --main-text-error-color: red;
-  --main-splitterBar-color: #7D7D7D;
-  --main-border-color: #7D7D7D;
-  --main-selection-background-color: #759ac2;
+  --main-splitterBar-color: #9D9D9D;
+  --main-border-color: #9D9D9D;
+  --main-selection-background-color: #448bd6;
   --main-selection-text-color: var(--main-text-complementary-color);
-  --main-dialog-background-color: #525254;
-  --main-dialog-title-color: #4f4545;
-  --main-dialog-title-background-color: #7a7a7a;
-  --main-dialog-label-color: var(--main-text-color);
-  --main-progressBar-background-color: #b1b1b1;
-  --main-progressBar-foreground-color: #6d8eb3;
-  --main-table-background-color: #434345;
-  --main-table-header-color: #545456;
+  --main-dialog-background-color: var(--main-background-secondary-color);
+  --main-dialog-title-color: #afa5a5;
+  --main-dialog-title-background-color: #e4e4e4;
+  --main-dialog-label-color: #afa5a5;
+  --main-progressBar-background-color: #d1d1d1;
+  --main-progressBar-foreground-color: #2196F3;
+  --main-table-background-color: #ffffff;
+  --main-table-header-color: #f3f3f3;
   --main-table-cellDisabled-color: gray;
 }

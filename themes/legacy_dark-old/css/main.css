@@ -1,0 +1,20 @@
+:root {
+  --main-background-color: #333335;
+  --main-background-secondary-color: var(--main-background-color);
+  --main-text-color: #ececec;
+  --main-text-complementary-color: #131313;
+  --main-text-error-color: red;
+  --main-splitterBar-color: #7D7D7D;
+  --main-border-color: #7D7D7D;
+  --main-selection-background-color: #759ac2;
+  --main-selection-text-color: var(--main-text-complementary-color);
+  --main-dialog-background-color: #525254;
+  --main-dialog-title-color: #4f4545;
+  --main-dialog-title-background-color: #7a7a7a;
+  --main-dialog-label-color: var(--main-text-color);
+  --main-progressBar-background-color: #b1b1b1;
+  --main-progressBar-foreground-color: #6d8eb3;
+  --main-table-background-color: #434345;
+  --main-table-header-color: #545456;
+  --main-table-cellDisabled-color: gray;
+}
