@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="96"
@@ -14,27 +15,29 @@
    viewBox="0 0 96.000001 96.000002"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.3 (unknown)"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="feed-error.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/feed-error.png"
-   inkscape:export-xdpi="15"
-   inkscape:export-ydpi="15">
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/themes/legacy/img/feed-error.png"
+   inkscape:export-xdpi="15.32"
+   inkscape:export-ydpi="15.32">
   <defs
      id="defs4">
-    <inkscape:path-effect
-       effect="envelope"
-       id="path-effect4158"
-       is_visible="true"
-       yy="true"
-       xx="true"
-       bendpath1="m 1,957.39928 94,0"
-       bendpath2="m 95,957.39928 0,97.79762"
-       bendpath3="m 1,1055.1969 94,0"
-       bendpath4="m 1,957.39928 0,97.79762" />
     <inkscape:path-effect
        effect="spiro"
        id="path-effect5632"
        is_visible="true" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4161">
+      <stop
+         style="stop-color:#ffc400;stop-opacity:1;"
+         offset="0"
+         id="stop4163" />
+      <stop
+         style="stop-color:#ff8900;stop-opacity:1"
+         offset="1"
+         id="stop4165" />
+    </linearGradient>
     <inkscape:path-effect
        effect="spiro"
        id="path-effect4151"
@@ -59,6 +62,16 @@
        effect="spiro"
        id="path-effect4138"
        is_visible="true" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4161"
+       id="linearGradient4171"
+       x1="4.4685316"
+       y1="1035.0195"
+       x2="95"
+       y2="1004.3622"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.96808525,0,31.452723)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -67,51 +80,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.6979167"
-     inkscape:cx="48"
-     inkscape:cy="48"
+     inkscape:zoom="6.3197669"
+     inkscape:cx="37.033413"
+     inkscape:cy="31.553355"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1026"
+     inkscape:window-height="1024"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true">
-    <sodipodi:guide
-       position="42.881329,23.102119"
-       orientation="0,1"
-       id="guide4160"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="41.298992,-4.2723096"
-       orientation="0,1"
-       id="guide4162"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="0.94940212,52.533585"
-       orientation="1,0"
-       id="guide4164"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="95.098446,38.450786"
-       orientation="1,0"
-       id="guide4166"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="53.008285,94.781979"
-       orientation="0,1"
-       id="guide4168"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="47.62834,12.975162"
-       orientation="1,0"
-       id="guide4170"
-       inkscape:locked="false" />
-  </sodipodi:namedview>
+     inkscape:guide-bbox="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -129,40 +111,33 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-956.36216)">
-    <g
-       id="g4172"
-       transform="matrix(0.96296659,0,0,0.96360682,1.7785663,35.571777)"
-       inkscape:export-filename="/home/david/david/firefox-webext/drop-freeds/themes/dauphine/img/feed-error.png"
-       inkscape:export-xdpi="15.280386"
-       inkscape:export-ydpi="15.280386">
-      <path
-         inkscape:original-d="m 47.367065,957.39928 c 12.08786,0.22682 47.73138,74.80252 47.632935,97.79762 0.09844,5.4853 -94.05059789,5.4853 -94,0 -0.167557,-22.9951 34.49983,-97.5708 46.367065,-97.79762 z"
-         inkscape:path-effect="#path-effect4158"
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path4149"
-         d="m 47.366272,956.48053 c 12.087756,0.21766 47.730969,71.78287 47.632525,93.84967 0.09844,5.2639 -94.04978858,5.2639 -93.99919112,0 C 0.83205032,1028.2634 35.499139,956.69819 47.366272,956.48053 Z"
-         style="fill:#4f4545;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    </g>
+    <path
+       style="fill:url(#linearGradient4171);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 0.36706523,1038.9154 c 7.49499797,17.3787 85.58469377,19.5943 95.27154777,-0.014 -6.556471,-30.4374 -25.386529,-72.25282 -46.6762,-82.17747 -22.55554,9.27549 -40.8610647,51.73177 -48.59534777,82.19097 z"
+       id="path4175"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/themes/legacy/img/feed-error1.png"
+       inkscape:export-xdpi="15"
+       inkscape:export-ydpi="15" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Calque 2">
     <path
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 54.230975,19.927199 c 0.02141,-0.33367 -0.0095,-0.670647 -0.0913,-0.994846 -0.184748,-0.732301 -0.628822,-1.386691 -1.201683,-1.878857 -0.57286,-0.492167 -1.269816,-0.827649 -1.996876,-1.032053 -1.45412,-0.408807 -2.996188,-0.302654 -4.503701,-0.207831 -1.162116,0.0731 -2.352171,0.143686 -3.422327,0.602623 -0.535078,0.229468 -1.033594,0.557012 -1.420337,0.992206 -0.386743,0.435195 -0.657462,0.981819 -0.720625,1.560589 -0.03656,0.335026 -0.0028,0.673299 0.03314,1.008392 L 46,67.455381 h 4 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.34780896px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 55.076112,15.08841 -13.835756,0 3.458938,52.51867 6.91788,0 3.458938,-52.51867 z"
        id="path5630"
        inkscape:path-effect="#path-effect5632"
-       inkscape:original-d="m 54.230975,19.927199 c -0.705367,-0.17653 0.107251,-0.7275 -0.0913,-0.994846 -1.65148,-2.223732 -6.617184,-3.187736 -7.70226,-3.118741 -1.136159,0.07224 -4.520661,1.295813 -5.563289,3.155418 -0.164473,0.29335 -0.05886,0.150664 0.03314,1.008392 L 46,67.455381 l 4,0 z"
+       inkscape:original-d="m 55.076112,15.08841 -13.835756,0 3.458938,52.51867 6.91788,0 z"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="casasccc" />
-    <ellipse
-       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:2.12826777;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       sodipodi:nodetypes="ccccc" />
+    <circle
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.45429552;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path5638"
-       cx="48.395584"
-       cy="81.132065"
-       rx="8.6064339"
-       ry="8.538908" />
+       cx="47.841766"
+       cy="84.296738"
+       r="5.8578629" />
   </g>
 </svg>

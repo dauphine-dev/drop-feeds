@@ -1,0 +1,103 @@
+:root {
+  /* ---- feeds layout ---- */
+  --feeds-Layout-background-color: var(--main-background-secondary-color);
+  /* option menu */
+  --feeds-optionMenuReload-image: url(/themes/legacy_dark/img/restart.png);
+  --feeds-optionMenuSubscribe-image: url(/themes/legacy_dark/img/subscribe-url.png);
+  --feeds-optionMenuSettings-image: url(/themes/legacy_dark/img/settings.png);
+  /* feeds top menu */
+  --feeds-topMenu-background-color: var(--main-background-color);
+  --feeds-topMenu-border-color: var(--main-border-color);
+  --feeds-topMenu-image-width: 20px;
+  --feeds-topMenu-image-height: 20px;
+  --feeds-checkFeedsButton-image: url(/themes/legacy_dark/img/check-feeds.png);
+  --feeds-checkFeedsButtonAnim-image: url(/themes/legacy_dark/img/check-feeds-animation.gif);
+  --feeds-discoverFeedsButton-image: url(/themes/legacy_dark/img/magnify.png);
+  --feeds-onlyUpdatedFeedsButton-image: url(/themes/legacy_dark/img/only-updated-feeds.png);
+  --feeds-onlyErrorFeedsButton-image: url(/themes/legacy_dark/img/feed-error.png);
+  --feeds-toggleFoldersButton-image: url(/themes/legacy_dark/img/toggle-folders.png);
+  --feeds-subscribeGo-image: url(/themes/legacy_dark/img/subscribe-go.png);
+  --feeds-subscribeAdd-image: url(/themes/legacy_dark/img/subscribe-add.png);
+  --feeds-filterButton-image: url(/themes/legacy_dark/img/filter.png);
+  --feeds-optionsMenuButton-image: url(/themes/legacy_dark/img/options.png);
+  /* feeds status bar*/
+  --feeds-statusBar-background-color: var(--main-background-color);
+  --feeds-statusBar-border-color: var(--main-border-color);
+  --feeds-statusButtonUpdating-image: url(/themes/legacy_dark/img/updating.gif);
+  --feeds-statusBar-image-width: 16px;
+  --feeds-statusBar-image-height: 16px;
+  /* feeds filter bar */
+  --feeds-filterBar-background-color: var(--main-background-color);
+  --feeds-filterClearButton-image: url(/themes/_templates/img/filter-clean.png);
+  /* feeds tree view folders */
+  --feeds-folderOpen-image: url(/themes/legacy_dark/img/folder-open.png);
+  --feeds-folderOpen-content: "";
+  --feeds-folderClose-image: url(/themes/legacy_dark/img/folder-closed.png);
+  --feeds-folderClose-content: "";
+  --feeds-folderLabel-font-weight: normal;
+  --feeds-folderLabel-color: var(--main-text-color);
+  /* feeds tree view feeds */
+  --feeds-feed-prefix-vertical-align: text-bottom;
+  --feeds-feed-image-width: 12px;
+  --feeds-feed-image-height: 16px;
+  --feeds-feedRead-image: url(/themes/legacy_dark/img/feed-read.png);
+  --feeds-feedRead-content: "";
+  --feeds-feedRead-color: var(--main-text-color);
+  --feeds-feedUnread-image: url(/themes/legacy_dark/img/feed-unread.png);
+  --feeds-feedUnread-content: "";
+  --feeds-feedUnread-color: var(--main-text-color);
+  --feeds-feedError-image: url(/themes/legacy_dark/img/feed-error.png);
+  --feeds-feedError-content: "";
+  --feeds-feedError-color: var(--main-text-color);
+  /* feeds context menu */
+  --feeds-contextMenu-background-color: var(--main-background-color);
+  --feeds-folderContextMenuCheckFeeds-image: url(/themes/legacy_dark/img/check-feeds.png);
+  --feeds-folderContextMenuMarkAsRead-image: url(/themes/legacy_dark/img/feed-read.png);
+  --feeds-folderContextMenuMarkAsUpdated-image: url(/themes/legacy_dark/img/feed-unread.png);
+  --feeds-folderContextMenuMarkAllAsRead-image: url(/themes/legacy_dark/img/feed-read-all.png);
+  --feeds-folderContextMenuMarkAllAsUpdated-image: url(/themes/legacy_dark/img/feed-unread-all.png);
+  --feeds-folderContextMenuOpenAllUpdated-image: url(/themes/legacy_dark/img/feed-open.png);
+  --feeds-folderContextMenuOpenUpdatedAsUnified-image: url(/themes/legacy_dark/img/merge.png);
+  --feeds-folderContextMenuSortByName-image: url(/themes/legacy_dark/img/sort.png);
+  --feeds-folderContextMenuNewFolder-image: url(/themes/legacy_dark/img/folder-new.png);
+  --feeds-folderContextMenuDeleteFolder-image: url(/themes/legacy_dark/img/delete.png);
+  --feeds-folderContextMenuInfo-image: url(/themes/legacy_dark/img/folder-info.png);
+  --feeds-feedContextMenuFeedTitle-image: url(/themes/legacy_dark/img/title.png);
+  --feeds-feedContextMenuOpenFeed-image: url(/themes/legacy_dark/img/feed-open.png);
+  --feeds-feedContextMenuMarkFeedAsRead-image: url(/themes/legacy_dark/img/feed-read.png);
+  --feeds-feedContextMenuMarkFeedAsUpdated-image: url(/themes/legacy_dark/img/feed-unread.png);
+  --feeds-feedContextMenuMarkAllAsRead-image: url(/themes/legacy_dark/img/feed-read-all.png);
+  --feeds-feedContextMenuMarkAllAsUpdated-image: url(/themes/legacy_dark/img/feed-unread-all.png);
+  --feeds-feedContextMenuNew-image: url(/themes/legacy_dark/img/folder-new.png);
+  --feeds-feedContextMenuDelete-image: url(/themes/legacy_dark/img/delete.png);
+  --feeds-feedContextMenuInfo-image: url(/themes/legacy_dark/img/feed-info.png);
+  /* feeds selection bar */
+  --feeds-selectionBar-color: var(--main-selection-background-color);
+  /* ---- items layout ---- */
+  --items-Layout-background-color: var(--main-background-color);
+  --items-Layout-border-color: var(--main-border-color);
+  /* items title bar*/
+  --items-Title-background-color: var(--main-background-color);
+  --items-Title-border-color: var(--main-border-color);
+  --items-Title-color: var(--main-text-color);
+  /* items tool bar*/
+  --items-ToolBar-background-color: var(--main-background-color);
+  --items-ToolBar-border-color: var(--main-border-color);
+  --items-ToolBar-image-width: 20px;
+  --items-ToolBar-image-height: 20px;
+  --items-MarkAsReadButton-image: url(/themes/legacy_dark/img/itemMarkAsReadButton.png);
+  --items-MarkAsUnreadButton-image: url(/themes/legacy_dark/img/itemMarkAsUnreadButton.png);
+  --items-MarkAllAsReadButton-image: url(/themes/legacy_dark/img/itemMarkAllAsReadButton.png);
+  --items-MarkAllAsUnreadButton-image: url(/themes/legacy_dark/img/itemMarkAllAsUnreadButton.png);
+  --items-OpenUnreadButton-image: url(/themes/legacy_dark/img/itemOpenUnreadButton.png);
+  --items-HideReadArticles-image: url(/themes/legacy_dark/img/articles-hide.png);
+  /* items */
+  --items-item-color: var(--main-text-color);
+  --items-itemVisited-color: #888888;
+  /* items selection bar */
+  --items-selectionBar-color: var(--feeds-selectionBar-color);
+  /* --- Item render layout ---- */
+  --renderItems-Layout-background-color: var(--main-background-color);
+  /* ---- misc. ---- */
+  --main-dropTarget-color: gray;
+}

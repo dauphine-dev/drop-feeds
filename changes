@@ -1,3 +1,7 @@
+1.0.4
+Update legacy_dark theme
+Fix missing reference in discover-feeds view
+
 1.0.3a
 Make Drop Feeds do not crash when the API browser.storage.local.set is broken.
 Add an option to do not notify when no feed has been updated.

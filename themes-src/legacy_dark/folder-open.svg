@@ -8,6 +8,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="96"
@@ -15,9 +16,9 @@
    viewBox="0 0 96.000001 96.000002"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.3 (unknown)"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="folder-open.svg"
-   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/branches/0.9.1/themes/legacy_dark/img/folder-open.png"
+   inkscape:export-filename="/home/david/david/firefox-webext/drop-feeds/drop-feeds_0,7/themes/legacy/img/folder-open.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -46,6 +47,28 @@
        effect="spiro"
        id="path-effect4159-6"
        is_visible="true" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5902"
+       id="linearGradient5908"
+       x1="74.85714"
+       y1="320.93362"
+       x2="205.85715"
+       y2="320.93362"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(167.16286,-1.0914252)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5902">
+      <stop
+         style="stop-color:#cdd838;stop-opacity:1;"
+         offset="0"
+         id="stop5904" />
+      <stop
+         style="stop-color:#d4d6a7;stop-opacity:1"
+         offset="1"
+         id="stop5906" />
+    </linearGradient>
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
@@ -59,6 +82,15 @@
          stdDeviation="1.05"
          id="feGaussianBlur5928" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5902"
+       id="linearGradient4161"
+       x1="225.00002"
+       y1="407.72507"
+       x2="410.52432"
+       y2="407.72507"
+       gradientUnits="userSpaceOnUse" />
     <inkscape:path-effect
        effect="spiro"
        id="path-effect4159-3"
@@ -84,15 +116,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.6979167"
-     inkscape:cx="48"
-     inkscape:cy="48"
+     inkscape:zoom="6.3197669"
+     inkscape:cx="44.220502"
+     inkscape:cy="32.97043"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1026"
+     inkscape:window-height="1024"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -115,15 +147,15 @@
      id="layer1"
      transform="translate(0,-956.36216)">
     <path
-       style="fill:#4f4545;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:10.47854034;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5926);stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:url(#linearGradient5908);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.49284678;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5926);stroke-miterlimit:4;stroke-dasharray:none"
        d="m 242.52,279.84221 0,80 130,0 0,-80.00001 -85.50622,-0.65985 0,-8.49465 c -16.40565,-1.68403 -26.7684,-1.79967 -44.49378,0.31567 -0.17398,3.37803 0,8.83884 0,8.83884"
        id="path4140"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc"
        transform="matrix(0.51648969,0,0,0.63480343,-123.43791,804.63333)" />
     <path
-       style="fill:#4f4545;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10.08752395;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5882);stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 227.76215,432.81435 h 130 l 50,-50 -129.64286,-0.17857 z"
+       style="fill:url(#linearGradient4161);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.36250798;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5882);stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 -50.35714,50.17857 z"
        id="path4157"
        inkscape:path-effect="#path-effect4159-3"
        inkscape:original-d="m 227.76215,432.81435 130,0 50,-50 -129.64286,-0.17857 z"
