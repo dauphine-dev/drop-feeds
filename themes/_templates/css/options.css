@@ -91,11 +91,17 @@ td:last-child {
   width: 100%;
 }
 
+#tableGeneralTab.td {
+  max-width: 230px;
+}
 
-/*td {
-  border: 1px solid red;
-}*/
+#feedFolderSelect {
+  max-width: 230px;
+}
 
+#lblOpenCustomThemeManager {
+  white-space: pre-wrap;  
+}
 /* Progress bar */
 .progressBarTotal {
   display: none;
