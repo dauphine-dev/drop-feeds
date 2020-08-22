@@ -40,10 +40,10 @@
 
   <!-- ~~~~~~ Tab General ~~~~~~ -->
   <div id="generalTab" class="tabContent" style="display: block;">
-    <table>
+    <table id="tableGeneralTab">
       <tr>
         <td>
-          <label id="lblSelectFeedFolder">#Select feed folder</label><span>&nbsp;</span>
+          <label id="lblSelectFeedFolder" style="white-space: pre-wrap;">#Select feed folder</label><span>&nbsp;</span>
         </td>
         <td>
           <div id="feedList">
@@ -101,7 +101,8 @@
         <td><input type="checkbox" id="showFeedUpdatePopupCheckbox"><span id="textShowNotifications" class="checkboxText">#Show notification popup after update</span></td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="dontShowFeedUpdatePopupIfZeroFeedCheckbox"><span id="textDontShowNotificationsIfZero" class="checkboxText">#Don't notify if no feed has been updated</span></td>
+        <td><input type="checkbox" id="dontShowFeedUpdatePopupIfZeroFeedCheckbox"><span id="textDontShowNotificationsIfZero" class="checkboxText">#Don't notify if no feed has been updated</span>
+        </td>
       </tr>
       <tr>
         <td><input type="checkbox" id="ifHttpsHasFailedRetryWithHttpCheckbox"><span id="textRetryWithHttp" class="checkboxText">#If https failed then retry with http</span></td>
@@ -110,22 +111,31 @@
   </div>
   <!-- ~~~~~~ Tab Items ~~~~~~ -->
   <div id="viewItems" class="tabContent">
-    <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item list</span></td>
+    <td><input type="checkbox" id="feedItemListCheckbox"><span id="textFeedItemList" class="checkboxText">#Feed item
+        list</span></td>
     <fieldset>
       <table>
         <tr>
           <td><input type="checkbox" id="feedItemListToolbarCheckbox"><span id="textFeedItemListToolbar" class="checkboxText">#Feed item list toolbar<small>(*)</small></span></td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox"><span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span>
-            <input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox"><span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving feeds</span></td>
+          <td><input type="checkbox" id="feedItemDescriptionTooltipsCheckbox">
+            <span id="textDescriptionTooltips" class="checkboxText">#Description tooltips</span>
+          </td>
         </tr>
         <tr>
-          <td><input type="checkbox" id="feedItemRenderInSidebarCheckbox"><span id="textFeedItemRenderInSidebar" class="checkboxText">#Render selected item in the sidebar</span></td>
+          <td><input type="checkbox" id="feedItemMarkAsReadOnLeavingCheckbox">
+            <span id="textFeedItemMarkAsReadOnLeaving" class="checkboxText">#Mark all items as read before leaving
+              feeds</span></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" id="feedItemRenderInSidebarCheckbox">
+            <span id="textFeedItemRenderInSidebar" class="checkboxText">#Render selected item in the sidebar</span></td>
         </tr>
       </table>
       <small><br /></small>
-      <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation history !</small>
+      <small id="textNavigationHistoryWarning">#(*) warning: mark read/unread features will impact your navigation
+        history !</small>
     </fieldset>
   </div>
   <!-- ~~~~~~ Tab view ~~~~~~ -->
@@ -141,13 +151,18 @@
   </div>
   <!-- ~~~~~~ Tab Contents area ~~~~~~ -->
   <div id="contentsAreaTab" class="tabContent">
-    <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render feeds</span></span>
+    <span><input type="checkbox" id="renderFeedsCheckbox"><span id="textRenderFeeds" class="checkboxText">#Render
+        feeds</span></span>
     <fieldset id="contentsAreaTabOptionsFieldset">
       <legend id="contentsAreaTabOptionsLegend">#Options</legend>
       <table>
         <tr>
           <td>
             <span><input type="checkbox" id="alwaysOpenNewTabCheckbox"><span id="textAlwaysOpenNewTab" class="checkboxText">#Always open new tab</span></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
             <span><input type="checkbox" id="reuseDropFeedsTabCheckbox"><span id="textReuseDropFeedsTab" class="checkboxText">#Reuse Drop Feeds tab</span></span>
           </td>
         </tr>
@@ -158,7 +173,8 @@
         </tr>
         <tr>
           <td>
-            <span><input type="checkbox" id="itemNewTabCheckbox"><span id="textItemNewTab" class="checkboxText">#Open items on new tab</span></span>
+            <span><input type="checkbox" id="itemNewTabCheckbox"><span id="textItemNewTab" class="checkboxText">#Open
+                items on new tab</span></span>
           </td>
         </tr>
       </table>
@@ -169,7 +185,8 @@
       <textarea id="contentsDateTimeFormat" style="width: 100%"></textarea>
       <div id="contentsDateTimeExample">&nbsp;</div>
       <button id="contentsDateTimeResetButton">#Reset to default</button>&nbsp;&nbsp;
-      <a id="urlDatetimeHelp" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">#Date time formats (see section 'Options')</a>
+      <a id="urlDatetimeHelp" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">#Date
+        time formats (see section 'Options')</a>
     </fieldset>
 
     <fieldset id="contentsAreaAdvFieldset">
@@ -178,7 +195,8 @@
       <br />
       <span><input type="checkbox" id="preventOpenWithCheckbox"><span id="textPreventOpenWith" class="checkboxText">#Prevent Open With dialog displaying (*)</span></span>
       <small><br /></small>
-      <small id="texWarningPreventOpenWith">#(*) warning: with this option activated you can get a weird behavior on some web pages</small>
+      <small id="texWarningPreventOpenWith">#(*) warning: with this option activated you can get a weird behavior on
+        some web pages</small>
     </fieldset>
   </div>
   <!-- ~~~~~~ Tab Theme ~~~~~~ -->
