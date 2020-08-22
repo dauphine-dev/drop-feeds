@@ -90,6 +90,10 @@ class FeedParser { /*exported FeedParser*/
         }
       }
     }
+    if (feedText.includes('<rss ') && feedText.includes('</rss>')) {
+      //Cleanup extra-data
+      feedBody = TextTools.getOuterText(feedBody, '<rss ', '</rss>');
+    }
     return feedBody;
   }
 
