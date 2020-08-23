@@ -26,21 +26,7 @@ class BackgroundManager {
   }
 
   async _toggleDropFeedsPanel_async() {
-    if (typeof browser.sidebarAction.toggle !== 'undefined') { 
-      browser.sidebarAction.toggle();
-      return;
-    }
-  
-    
-    let sidebarActionIsOpen = this._windowList.includes(this._windowId);
-    if (sidebarActionIsOpen) {
-      browser.sidebarAction.close();
-    }
-    else {
-      let panelUrl = browser.runtime.getURL(SIDEBAR_URL);
-      browser.sidebarAction.setPanel({ panel: panelUrl });
-      browser.sidebarAction.open();
-    }
+    browser.sidebarAction.toggle();
   }
 
   _sidebarListener() {
