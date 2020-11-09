@@ -1,4 +1,4 @@
-/*global TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
+/*global FeedManager TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -75,7 +75,7 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static getFeedBody(feedText) {
-    let feedBody = feedText;
+    let feedBody = FeedParser._cleanupExtraData(feedText);
     let isJson = feedText.startsWith('{');
     if (isJson) {
       try { feedBody = JSON.stringify(JSON.parse(feedText).items, null, 1); }
@@ -90,13 +90,16 @@ class FeedParser { /*exported FeedParser*/
         }
       }
     }
-    /*
-    if (feedText.includes('<rss ') && feedText.includes('</rss>')) {
-      //Cleanup extra-data
-      feedBody = TextTools.getOuterText(feedBody, '<rss ', '</rss>');
-    }
-    */
     return feedBody;
+  }
+
+  static _cleanupExtraData(feedText) {
+    if (FeedManager.instance.removeExtraData) {
+      if (feedText.includes('<rss ') && feedText.includes('</rss>')) {
+        feedText = TextTools.getOuterText(feedText, '<rss ', '</rss>');
+      }
+    }
+    return feedText;
   }
 
   static isValidFeedText(feedText) {
@@ -414,7 +417,7 @@ class FeedParser { /*exported FeedParser*/
       item.number = ++i;
       item.link = jsonItem.url;
       item.title = jsonItem.title;
-      let htmlContent =  (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
+      let htmlContent = (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
       item.description = TextTools.replaceAll(TextTools.replaceAll(htmlContent, '\r\n', '\n'), '\n', '<br/>');
       item.author = jsonItem.author.name;
       let enclosures = [];

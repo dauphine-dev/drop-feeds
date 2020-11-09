@@ -52,7 +52,6 @@ class FeedRenderer { /*exported FeedRenderer*/
   }
 
   //private stuffs
-
   static async _feedInfoToHtml_async(feedInfo) {
     let htmlHead = await FeedRenderer._getHtmlHead_async(feedInfo.channel);
     let feedHtml = '';
@@ -72,7 +71,8 @@ class FeedRenderer { /*exported FeedRenderer*/
   static async _getHtmlHead_async(channel) {
     let iconUrl = browser.runtime.getURL(ThemeManager.instance.iconDF32Url);
     let cssUrl1 = browser.runtime.getURL(await ThemeManager.instance.getRenderCssTemplateUrl_async());
-    let cssUrl2 = await browser.runtime.getURL(ThemeManager.instance.getRenderCssUrl_async());
+    let cssUrl2 = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssUrl_async());
+
     let encoding = 'utf-8'; // Conversion is now done in downloadTextFileEx_async()
     let htmlHead = '';
     htmlHead += '<html>\n';
@@ -109,7 +109,6 @@ class FeedRenderer { /*exported FeedRenderer*/
   static _getEnclosureHTML(item) {
     if (!item || !item.enclosure)
       return '';
-
     if (item.enclosure.mimetype.startsWith('audio/')) {
       let html = '<div class="itemAudioPlayer"><audio preload=none controls><source src="' + item.enclosure.url + '" type="' + item.enclosure.mimetype + '"></audio></div>\n' +
         '<div class="itemEnclosureLink"><a href="' + item.enclosure.url + '" download>' + item.enclosure.url + '</a></div>\n';

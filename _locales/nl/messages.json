@@ -341,6 +341,9 @@
   "optRetryWithHttp": {
     "message": "Als https mislukt probeer dan met http"
   },
+  "optRemoveExtraData": {
+    "message": "Remove extra data (avoid false positive updates)"
+  },
   "optFeedItemList": {
     "message": "Feeditem lijst"
   },

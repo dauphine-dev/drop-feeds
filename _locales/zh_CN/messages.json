@@ -341,6 +341,9 @@
   "optRetryWithHttp": {
     "message": "当 https 失败时用 http 重试"
   },
+  "optRemoveExtraData": {
+    "message": "Remove extra data (avoid false positive updates)"
+  },
   "optFeedItemList": {
     "message": "订阅点项目列表"
   },

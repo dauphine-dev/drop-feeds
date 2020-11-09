@@ -27,6 +27,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get automaticFeedUpdates()          { return false; }
   static get automaticFeedUpdateMinutes()    { return 30; }
   static get automaticFeedUpdatesOnStart()   { return false; }
+  static get removeExtraData()               { return true; }
   static get showErrorsAsUnread()            { return false; }
   static get itemSortOrder()                 { return itemSortOrder.newerFirst; }
   static get showUpdatedFeedCount()          { return false; }

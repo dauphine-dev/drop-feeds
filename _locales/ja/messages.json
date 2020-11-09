@@ -341,6 +341,9 @@
   "optRetryWithHttp": {
     "message": "httpsで失敗したらhttpを試す"
   },
+  "optRemoveExtraData": {
+    "message": "Remove extra data (avoid false positive updates)"
+  },
   "optFeedItemList": {
     "message": "項目リストを表示"
   },

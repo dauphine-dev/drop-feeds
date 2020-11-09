@@ -324,13 +324,16 @@ class Feed { /*exported Feed*/
   }
 
   _updateStoredFeedVersion() {
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('name')) {
       Object.defineProperty(this._storedFeed, 'title', Object.getOwnPropertyDescriptor(this._storedFeed, 'name'));
       delete this._storedFeed['name'];
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('bkmrkId')) {
       delete this._storedFeed['bkmrkId'];
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('isBkmrk')) {
       delete this._storedFeed['isBkmrk'];
     }

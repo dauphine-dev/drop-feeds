@@ -19,6 +19,7 @@ class FeedManager { /*exported FeedManager*/
     this._automaticUpdatesOnStart = DefaultValues.automaticFeedUpdatesOnStart;
     this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
     this._automaticUpdatesMilliseconds = DefaultValues.automaticFeedUpdateMinutes * 60000;
+    this._removeExtraData = DefaultValues.removeExtraData;
     this._checkingFeeds = false;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
@@ -27,10 +28,15 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'removeExtraData', (v) => { this._setRemoveExtraData_sbscrb(v); }, true);
   }
 
   get checkingFeeds() {
     return this._checkingFeeds;
+  }
+
+  get removeExtraData() {
+    return this._removeExtraData;
   }
 
   async delete(feedId) {
@@ -358,6 +364,10 @@ class FeedManager { /*exported FeedManager*/
       this._automaticUpdatesMilliseconds = newValueMilliseconds;
       await this._setAutoUpdateInterval_async();
     }
+  }
+
+  async _setRemoveExtraData_sbscrb(value) {
+    this._removeExtraData = value;
   }
 
   async _resetAutoUpdateInterval() {
