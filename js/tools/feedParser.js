@@ -75,7 +75,8 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static getFeedBody(feedText) {
-    let feedBody = FeedParser._cleanupExtraData(feedText);
+    feedText = FeedParser._cleanupExtraData(feedText);
+    let feedBody = '';
     let isJson = feedText.startsWith('{');
     if (isJson) {
       try { feedBody = JSON.stringify(JSON.parse(feedText).items, null, 1); }
