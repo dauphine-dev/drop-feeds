@@ -336,13 +336,13 @@
     "message": "Toon notificatie popupscherm indien nieuwe items gevonden"
   },
   "optDontShowNotificationsIfZero": {
-    "message": "Don't notify if no feed has been updated"
+    "message": "Geen notificatie indien feed niet is geüpdatet"
   },
   "optRetryWithHttp": {
     "message": "Als https mislukt probeer dan met http"
   },
   "optRemoveExtraData": {
-    "message": "Remove extra data (avoid false positive updates)"
+    "message": "Verwijder extra data (vermijd false positive updates)"
   },
   "optFeedItemList": {
     "message": "Feeditem lijst"
