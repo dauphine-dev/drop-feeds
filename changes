@@ -1,9 +1,13 @@
+1.0.8
+Reimplements enclosures audio/video/image (was loosen since theme management rework)
+Reimplements Cleanup RSS feed extra data (but it's optional this time)
+
 1.0.7
 Remove old manual sidebar toggle management and replace it by new api browser.sidebarAction.toggle
 Undo cleanup RSS feed extra data
 
 1.0.6
-Small changes in option view to fit in new small Firefox option view
+Small changes in option view to fit in new small Firefox option view (Firefox 73+ needed)
 Cleanup RSS feed extra data
 
 1.0.5

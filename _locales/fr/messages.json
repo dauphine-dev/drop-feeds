@@ -341,6 +341,9 @@
   "optRetryWithHttp": {
     "message": "Si échec https alors réessayer avec http"
   },
+  "optRemoveExtraData": {
+    "message": "Supprime les données excédentaires (évite les faux positifs de mise à jour)"
+  },
   "optFeedItemList": {
     "message": "Activer la liste des articles du flux"
   },

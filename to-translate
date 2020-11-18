@@ -105,3 +105,7 @@ version;line;messageName;message;where;note
 1.0.3  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
 version;line;messageName;message;where;note
 1.0.3;338;optDontShowNotificationsIfZero;Don't notify if no feed has been updated;Settings/Update checker;n/a
+
+1.0.8  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+1.0.8;344;optRemoveExtraData;Remove extra data (avoid false positive updates);Settings/Update checker;n/a
