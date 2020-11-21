@@ -69,9 +69,9 @@ class WorkerReplace {  /*exported WorkerReplace*/
     await this._workerPool.init_async();
   }
 
-  async replace_async(str, regexpOrSubstr, newSubstr) {
+  async replace_async(str, regexpOrSubstr, newSubstr, ignoreSecurityPassThroughSuffix) {
     return new Promise((resolve) => {
-      this._workerPool.queueWork([str, regexpOrSubstr, newSubstr], (e) => {
+      this._workerPool.queueWork([str, regexpOrSubstr, newSubstr, ignoreSecurityPassThroughSuffix], (e) => {
         resolve(e.data);
       });
     });
