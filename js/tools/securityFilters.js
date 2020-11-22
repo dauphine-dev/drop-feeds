@@ -24,18 +24,33 @@ class SecurityFilters { /* exported SecurityFilters*/
   async applySecurityFilters_async(text) {
     if (!text) { return; }
     let hide = null;
-    let blackListShow = _blackListHtmlTagsTopShow;
+    const blackListShow = _blackListHtmlTagsTopShow;
     this._allowedHtmlTagList.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
     textTagList = textTagList.map(x => TextTools.escapeRegExp(x));
-    let toBlackListTagList = [...new Set(textTagList.filter(x => !this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
-    let toWhiteListTagList = [...new Set(textTagList.filter(x => this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
-    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => this._tagListIncludes(blackListShow, x)))];
-    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !this._tagListIncludes(blackListShow, x)))];
+    const allowedFromUserScriptsTagList = textTagList.filter(tag => tag.endsWith('_dp')).map(tag => ({ [tag]: '*' }));
+
+    let toBlackListTagList = [...new Set(textTagList.filter(x =>
+      !this._tagListIncludes(this._allowedHtmlTagList, x) && !this._tagListIncludes(allowedFromUserScriptsTagList, x)
+    ) || [])];
+    const toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => this._tagListIncludes(blackListShow, x)))];
+    const toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !this._tagListIncludes(blackListShow, x)))];
     hide = false; text = await this._disableTags_async(text, toBlackListAndShowTagList, hide);
     hide = true; text = await this._disableTags_async(text, toBlackListAndHideTagList, hide);
+
+    const toWhiteListTagList = [...new Set(textTagList.filter(x => this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
+    text = await this._fixAllowedTagsFromUserScript(text, allowedFromUserScriptsTagList);
     text = await this._disableAttributes_async(text, toWhiteListTagList);
     text = await this._applyInlineCssRejection_async(text, toWhiteListTagList);
+    return text;
+  }
+
+  async _fixAllowedTagsFromUserScript(text, allowedFromUserScriptsTagList) {
+    for (let tagEntry of allowedFromUserScriptsTagList) {
+      const tag = Object.keys(tagEntry)[0];
+      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag.slice(0, -3));
+      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag.slice(0, -3));
+    }
     return text;
   }
 
@@ -47,14 +62,10 @@ class SecurityFilters { /* exported SecurityFilters*/
     //use worker to try to avoid message "Warning: Unresponsive script."
     for (let tag of tagToDisableList) {
       if (!tag) { continue; }
-      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''), false);
-      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds', false);
-      //remove security pass through suffix from custom scripts
-      if (tag.endsWith('_dp')) {
-        const newTag = tag.slice(0, -3);
-        text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + newTag, true);
-        text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + newTag, true);
-      }
+      const blockedStartTag = '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : '');
+      const blockedEndTag = '</' + tag + '-blocked-by-dropfeeds';
+      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), blockedStartTag);
+      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), blockedEndTag);
     }
     return text;
   }
@@ -92,7 +103,7 @@ class SecurityFilters { /* exported SecurityFilters*/
       }
       else {
         //use worker to try to avoid message "Warning: Unresponsive script."
-        text = await this._wkRplc.replace_async(text, new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>', false);
+        text = await this._wkRplc.replace_async(text, new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi'), '<' + tag + '>');
       }
     }
     return text;
@@ -101,7 +112,7 @@ class SecurityFilters { /* exported SecurityFilters*/
   async _applyInlineCssRejection_async(attStyle) {
     let cleanedAttStyle = attStyle;
     //use worker to try to avoid message "Warning: Unresponsive script." (to test set dom.max_script_run_time to 1)
-    await this._rejectedCssFragmentList.map(async filter => cleanedAttStyle = await this._wkRplc.replace_async(attStyle, new RegExp(filter), ''), false);
+    await this._rejectedCssFragmentList.map(async filter => cleanedAttStyle = await this._wkRplc.replace_async(attStyle, new RegExp(filter), ''));
 
     return cleanedAttStyle;
   }
