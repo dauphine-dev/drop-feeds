@@ -1,6 +1,6 @@
 /*global browser*/
 'use strict';
-//const SIDEBAR_URL = '/html/sidebar.html';
+const SIDEBAR_URL = '/html/sidebar.html';
 
 class BackgroundManager {
   static get instance() { return (this._instance = this._instance || new this()); }

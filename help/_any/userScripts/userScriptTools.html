@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -15,9 +15,8 @@
   But you it isn't mandatory to use it, you can write your tools.
   <br />
   <h2 id="USTools">USTools</h2>
-  This tools box contains 4 kinds of methods, and one object :
-  
-  <p></p>
+  This tools box contains 4 kinds of methods, and one object:
+  <p />
   <h3>Web request methods</h3>
   <ul>
     <li>
@@ -72,22 +71,16 @@
       <a href="#console">USTools.Console</a>
     </li>
   </ul>
-  <h3>Tip</h3>
-  <ul>
-    <li>
-      <a href="#passThroughSecurityFilters">Security filter tip</a>
-    </li>
-  </ul>
-  <!-- ~~~~~ downloadTextFile() ~~~~~  -->
+  <!-- ---------- downloadTextFile() ---------- -->
   <h2 id="downloadTextFile">The downloadTextFile() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>downloadTextFile()</strong></span> method downloads a file as text, given its URL.
-    <p></p>
+    <p />
     This is an asynchronous function that returns a Promise.
     <h4>Syntax</h4>
     <pre class="syntax"><code>USTools.downloadTextFile(<var>url</var>)</code></pre>
     <h3>Parameters</h3>
-    <p></p><span class="highlighted"><strong><code><var>url</var></code></strong></span>
+    <p /><span class="highlighted"><strong><code><var>url</var></code></strong></span>
     <div class="paragraph">A string representing the URL to download.</div>
     <h3>Return value</h3>
     <div class="paragraph">A Promise. If the download finished successfully,
@@ -123,10 +116,10 @@
 
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ getInnerText() ~~~~~ -->
+  <!-- ---------- getInnerText() ---------- -->
   <h2 id="getInnerText">The getInnerText() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>getInnerText()</strong></span> method
@@ -159,10 +152,10 @@
       </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ occurrences() ~~~~~ -->
+  <!-- ---------- occurrences() ---------- -->
   <h2 id="occurrences">The occurrences() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>occurrences()</strong></span> method
@@ -190,10 +183,10 @@
       </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ getFeedInfo() ~~~~~ -->
+  <!-- ---------- getFeedInfo() ---------- -->
   <h2 id="getFeedInfo">The getFeedInfo() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>getFeedInfo()</strong></span> method takes a feed text and returns a Promise that will be fulfilled with a <span class="highlighted"><code><var>feedInfo</var></code></span> object.<br />
@@ -248,9 +241,8 @@
         <code></code>
       </pre>
   </div>
-  Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ get1stUsedTag() ~~~~~ -->
+  <!-- ---------- get1stUsedTag() ---------- -->
   <h2 id="get1stUsedTag">The get1stUsedTag() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>get1stUsedTag()</strong></span> method
@@ -309,10 +301,10 @@
       </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ getNextItem() ~~~~~ -->
+  <!-- ---------- getNextItem() ---------- -->
   <h2 id="getNextItem">The getNextItem() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>getNextItem()</strong></span> method
@@ -390,10 +382,10 @@
         <code>*/</code>
       </pre>
   </div>
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ getItemId() ~~~~~ -->
+  <!-- ---------- getItemId() ---------- -->
   <h2 id="getItemId">The getItemId() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>getItemId()</strong></span> method
@@ -432,10 +424,10 @@
     </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ extractValue() ~~~~~ -->
+  <!-- ---------- extractValue() ---------- -->
   <h2 id="extractValue">The extractValue() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>extractValue()</strong></span> method
@@ -468,15 +460,15 @@
       </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ rssFromFeedInfo() ~~~~~ -->
+  <!-- ---------- rssFromFeedInfo() ---------- -->
   <h2 id="rssFromFeedInfo">The rssFromFeedInfo() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>rssFromFeedInfo()</strong></span> method
     generates a RSS XML string from a <span class="highlighted"><code><var>feedInfo</var></code></span> object.
-    <p></p>
+    <p />
     <h4>Syntax</h4>
     <pre class="syntax"><code>USTools.rssFromFeedInfo(<var>feedInfo</var>)</code></pre>
     <h3>Parameters</h3>
@@ -513,10 +505,10 @@
           </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ rssHeader() ~~~~~ -->
+  <!-- ---------- rssHeader() ---------- -->
   <h2 id="rssHeader">The rssHeader() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>rssHeader()</strong></span> method
@@ -557,10 +549,10 @@
         </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ rssItem() ~~~~~ -->
+  <!-- ---------- rssItem() ---------- -->
   <h2 id="rssItem">The rssItem() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>rssItem()</strong></span> method
@@ -606,10 +598,10 @@
         </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ rssFooter() ~~~~~ -->
+  <!-- ---------- rssFooter() ---------- -->
   <h2 id="rssFooter">The rssFooter() method</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>rssFooter()</strong></span> method
@@ -635,20 +627,20 @@
         </pre>
   </div>
 
-  <p></p>
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ console ~~~~~ -->
+  <!-- ---------- console ---------- -->
   <h2 id="console">The <a href="#console"><strong>console</strong></a> object</h2>
   <div class="paragraph">
     The <a href="#USTools"><span class="highlighted">USTools</span></a>.<a href="#console"><span class="highlighted">console</span></a> object
     allows to work with the editor console.
     <h4>Methods</h4>
     <pre class="syntax"><code>USTools.console.clear()</code>
-    <code>USTools.console.write(message)</code>
-    <code>USTools.console.writeLine(message)</code></pre>
+<code>USTools.console.write(message)</code>
+<code>USTools.console.writeLine(message)</code></pre>
 
-    <!-- ~~~~~ console.clear() ~~~~~ -->
+    <!-- ---------- console.clear() ---------- -->
     <h2 id="consoleClear">The console.clear() method</h2>
     <div class="paragraph">
       The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.clear()</strong></span> method
@@ -669,7 +661,7 @@
           </pre>
     </div>
 
-    <!-- ~~~~~ console.write() ~~~~~ -->
+    <!-- ---------- console.write() ---------- -->
     <h2 id="consoleWrite">The console.write() method</h2>
     <div class="paragraph">
       The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.write()</strong></span> method
@@ -691,7 +683,7 @@
             </pre>
     </div>
 
-    <!-- ~~~~~ console.writeLine() ~~~~~ -->
+    <!-- ---------- console.writeLine() ---------- -->
     <h2 id="consoleWriteLine">The console.writeLine() method</h2>
     <div class="paragraph">
       The <a href="#USTools"><span class="highlighted">USTools</span></a> <span><strong>console.writeLine()</strong></span> method
@@ -715,35 +707,13 @@
 
 
   </div>
-  <p></p>
+
+  <p />
   Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
 
-  <!-- ~~~~~ Security filter tip ~~~~~ -->
-  <h2 id="passThroughSecurityFilters">Security filter tip</h2>
-  <div class="paragraph">
-    If you want use some html tags for your own usage in custom scripts,
-    but in same time you want to continue to filters them in security filters then there is a tip.
 
-    <h4>Tip</h4>
-    <pre class="syntax"><code>&lt;[tag_name]_dp&gt;</code></pre>
-    <h3>Explanation</h3>
-    <div class="paragraph">Add the suffix <strong>_dp</strong> to the tag name to bypass the security filters</div>
-    <h4>Example</h4>
-    The following example show how to bypass security filer for the <strong>&lt;iframe&gt;</strong> tag.<br />
-    This code sample come from the feed transformer script for youtube content example.<br />
-    Here <strong>iframe_dp</strong> will be ignore by security filters, and will be replace by <strong>iframe</strong> in rederer views.
-    <pre class="code">
-    <code>getItemEmbedVideo(item) {</code>
-    <code>  const result = `&lt;iframe_dp ="true" width="480" height="300"</code>
-    <code>  src=${item.link.replace('/watch?v=', '/embed/')} frameborder="0"</code>
-    <code>  allow="clipboard-write; encrypted-media; picture-in-picture" allowfullscreen&gt;</code>
-    <code>  &lt;/iframe_dp&gt;`;</code>
-    <code>  return result;</code>            
-    <code>}</code>
-  </pre>
-  </div>
-  <p></p>
-  Go back to <a href="#USTools"><span class="highlighted">USTools</span></a>
+
+
 
 
 </body>

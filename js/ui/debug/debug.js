@@ -22,7 +22,6 @@ class Debug {
     //let keysToRemove = [];
 
     for (let property in localStorage) {
-      /*eslint no-prototype-builtins: "off"*/
       if (localStorage.hasOwnProperty(property)) {
         // No data list
         if (typeof localStorage[property] === 'undefined') {

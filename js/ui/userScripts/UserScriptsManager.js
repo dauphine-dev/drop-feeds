@@ -43,9 +43,9 @@ class UserScriptsManager { /* exported UserScriptsManager */
     return newScript;
   }
 
-  updateInfo(scriptId, selector, infoValue) {
+  updateInfo(scriptId, infoClassName, infoValue) {
     let scriptEntry = document.getElementById(scriptId);
-    scriptEntry.querySelector(selector).textContent = infoValue;
+    scriptEntry.querySelector(infoClassName).textContent = infoValue;
   }
 
   _updateLocalizedStrings() {
@@ -98,10 +98,10 @@ class UserScriptsManager { /* exported UserScriptsManager */
     newScriptEntry.querySelector('.urlMatchPatterns').textContent = scriptObj.urlMatch;
     newScriptEntry.querySelector('.urlMatchPatterns').style.display = (scriptObj.type == scriptType.feedTransformer ? 'inline-block' : 'none');
     newScriptEntry.querySelector('.subscribeScriptButton').style.display = (scriptObj.type == scriptType.virtualFeed ? 'inline-block' : 'none');
-    newScriptEntry.querySelector('.lastEdit').setAttribute('data-lastedit', scriptObj.lastEdit);
+    newScriptEntry.querySelector('.lastEdit').setAttribute('lastEdit', scriptObj.lastEdit);
     newScriptEntry.querySelector('.lastEdit').textContent = DateTime.getDateDiff(Date.now(), scriptObj.lastEdit);
     newScriptEntry.querySelector('.scriptTypeSelect').options[scriptObj.type].selected = true;
-    
+
     document.getElementById('scriptListBox').appendChild(newScriptEntry);
 
     newScriptEntry.querySelector('.scriptName').addEventListener('keydown', (e) => { this._scriptNameDivKeydown_event(e); });

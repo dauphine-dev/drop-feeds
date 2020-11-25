@@ -9,7 +9,7 @@ class SecurityFilters { /* exported SecurityFilters*/
     this._rejectedCssFragmentList = DefaultValues.rejectedCssFragmentList;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'allowedHtmlElementsList', (v) => this._setAllowedHtmlElementsList_sbscrb(v), true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'rejectedCssFragmentList', (v) => this._setRejectedCssFragmentsList_sbscrb(v), true);
-    this._wkRplc = new WorkerReplace(20);
+    this._wkRplc =  new WorkerReplace(20);
     this._wkRplc.init_async();
   }
 
@@ -24,33 +24,18 @@ class SecurityFilters { /* exported SecurityFilters*/
   async applySecurityFilters_async(text) {
     if (!text) { return; }
     let hide = null;
-    const blackListShow = _blackListHtmlTagsTopShow;
+    let blackListShow = _blackListHtmlTagsTopShow;
     this._allowedHtmlTagList.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
     textTagList = textTagList.map(x => TextTools.escapeRegExp(x));
-    const allowedFromUserScriptsTagList = textTagList.filter(tag => tag.endsWith('_dp')).map(tag => ({ [tag]: '*' }));
-
-    let toBlackListTagList = [...new Set(textTagList.filter(x =>
-      !this._tagListIncludes(this._allowedHtmlTagList, x) && !this._tagListIncludes(allowedFromUserScriptsTagList, x)
-    ) || [])];
-    const toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => this._tagListIncludes(blackListShow, x)))];
-    const toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !this._tagListIncludes(blackListShow, x)))];
+    let toBlackListTagList = [...new Set(textTagList.filter(x => !this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
+    let toWhiteListTagList = [...new Set(textTagList.filter(x => this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
+    let toBlackListAndShowTagList = [...new Set(toBlackListTagList.filter(x => this._tagListIncludes(blackListShow, x)))];
+    let toBlackListAndHideTagList = [...new Set(toBlackListTagList.filter(x => !this._tagListIncludes(blackListShow, x)))];
     hide = false; text = await this._disableTags_async(text, toBlackListAndShowTagList, hide);
     hide = true; text = await this._disableTags_async(text, toBlackListAndHideTagList, hide);
-
-    const toWhiteListTagList = [...new Set(textTagList.filter(x => this._tagListIncludes(this._allowedHtmlTagList, x)) || [])];
-    text = await this._fixAllowedTagsFromUserScript(text, allowedFromUserScriptsTagList);
     text = await this._disableAttributes_async(text, toWhiteListTagList);
     text = await this._applyInlineCssRejection_async(text, toWhiteListTagList);
-    return text;
-  }
-
-  async _fixAllowedTagsFromUserScript(text, allowedFromUserScriptsTagList) {
-    for (let tagEntry of allowedFromUserScriptsTagList) {
-      const tag = Object.keys(tagEntry)[0];
-      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag.slice(0, -3));
-      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag.slice(0, -3));
-    }
     return text;
   }
 
@@ -59,13 +44,11 @@ class SecurityFilters { /* exported SecurityFilters*/
   }
 
   async _disableTags_async(text, tagToDisableList, hide) {
-    //use worker to try to avoid message "Warning: Unresponsive script."
     for (let tag of tagToDisableList) {
       if (!tag) { continue; }
-      const blockedStartTag = '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : '');
-      const blockedEndTag = '</' + tag + '-blocked-by-dropfeeds';
-      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), blockedStartTag);
-      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), blockedEndTag);
+      //use worker to try to avoid message "Warning: Unresponsive script."
+      text = await this._wkRplc.replace_async(text, new RegExp('<' + tag, 'gi'), '<' + tag + '-blocked-by-dropfeeds' + (hide ? ' style="display:none"' : ''));
+      text = await this._wkRplc.replace_async(text, new RegExp('<\\s*/' + tag, 'gi'), '</' + tag + '-blocked-by-dropfeeds');
     }
     return text;
   }

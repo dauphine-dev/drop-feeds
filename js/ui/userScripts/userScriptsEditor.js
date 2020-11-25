@@ -1,5 +1,5 @@
 /*global browser UserScriptsManager LocalStorageManager Editor BrowserManager Dialogs Feed DefaultValues TextConsole*/
-/*global scriptCodeKey scriptObjKey scriptType SecurityFilters Listener ListenerProviders ThemeManager DateTime*/
+/*global scriptCodeKey scriptObjKey scriptType SecurityFilters Listener ListenerProviders ThemeManager*/
 'use strict';
 const _matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^/*]+|)\/(.*))$/i);
 const _jsHighlighterPath = 'resources/highlighters/javascript.json';
@@ -31,7 +31,7 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     this._loadEditorScripts();
     this._highLightCssUrl = undefined;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'scriptEditorThemeFolderName', (v) => { this._setScriptEditorThemeFolderName_sbscrb(v); }, true);
-    this._setScriptEditorThemeFolderName_sbscrb();
+    this._setScriptEditorThemeFolderName_sbscrb();    
     //window.addEventListener('load', (e) => { this._windowOnLoad_event(e); });  // Doesn't work any more, then...
     //...use this workaround.
     setTimeout(() => { this._windowOnLoad_event(); }, 1000);
@@ -99,10 +99,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   async _windowOnLoad_event() {
-    await this._newEditor();
-  }
-
-  async _newEditor() {
     this._jsEditor = new Editor(_jsHighlighterPath, this._highLightCssUrl, () => { this.save_async(); });
     await this._jsEditor.init_async();
     this._jsEditor.attach(document.getElementById('editor'));
@@ -112,7 +108,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
   }
 
   async _loadScript_async(scriptId) {
-    if (!this._jsEditor) { await this._newEditor(); }
     const defaultCode = '// Type your javascript here';
     let scriptObj = await LocalStorageManager.getValue_async(scriptObjKey + scriptId, null);
     let scriptCode = await LocalStorageManager.getValue_async(scriptCodeKey + scriptId, defaultCode);
@@ -136,8 +131,6 @@ class UserScriptsEditor { /*exported UserScriptsEditor */
     let urlMatch = document.getElementById('urlMatch').value;
     scriptObj.urlMatch = urlMatch;
     UserScriptsManager.instance.updateInfo(this._scriptId, '.urlMatchPatterns', urlMatch);
-    scriptObj.lastEdit = Date.now();
-    UserScriptsManager.instance.updateInfo(this._scriptId, '.lastEdit', DateTime.getDateDiff(Date.now(), scriptObj.lastEdit));
     scriptObj.urlRegEx = this.matchPatternToRegExp(urlMatch).source;
     scriptObj.testUrl = document.getElementById('testUrl').value;
     await LocalStorageManager.setValue_async(scriptObjKey + this._scriptId, scriptObj);
