@@ -342,7 +342,7 @@
     "message": "httpsで失敗したらhttpを試す"
   },
   "optRemoveExtraData": {
-    "message": "Remove extra data (avoid false positive updates)"
+    "message": "余分なデータを削除 (更新の誤検知を回避)"
   },
   "optFeedItemList": {
     "message": "項目リストを表示"
