@@ -19,6 +19,7 @@
   <script src="/js/tools/listener.js"></script>
   <script src="/js/tools/workerPool.js"></script>
   <script src="/js/tools/securityFilters.js"></script>
+  <script src="/js/tools/feedManager.js"></script>
   <script src="/js/tools/feedParser.js"></script>
   <script src="/js/tools/feedRenderer.js"></script>
   <script src="/js/tools/feedRendererOptions.js"></script>
@@ -66,7 +67,7 @@
                     <span id="urlMatchLabel" class="label">#Url match patterns:</span>
                     <input id="urlMatch" class="field" type="text" value="&lt;all_urls&gt;">
                     <a id="urlMatchHelp" target="_blank" href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" class="xSmall">#Help for url match patterns</a>
-                    <p/>
+                    <p></p>
                     <span id="testUrlLabel" class="label">#Test feed url:</span>
                     <input id="testUrl" class="field" type="url" value="">
                     <button id="feedTransformerTestScriptButton" type="button">#Save and test...</button>
@@ -140,7 +141,7 @@
                               </div>
                             </div>
                             <div class="scriptRightBlock nowrap">
-                              <div lastedit="" class="lastEdit nowrap" title="#Last edition"></div>
+                              <div data-lastedit="" class="lastEdit nowrap" title="#Last edition"></div>
                               <span class="scriptButton deleteScriptButton nowrap" title="#Delete script"></span>
                             </div>
                           </div>

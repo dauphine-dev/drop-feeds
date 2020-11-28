@@ -1,3 +1,7 @@
+1.0.9
+Script editor improvements and small fixes
+Security filter bypass suffix for user-scripts
+
 1.0.8
 Reimplements enclosures audio/video/image (was loosen since theme management rework)
 Reimplements Cleanup RSS feed extra data (but it's optional this time)
