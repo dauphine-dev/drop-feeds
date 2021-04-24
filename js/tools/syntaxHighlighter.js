@@ -27,10 +27,17 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
   }
 
   _highlightMatches(text, ptCl) {
-    let syntaxMatches = Array.from(new Set(text.match(new RegExp(ptCl.pattern))));
-    let enclosingMark = ptCl.enclosing ? '_e' : '_n'; //_e : enclosure, _n : not enclosure
-    let highlightingOffset = ('<span_reserved_x#"' + ptCl.class + '"><_end_span_reserved>').length;
+    let syntaxMatches = null;
+    try {
+      syntaxMatches = Array.from(new Set(text.match(new RegExp(ptCl.pattern))));
+    }
+    catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
+    }
     if (syntaxMatches) {
+      const enclosingMark = ptCl.enclosing ? '_e' : '_n'; //_e : enclosure, _n : not enclosure
+      const highlightingOffset = ('<span_reserved_x#"' + ptCl.class + '"><_end_span_reserved>').length;
       //loop on all syntax matches
       syntaxMatches.map(syntaxMatch => {
         let enclosingFixed = syntaxMatch;
@@ -43,9 +50,9 @@ class SyntaxHighlighter { /*exported SyntaxHighlighter */
         Replace all syntax matches by highlighted text,
         but do it only if there not including in enclosing syntax (comments or strings, ...)
         */
-        let parsed = '<span_reserved' + enclosingMark + '#"' + ptCl.class + '">' + enclosingFixed + '<_end_span_reserved>';
-        let bound = (ptCl.bound ? '\\b' : '');
-        let regex = new RegExp(bound + TextTools.escapeRegExp(syntaxMatch) + bound, 'g');
+        const parsed = '<span_reserved' + enclosingMark + '#"' + ptCl.class + '">' + enclosingFixed + '<_end_span_reserved>';
+        const bound = (ptCl.bound ? '\\b' : '');
+        const regex = new RegExp(bound + TextTools.escapeRegExp(syntaxMatch) + bound, 'g');
         let match = null;
         while ((match = regex.exec(text))) {
           if (!this.isIncludeInEnclosing(text, match.index)) {
