@@ -1,5 +1,5 @@
-./css/template.css
+./xsl/template.xsl
 ./img/link-go.png
 ./img/mail-to.png
 ./js/template.js
-./xsl/template.xsl
+./css/template.css
