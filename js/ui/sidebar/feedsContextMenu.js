@@ -53,10 +53,11 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   show(xPos, yPos, elTarget) {
     this._idComeFrom = elTarget.getAttribute('id');
+    if (!this._idComeFrom) { return; }
     this._accordingComeFrom();
     this._xPosOri = xPos;
     this._yPosOri = yPos;
-    this.hide();
+    this.hide();    
     this._elContextMenu = document.getElementById(this._contextMenuId);
     this._elContextMenu.classList.remove('hide');
     this._elContextMenu.classList.add('show');
@@ -136,7 +137,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _checkFeedsMenuClicked_event() {
     this.hide();
-    await FeedManager.instance.checkFeeds_async(this._idComeFrom);
+    await FeedManager.instance.checkFeeds_async(this._idComeFrom, false, false);
   }
 
   async _windowOnKeyup_event(e) {

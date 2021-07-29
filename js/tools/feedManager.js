@@ -63,12 +63,12 @@ class FeedManager { /*exported FeedManager*/
     await Feed.delete_async(feedId);
   }
 
-  async checkFeeds_async(folderId, resetAutoUpdateInterval) {
+  async checkFeeds_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
     if (this._feedProcessingInProgress) { return; }
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), true);
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
     await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
 
@@ -169,8 +169,7 @@ class FeedManager { /*exported FeedManager*/
     let self = FeedManager.instance;
     try {
       if (!isCustom) { self._statusMessageBeforeCheck(feed); }
-      console.log('feed.url:', feed.url);
-
+      if (feed.url.includes(customPattern)) { console.log('checking:', feed._storedFeed.title, '-', feed.url); }
       await feed.update_async();
       if (!isCustom) { self._statusMessageAfterCheck(feed); }
       await feed.updateUiStatus_async();
@@ -365,7 +364,7 @@ class FeedManager { /*exported FeedManager*/
     if (!this._automaticUpdatesEnabled) { return; }
     try {
       await LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
-      await FeedManager.instance.checkFeeds_async('feedsContentPanel');
+      await FeedManager.instance.checkFeeds_async('feedsContentPanel', false, true);
     }
     catch (e) {
       /*eslint-disable no-console*/
