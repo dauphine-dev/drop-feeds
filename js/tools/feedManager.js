@@ -43,12 +43,11 @@ class FeedManager { /*exported FeedManager*/
   async init_async() {
     this._customMode = await LocalStorageManager.getValue_async('customMode', false);
     this._customMilliseconds = await LocalStorageManager.getValue_async('customMilliseconds', false);
-    await LocalStorageManager.setValue_async('customMode', this._customMode);
-    await LocalStorageManager.setValue_async('customMilliseconds', this._customMilliseconds);
-    this._customFeedsProcessedList = await LocalStorageManager.getValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
-    this._customAutoUpdateInterval = undefined;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'customMode', (v) => { this._setCustomMode_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'customMilliseconds', (v) => { this._setCustomMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._customReload_sbscrb(v); }, false);
+    await LocalStorageManager.setValue_async('customMode', this._customMode);
+    await LocalStorageManager.setValue_async('customMilliseconds', this._customMilliseconds);
   }
 
   get checkingFeeds() {
@@ -169,7 +168,7 @@ class FeedManager { /*exported FeedManager*/
     let self = FeedManager.instance;
     try {
       if (!isCustom) { self._statusMessageBeforeCheck(feed); }
-      if (feed.url.includes(customPattern)) { console.log('checking:', feed._storedFeed.title, '-', feed.url); }
+      //if (feed.url.includes(customPattern)) { console.log('checking:', feed._storedFeed.title, '-', feed.url); }
       await feed.update_async();
       if (!isCustom) { self._statusMessageAfterCheck(feed); }
       await feed.updateUiStatus_async();
@@ -433,26 +432,39 @@ class FeedManager { /*exported FeedManager*/
     this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
   }
 
-  _setCustomAutoUpdateInterval_async() {
+  async _setCustomMode_sbscrb(value) {
+    this._customMode = value;
+    this._customPreparingListOfFeedsToProcess_async();
+    this._customFeedsProcessedList = await LocalStorageManager.getValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _setCustomMilliseconds_sbscrb(value) {
+    this._customMilliseconds = value;
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _customReload_sbscrb() {
+    this._customPreparingListOfFeedsToProcess_async();
+  }  
+
+  async _setCustomAutoUpdateInterval_async() {
     clearInterval(this._customAutoUpdateInterval);
     if (this._customMode) {
       this._customAutoUpdateInterval = setInterval(() => { this._customAutomaticFeedUpdate_async(); }, this._customMilliseconds);
     }
   }
 
-  _setCustomMode_sbscrb(value) {
-    this._customMode = value;
-    this._setCustomAutoUpdateInterval_async();
-  }
-
-  _setCustomMilliseconds_sbscrb(value) {
-    this._customMilliseconds = value;
-    this._setCustomAutoUpdateInterval_async();
-  }
-
   async _customAutomaticFeedUpdate_async() {
-    await this._customPreparingListOfFeedsToProcess_async();
-    await this._customProcessFeedsFromList();
+    if (this._feedProcessingInProgress) { return; }
+    let feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    if (!feeds[0]) {
+      this._customFeedsProcessedList = [];
+      feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    }
+    await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+    this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
+    FeedManager._feedsUpdate_async(feeds[0], true);
   }
 
   async _customPreparingListOfFeedsToProcess_async() {
@@ -483,17 +495,4 @@ class FeedManager { /*exported FeedManager*/
     finally {
     }
   }
-
-  async _customProcessFeedsFromList() {
-    let feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
-    if (!feeds[0]) {
-      this._customFeedsProcessedList = [];
-      feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
-    }
-    await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
-    this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
-    await FeedManager._feedsUpdate_async(feeds[0], true);
-  }
-
-
 }
