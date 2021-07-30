@@ -28,6 +28,7 @@ class FeedManager { /*exported FeedManager*/
     this._customAutoUpdateInterval = undefined;
     this._customFeedsToProcessList = [];
     this._customFeedsProcessedList = [];
+    this._customPreparingList = false;
 
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
@@ -41,6 +42,10 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async init_async() {
+    setTimeout(() => this.initCustomMode(), 500);
+  }
+
+  async initCustomMode() {
     this._customMode = await LocalStorageManager.getValue_async('customMode', false);
     this._customMilliseconds = await LocalStorageManager.getValue_async('customMilliseconds', false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'customMode', (v) => { this._setCustomMode_sbscrb(v); }, true);
@@ -48,6 +53,7 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._customReload_sbscrb(v); }, false);
     await LocalStorageManager.setValue_async('customMode', this._customMode);
     await LocalStorageManager.setValue_async('customMilliseconds', this._customMilliseconds);
+
   }
 
   get checkingFeeds() {
@@ -81,7 +87,7 @@ class FeedManager { /*exported FeedManager*/
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
+    let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
     await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
   }
@@ -432,6 +438,21 @@ class FeedManager { /*exported FeedManager*/
     this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
   }
 
+  feedUIStatusHasChanged(feed) {
+    if (feed._storedFeed.status == feedStatus.OLD) {
+      const toPush = !(this._customFeedsToProcessList.some(fd => fd._storedFeed.id == feed._storedFeed.id));
+      if (toPush) {
+        this._customFeedsToProcessList.push(feed);
+      }
+    }
+    else {
+      const index = this._customFeedsToProcessList.map(fd => fd._storedFeed.id).indexOf(feed._storedFeed.id);
+      if (index > -1) {
+        this._customFeedsToProcessList.splice(index, 1);
+      }      
+    }
+  }
+
   async _setCustomMode_sbscrb(value) {
     this._customMode = value;
     this._customPreparingListOfFeedsToProcess_async();
@@ -446,7 +467,7 @@ class FeedManager { /*exported FeedManager*/
 
   async _customReload_sbscrb() {
     this._customPreparingListOfFeedsToProcess_async();
-  }  
+  }
 
   async _setCustomAutoUpdateInterval_async() {
     clearInterval(this._customAutoUpdateInterval);
@@ -457,18 +478,25 @@ class FeedManager { /*exported FeedManager*/
 
   async _customAutomaticFeedUpdate_async() {
     if (this._feedProcessingInProgress) { return; }
-    let feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    let feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
     if (!feeds[0]) {
       this._customFeedsProcessedList = [];
-      feeds = this._feedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+      feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
     }
-    await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
-    this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
-    FeedManager._feedsUpdate_async(feeds[0], true);
+    //console.log('feeds[0]:', feeds[0]);
+    if (feeds[0]) {
+      await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+      if (feeds[0]._storedFeed) {
+        this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
+      }
+      FeedManager._feedsUpdate_async(feeds[0], true);
+    }
   }
 
   async _customPreparingListOfFeedsToProcess_async() {
     try {
+      if (this._customPreparingList) { return; }
+      this._customPreparingList = true;
       this._updatedFeeds = 0;
       this._customFeedsToProcessList = [];
       this._itemList = [];
@@ -481,7 +509,7 @@ class FeedManager { /*exported FeedManager*/
             let feedId = feedElementList[i].getAttribute('id');
             feed = await Feed.new(feedId);
             if (feed.url.includes(customPattern)) {
-              this._feedsToProcessList.push(feed);
+              this._customFeedsToProcessList.push(feed);
             }
           }
           catch (e) {
@@ -493,6 +521,7 @@ class FeedManager { /*exported FeedManager*/
       }
     }
     finally {
+      this._customPreparingList = false;
     }
   }
 }
