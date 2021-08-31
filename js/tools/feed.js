@@ -1,5 +1,5 @@
 /*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer*/
-/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
+/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol FeedManager*/
 'use strict';
 
 const feedStatus = {
@@ -179,6 +179,7 @@ class Feed { /*exported Feed*/
   }
 
   async updateUiStatus_async() {
+    FeedManager.instance.feedUIStatusHasChanged(this);
     let feedUiItem = document.getElementById(this._storedFeed.id);
     switch (this.status) {
       case feedStatus.UPDATED:

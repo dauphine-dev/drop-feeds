@@ -93,7 +93,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await FeedManager.instance.checkFeeds_async('feedsContentPanel', true);
+    await FeedManager.instance.checkFeeds_async('feedsContentPanel', true, true);
   }
 
   async _updateLocalizedStrings() {

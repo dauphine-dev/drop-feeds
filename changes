@@ -1,3 +1,7 @@
+1.0.12b01
+Fix duplicated items when guid is empty 
+Adding custom feature
+
 1.0.11
 Fix feed preview in subscribe view
 

@@ -1,5 +1,7 @@
 /*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager*/
 'use strict';
+const customPattern = 'www.youtube.com/feeds/videos.xml?channel_id=';
+
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -21,6 +23,13 @@ class FeedManager { /*exported FeedManager*/
     this._automaticUpdatesMilliseconds = DefaultValues.automaticFeedUpdateMinutes * 60000;
     this._removeExtraData = DefaultValues.removeExtraData;
     this._checkingFeeds = false;
+    this._customMode = false;
+    this._customMilliseconds = 999999999999;
+    this._customAutoUpdateInterval = undefined;
+    this._customFeedsToProcessList = [];
+    this._customFeedsProcessedList = [];
+    this._customPreparingList = false;
+
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
@@ -29,6 +38,22 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'removeExtraData', (v) => { this._setRemoveExtraData_sbscrb(v); }, true);
+
+  }
+
+  async init_async() {
+    setTimeout(() => this.initCustomMode(), 500);
+  }
+
+  async initCustomMode() {
+    this._customMode = await LocalStorageManager.getValue_async('customMode', false);
+    this._customMilliseconds = await LocalStorageManager.getValue_async('customMilliseconds', false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'customMode', (v) => { this._setCustomMode_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'customMilliseconds', (v) => { this._setCustomMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._customReload_sbscrb(v); }, false);
+    await LocalStorageManager.setValue_async('customMode', this._customMode);
+    await LocalStorageManager.setValue_async('customMilliseconds', this._customMilliseconds);
+
   }
 
   get checkingFeeds() {
@@ -43,12 +68,12 @@ class FeedManager { /*exported FeedManager*/
     await Feed.delete_async(feedId);
   }
 
-  async checkFeeds_async(folderId, resetAutoUpdateInterval) {
+  async checkFeeds_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
     if (this._feedProcessingInProgress) { return; }
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
     await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
   }
 
@@ -62,7 +87,7 @@ class FeedManager { /*exported FeedManager*/
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
+    let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
     await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
   }
@@ -81,7 +106,7 @@ class FeedManager { /*exported FeedManager*/
     feed.updateUiTitle();
   }
 
-  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action) {
+  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode) {
     this._feedProcessingInProgress = true;
     try {
       this._updatedFeeds = 0;
@@ -96,6 +121,7 @@ class FeedManager { /*exported FeedManager*/
           try {
             let feedId = feedElementList[i].getAttribute('id');
             feed = await Feed.new(feedId);
+            if (skipOncustomMode && this._customMode && feed.url.includes(customPattern)) { continue; }
             let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
             FeedsStatusBar.instance.setText(statusText);
             this._feedsToProcessList.push(feed);
@@ -144,12 +170,13 @@ class FeedManager { /*exported FeedManager*/
     this._feedProcessingInProgress = false;
   }
 
-  static async _feedsUpdate_async(feed) {
+  static async _feedsUpdate_async(feed, isCustom) {
     let self = FeedManager.instance;
     try {
-      self._statusMessageBeforeCheck(feed);
+      if (!isCustom) { self._statusMessageBeforeCheck(feed); }
+      //if (feed.url.includes(customPattern)) { console.log('checking:', feed._storedFeed.title, '-', feed.url); }
       await feed.update_async();
-      self._statusMessageAfterCheck(feed);
+      if (!isCustom) { self._statusMessageAfterCheck(feed); }
       await feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
         self._updatedFeeds++;
@@ -160,9 +187,11 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-disable no-console*/
       /*eslint-enable no-console*/
     } finally {
-      if (--self._feedsToProcessCounter == 0) {
-        await self._displayUpdatedFeedsNotification_async();
-        self._processFeedsFinished();
+      if (!isCustom) {
+        if (--self._feedsToProcessCounter == 0) {
+          await self._displayUpdatedFeedsNotification_async();
+          self._processFeedsFinished();
+        }
       }
     }
   }
@@ -340,7 +369,7 @@ class FeedManager { /*exported FeedManager*/
     if (!this._automaticUpdatesEnabled) { return; }
     try {
       await LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
-      await FeedManager.instance.checkFeeds_async('feedsContentPanel');
+      await FeedManager.instance.checkFeeds_async('feedsContentPanel', false, true);
     }
     catch (e) {
       /*eslint-disable no-console*/
@@ -407,5 +436,92 @@ class FeedManager { /*exported FeedManager*/
   _start1stAutoUpdate() {
     this._automaticFeedUpdate_async();
     this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+  }
+
+  feedUIStatusHasChanged(feed) {
+    if (feed._storedFeed.status == feedStatus.OLD) {
+      const toPush = !(this._customFeedsToProcessList.some(fd => fd._storedFeed.id == feed._storedFeed.id));
+      if (toPush) {
+        this._customFeedsToProcessList.push(feed);
+      }
+    }
+    else {
+      const index = this._customFeedsToProcessList.map(fd => fd._storedFeed.id).indexOf(feed._storedFeed.id);
+      if (index > -1) {
+        this._customFeedsToProcessList.splice(index, 1);
+      }      
+    }
+  }
+
+  async _setCustomMode_sbscrb(value) {
+    this._customMode = value;
+    this._customPreparingListOfFeedsToProcess_async();
+    this._customFeedsProcessedList = await LocalStorageManager.getValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _setCustomMilliseconds_sbscrb(value) {
+    this._customMilliseconds = value;
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _customReload_sbscrb() {
+    this._customPreparingListOfFeedsToProcess_async();
+  }
+
+  async _setCustomAutoUpdateInterval_async() {
+    clearInterval(this._customAutoUpdateInterval);
+    if (this._customMode) {
+      this._customAutoUpdateInterval = setInterval(() => { this._customAutomaticFeedUpdate_async(); }, this._customMilliseconds);
+    }
+  }
+
+  async _customAutomaticFeedUpdate_async() {
+    if (this._feedProcessingInProgress) { return; }
+    let feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    if (!feeds[0]) {
+      this._customFeedsProcessedList = [];
+      feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    }
+    //console.log('feeds[0]:', feeds[0]);
+    if (feeds[0]) {
+      await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+      if (feeds[0]._storedFeed) {
+        this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
+      }
+      FeedManager._feedsUpdate_async(feeds[0], true);
+    }
+  }
+
+  async _customPreparingListOfFeedsToProcess_async() {
+    try {
+      if (this._customPreparingList) { return; }
+      this._customPreparingList = true;
+      this._updatedFeeds = 0;
+      this._customFeedsToProcessList = [];
+      this._itemList = [];
+      let rootElement = document.getElementById('feedsContentPanel');
+      let feedElementList = rootElement.querySelectorAll('.feedRead, .feedError');
+      if (feedElementList.length > 0) {
+        for (let i = 0; i < feedElementList.length; i++) {
+          let feed = null;
+          try {
+            let feedId = feedElementList[i].getAttribute('id');
+            feed = await Feed.new(feedId);
+            if (feed.url.includes(customPattern)) {
+              this._customFeedsToProcessList.push(feed);
+            }
+          }
+          catch (e) {
+            /*eslint-disable no-console*/
+            console.error(e);
+            /*eslint-enable no-console*/
+          }
+        }
+      }
+    }
+    finally {
+      this._customPreparingList = false;
+    }
   }
 }
