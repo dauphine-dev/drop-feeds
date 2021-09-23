@@ -29,6 +29,7 @@ class FeedManager { /*exported FeedManager*/
     this._customFeedsToProcessList = [];
     this._customFeedsProcessedList = [];
     this._customPreparingList = false;
+    this._syncThreshold = DefaultValues.syncThreshold;
 
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
@@ -38,6 +39,7 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'removeExtraData', (v) => { this._setRemoveExtraData_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'syncThreshold', (v) => { this._setSsyncThreshold_sbscrb(v); }, true);
 
   }
 
@@ -89,8 +91,7 @@ class FeedManager { /*exported FeedManager*/
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
     let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
-    const syncThreshold = 20;
-    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, syncThreshold);
+    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, this._syncThreshold);
   }
 
   async openAsUnifiedFeed_async(folderId) {
@@ -397,6 +398,10 @@ class FeedManager { /*exported FeedManager*/
   }
 
   async _setRemoveExtraData_sbscrb(value) {
+    this._removeExtraData = value;
+  }
+
+  _setSsyncThreshold_sbscrb(value) {
     this._removeExtraData = value;
   }
 

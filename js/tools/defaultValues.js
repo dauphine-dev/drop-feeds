@@ -45,6 +45,7 @@ class DefaultValues { /*exported DefaultValues*/
   static get hideReadArticles()              { return false; }
   static get handlesFeedTab()                { return true; }
   static get preventOpenWith()               { return false; }
+  static get syncThreshold()                 { return 8; }
   
 
   static get allowedTagList() {
