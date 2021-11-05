@@ -383,15 +383,12 @@ class FeedParser { /*exported FeedParser*/
 
   static async _parseXmlItems_async(feedText, tagItem) {
     if (!feedText) return null;
-    //console.log('feedText:', feedText);
     let itemNumber = TextTools.occurrences(feedText, '</' + tagItem + '>');
     let itemList = [];
     let itemText = FeedParser._getNextItem(feedText, '---', tagItem); // use a fake id to start
-    //console.log('itemText', 99, ':', itemText);
     for (let i = 0; i < itemNumber; i++) {
       let item = DefaultValues.getDefaultItem(null);
       let itemIdRaw = FeedParser._getItemId(itemText);
-      console.log('itemIdRaw', i, ':', itemIdRaw);
       item.text = itemText;
       item.id = Compute.hashCode(itemIdRaw);
       item.number = i + 1;
@@ -407,7 +404,6 @@ class FeedParser { /*exported FeedParser*/
       item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
-      //console.log('itemText', i, ':', itemText);
     }
     return itemList;
   }
