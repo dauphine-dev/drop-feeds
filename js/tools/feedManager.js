@@ -89,7 +89,8 @@ class FeedManager { /*exported FeedManager*/
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
     let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
-    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
+    const syncThreshold = 20;
+    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, syncThreshold);
   }
 
   async openAsUnifiedFeed_async(folderId) {
@@ -141,23 +142,23 @@ class FeedManager { /*exported FeedManager*/
     }
   }
 
-  async _processFeedsFromList(folderId, action) {
+  async _processFeedsFromList(folderId, action, syncThreshold) {
     let folderTitle = '';
     this._feedsToProcessCounter = this._feedsToProcessList.length;
     let openNewTabForce = true;
     let elFolderLabel = document.getElementById('lbl-' + folderId.substring(3));
     if (elFolderLabel) { folderTitle = elFolderLabel.textContent; }
-    if (this._asynchronousFeedChecking) {
-      while (this._feedsToProcessList.length > 0) {
-        let feed = this._feedsToProcessList.shift();
-        let isLast = (this._feedsToProcessList.length == 0);
-        action(feed, false, openNewTabForce, isLast, folderTitle);
-      }
-    } else {
-      while (this._feedsToProcessList.length > 0) {
-        let feed = this._feedsToProcessList.shift();
-        let isLast = (this._feedsToProcessList.length == 0);
+    let i = 0;
+    if (!syncThreshold) { syncThreshold = 0; }
+    while (this._feedsToProcessList.length > 0) {
+      let feed = this._feedsToProcessList.shift();
+      let isLast = (this._feedsToProcessList.length == 0);
+      if (!this._asynchronousFeedChecking || i < syncThreshold) {
         await action(feed, false, openNewTabForce, isLast, folderTitle);
+        i++;
+      }
+      else {
+        action(feed, false, openNewTabForce, isLast, folderTitle);
       }
     }
   }
@@ -449,7 +450,7 @@ class FeedManager { /*exported FeedManager*/
       const index = this._customFeedsToProcessList.map(fd => fd._storedFeed.id).indexOf(feed._storedFeed.id);
       if (index > -1) {
         this._customFeedsToProcessList.splice(index, 1);
-      }      
+      }
     }
   }
 
