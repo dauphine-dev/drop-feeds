@@ -13,9 +13,13 @@ class RenderPage {
         if (state == 'read') { tr.classList.add('read'); } else { tr.classList.remove('read'); }
       });
     }
+
+    document.addEventListener('keyup', (e) => { this.rowOnkeyUpEvent(e); });
     document.addEventListener('mousemove', (e) => { this.splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this.splitterBarMouseup_event(e); });
     document.getElementById('splitterBar').addEventListener('mousedown', (e) => { this.splitterBarMousedown_event(e); });
+
+
   }
 
   rowOnclickEvent(e) {
@@ -27,6 +31,39 @@ class RenderPage {
     }
     else {
       this.setRawAsRead(tr);
+    }
+  }
+
+  rowOnkeyUpEvent(e) {
+    if (e.defaultPrevented) { return; }
+    let dir = 0;
+    switch (e.key) {
+      case 'ArrowDown':
+        dir = 1;
+        e.preventDefault();
+        break;
+      case 'ArrowUp':
+        dir = -1;
+        e.preventDefault();
+        break;
+      default:
+        return;
+    }
+
+    let currentTr = document.querySelectorAll('.selected')[0];
+    if (!currentTr) { return; }
+
+    let nextTr = currentTr.parentNode.rows[currentTr.rowIndex + dir];
+    if (nextTr.cells[0].tagName == 'TH') nextTr = undefined;
+    if (!nextTr) { return; }
+    
+    this.selectRow(nextTr);
+    this.displayItem(nextTr.cells[0].childNodes[0].textContent);
+    if (e.target.cellIndex == 2) {
+      this.switchRawReadState(nextTr);
+    }
+    else {
+      this.setRawAsRead(nextTr);
     }
   }
 
