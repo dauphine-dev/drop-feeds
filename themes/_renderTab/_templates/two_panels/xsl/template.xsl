@@ -32,8 +32,21 @@
           </xsl:attribute>
         </xsl:element>
         <title><span class="encodedText"><xsl:value-of select="/render/channel/title"/></span> - Drop Feeds</title>
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptDefaultValues"/>
+          </xsl:attribute>
+        </xsl:element>        
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptLocalStorageManager"/>
+          </xsl:attribute>
+        </xsl:element>        
       </head>
       <body>
+        <!-- ** headBar ** -->
         <div id="channelHead">
           <div class="channelTitle">
             <span class="channelTitleText">
@@ -46,6 +59,13 @@
                 <span class="encodedText"><xsl:value-of select="/render/channel/title"/></span>
               </xsl:element>
             </span>
+          </div>
+          <div id="buttonsPannel">
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemHideReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">Hide read articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
           </div>
         </div>
         <div class="sep1"></div>

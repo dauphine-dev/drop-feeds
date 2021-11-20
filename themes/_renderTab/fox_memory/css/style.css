@@ -10,6 +10,10 @@
   --renderTab-link-decoration: underline;
   --renderTab-link-visited-color: -moz-visitedhyperlinktext;
   --renderTab-link-hover-decoration: underline;
+  /* toolbar */
+  --renderTab-HideReadArticles-image: url(/themes/_renderTab/_templates/two_panels/img/articles-hide.png);
+  --renderTabs-ToolBar-image-width: 24px;
+  --renderTabs-ToolBar-image-height: 24px;
   /* channel */
   --renderTab-channel-background: #808080;
   --renderTab-channel-border-radius: revert;
