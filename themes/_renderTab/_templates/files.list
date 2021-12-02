@@ -3,6 +3,7 @@
 ./_any/img/feedIcon.png
 ./_any/css/subscribeButton.css
 ./two_panels/xsl/template.xsl
+./two_panels/img/articles-hide.png
 ./two_panels/img/link-go.png
 ./two_panels/img/mail-to.png
 ./two_panels/js/template.js

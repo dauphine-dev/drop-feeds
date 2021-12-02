@@ -55,9 +55,25 @@ img, video {
 .toolBarItem {
   padding: 2px;
 }
+#itemMarkAsReadButton::before {
+  background-image: var(--renderTab-ItemMarkAsRead-image);
+}  
+#itemMarkAsUnreadButton::before {
+  background-image: var(--renderTab-ItemMarkAsUnread-image);
+}  
+#itemMarkAllAsReadButton::before {
+  background-image: var(--renderTab-ItemMarkAllAsRead-image);
+}  
+#itemMarkAllAsUnreadButton::before {
+  background-image: var(--renderTab-ItemMarkAllAsUnread-image);
+}  
+#itemOpenUnreadButton::before {
+  background-image: var(--renderTab-ItemOpenUnread-image);
+}  
 #itemHideReadArticlesButton::before {
   background-image: var(--renderTab-HideReadArticles-image);
 }  
+
 .toolBarItemInactivated {
   border: 1px outset #D0D0D000;
   border-radius: 2px;

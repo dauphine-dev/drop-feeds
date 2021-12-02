@@ -35,6 +35,13 @@
         <xsl:element name="script">
           <xsl:attribute name="type">text/javascript</xsl:attribute>
           <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptBrowserManager"/>
+          </xsl:attribute>
+        </xsl:element>        
+
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
             <xsl:value-of select="/render/context/scriptDefaultValues"/>
           </xsl:attribute>
         </xsl:element>        
@@ -46,6 +53,8 @@
         </xsl:element>        
       </head>
       <body>
+
+
         <!-- ** headBar ** -->
         <div id="channelHead">
           <div class="channelTitle">
@@ -62,6 +71,31 @@
           </div>
           <div id="buttonsPannel">
               <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemOpenUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Open unread items in new tabs</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
                 <xsl:attribute name="id">itemHideReadArticlesButton</xsl:attribute>
                 <xsl:attribute name="title">Hide read articles</xsl:attribute>
                 <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
@@ -72,7 +106,7 @@
         <!-- ** topPanel ** -->
         <div id="topPanel">
           <table>
-            <tr>
+            <tr class="tableHeader" >
               <th></th>
               <th>Title</th>
               <th>Visited</th>

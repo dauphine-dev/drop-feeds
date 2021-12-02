@@ -18,6 +18,11 @@ class RenderPage {
     document.addEventListener('mousemove', (e) => { this.splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this.splitterBarMouseup_event(e); });
     document.getElementById('splitterBar').addEventListener('mousedown', (e) => { this.splitterBarMousedown_event(e); });
+    document.getElementById('itemMarkAsReadButton').addEventListener('click', (e) => { this.itemMarkAsReadButtonMousedown_event(e); });
+    document.getElementById('itemMarkAsUnreadButton').addEventListener('click', (e) => { this.itemMarkAsUnreadButtonMousedown_event(e); });
+    document.getElementById('itemMarkAllAsReadButton').addEventListener('click', (e) => { this.itemMarkAllAsReadButtonMousedown_event(e); });
+    document.getElementById('itemMarkAllAsUnreadButton').addEventListener('click', (e) => { this.itemMarkAllAsUnreadButtonMousedown_event(e); });
+    document.getElementById('itemOpenUnreadButton').addEventListener('click', (e) => { this.itemOpenUnreadButtonMousedown_event(e); });
     document.getElementById('itemHideReadArticlesButton').addEventListener('click', (e) => { this.itemHideReadArticlesButtonMousedown_event(e); });
   }
 
@@ -41,29 +46,57 @@ class RenderPage {
   rowOnkeyUpEvent(e) {
     if (e.defaultPrevented) { return; }
     let dir = 0;
+    let switchRawReadState = false;
+    e.preventDefault();
     switch (e.key) {
       case 'ArrowDown':
         dir = 1;
-        e.preventDefault();
         break;
       case 'ArrowUp':
         dir = -1;
-        e.preventDefault();
+        break;
+      case 'Delete':
+        switchRawReadState = true;
         break;
       default:
         return;
     }
 
-    let currentTr = document.querySelectorAll('#topPanel table tbody tr.read.selected')[0];
+    let currentTr = this.getCurrentTr();
     if (!currentTr) { return; }
-    
-    let trList = document.querySelectorAll('#topPanel table tbody tr:not(.trHidden)');
-    const currentIdenx = Array.prototype.indexOf.call(trList, currentTr);
-    let nextTr = trList[currentIdenx + dir];
 
+    if (dir) {
+      let nextTr = this.getNexTr(currentTr, dir);
+      if (nextTr) {
+        this.selectTr(nextTr, (e.target.cellIndex == 2));
+      }
+    }
+
+    if (switchRawReadState) {
+      this.switchRawReadState(currentTr);
+    }
+  }
+
+  getCurrentTr() {
+    return document.querySelectorAll('#topPanel table tbody tr.selected')[0];
+  }
+
+  getNexTr(currentTr, dir) {
+    //let trList = document.querySelectorAll('#topPanel table tbody tr:not(.trHidden)');
+    let trList = document.querySelectorAll('#topPanel table tbody tr');
+    const nextIndex = Array.prototype.indexOf.call(trList, currentTr) + dir;
+    let nextTr = undefined;
+    if (nextIndex) {
+      nextTr = trList[nextIndex];
+    }
+    return nextTr;
+  }
+
+  selectTr(nextTr, switchRawReadState) {
     this.selectRow(nextTr);
     this.displayItem(nextTr.cells[0].childNodes[0].textContent);
-    if (e.target.cellIndex == 2) {
+    this.setRawAsRead(nextTr);
+    if (switchRawReadState) {
       this.switchRawReadState(nextTr);
     }
     else {
@@ -152,7 +185,51 @@ class RenderPage {
     await browser.storage.local.set({ [valueName]: value });
   }
 
-  itemHideReadArticlesButtonMousedown_event(e) {
+  async itemMarkAsReadButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let tr = this.getCurrentTr();
+    if (!tr) { return; }
+    this.setRawAsRead(tr);
+  }
+
+  async itemMarkAsUnreadButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let tr = this.getCurrentTr();
+    if (!tr) { return; }
+    this.setRawAsUnread(tr);
+  }
+
+  async itemMarkAllAsReadButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let trList = document.querySelectorAll('#topPanel table tbody tr:not(.tableHeader)');
+    for (const tr of trList) {
+      this.setRawAsRead(tr);
+    }
+  }
+
+  async itemMarkAllAsUnreadButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let trList = document.querySelectorAll('#topPanel table tbody tr:not(.tableHeader)');
+    for (const tr of trList) {
+      this.setRawAsUnread(tr);
+    }
+  }
+
+  async itemOpenUnreadButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let trList = document.querySelectorAll('#topPanel table tbody tr:not(.read):not(.tableHeader)');
+    for (const tr of trList) {
+      const url = tr.children[0].children[0].getAttribute('url');
+      await browser.tabs.create({ url: url, active: false });
+    }
+  }
+
+  async itemHideReadArticlesButtonMousedown_event(e) {
     e.stopPropagation();
     e.preventDefault();
     this._hideReadArticles = !this._hideReadArticles;
