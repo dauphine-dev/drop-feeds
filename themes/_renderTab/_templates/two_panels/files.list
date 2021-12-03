@@ -1,6 +1,12 @@
 ./xsl/template.xsl
 ./img/articles-hide.png
+./img/itemOpenUnreadButton.png
+./img/delKey.png
+./img/itemMarkAllAsUnreadButton.png
+./img/itemMarkAllAsReadButton.png
+./img/itemMarkAsUnreadButton.png
 ./img/link-go.png
 ./img/mail-to.png
+./img/itemMarkAsReadButton.png
 ./js/template.js
 ./css/template.css

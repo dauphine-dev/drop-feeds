@@ -47,7 +47,8 @@ class DefaultValues { /*exported DefaultValues*/
   static get preventOpenWith()               { return false; }
   static get syncThreshold()                 { return 5; }
   static get hideReadArticlesTwoTemples()    { return false; }
-  
+  static get delKeySwicthReadArticles  ()    { return false; }
+    
   static get allowedTagList() {
     return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },
       { 'div': [] }, { 'em': [] }, { 'font': ['color', 'size'] }, { 'h1': [] }, { 'h2': [] }, { 'h3': [] }, { 'h4': [] }, { 'h5': [] }, { 'h6': [] }, { 'hr': [] }, { 'i': [] },

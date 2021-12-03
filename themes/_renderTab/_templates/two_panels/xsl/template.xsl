@@ -97,7 +97,16 @@
               </xsl:element>
               <xsl:element name="span">
                 <xsl:attribute name="id">itemHideReadArticlesButton</xsl:attribute>
-                <xsl:attribute name="title">Hide read articles</xsl:attribute>
+                <xsl:attribute name="title">#Hide read articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemSeparator1</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemDelKeySwicthReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">#Use DEL key to switch read/undread articles</xsl:attribute>
                 <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
               </xsl:element>
           </div>

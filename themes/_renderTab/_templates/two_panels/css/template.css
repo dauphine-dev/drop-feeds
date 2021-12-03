@@ -72,7 +72,11 @@ img, video {
 }  
 #itemHideReadArticlesButton::before {
   background-image: var(--renderTab-HideReadArticles-image);
-}  
+}
+#itemDelKeySwicthReadArticlesButton::before {
+  background-image: var(--renderTab-DelKeySwicthReadArticles-image);
+}
+
 
 .toolBarItemInactivated {
   border: 1px outset #D0D0D000;

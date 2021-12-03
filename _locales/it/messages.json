@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Nascondi gli articoli già letti"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Use DEL key to switch read/undread articles"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Apri i feed aggiornati"
   },

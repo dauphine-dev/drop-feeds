@@ -109,3 +109,11 @@ version;line;messageName;message;where;note
 1.0.8  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
 version;line;messageName;message;where;note
 1.0.8;344;optRemoveExtraData;Remove extra data (avoid false positive updates);Settings/Update checker;n/a
+
+1.0.8  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+1.0.8;344;optRemoveExtraData;Remove extra data (avoid false positive updates);Settings/Update checker;n/a
+
+1.0.147  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+1.0.14;344;sbItemDelKeySwicthReadArticles;Use DEL key to switch read/undread articles;In render tab 'Two panels (Fox Memory)';When this button is activated, then the switch from unread to read state is made manually by pressing the 'DEL' key

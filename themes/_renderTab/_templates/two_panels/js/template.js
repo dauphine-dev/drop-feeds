@@ -4,16 +4,10 @@ class RenderPage {
   static get instance() { return (this._instance = this._instance || new this()); }
 
   constructor() {
-    this._hideReadArticles = DefaultValues.hideReadArticlesTwoTemples;
-    let trList = document.querySelectorAll('tr');
-    for (let tr of trList) {
-      if (tr.cells[0].tagName == 'TH') continue;
-      tr.addEventListener('click', (e) => { this.rowOnclickEvent(e); });
-      let url = tr.cells[0].childNodes[0].getAttribute('url');
-      this.storageGet(url, 'unread').then((state) => {
-        if (state == 'read') { tr.classList.add('read'); } else { tr.classList.remove('read'); }
-      });
-    }
+    this._hideReadArticles = DefaultValues.hideReadArticlesTwoPanels;
+    this._delKeySwicthReadArticles = DefaultValues.delKeySwicthReadArticles;
+    this._addEventAndUpdateReadStartForAllTr();
+    this._updateLocalizedStrings();
     document.addEventListener('keyup', (e) => { this.rowOnkeyUpEvent(e); });
     document.addEventListener('mousemove', (e) => { this.splitterBarMousemove_event(e); });
     document.addEventListener('mouseup', (e) => { this.splitterBarMouseup_event(e); });
@@ -24,11 +18,37 @@ class RenderPage {
     document.getElementById('itemMarkAllAsUnreadButton').addEventListener('click', (e) => { this.itemMarkAllAsUnreadButtonMousedown_event(e); });
     document.getElementById('itemOpenUnreadButton').addEventListener('click', (e) => { this.itemOpenUnreadButtonMousedown_event(e); });
     document.getElementById('itemHideReadArticlesButton').addEventListener('click', (e) => { this.itemHideReadArticlesButtonMousedown_event(e); });
+    document.getElementById('itemDelKeySwicthReadArticlesButton').addEventListener('click', (e) => { this.itemDelKeySwicthReadArticlesButtonMousedown_event(e); });
+
   }
 
   async init_async() {
-    this._hideReadArticles = await LocalStorageManager.getValue_async('hideReadArticlesTwoTemples', this._hideReadArticles);
+    this._hideReadArticles = await LocalStorageManager.getValue_async('hideReadArticlesTwoPanels', this._hideReadArticles);
+    this._delKeySwicthReadArticles = await LocalStorageManager.getValue_async('delKeySwicthReadArticlesTwoPanels', this._delKeySwicthReadArticles);
+    this._activateButton('itemDelKeySwicthReadArticlesButton', this._delKeySwicthReadArticles);
     this._updateHideReadArticles();
+  }
+
+  _updateLocalizedStrings() {
+    document.getElementById('itemMarkAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkArticleAsRead'));
+    document.getElementById('itemMarkAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkArticleAsUnread'));
+    document.getElementById('itemMarkAllAsReadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllArticlesAsRead'));
+    document.getElementById('itemMarkAllAsUnreadButton').setAttribute('title', browser.i18n.getMessage('sbMarkAllArticlesAsUnread'));
+    document.getElementById('itemOpenUnreadButton').setAttribute('title', browser.i18n.getMessage('sbOpenUnreadArticlesInNewTabs'));
+    document.getElementById('itemHideReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemHideReadArticles'));
+    document.getElementById('itemDelKeySwicthReadArticlesButton').setAttribute('title', browser.i18n.getMessage('sbItemDelKeySwicthReadArticles'));
+  }
+
+  _addEventAndUpdateReadStartForAllTr() {
+    let trList = document.querySelectorAll('tr');
+    for (let tr of trList) {
+      if (tr.cells[0].tagName == 'TH') continue;
+      tr.addEventListener('click', (e) => { this.rowOnclickEvent(e); });
+      let url = tr.cells[0].childNodes[0].getAttribute('url');
+      this.storageGet(url, 'unread').then((state) => {
+        if (state == 'read') { tr.classList.add('read'); } else { tr.classList.remove('read'); }
+      });
+    }
   }
 
   rowOnclickEvent(e) {
@@ -39,7 +59,9 @@ class RenderPage {
       this.switchRawReadState(tr);
     }
     else {
-      this.setRawAsRead(tr);
+      if (!this._delKeySwicthReadArticles) {
+        this.setRawAsRead(tr);
+      }
     }
   }
 
@@ -68,7 +90,8 @@ class RenderPage {
     if (dir) {
       let nextTr = this.getNexTr(currentTr, dir);
       if (nextTr) {
-        this.selectTr(nextTr, (e.target.cellIndex == 2));
+        //this.selectTr(nextTr, (e.target.cellIndex == 2));
+        this.selectTr(nextTr);
       }
     }
 
@@ -95,12 +118,13 @@ class RenderPage {
   selectTr(nextTr, switchRawReadState) {
     this.selectRow(nextTr);
     this.displayItem(nextTr.cells[0].childNodes[0].textContent);
-    this.setRawAsRead(nextTr);
     if (switchRawReadState) {
       this.switchRawReadState(nextTr);
     }
     else {
-      this.setRawAsRead(nextTr);
+      if (!this._delKeySwicthReadArticles) {
+        this.setRawAsRead(nextTr);
+      }
     }
   }
 
@@ -236,8 +260,16 @@ class RenderPage {
     this._updateHideReadArticles();
   }
 
+  async itemDelKeySwicthReadArticlesButtonMousedown_event(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this._delKeySwicthReadArticles = !this._delKeySwicthReadArticles;
+    LocalStorageManager.setValue_async('delKeySwicthReadArticlesTwoPanels', this._delKeySwicthReadArticles);
+    this._activateButton('itemDelKeySwicthReadArticlesButton', this._delKeySwicthReadArticles);
+  }
+
   _updateHideReadArticles() {
-    LocalStorageManager.setValue_async('hideReadArticlesTwoTemples', this._hideReadArticles);
+    LocalStorageManager.setValue_async('hideReadArticlesTwoPanels', this._hideReadArticles);
     this._activateButton('itemHideReadArticlesButton', this._hideReadArticles);
     if (this._hideReadArticles) {
       const readList = document.querySelectorAll('.read:not(.selected)');
