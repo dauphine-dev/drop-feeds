@@ -21,7 +21,7 @@
     "message": "检查订阅点"
   },
   "sbStopAndRestart": {
-    "message": "Stop checking and restart Drop feeds"
+    "message": "停止检查并重启 Drop feeds"
   },
   "sbDiscoverFeeds": {
     "message": "发现订阅点"
@@ -36,10 +36,10 @@
     "message": "转至订阅页面"
   },
   "sbFilter": {
-    "message": "Filter"
+    "message": "筛选器"
   },
   "sbFilterClearButton": {
-    "message": "Clear filter"
+    "message": "清空筛选器"
   },
   "sbSubscriptionAdd": {
     "message": "订阅"
@@ -75,7 +75,7 @@
     "message": "新建标签页打开未读项目"
   },
   "sbItemHideReadArticles": {
-    "message": "Hide read articles"
+    "message": "隐藏已读文章"
   },
   "sbOpenUpdatedFeeds": {
     "message": "打开已更新订阅点"
@@ -120,7 +120,7 @@
     "message": "正在检查"
   },
   "sbPreparing": {
-    "message": "preparing"
+    "message": "正在准备"
   },
   "sbOpening": {
     "message": "正在打开"
@@ -132,7 +132,7 @@
     "message": "已加载"
   },
   "sbLoadingNextFeed": {
-    "message": "Loading next feed..."
+    "message": "正在加载下一个订阅点..."
   },
   "sbMerging": {
     "message": "正在合并"
@@ -144,7 +144,7 @@
     "message": "已接收"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "正在等待下一个订阅点..."
   },
   "sbFeedsUpdated": {
     "message": "个订阅点已更新"
@@ -156,13 +156,13 @@
     "message": "没有订阅点有更新"
   },
   "sbCtxOptReload": {
-    "message": "Reload Drop Feeds"
+    "message": "重新加载 Drop Feeds"
   },
   "sbCtxOptSubscribe": {
-    "message": "Subscribe by url"
+    "message": "用网址订阅"
   },
   "sbCtxOptSettings": {
-    "message": "Open settings..."
+    "message": "打开设置..."
   },
   "comment3": {
     "message": "------------------Subscribe strings------------------"
@@ -177,25 +177,25 @@
     "message": "名称"
   },
   "subUpdateFeedTitleButton": {
-    "message": "Update feed name"
+    "message": "更新订阅点名称"
   },
   "subStopUpdatingFeedTitleButton": {
-    "message": "Stop updating feed name"
+    "message": "停止更新订阅点名称"
   },
   "subUpdatingFeedTitlePlsWait": {
-    "message": "Updating feed name, please wait..."
+    "message": "正在更新订阅点名称，请稍候..."
   },
   "subFolder": {
     "message": "文件夹"
   },
   "subFolderDialogTitle": {
-    "message": "New folder"
+    "message": "新建文件夹"
   },
   "subNewFolder": {
     "message": "新建文件夹"
   },
   "subWindowCloseError": {
-    "message": "Drop feeds has failed to close the window, please close it manually."
+    "message": "Drop feeds 关闭窗口失败，请手动关闭。"
   },
   "subCancel": {
     "message": "取消"
@@ -207,10 +207,10 @@
     "message": "创建"
   },
   "subShowFeedPreview": {
-    "message": "Show feed preview"
+    "message": "显示订阅点预览"
   },
   "subLoading": {
-    "message": "Loading..."
+    "message": "正在加载..."
   },
   "comment4": {
     "message": "------------------Discover strings------------------"
@@ -273,7 +273,7 @@
     "message": "内容区"
   },
   "optTheme": {
-    "message": "Theme"
+    "message": "主题"
   },
   "optManagement": {
     "message": "管理"
@@ -291,16 +291,16 @@
     "message": "选择主题"
   },
   "optSelectRenderTemplate": {
-    "message": "Select render tab template"
+    "message": "选择阅读器标签页模板"
   },
   "optSelectRenderTheme": {
-    "message": "Select render tab theme"
+    "message": "选择阅读器标签页主题"
   },
   "optOpenCustomThemeManager": {
-    "message": "Open custom theme manager"
+    "message": "打开自定义主题管理器"
   },
   "optThemeManager": {
-    "message": "Custom theme manager..."
+    "message": "自定义主题管理器..."
   },
   "optFeedItemOrder": {
     "message": "订阅点项目顺序"
@@ -330,19 +330,19 @@
     "message": "分钟"
   },
   "optAutoFeedUpdatesOnStart": {
-    "message": "Run an automatic feed update on start"
+    "message": "启动时运行自动更新订阅点"
   },
   "optShowNotifications": {
     "message": "更新后显示通知"
   },
   "optDontShowNotificationsIfZero": {
-    "message": "Don't notify if no feed has been updated"
+    "message": "没有更新的订阅点则不通知"
   },
   "optRetryWithHttp": {
     "message": "当 https 失败时用 http 重试"
   },
   "optRemoveExtraData": {
-    "message": "Remove extra data (avoid false positive updates)"
+    "message": "移除额外数据（避免误报有更新）"
   },
   "optFeedItemList": {
     "message": "订阅点项目列表"
@@ -357,10 +357,10 @@
     "message": "(*) 警告：标为已读/未读功能将修改您的浏览器历史记录！"
   },
   "optFeedItemMarkAsReadOnLeaving": {
-    "message": "Mark all items as read before leaving feeds"
+    "message": "离开订阅点时全部内容标为已读"
   },
   "optFeedItemRenderInSidebar": {
-    "message": "Render selected item in the sidebar"
+    "message": "在侧栏中阅读选中的项"
   },
   "optShowUpdatedFeedCount": {
     "message": "显示已更新订阅点数量"
@@ -372,10 +372,10 @@
     "message": "渲染订阅点"
   },
   "optRenderFeedsOptions": {
-    "message": "Options"
+    "message": "选项"
   },
   "optItemNewTab": {
-    "message": "Open items on new tab"
+    "message": "在新标签页中打开项目"
   },
   "optAlwaysOpenNewTab": {
     "message": "始终新建标签页打开"
@@ -387,25 +387,25 @@
     "message": "重用 Drop Feeds 标签页"
   },
   "optContentsDateTimeLegend": {
-    "message": "Date time format"
+    "message": "日期时间格式"
   },
   "optContentsDateTimeResetButton": {
-    "message": "Reset to default"
+    "message": "重置为默认"
   },
   "optUrlDatetimeHelp": {
-    "message": "Date time formats (see section 'Options')"
+    "message": "日期时间格式"
   },
   "optContentsAreaAdvLegend": {
-    "message": "Advanced"
+    "message": "高级"
   },
   "optHandlesFeedTabCheckbox": {
-    "message": "Handle RSS, ATOM, ... feed tabs with Drop Feeds"
+    "message": "使用 Drop Feeds 处理 RSS、ATOM 等订阅点标签页"
   },
   "optPreventOpenWith": {
-    "message": "Prevent Open With dialog displaying (*)"
+    "message": "避免显示“打开方式”对话框 (*)"
   },
   "optWarningPreventOpenWith": {
-    "message": "(*) warning: with this option activated you can get a wierd behavior on some web pages"
+    "message": "(*) 警告：启用此选项后在部分网页上可能遭遇奇怪的现象"
   },
   "optSelectOpmlFileToImport": {
     "message": "打开 opml 文件以导入"
@@ -432,121 +432,121 @@
     "message": "导出..."
   },
   "optAdvanced": {
-    "message": "Advanced"
+    "message": "高级"
   },
   "optLblScriptManager": {
-    "message": "Open script manager"
+    "message": "打开脚本管理器"
   },
   "optScriptManagerButton": {
-    "message": "Script manager..."
+    "message": "脚本管理器..."
   },
   "optLblSecurityFilter": {
-    "message": "Open security filter settings"
+    "message": "打开安全过滤器设置"
   },
   "optSecurityFilterButton": {
-    "message": "Security filter settings..."
+    "message": "安全过滤器设置..."
   },
   "optSecurityFilterSettings": {
-    "message": "Security filter settings"
+    "message": "安全过滤器设置"
   },
   "optLblDebugView": {
-    "message": "Open the debug view"
+    "message": "打开调试界面"
   },
   "optDebugViewButton": {
-    "message": "Debug view..."
+    "message": "调试界面..."
   },
   "optLblFullExport": {
-    "message": "Full export"
+    "message": "完全导出"
   },
   "opFullExportButton": {
-    "message": "Export every thing..."
+    "message": "导出所有内容..."
   },
   "optLblFullImport": {
-    "message": "Full import"
+    "message": "完全导入"
   },
   "optFullImportButton": {
-    "message": "Import every thing..."
+    "message": "导入所有内容..."
   },
   "optMessageDialogTitle": {
-    "message": "Message"
+    "message": "消息"
   },
   "optMessageDialogOk": {
-    "message": "ok"
+    "message": "确定"
   },
   "optHtmlFilter": {
-    "message": "HTML Filter"
+    "message": "HTML 过滤器"
   },
   "optAllowedHtmlElements": {
-    "message": "Allowed HTML elements (others are rejected)"
+    "message": "允许的 HTML 元素（其他被拒绝）"
   },
   "optHtmlFilterThElm": {
-    "message": "Elements"
+    "message": "元素"
   },
   "optHtmlFilterThAtt": {
-    "message": "Attributes"
+    "message": "属性"
   },
   "optHtmlFilterAddButton": {
-    "message": "Add"
+    "message": "添加"
   },
   "optHtmlFilterEditButton": {
-    "message": "Edit"
+    "message": "编辑"
   },
   "optHtmlRemoveAddButton": {
-    "message": "Remove"
+    "message": "移除"
   },
   "optHtmlFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "恢复默认值"
   },
   "optHtmlFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "添加"
   },
   "optHtmlFilterEditDialogTitle": {
-    "message": "Edit"
+    "message": "编辑"
   },
   "optHtmlFilterAddDialogElementToAllow": {
-    "message": "Element to allow"
+    "message": "允许的元素"
   },
   "optHtmlFilterAddDialogAttributesToAllow": {
-    "message": "Attributes to allow"
+    "message": "允许的属性"
   },
   "optHtmlFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "取消"
   },
   "optHtmlFilterAddDialogOk": {
-    "message": "Ok"
+    "message": "确定"
   },
   "optCssFilter": {
-    "message": "CSS Filters"
+    "message": "CSS 过滤器"
   },
   "optRejectedCssFragments": {
-    "message": "Rejected CSS fragments (others are allowed)"
+    "message": "拒绝的 CSS 片段（其他被允许）"
   },
   "optCssFilterAddButton": {
-    "message": "Add"
+    "message": "添加"
   },
   "optCssFilterEditButton": {
-    "message": "Edit"
+    "message": "编辑"
   },
   "optCssRemoveAddButton": {
-    "message": "Remove"
+    "message": "移除"
   },
   "optCssFilterRestoreDefaultButton": {
-    "message": "Restore default values"
+    "message": "恢复默认值"
   },
   "optCssInfo": {
-    "message": "CSS Filter is enable only when STYLE elem/attr is allowed by HTML Filter"
+    "message": "CSS 过滤器仅在 STYLE 元素/属性被 HTML 过滤器允许时生效"
   },
   "optCssFilterAddDialogTitle": {
-    "message": "Add"
+    "message": "添加"
   },
   "optCssFilterDialogCssFragmentToRejected": {
-    "message": "Css fragment to rejected (regular expression / case ignored)"
+    "message": "拒绝的 CSS 片段（正则表达式、不区分大小写）"
   },
   "optCssFilterAddDialogCancel": {
-    "message": "Cancel"
+    "message": "取消"
   },
   "optCssFilterAddDialogOk": {
-    "message": "ok"
+    "message": "确定"
   },
   "comment6": {
     "message": "------------------Content script strings------------------"
@@ -588,7 +588,7 @@
     "message": "------------------Info dialog strings------------------"
   },
   "sbInfoDialogTitle": {
-    "message": "Info"
+    "message": "信息"
   },
   "sbInfoIdLdl": {
     "message": "ID"
@@ -609,121 +609,121 @@
     "message": "------------------Subscribe by url dialog strings------------------"
   },
   "sbSubsDiaTitle": {
-    "message": "Subscribe by url"
+    "message": "用网址订阅"
   },
   "sbSubsDiaUrlLbl": {
-    "message": "Url"
+    "message": "网址"
   },
   "sbSubsDiaByUrlCloseButton": {
-    "message": "Close"
+    "message": "关闭"
   },
   "sbSubsDiaByUrlSubscribeButton": {
-    "message": "Subscribe"
+    "message": "订阅"
   },
   "comment10": {
     "message": "------------------Script manager strings------------------"
   },
   "usUScriptCreateNew": {
-    "message": "Create a new script"
+    "message": "新建脚本"
   },
   "usUScriptEdit": {
-    "message": "Edit script"
+    "message": "编辑脚本"
   },
   "usUScriptEnableDisable": {
-    "message": "Enable/disable script"
+    "message": "启用/禁用脚本"
   },
   "usUScriptType": {
-    "message": "Script type"
+    "message": "脚本类型"
   },
   "usUScriptFeedTransformer": {
-    "message": "Feed transformer"
+    "message": "订阅点转换器"
   },
   "usUScriptVirtualFeed": {
-    "message": "Virtual feed"
+    "message": "虚拟订阅点"
   },
   "usUScriptUrlMatchPatterns": {
-    "message": "Url match patterns"
+    "message": "网址匹配模式"
   },
   "usUScriptSubscribe": {
-    "message": "Subscribe"
+    "message": "订阅"
   },
   "usUScriptLastEdition": {
-    "message": "Last edition"
+    "message": "最后编辑"
   },
   "usUScriptDelete": {
-    "message": "Delete script"
+    "message": "删除脚本"
   },
   "comment11": {
     "message": "------------------Script editor strings------------------"
   },
   "usUScriptCommands": {
-    "message": "Commands"
+    "message": "注释"
   },
   "usUScriptSave": {
-    "message": "Save"
+    "message": "保存"
   },
   "usUScriptClose": {
-    "message": "Close"
+    "message": "关闭"
   },
   "usUScriptSaveAndClose": {
-    "message": "Save and close"
+    "message": "保存并关闭"
   },
   "usUScriptUrlMatchPatternsHelp": {
-    "message": "Help for url match patterns"
+    "message": "有关脚本匹配模式的帮助"
   },
   "usUScriptTestFeedUrl": {
-    "message": "Test feed url"
+    "message": "测试订阅点网址"
   },
   "usUScriptSaveAndTest": {
-    "message": "Save and test..."
+    "message": "保存并测试..."
   },
   "usUScriptFtInfo": {
-    "message": "Feed transformer (info)"
+    "message": "订阅点转换器（信息）"
   },
   "usUScriptVfInfo": {
-    "message": "Virtual feed (info)"
+    "message": "虚拟订阅点（信息）"
   },
   "usUScriptHelp": {
-    "message": "help"
+    "message": "帮助"
   },
   "usUScriptExample": {
-    "message": "example"
+    "message": "例子"
   },
   "usUScriptSaveAndSubscribe": {
-    "message": "Save and subscribe..."
+    "message": "保存并订阅..."
   },
   "comment12": {
     "message": "------------------Text editor strings------------------"
   },
   "usUScriptFont": {
-    "message": "Font"
+    "message": "字体"
   },
   "usUScriptFamily": {
-    "message": "Family"
+    "message": "家族"
   },
   "usUScriptSize": {
-    "message": "Size"
+    "message": "大小"
   },
   "usUScriptTabSize": {
-    "message": "Tab size"
+    "message": "制表符尺寸"
   },
   "usUScriptTheme": {
-    "message": "Theme"
+    "message": "主题"
   },
   "comment13": {
     "message": "------------------Editor console strings------------------"
   },
   "edConsoleClear": {
-    "message": "Clear"
+    "message": "清除"
   },
   "edConsoleCopy": {
-    "message": "Copy text console"
+    "message": "复制文本控制台"
   },
   "comment14": {
     "message": "------------------DateTime.getDateDiff strings------------------"
   },
   "dtMany": {
-    "message": "s"
+    "message": ""
   },
   "dtSingle": {
     "message": ""
@@ -798,60 +798,60 @@
     "message": "------------------ Custom theme manager ------------------"
   },
   "cthTitleCustomThemeManager": {
-    "message": "Custom theme manager"
+    "message": "自定义主题管理器"
   },
   "cthImportThemeCustom": {
-    "message": "Import a custom theme..."
+    "message": "导入自定义主题..."
   },
   "cthLegendMainThemeCustom": {
-    "message": "Main custom theme"
+    "message": "主界面自定义主题"
   },
   "cthLegendRenderTemplateCustom": {
-    "message": "Render tab custom template"
+    "message": "阅读器标签页自定义模板"
   },
   "cthLegendRenderThemeCustom": {
-    "message": "Render tab custom theme"
+    "message": "阅读器标签页自定义主题"
   },
   "cthLegendScriptEditorThemeCustom": {
-    "message": "Script editor custom theme"
+    "message": "脚本编辑器自定义主题"
   },
   "cthApplyTheme": {
-    "message": "Apply"
+    "message": "应用"
   },
   "cthRenameTheme": {
-    "message": "Rename"
+    "message": "重命名"
   },
   "cthDeleteTheme": {
-    "message": "Delete"
+    "message": "删除"
   },
   "cthExportMainThemeCustom": {
-    "message": "Export as custom main theme..."
+    "message": "导出为自定义主界面主题..."
   },
   "cthExportRenderTemplateCustom": {
-    "message": "Export as custom tab template theme..."
+    "message": "导出为自定义标签页模板主题..."
   },
   "cthExportRenderThemeCustom": {
-    "message": "Export as custom tab theme..."
+    "message": "导出为自定义标签页主题..."
   },
   "cthExportScriptEditorThemeCustom": {
-    "message": "Export as custom script editor theme"
+    "message": "导出为自定义脚本编辑器主题"
   },
   "cthDiagRename": {
-    "message": "Rename"
+    "message": "重命名"
   },
   "cthDiagNewName": {
-    "message": "New name:"
+    "message": "新名称："
   },
   "cthDiagImport": {
-    "message": "Import"
+    "message": "导入"
   },
   "cthDiagThemeName": {
-    "message": "Theme name:"
+    "message": "主题名称："
   },
   "cthDiagOk": {
-    "message": "Ok"
+    "message": "确定"
   },
   "cthDiagCancel": {
-    "message": "Cancel"
+    "message": "取消"
   }
 }
