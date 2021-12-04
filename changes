@@ -1,6 +1,6 @@
 1.0.14
 In render tab 'Two panels (Fox memory)' add moving up and down with arrows feature.
-In render tab 'Two panels (Fox memory)' add buttons to mark current article as read, mark current article as unread, mark all articles as read, mark all articles as unread, open unread articles, hide read articles, to use DEL key to switch read/undread articles.
+In render tab 'Two panels (Fox memory)' add buttons to mark current article as read, mark current article as unread, mark all articles as read, mark all articles as unread, open unread articles, hide read articles, to use DEL key to switch read/unread articles.
 
 1.0.13
 On multiple feeds opening, open first 5 feeds synchronously, and the others asynchronously.
