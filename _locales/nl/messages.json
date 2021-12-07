@@ -78,7 +78,7 @@
     "message": "Verberg gelezen artikelen"
   },
   "sbItemDelKeySwicthReadArticles": {
-    "message": "Use DEL key to switch read/undread articles"
+    "message": "Wissel middels DEL knop tussen gelezen/ongelezen artikelen"
   },  
   "sbOpenUpdatedFeeds": {
     "message": "Open bijgewerkte feeds"
