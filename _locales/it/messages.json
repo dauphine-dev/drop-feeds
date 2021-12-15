@@ -78,8 +78,8 @@
     "message": "Nascondi gli articoli già letti"
   },
   "sbItemDelKeySwicthReadArticles": {
-    "message": "Use DEL key to switch read/undread articles"
-  },  
+    "message": "Premi il tasto CANC per muoversi tra articoli letti/non letti"
+  },
   "sbOpenUpdatedFeeds": {
     "message": "Apri i feed aggiornati"
   },
