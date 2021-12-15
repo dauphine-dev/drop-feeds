@@ -3,8 +3,15 @@
 ./_any/img/feedIcon.png
 ./_any/css/subscribeButton.css
 ./two_panels/xsl/template.xsl
+./two_panels/img/articles-hide.png
+./two_panels/img/itemOpenUnreadButton.png
+./two_panels/img/delKey.png
+./two_panels/img/itemMarkAllAsUnreadButton.png
+./two_panels/img/itemMarkAllAsReadButton.png
+./two_panels/img/itemMarkAsUnreadButton.png
 ./two_panels/img/link-go.png
 ./two_panels/img/mail-to.png
+./two_panels/img/itemMarkAsReadButton.png
 ./two_panels/js/template.js
 ./two_panels/css/template.css
 ./one_column/xsl/template.xsl

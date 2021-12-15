@@ -21,6 +21,9 @@ class FeedTransform { /*exported FeedTransform*/
     let xsltUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
     let themeUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssUrl_async());
     let scriptUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kinds.renderTemplate, 'js/template.js'));
+    let scriptBrowserManagerUrl = BrowserManager.getRuntimeUrl('/js/tools/browserManager.js');
+    let scriptDefaultValuesUrl = BrowserManager.getRuntimeUrl('/js/tools/defaultValues.js');
+    let scriptLocalStorageManagerUrl = BrowserManager.getRuntimeUrl('/js/tools/localStorageManager.js');
     let description = (feedInfo.channel.description || '');
     let feedXml = `<?xml-stylesheet type="text/xsl" href= "${xsltUrl}" ?>
 <render>
@@ -29,6 +32,9 @@ class FeedTransform { /*exported FeedTransform*/
     <subscribeButtonStyle><![CDATA[${subscribeButtonCssUrl}]]></subscribeButtonStyle>
     <template><![CDATA[${templateCssUrl}]]></template>
     <theme><![CDATA[${themeUrl}]]></theme>
+    <scriptBrowserManager><![CDATA[${scriptBrowserManagerUrl}]]></scriptBrowserManager>
+    <scriptDefaultValues><![CDATA[${scriptDefaultValuesUrl}]]></scriptDefaultValues>
+    <scriptLocalStorageManager><![CDATA[${scriptLocalStorageManagerUrl}]]></scriptLocalStorageManager>
     <script><![CDATA[${scriptUrl}]]></script>
   </context>
   <channel>

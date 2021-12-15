@@ -32,8 +32,30 @@
           </xsl:attribute>
         </xsl:element>
         <title><span class="encodedText"><xsl:value-of select="/render/channel/title"/></span> - Drop Feeds</title>
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptBrowserManager"/>
+          </xsl:attribute>
+        </xsl:element>        
+
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptDefaultValues"/>
+          </xsl:attribute>
+        </xsl:element>        
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptLocalStorageManager"/>
+          </xsl:attribute>
+        </xsl:element>        
       </head>
       <body>
+
+
+        <!-- ** headBar ** -->
         <div id="channelHead">
           <div class="channelTitle">
             <span class="channelTitleText">
@@ -47,12 +69,53 @@
               </xsl:element>
             </span>
           </div>
+          <div id="buttonsPannel">
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemOpenUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Open unread items in new tabs</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemHideReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">#Hide read articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemSeparator1</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemDelKeySwicthReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">#Use DEL key to switch read/undread articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+          </div>
         </div>
         <div class="sep1"></div>
         <!-- ** topPanel ** -->
         <div id="topPanel">
           <table>
-            <tr>
+            <tr class="tableHeader" >
               <th></th>
               <th>Title</th>
               <th>Visited</th>

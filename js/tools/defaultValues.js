@@ -46,12 +46,13 @@ class DefaultValues { /*exported DefaultValues*/
   static get handlesFeedTab()                { return true; }
   static get preventOpenWith()               { return false; }
   static get syncThreshold()                 { return 5; }
-  
-
+  static get hideReadArticlesTwoTemples()    { return false; }
+  static get delKeySwicthReadArticles  ()    { return false; }
+    
   static get allowedTagList() {
     return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },
       { 'div': [] }, { 'em': [] }, { 'font': ['color', 'size'] }, { 'h1': [] }, { 'h2': [] }, { 'h3': [] }, { 'h4': [] }, { 'h5': [] }, { 'h6': [] }, { 'hr': [] }, { 'i': [] },
-      { 'img': ['alt', 'border', 'src', 'title'] }, { 'ins': [] }, { 'li': [] }, { 'ol': [] }, { 'p': [] }, { 'pre': [] }, { 'q': [] }, { 's': [] }, { 'span': [] }, { 'strong': [] },
+      { 'img': ['alt', 'border', 'src', 'title', 'width'] }, { 'ins': [] }, { 'li': [] }, { 'ol': [] }, { 'p': [] }, { 'pre': [] }, { 'q': [] }, { 's': [] }, { 'span': [] }, { 'strong': [] },
       { 'table': ['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width'] }, { 'tbody': ['align'] }, { 'td': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] },
       { 'th': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] }, { 'tr': ['bgcolor'] }, { 'u': [] }, { 'ul': [] }];
   }

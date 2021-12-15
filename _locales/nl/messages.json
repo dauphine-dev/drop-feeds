@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Verberg gelezen artikelen"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Wissel middels DEL toets tussen gelezen/ongelezen artikelen"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Open bijgewerkte feeds"
   },

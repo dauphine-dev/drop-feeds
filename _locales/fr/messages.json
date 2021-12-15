@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Masquer les articles visités"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Utiliser la touche 'SUPPR' pour basculer les articles de 'lu' à 'non lu'"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Ouvrir les flux non lus"
   },

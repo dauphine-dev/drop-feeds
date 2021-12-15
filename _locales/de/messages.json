@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Use DEL key to switch read/undread articles"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Öffne aktualisierte Feeds"
   },
@@ -144,7 +147,7 @@
     "message": "erhalten"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "Waiting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "Feeds aktualisiert"
