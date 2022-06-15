@@ -62,6 +62,10 @@ class Transfer { /*exported Transfer*/
           }
         }
       };
+      xhr.timeout = Timeout.instance.timeOutMs;
+      xhr.ontimeout = function () {
+        reject('timeout');
+      };
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
       if (overrideMimeType) {
