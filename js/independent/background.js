@@ -15,8 +15,7 @@ class BackgroundManager {
     let windowInfo = await browser.windows.getCurrent({ populate: true });
     this._windowId = windowInfo.id;
     browser.windows.onFocusChanged.addListener((windowId) => { this._windowOnFocused_event(windowId); });
-    browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
-
+    browser.action.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
   }
 
   async _windowOnFocused_event(windowId) {
