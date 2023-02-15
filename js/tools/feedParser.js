@@ -16,7 +16,9 @@ const tagList = {
   DESC: ['content:encoded', 'description', 'content', 'summary', 'subtitle', 'media:description'],
   CAT: ['category'],
   AUTHOR: ['author', 'dc:creator'],
-  PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
+  PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate'],
+  THUMBNAIL: ['media:thumbnail'],
+  MEDIA_CONTENT: ['media:content']
 };
 
 class FeedParser { /*exported FeedParser*/
@@ -282,6 +284,20 @@ class FeedParser { /*exported FeedParser*/
     return result;
   }
 
+  static _getThumbnail(itemText) {
+    if (!itemText) { return null; }
+    let thumbnail = null;
+    thumbnail = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['url']);
+    if (!thumbnail) {
+      let medium = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['medium']);
+      if (medium == 'image') {
+        thumbnail = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['url']);
+      }
+    }
+    return thumbnail;
+
+  }
+
   static _extractValue(text, tagList, startIndex_optional, out_endIndex_optional, noTrim_optional) {
     if (!text) { return null; }
     if (!out_endIndex_optional) { out_endIndex_optional = []; }
@@ -402,6 +418,7 @@ class FeedParser { /*exported FeedParser*/
       let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = FeedParser._extractDateTime(pubDateString);
       item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
+      item.thumbnail = FeedParser._getThumbnail(itemText);
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }

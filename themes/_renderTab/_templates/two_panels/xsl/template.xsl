@@ -197,7 +197,22 @@
                   </span>
                 </div>
               </div>
-              <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
+              <xsl:if test="./thumbnail!='null'">
+                <div style="display:grid; align-items:top; grid-template-columns:1fr 99fr; column-gap:5px;">
+                  <div class="itemDescription">
+                    <xsl:element name="img">
+                      <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                      <xsl:attribute name="style">max-width:320px; max-height:200px</xsl:attribute>
+                    </xsl:element>
+                  </div>
+                  <div class="itemDescription">
+                    <span class="encodedHtml"><xsl:value-of select="./description"/></span>
+                  </div>
+                </div>
+              </xsl:if>
+              <xsl:if test="./thumbnail='null'">
+                <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
+              </xsl:if>
               <p/>
               <!-- enclosures -->
               <xsl:if test="((./enclosures/enclosure/type='audio') or (./enclosures/enclosure/type='video') or (./enclosures/enclosure/type='image'))">

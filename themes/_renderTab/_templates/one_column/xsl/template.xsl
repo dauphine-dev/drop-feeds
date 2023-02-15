@@ -49,7 +49,17 @@
               <span class="encodedText"><xsl:value-of select="./title" /></span>
             </xsl:element>
           </h2>
-          <div class="itemDescription"><span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span></div>
+          <div class="itemDescription">
+            <xsl:if test="./thumbnail!='null'">
+              <xsl:element name="img">
+                <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                <xsl:attribute name="style">max-width:320px;max-height:200px</xsl:attribute>
+              </xsl:element>
+              <br/>
+            </xsl:if>
+            <span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span>
+          </div>
+
           <div class="itemInfo">
             <div class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
             <div class="itemAuthor">Posted by <xsl:value-of select="./author"/></div>

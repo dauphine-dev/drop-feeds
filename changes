@@ -1,3 +1,7 @@
+1.0.16
+Manifest V3
+Display thunnails in item description
+
 1.0.15
 Fix some freezing by adding timeout on file transfert
 

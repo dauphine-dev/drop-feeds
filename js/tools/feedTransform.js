@@ -80,6 +80,7 @@ class FeedTransform { /*exported FeedTransform*/
       <category><![CDATA[${item.category}]]></category>
       <author><![CDATA[${item.author}]]></author>
       <pubDateText><![CDATA[${pubDateText}]]></pubDateText>
+      <thumbnail><![CDATA[${item.thumbnail}]]></thumbnail>
       <enclosures>
         <enclosure>
           <type><![CDATA[${(item.enclosure ? enclosureType : '')}]]></type>
