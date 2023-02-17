@@ -53,7 +53,7 @@ class Transfer { /*exported Transfer*/
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = responseType;
-      xhr.onloadend = function () {
+      xhr.onloadend = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             resolve(xhr);
@@ -63,7 +63,7 @@ class Transfer { /*exported Transfer*/
         }
       };
       xhr.timeout = Timeout.instance.timeOutMs;
-      xhr.ontimeout = function () {
+      xhr.ontimeout = () => {
         reject('timeout');
       };
       xhr.open('GET', url);
@@ -75,11 +75,11 @@ class Transfer { /*exported Transfer*/
     });
   }
 
-  static async downloadTextFileEx_async(url, urlNoCache) {
+  static async downloadTextFileEx0_async(url, urlNoCache) {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'arraybuffer';
-      xhr.onloadend = function () {
+      xhr.onloadend = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
             // Decode the response as UTF-8 then apply the feed's specified encoding (if present)
@@ -114,13 +114,14 @@ class Transfer { /*exported Transfer*/
         let sep = url.includes('?') ? '&' : '?';
         url += sep + 'dpNoCache=' + new Date().getTime();
       }
+      console.log('url:', url);
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = Timeout.instance.timeOutMs;
-      xhr.ontimeout = function () {
+      xhr.ontimeout = () => {
         reject('timeout');
       };
-      xhr.onerror = function () {
+      xhr.onerror = () => {
         let statusText = xhr.statusText ? xhr.statusText : 'unknown error';
         let statusCode = xhr.status ? ' (' + xhr.status + ')' : '';
         reject(statusText + statusCode);
@@ -128,4 +129,43 @@ class Transfer { /*exported Transfer*/
       xhr.send();
     });
   }
+
+  static async downloadTextFileEx_async(url, urlNoCache) {
+    if (urlNoCache) {
+      let sep = url.includes('?') ? '&' : '?';
+      url += sep + 'dpNoCache=' + new Date().getTime();
+    }
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), Timeout.instance.timeOutMs);
+    const fetchInit = { method: 'GET', mode: 'cors', cache: 'no-cache', signal: controller.signal };
+    let response = await fetch(url, fetchInit);
+    if (response.ok) {
+      const responseArrayBuffer = await response.arrayBuffer();
+      // Decode the response as UTF-8 then apply the feed's specified encoding (if present)
+      let defaultEncoding = 'utf-8';
+      let utf8Decoder = new TextDecoder(defaultEncoding);
+      let utf8Content = utf8Decoder.decode(responseArrayBuffer);
+      try {
+        let encoding = FeedParser.getFeedEncoding(utf8Content);
+        if (encoding && encoding != defaultEncoding) {
+          let decoder = new TextDecoder(encoding.toLowerCase());
+          let decodedContent = decoder.decode(responseArrayBuffer);
+          return decodedContent;
+        }
+      }
+      catch (e) {
+        /*eslint-disable no-console*/
+        console.error('downloadTextFileEx_async encoding failed "' + e);
+        /*eslint-enable no-console*/
+      }
+      // Fallback to the default encoding
+      return utf8Content;
+    }
+    else {
+      let statusText = response.statusText ? response.statusText : 'unknown error';
+      let statusCode = response.status ? ' (' + response.status + ')' : '';
+      console.error(statusText + statusCode);
+    }
+  }
+
 }

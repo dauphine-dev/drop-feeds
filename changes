@@ -1,6 +1,7 @@
 1.0.16
-Manifest V3
-Display thunnails in item description
+Migration to manifest V3
+Display thumbnails in item description
+Use 'fetch' request instead of 'XMLHttpRequest' request
 
 1.0.15
 Fix some freezing by adding timeout on file transfert
