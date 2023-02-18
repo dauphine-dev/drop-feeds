@@ -418,7 +418,11 @@ class FeedParser { /*exported FeedParser*/
       let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = FeedParser._extractDateTime(pubDateString);
       item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
-      item.thumbnail = FeedParser._getThumbnail(itemText);
+      item.thumbnail = null;
+      const thumbnail = FeedParser._getThumbnail(itemText);
+      if (!item.description.includes(thumbnail)) {
+        item.thumbnail = thumbnail;
+      }
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
