@@ -5,11 +5,11 @@ class TabAdvanced { /*exported TabAdvanced*/
 
   constructor() {
     this._updateLocalizedStrings();
-    if (BrowserManager.manifestVersion != 2) {
+    if (BrowserManager.instance.manifestVersion != 2) {
       document.getElementById('lblScriptManager').disabled = true;
       document.getElementById('lblScriptManager').style.color= 'gray';
       document.getElementById('scriptManagerButton').disabled = true;
-      document.getElementById('trScriptManagerUnavailable').style.display = 'block';
+      document.getElementById('lblScriptManagerUnavailable').style.display = 'block';
     }
     document.getElementById('scriptManagerButton').addEventListener('click', (e) => { this._scriptManagerButtonOnClicked_event(e); });
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
