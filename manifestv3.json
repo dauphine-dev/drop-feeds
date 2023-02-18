@@ -3,8 +3,8 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "1.0.16.905000003",
-  "version_name": "1.0.16 beta5, manifestv3",
+  "version": "1.0.16.906000003",
+  "version_name": "1.0.16 beta6, manifestv3",
   "browser_specific_settings": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
