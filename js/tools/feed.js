@@ -130,7 +130,10 @@ class Feed { /*exported Feed*/
     this._savePrevValues();
     let ignoreRedirection = false;
     await this._download_async(ignoreRedirection, false, scriptData);
-    await this._runUserScript_async(scriptData);
+    const manifest = browser.runtime.getManifest();
+    if (manifest.manifest_version == 2) {
+      await this._runUserScript_async(scriptData);
+    }
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();

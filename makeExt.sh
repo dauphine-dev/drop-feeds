@@ -47,12 +47,23 @@ rm -rf .git/
 rm -rf .vscode/
 rm -rf .eslintrc.json
 rm -rf .gitignore
-#zip files
+#Creating for zip manifest v2 version
 cd $INITIAL_DIR
+cp -p manifestv2.json manifest.json
+cp -p manifestv2.json ../_ext/$BRANCH/manifest.json
 cd ../_ext/$BRANCH
 VERSION=$(jq -r '.version' manifest.json)
-rm -rf ../$NAME-$VERSION.zip
-zip -r ../$NAME-$VERSION.zip * >/dev/null
+rm -rf ../$NAME-$VERSION-mv2.zip
+zip -r ../$NAME-$VERSION-mv2.zip * >/dev/null
+#Creating for zip manifest v3 version
+cd $INITIAL_DIR
+cp -p manifestv3.json manifest.json
+cp -p manifestv3.json ../_ext/$BRANCH/manifest.json
+sleep 2
+cd ../_ext/$BRANCH
+VERSION=$(jq -r '.version' manifest.json)
+rm -rf ../$NAME-$VERSION-mv3.zip
+zip -r ../$NAME-$VERSION-mv3.zip * >/dev/null
 #finishing...
 cd $INITIAL_DIR
 echo "Extension created"

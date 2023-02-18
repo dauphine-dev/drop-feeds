@@ -123,13 +123,14 @@ class FeedTransform { /*exported FeedTransform*/
         </div>
       </div>
       `;
-      let subscribeButton = document.createRange().createContextualFragment(subscribeButtonHtml);
+      let subscribeButton = BrowserManager.createFragment(subscribeButtonHtml);
+
       doc.body.prepend(subscribeButton);
       doc.getElementById('subscribeNow').setAttribute('target', subscribeButtonTarget);
 
-      let scriptUrl = browser.extension.getURL('/js/ui/subscribeButton/subscribeButton.js');
+      let scriptUrl = browser.runtime.getURL('/js/ui/subscribeButton/subscribeButton.js');
       let subscribeButtonScriptHtml = '\r\n<script src="' + scriptUrl + '"></script>';
-      let subscribeButtonScript = document.createRange().createContextualFragment(subscribeButtonScriptHtml);
+      let subscribeButtonScript = BrowserManager.createFragment(subscribeButtonScriptHtml);
       doc.body.append(subscribeButtonScript);
 
     }
@@ -156,7 +157,7 @@ class FeedTransform { /*exported FeedTransform*/
     let element = htmlDoc.querySelector('.encodedHtml');
     while (element) {
       let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
-      let decodedElement = document.createRange().createContextualFragment(decodedHtml);
+      let decodedElement = BrowserManager.createFragment(decodedHtml);
       element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedHtml');
     }

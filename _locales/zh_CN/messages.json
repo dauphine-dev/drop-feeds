@@ -443,6 +443,9 @@
   "optScriptManagerButton": {
     "message": "脚本管理器..."
   },
+  "optScriptManagerUnavailable": {
+    "message": "Script mananger is not able to work with new namifest v3"
+  },
   "optLblSecurityFilter": {
     "message": "打开安全过滤器设置"
   },

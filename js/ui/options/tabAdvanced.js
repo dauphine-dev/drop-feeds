@@ -5,6 +5,12 @@ class TabAdvanced { /*exported TabAdvanced*/
 
   constructor() {
     this._updateLocalizedStrings();
+    if (BrowserManager.manifestVersion != 2) {
+      document.getElementById('lblScriptManager').disabled = true;
+      document.getElementById('lblScriptManager').style.color= 'gray';
+      document.getElementById('scriptManagerButton').disabled = true;
+      document.getElementById('trScriptManagerUnavailable').style.display = 'block';
+    }
     document.getElementById('scriptManagerButton').addEventListener('click', (e) => { this._scriptManagerButtonOnClicked_event(e); });
     document.getElementById('securityFilterButton').addEventListener('click', (e) => { this._securityFilterButtonOnClicked_event(e); });
     document.getElementById('debugViewButton').addEventListener('click', (e) => { this._debugViewButtonOnClicked_event(e); });
@@ -20,6 +26,7 @@ class TabAdvanced { /*exported TabAdvanced*/
   _updateLocalizedStrings() {
     document.getElementById('lblScriptManager').textContent = browser.i18n.getMessage('optLblScriptManager');
     document.getElementById('scriptManagerButton').textContent = browser.i18n.getMessage('optScriptManagerButton');
+    document.getElementById('lblScriptManagerUnavailable').textContent = browser.i18n.getMessage('optScriptManagerUnavailable');
     document.getElementById('lblSecurityFilter').textContent = browser.i18n.getMessage('optLblSecurityFilter');
     document.getElementById('securityFilterButton').textContent = browser.i18n.getMessage('optSecurityFilterButton');
     document.getElementById('lblDebugView').textContent = browser.i18n.getMessage('optLblDebugView');

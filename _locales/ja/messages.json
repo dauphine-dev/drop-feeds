@@ -443,6 +443,9 @@
   "optScriptManagerButton": {
     "message": "スクリプトマネージャー..."
   },
+  "optScriptManagerUnavailable": {
+    "message": "Script mananger is not able to work with new namifest v3"
+  },
   "optLblSecurityFilter": {
     "message": "セキュリティーフィルターの設定"
   },
