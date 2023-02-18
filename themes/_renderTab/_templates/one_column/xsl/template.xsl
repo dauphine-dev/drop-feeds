@@ -49,17 +49,24 @@
               <span class="encodedText"><xsl:value-of select="./title" /></span>
             </xsl:element>
           </h2>
-          <div class="itemDescription">
+          <xsl:element name="div">
             <xsl:if test="./thumbnail!='null'">
-              <xsl:element name="img">
-                <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
-                <xsl:attribute name="style">max-width:320px;max-height:200px</xsl:attribute>
+            <xsl:attribute name="style">min-height:200px</xsl:attribute>
+              <!-- thumbnail -->
+              <xsl:element name="a">
+                <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
+                <xsl:element name="img">
+                  <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                  <xsl:attribute name="style">float: left;margin: 5px;max-width:320px;max-height:200px;</xsl:attribute>
+                </xsl:element>
               </xsl:element>
-              <br/>
+            <br/>
             </xsl:if>
-            <span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span>
-          </div>
-
+          <!-- description -->
+          <span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span>
+          </xsl:element>
+          <!-- itemInfo -->
           <div class="itemInfo">
             <div class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
             <div class="itemAuthor">Posted by <xsl:value-of select="./author"/></div>
