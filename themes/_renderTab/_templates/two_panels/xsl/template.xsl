@@ -197,31 +197,6 @@
                   </span>
                 </div>
               </div>
-              <!--
-              <xsl:if test="./thumbnail!='null'">
-                <div style="display:grid; align-items:top; grid-template-columns:1fr 99fr; column-gap:5px;">
-                  <div class="itemDescription">
-                    <!- - thumbnail - ->
-                    <xsl:element name="a">
-                      <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
-                      <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
-                      <xsl:element name="img">
-                        <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
-                        <xsl:attribute name="style">max-width:320px;max-height:200px;</xsl:attribute>
-                      </xsl:element>
-                    </xsl:element>
-                  </div>
-                  <!- - description - ->
-                  <div class="itemDescription">
-                    <span class="encodedHtml"><xsl:value-of select="./description"/></span>
-                  </div>
-                </div>
-              </xsl:if>
-              <xsl:if test="./thumbnail='null'">
-                <!- - description - ->
-                <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
-              </xsl:if>
-              -->
               <xsl:if test="./thumbnail!='null'">
                 <div class="itemDescription">
                   <!-- thumbnail -->
@@ -230,7 +205,7 @@
                     <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
-                      <xsl:attribute name="style">float: left;margin: 5px;max-width:320px;max-height:200px;</xsl:attribute>
+                      <xsl:attribute name="style">float: left; margin-right: 15px; max-width:320px; max-height:200px;</xsl:attribute>
                     </xsl:element>
                   </xsl:element>
                 </div>

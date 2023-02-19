@@ -289,8 +289,8 @@ class FeedParser { /*exported FeedParser*/
     let thumbnail = null;
     thumbnail = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['url']);
     if (!thumbnail) {
-      let medium = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['medium']);
-      if (medium == 'image') {
+      let medium = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['medium', 'type']);
+      if (medium && (medium == 'image' || medium.startsWith('image/'))) {
         thumbnail = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['url']);
       }
     }
@@ -506,7 +506,7 @@ class FeedParser { /*exported FeedParser*/
     let url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if (url) {
       let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-      if (mimetype) {
+      if (mimetype && mimetype != 'image' && !mimetype.startsWith('image/')) {
         let size = FeedParser._extractAttribute(itemText, tag, ['length']);
         let d = { 'url': url, 'mimetype': mimetype, 'size': size };
         return d;
@@ -518,7 +518,7 @@ class FeedParser { /*exported FeedParser*/
     url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if (url) {
       let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-      if (mimetype) {
+      if (mimetype && mimetype != 'image' && !mimetype.startsWith('image/')) {
         let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
         let d = { 'url': url, 'mimetype': mimetype, 'size': size };
         return d;
