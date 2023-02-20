@@ -205,7 +205,7 @@
                     <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
-                      <xsl:attribute name="style">float: left; margin-right: 15px; max-width:320px; max-height:200px;</xsl:attribute>
+                      <xsl:attribute name="style">float: left; margin-right: 15px; margin-bottom: 4px; max-width:320px; max-height:200px;</xsl:attribute>
                     </xsl:element>
                   </xsl:element>
                 </div>
