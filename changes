@@ -1,11 +1,15 @@
-1.0.16
-Migration to manifest V3
-  manifest V3 implies: 
-    the user-scripts and,
-    http feeds (https is mandatory)
-    don't work any more
+1.0.16.100000002
+Ready for manifest V3
 Display thumbnails in item description
 Use 'fetch' request instead of 'XMLHttpRequest' request
+
+Manisfset version 3 (1.0.16.100000003) is available on github
+  https://github.com/dauphine-dev/drop-feeds/releases
+  manifest V3 will implies: 
+     - the user-scripts
+     - http feeds (https is mandatory)
+  don't work any more
+
 
 1.0.15
 Fix some freezing by adding timeout on file transfert
