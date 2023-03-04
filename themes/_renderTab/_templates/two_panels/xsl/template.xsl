@@ -197,7 +197,23 @@
                   </span>
                 </div>
               </div>
-              <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
+              <xsl:if test="./thumbnail!='null'">
+                <div class="itemDescription">
+                  <!-- thumbnail -->
+                  <xsl:element name="a">
+                    <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                    <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
+                    <xsl:element name="img">
+                      <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                      <xsl:attribute name="style">float: left; margin-right: 15px; margin-bottom: 4px; max-width:320px; max-height:200px;</xsl:attribute>
+                    </xsl:element>
+                  </xsl:element>
+                </div>
+              </xsl:if>
+              <!-- description -->
+              <div class="itemDescription">
+                <span class="encodedHtml"><xsl:value-of select="./description"/></span>
+              </div>
               <p/>
               <!-- enclosures -->
               <xsl:if test="((./enclosures/enclosure/type='audio') or (./enclosures/enclosure/type='video') or (./enclosures/enclosure/type='image'))">

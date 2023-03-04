@@ -71,7 +71,7 @@ class DefaultValues { /*exported DefaultValues*/
   }
 
   static getDefaultItem(id) {
-    return { id: id, number: 0, title: '', link: '', description: '', category: '', author: '', pubDate: '', pubDateText: '', text: '' };
+    return { id: id, number: 0, title: '', link: '', description: '', category: '', author: '', pubDate: '', pubDateText: '', text: '', thumbnail: null };
   }
 
   static getDefaultFeedInfo() {

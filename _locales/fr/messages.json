@@ -443,6 +443,9 @@
   "optScriptManagerButton": {
     "message": "Gestionnaire de script..."
   },
+  "optScriptManagerUnavailable": {
+    "message": "Le gestionnaire de script ne fonctionne plus avec le nouveau namifest v3"
+  },
   "optLblSecurityFilter": {
     "message": "Ouvrir l'écran des filtres de sécurité"
   },
