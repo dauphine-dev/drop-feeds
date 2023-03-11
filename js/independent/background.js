@@ -1,6 +1,5 @@
-/*global browser*/
+/*global browser chrome*/
 'use strict';
-//const SIDEBAR_URL = '/html/sidebar.html';
 
 class BackgroundManager {
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -8,6 +7,7 @@ class BackgroundManager {
   constructor() {
     this._windowList = [];
     this._windowId = null;
+    this._portKeepAlive = null;
   }
 
   async init_async() {
@@ -20,6 +20,7 @@ class BackgroundManager {
     } else {
       browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
     }
+    this.keepMeAlive();
   }
 
   async _windowOnFocused_event(windowId) {
@@ -54,6 +55,16 @@ class BackgroundManager {
   portOnMessage_event(message) {
     let self = BackgroundManager.instance;
     self._windowList.push(message.sidebarWindowId);
+  }
+
+  async keepMeAlive() {
+    setInterval(() => {
+      if (this._portKeepAlive == null) {
+        this._portKeepAlive = chrome.runtime.connect({ name: 'keep-background-script-alive' });
+        this._portKeepAlive.onDisconnect.addListener(() => { this._portKeepAlive = null; });
+      }
+      if (this._portKeepAlive) { this._portKeepAlive.postMessage({ content: 'keep-me-alive' }); }
+    }, 15000);
   }
 }
 BackgroundManager.instance.init_async();
