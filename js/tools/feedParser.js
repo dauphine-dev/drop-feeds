@@ -17,7 +17,7 @@ const tagList = {
   CAT: ['category'],
   AUTHOR: ['author', 'dc:creator'],
   PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate'],
-  THUMBNAIL: ['media:thumbnail'],
+  THUMBNAIL: ['enclosure', 'media:thumbnail'],
   MEDIA_CONTENT: ['media:content']
 };
 
@@ -286,8 +286,13 @@ class FeedParser { /*exported FeedParser*/
 
   static _getThumbnail(itemText) {
     if (!itemText) { return null; }
+
     let thumbnail = null;
-    thumbnail = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['url']);
+    let medium = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['medium', 'type']);
+    if (medium && (medium == 'image' || medium.startsWith('image/'))) {
+      thumbnail = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['url']);
+    }
+
     if (!thumbnail) {
       let medium = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['medium', 'type']);
       if (medium && (medium == 'image' || medium.startsWith('image/'))) {
