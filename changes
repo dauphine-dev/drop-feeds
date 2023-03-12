@@ -1,9 +1,15 @@
-1.0.16.200000002
+1.0.16.40000000x
+Fix missing thumbnail when comming from enclosure 
+
+1.0.16.30000000x
+Keep background script alive with manifest V3
+
+1.0.16.20000000x
 same as 1.0.16.100000002
  - with font size fix for sage_sc theme
  - make v2 manisfest as the default one
 
-1.0.16.100000002
+1.0.16.10000000x
 Ready for manifest V3
 Display thumbnails in item description
 Use 'fetch' request instead of 'XMLHttpRequest' request
