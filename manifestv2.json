@@ -3,10 +3,10 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "1.0.16.500000002",
+  "version": "1.0.17.100701002",
   "browser_specific_settings": {
     "gecko": {
-      "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
+      "id": "dropfeeds@dauphine.dev",
       "strict_min_version": "73.0"
     }
   },
@@ -72,6 +72,7 @@
     "storage",
     "tabs",
     "webNavigation",
-    "webRequest"
+    "webRequest",
+    "nativeMessaging"
   ]
 }

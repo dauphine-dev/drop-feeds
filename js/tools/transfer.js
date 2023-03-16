@@ -1,4 +1,4 @@
-/*global DefaultValues Listener ListenerProviders FeedParser*/
+/*global browser DefaultValues Listener ListenerProviders FeedParser*/
 'use strict';
 class Timeout { /*exported Timeout*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -114,7 +114,6 @@ class Transfer { /*exported Transfer*/
         let sep = url.includes('?') ? '&' : '?';
         url += sep + 'dpNoCache=' + new Date().getTime();
       }
-      console.log('url:', url);
       xhr.open('GET', url);
       xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = Timeout.instance.timeOutMs;
@@ -130,10 +129,13 @@ class Transfer { /*exported Transfer*/
     });
   }
 
-  static async downloadTextFileEx_async(url, urlNoCache) {
+  static async downloadTextFileEx_async(url, urlNoCache, useNativeWebRequest) {
     if (urlNoCache) {
       let sep = url.includes('?') ? '&' : '?';
       url += sep + 'dpNoCache=' + new Date().getTime();
+    }
+    if (useNativeWebRequest) {
+      return await browser.runtime.sendNativeMessage('dropfeeds', url);
     }
     const controller = new AbortController();
     setTimeout(() => controller.abort(), Timeout.instance.timeOutMs);
@@ -164,6 +166,7 @@ class Transfer { /*exported Transfer*/
     else {
       let statusText = response.statusText ? response.statusText : 'unknown error';
       let statusCode = response.status ? ' (' + response.status + ')' : '';
+      // eslint-disable-next-line no-console
       console.error(statusText + statusCode);
     }
   }
