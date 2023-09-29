@@ -15,6 +15,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._checkingFeedsStartTime = new Date();
     this._forceAnimateCheckFeedButton = false;
     this._filterEnabled = DefaultValues.filterEnabled;
+    this._buttonlockFeedTreeEnabled = false;
     this._isRootFolderChecked_async();
     this._updateLocalizedStrings();
     document.getElementById('checkFeedsButton').addEventListener('click', (e) => { this.checkFeedsButtonClicked_event(e); });
@@ -24,6 +25,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     document.getElementById('addFeedButton').addEventListener('click', (e) => { this._addFeedButtonClicked_event(e); });
     document.getElementById('filterButton').addEventListener('click', (e) => { this._filterButtonClicked_event(e); });
     document.getElementById('optionsMenuButton').addEventListener('click', (e) => { this._optionsMenuClicked_event(e); });
+    document.getElementById('lockFeedTreeButton').addEventListener('click', (e) => { this._lockFeedTreeButtonClicked_event(e); });
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showErrorsAsUnread', (v) => { this.showErrorsAsUnread_sbscrb(v); }, false);
   }
 
@@ -31,6 +33,8 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._updatedFeedsVisible = await LocalStorageManager.getValue_async('updatedFeedsVisibility', this._updatedFeedsVisible);
     await this.updatedFeedsSetVisibility_async(false);
     this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
+    this._buttonlockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', this._buttonlockFeedTreeEnabled);
+    this.activateButton('lockFeedTreeButton', this._buttonlockFeedTreeEnabled);
     this._updateFilterBar();
   }
 
@@ -90,6 +94,13 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     }
   }
 
+  async updatedlockFeedTreeButton_async(setValue) {
+    this.activateButton('lockFeedTreeButton', this._buttonlockFeedTreeEnabled);
+    if (setValue) {
+      await LocalStorageManager.setValue_async('lockFeedTreeEnabled', this._buttonlockFeedTreeEnabled);
+    }
+  }
+
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -104,6 +115,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
     document.getElementById('filterButton').setAttribute('title', browser.i18n.getMessage('sbFilter'));
     document.getElementById('optionsMenuButton').setAttribute('title', browser.i18n.getMessage('sbOpenOptionsTab'));
+    document.getElementById('lockFeedTreeButton').setAttribute('title', browser.i18n.getMessage('sblockFeedTreeButton'));
   }
 
   async _isRootFolderChecked_async() {
@@ -188,6 +200,15 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
       let rec = event.currentTarget.getBoundingClientRect();
       FeedsContextMenu.instance.show(rec.left, rec.bottom, event.currentTarget);
     }
+  }
+  
+  async _lockFeedTreeButtonClicked_event(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this._buttonlockFeedTreeEnabled = !this._buttonlockFeedTreeEnabled;
+    this.activateButton('lockFeedTreeButton', this._buttonlockFeedTreeEnabled);
+    await LocalStorageManager.setValue_async('lockFeedTreeEnabled', this._buttonlockFeedTreeEnabled);
+    FeedsTreeView.instance.selectionBar.refresh();
   }
 
   async showErrorsAsUnread_sbscrb() {

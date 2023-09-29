@@ -71,6 +71,9 @@
   "sbMarkAllArticlesAsUnread": {
     "message": "全部标为未读"
   },
+  "sblockFeedTreeButton": {
+    "message": "Prevent changes to the sidebar items"
+  },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "新建标签页打开未读项目"
   },
