@@ -71,7 +71,7 @@
   "sbMarkAllArticlesAsUnread": {
     "message": "Marcar tudo como não lido"
   },
-  "sblockFeedTreeButton": {
+  "sbLockFeedTreeButton": {
     "message": "Prevent changes to the sidebar items"
   },
   "sbOpenUnreadArticlesInNewTabs": {

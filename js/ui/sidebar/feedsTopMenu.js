@@ -115,7 +115,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     document.getElementById('addFeedButton').setAttribute('title', browser.i18n.getMessage('sbSubscriptionGo'));
     document.getElementById('filterButton').setAttribute('title', browser.i18n.getMessage('sbFilter'));
     document.getElementById('optionsMenuButton').setAttribute('title', browser.i18n.getMessage('sbOpenOptionsTab'));
-    document.getElementById('lockFeedTreeButton').setAttribute('title', browser.i18n.getMessage('sblockFeedTreeButton'));
+    document.getElementById('lockFeedTreeButton').setAttribute('title', browser.i18n.getMessage('sbLockFeedTreeButton'));
   }
 
   async _isRootFolderChecked_async() {
