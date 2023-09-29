@@ -72,7 +72,7 @@
     "message": "Tout marquer comme non lu"
   },
   "sbLockFeedTreeButton": {
-    "message": "Prevent changes to the sidebar items"
+    "message": "Verrouiler les éléments de la barre latérale"
   },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "Ouvrir les articles non lus dans de nouveaux onglets"
