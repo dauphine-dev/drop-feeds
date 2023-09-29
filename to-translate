@@ -114,6 +114,10 @@ version;line;messageName;message;where;note
 version;line;messageName;message;where;note
 1.0.8;344;optRemoveExtraData;Remove extra data (avoid false positive updates);Settings/Update checker;n/a
 
-1.0.147  -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+1.0.14 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
 version;line;messageName;message;where;note
 1.0.14;80;sbItemDelKeySwicthReadArticles;Use DEL key to switch read/undread articles;In render tab 'Two panels (Fox Memory)';When this button is activated, then the switch from unread to read state is made manually by pressing the 'DEL' key
+
+1.0.17.1 -> lines below are valid for this version (some stuff can be changed in future version like line numbers)
+version;line;messageName;message;where;note
+1.0.17.1;80;sblockFeedTreeButton;Prevent changes to the sidebar items;In top menu bar;This button prevents moving folders and items
