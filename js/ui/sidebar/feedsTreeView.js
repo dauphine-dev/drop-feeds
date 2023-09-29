@@ -253,10 +253,14 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     event.stopPropagation();
     event.preventDefault();
     FeedsContextMenu.instance.hide();
-    let elTarget = event.currentTarget;
-    let xPos = event.clientX;
-    let yPos = event.currentTarget.getBoundingClientRect().top;
-    FeedsContextMenu.instance.show(xPos, yPos, elTarget);
+
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) {
+      let elTarget = event.currentTarget;
+      let xPos = event.clientX;
+      let yPos = event.currentTarget.getBoundingClientRect().top;
+      FeedsContextMenu.instance.show(xPos, yPos, elTarget);
+    }
   }
 
   async _feedClicked_event(event) {
@@ -298,7 +302,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     event.preventDefault();
     let targetFeedId = this._getTargetFeedId(event);
     let targetFeed = document.getElementById(targetFeedId);
-    targetFeed.classList.add('dropZone');
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) targetFeed.classList.add('dropZone');
   }
 
   async _feedOnDragLeave_event(event) {
@@ -315,7 +320,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let targetId = this._getTargetFeedId(event);
-    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
@@ -336,7 +342,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let elFolder = event.currentTarget.parentNode.parentNode;
     let xPos = event.clientX;
     let yPos = event.currentTarget.getBoundingClientRect().top;
-    FeedsContextMenu.instance.show(xPos, yPos, elFolder);
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) FeedsContextMenu.instance.show(xPos, yPos, elFolder);
   }
 
   async _folderOnClicked_event(event) {
@@ -362,8 +369,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let target = event.target;
     if (target.nodeType == Node.TEXT_NODE) { target = target.parentNode; }
     target = target.closest('.folderDiv');
-    target.classList.add('dropZone');
-
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (lockFeedTreeEnabled) target.classList.add('dropZone');
   }
 
   async _folderOnDragLeave_event(event) {
@@ -381,7 +388,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let folderId = this._getTargetFeedId(event);
-    BookmarkManager.instance.changeParentFolder(folderId, toMoveId, true);
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) BookmarkManager.instance.changeParentFolder(folderId, toMoveId, true);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
@@ -396,7 +404,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   async _afterFolderOnDragEnter_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    event.target.classList.add('dropZoneAfterFolder');
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (lockFeedTreeEnabled) event.target.classList.add('dropZoneAfterFolder');
   }
 
   async _afterFolderOnDragLeave_event(event) {
@@ -411,7 +420,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let folderId = event.target.getAttribute('after');
-    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
+    let lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', null);
+    if (!lockFeedTreeEnabled) await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');

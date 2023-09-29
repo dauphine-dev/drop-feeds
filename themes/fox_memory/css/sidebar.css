@@ -20,6 +20,7 @@
   --feeds-subscribeAdd-image: url(/themes/fox_memory/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/fox_memory/img/filter.png);
   --feeds-optionsMenuButton-image: url(/themes/fox_memory/img/options.png);
+  --feeds-lockFeedTreeButton-image: url(/themes/fox_memory/img/lockFeedTreeButton.png);
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--main-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);

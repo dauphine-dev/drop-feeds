@@ -185,6 +185,9 @@ html, body {
   background-image: var(--feeds-optionsMenuButton-image);
 }
 
+#lockFeedTreeButton::before {
+  background-image: var(--feeds-lockFeedTreeButton-image);
+}
 
 /* feeds status bar */
 
