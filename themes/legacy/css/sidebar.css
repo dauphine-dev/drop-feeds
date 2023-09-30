@@ -19,8 +19,9 @@
   --feeds-subscribeGo-image: url(/themes/legacy/img/subscribe-go.png);
   --feeds-subscribeAdd-image: url(/themes/legacy/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/legacy/img/filter.png);
+  --feeds-lockFeedTreeButtonOpened-image: url(/themes/legacy/img/lockFeedTreeButton-opened.png);
+  --feeds-lockFeedTreeButtonClosed-image: url(/themes/legacy/img/lockFeedTreeButton-closed.png);
   --feeds-optionsMenuButton-image: url(/themes/legacy/img/options.png);
-   --feeds-lockFeedTreeButton-image: url(/themes/legacy/img/lockFeedTreeButton.png);
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--main-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);

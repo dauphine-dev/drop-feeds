@@ -19,8 +19,9 @@
   --feeds-subscribeGo-image: url(/themes/dauphine/img/subscribe-go.png);
   --feeds-subscribeAdd-image: url(/themes/dauphine/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/dauphine/img/filter.png);
+  --feeds-lockFeedTreeButtonOpened-image: url(/themes/dauphine/img/lockFeedTreeButton-opened.png);
+  --feeds-lockFeedTreeButtonClosed-image: url(/themes/dauphine/img/lockFeedTreeButton-closed.png);
   --feeds-optionsMenuButton-image: url(/themes/dauphine/img/options.png);
-  --feeds-lockFeedTreeButton-image: url(/themes/dauphine/img/lockFeedTreeButton.png);
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--feeds-topMenu-background-color);
   --feeds-statusBar-border-color: var(--main-border-color);
