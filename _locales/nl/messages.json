@@ -72,7 +72,7 @@
     "message": "Markeer alle items als ongelezen"
   },
   "sbLockFeedTreeButton": {
-    "message": "Prevent changes to the sidebar items"
+    "message": "Voorkom wijzigingen in de zijbalkitems"
   },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "Open ongelezen items in nieuwe tabbladen"
