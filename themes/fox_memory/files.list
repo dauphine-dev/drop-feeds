@@ -1,10 +1,12 @@
 ./img/merge.png
 ./img/articles-hide.png
+./img/lockFeedTreeButton-closed.png
 ./img/updating.gif
 ./img/restart.png
 ./img/itemOpenUnreadButton.png
 ./img/subscribe-go.png
 ./img/check-feeds.png
+./img/lockFeedTreeButton-opened.png
 ./img/feed-error.png
 ./img/only-updated-feeds.png
 ./img/feed-info.png
@@ -26,7 +28,6 @@
 ./img/subscribe-url.png
 ./img/magnify.png
 ./img/folder-info.png
-./img/lockFeedTreeButton.png
 ./img/feed-read.png
 ./img/feed-read-all.png
 ./img/options-menu.png
