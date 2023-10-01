@@ -12,6 +12,7 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   line-height: 16px;
+  font-family: sans-serif;
 }
 
 /* misc. */
