@@ -72,7 +72,7 @@
     "message": "全て未読にする"
   },
   "sbLockFeedTreeButton": {
-    "message": "Prevent changes to the sidebar items"
+    "message": "サイドバーの項目の変更を禁止する"
   },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "未読を新しいタブで開く"
@@ -81,7 +81,7 @@
     "message": "既読を隠す"
   },
   "sbItemDelKeySwicthReadArticles": {
-    "message": "Use DEL key to switch read/undread articles"
+    "message": "DELキーで既読と未読を切り替える"
   },  
   "sbOpenUpdatedFeeds": {
     "message": "更新されたページを開く"
@@ -447,7 +447,7 @@
     "message": "スクリプトマネージャー..."
   },
   "optScriptManagerUnavailable": {
-    "message": "Script mananger is not able to work with new namifest v3"
+    "message": "スクリプトマネージャーは新しいマニフェストv3では動作しません"
   },
   "optLblSecurityFilter": {
     "message": "セキュリティーフィルターの設定"
