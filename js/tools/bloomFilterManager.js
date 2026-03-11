@@ -303,8 +303,8 @@ class BloomFilterManager { /*exported BloomFilterManager*/
   async _broadcastUpdateAsync() {
     try {
       await browser.runtime.sendMessage({
-        type: 'bloomFilterUpdate',
-        timestamp: Date.now()
+        key: 'bloomFilterUpdate',
+        value: { timestamp: Date.now() }
       });
     } catch (e) {
       // "Could not establish connection" is expected when no listeners exist

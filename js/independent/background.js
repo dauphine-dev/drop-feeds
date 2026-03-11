@@ -38,7 +38,10 @@ class BackgroundManager {
 
       // Listen for Bloom Filter updates from other windows
       this._bloomFilterUpdateListener = (request, sender, sendResponse) => {
-        this._onBloomFilterUpdate(request, sender, sendResponse);
+        if (request.key === 'bloomFilterUpdate') {
+          this._onBloomFilterUpdate(request, sender, sendResponse);
+          return true; // keep message channel open for async sendResponse
+        }
       };
       browser.runtime.onMessage.addListener(this._bloomFilterUpdateListener);
 
@@ -55,8 +58,8 @@ class BackgroundManager {
 
   _onFeedUpdateLockStatusChanged(status) {
     browser.runtime.sendMessage({
-      type: 'feedUpdateLockStatusChange',
-      status: status
+      key: 'feedUpdateLockStatusChange',
+      value: status
     }).catch(e => {
       ErrorHandler.logError('BackgroundManager._onFeedUpdateLockStatusChanged', e);
     });
@@ -124,21 +127,16 @@ class BackgroundManager {
       return false;
     }
 
-    if (request.type !== 'bloomFilterUpdate') {
-      return false;
-    }
-
     try {
       await browser.runtime.sendMessage({
-        type: 'bloomFilterUpdate',
-        timestamp: request.timestamp
+        key: 'bloomFilterUpdate',
+        value: { timestamp: request.value ? request.value.timestamp : Date.now() }
       });
       sendResponse({ success: true });
     } catch (e) {
       ErrorHandler.logError('BackgroundManager._onBloomFilterUpdate', e);
       sendResponse({ success: false });
     }
-    return false;
   }
 
   async keepMeAlive() {
