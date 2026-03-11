@@ -223,6 +223,7 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
+      console.error(e);
       /*eslint-enable no-console*/
     } finally {
       if (!isCustom) {

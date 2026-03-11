@@ -42,6 +42,11 @@
   },
   "background": {
     "scripts": [
+      "js/tools/errorHandler.js",
+      "js/tools/murmurHash3.js",
+      "js/tools/bloomFilter.js",
+      "js/tools/feedUpdateLockManager.js",
+      "js/tools/bloomFilterManager.js",
       "js/independent/background.js"
     ]
   },

@@ -1,4 +1,3 @@
-/*global browser*/
 'use strict';
 
 /**

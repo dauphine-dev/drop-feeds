@@ -186,10 +186,10 @@ class ItemsLayout { /*exported ItemsLayout*/
       return;
     }
     
-    if (status.type === 'acquiredByOther') {
+    if (status.status === 'acquiredByOther') {
       // Another window is updating feeds
       FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ': ' + browser.i18n.getMessage('sbLockedByOtherWindow'));
-    } else if (status.type === 'released') {
+    } else if (status.status === 'released') {
       // Lock was released
       FeedsStatusBar.instance.setText('');
     }
