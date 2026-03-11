@@ -490,6 +490,8 @@ class FeedManager { /*exported FeedManager*/
   }
 
   _scheduleManualUpdateRetry_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
+    const maxRetries = 6;
+    let retryCount = 0;
     const checkLockAndRetry = async () => {
       try {
         const lockAcquired = await this._acquireLock_async();
@@ -499,12 +501,16 @@ class FeedManager { /*exported FeedManager*/
           if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
           await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
           await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
-        } else {
+        } else if (++retryCount < maxRetries) {
           setTimeout(() => { checkLockAndRetry(); }, 5000);
+        } else {
+          ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', 'Max retries reached, giving up');
         }
       } catch (e) {
         ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', e);
-        setTimeout(() => { checkLockAndRetry(); }, 5000);
+        if (++retryCount < maxRetries) {
+          setTimeout(() => { checkLockAndRetry(); }, 5000);
+        }
       }
     };
 
