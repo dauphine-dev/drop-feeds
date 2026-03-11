@@ -122,6 +122,9 @@
   "sbChecking": {
     "message": "更新中"
   },
+  "sbLockedByOtherWindow": {
+    "message": "他のウィンドウによってロックされています"
+  },
   "sbPreparing": {
     "message": "準備中"
   },

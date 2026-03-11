@@ -1,4 +1,4 @@
-/*global browser chrome*/
+/*global browser chrome BloomFilterManager ErrorHandler FeedUpdateLockManager*/
 'use strict';
 
 class BackgroundManager {
@@ -8,19 +8,73 @@ class BackgroundManager {
     this._windowList = [];
     this._windowId = null;
     this._portKeepAlive = null;
+    this._bloomFilterManager = BloomFilterManager.instance;
+    this._lockManager = FeedUpdateLockManager.instance;
+    this._bloomFilterUpdateListener = null;
+    this._feedUpdateLockStatusListener = null;
   }
 
   async init_async() {
-    this._sidebarListener();
-    let windowInfo = await browser.windows.getCurrent({ populate: true });
-    this._windowId = windowInfo.id;
-    browser.windows.onFocusChanged.addListener((windowId) => { this._windowOnFocused_event(windowId); });
-    if (browser.runtime.getManifest().manifest_version >= 3) {
-      browser.action.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
-    } else {
-      browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
+    // Prevent multiple initialization attempts
+    if (this._isInitializing) {
+      return;
     }
-    this.keepMeAlive();
+    this._isInitializing = true;
+
+    try {
+      this._sidebarListener();
+      let windowInfo = await browser.windows.getCurrent({ populate: true });
+      this._windowId = windowInfo.id;
+      browser.windows.onFocusChanged.addListener((windowId) => { this._windowOnFocused_event(windowId); });
+      if (browser.runtime.getManifest().manifest_version >= 3) {
+        browser.action.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
+      } else {
+        browser.browserAction.onClicked.addListener((e) => { this._toggleDropFeedsPanel_async(e); });
+      }
+      this.keepMeAlive();
+
+      // Initialize Bloom Filter Manager
+      await this._bloomFilterManager.initAsync();
+
+      // Listen for Bloom Filter updates from other windows
+      this._bloomFilterUpdateListener = (request, sender, sendResponse) => {
+        this._onBloomFilterUpdate(request, sender, sendResponse);
+      };
+      browser.runtime.onMessage.addListener(this._bloomFilterUpdateListener);
+
+      // Listen for feed update lock status changes
+      this._feedUpdateLockStatusListener = (status) => {
+        this._onFeedUpdateLockStatusChanged(status);
+      };
+      this._feedUpdateLockUnsubscribe = this._lockManager.subscribe(this._feedUpdateLockStatusListener);
+    } catch (error) {
+      this._isInitializing = false;
+      throw error;
+    }
+  }
+
+  _onFeedUpdateLockStatusChanged(status) {
+    browser.runtime.sendMessage({
+      type: 'feedUpdateLockStatusChange',
+      status: status
+    }).catch(e => {
+      ErrorHandler.logError('BackgroundManager._onFeedUpdateLockStatusChanged', e);
+    });
+  }
+
+  cleanup() {
+    if (this._bloomFilterUpdateListener) {
+      browser.runtime.onMessage.removeListener(this._bloomFilterUpdateListener);
+      this._bloomFilterUpdateListener = null;
+    }
+
+    if (this._feedUpdateLockUnsubscribe) {
+      this._feedUpdateLockUnsubscribe();
+      this._feedUpdateLockUnsubscribe = null;
+    }
+
+    this._lockManager.cleanup();
+    this._isInitializing = false;
   }
 
   async _windowOnFocused_event(windowId) {
@@ -55,6 +109,36 @@ class BackgroundManager {
   portOnMessage_event(message) {
     let self = BackgroundManager.instance;
     self._windowList.push(message.sidebarWindowId);
+  }
+
+  async _onBloomFilterUpdate(request, sender, sendResponse) {
+    if (!sender || !sender.id) {
+      return false;
+    }
+
+    if (sender.id !== browser.runtime.id) {
+      return false;
+    }
+
+    if (typeof request !== 'object' || request === null) {
+      return false;
+    }
+
+    if (request.type !== 'bloomFilterUpdate') {
+      return false;
+    }
+
+    try {
+      await browser.runtime.sendMessage({
+        type: 'bloomFilterUpdate',
+        timestamp: request.timestamp
+      });
+      sendResponse({ success: true });
+    } catch (e) {
+      ErrorHandler.logError('BackgroundManager._onBloomFilterUpdate', e);
+      sendResponse({ success: false });
+    }
+    return false;
   }
 
   async keepMeAlive() {

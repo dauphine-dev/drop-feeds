@@ -137,7 +137,7 @@ class FeedsContextMenu { /*exported FeedsContextMenu*/
 
   async _checkFeedsMenuClicked_event() {
     this.hide();
-    await FeedManager.instance.checkFeeds_async(this._idComeFrom, false, false);
+    await FeedManager.instance.checkFeeds_async(this._idComeFrom, false, false, true);
   }
 
   async _windowOnKeyup_event(e) {

@@ -122,6 +122,9 @@
   "sbChecking": {
     "message": "controleren"
   },
+  "sbLockedByOtherWindow": {
+    "message": "vergrendeld door ander venster"
+  },
   "sbPreparing": {
     "message": "voorbereiden"
   },

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Filter Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bloom Filter Test</h1>
+    
+    <div class="test-section">
+        <h2>Basic Bloom Filter Operations</h2>
+        <button id="testBasicOps">Test Basic Operations</button>
+        <div id="basicOpsResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Bloom Filter Serialization</h2>
+        <button id="testSerialization">Test Serialization</button>
+        <div id="serializationResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Bloom Filter Merge</h2>
+        <button id="testMerge">Test Merge</button>
+        <div id="mergeResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Bloom Filter Statistics</h2>
+        <button id="testStatistics">Test Statistics</button>
+        <div id="statisticsResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Feed URL Hashing</h2>
+        <button id="testHashing">Test Feed URL Hashing</button>
+        <div id="hashingResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Bit Array Extraction and Merging</h2>
+        <button id="testBitArray">Test Bit Array Extraction</button>
+        <div id="bitArrayResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Error Handling</h2>
+        <button id="testErrorHandling">Test Error Handling</button>
+        <div id="errorHandlingResult"></div>
+    </div>
+    
+    <script src="../js/tools/bloomFilter.js"></script>
+    <script src="../js/tools/murmurHash3.js"></script>
+    <script>
+        // Test functions
+        function createTestFeedUrls() {
+            return [
+                'https://example.com/feed1.xml',
+                'https://example.com/feed2.xml',
+                'https://example.com/feed3.xml',
+                'https://test.com/feed.xml',
+                'https://blog.example.com/rss'
+            ];
+        }
+        
+        function createTestFeedUrls2() {
+            return [
+                'https://example.com/feed1.xml',
+                'https://example.com/feed4.xml',
+                'https://example.com/feed5.xml',
+                'https://news.com/feed.xml'
+            ];
+        }
+        
+        // Test basic operations
+        document.getElementById('testBasicOps').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('basicOpsResult');
+            resultDiv.innerHTML = '<div class="info">Running basic operations test...</div>';
+            
+            try {
+                const filter = new BloomFilter(100, 0.01);
+                const feedUrls = createTestFeedUrls();
+                
+                // Test adding items
+                for (const url of feedUrls) {
+                    filter.add(url);
+                }
+                
+                // Test contains
+                let allFound = true;
+                for (const url of feedUrls) {
+                    if (!filter.contains(url)) {
+                        allFound = false;
+                        resultDiv.innerHTML += `<div class="error">Error: URL ${url} not found after being added</div>`;
+                    }
+                }
+                
+                if (allFound) {
+                    resultDiv.innerHTML += `<div class="success">All URLs found after being added</div>`;
+                }
+                
+                // Test false positives ( URLs not added should not be found )
+                const notAddedUrls = [
+                    'https://notadded.com/feed1.xml',
+                    'https://notadded.com/feed2.xml'
+                ];
+                
+                let noneFound = true;
+                for (const url of notAddedUrls) {
+                    if (filter.contains(url)) {
+                        noneFound = false;
+                        resultDiv.innerHTML += `<div class="info">Note: URL ${url} returned true (possible false positive)</div>`;
+                    }
+                }
+                
+                if (noneFound) {
+                    resultDiv.innerHTML += `<div class="success">No false positives detected for non-added URLs</div>`;
+                }
+                
+                resultDiv.innerHTML += `<div class="info">Basic operations test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Basic operations test error:', e);
+            }
+        });
+        
+        // Test serialization
+        document.getElementById('testSerialization').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('serializationResult');
+            resultDiv.innerHTML = '<div class="info">Running serialization test...</div>';
+            
+            try {
+                const filter = new BloomFilter(100, 0.01);
+                const feedUrls = createTestFeedUrls();
+                
+                // Add items
+                for (const url of feedUrls) {
+                    filter.add(url);
+                }
+                
+                // Serialize
+                const json = filter.toJSON();
+                resultDiv.innerHTML += `<div class="info">Serialized JSON:</div>`;
+                resultDiv.innerHTML += `<pre>${JSON.stringify(json, null, 2)}</pre>`;
+                
+                // Deserialize
+                const deserializedFilter = BloomFilter.fromJSON(json);
+                
+                // Verify deserialized filter works
+                let allFound = true;
+                for (const url of feedUrls) {
+                    if (!deserializedFilter.contains(url)) {
+                        allFound = false;
+                        resultDiv.innerHTML += `<div class="error">Error: URL ${url} not found after deserialization</div>`;
+                    }
+                }
+                
+                if (allFound) {
+                    resultDiv.innerHTML += `<div class="success">All URLs found after deserialization</div>`;
+                }
+                
+                resultDiv.innerHTML += `<div class="info">Serialization test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Serialization test error:', e);
+            }
+        });
+        
+        // Test merge
+        document.getElementById('testMerge').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('mergeResult');
+            resultDiv.innerHTML = '<div class="info">Running merge test...</div>';
+            
+            try {
+                const filter1 = new BloomFilter(100, 0.01);
+                const filter2 = new BloomFilter(100, 0.01);
+                
+                const feedUrls1 = createTestFeedUrls();
+                const feedUrls2 = createTestFeedUrls2();
+                
+                // Add different items to each filter
+                for (const url of feedUrls1) {
+                    filter1.add(url);
+                }
+                
+                for (const url of feedUrls2) {
+                    filter2.add(url);
+                }
+                
+                // Merge filter2 into filter1
+                filter1.merge(filter2);
+                
+                // Verify all items from both filters are found
+                const allUrls = [...feedUrls1, ...feedUrls2];
+                let allFound = true;
+                
+                for (const url of allUrls) {
+                    if (!filter1.contains(url)) {
+                        allFound = false;
+                        resultDiv.innerHTML += `<div class="error">Error: URL ${url} not found after merge</div>`;
+                    }
+                }
+                
+                if (allFound) {
+                    resultDiv.innerHTML += `<div class="success">All URLs from both filters found after merge</div>`;
+                }
+                
+                resultDiv.innerHTML += `<div class="info">Merge test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Merge test error:', e);
+            }
+        });
+        
+        // Test statistics
+        document.getElementById('testStatistics').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('statisticsResult');
+            resultDiv.innerHTML = '<div class="info">Running statistics test...</div>';
+            
+            try {
+                const filter = new BloomFilter(100, 0.01);
+                const feedUrls = createTestFeedUrls();
+                
+                // Add items
+                for (const url of feedUrls) {
+                    filter.add(url);
+                }
+                
+                // Get statistics
+                const stats = {
+                    sizeInBits: filter.sizeInBits,
+                    hashCount: filter.hashCount,
+                    expectedItems: filter.expectedItems,
+                    falsePositiveRate: filter.falsePositiveRate,
+                    id: filter.id
+                };
+                
+                resultDiv.innerHTML += `<div class="info">Bloom Filter Statistics:</div>`;
+                resultDiv.innerHTML += `<table>
+                    <tr><th>Property</th><th>Value</th></tr>
+                    <tr><td>Size in bits</td><td>${stats.sizeInBits}</td></tr>
+                    <tr><td>Hash count</td><td>${stats.hashCount}</td></tr>
+                    <tr><td>Expected items</td><td>${stats.expectedItems}</td></tr>
+                    <tr><td>False positive rate</td><td>${stats.falsePositiveRate.toFixed(4)}</td></tr>
+                    <tr><td>ID</td><td>${stats.id}</td></tr>
+                </table>`;
+                
+                resultDiv.innerHTML += `<div class="info">Statistics test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Statistics test error:', e);
+            }
+        });
+        
+        // Test feed URL hashing
+        document.getElementById('testHashing').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('hashingResult');
+            resultDiv.innerHTML = '<div class="info">Running feed URL hashing test...</div>';
+            
+            try {
+                const filter = new BloomFilter(100, 0.01);
+                const feedUrls = createTestFeedUrls();
+                
+                resultDiv.innerHTML += `<div class="info">Hash values for feed URLs:</div>`;
+                resultDiv.innerHTML += `<table>
+                    <tr><th>URL</th><th>Hash 1</th><th>Hash 2</th><th>Hash 3</th></tr>
+                `;
+                
+                for (const url of feedUrls) {
+                    const hash1 = filter._hash(url, 1);
+                    const hash2 = filter._hash(url, 2);
+                    const hash3 = filter._hash(url, 3);
+                    
+                    resultDiv.innerHTML += `<tr>
+                        <td>${url}</td>
+                        <td>${hash1}</td>
+                        <td>${hash2}</td>
+                        <td>${hash3}</td>
+                    </tr>`;
+                }
+                
+                resultDiv.innerHTML += `</table>`;
+                
+                resultDiv.innerHTML += `<div class="info">Feed URL hashing test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Feed URL hashing test error:', e);
+            }
+        });
+        
+        // Test bit array extraction and merging
+        document.getElementById('testBitArray').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('bitArrayResult');
+            resultDiv.innerHTML = '<div class="info">Running bit array extraction test...</div>';
+            
+            try {
+                // Create a Bloom Filter with a specific size
+                const filter1 = new BloomFilter(100, 0.01);
+                const feedUrls1 = createTestFeedUrls();
+                
+                // Add items
+                for (const url of feedUrls1) {
+                    filter1.add(url);
+                }
+                
+                // Extract bit array
+                const bitArray = filter1.getBitArray();
+                
+                // Create a new filter with a larger size
+                const filter2 = new BloomFilter(200, 0.01);
+                
+                // Set the bit array in the new filter
+                filter2.setBitArray(bitArray);
+                
+                // Verify all items from the original filter are found in the new filter
+                let allFound = true;
+                
+                for (const url of feedUrls1) {
+                    if (!filter2.contains(url)) {
+                        allFound = false;
+                        resultDiv.innerHTML += `<div class="error">Error: URL ${url} not found after bit array extraction</div>`;
+                    }
+                }
+                
+                if (allFound) {
+                    resultDiv.innerHTML += `<div class="success">All URLs found after bit array extraction and merging</div>`;
+                }
+                
+                resultDiv.innerHTML += `<div class="info">Bit array extraction test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Bit array extraction test error:', e);
+            }
+        });
+        
+        // Test error handling
+        document.getElementById('testErrorHandling').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('errorHandlingResult');
+            resultDiv.innerHTML = '<div class="info">Running error handling test...</div>';
+            
+            try {
+                // Test error handling with invalid inputs
+                const filter = new BloomFilter(100, 0.01);
+                
+                // Test invalid bit array
+                try {
+                    filter.setBitArray(null);
+                    resultDiv.innerHTML += `<div class="error">Error: Invalid bit array should have thrown an error</div>`;
+                } catch (e) {
+                    resultDiv.innerHTML += `<div class="success">Correctly handled invalid bit array: ${e.message}</div>`;
+                }
+                
+                // Test invalid feed URL
+                try {
+                    filter.add('');
+                    resultDiv.innerHTML += `<div class="info">Note: Empty feed URL was ignored (expected behavior)</div>`;
+                } catch (e) {
+                    resultDiv.innerHTML += `<div class="info">Note: Empty feed URL caused error: ${e.message}</div>`;
+                }
+                
+                resultDiv.innerHTML += `<div class="success">Error handling test completed</div>`;
+            } catch (e) {
+                resultDiv.innerHTML += `<div class="error">Error: ${e.message}</div>`;
+                console.error('Error handling test error:', e);
+            }
+        });
+    </script>
+</body>
+</html>

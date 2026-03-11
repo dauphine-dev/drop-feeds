@@ -122,6 +122,9 @@
   "sbChecking": {
     "message": "checking"
   },
+  "sbLockedByOtherWindow": {
+    "message": "locked by other window"
+  },
   "sbPreparing": {
     "message": "preparing"
   },

@@ -122,6 +122,9 @@
   "sbChecking": {
     "message": "vérifie"
   },
+  "sbLockedByOtherWindow": {
+    "message": "verrouillé par une autre fenêtre"
+  },
   "sbPreparing": {
     "message": "prépare"
   },

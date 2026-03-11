@@ -122,6 +122,9 @@
   "sbChecking": {
     "message": "正在检查"
   },
+  "sbLockedByOtherWindow": {
+    "message": "被其他窗口锁定"
+  },
   "sbPreparing": {
     "message": "正在准备"
   },

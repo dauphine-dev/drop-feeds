@@ -1,0 +1,305 @@
+/*global browser ErrorHandler*/
+'use strict';
+
+/**
+ * Cross-Window Lock Manager for Drop-Feeds
+ * 
+ * This module provides distributed locking functionality across browser windows
+ * to ensure only one instance can perform feed updates at a time.
+ */
+class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
+  static get instance() { return (this._instance = this._instance || new this()); }
+
+  constructor() {
+    this._lockKey = 'dropfeeds-feedUpdateLock';
+    this._lockTimeout = 30000; // 30 seconds
+    this._refreshInterval = 5000; // 5 seconds
+    this._lockId = null;
+    this._refreshTimer = null;
+    this._lockListeners = [];
+    this._isLocked = false;
+    this._storageChangeListener = null;
+    
+    // Listen for storage changes to detect lock status changes
+    this._storageChangeListener = (changes, areaName) => {
+      if (areaName === 'local' && this._lockKey in changes) {
+        this._onLockStorageChanged(changes[this._lockKey]);
+      }
+    };
+    browser.storage.onChanged.addListener(this._storageChangeListener);
+  }
+
+  /**
+   * Acquire a lock for feed updating
+   * @returns {Promise<boolean>} True if lock was acquired, false otherwise
+   */
+  async acquireLock_async() {
+    // Generate unique lock ID
+    this._lockId = `window-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    try {
+      const result = await browser.storage.local.get(this._lockKey);
+
+      if (!result[this._lockKey] || this._isLockExpired(result[this._lockKey])) {
+        // Lock appears available — write our claim
+        await browser.storage.local.set({
+          [this._lockKey]: {
+            lockId: this._lockId,
+            timestamp: Date.now(),
+            expiresAt: Date.now() + this._lockTimeout
+          }
+        });
+
+        // Verify we actually hold the lock (mitigates TOCTOU race)
+        const verify = await browser.storage.local.get(this._lockKey);
+        if (!verify[this._lockKey] || verify[this._lockKey].lockId !== this._lockId) {
+          // Another window won the race
+          this._lockId = null;
+          return false;
+        }
+
+        this._isLocked = true;
+        this._startRefreshTimer();
+        this._notifyLockAcquired();
+        return true;
+      } else {
+        // Lock is held by another window
+        this._lockId = null;
+        return false;
+      }
+    } catch (e) {
+      ErrorHandler.logError('FeedUpdateLockManager.acquireLock_async', e);
+      this._lockId = null;
+      return false;
+    }
+  }
+
+  /**
+   * Release the current lock
+   * @returns {Promise<void>}
+   */
+  async releaseLock_async() {
+    if (!this._isLocked || !this._lockId) {
+      return;
+    }
+    
+    try {
+      // Verify we still hold the lock before releasing
+      const result = await browser.storage.local.get(this._lockKey);
+      const lockData = result[this._lockKey];
+      
+      if (lockData && lockData.lockId === this._lockId) {
+        // Only release if we still hold the lock
+        await browser.storage.local.remove(this._lockKey);
+      }
+      
+      this._isLocked = false;
+      this._stopRefreshTimer();
+      this._notifyLockReleased();
+    } catch (e) {
+      ErrorHandler.logError('FeedUpdateLockManager.releaseLock_async', e);
+    }
+  }
+
+  /**
+   * Check if the current window holds the lock
+   * @returns {boolean}
+   */
+  async isLockHeld_async() {
+    if (!this._isLocked || !this._lockId) {
+      return false;
+    }
+    
+    try {
+      const result = await browser.storage.local.get(this._lockKey);
+      const lockData = result[this._lockKey];
+      return lockData && lockData.lockId === this._lockId;
+    } catch (e) {
+      ErrorHandler.logError('FeedUpdateLockManager.isLockHeld_async', e);
+      return false;
+    }
+  }
+
+  /**
+   * Subscribe to lock status changes
+   * @param {Function} callback - Function to call when lock status changes
+   * @returns {Function} Unsubscribe function
+   */
+  subscribe(callback) {
+    this._lockListeners.push(callback);
+    
+    // Return unsubscribe function
+    return () => {
+      this._lockListeners = this._lockListeners.filter(cb => cb !== callback);
+    };
+  }
+
+  /**
+   * Check if a lock is expired
+   * @param {object} lockData - Lock data object
+   * @returns {boolean}
+   */
+  _isLockExpired(lockData) {
+    // Validate lockData structure
+    if (!lockData || typeof lockData !== 'object') {
+      return true;
+    }
+    
+    // Validate expiresAt is a valid number
+    if (!lockData.expiresAt || typeof lockData.expiresAt !== 'number' || isNaN(lockData.expiresAt)) {
+      return true;
+    }
+    
+    // Check if lock has expired
+    return Date.now() > lockData.expiresAt;
+  }
+
+  /**
+   * Handle storage changes for lock key
+   * @param {object} change - Storage change object
+   */
+  _onLockStorageChanged(change) {
+    const newLockData = change.newValue;
+    const oldLockData = change.oldValue;
+    
+    // Check if we held the lock and lost it
+    if (oldLockData && oldLockData.lockId === this._lockId && !newLockData) {
+      this._isLocked = false;
+      this._stopRefreshTimer();
+      this._notifyLockReleased();
+      return;
+    }
+    
+    // Check if another window acquired the lock
+    if (newLockData && newLockData.lockId !== this._lockId) {
+      this._notifyLockAcquiredByOther();
+    }
+  }
+
+  /**
+   * Start the refresh timer to extend lock expiration
+   */
+  _startRefreshTimer() {
+    // Stop any existing timer first to prevent accumulation
+    this._stopRefreshTimer();
+    
+    // Only start a new timer if we actually hold a lock
+    if (!this._isLocked || !this._lockId) {
+      return;
+    }
+    
+    this._refreshTimer = setInterval(async () => {
+      try {
+        if (this._isLocked && this._lockId) {
+          const result = await browser.storage.local.get(this._lockKey);
+          const lockData = result[this._lockKey];
+          
+          if (lockData && lockData.lockId === this._lockId) {
+            // Extend lock expiration
+            await browser.storage.local.set({
+              [this._lockKey]: {
+                lockId: this._lockId,
+                timestamp: Date.now(),
+                expiresAt: Date.now() + this._lockTimeout
+              }
+            });
+          } else if (!lockData || lockData.lockId !== this._lockId) {
+            // We no longer hold the lock, stop the timer
+            this._stopRefreshTimer();
+            this._isLocked = false;
+            this._lockId = null;
+            this._notifyLockReleased();
+          }
+        } else {
+          // No longer holding lock, stop the timer
+          this._stopRefreshTimer();
+        }
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._startRefreshTimer', e);
+        // Stop timer on error to prevent infinite error loops
+        this._stopRefreshTimer();
+      }
+    }, this._refreshInterval);
+  }
+
+  /**
+   * Stop the refresh timer
+   */
+  _stopRefreshTimer() {
+    if (this._refreshTimer) {
+      clearInterval(this._refreshTimer);
+      this._refreshTimer = null;
+    }
+  }
+
+  /**
+   * Notify listeners that lock was acquired
+   */
+  _notifyLockAcquired() {
+    this._lockListeners.forEach(callback => {
+      try {
+        callback({ type: 'feedUpdateLockStatusChange', status: 'acquired', lockId: this._lockId });
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._notifyLockAcquired', e);
+      }
+    });
+  }
+
+  /**
+   * Notify listeners that lock was released
+   */
+  _notifyLockReleased() {
+    this._lockListeners.forEach(callback => {
+      try {
+        callback({ type: 'feedUpdateLockStatusChange', status: 'released', lockId: this._lockId });
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._notifyLockReleased', e);
+      }
+    });
+  }
+
+  /**
+   * Notify listeners that lock was acquired by another window
+   */
+  _notifyLockAcquiredByOther() {
+    this._lockListeners.forEach(callback => {
+      try {
+        callback({ type: 'feedUpdateLockStatusChange', status: 'acquiredByOther' });
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._notifyLockAcquiredByOther', e);
+      }
+    });
+  }
+  
+  /**
+   * Unsubscribe from lock status changes
+   * @param {Function} callback - Function to unsubscribe
+   */
+  unsubscribe(callback) {
+    this._lockListeners = this._lockListeners.filter(cb => cb !== callback);
+  }
+  
+  /**
+   * Cleanup resources when the component is no longer needed
+   */
+  cleanup() {
+    // Stop refresh timer
+    this._stopRefreshTimer();
+    
+    // Remove storage listener
+    if (this._storageChangeListener) {
+      browser.storage.onChanged.removeListener(this._storageChangeListener);
+      this._storageChangeListener = null;
+    }
+    
+    // Clear listeners
+    this._lockListeners = [];
+    
+    // Reset state
+    this._isLocked = false;
+    this._lockId = null;
+  }
+}
+
+// Export for use in other modules
+/*exported FeedUpdateLockManager*/
