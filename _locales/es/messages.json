@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Use DEL key to switch read/undread articles"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Abrir feeds actualizados"
   },
@@ -119,6 +122,9 @@
   "sbChecking": {
     "message": "comprobando"
   },
+  "sbLockedByOtherWindow": {
+    "message": "bloqueado por otra ventana"
+  },
   "sbPreparing": {
     "message": "preparando"
   },
@@ -144,7 +150,7 @@
     "message": "recibido"
   },
   "sbWaitingNextFeed": {
-    "message": "Wainting for next feed..."
+    "message": "Waiting for next feed..."
   },
   "sbFeedsUpdated": {
     "message": "feeds actualizados"
@@ -341,6 +347,9 @@
   "optRetryWithHttp": {
     "message": "Si https falló, vuelva a intentarlo con http"
   },
+  "optRemoveExtraData": {
+    "message": "Remove extra data (avoid false positive updates)"
+  },
   "optFeedItemList": {
     "message": "Lista de elementos de feeds"
   },
@@ -436,6 +445,9 @@
   },
   "optScriptManagerButton": {
     "message": "Administrador de scripts..."
+  },
+  "optScriptManagerUnavailable": {
+    "message": "Script mananger is not able to work with new namifest v3"
   },
   "optLblSecurityFilter": {
     "message": "Abrir la configuración de filtros de seguridad"

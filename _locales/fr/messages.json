@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Masquer les articles visités"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Utiliser la touche 'SUPPR' pour basculer les articles de 'lu' à 'non lu'"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Ouvrir les flux non lus"
   },
@@ -118,6 +121,9 @@
   },
   "sbChecking": {
     "message": "vérifie"
+  },
+  "sbLockedByOtherWindow": {
+    "message": "verrouillé par une autre fenêtre"
   },
   "sbPreparing": {
     "message": "prépare"
@@ -341,6 +347,9 @@
   "optRetryWithHttp": {
     "message": "Si échec https alors réessayer avec http"
   },
+  "optRemoveExtraData": {
+    "message": "Supprime les données excédentaires (évite les faux positifs de mise à jour)"
+  },
   "optFeedItemList": {
     "message": "Activer la liste des articles du flux"
   },
@@ -436,6 +445,9 @@
   },
   "optScriptManagerButton": {
     "message": "Gestionnaire de script..."
+  },
+  "optScriptManagerUnavailable": {
+    "message": "Le gestionnaire de script ne fonctionne plus avec le nouveau namifest v3"
   },
   "optLblSecurityFilter": {
     "message": "Ouvrir l'écran des filtres de sécurité"

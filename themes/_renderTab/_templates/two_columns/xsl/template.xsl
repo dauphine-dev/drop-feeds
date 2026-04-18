@@ -49,9 +49,69 @@
               <span class="encodedText"><xsl:value-of select="./title" /></span>
             </xsl:element>
           </h2>
-          <div class="itemDescription"><span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span></div>
+          <div class="itemDescription" style="min-height:200px">
+            <xsl:if test="./thumbnail!='null'">
+              <!-- thumbnail -->
+              <xsl:element name="a">
+                <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
+                <xsl:element name="img">
+                  <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                  <xsl:attribute name="style">float: left; margin-right: 15px; margin-bottom: 4px; max-width:320px; max-height:200px;</xsl:attribute>
+                </xsl:element>
+              </xsl:element>
+            </xsl:if>
+          <!-- description -->
+          <span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span>
+          </div>
+          <br/>
+          <p/>
+          <!-- itemInfo -->
           <div class="itemInfo">
-            <div   class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
+            <div class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
+            <div class="itemAuthor">Posted by <xsl:value-of select="./author"/></div>
+            <!-- enclosures -->
+            <xsl:if test="((./enclosures/enclosure/type='audio') or (./enclosures/enclosure/type='video') or (./enclosures/enclosure/type='image'))">
+              <div class="itemEnclosure">
+                <xsl:if test="./enclosures/enclosure/type='audio'">
+                  <div class="itemAudioPlayer">
+                    <audio preload="none" controls="controls">
+                      <xsl:element name="source">
+                        <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                        <xsl:attribute name="type"><xsl:value-of select="./enclosures/enclosure/mimetype "/></xsl:attribute>
+                      </xsl:element>
+                    </audio>
+                  </div>
+                </xsl:if>
+                <xsl:if test="./enclosures/enclosure/type='video'">
+                  <div class="itemVideoPlayer">
+                    <video width="640" height="480" preload="none" controls="controls">
+                      <xsl:element name="source">
+                        <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                        <xsl:attribute name="type"><xsl:value-of select="./enclosures/enclosure/mimetype "/></xsl:attribute>
+                      </xsl:element>
+                    </video>
+                  </div>
+                </xsl:if>
+                <xsl:if test="./enclosures/enclosure/type='image'">
+                  <div class="itemImage">
+                    <xsl:element name="img">
+                      <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                      <xsl:attribute name="width">640</xsl:attribute>
+                      <xsl:attribute name="height">480</xsl:attribute>
+                    </xsl:element>
+                  </div>
+                </xsl:if>
+                <div class="itemEnclosureLink">
+                  <xsl:element name="a">
+                    <xsl:attribute name="href"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                    <xsl:attribute name="download"></xsl:attribute>
+                    <xsl:value-of select="./enclosures/enclosure/link"/>
+                  </xsl:element>
+                </div>
+              </div>
+            </xsl:if>
+            <!-- enclosures (end)-->
           </div>
         </div>
 	    </xsl:for-each>      

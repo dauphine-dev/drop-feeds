@@ -32,8 +32,30 @@
           </xsl:attribute>
         </xsl:element>
         <title><span class="encodedText"><xsl:value-of select="/render/channel/title"/></span> - Drop Feeds</title>
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptBrowserManager"/>
+          </xsl:attribute>
+        </xsl:element>        
+
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptDefaultValues"/>
+          </xsl:attribute>
+        </xsl:element>        
+        <xsl:element name="script">
+          <xsl:attribute name="type">text/javascript</xsl:attribute>
+          <xsl:attribute name="src">
+            <xsl:value-of select="/render/context/scriptLocalStorageManager"/>
+          </xsl:attribute>
+        </xsl:element>        
       </head>
       <body>
+
+
+        <!-- ** headBar ** -->
         <div id="channelHead">
           <div class="channelTitle">
             <span class="channelTitleText">
@@ -47,12 +69,53 @@
               </xsl:element>
             </span>
           </div>
+          <div id="buttonsPannel">
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsReadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as read</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemMarkAllAsUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Mark all as unread</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemOpenUnreadButton</xsl:attribute>
+                <xsl:attribute name="title">#Open unread items in new tabs</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemHideReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">#Hide read articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemSeparator1</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+              <xsl:element name="span">
+                <xsl:attribute name="id">itemDelKeySwicthReadArticlesButton</xsl:attribute>
+                <xsl:attribute name="title">#Use DEL key to switch read/undread articles</xsl:attribute>
+                <xsl:attribute name="class">toolBarItem toolBarItemInactivated</xsl:attribute>
+              </xsl:element>
+          </div>
         </div>
         <div class="sep1"></div>
         <!-- ** topPanel ** -->
         <div id="topPanel">
           <table>
-            <tr>
+            <tr class="tableHeader" >
               <th></th>
               <th>Title</th>
               <th>Visited</th>
@@ -134,7 +197,66 @@
                   </span>
                 </div>
               </div>
-              <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
+              <xsl:if test="./thumbnail!='null'">
+                <div class="itemDescription">
+                  <!-- thumbnail -->
+                  <xsl:element name="a">
+                    <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                    <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
+                    <xsl:element name="img">
+                      <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
+                      <xsl:attribute name="style">float: left; margin-right: 15px; margin-bottom: 4px; max-width:320px; max-height:200px;</xsl:attribute>
+                    </xsl:element>
+                  </xsl:element>
+                </div>
+              </xsl:if>
+              <!-- description -->
+              <div class="itemDescription">
+                <span class="encodedHtml"><xsl:value-of select="./description"/></span>
+              </div>
+              <p/>
+              <!-- enclosures -->
+              <xsl:if test="((./enclosures/enclosure/type='audio') or (./enclosures/enclosure/type='video') or (./enclosures/enclosure/type='image'))">
+                <div class="itemEnclosure">
+                  <xsl:if test="./enclosures/enclosure/type='audio'">
+                    <div class="itemAudioPlayer">
+                      <audio preload="none" controls="controls">
+                        <xsl:element name="source">
+                          <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                          <xsl:attribute name="type"><xsl:value-of select="./enclosures/enclosure/mimetype "/></xsl:attribute>
+                        </xsl:element>
+                      </audio>
+                    </div>
+                  </xsl:if>
+                  <xsl:if test="./enclosures/enclosure/type='video'">
+                    <div class="itemVideoPlayer">
+                      <video width="640" height="480" preload="none" controls="controls">
+                        <xsl:element name="source">
+                          <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                          <xsl:attribute name="type"><xsl:value-of select="./enclosures/enclosure/mimetype "/></xsl:attribute>
+                        </xsl:element>
+                      </video>
+                    </div>
+                  </xsl:if>
+                  <xsl:if test="./enclosures/enclosure/type='image'">
+                    <div class="itemImage">
+                      <xsl:element name="img">
+                        <xsl:attribute name="src"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                        <xsl:attribute name="width">640</xsl:attribute>
+                        <xsl:attribute name="height">480</xsl:attribute>
+                      </xsl:element>
+                    </div>
+                  </xsl:if>
+                  <div class="itemEnclosureLink">
+                    <xsl:element name="a">
+                      <xsl:attribute name="href"><xsl:value-of select="./enclosures/enclosure/link"/></xsl:attribute>
+                      <xsl:attribute name="download"></xsl:attribute>
+                      <xsl:value-of select="./enclosures/enclosure/link"/>
+                    </xsl:element>
+                  </div>
+                </div>
+              </xsl:if>
+              <!-- enclosures (end) -->              
             </xsl:element>
           </xsl:for-each>
         </div>

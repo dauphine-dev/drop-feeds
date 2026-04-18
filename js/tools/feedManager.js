@@ -1,5 +1,7 @@
-/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager*/
+/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager BloomFilterManager ErrorHandler FeedUpdateLockManager*/
 'use strict';
+const customPattern = 'www.youtube.com/feeds/videos.xml?channel_id=';
+
 class FeedManager { /*exported FeedManager*/
   static get instance() { return (this._instance = this._instance || new this()); }
 
@@ -19,7 +21,17 @@ class FeedManager { /*exported FeedManager*/
     this._automaticUpdatesOnStart = DefaultValues.automaticFeedUpdatesOnStart;
     this._automaticUpdatesEnabled = DefaultValues.automaticFeedUpdates;
     this._automaticUpdatesMilliseconds = DefaultValues.automaticFeedUpdateMinutes * 60000;
+    this._removeExtraData = DefaultValues.removeExtraData;
     this._checkingFeeds = false;
+    this._feedProcessingErrors = 0;
+    this._customMode = false;
+    this._customMilliseconds = 999999999999;
+    this._customAutoUpdateInterval = undefined;
+    this._customFeedsToProcessList = [];
+    this._customFeedsProcessedList = [];
+    this._customPreparingList = false;
+    this._syncThreshold = DefaultValues.syncThreshold;
+
     Listener.instance.subscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking', (v) => { this._setAsynchronousFeedChecking_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup', (v) => { this._setShowFeedUpdatePopup_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'renderFeeds', (v) => { this._setRenderFeeds_sbscrb(v); }, true);
@@ -27,23 +39,67 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes', (v) => { this._setAutomaticUpdatesMilliseconds_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'removeExtraData', (v) => { this._setRemoveExtraData_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'syncThreshold', (v) => { this._setSsyncThreshold_sbscrb(v); }, true);
+
+    // Initialize Bloom Filter Manager
+    this._bloomFilterManager = BloomFilterManager.instance;
+
+    // Initialize Lock Manager
+    this._lockManager = FeedUpdateLockManager.instance;
+    this._feedUpdateLockSubscription = null;
+
+  }
+
+  async init_async() {
+    setTimeout(() => this.initCustomMode(), 500);
+  }
+
+  async initCustomMode() {
+    this._customMode = await LocalStorageManager.getValue_async('customMode', false);
+    this._customMilliseconds = await LocalStorageManager.getValue_async('customMilliseconds', false);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'customMode', (v) => { this._setCustomMode_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'customMilliseconds', (v) => { this._setCustomMilliseconds_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._customReload_sbscrb(v); }, false);
+    await LocalStorageManager.setValue_async('customMode', this._customMode);
+    await LocalStorageManager.setValue_async('customMilliseconds', this._customMilliseconds);
+
   }
 
   get checkingFeeds() {
     return this._checkingFeeds;
   }
 
-  async delete(feedId) {
-    await Feed.delete_async(feedId);
+  get removeExtraData() {
+    return this._removeExtraData;
   }
 
-  async checkFeeds_async(folderId, resetAutoUpdateInterval) {
+  async delete(feedId) {
+    await Feed.delete_async(feedId);
+    try {
+      await this._bloomFilterManager.invalidateFeedCache_async(feedId);
+    } catch (e) {
+      ErrorHandler.logError('FeedManager.delete', e);
+    }
+  }
+
+  async checkFeeds_async(folderId, resetAutoUpdateInterval, skipOncustomMode, isManualUpdate = false) {
     if (this._feedProcessingInProgress) { return; }
+
+    // Try to acquire lock
+    const lockAcquired = await this._acquireLock_async();
+    if (!lockAcquired) {
+      if (isManualUpdate) {
+        this._scheduleManualUpdateRetry_async(folderId, resetAutoUpdateInterval, skipOncustomMode);
+      }
+      return;
+    }
+
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'));
-    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
+    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
   }
 
   async openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce) {
@@ -56,9 +112,9 @@ class FeedManager { /*exported FeedManager*/
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
+    let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
-    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async);
+    await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, this._syncThreshold);
   }
 
   async openAsUnifiedFeed_async(folderId) {
@@ -75,7 +131,7 @@ class FeedManager { /*exported FeedManager*/
     feed.updateUiTitle();
   }
 
-  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action) {
+  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode) {
     this._feedProcessingInProgress = true;
     try {
       this._updatedFeeds = 0;
@@ -90,6 +146,7 @@ class FeedManager { /*exported FeedManager*/
           try {
             let feedId = feedElementList[i].getAttribute('id');
             feed = await Feed.new(feedId);
+            if (skipOncustomMode && this._customMode && feed.url.includes(customPattern)) { continue; }
             let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
             FeedsStatusBar.instance.setText(statusText);
             this._feedsToProcessList.push(feed);
@@ -102,61 +159,78 @@ class FeedManager { /*exported FeedManager*/
         }
       }
       else {
-        this._processFeedsFinished();
+        await this._processFeedsFinished();
       }
     }
     finally {
     }
   }
 
-  async _processFeedsFromList(folderId, action) {
+  async _processFeedsFromList(folderId, action, syncThreshold) {
     let folderTitle = '';
     this._feedsToProcessCounter = this._feedsToProcessList.length;
     let openNewTabForce = true;
     let elFolderLabel = document.getElementById('lbl-' + folderId.substring(3));
     if (elFolderLabel) { folderTitle = elFolderLabel.textContent; }
-    if (this._asynchronousFeedChecking) {
-      while (this._feedsToProcessList.length > 0) {
-        let feed = this._feedsToProcessList.shift();
-        let isLast = (this._feedsToProcessList.length == 0);
-        action(feed, false, openNewTabForce, isLast, folderTitle);
-      }
-    } else {
-      while (this._feedsToProcessList.length > 0) {
-        let feed = this._feedsToProcessList.shift();
-        let isLast = (this._feedsToProcessList.length == 0);
+    let i = 0;
+    if (!syncThreshold) { syncThreshold = 0; }
+    while (this._feedsToProcessList.length > 0) {
+      let feed = this._feedsToProcessList.shift();
+      let isLast = (this._feedsToProcessList.length == 0);
+      if (!this._asynchronousFeedChecking || i < syncThreshold) {
         await action(feed, false, openNewTabForce, isLast, folderTitle);
+        i++;
+      }
+      else {
+        action(feed, false, openNewTabForce, isLast, folderTitle);
       }
     }
   }
 
-  _processFeedsFinished() {
+  async _processFeedsFinished() {
     FeedsStatusBar.instance.setText('');
     this._checkingFeeds = false;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     FeedsStatusBar.instance.workInProgress = false;
     this._feedProcessingInProgress = false;
+    this._feedProcessingErrors = 0;
+
+    // Release lock after feed processing is finished
+    await this._releaseLock();
   }
 
-  static async _feedsUpdate_async(feed) {
+  static async _feedsUpdate_async(feed, isCustom) {
     let self = FeedManager.instance;
     try {
-      self._statusMessageBeforeCheck(feed);
+      if (!isCustom) { self._statusMessageBeforeCheck(feed); }
+      //if (feed.url.includes(customPattern)) { console.log('checking:', feed._storedFeed.title, '-', feed.url); }
       await feed.update_async();
-      self._statusMessageAfterCheck(feed);
+      if (!isCustom) { self._statusMessageAfterCheck(feed); }
       await feed.updateUiStatus_async();
       if (feed.status == feedStatus.UPDATED) {
         self._updatedFeeds++;
+      }
+
+      // Add feed URL to Bloom Filter for cross-window synchronization
+      try {
+        if (typeof feed.url === 'string' && feed.url.trim()) {
+          await self._bloomFilterManager.addFeedAsync(feed.url);
+        }
+      } catch (e) {
+        ErrorHandler.logError('FeedManager._feedsUpdate_async', e);
       }
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
+      console.error(e);
       /*eslint-enable no-console*/
     } finally {
-      if (--self._feedsToProcessCounter == 0) {
-        await self._displayUpdatedFeedsNotification_async();
-        self._processFeedsFinished();
+      if (!isCustom) {
+        if (--self._feedsToProcessCounter == 0) {
+          await self._displayUpdatedFeedsNotification_async();
+          await self._processFeedsFinished();
+        }
       }
     }
   }
@@ -187,7 +261,7 @@ class FeedManager { /*exported FeedManager*/
     }
     finally {
       if (--self._feedsToProcessCounter <= 0) {
-        self._processFeedsFinished();
+        await self._processFeedsFinished();
       }
     }
   }
@@ -215,7 +289,7 @@ class FeedManager { /*exported FeedManager*/
         await self._displayItems_async(true, isSingle, isUnified, feedNull, folderTitle);
         await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
-        self._processFeedsFinished();
+        await self._processFeedsFinished();
       }
     }
   }
@@ -334,7 +408,7 @@ class FeedManager { /*exported FeedManager*/
     if (!this._automaticUpdatesEnabled) { return; }
     try {
       await LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
-      await FeedManager.instance.checkFeeds_async('feedsContentPanel');
+      await FeedManager.instance.checkFeeds_async('feedsContentPanel', false, true, false);
     }
     catch (e) {
       /*eslint-disable no-console*/
@@ -358,6 +432,14 @@ class FeedManager { /*exported FeedManager*/
       this._automaticUpdatesMilliseconds = newValueMilliseconds;
       await this._setAutoUpdateInterval_async();
     }
+  }
+
+  async _setRemoveExtraData_sbscrb(value) {
+    this._removeExtraData = value;
+  }
+
+  _setSsyncThreshold_sbscrb(value) {
+    this._removeExtraData = value;
   }
 
   async _resetAutoUpdateInterval() {
@@ -397,5 +479,161 @@ class FeedManager { /*exported FeedManager*/
   _start1stAutoUpdate() {
     this._automaticFeedUpdate_async();
     this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+  }
+
+  async _acquireLock_async() {
+    return await this._lockManager.acquireLock_async();
+  }
+
+  async _releaseLock() {
+    await this._lockManager.releaseLock_async();
+  }
+
+  _scheduleManualUpdateRetry_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
+    const maxRetries = 6;
+    let retryCount = 0;
+    const checkLockAndRetry = async () => {
+      try {
+        const lockAcquired = await this._acquireLock_async();
+        if (lockAcquired) {
+          this._checkingFeeds = true;
+          FeedsTopMenu.instance.animateCheckFeedButton(false);
+          if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
+          await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
+          await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
+        } else if (++retryCount < maxRetries) {
+          setTimeout(() => { checkLockAndRetry(); }, 5000);
+        } else {
+          ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', 'Max retries reached, giving up');
+        }
+      } catch (e) {
+        ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', e);
+        if (++retryCount < maxRetries) {
+          setTimeout(() => { checkLockAndRetry(); }, 5000);
+        }
+      }
+    };
+
+    checkLockAndRetry();
+  }
+
+  get feedProcessingErrors() {
+    return this._feedProcessingErrors || 0;
+  }
+
+  cleanup() {
+    if (this._feedUpdateLockSubscription) {
+      this._feedUpdateLockSubscription();
+      this._feedUpdateLockSubscription = null;
+    }
+
+    if (this._checkingFeeds) {
+      this._lockManager.releaseLock_async().catch(e => {
+        ErrorHandler.logError('FeedManager.cleanup', e);
+      });
+    }
+
+    // Unsubscribe all listener subscriptions
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'renderFeeds');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdates');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'removeExtraData');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'syncThreshold');
+
+    // Clear intervals
+    clearInterval(this._autoUpdateInterval);
+    this._autoUpdateInterval = undefined;
+    clearInterval(this._customAutoUpdateInterval);
+    this._customAutoUpdateInterval = undefined;
+  }
+
+  feedUIStatusHasChanged(feed) {
+    if (feed._storedFeed.status == feedStatus.OLD) {
+      const toPush = !(this._customFeedsToProcessList.some(fd => fd._storedFeed.id == feed._storedFeed.id));
+      if (toPush) {
+        this._customFeedsToProcessList.push(feed);
+      }
+    }
+    else {
+      const index = this._customFeedsToProcessList.map(fd => fd._storedFeed.id).indexOf(feed._storedFeed.id);
+      if (index > -1) {
+        this._customFeedsToProcessList.splice(index, 1);
+      }
+    }
+  }
+
+  async _setCustomMode_sbscrb(value) {
+    this._customMode = value;
+    this._customPreparingListOfFeedsToProcess_async();
+    this._customFeedsProcessedList = await LocalStorageManager.getValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _setCustomMilliseconds_sbscrb(value) {
+    this._customMilliseconds = value;
+    this._setCustomAutoUpdateInterval_async();
+  }
+
+  async _customReload_sbscrb() {
+    this._customPreparingListOfFeedsToProcess_async();
+  }
+
+  async _setCustomAutoUpdateInterval_async() {
+    clearInterval(this._customAutoUpdateInterval);
+    if (this._customMode) {
+      this._customAutoUpdateInterval = setInterval(() => { this._customAutomaticFeedUpdate_async(); }, this._customMilliseconds);
+    }
+  }
+
+  async _customAutomaticFeedUpdate_async() {
+    if (this._feedProcessingInProgress) { return; }
+    let feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    if (!feeds[0]) {
+      this._customFeedsProcessedList = [];
+      feeds = this._customFeedsToProcessList.filter(fd => !this._customFeedsProcessedList.includes(fd._storedFeed.id));
+    }
+    //console.log('feeds[0]:', feeds[0]);
+    if (feeds[0]) {
+      await LocalStorageManager.setValue_async('customFeedsProcessedList', this._customFeedsProcessedList);
+      if (feeds[0]._storedFeed) {
+        this._customFeedsProcessedList.push(feeds[0]._storedFeed.id);
+      }
+      FeedManager._feedsUpdate_async(feeds[0], true);
+    }
+  }
+
+  async _customPreparingListOfFeedsToProcess_async() {
+    try {
+      if (this._customPreparingList) { return; }
+      this._customPreparingList = true;
+      this._updatedFeeds = 0;
+      this._customFeedsToProcessList = [];
+      this._itemList = [];
+      let rootElement = document.getElementById('feedsContentPanel');
+      let feedElementList = rootElement.querySelectorAll('.feedRead, .feedError');
+      if (feedElementList.length > 0) {
+        for (let i = 0; i < feedElementList.length; i++) {
+          let feed = null;
+          try {
+            let feedId = feedElementList[i].getAttribute('id');
+            feed = await Feed.new(feedId);
+            if (feed.url.includes(customPattern)) {
+              this._customFeedsToProcessList.push(feed);
+            }
+          }
+          catch (e) {
+            /*eslint-disable no-console*/
+            console.error(e);
+            /*eslint-enable no-console*/
+          }
+        }
+      }
+    }
+    finally {
+      this._customPreparingList = false;
+    }
   }
 }

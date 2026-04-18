@@ -1,4 +1,4 @@
-/*global TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
+/*global FeedManager TextTools DateTime DefaultValues Compute SecurityFilters FeedRendererOptions*/
 /*cSpell:ignore LASTBUILDDATE, Cmpt */
 'use strict';
 const tagList = {
@@ -16,7 +16,9 @@ const tagList = {
   DESC: ['content:encoded', 'description', 'content', 'summary', 'subtitle', 'media:description'],
   CAT: ['category'],
   AUTHOR: ['author', 'dc:creator'],
-  PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate']
+  PUBDATE: ['pubDate', 'published', 'dc:date', 'updated', 'a10:updated', 'lastBuildDate'],
+  THUMBNAIL: ['media:thumbnail'],
+  MEDIA_CONTENT: ['enclosure', 'media:content']
 };
 
 class FeedParser { /*exported FeedParser*/
@@ -75,7 +77,8 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static getFeedBody(feedText) {
-    let feedBody = feedText;
+    feedText = FeedParser._cleanupExtraData(feedText);
+    let feedBody = '';
     let isJson = feedText.startsWith('{');
     if (isJson) {
       try { feedBody = JSON.stringify(JSON.parse(feedText).items, null, 1); }
@@ -91,6 +94,15 @@ class FeedParser { /*exported FeedParser*/
       }
     }
     return feedBody;
+  }
+
+  static _cleanupExtraData(feedText) {
+    if (FeedManager.instance.removeExtraData) {
+      if (feedText.includes('<rss ') && feedText.includes('</rss>')) {
+        feedText = TextTools.getOuterText(feedText, '<rss ', '</rss>');
+      }
+    }
+    return feedText;
   }
 
   static isValidFeedText(feedText) {
@@ -260,16 +272,32 @@ class FeedParser { /*exported FeedParser*/
     let noTrim = true;
     let result = FeedParser._extractValue(itemText, tagList.ID, null, null, noTrim);
     if (!result) {
-      let hasIdTag = FeedParser._get1stUsedTag(itemText, tagList.ID);
-      if (!hasIdTag) {
-        let i = itemText.indexOf('>', 1);
-        let j = itemText.lastIndexOf('<');
-        if (i >= 0 && j >= 0) {
-          result = itemText.substring(i + 1, j);
-        }
+      //let hasIdTag = FeedParser._get1stUsedTag(itemText, tagList.ID);
+      //if (!hasIdTag) {
+      let i = itemText.indexOf('>', 1);
+      let j = itemText.lastIndexOf('<');
+      if (i >= 0 && j >= 0) {
+        result = itemText.substring(i + 1, j);
       }
+      //}
     }
     return result;
+  }
+
+  static _getThumbnail(itemText) {
+    if (!itemText) { return null; }
+
+    let thumbnail = null;
+    thumbnail = FeedParser._extractAttribute(itemText, tagList.THUMBNAIL, ['url']);
+
+    if (!thumbnail) {
+      let medium = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['medium', 'type']);
+      if (medium && (medium == 'image' || medium.startsWith('image/'))) {
+        thumbnail = FeedParser._extractAttribute(itemText, tagList.MEDIA_CONTENT, ['url']);
+      }
+    }
+    return thumbnail;
+
   }
 
   static _extractValue(text, tagList, startIndex_optional, out_endIndex_optional, noTrim_optional) {
@@ -392,6 +420,11 @@ class FeedParser { /*exported FeedParser*/
       let pubDateString = FeedParser._extractValue(itemText, tagList.PUBDATE);
       item.pubDate = FeedParser._extractDateTime(pubDateString);
       item.pubDateText = item.pubDate ? FeedParser._getPubDateText(item.pubDate) : pubDateString;
+      item.thumbnail = null;
+      const thumbnail = FeedParser._getThumbnail(itemText);
+      if (!item.description.includes(thumbnail)) {
+        item.thumbnail = thumbnail;
+      }
       itemList.push(item);
       itemText = FeedParser._getNextItem(feedText, itemIdRaw, tagItem);
     }
@@ -408,7 +441,7 @@ class FeedParser { /*exported FeedParser*/
       item.number = ++i;
       item.link = jsonItem.url;
       item.title = jsonItem.title;
-      let htmlContent =  (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
+      let htmlContent = (TextTools.isNullOrEmpty(jsonItem.html_content) ? '' : jsonItem.html_content);
       item.description = TextTools.replaceAll(TextTools.replaceAll(htmlContent, '\r\n', '\n'), '\n', '<br/>');
       item.author = jsonItem.author.name;
       let enclosures = [];
@@ -475,7 +508,7 @@ class FeedParser { /*exported FeedParser*/
     let url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if (url) {
       let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-      if (mimetype) {
+      if (mimetype && mimetype != 'image' && !mimetype.startsWith('image/')) {
         let size = FeedParser._extractAttribute(itemText, tag, ['length']);
         let d = { 'url': url, 'mimetype': mimetype, 'size': size };
         return d;
@@ -487,7 +520,7 @@ class FeedParser { /*exported FeedParser*/
     url = FeedParser._extractAttribute(itemText, tag, ['url']);
     if (url) {
       let mimetype = FeedParser._extractAttribute(itemText, tag, ['type']);
-      if (mimetype) {
+      if (mimetype && mimetype != 'image' && !mimetype.startsWith('image/')) {
         let size = FeedParser._extractAttribute(itemText, tag, ['fileSize']);
         let d = { 'url': url, 'mimetype': mimetype, 'size': size };
         return d;

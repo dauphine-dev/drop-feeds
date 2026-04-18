@@ -226,6 +226,12 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       folderDiv.addEventListener('drop', (e) => { this._folderOnDrop_event(e); });
     }
 
+    let folders = document.querySelectorAll('.folder');
+    for (let folder of folders) {
+      folder.addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
+    }
+
+    
     let afterFolders = document.querySelectorAll('.afterFolder');
     for (let afterFolder of afterFolders) {
       afterFolder.addEventListener('dragover', (e) => { this._afterFolderOnDragOver_event(e); });

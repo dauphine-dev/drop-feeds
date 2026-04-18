@@ -1,5 +1,5 @@
 /*global  browser DefaultValues TextTools, Transfer Compute DateTime FeedParser FeedRenderer*/
-/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol*/
+/*global  LocalStorageManager FeedsTreeView UserScriptTools scriptVirtualProtocol FeedManager*/
 'use strict';
 
 const feedStatus = {
@@ -130,7 +130,10 @@ class Feed { /*exported Feed*/
     this._savePrevValues();
     let ignoreRedirection = false;
     await this._download_async(ignoreRedirection, false, scriptData);
-    await this._runUserScript_async(scriptData);
+    const manifest = browser.runtime.getManifest();
+    if (manifest.manifest_version == 2) {
+      await this._runUserScript_async(scriptData);
+    }
     this._parsePubdate();
     this._computeHashCode();
     this._updateStatus();
@@ -179,6 +182,7 @@ class Feed { /*exported Feed*/
   }
 
   async updateUiStatus_async() {
+    FeedManager.instance.feedUIStatusHasChanged(this);
     let feedUiItem = document.getElementById(this._storedFeed.id);
     switch (this.status) {
       case feedStatus.UPDATED:
@@ -324,13 +328,16 @@ class Feed { /*exported Feed*/
   }
 
   _updateStoredFeedVersion() {
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('name')) {
       Object.defineProperty(this._storedFeed, 'title', Object.getOwnPropertyDescriptor(this._storedFeed, 'name'));
       delete this._storedFeed['name'];
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('bkmrkId')) {
       delete this._storedFeed['bkmrkId'];
     }
+    // eslint-disable-next-line no-prototype-builtins
     if (this._storedFeed.hasOwnProperty('isBkmrk')) {
       delete this._storedFeed['isBkmrk'];
     }

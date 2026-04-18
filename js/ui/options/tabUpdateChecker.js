@@ -25,7 +25,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
 
     let elIfHttpsHasFailedRetryWithHttp = document.getElementById('ifHttpsHasFailedRetryWithHttpCheckbox');
     elIfHttpsHasFailedRetryWithHttp.checked = await LocalStorageManager.getValue_async('ifHttpsHasFailedRetryWithHttp', DefaultValues.ifHttpsHasFailedRetryWithHttp);
-    elIfHttpsHasFailedRetryWithHttp.addEventListener('click', (e) => { this._ifHttpsHasFailedRetryWithHttpCheckboxClicked_event(e); });
+    elIfHttpsHasFailedRetryWithHttp.addEventListener('click', (e) => { this._removeExtraDataCheckboxClicked_event(e); });
 
     let elAutomaticFeedUpdates = document.getElementById('automaticFeedUpdatesCheckbox');
     elAutomaticFeedUpdates.checked = await LocalStorageManager.getValue_async('automaticFeedUpdates', DefaultValues.automaticFeedUpdates);
@@ -39,6 +39,10 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     let elAutomaticFeedUpdatesOnStartCheckbox = document.getElementById('automaticFeedUpdatesOnStartCheckbox');
     elAutomaticFeedUpdatesOnStartCheckbox.checked = await LocalStorageManager.getValue_async('automaticFeedUpdatesOnStart', DefaultValues.automaticFeedUpdatesOnStart);
     elAutomaticFeedUpdatesOnStartCheckbox.addEventListener('click', (e) => { this._automaticFeedUpdatesOnStartClicked_event(e); });
+
+    let elRemoveExtraDataCheckbox = document.getElementById('removeExtraDataCheckbox');
+    elRemoveExtraDataCheckbox.checked = await LocalStorageManager.getValue_async('removeExtraData', DefaultValues.removeExtraData);
+    elRemoveExtraDataCheckbox.addEventListener('click', (e) => { this._removeExtraDataCheckboxClicked_event(e); });
   }
 
   _updateLocalizedStrings() {
@@ -51,6 +55,7 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
     document.getElementById('textShowNotifications').textContent = browser.i18n.getMessage('optShowNotifications');
     document.getElementById('textDontShowNotificationsIfZero').textContent = browser.i18n.getMessage('optDontShowNotificationsIfZero');
     document.getElementById('textRetryWithHttp').textContent = browser.i18n.getMessage('optRetryWithHttp');
+    document.getElementById('textRemoveExtraData').textContent = browser.i18n.getMessage('optRemoveExtraData');
   }
 
   async _timeoutValueChanged_event() {
@@ -98,6 +103,10 @@ class TabUpdateChecker { /*exported TabUpdateChecker*/
 
   async _automaticFeedUpdatesOnStartClicked_event() {
     await LocalStorageManager.setValue_async('automaticFeedUpdatesOnStart', document.getElementById('automaticFeedUpdatesOnStartCheckbox').checked);
+  }
+
+  async _removeExtraDataCheckboxClicked_event() {
+    await LocalStorageManager.setValue_async('removeExtraData', document.getElementById('removeExtraDataCheckbox').checked);
   }
 
 }

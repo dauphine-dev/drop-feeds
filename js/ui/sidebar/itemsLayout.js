@@ -1,5 +1,5 @@
-/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager */
-/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView */
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager ErrorHandler FeedUpdateLockManager */
+/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView FeedsStatusBar */
 'use strict';
 class ItemsLayout { /*exported ItemsLayout*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -20,6 +20,8 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
     this._itemList = [];
     Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'bloomFilterUpdate', () => { this._bloomFilterUpdate_sbscrb(); }, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'feedUpdateLockStatusChange', (status) => { this._feedUpdateLockStatusChange_sbscrb(status); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
@@ -175,6 +177,39 @@ class ItemsLayout { /*exported ItemsLayout*/
 
   async _displayItems_sbscrb(value) {
     await this.displayItems_async(value.itemsTitle, value.titleLink, value.items);
+  }
+  
+  _feedUpdateLockStatusChange_sbscrb(status) {
+    // Update UI based on lock status
+    // Check if FeedsStatusBar is available before attempting to update
+    if (!FeedsStatusBar || !FeedsStatusBar.instance) {
+      return;
+    }
+    
+    if (status.status === 'acquiredByOther') {
+      // Another window is updating feeds
+      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ': ' + browser.i18n.getMessage('sbLockedByOtherWindow'));
+    } else if (status.status === 'released') {
+      // Lock was released
+      FeedsStatusBar.instance.setText('');
+    }
+  }
+  
+  async _bloomFilterUpdate_sbscrb() {
+    // When Bloom Filter is updated, refresh the feed list to check for new updates
+    try {
+      // Check if FeedsTreeView is available before attempting reload
+      if (!FeedsTreeView || !FeedsTreeView.instance) {
+        return;
+      }
+      
+      // Check if we have specific feed information in the event
+      // For now, we'll use a selective refresh approach
+      // This will trigger a refresh of the feed list
+      await FeedsTreeView.instance.reload_async();
+    } catch (e) {
+      ErrorHandler.logError('ItemsLayout._bloomFilterUpdate_sbscrb', e);
+    }
   }
 
   _setVisibility() {

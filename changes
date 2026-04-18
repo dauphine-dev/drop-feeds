@@ -1,3 +1,72 @@
+1.0.16.50000000x
+Fix thumbnails
+
+1.0.16.40000000x
+Fix missing thumbnail when coming from enclosure 
+
+1.0.16.30000000x
+Keep background script alive with manifest V3
+
+1.0.16.20000000x
+same as 1.0.16.10000000x
+ - with font size fix for sage_sc theme
+ - make v2 manisfest as the default one
+
+1.0.16.10000000x
+Ready for manifest V3
+Display thumbnails in item description
+Use 'fetch' request instead of 'XMLHttpRequest' request
+
+Manisfset version 3 (1.0.16.100000003) is available on github
+  https://github.com/dauphine-dev/drop-feeds/releases
+  manifest V3 will implies: 
+     - the user-scripts
+     - http feeds (https is mandatory)
+  don't work any more
+
+
+1.0.15
+Fix some freezing by adding timeout on file transfert
+
+1.0.14
+In render tab 'Two panels (Fox memory)' add moving up and down with arrows feature.
+In render tab 'Two panels (Fox memory)' add buttons to mark current article as read, mark current article as unread, mark all articles as read, mark all articles as unread, open unread articles, hide read articles, to use DEL key to switch read/unread articles.
+
+1.0.13
+On multiple feeds opening, open first 5 feeds synchronously, and the others asynchronously.
+Adding Portuguese Brazil (pt-BR) language  (from  inkhorn-ptbr)
+
+1.0.12.0
+Fix duplicated items when guid is empty 
+Adding custom feature
+
+1.0.11
+Fix feed preview in subscribe view
+
+1.0.10
+Fix Discoverering feeds feature
+Fix in user script syntax highlighter
+
+1.0.9
+Script editor improvements and small fixes
+Security filter bypass suffix for user-scripts
+
+1.0.8
+Reimplements enclosures audio/video/image (was loosen since theme management rework)
+Reimplements Cleanup RSS feed extra data (but it's optional this time)
+
+1.0.7
+Remove old manual sidebar toggle management and replace it by new api browser.sidebarAction.toggle
+Undo cleanup RSS feed extra data
+
+1.0.6
+Small changes in option view to fit in new small Firefox option view (Firefox 73+ needed)
+Cleanup RSS feed extra data
+
+1.0.5
+Fix User script editor
+Fix Moving folder by drap and drop
+
 1.0.4
 Update legacy_dark theme
 Fix missing reference in discover-feeds view

@@ -1,11 +1,16 @@
-/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager BrowserManager*/
+/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager BrowserManager FeedSanitizer*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
 
   static async transformFeedToHtml_async(feedInfo, subscribeButtonTarget) {
-    let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
-    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError, subscribeButtonTarget);
+    let sanitizedFeedInfo = FeedSanitizer.sanitizeFeedInfo(feedInfo);
+    if (!sanitizedFeedInfo) {
+      return '<div class="error">Failed to load feed content</div>';
+    }
+
+    let xmlDoc = await FeedTransform._exportFeedToXml_async(sanitizedFeedInfo);
+    let htmlText = await FeedTransform._transform_async(xmlDoc, sanitizedFeedInfo.isError, subscribeButtonTarget);
     return htmlText;
   }
 
@@ -21,25 +26,31 @@ class FeedTransform { /*exported FeedTransform*/
     let xsltUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderXslTemplateUrl_async(feedInfo.isError));
     let themeUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getRenderCssUrl_async());
     let scriptUrl = BrowserManager.getRuntimeUrl(await ThemeManager.instance.getThemeResourceUrl_async(ThemeManager.instance.kinds.renderTemplate, 'js/template.js'));
+    let scriptBrowserManagerUrl = BrowserManager.getRuntimeUrl('/js/tools/browserManager.js');
+    let scriptDefaultValuesUrl = BrowserManager.getRuntimeUrl('/js/tools/defaultValues.js');
+    let scriptLocalStorageManagerUrl = BrowserManager.getRuntimeUrl('/js/tools/localStorageManager.js');
     let description = (feedInfo.channel.description || '');
-    let feedXml = '<?xml-stylesheet type="text/xsl" href= "' + xsltUrl + `" ?>
+    let feedXml = `<?xml-stylesheet type="text/xsl" href= "${xsltUrl}" ?>
 <render>
   <context>
-    <icon><![CDATA[` + iconUrl + `]]></icon>
-    <subscribeButtonStyle><![CDATA[` + subscribeButtonCssUrl + `]]></subscribeButtonStyle>
-    <template><![CDATA[` + templateCssUrl + `]]></template>
-    <theme><![CDATA[` + themeUrl + `]]></theme>
-    <script><![CDATA[` + scriptUrl + `]]></script>
+    <icon><![CDATA[${iconUrl}]]></icon>
+    <subscribeButtonStyle><![CDATA[${subscribeButtonCssUrl}]]></subscribeButtonStyle>
+    <template><![CDATA[${templateCssUrl}]]></template>
+    <theme><![CDATA[${themeUrl}]]></theme>
+    <scriptBrowserManager><![CDATA[${scriptBrowserManagerUrl}]]></scriptBrowserManager>
+    <scriptDefaultValues><![CDATA[${scriptDefaultValuesUrl}]]></scriptDefaultValues>
+    <scriptLocalStorageManager><![CDATA[${scriptLocalStorageManagerUrl}]]></scriptLocalStorageManager>
+    <script><![CDATA[${scriptUrl}]]></script>
   </context>
   <channel>
-    <title><![CDATA[` + FeedTransform._transformEncode((feedInfo.channel.title || '(no title)')) + `]]></title>
-    <link><![CDATA[` + feedInfo.channel.link + `]]></link>
+    <title><![CDATA[${FeedTransform._transformEncode((feedInfo.channel.title || '(no title)'))}]]></title>
+    <link><![CDATA[${feedInfo.channel.link}]]></link>
     <description>
-      <![CDATA[` + FeedTransform._transformEncode(description) + `]]>
+      <![CDATA[${FeedTransform._transformEncode(description)}]]>
     </description>
     </channel>
-  <items>`
-      + FeedTransform._getItemsXmlFragments(feedInfo) + `
+  <items>
+      ${FeedTransform._getItemsXmlFragments(feedInfo)}
   </items>
 </render>`;
 
@@ -57,23 +68,29 @@ class FeedTransform { /*exported FeedTransform*/
 
   static _getItemXmlFragments(item, itemNumber) {
     let pubDateText = (item.pubDateText ? item.pubDateText : String.fromCharCode(160));
+    let enclosureType = '';
+    if (item.enclosure) {
+      enclosureType = item.enclosure.mimetype.split('/')[0];
+    }
     let itemXmlFragments = '';
     itemXmlFragments = `
     <item>
-      <number><![CDATA[` + (itemNumber ? itemNumber : item.number) + `]]></number>
-      <title>` + FeedTransform._transformEncode(item.title) + `</title>
-      <target><![CDATA[` + (FeedRendererOptions.instance.itemNewTab ? '_blank' : '') + `]]></target>
-      <link><![CDATA[` + item.link + `]]></link>
+      <number><![CDATA[${(itemNumber ? itemNumber : item.number)}]]></number>
+      <title>${FeedTransform._transformEncode(item.title)}</title>
+      <target><![CDATA[${(FeedRendererOptions.instance.itemNewTab ? '_blank' : '')}]]></target>
+      <link><![CDATA[${item.link}]]></link>
       <description>
-        <![CDATA[` + FeedTransform._transformEncode(item.description) + ']]>' + `
+        <![CDATA[${FeedTransform._transformEncode(item.description)} + ']]>'
       </description>
-      <category><![CDATA[` + item.category + `]]></category>
-      <author><![CDATA[` + item.author + `]]></author>
-      <pubDateText><![CDATA[` + pubDateText + `]]></pubDateText>
+      <category><![CDATA[${item.category}]]></category>
+      <author><![CDATA[${item.author}]]></author>
+      <pubDateText><![CDATA[${pubDateText}]]></pubDateText>
+      <thumbnail><![CDATA[${item.thumbnail}]]></thumbnail>
       <enclosures>
         <enclosure>
-          <mimetype><![CDATA[` + (item.enclosure ? item.enclosure.mimetype : '') + `]]></mimetype>
-          <link><![CDATA[` + (item.enclosure ? item.enclosure.url : '') + `]]></link>
+          <type><![CDATA[${(item.enclosure ? enclosureType : '')}]]></type>
+          <mimetype><![CDATA[${(item.enclosure ? item.enclosure.mimetype : '')}]]></mimetype>
+          <link><![CDATA[${(item.enclosure ? item.enclosure.url : '')}]]></link>
         </enclosure>      
       </enclosures>
     </item>\n`;
@@ -88,8 +105,10 @@ class FeedTransform { /*exported FeedTransform*/
     let oParser = new DOMParser();
     let xmlDoc = oParser.parseFromString(xmlText, 'application/xml');
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
+
     FeedTransform._decodeElements(htmlDoc);
     if (subscribeButtonTarget) { FeedTransform._addSubscribeButton(htmlDoc, subscribeButtonTarget); }
+
     let htmlText = htmlDoc.documentElement.outerHTML;
     return htmlText;
   }
@@ -111,13 +130,14 @@ class FeedTransform { /*exported FeedTransform*/
         </div>
       </div>
       `;
-      let subscribeButton = document.createRange().createContextualFragment(subscribeButtonHtml);
+      let subscribeButton = BrowserManager.createFragment(subscribeButtonHtml);
+
       doc.body.prepend(subscribeButton);
       doc.getElementById('subscribeNow').setAttribute('target', subscribeButtonTarget);
 
-      let scriptUrl = browser.extension.getURL('/js/ui/subscribeButton/subscribeButton.js');
+      let scriptUrl = browser.runtime.getURL('/js/ui/subscribeButton/subscribeButton.js');
       let subscribeButtonScriptHtml = '\r\n<script src="' + scriptUrl + '"></script>';
-      let subscribeButtonScript = document.createRange().createContextualFragment(subscribeButtonScriptHtml);
+      let subscribeButtonScript = BrowserManager.createFragment(subscribeButtonScriptHtml);
       doc.body.append(subscribeButtonScript);
 
     }
@@ -144,7 +164,7 @@ class FeedTransform { /*exported FeedTransform*/
     let element = htmlDoc.querySelector('.encodedHtml');
     while (element) {
       let decodedHtml = FeedTransform._transformDecode(element.innerHTML);
-      let decodedElement = document.createRange().createContextualFragment(decodedHtml);
+      let decodedElement = BrowserManager.createFragment(decodedHtml);
       element.parentNode.replaceChild(decodedElement, element);
       element = htmlDoc.querySelector('.encodedHtml');
     }

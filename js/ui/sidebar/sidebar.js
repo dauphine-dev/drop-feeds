@@ -20,7 +20,7 @@ class SideBar { /*exported SideBar*/
     FeedRendererOptions.instance;
     ItemSorter.instance;
     SecurityFilters.instance;
-    FeedManager.instance;
+    FeedManager.instance.init_async();
     TabManager.instance;
     await ItemsLayout.instance.init_async();
     await FeedsTopMenu.instance.init_async();

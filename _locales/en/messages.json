@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Hide read articles"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Use DEL key to switch read/undread articles"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Open updated feeds"
   },
@@ -118,6 +121,9 @@
   },
   "sbChecking": {
     "message": "checking"
+  },
+  "sbLockedByOtherWindow": {
+    "message": "locked by other window"
   },
   "sbPreparing": {
     "message": "preparing"
@@ -341,6 +347,9 @@
   "optRetryWithHttp": {
     "message": "If https failed then retry with http"
   },
+  "optRemoveExtraData": {
+    "message": "Remove extra data (avoid false positive updates)"
+  },
   "optFeedItemList": {
     "message": "Feed item list"
   },
@@ -436,6 +445,9 @@
   },
   "optScriptManagerButton": {
     "message": "Script manager..."
+  },
+  "optScriptManagerUnavailable": {
+    "message": "Script mananger is not able to work with new namifest v3"
   },
   "optLblSecurityFilter": {
     "message": "Open security filter settings"

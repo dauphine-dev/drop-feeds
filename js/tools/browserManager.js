@@ -24,7 +24,7 @@ class BrowserManager { /* exported BrowserManager*/
     this._baseFeedUrl = null;
     this._version = null;
     this._uiLanguage = 'en';
-
+    this._manifest_version = browser.runtime.getManifest().manifest_version;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'alwaysOpenNewTab', (v) => { this._setAlwaysOpenNewTab_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'openNewTabForeground', (v) => { this._setOpenNewTabForeground_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reuseDropFeedsTab', (v) => { this._setReuseDropFeedsTab_sbscrb(v); }, true);
@@ -51,6 +51,11 @@ class BrowserManager { /* exported BrowserManager*/
   get uiLanguage() {
     return this._uiLanguage;
   }
+
+  get manifestVersion() {
+    return this._manifest_version;
+  }
+
 
   async openTab_async(url, openNewTabForce, openNewTabBackGroundForce) {
     let activeTab = await BrowserManager.getActiveTab_async();
@@ -176,7 +181,7 @@ class BrowserManager { /* exported BrowserManager*/
 
   static setInnerHtmlByElement(element, textHtml) {
     this.removeAllChild(element);
-    let documentFragment = document.createRange().createContextualFragment(textHtml);
+    let documentFragment = BrowserManager.createFragment(textHtml);
     element.appendChild(documentFragment);
   }
 
@@ -185,7 +190,7 @@ class BrowserManager { /* exported BrowserManager*/
   }
 
   static insertAdjacentHTMLBeforeEnd(element, textHtml) {
-    let documentFragment = document.createRange().createContextualFragment(textHtml);
+    let documentFragment = BrowserManager.createFragment(textHtml);
     element.appendChild(documentFragment);
   }
 
@@ -427,4 +432,7 @@ class BrowserManager { /* exported BrowserManager*/
     return browser.runtime.getURL(url);
   }
 
+  static createFragment(fragment) {    
+    return  document.createRange().createContextualFragment(fragment);
+  }
 }

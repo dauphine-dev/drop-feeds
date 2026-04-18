@@ -29,7 +29,7 @@
   --renderTab-items-border: 1px solid #97969A;
   --renderTab-items-border-radius: 10px;
   --renderTab-items-text-color: #222;
-  --renderTab-items-font-size: 18px;
+  --renderTab-items-font-size: 12px;
   --renderTab-items-number-text-color: var(--renderTab-text-color);
   --renderTab-items-number-font-size: revert;
   --renderTab-items-number-font-weight: normal;

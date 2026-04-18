@@ -77,6 +77,9 @@
   "sbItemHideReadArticles": {
     "message": "Verberg gelezen artikelen"
   },
+  "sbItemDelKeySwicthReadArticles": {
+    "message": "Wissel middels DEL toets tussen gelezen/ongelezen artikelen"
+  },  
   "sbOpenUpdatedFeeds": {
     "message": "Open bijgewerkte feeds"
   },
@@ -118,6 +121,9 @@
   },
   "sbChecking": {
     "message": "controleren"
+  },
+  "sbLockedByOtherWindow": {
+    "message": "vergrendeld door ander venster"
   },
   "sbPreparing": {
     "message": "voorbereiden"
@@ -336,10 +342,13 @@
     "message": "Toon notificatie popupscherm indien nieuwe items gevonden"
   },
   "optDontShowNotificationsIfZero": {
-    "message": "Don't notify if no feed has been updated"
+    "message": "Geen notificatie indien feed niet is geüpdatet"
   },
   "optRetryWithHttp": {
     "message": "Als https mislukt probeer dan met http"
+  },
+  "optRemoveExtraData": {
+    "message": "Verwijder extra data (vermijd false positive updates)"
   },
   "optFeedItemList": {
     "message": "Feeditem lijst"
@@ -436,6 +445,9 @@
   },
   "optScriptManagerButton": {
     "message": "Scriptbeheer..."
+  },
+  "optScriptManagerUnavailable": {
+    "message": "Script mananger is not able to work with new namifest v3"
   },
   "optLblSecurityFilter": {
     "message": "Open de instellingen van het beveiligingsfilter"
