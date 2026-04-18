@@ -1,31 +1,34 @@
-/*global browser BrowserManager FeedParser DefaultValues USTools ItemSorter ThemeManager FeedTransform TextTools FeedRendererOptions*/
+/*global browser BrowserManager FeedParser DefaultValues USTools ItemSorter ThemeManager FeedTransform TextTools FeedRendererOptions FeedSanitizer*/
 'use strict';
 class FeedRenderer { /*exported FeedRenderer*/
 
   static async renderFeedToHtml_async(feedText, defaultTitle, isError, subscribeButtonTarget) {
     let feedInfo = await FeedParser.getFeedInfo_async(feedText, defaultTitle, isError);
-    //let feedHtml = await FeedRenderer._feedInfoToHtml_async(feedInfo);
     let feedHtml = await FeedTransform.transformFeedToHtml_async(feedInfo, subscribeButtonTarget);
     return feedHtml;
   }
 
   static feedErrorToHtml(error, url, title) {
-    error = TextTools.replaceAll(error, '\n', '<br/>');
-    let feedHtml = USTools.rssHeader(title, url, 'Error');
-    let description = `<table>
-    <tr><td>Name: </td><td>` + title + `</td></tr>
-    <tr><td>Url: </td><td><a href="` + url + '">' + url + `</a></td></tr>
-    <tr><td></td><td></td></tr>
-    <tr><td>Error: </td><td>` + error + `</td></tr>
-    </table>`;
-    feedHtml += USTools.rssItem('Error: ' + error.split('<br/>')[0], url, new Date(), description);
+    let safeError = FeedSanitizer.sanitizeText(error || '').replace(/\n/g, '<br/>');
+    let safeUrl = FeedSanitizer.sanitizeUrl(url || '') || '#';
+    let safeTitle = FeedSanitizer.sanitizeText(title || 'Unknown Feed');
+
+    let feedHtml = USTools.rssHeader(safeTitle, safeUrl, 'Error');
+    let description = '<table>' +
+      '<tr><td>Name: </td><td>' + safeTitle + '</td></tr>' +
+      '<tr><td>Url: </td><td><a href="' + safeUrl + '" rel="noopener noreferrer">' + safeUrl + '</a></td></tr>' +
+      '<tr><td></td><td></td></tr>' +
+      '<tr><td>Error: </td><td>' + safeError + '</td></tr>' +
+      '</table>';
+    feedHtml += USTools.rssItem('Error: ' + safeError.split('<br/>')[0], safeUrl, new Date(), description);
     feedHtml += USTools.rssFooter();
     return feedHtml;
   }
 
   static renderItemsTitleToHtml(title, link) {
-    let titleHtml = '<a href="' + link + '">' + title + '</a>';
-    return titleHtml;
+    let safeTitle = FeedSanitizer.sanitizeText(title || '');
+    let safeLink = FeedSanitizer.sanitizeUrl(link || '') || '#';
+    return '<a href="' + safeLink + '" rel="noopener noreferrer">' + safeTitle + '</a>';
   }
 
   static async renderItemListToHtml_async(itemList, tooltipsVisible) {

@@ -1,11 +1,16 @@
-/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager BrowserManager*/
+/*global browser FeedRendererOptions ItemSorter Transfer TextTools ThemeManager BrowserManager FeedSanitizer*/
 'use strict';
 
 class FeedTransform { /*exported FeedTransform*/
 
   static async transformFeedToHtml_async(feedInfo, subscribeButtonTarget) {
-    let xmlDoc = await FeedTransform._exportFeedToXml_async(feedInfo);
-    let htmlText = await FeedTransform._transform_async(xmlDoc, feedInfo.isError, subscribeButtonTarget);
+    let sanitizedFeedInfo = FeedSanitizer.sanitizeFeedInfo(feedInfo);
+    if (!sanitizedFeedInfo) {
+      return '<div class="error">Failed to load feed content</div>';
+    }
+
+    let xmlDoc = await FeedTransform._exportFeedToXml_async(sanitizedFeedInfo);
+    let htmlText = await FeedTransform._transform_async(xmlDoc, sanitizedFeedInfo.isError, subscribeButtonTarget);
     return htmlText;
   }
 
@@ -100,8 +105,10 @@ class FeedTransform { /*exported FeedTransform*/
     let oParser = new DOMParser();
     let xmlDoc = oParser.parseFromString(xmlText, 'application/xml');
     let htmlDoc = xsltProcessor.transformToDocument(xmlDoc);
+
     FeedTransform._decodeElements(htmlDoc);
     if (subscribeButtonTarget) { FeedTransform._addSubscribeButton(htmlDoc, subscribeButtonTarget); }
+
     let htmlText = htmlDoc.documentElement.outerHTML;
     return htmlText;
   }
