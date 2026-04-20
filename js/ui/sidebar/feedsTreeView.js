@@ -10,6 +10,34 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
+
+    // Cross-window feed status sync: when another window writes a feed's stored
+    // state (Feed.save_async uses the bookmark id as the storage key), update
+    // this window's tree item class in place — no full reload, selection and
+    // scroll preserved.
+    browser.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName !== 'local') { return; }
+      this._syncFeedStatusFromStorage(changes);
+    });
+  }
+
+  _syncFeedStatusFromStorage(changes) {
+    let countDirty = false;
+    for (const feedId in changes) {
+      const nv = changes[feedId].newValue;
+      if (!nv || !nv.isFeedInfo) { continue; }
+      const el = document.getElementById(feedId);
+      if (!el) { continue; }
+      const targetClass = Feed.getClassName(nv);
+      if (!targetClass) { continue; }
+      if (el.classList.contains(targetClass)) { continue; }
+      el.classList.remove('feedUnread', 'feedRead', 'feedError');
+      el.classList.add(targetClass);
+      countDirty = true;
+    }
+    if (countDirty) {
+      this.updateAllFolderCount(true);
+    }
   }
 
   _init() {

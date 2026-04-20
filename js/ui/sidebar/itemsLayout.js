@@ -1,4 +1,4 @@
-/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager ErrorHandler FeedUpdateLockManager */
+/*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager ErrorHandler FeedUpdateLockManager ItemStatusManager*/
 /*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView FeedsStatusBar */
 'use strict';
 class ItemsLayout { /*exported ItemsLayout*/
@@ -20,8 +20,10 @@ class ItemsLayout { /*exported ItemsLayout*/
     this._feedItemMarkAsReadOnLeaving = DefaultValues.feedItemMarkAsReadOnLeaving;
     this._itemList = [];
     Listener.instance.subscribe(ListenerProviders.message, 'displayItems', (v) => { this._displayItems_sbscrb(v); }, false);
-    Listener.instance.subscribe(ListenerProviders.message, 'bloomFilterUpdate', () => { this._bloomFilterUpdate_sbscrb(); }, false);
     Listener.instance.subscribe(ListenerProviders.message, 'feedUpdateLockStatusChange', (status) => { this._feedUpdateLockStatusChange_sbscrb(status); }, false);
+    // Listen for item read/unread status changes from other windows
+    Listener.instance.subscribe(ListenerProviders.message, 'itemMarkedAsRead', (data) => { this._onItemMarkedAsRead(data); }, false);
+    Listener.instance.subscribe(ListenerProviders.message, 'itemMarkedAsUnread', (data) => { this._onItemMarkedAsUnread(data); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemList', (v) => { this._setFeedItemList_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemDescriptionTooltips', (v) => { this._feedItemDescriptionTooltips_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'feedItemListToolbar', (v) => { this._feedItemListToolbar_sbscrb(v); }, true);
@@ -153,6 +155,14 @@ class ItemsLayout { /*exported ItemsLayout*/
     else {
       ItemsToolBar.instance.disableButtons();
     }
+    
+    // Apply stored visited state to newly displayed items for cross-window consistency
+    try {
+      await ItemManager.instance.applyVisitedStateToDisplayedItems();
+    } catch (e) {
+      ErrorHandler.logError('ItemsLayout._displayItems_async', e);
+    }
+    
     RenderItemLayout.instance.clear();
   }
 
@@ -202,20 +212,65 @@ class ItemsLayout { /*exported ItemsLayout*/
     }
   }
   
-  async _bloomFilterUpdate_sbscrb() {
-    // When Bloom Filter is updated, refresh the feed list to check for new updates
+  /**
+   * Handle item marked as read events from other windows for cross-window synchronization
+   * @param {object} data - Data containing the URL and timestamp of the marked item
+   */
+  _onItemMarkedAsRead(data) {
     try {
-      // Check if FeedsTreeView is available before attempting reload
-      if (!FeedsTreeView || !FeedsTreeView.instance) {
+      if (!data || !data.url) {
         return;
       }
-      
-      // Check if we have specific feed information in the event
-      // For now, we'll use a selective refresh approach
-      // This will trigger a refresh of the feed list
-      await FeedsTreeView.instance.reload_async();
+
+      // Update local history to mark as visited in this window
+      browser.history.addUrl({ url: data.url }).catch(e => {
+        ErrorHandler.logError('ItemsLayout._onItemMarkedAsRead', e);
+      });
+
+      // Find and update the item element if it's currently displayed
+      const elItem = document.querySelector(`.item[href="${data.url}"]`);
+      if (elItem && !elItem.classList.contains('visited')) {
+        elItem.classList.add('visited');
+        elItem.classList.add('visitedVisible');
+        
+        // Update toolbar state if needed
+        if (ItemsToolBar.instance) {
+          ItemsToolBar.instance.enableButtonsForSingleElement();
+        }
+      }
     } catch (e) {
-      ErrorHandler.logError('ItemsLayout._bloomFilterUpdate_sbscrb', e);
+      ErrorHandler.logError('ItemsLayout._onItemMarkedAsRead', e);
+    }
+  }
+
+  /**
+   * Handle item marked as unread events from other windows for cross-window synchronization
+   * @param {object} data - Data containing the URL and timestamp of the marked item
+   */
+  _onItemMarkedAsUnread(data) {
+    try {
+      if (!data || !data.url) {
+        return;
+      }
+
+      // Update local history to mark as unvisited in this window
+      browser.history.deleteUrl({ url: data.url }).catch(e => {
+        ErrorHandler.logError('ItemsLayout._onItemMarkedAsUnread', e);
+      });
+
+      // Find and update the item element if it's currently displayed
+      const elItem = document.querySelector(`.item[href="${data.url}"]`);
+      if (elItem && elItem.classList.contains('visited')) {
+        elItem.classList.remove('visited');
+        elItem.classList.remove('visitedVisible');
+        
+        // Update toolbar state if needed
+        if (ItemsToolBar.instance) {
+          ItemsToolBar.instance.enableButtonsForSingleElement();
+        }
+      }
+    } catch (e) {
+      ErrorHandler.logError('ItemsLayout._onItemMarkedAsUnread', e);
     }
   }
 

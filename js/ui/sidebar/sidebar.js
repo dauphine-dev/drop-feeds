@@ -65,7 +65,10 @@ class SideBar { /*exported SideBar*/
     // page is going away; the background's port-disconnect cleanup is the
     // authoritative fallback.
     window.addEventListener('pagehide', () => {
-      try { FeedUpdateLockManager.instance.releaseLock_async(); } catch (e) { /* noop */ }
+      try {
+        const p = FeedUpdateLockManager.instance.releaseLock_async();
+        if (p && typeof p.catch === 'function') { p.catch(() => {}); }
+      } catch (e) { /* noop */ }
     });
   }
 

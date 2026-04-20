@@ -1,4 +1,4 @@
-/*global browser chrome BloomFilterManager ErrorHandler FeedUpdateLockManager*/
+/*global browser chrome ErrorHandler FeedUpdateLockManager*/
 'use strict';
 
 class BackgroundManager {
@@ -8,9 +8,7 @@ class BackgroundManager {
     this._windowList = [];
     this._windowId = null;
     this._portKeepAlive = null;
-    this._bloomFilterManager = BloomFilterManager.instance;
     this._lockManager = FeedUpdateLockManager.instance;
-    this._bloomFilterUpdateListener = null;
     this._feedUpdateLockStatusListener = null;
     // Track the lockId currently held by each sidebar port so we can
     // release stale locks when a sidebar window closes mid-update.
@@ -40,18 +38,6 @@ class BackgroundManager {
       }
       this.keepMeAlive();
 
-      // Initialize Bloom Filter Manager
-      await this._bloomFilterManager.initAsync();
-
-      // Listen for Bloom Filter updates from other windows
-      this._bloomFilterUpdateListener = (request, sender, sendResponse) => {
-        if (request.key === 'bloomFilterUpdate') {
-          this._onBloomFilterUpdate(request, sender, sendResponse);
-          return true; // keep message channel open for async sendResponse
-        }
-      };
-      browser.runtime.onMessage.addListener(this._bloomFilterUpdateListener);
-
       // Listen for feed update lock status changes
       this._feedUpdateLockStatusListener = (status) => {
         this._onFeedUpdateLockStatusChanged(status);
@@ -73,11 +59,6 @@ class BackgroundManager {
   }
 
   cleanup() {
-    if (this._bloomFilterUpdateListener) {
-      browser.runtime.onMessage.removeListener(this._bloomFilterUpdateListener);
-      this._bloomFilterUpdateListener = null;
-    }
-
     if (this._feedUpdateLockUnsubscribe) {
       this._feedUpdateLockUnsubscribe();
       this._feedUpdateLockUnsubscribe = null;
@@ -148,31 +129,6 @@ class BackgroundManager {
       }
     } catch (e) {
       ErrorHandler.logError('BackgroundManager._releaseLockIfHeldBy_async', e);
-    }
-  }
-
-  async _onBloomFilterUpdate(request, sender, sendResponse) {
-    if (!sender || !sender.id) {
-      return false;
-    }
-
-    if (sender.id !== browser.runtime.id) {
-      return false;
-    }
-
-    if (typeof request !== 'object' || request === null) {
-      return false;
-    }
-
-    try {
-      await browser.runtime.sendMessage({
-        key: 'bloomFilterUpdate',
-        value: { timestamp: request.value ? request.value.timestamp : Date.now() }
-      });
-      sendResponse({ success: true });
-    } catch (e) {
-      ErrorHandler.logError('BackgroundManager._onBloomFilterUpdate', e);
-      sendResponse({ success: false });
     }
   }
 

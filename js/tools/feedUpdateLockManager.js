@@ -56,8 +56,39 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
    * @returns {Promise<boolean>} True if lock was acquired, false otherwise
    */
   async acquireLock_async() {
-    // Generate unique lock ID
-    this._lockId = `window-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    // Single-flight: coalesce concurrent calls so we never overwrite our own
+    // in-flight _lockId and orphan the stored lock.
+    if (this._acquireInFlight) {
+      return this._acquireInFlight;
+    }
+    this._acquireInFlight = this._acquireLockInner_async();
+    try {
+      return await this._acquireInFlight;
+    } finally {
+      this._acquireInFlight = null;
+    }
+  }
+
+  async _acquireLockInner_async() {
+    // Re-entrancy: if we already hold the lock, verify with storage and
+    // return true if still ours — do NOT generate a new lockId.
+    if (this._isLocked && this._lockId) {
+      try {
+        const r = await browser.storage.local.get(this._lockKey);
+        if (r[this._lockKey] && r[this._lockKey].lockId === this._lockId) {
+          return true;
+        }
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._acquireLockInner_async (reentrancy check)', e);
+      }
+      // Lost the lock (expired, stolen, or storage cleared). Reset state
+      // and fall through to a fresh acquisition.
+      this._resetLockState();
+    }
+
+    // Generate unique lock ID in a local, then commit to `this._lockId` only
+    // on successful acquisition. Avoids orphaning if the attempt fails.
+    const candidateId = `window-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     try {
       const result = await browser.storage.local.get(this._lockKey);
@@ -66,7 +97,7 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
         // Lock appears available — write our claim
         await browser.storage.local.set({
           [this._lockKey]: {
-            lockId: this._lockId,
+            lockId: candidateId,
             timestamp: Date.now(),
             expiresAt: Date.now() + this._lockTimeout
           }
@@ -74,12 +105,12 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
 
         // Verify we actually hold the lock (mitigates TOCTOU race)
         const verify = await browser.storage.local.get(this._lockKey);
-        if (!verify[this._lockKey] || verify[this._lockKey].lockId !== this._lockId) {
-          // Another window won the race
-          this._lockId = null;
+        if (!verify[this._lockKey] || verify[this._lockKey].lockId !== candidateId) {
+          // Another window won the race; do not clobber our state.
           return false;
         }
 
+        this._lockId = candidateId;
         this._isLocked = true;
         this._acquiredAt = Date.now();
         this._startRefreshTimer();
@@ -87,14 +118,19 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
         return true;
       } else {
         // Lock is held by another window
-        this._lockId = null;
         return false;
       }
     } catch (e) {
-      ErrorHandler.logError('FeedUpdateLockManager.acquireLock_async', e);
-      this._lockId = null;
+      ErrorHandler.logError('FeedUpdateLockManager._acquireLockInner_async', e);
       return false;
     }
+  }
+
+  _resetLockState() {
+    this._isLocked = false;
+    this._lockId = null;
+    this._acquiredAt = 0;
+    this._stopRefreshTimer();
   }
 
   /**
@@ -115,13 +151,14 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
         // Only release if we still hold the lock
         await browser.storage.local.remove(this._lockKey);
       }
-      
-      this._isLocked = false;
-      this._acquiredAt = 0;
-      this._stopRefreshTimer();
-      this._notifyLockReleased();
+
+      const releasedLockId = this._lockId;
+      this._resetLockState();
+      this._notifyLockReleased(releasedLockId);
     } catch (e) {
       ErrorHandler.logError('FeedUpdateLockManager.releaseLock_async', e);
+      // Still reset local state on error so future acquires aren't blocked.
+      this._resetLockState();
     }
   }
 
@@ -188,10 +225,9 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
 
     // Check if we held the lock and lost it
     if (oldLockData && oldLockData.lockId === this._lockId && !newLockData) {
-      this._isLocked = false;
-      this._acquiredAt = 0;
-      this._stopRefreshTimer();
-      this._notifyLockReleased();
+      const lostLockId = this._lockId;
+      this._resetLockState();
+      this._notifyLockReleased(lostLockId);
       return;
     }
 
@@ -201,8 +237,14 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
       return;
     }
 
-    // Check if another window acquired the lock
+    // Check if another window acquired the lock.
     if (newLockData && newLockData.lockId !== this._lockId) {
+      // If we thought we held the lock but someone else now does, we've been
+      // replaced (our refresh stopped due to max-hold, or we were evicted).
+      // Reset local state so we don't keep refreshing a lock we no longer own.
+      if (this._isLocked) {
+        this._resetLockState();
+      }
       this._notifyLockAcquiredByOther(newLockData.lockId);
     }
   }
@@ -244,11 +286,9 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
             });
           } else if (!lockData || lockData.lockId !== this._lockId) {
             // We no longer hold the lock, stop the timer
-            this._stopRefreshTimer();
-            this._isLocked = false;
-            this._lockId = null;
-            this._acquiredAt = 0;
-            this._notifyLockReleased();
+            const lostLockId = this._lockId;
+            this._resetLockState();
+            this._notifyLockReleased(lostLockId);
           }
         } else {
           // No longer holding lock, stop the timer
@@ -287,11 +327,13 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
 
   /**
    * Notify listeners that lock was released
+   * @param {string} [lockId] - The lockId that was released (may have been cleared from state already)
    */
-  _notifyLockReleased() {
+  _notifyLockReleased(lockId) {
+    const id = (typeof lockId !== 'undefined') ? lockId : this._lockId;
     this._lockListeners.forEach(callback => {
       try {
-        callback({ type: 'feedUpdateLockStatusChange', status: 'released', lockId: this._lockId });
+        callback({ type: 'feedUpdateLockStatusChange', status: 'released', lockId: id });
       } catch (e) {
         ErrorHandler.logError('FeedUpdateLockManager._notifyLockReleased', e);
       }
