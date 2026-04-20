@@ -61,6 +61,7 @@
             <span class="channelTitleText">
               <xsl:element name="a">
                 <xsl:attribute name="target">_blank</xsl:attribute>
+                <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                 <xsl:attribute name="class">channelLink</xsl:attribute>
                 <xsl:attribute name="href">
                   <xsl:value-of select="/render/channel/link"/>
@@ -136,7 +137,7 @@
                 </td>
                 <td></td>
                 <td>
-                  <xsl:value-of disable-output-escaping="yes" select="./pubDateText"/>
+                  <xsl:value-of select="./pubDateText"/>
                 </td>
               </tr>
             </xsl:for-each>
@@ -157,6 +158,7 @@
                     <xsl:attribute name="target">
                       <xsl:value-of select="./target"/>
                     </xsl:attribute>
+                    <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                     <xsl:attribute name="href">
                       <xsl:value-of select="./link"/>
                     </xsl:attribute>
@@ -166,6 +168,7 @@
                 <div class="itemInfo">
                   <xsl:element name="a">
                     <xsl:attribute name="target">_blank</xsl:attribute>
+                    <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                     <xsl:attribute name="href">
                       <xsl:value-of select="./link"/>
                     </xsl:attribute>
@@ -181,6 +184,7 @@
                   </xsl:element>
                   <xsl:element name="a">
                     <xsl:attribute name="target">_blank</xsl:attribute>
+                    <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                     <xsl:attribute name="href">mailto:?subject=<xsl:value-of select="./title"/>&amp;body=<xsl:value-of select="./link"/></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="border">0</xsl:attribute>
@@ -202,6 +206,7 @@
                   <!-- thumbnail -->
                   <xsl:element name="a">
                     <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                    <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                     <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
                     <xsl:element name="img">
                       <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>

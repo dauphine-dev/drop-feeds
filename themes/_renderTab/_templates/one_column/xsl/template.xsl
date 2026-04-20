@@ -45,6 +45,7 @@
             <span class="itemNumber"><xsl:value-of select="./number" />.</span>
             <xsl:element name="a">
               <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+              <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
               <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
               <span class="encodedText"><xsl:value-of select="./title" /></span>
             </xsl:element>
@@ -55,6 +56,7 @@
               <!-- thumbnail -->
               <xsl:element name="a">
                 <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+                <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
                 <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
                 <xsl:element name="img">
                   <xsl:attribute name="src"><xsl:value-of select="./thumbnail"/></xsl:attribute>
@@ -64,11 +66,11 @@
             <br/>
             </xsl:if>
           <!-- description -->
-          <span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span>
+          <span class="encodedHtml"><xsl:value-of select="./description"/></span>
           </xsl:element>
           <!-- itemInfo -->
           <div class="itemInfo">
-            <div class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
+            <div class="itemPubDate"><xsl:value-of select="./pubDateText"/></div>
             <div class="itemAuthor">Posted by <xsl:value-of select="./author"/></div>
             <!-- enclosures -->
             <xsl:if test="((./enclosures/enclosure/type='audio') or (./enclosures/enclosure/type='video') or (./enclosures/enclosure/type='image'))">
