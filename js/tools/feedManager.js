@@ -236,7 +236,7 @@ class FeedManager { /*exported FeedManager*/
           // status bar doesn't look frozen on the last prepared feed's name.
           const done = self._feedsTotalCount - remaining;
           const title = (feed && feed.title) ? feed.title : '';
-          FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ' ' + done + '/' + self._feedsTotalCount + (title ? ': ' + title : ''));
+          FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + (title ? ' : ' + title : ''));
         }
       }
     }
