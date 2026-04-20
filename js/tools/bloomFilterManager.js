@@ -1,4 +1,4 @@
-/*global browser BloomFilter LocalStorageManager FeedManager ErrorHandler Feed*/
+/*global browser BloomFilter LocalStorageManager FeedManager ErrorHandler*/
 'use strict';
 
 /**
@@ -388,8 +388,10 @@ class BloomFilterManager { /*exported BloomFilterManager*/
    */
   async invalidateFeedCache_async(feedId) {
     try {
-      const feed = await Feed.new(feedId);
-      this.invalidateCache(feed.url);
+      const bookmarks = await browser.bookmarks.get(feedId);
+      if (bookmarks && bookmarks[0] && bookmarks[0].url) {
+        this.invalidateCache(bookmarks[0].url);
+      }
     } catch (e) {
       ErrorHandler.logError('BloomFilterManager.invalidateFeedCache_async', e);
     }

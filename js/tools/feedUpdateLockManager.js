@@ -14,11 +14,19 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
     this._lockKey = 'dropfeeds-feedUpdateLock';
     this._lockTimeout = 30000; // 30 seconds
     this._refreshInterval = 5000; // 5 seconds
+    // Hard cap on how long a single acquisition can keep refreshing. Stops
+    // runaway/stuck feed updates from holding the lock forever. After this,
+    // the heartbeat stops and the normal TTL lets another window take over.
+    this._maxHoldMs = 90000; // 90 seconds — worst-case block: 90s + 30s TTL.
     this._lockId = null;
+    this._acquiredAt = 0;
     this._refreshTimer = null;
     this._lockListeners = [];
     this._isLocked = false;
     this._storageChangeListener = null;
+    // Single-flight guard: prevents concurrent acquireLock_async calls from
+    // the same instance from racing and orphaning the stored lock.
+    this._acquireInFlight = null;
     
     // Listen for storage changes to detect lock status changes
     this._storageChangeListener = (changes, areaName) => {
@@ -27,6 +35,20 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
       }
     };
     browser.storage.onChanged.addListener(this._storageChangeListener);
+  }
+
+  /**
+   * Clear any existing lock from storage unconditionally.
+   * Safe to call at background startup where no window can legitimately
+   * still hold a lock from a prior browser session.
+   * @returns {Promise<void>}
+   */
+  async clearStaleLock_async() {
+    try {
+      await browser.storage.local.remove(this._lockKey);
+    } catch (e) {
+      ErrorHandler.logError('FeedUpdateLockManager.clearStaleLock_async', e);
+    }
   }
 
   /**
@@ -59,6 +81,7 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
         }
 
         this._isLocked = true;
+        this._acquiredAt = Date.now();
         this._startRefreshTimer();
         this._notifyLockAcquired();
         return true;
@@ -94,6 +117,7 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
       }
       
       this._isLocked = false;
+      this._acquiredAt = 0;
       this._stopRefreshTimer();
       this._notifyLockReleased();
     } catch (e) {
@@ -161,18 +185,25 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
   _onLockStorageChanged(change) {
     const newLockData = change.newValue;
     const oldLockData = change.oldValue;
-    
+
     // Check if we held the lock and lost it
     if (oldLockData && oldLockData.lockId === this._lockId && !newLockData) {
       this._isLocked = false;
+      this._acquiredAt = 0;
       this._stopRefreshTimer();
       this._notifyLockReleased();
       return;
     }
-    
+
+    // Another window released its lock (cleared storage) — notify so UIs can clear.
+    if (!newLockData && oldLockData) {
+      this._notifyLockReleasedByOther(oldLockData.lockId);
+      return;
+    }
+
     // Check if another window acquired the lock
     if (newLockData && newLockData.lockId !== this._lockId) {
-      this._notifyLockAcquiredByOther();
+      this._notifyLockAcquiredByOther(newLockData.lockId);
     }
   }
 
@@ -191,9 +222,17 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
     this._refreshTimer = setInterval(async () => {
       try {
         if (this._isLocked && this._lockId) {
+          // Enforce hard cap on lock hold time — if the holder has been
+          // "working" for too long (e.g., stuck feed fetch), stop refreshing
+          // so the TTL expires and another window can take over.
+          if (this._acquiredAt && (Date.now() - this._acquiredAt) > this._maxHoldMs) {
+            this._stopRefreshTimer();
+            return;
+          }
+
           const result = await browser.storage.local.get(this._lockKey);
           const lockData = result[this._lockKey];
-          
+
           if (lockData && lockData.lockId === this._lockId) {
             // Extend lock expiration
             await browser.storage.local.set({
@@ -208,6 +247,7 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
             this._stopRefreshTimer();
             this._isLocked = false;
             this._lockId = null;
+            this._acquiredAt = 0;
             this._notifyLockReleased();
           }
         } else {
@@ -260,13 +300,28 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
 
   /**
    * Notify listeners that lock was acquired by another window
+   * @param {string} lockId - The lockId that was just acquired
    */
-  _notifyLockAcquiredByOther() {
+  _notifyLockAcquiredByOther(lockId) {
     this._lockListeners.forEach(callback => {
       try {
-        callback({ type: 'feedUpdateLockStatusChange', status: 'acquiredByOther' });
+        callback({ type: 'feedUpdateLockStatusChange', status: 'acquiredByOther', lockId: lockId });
       } catch (e) {
         ErrorHandler.logError('FeedUpdateLockManager._notifyLockAcquiredByOther', e);
+      }
+    });
+  }
+
+  /**
+   * Notify listeners that the lock was released by another window
+   * @param {string} lockId - The lockId that was just released
+   */
+  _notifyLockReleasedByOther(lockId) {
+    this._lockListeners.forEach(callback => {
+      try {
+        callback({ type: 'feedUpdateLockStatusChange', status: 'releasedByOther', lockId: lockId });
+      } catch (e) {
+        ErrorHandler.logError('FeedUpdateLockManager._notifyLockReleasedByOther', e);
       }
     });
   }

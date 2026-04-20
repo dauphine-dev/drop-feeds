@@ -12,6 +12,9 @@ class BackgroundManager {
     this._lockManager = FeedUpdateLockManager.instance;
     this._bloomFilterUpdateListener = null;
     this._feedUpdateLockStatusListener = null;
+    // Track the lockId currently held by each sidebar port so we can
+    // release stale locks when a sidebar window closes mid-update.
+    this._portToLockId = new WeakMap();
   }
 
   async init_async() {
@@ -22,6 +25,10 @@ class BackgroundManager {
     this._isInitializing = true;
 
     try {
+      // Clear any stale feed-update lock left over from a previous browser
+      // session. No sidebar window can legitimately hold one at this point.
+      await this._lockManager.clearStaleLock_async();
+
       this._sidebarListener();
       let windowInfo = await browser.windows.getCurrent({ populate: true });
       this._windowId = windowInfo.id;
@@ -98,7 +105,7 @@ class BackgroundManager {
     let self = BackgroundManager.instance;
     if (port.sender.id == browser.runtime.id) {
       port.onDisconnect.addListener((port) => { self.portOnDisconnect_event(port); });
-      port.onMessage.addListener((message) => { self.portOnMessage_event(message); });
+      port.onMessage.addListener((message) => { self.portOnMessage_event(message, port); });
     }
   }
 
@@ -107,11 +114,41 @@ class BackgroundManager {
     let portNameInfoList = port.name.split(':');
     let sidebarWindowId = parseInt(portNameInfoList[1], 10);
     self._windowList = self._windowList.filter(item => item !== sidebarWindowId);
+
+    // Release any feed-update lock the disconnecting sidebar was holding.
+    const lockId = self._portToLockId.get(port);
+    if (lockId) {
+      self._portToLockId.delete(port);
+      self._releaseLockIfHeldBy_async(lockId);
+    }
   }
 
-  portOnMessage_event(message) {
+  portOnMessage_event(message, port) {
     let self = BackgroundManager.instance;
-    self._windowList.push(message.sidebarWindowId);
+    if (message && typeof message.sidebarWindowId !== 'undefined') {
+      self._windowList.push(message.sidebarWindowId);
+      return;
+    }
+    if (message && message.key === 'lockStatus' && message.value) {
+      if (message.value.status === 'acquired' && message.value.lockId) {
+        self._portToLockId.set(port, message.value.lockId);
+      } else if (message.value.status === 'released') {
+        self._portToLockId.delete(port);
+      }
+    }
+  }
+
+  async _releaseLockIfHeldBy_async(lockId) {
+    try {
+      const lockKey = this._lockManager._lockKey;
+      const result = await browser.storage.local.get(lockKey);
+      const current = result[lockKey];
+      if (current && current.lockId === lockId) {
+        await browser.storage.local.remove(lockKey);
+      }
+    } catch (e) {
+      ErrorHandler.logError('BackgroundManager._releaseLockIfHeldBy_async', e);
+    }
   }
 
   async _onBloomFilterUpdate(request, sender, sendResponse) {

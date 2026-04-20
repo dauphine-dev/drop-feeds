@@ -185,12 +185,19 @@ class ItemsLayout { /*exported ItemsLayout*/
     if (!FeedsStatusBar || !FeedsStatusBar.instance) {
       return;
     }
-    
+
+    // Ignore events about our own lock — they come from the background's
+    // forwarder which has no way to know which window acquired.
+    const ownLockId = FeedUpdateLockManager.instance._lockId;
+    if (status.lockId && ownLockId && status.lockId === ownLockId) {
+      return;
+    }
+
     if (status.status === 'acquiredByOther') {
       // Another window is updating feeds
       FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ': ' + browser.i18n.getMessage('sbLockedByOtherWindow'));
-    } else if (status.status === 'released') {
-      // Lock was released
+    } else if (status.status === 'released' || status.status === 'releasedByOther') {
+      // Lock was released (by us or another window)
       FeedsStatusBar.instance.setText('');
     }
   }
