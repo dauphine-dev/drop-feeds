@@ -141,7 +141,7 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
     if (!this._isLocked || !this._lockId) {
       return;
     }
-    
+
     try {
       // Verify we still hold the lock before releasing
       const result = await browser.storage.local.get(this._lockKey);
@@ -159,6 +159,24 @@ class FeedUpdateLockManager { /*exported FeedUpdateLockManager*/
       ErrorHandler.logError('FeedUpdateLockManager.releaseLock_async', e);
       // Still reset local state on error so future acquires aren't blocked.
       this._resetLockState();
+    }
+  }
+
+  /**
+   * Check if any window (other than us) currently holds a valid lock.
+   * Used on window startup to sync initial UI state with in-progress checks
+   * that began before this window opened.
+   * @returns {Promise<boolean>}
+   */
+  async isLockHeldByOther_async() {
+    try {
+      const result = await browser.storage.local.get(this._lockKey);
+      const lockData = result[this._lockKey];
+      if (!lockData || this._isLockExpired(lockData)) { return false; }
+      return lockData.lockId !== this._lockId;
+    } catch (e) {
+      ErrorHandler.logError('FeedUpdateLockManager.isLockHeldByOther_async', e);
+      return false;
     }
   }
 

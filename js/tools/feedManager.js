@@ -235,7 +235,8 @@ class FeedManager { /*exported FeedManager*/
           // Replace the lingering prep-phase title with live progress so the
           // status bar doesn't look frozen on the last prepared feed's name.
           const done = self._feedsTotalCount - remaining;
-          FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ' ' + done + '/' + self._feedsTotalCount);
+          const title = (feed && feed.title) ? feed.title : '';
+          FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ' ' + done + '/' + self._feedsTotalCount + (title ? ': ' + title : ''));
         }
       }
     }
@@ -257,7 +258,11 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.updateUiStatus_async();
-      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
+      // When batch-opening (isSingle=false) show "Loading next feed..." between
+      // feeds. For a single-click open we just clear the status bar after the
+      // brief "loaded" message — "Loading next feed..." is misleading there.
+      const afterTimeoutText = isSingle ? '' : browser.i18n.getMessage('sbLoadingNextFeed');
+      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', afterTimeoutText, 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
@@ -266,8 +271,14 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
     }
     finally {
-      if (--self._feedsToProcessCounter <= 0) {
-        await self._processFeedsFinished();
+      // Only batch-mode shares the counter with _feedsUpdate_async. A
+      // single-click open must not touch it or it corrupts the progress
+      // display of a concurrent/prior refresh (e.g. "checking 197/196" and
+      // status bar stuck on "Loading next feed...").
+      if (!isSingle) {
+        if (--self._feedsToProcessCounter <= 0) {
+          await self._processFeedsFinished();
+        }
       }
     }
   }

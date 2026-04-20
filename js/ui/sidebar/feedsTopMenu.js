@@ -1,5 +1,5 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager*/
-/*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu*/
+/*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu FeedUpdateLockManager*/
 'use strict';
 class FeedsTopMenu { /*exported FeedsTopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -32,6 +32,11 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     await this.updatedFeedsSetVisibility_async(false);
     this._filterEnabled = await LocalStorageManager.getValue_async('filterEnabled', this._filterEnabled);
     this._updateFilterBar();
+    // If another window is already checking feeds when this window opens,
+    // show the spinning animation to mirror the in-progress state.
+    if (await FeedUpdateLockManager.instance.isLockHeldByOther_async()) {
+      this.animateCheckFeedButton(true);
+    }
   }
 
   set workInProgress(value) {
@@ -58,7 +63,8 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._checkingFeedsStartTime = new Date();
     this._forceAnimateCheckFeedButton = forceAnimate;
     let checkFeedsButton = document.getElementById('checkFeedsButton');
-    if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
+    const willAnimate = FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton;
+    if (willAnimate) {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');

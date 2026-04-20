@@ -1,5 +1,5 @@
 /*global DefaultValues BrowserManager FeedRenderer SplitterBar Listener ListenerProviders LocalStorageManager ErrorHandler FeedUpdateLockManager ItemStatusManager*/
-/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView FeedsStatusBar */
+/*global SideBar ItemsToolBar ItemManager ItemsSelectionBar RenderItemLayout FeedsTreeView FeedsStatusBar FeedsTopMenu */
 'use strict';
 class ItemsLayout { /*exported ItemsLayout*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -190,25 +190,17 @@ class ItemsLayout { /*exported ItemsLayout*/
   }
   
   _feedUpdateLockStatusChange_sbscrb(status) {
-    // Update UI based on lock status
-    // Check if FeedsStatusBar is available before attempting to update
-    if (!FeedsStatusBar || !FeedsStatusBar.instance) {
-      return;
-    }
-
     // Ignore events about our own lock — they come from the background's
     // forwarder which has no way to know which window acquired.
     const ownLockId = FeedUpdateLockManager.instance._lockId;
-    if (status.lockId && ownLockId && status.lockId === ownLockId) {
-      return;
-    }
+    if (status.lockId && ownLockId && status.lockId === ownLockId) { return; }
 
     if (status.status === 'acquiredByOther') {
-      // Another window is updating feeds
-      FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + ': ' + browser.i18n.getMessage('sbLockedByOtherWindow'));
-    } else if (status.status === 'released' || status.status === 'releasedByOther') {
-      // Lock was released (by us or another window)
-      FeedsStatusBar.instance.setText('');
+      // Another window is updating feeds: mirror the checking animation here
+      // without any status-bar message.
+      FeedsTopMenu.instance.animateCheckFeedButton(true);
+    } else if (status.status === 'releasedByOther' || status.status === 'released') {
+      FeedsTopMenu.instance.animateCheckFeedButton(false);
     }
   }
   
