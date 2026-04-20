@@ -78,7 +78,11 @@ class SecurityFilters { /* exported SecurityFilters*/
     }))];
     for (let tag of textTagList) {
       if (!tag) { continue; }
-      let regexExtractAtt = /(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/gi;
+      // Match one attribute: name, optional '=' with quoted or unquoted value.
+      // Quoted values accept any char except their own delimiter, so internal
+      // spaces / commas / '=' (e.g. in srcset or JSON-in-data-* attrs) are
+      // preserved instead of being mistaken for the next attribute boundary.
+      let regexExtractAtt = /([a-zA-Z_:][\w:.-]*)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi;
       if (textTagListWithAllowedAtt.includes(tag)) {
         let allowedAttList = this._allowedHtmlTagList.find(x => Object.keys(x) == tag)[tag];
         let regexExtractTags = new RegExp('<' + tag + '\\b[^>]*>(.*?)', 'gi');

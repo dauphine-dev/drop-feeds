@@ -288,7 +288,26 @@ class Feed { /*exported Feed*/
     if (error) {
       throw error;
     }
-    this._feedText = TextTools.decodeHtml(this._feedText);
+    this._feedText = Feed._decodeHtmlPreservingCdata(this._feedText);
+  }
+
+  // Decode XML entities in the raw feed text but leave CDATA sections
+  // untouched. Blanket-decoding inside CDATA corrupts HTML attribute values
+  // that legitimately contain entity-encoded quotes (e.g. data-image-meta
+  // with embedded JSON uses &quot; to avoid closing the attribute early).
+  static _decodeHtmlPreservingCdata(text) {
+    if (!text) { return text; }
+    const cdataRe = /<!\[CDATA\[[\s\S]*?\]\]>/g;
+    let result = '';
+    let lastIndex = 0;
+    let match;
+    while ((match = cdataRe.exec(text)) !== null) {
+      result += TextTools.decodeHtml(text.substring(lastIndex, match.index));
+      result += match[0];
+      lastIndex = cdataRe.lastIndex;
+    }
+    result += TextTools.decodeHtml(text.substring(lastIndex));
+    return result;
   }
 
   _parsePubdate() {
