@@ -71,6 +71,9 @@
   "sbMarkAllArticlesAsUnread": {
     "message": "Markeer alle items als ongelezen"
   },
+  "sbLockFeedTreeButton": {
+    "message": "Voorkom wijzigingen in de zijbalkitems"
+  },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "Open ongelezen items in nieuwe tabbladen"
   },

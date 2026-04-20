@@ -19,6 +19,8 @@
   --feeds-subscribeGo-image: url(/themes/sage_sc/img/subscribe-go.png);
   --feeds-subscribeAdd-image: url(/themes/sage_sc/img/subscribe-add.png);
   --feeds-filterButton-image: url(/themes/sage_sc/img/filter.png);
+  --feeds-lockFeedTreeButtonOpened-image: url(/themes/sage_sc/img/lockFeedTreeButton-opened.png);
+  --feeds-lockFeedTreeButtonClosed-image: url(/themes/sage_sc/img/lockFeedTreeButton-closed.png);
   --feeds-optionsMenuButton-image: url(/themes/sage_sc/img/options.png);
   /* feeds status bar*/
   --feeds-statusBar-background-color: var(--main-background-color);

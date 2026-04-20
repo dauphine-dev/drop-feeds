@@ -71,6 +71,9 @@
   "sbMarkAllArticlesAsUnread": {
     "message": "Tout marquer comme non lu"
   },
+  "sbLockFeedTreeButton": {
+    "message": "Verrouiller les éléments de la barre latérale"
+  },
   "sbOpenUnreadArticlesInNewTabs": {
     "message": "Ouvrir les articles non lus dans de nouveaux onglets"
   },

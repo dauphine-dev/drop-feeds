@@ -185,6 +185,14 @@ html, body {
   background-image: var(--feeds-optionsMenuButton-image);
 }
 
+#lockFeedTreeButton.topMenuItemInactivated::before {
+  background-image: var(--feeds-lockFeedTreeButtonOpened-image);
+}
+
+#lockFeedTreeButton.topMenuItemActivated::before {
+  background-image: var(--feeds-lockFeedTreeButtonClosed-image);
+}
+
 
 /* feeds status bar */
 

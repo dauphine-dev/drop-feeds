@@ -1,12 +1,14 @@
 ./img/merge.png
 ./img/articles-hide.png
 ./img/mark-as-read.png
+./img/lockFeedTreeButton-closed.png
 ./img/updating.gif
 ./img/restart.png
 ./img/itemOpenUnreadButton.png
 ./img/subscribe-go.png
 ./img/check-feeds.png
 ./img/testItemMenu.png
+./img/lockFeedTreeButton-opened.png
 ./img/feed-error.png
 ./img/mark-as-unread.png
 ./img/only-updated-feeds.png

@@ -10,6 +10,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'reloadTreeView', (v) => { this._reload_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'lockFeedTreeEnabled', (v) => { this._lockFeedTreeEnabled_sbscrb(v); }, true);
 
     // Cross-window feed status sync: when another window writes a feed's stored
     // state (Feed.save_async uses the bookmark id as the storage key), update
@@ -51,6 +52,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this._rootBookmark = null;
     this._showUpdatedFeedCount = DefaultValues.showUpdatedFeedCount;
     this._feedsContentPanel = document.getElementById('feedsContentPanel');
+    this._lockFeedTreeEnabled = DefaultValues.lockFeedTreeEnabled;
+
   }
 
   async load_async() {
@@ -69,6 +72,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let feedsContentHeightItemsClosed = await LocalStorageManager.getValue_async('feedsContentHeightItemsClosed', window.innerHeight / 3);
     let feedsContentHeightItemsOpened = await LocalStorageManager.getValue_async('feedsContentHeightItemsOpened', window.innerHeight / 3);
     let feedsContentHeight = ItemsLayout.instance.visible ? feedsContentHeightItemsOpened : feedsContentHeightItemsClosed;
+    this._lockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', DefaultValues.lockFeedTreeEnabled);
     setTimeout(() => {
       FeedsTreeView.instance.setContentHeight(feedsContentHeight);
     }, 15);
@@ -155,6 +159,11 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     this.updateAllFolderCount(force);
   }
 
+  
+  _lockFeedTreeEnabled_sbscrb  (value) {
+    this._lockFeedTreeEnabled = value;
+  }
+
   async updateAllFolderCount(force) {
     if (this._showUpdatedFeedCount || force) {
       this._updateFolderCount(this._rootBookmark);
@@ -181,7 +190,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
     CssManager.replaceStyle('.feedUnread', unreadValue);
     CssManager.replaceStyle('.feedRead', visibleValue);
-    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);  
+    CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
   }
 
   _updateFolderCount(bookmarkItem) {
@@ -259,7 +268,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
       folder.addEventListener('dragstart', (e) => { this._folderOnDragStart_event(e); });
     }
 
-    
+
     let afterFolders = document.querySelectorAll('.afterFolder');
     for (let afterFolder of afterFolders) {
       afterFolder.addEventListener('dragover', (e) => { this._afterFolderOnDragOver_event(e); });
@@ -276,15 +285,18 @@ class FeedsTreeView { /*exported FeedsTreeView*/
 
 
   }
-  
+
   async _feedOnRightClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
     FeedsContextMenu.instance.hide();
-    let elTarget = event.currentTarget;
-    let xPos = event.clientX;
-    let yPos = event.currentTarget.getBoundingClientRect().top;
-    FeedsContextMenu.instance.show(xPos, yPos, elTarget);
+
+    if (!this._lockFeedTreeEnabled) {
+      let elTarget = event.currentTarget;
+      let xPos = event.clientX;
+      let yPos = event.currentTarget.getBoundingClientRect().top;
+      FeedsContextMenu.instance.show(xPos, yPos, elTarget);
+    }
   }
 
   async _feedClicked_event(event) {
@@ -326,7 +338,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     event.preventDefault();
     let targetFeedId = this._getTargetFeedId(event);
     let targetFeed = document.getElementById(targetFeedId);
-    targetFeed.classList.add('dropZone');
+    if (!this._lockFeedTreeEnabled) targetFeed.classList.add('dropZone');
   }
 
   async _feedOnDragLeave_event(event) {
@@ -343,7 +355,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let targetId = this._getTargetFeedId(event);
-    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
+    if (!this._lockFeedTreeEnabled) await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, targetId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
@@ -363,8 +375,8 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     event.preventDefault();
     let elFolder = event.currentTarget.parentNode.parentNode;
     let xPos = event.clientX;
-    let yPos = event.currentTarget.getBoundingClientRect().top;
-    FeedsContextMenu.instance.show(xPos, yPos, elFolder);
+    let yPos = event.currentTarget.getBoundingClientRect().top;    
+    if (!this._lockFeedTreeEnabled) FeedsContextMenu.instance.show(xPos, yPos, elFolder);
   }
 
   async _folderOnClicked_event(event) {
@@ -390,8 +402,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let target = event.target;
     if (target.nodeType == Node.TEXT_NODE) { target = target.parentNode; }
     target = target.closest('.folderDiv');
-    target.classList.add('dropZone');
-
+    if (this._lockFeedTreeEnabled) target.classList.add('dropZone');
   }
 
   async _folderOnDragLeave_event(event) {
@@ -409,7 +420,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let folderId = this._getTargetFeedId(event);
-    BookmarkManager.instance.changeParentFolder(folderId, toMoveId, true);
+    if (!this._lockFeedTreeEnabled) BookmarkManager.instance.changeParentFolder(folderId, toMoveId, true);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
@@ -424,7 +435,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   async _afterFolderOnDragEnter_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    event.target.classList.add('dropZoneAfterFolder');
+    if (this._lockFeedTreeEnabled) event.target.classList.add('dropZoneAfterFolder');
   }
 
   async _afterFolderOnDragLeave_event(event) {
@@ -439,7 +450,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let data = event.dataTransfer.getData('text');
     let toMoveId = data.substring(data.indexOf(_dropfeedsId) + _dropfeedsId.length);
     let folderId = event.target.getAttribute('after');
-    await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
+    if (!this._lockFeedTreeEnabled) await BookmarkManager.instance.moveAfterBookmark_async(toMoveId, folderId);
     let dropZoneList = document.getElementsByClassName('dropZone');
     for (let el of dropZoneList) {
       el.classList.remove('dropZone');
