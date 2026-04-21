@@ -727,7 +727,9 @@
     <h4>Tip</h4>
     <pre class="syntax"><code>&lt;[tag_name]_dp&gt;</code></pre>
     <h3>Explanation</h3>
-    <div class="paragraph">Add the suffix <strong>_dp</strong> to the tag name to bypass the security filters</div>
+    <div class="paragraph">Add the suffix <strong>_dp</strong> to the tag name to bypass the security filters.
+    This bypass is only active when at least one user script exists in the Script manager;
+    on installs with no user scripts, <strong>_dp</strong>-suffixed tags are treated like any other unknown tag and blocked.</div>
     <h4>Example</h4>
     The following example show how to bypass security filer for the <strong>&lt;iframe&gt;</strong> tag.<br />
     This code sample come from the feed transformer script for youtube content example.<br />
@@ -738,7 +740,7 @@
     <code>  src=${item.link.replace('/watch?v=', '/embed/')} frameborder="0"</code>
     <code>  allow="clipboard-write; encrypted-media; picture-in-picture" allowfullscreen&gt;</code>
     <code>  &lt;/iframe_dp&gt;`;</code>
-    <code>  return result;</code>            
+    <code>  return result;</code>
     <code>}</code>
   </pre>
   </div>

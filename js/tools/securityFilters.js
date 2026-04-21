@@ -1,4 +1,4 @@
-/* global Listener ListenerProviders DefaultValues TextTools WorkerReplace*/
+/* global Listener ListenerProviders DefaultValues TextTools WorkerReplace scriptListKey*/
 'use strict';
 const _blackListHtmlTagsTopShow = [{ 'blink': [] }, { 'marquee': [] }];
 class SecurityFilters { /* exported SecurityFilters*/
@@ -7,8 +7,14 @@ class SecurityFilters { /* exported SecurityFilters*/
   constructor() {
     this._allowedHtmlTagList = DefaultValues.allowedTagList;
     this._rejectedCssFragmentList = DefaultValues.rejectedCssFragmentList;
+    // The `_dp` tag-suffix bypass is a user-script feature. Keep it gated on
+    // the presence of at least one user script so a feed can't smuggle
+    // `<iframe_dp>` (or similar) through the filter on installs that don't
+    // use scripts at all.
+    this._hasUserScripts = false;
     Listener.instance.subscribe(ListenerProviders.localStorage, 'allowedHtmlElementsList', (v) => this._setAllowedHtmlElementsList_sbscrb(v), true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'rejectedCssFragmentList', (v) => this._setRejectedCssFragmentsList_sbscrb(v), true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, scriptListKey, (v) => this._setHasUserScripts_sbscrb(v), true);
     this._wkRplc = new WorkerReplace(20);
     this._wkRplc.init_async();
   }
@@ -21,6 +27,10 @@ class SecurityFilters { /* exported SecurityFilters*/
     this._rejectedCssFragmentList = value;
   }
 
+  async _setHasUserScripts_sbscrb(value) {
+    this._hasUserScripts = Array.isArray(value) && value.length > 0;
+  }
+
   async applySecurityFilters_async(text) {
     if (!text) { return; }
     let hide = null;
@@ -28,7 +38,9 @@ class SecurityFilters { /* exported SecurityFilters*/
     this._allowedHtmlTagList.push({ '<!': [] }); // avoid to have manage comments for now (but we will have to do)
     let textTagList = [...new Set(text.toLowerCase().match(new RegExp('(<[^</])\\w*\\s*', 'g')) || [])].map(x => x.replace('<', '').trim());
     textTagList = textTagList.map(x => TextTools.escapeRegExp(x));
-    const allowedFromUserScriptsTagList = textTagList.filter(tag => tag.endsWith('_dp')).map(tag => ({ [tag]: '*' }));
+    const allowedFromUserScriptsTagList = this._hasUserScripts
+      ? textTagList.filter(tag => tag.endsWith('_dp')).map(tag => ({ [tag]: '*' }))
+      : [];
 
     let toBlackListTagList = [...new Set(textTagList.filter(x =>
       !this._tagListIncludes(this._allowedHtmlTagList, x) && !this._tagListIncludes(allowedFromUserScriptsTagList, x)
