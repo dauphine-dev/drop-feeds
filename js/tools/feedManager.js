@@ -103,8 +103,8 @@ class FeedManager { /*exported FeedManager*/
 
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnread);
+    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
     await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, this._syncThreshold);
   }

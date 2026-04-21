@@ -187,7 +187,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   async updatedFeedsSetVisibility_async(updatedFeedsVisible) {
     let visibleValue = updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
     let unreadValue = '  visibility: visible;\n  font-weight: bold;';
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnread);
     CssManager.replaceStyle('.feedUnread', unreadValue);
     CssManager.replaceStyle('.feedRead', visibleValue);
     CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
