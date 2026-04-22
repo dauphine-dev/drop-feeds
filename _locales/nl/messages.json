@@ -611,6 +611,12 @@
   "sbInfoAddressLbl": {
     "message": "Adres"
   },
+  "sbInfoMinRefreshLbl": {
+    "message": "Min. autom. vernieuwen (seconden)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Minimale tijd tussen automatische vernieuwingen voor feeds in deze map. Laat leeg om uit te schakelen. Wordt genegeerd bij handmatige controles."
+  },
   "sbInfoUpdateButton": {
     "message": "Bijwerken"
   },

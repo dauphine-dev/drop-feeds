@@ -1,4 +1,4 @@
-/* global browser */
+/* global browser DefaultValues LocalStorageManager */
 'use strict';
 class FeedsInfoView { /*exported FeedsInfoView*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -31,6 +31,10 @@ class FeedsInfoView { /*exported FeedsInfoView*/
     document.getElementById('infoIdLbl').textContent = browser.i18n.getMessage('sbInfoIdLdl');
     document.getElementById('infoNameLbl').textContent = browser.i18n.getMessage('sbInfoNameLbl');
     document.getElementById('infoAddressLbl').textContent = browser.i18n.getMessage('sbInfoAddressLbl');
+    document.getElementById('infoMinRefreshLbl').textContent = browser.i18n.getMessage('sbInfoMinRefreshLbl');
+    const minRefreshTooltip = browser.i18n.getMessage('sbInfoMinRefreshTooltip');
+    document.getElementById('infoMinRefreshLbl').title = minRefreshTooltip;
+    document.getElementById('infoMinRefreshField').title = minRefreshTooltip;
     document.getElementById('infoUpdateButton').textContent = browser.i18n.getMessage('sbInfoUpdateButton');
     document.getElementById('infoCloseButton').textContent = browser.i18n.getMessage('sbInfoCloseButton');
   }
@@ -41,7 +45,8 @@ class FeedsInfoView { /*exported FeedsInfoView*/
     document.getElementById('infoNameField').value = this._info.title ? this._info.title : '';
     let elInfoAddressLbl = document.getElementById('infoAddressLbl');
     let elInfoAddressField = document.getElementById('infoAddressField');
-    if (this._info.url) {
+    let isFolder = !this._info.url;
+    if (!isFolder) {
       elInfoAddressField.value = this._info.url;
       elInfoAddressField.classList.remove('hide');
       elInfoAddressField.classList.add('show');
@@ -55,7 +60,23 @@ class FeedsInfoView { /*exported FeedsInfoView*/
       elInfoAddressLbl.classList.remove('show');
       elInfoAddressLbl.classList.add('hide');
     }
+    await this._populateMinRefresh_async(isFolder);
     this._setPosition(xPos, yPos);
+  }
+
+  async _populateMinRefresh_async(isFolder) {
+    let elRow = document.getElementById('infoMinRefreshRow');
+    let elField = document.getElementById('infoMinRefreshField');
+    if (isFolder) {
+      let storageKey = 'cb-' + this._idComeFrom;
+      let storedFolder = await LocalStorageManager.getValue_async(storageKey, DefaultValues.getStoredFolder(storageKey));
+      let minSec = storedFolder ? storedFolder.minAutoRefreshSeconds : undefined;
+      elField.value = (typeof minSec === 'number' && minSec > 0) ? String(minSec) : '';
+      elRow.style.display = '';
+    } else {
+      elField.value = '';
+      elRow.style.display = 'none';
+    }
   }
 
   _setPosition(xPos, yPos) {
@@ -74,9 +95,31 @@ class FeedsInfoView { /*exported FeedsInfoView*/
     event.preventDefault();
     let name = document.getElementById('infoNameField').value;
     let url = document.getElementById('infoAddressField').value;
-    let changes = this._info.url ? {title: name, url:url} : {title: name};
+    let isFolder = !this._info.url;
+    let changes = isFolder ? {title: name} : {title: name, url: url};
     browser.bookmarks.update(this._idComeFrom, changes);
+    if (isFolder) {
+      await this._saveMinRefresh_async();
+    }
     this.hide();
+  }
+
+  async _saveMinRefresh_async() {
+    let raw = document.getElementById('infoMinRefreshField').value;
+    let trimmed = raw ? raw.trim() : '';
+    let parsed = trimmed === '' ? NaN : Number(trimmed);
+    let storageKey = 'cb-' + this._idComeFrom;
+    let storedFolder = await LocalStorageManager.getValue_async(storageKey, DefaultValues.getStoredFolder(storageKey));
+    if (!storedFolder || typeof storedFolder !== 'object') {
+      storedFolder = DefaultValues.getStoredFolder(storageKey);
+    }
+    if (Number.isFinite(parsed) && parsed > 0) {
+      storedFolder.minAutoRefreshSeconds = Math.floor(parsed);
+    } else {
+      delete storedFolder.minAutoRefreshSeconds;
+      delete storedFolder.lastAutoRefresh;
+    }
+    await LocalStorageManager.setValue_async(storageKey, storedFolder);
   }
 
   async _closeButtonClicked_event(event) {

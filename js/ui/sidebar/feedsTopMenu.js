@@ -155,7 +155,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this.activateButton('toggleFoldersButton', this._foldersOpened);
     for (let folder of folders) {
       let folderId = folder.id;
-      let storedFolder = DefaultValues.getStoredFolder(folderId);
+      let storedFolder = await LocalStorageManager.getValue_async(folderId, DefaultValues.getStoredFolder(folderId));
       folder.checked = this._foldersOpened;
       storedFolder.checked = this._foldersOpened;
       await LocalStorageManager.setValue_async(folderId, storedFolder);

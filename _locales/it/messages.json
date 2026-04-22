@@ -611,6 +611,12 @@
   "sbInfoAddressLbl": {
     "message": "Indirizzo"
   },
+  "sbInfoMinRefreshLbl": {
+    "message": "Aggiornamento auto. min. (secondi)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Tempo minimo tra gli aggiornamenti automatici dei feed in questa cartella. Lasciare vuoto per disattivare. Ignorato nelle verifiche manuali."
+  },
   "sbInfoUpdateButton": {
     "message": "Aggiorna"
   },

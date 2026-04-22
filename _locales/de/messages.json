@@ -608,6 +608,12 @@
   "sbInfoAddressLbl": {
     "message": "Addresse"
   },
+  "sbInfoMinRefreshLbl": {
+    "message": "Min. Auto-Aktualisierung (Sekunden)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Mindestzeit zwischen automatischen Aktualisierungen für Feeds in diesem Ordner. Leer lassen zum Deaktivieren. Wird bei manuellen Überprüfungen ignoriert."
+  },
   "sbInfoUpdateButton": {
     "message": "Aktualisieren"
   },

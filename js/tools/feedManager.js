@@ -90,7 +90,7 @@ class FeedManager { /*exported FeedManager*/
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode, !isManualUpdate);
     await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
   }
 
@@ -123,7 +123,7 @@ class FeedManager { /*exported FeedManager*/
     feed.updateUiTitle();
   }
 
-  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode) {
+  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode, isAutoUpdate = false) {
     this._feedProcessingInProgress = true;
     try {
       this._updatedFeeds = 0;
@@ -132,10 +132,18 @@ class FeedManager { /*exported FeedManager*/
       this._itemList = [];
       let rootElement = document.getElementById(folderId);
       let feedElementList = rootElement.querySelectorAll(querySelector);
+      const folderEvalCache = new Map();
+      const foldersToUpdate = new Map();
+      const now = Date.now();
       for (let i = 0; i < feedElementList.length; i++) {
         let feed = null;
         try {
-          let feedId = feedElementList[i].getAttribute('id');
+          let feedElement = feedElementList[i];
+          if (isAutoUpdate) {
+            let skip = await this._shouldSkipFeedForAutoUpdate_async(feedElement, folderEvalCache, foldersToUpdate, now);
+            if (skip) { continue; }
+          }
+          let feedId = feedElement.getAttribute('id');
           feed = await Feed.new(feedId);
           if (skipOncustomMode && this._customMode && feed.url.includes(customPattern)) { continue; }
           let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
@@ -148,11 +156,59 @@ class FeedManager { /*exported FeedManager*/
           /*eslint-enable no-console*/
         }
       }
+      if (isAutoUpdate && foldersToUpdate.size > 0) {
+        await this._commitFolderAutoRefreshTimestamps_async(foldersToUpdate, now);
+      }
     }
     catch (e) {
       // If preparation itself blew up, make sure we don't leave the lock held.
       ErrorHandler.logError('FeedManager._preparingListOfFeedsToProcess_async', e);
       await this._processFeedsFinished();
+    }
+  }
+
+  async _shouldSkipFeedForAutoUpdate_async(feedElement, folderEvalCache, foldersToUpdate, now) {
+    let parent = feedElement.parentElement;
+    while (parent) {
+      if (parent.classList && parent.classList.contains('folder') && parent.id && parent.id.startsWith('dv-')) {
+        let bookmarkId = parent.id.substring(3);
+        let state = folderEvalCache.get(bookmarkId);
+        if (!state) {
+          state = await this._evaluateFolderAutoRefresh_async(bookmarkId, now);
+          folderEvalCache.set(bookmarkId, state);
+          if (state.hasPolicy && !state.skip) {
+            foldersToUpdate.set(bookmarkId, state);
+          }
+        }
+        if (state.skip) {
+          return true;
+        }
+      }
+      parent = parent.parentElement;
+    }
+    return false;
+  }
+
+  async _evaluateFolderAutoRefresh_async(bookmarkId, now) {
+    let storageKey = 'cb-' + bookmarkId;
+    let storedFolder = await LocalStorageManager.getValue_async(storageKey, null);
+    let minSec = (storedFolder && typeof storedFolder.minAutoRefreshSeconds === 'number') ? storedFolder.minAutoRefreshSeconds : 0;
+    if (!(minSec > 0)) {
+      return { hasPolicy: false, skip: false, storageKey, storedFolder };
+    }
+    let lastAuto = (storedFolder && typeof storedFolder.lastAutoRefresh === 'number') ? storedFolder.lastAutoRefresh : 0;
+    let skip = (now - lastAuto) < (minSec * 1000);
+    return { hasPolicy: true, skip, storageKey, storedFolder };
+  }
+
+  async _commitFolderAutoRefreshTimestamps_async(foldersToUpdate, now) {
+    for (let state of foldersToUpdate.values()) {
+      let storedFolder = state.storedFolder;
+      if (!storedFolder || typeof storedFolder !== 'object') {
+        storedFolder = DefaultValues.getStoredFolder(state.storageKey);
+      }
+      storedFolder.lastAutoRefresh = now;
+      await LocalStorageManager.setValue_async(state.storageKey, storedFolder);
     }
   }
 

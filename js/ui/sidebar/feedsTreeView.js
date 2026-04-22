@@ -366,7 +366,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let folderItem = event.currentTarget;
     FeedsContextMenu.instance.hide();
     let folderId = folderItem.getAttribute('id');
-    let storedFolder = DefaultValues.getStoredFolder(folderId);
+    let storedFolder = await LocalStorageManager.getValue_async(folderId, DefaultValues.getStoredFolder(folderId));
     storedFolder.checked = folderItem.checked;
     await LocalStorageManager.setValue_async(folderId, storedFolder);
   }
