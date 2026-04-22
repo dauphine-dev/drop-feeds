@@ -33,20 +33,20 @@ class FeedTransform { /*exported FeedTransform*/
     let feedXml = `<?xml-stylesheet type="text/xsl" href= "${xsltUrl}" ?>
 <render>
   <context>
-    <icon><![CDATA[${iconUrl}]]></icon>
-    <subscribeButtonStyle><![CDATA[${subscribeButtonCssUrl}]]></subscribeButtonStyle>
-    <template><![CDATA[${templateCssUrl}]]></template>
-    <theme><![CDATA[${themeUrl}]]></theme>
-    <scriptBrowserManager><![CDATA[${scriptBrowserManagerUrl}]]></scriptBrowserManager>
-    <scriptDefaultValues><![CDATA[${scriptDefaultValuesUrl}]]></scriptDefaultValues>
-    <scriptLocalStorageManager><![CDATA[${scriptLocalStorageManagerUrl}]]></scriptLocalStorageManager>
-    <script><![CDATA[${scriptUrl}]]></script>
+    <icon><![CDATA[${FeedTransform._escapeCdata(iconUrl)}]]></icon>
+    <subscribeButtonStyle><![CDATA[${FeedTransform._escapeCdata(subscribeButtonCssUrl)}]]></subscribeButtonStyle>
+    <template><![CDATA[${FeedTransform._escapeCdata(templateCssUrl)}]]></template>
+    <theme><![CDATA[${FeedTransform._escapeCdata(themeUrl)}]]></theme>
+    <scriptBrowserManager><![CDATA[${FeedTransform._escapeCdata(scriptBrowserManagerUrl)}]]></scriptBrowserManager>
+    <scriptDefaultValues><![CDATA[${FeedTransform._escapeCdata(scriptDefaultValuesUrl)}]]></scriptDefaultValues>
+    <scriptLocalStorageManager><![CDATA[${FeedTransform._escapeCdata(scriptLocalStorageManagerUrl)}]]></scriptLocalStorageManager>
+    <script><![CDATA[${FeedTransform._escapeCdata(scriptUrl)}]]></script>
   </context>
   <channel>
-    <title><![CDATA[${FeedTransform._transformEncode((feedInfo.channel.title || '(no title)'))}]]></title>
-    <link><![CDATA[${feedInfo.channel.link}]]></link>
+    <title><![CDATA[${FeedTransform._escapeCdata(FeedTransform._transformEncode((feedInfo.channel.title || '(no title)')))}]]></title>
+    <link><![CDATA[${FeedTransform._escapeCdata(feedInfo.channel.link)}]]></link>
     <description>
-      <![CDATA[${FeedTransform._transformEncode(description)}]]>
+      <![CDATA[${FeedTransform._escapeCdata(FeedTransform._transformEncode(description))}]]>
     </description>
     </channel>
   <items>
@@ -75,23 +75,23 @@ class FeedTransform { /*exported FeedTransform*/
     let itemXmlFragments = '';
     itemXmlFragments = `
     <item>
-      <number><![CDATA[${(itemNumber ? itemNumber : item.number)}]]></number>
+      <number><![CDATA[${FeedTransform._escapeCdata(itemNumber ? itemNumber : item.number)}]]></number>
       <title>${FeedTransform._transformEncode(item.title)}</title>
-      <target><![CDATA[${(FeedRendererOptions.instance.itemNewTab ? '_blank' : '')}]]></target>
-      <link><![CDATA[${item.link}]]></link>
+      <target><![CDATA[${FeedTransform._escapeCdata(FeedRendererOptions.instance.itemNewTab ? '_blank' : '')}]]></target>
+      <link><![CDATA[${FeedTransform._escapeCdata(item.link)}]]></link>
       <description>
-        <![CDATA[${FeedTransform._transformEncode(item.description)} + ']]>'
+        <![CDATA[${FeedTransform._escapeCdata(FeedTransform._transformEncode(item.description))}]]>
       </description>
-      <category><![CDATA[${item.category}]]></category>
-      <author><![CDATA[${item.author}]]></author>
-      <pubDateText><![CDATA[${pubDateText}]]></pubDateText>
-      <thumbnail><![CDATA[${item.thumbnail}]]></thumbnail>
+      <category><![CDATA[${FeedTransform._escapeCdata(item.category)}]]></category>
+      <author><![CDATA[${FeedTransform._escapeCdata(item.author)}]]></author>
+      <pubDateText><![CDATA[${FeedTransform._escapeCdata(pubDateText)}]]></pubDateText>
+      <thumbnail><![CDATA[${FeedTransform._escapeCdata(item.thumbnail)}]]></thumbnail>
       <enclosures>
         <enclosure>
-          <type><![CDATA[${(item.enclosure ? enclosureType : '')}]]></type>
-          <mimetype><![CDATA[${(item.enclosure ? item.enclosure.mimetype : '')}]]></mimetype>
-          <link><![CDATA[${(item.enclosure ? item.enclosure.url : '')}]]></link>
-        </enclosure>      
+          <type><![CDATA[${FeedTransform._escapeCdata(item.enclosure ? enclosureType : '')}]]></type>
+          <mimetype><![CDATA[${FeedTransform._escapeCdata(item.enclosure ? item.enclosure.mimetype : '')}]]></mimetype>
+          <link><![CDATA[${FeedTransform._escapeCdata(item.enclosure ? item.enclosure.url : '')}]]></link>
+        </enclosure>
       </enclosures>
     </item>\n`;
     return itemXmlFragments;
@@ -170,6 +170,17 @@ class FeedTransform { /*exported FeedTransform*/
     }
   }
 
+
+  // Neutralize literal ]]> sequences that would otherwise terminate the
+  // surrounding CDATA section. The replacement closes the CDATA, emits a
+  // '>' text node, and reopens a fresh CDATA - net effect: the three
+  // bytes survive as content, but never as a delimiter. Required because
+  // URL-valued fields (link, thumbnail, enclosure.url) pass through
+  // FeedSanitizer.sanitizeUrl, which does not percent-encode '<' or '>'.
+  static _escapeCdata(value) {
+    if (value === null || value === undefined) { return ''; }
+    return String(value).replace(/]]>/g, ']]]]><![CDATA[>');
+  }
 
   static _transformEncode(decodedText) {
     /* Firefox doesn't manage disable-output-escaping="yes" during xslt transform
