@@ -51,8 +51,8 @@
             </xsl:element>
           </h2>
           <xsl:element name="div">
-            <xsl:if test="./thumbnail!='null'">
-            <xsl:attribute name="style">min-height:25px</xsl:attribute>
+            <xsl:if test="string-length(normalize-space(./thumbnail)) &gt; 0">
+            <xsl:attribute name="style">min-height:200px</xsl:attribute>
               <!-- thumbnail -->
               <xsl:element name="a">
                 <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
