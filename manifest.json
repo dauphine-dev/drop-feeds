@@ -3,11 +3,11 @@
   "default_locale": "en",
   "name": "Drop feeds",
   "description": "__MSG_manExtensionDescription__",
-  "version": "1.0.17.200000002",
+  "version": "1.1.0.100000002",
   "browser_specific_settings": {
     "gecko": {
       "id": "{42d52ade-6923-4f20-92d1-8db031269cc6}",
-      "strict_min_version": "73.0"
+      "strict_min_version": "115.0"
     }
   },
   "icons": {
@@ -39,9 +39,6 @@
   },
   "background": {
     "scripts": [
-      "js/tools/errorHandler.js",
-      "js/tools/localStorageManager.js",
-      "js/tools/feedUpdateLockManager.js",
       "js/independent/background.js"
     ]
   },
