@@ -125,6 +125,9 @@
   "sbChecking": {
     "message": "更新中"
   },
+  "sbLockedByOtherWindow": {
+    "message": "他のウィンドウによってロックされています"
+  },
   "sbPreparing": {
     "message": "準備中"
   },
@@ -607,6 +610,12 @@
   },
   "sbInfoAddressLbl": {
     "message": "アドレス"
+  },
+  "sbInfoMinRefreshLbl": {
+    "message": "最小自動更新間隔 (秒)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "このフォルダー内のフィードの自動更新の最小間隔。無効にするには空欄にしてください。手動チェックでは無視されます。"
   },
   "sbInfoUpdateButton": {
     "message": "更新"

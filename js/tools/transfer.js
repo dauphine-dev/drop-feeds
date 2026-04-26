@@ -58,6 +58,12 @@ class Transfer { /*exported Transfer*/
           if (xhr.status === 200) {
             resolve(xhr);
           } else {
+            if (xhr.status >= 400 && xhr.status < 600) {
+              /*eslint-disable no-console*/
+              console.warn('[Transfer.downloadFile_async] HTTP ' + xhr.status +
+                (xhr.statusText ? ' ' + xhr.statusText : '') + ' for ' + url);
+              /*eslint-enable no-console*/
+            }
             reject(xhr.status);
           }
         }
@@ -164,7 +170,21 @@ class Transfer { /*exported Transfer*/
     else {
       let statusText = response.statusText ? response.statusText : 'unknown error';
       let statusCode = response.status ? ' (' + response.status + ')' : '';
-      console.error(statusText + statusCode);
+      /*eslint-disable no-console*/
+      if (response.status >= 400 && response.status < 600) {
+        let bodySnippet = '';
+        try {
+          const body = await response.text();
+          if (body) { bodySnippet = ' | body: ' + body.slice(0, 300).replace(/\s+/g, ' '); }
+        }
+        catch (e) { /* body unreadable — ignore */ }
+        console.warn('[Transfer.downloadTextFileEx_async] HTTP ' + response.status +
+          (response.statusText ? ' ' + response.statusText : '') + ' for ' + url + bodySnippet);
+      }
+      else {
+        console.error(statusText + statusCode + ' for ' + url);
+      }
+      /*eslint-enable no-console*/
     }
   }
 

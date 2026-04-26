@@ -608,6 +608,12 @@
   "sbInfoAddressLbl": {
     "message": "Endereço"
   },
+  "sbInfoMinRefreshLbl": {
+    "message": "Atualização automática mínima (segundos)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Tempo mínimo entre atualizações automáticas dos feeds nesta pasta. Deixe em branco para desativar. Ignorado em verificações manuais."
+  },
   "sbInfoUpdateButton": {
     "message": "Checagem"
   },

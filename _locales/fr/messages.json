@@ -125,6 +125,9 @@
   "sbChecking": {
     "message": "vérifie"
   },
+  "sbLockedByOtherWindow": {
+    "message": "verrouillé par une autre fenêtre"
+  },
   "sbPreparing": {
     "message": "prépare"
   },
@@ -607,6 +610,12 @@
   },
   "sbInfoAddressLbl": {
     "message": "Adresse"
+  },
+  "sbInfoMinRefreshLbl": {
+    "message": "Actualisation auto. min. (secondes)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Durée minimale entre deux actualisations automatiques des flux de ce dossier. Laisser vide pour désactiver. Ignoré lors des vérifications manuelles."
   },
   "sbInfoUpdateButton": {
     "message": "Appliquer"

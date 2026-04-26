@@ -1,4 +1,4 @@
-/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager*/
+/*global browser DefaultValues FeedsTopMenu FeedsStatusBar feedStatus BrowserManager Feed Listener ListenerProviders ItemsLayout LocalStorageManager ErrorHandler FeedUpdateLockManager*/
 'use strict';
 const customPattern = 'www.youtube.com/feeds/videos.xml?channel_id=';
 
@@ -23,6 +23,7 @@ class FeedManager { /*exported FeedManager*/
     this._automaticUpdatesMilliseconds = DefaultValues.automaticFeedUpdateMinutes * 60000;
     this._removeExtraData = DefaultValues.removeExtraData;
     this._checkingFeeds = false;
+    this._feedProcessingErrors = 0;
     this._customMode = false;
     this._customMilliseconds = 999999999999;
     this._customAutoUpdateInterval = undefined;
@@ -39,7 +40,11 @@ class FeedManager { /*exported FeedManager*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart', (v) => { this._setAutomaticUpdatesOnStar_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'automaticFeedUpdates', (v) => { this._setAutomaticUpdatesEnabled_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'removeExtraData', (v) => { this._setRemoveExtraData_sbscrb(v); }, true);
-    Listener.instance.subscribe(ListenerProviders.localStorage, 'syncThreshold', (v) => { this._setSsyncThreshold_sbscrb(v); }, true);
+    Listener.instance.subscribe(ListenerProviders.localStorage, 'syncThreshold', (v) => { this._setSyncThreshold_sbscrb(v); }, true);
+
+    // Initialize Lock Manager
+    this._lockManager = FeedUpdateLockManager.instance;
+    this._feedUpdateLockSubscription = null;
 
   }
 
@@ -70,13 +75,23 @@ class FeedManager { /*exported FeedManager*/
     await Feed.delete_async(feedId);
   }
 
-  async checkFeeds_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
+  async checkFeeds_async(folderId, resetAutoUpdateInterval, skipOncustomMode, isManualUpdate = false) {
     if (this._feedProcessingInProgress) { return; }
+
+    // Try to acquire lock
+    const lockAcquired = await this._acquireLock_async();
+    if (!lockAcquired) {
+      if (isManualUpdate) {
+        this._scheduleManualUpdateRetry_async(folderId, resetAutoUpdateInterval, skipOncustomMode);
+      }
+      return;
+    }
+
     this._checkingFeeds = true;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
-    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
-    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async);
+    await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode, !isManualUpdate);
+    await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
   }
 
   async openOneFeedToTabById_async(feedId, openNewTabForce, openNewTabBackGroundForce) {
@@ -88,8 +103,8 @@ class FeedManager { /*exported FeedManager*/
 
   async openAllUpdatedFeeds_async(folderId) {
     if (this._feedProcessingInProgress) { return; }
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
-    let querySelectorString = (showErrorsAsUnread ? '.feedError' : '.feedUnread');
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnread);
+    let querySelectorString = (showErrorsAsUnread ? '.feedUnread, .feedError' : '.feedUnread');
     await this._preparingListOfFeedsToProcess_async(folderId, querySelectorString, browser.i18n.getMessage('sbOpening'));
     await this._processFeedsFromList(folderId, FeedManager._openOneFeedToTab_async, this._syncThreshold);
   }
@@ -108,7 +123,7 @@ class FeedManager { /*exported FeedManager*/
     feed.updateUiTitle();
   }
 
-  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode) {
+  async _preparingListOfFeedsToProcess_async(folderId, querySelector, action, skipOncustomMode, isAutoUpdate = false) {
     this._feedProcessingInProgress = true;
     try {
       this._updatedFeeds = 0;
@@ -117,59 +132,136 @@ class FeedManager { /*exported FeedManager*/
       this._itemList = [];
       let rootElement = document.getElementById(folderId);
       let feedElementList = rootElement.querySelectorAll(querySelector);
-      if (feedElementList.length > 0) {
-        for (let i = 0; i < feedElementList.length; i++) {
-          let feed = null;
-          try {
-            let feedId = feedElementList[i].getAttribute('id');
-            feed = await Feed.new(feedId);
-            if (skipOncustomMode && this._customMode && feed.url.includes(customPattern)) { continue; }
-            let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
-            FeedsStatusBar.instance.setText(statusText);
-            this._feedsToProcessList.push(feed);
+      const folderEvalCache = new Map();
+      const foldersToUpdate = new Map();
+      const now = Date.now();
+      for (let i = 0; i < feedElementList.length; i++) {
+        let feed = null;
+        try {
+          let feedElement = feedElementList[i];
+          if (isAutoUpdate) {
+            let skip = await this._shouldSkipFeedForAutoUpdate_async(feedElement, folderEvalCache, foldersToUpdate, now);
+            if (skip) { continue; }
           }
-          catch (e) {
-            /*eslint-disable no-console*/
-            console.error(e);
-            /*eslint-enable no-console*/
-          }
+          let feedId = feedElement.getAttribute('id');
+          feed = await Feed.new(feedId);
+          if (skipOncustomMode && this._customMode && feed.url.includes(customPattern)) { continue; }
+          let statusText = (this._asynchronousFeedChecking ? action : browser.i18n.getMessage('sbPreparing')) + ': ' + feed.title;
+          FeedsStatusBar.instance.setText(statusText);
+          this._feedsToProcessList.push(feed);
+        }
+        catch (e) {
+          /*eslint-disable no-console*/
+          console.error(e);
+          /*eslint-enable no-console*/
         }
       }
-      else {
-        this._processFeedsFinished();
+      if (isAutoUpdate && foldersToUpdate.size > 0) {
+        await this._commitFolderAutoRefreshTimestamps_async(foldersToUpdate, now);
       }
     }
-    finally {
+    catch (e) {
+      // If preparation itself blew up, make sure we don't leave the lock held.
+      ErrorHandler.logError('FeedManager._preparingListOfFeedsToProcess_async', e);
+      await this._processFeedsFinished();
+    }
+  }
+
+  async _shouldSkipFeedForAutoUpdate_async(feedElement, folderEvalCache, foldersToUpdate, now) {
+    let parent = feedElement.parentElement;
+    while (parent) {
+      if (parent.classList && parent.classList.contains('folder') && parent.id && parent.id.startsWith('dv-')) {
+        let bookmarkId = parent.id.substring(3);
+        let state = folderEvalCache.get(bookmarkId);
+        if (!state) {
+          state = await this._evaluateFolderAutoRefresh_async(bookmarkId, now);
+          folderEvalCache.set(bookmarkId, state);
+          if (state.hasPolicy && !state.skip) {
+            foldersToUpdate.set(bookmarkId, state);
+          }
+        }
+        if (state.skip) {
+          return true;
+        }
+      }
+      parent = parent.parentElement;
+    }
+    return false;
+  }
+
+  async _evaluateFolderAutoRefresh_async(bookmarkId, now) {
+    let storageKey = 'cb-' + bookmarkId;
+    let storedFolder = await LocalStorageManager.getValue_async(storageKey, null);
+    let minSec = (storedFolder && typeof storedFolder.minAutoRefreshSeconds === 'number') ? storedFolder.minAutoRefreshSeconds : 0;
+    if (!(minSec > 0)) {
+      return { hasPolicy: false, skip: false, storageKey, storedFolder };
+    }
+    let lastAuto = (storedFolder && typeof storedFolder.lastAutoRefresh === 'number') ? storedFolder.lastAutoRefresh : 0;
+    let skip = (now - lastAuto) < (minSec * 1000);
+    return { hasPolicy: true, skip, storageKey, storedFolder };
+  }
+
+  async _commitFolderAutoRefreshTimestamps_async(foldersToUpdate, now) {
+    for (let state of foldersToUpdate.values()) {
+      let storedFolder = state.storedFolder;
+      if (!storedFolder || typeof storedFolder !== 'object') {
+        storedFolder = DefaultValues.getStoredFolder(state.storageKey);
+      }
+      storedFolder.lastAutoRefresh = now;
+      await LocalStorageManager.setValue_async(state.storageKey, storedFolder);
     }
   }
 
   async _processFeedsFromList(folderId, action, syncThreshold) {
     let folderTitle = '';
-    this._feedsToProcessCounter = this._feedsToProcessList.length;
+    this._feedsTotalCount = this._feedsToProcessList.length;
+    this._feedsToProcessCounter = this._feedsTotalCount;
     let openNewTabForce = true;
     let elFolderLabel = document.getElementById('lbl-' + folderId.substring(3));
     if (elFolderLabel) { folderTitle = elFolderLabel.textContent; }
     let i = 0;
     if (!syncThreshold) { syncThreshold = 0; }
-    while (this._feedsToProcessList.length > 0) {
-      let feed = this._feedsToProcessList.shift();
-      let isLast = (this._feedsToProcessList.length == 0);
-      if (!this._asynchronousFeedChecking || i < syncThreshold) {
-        await action(feed, false, openNewTabForce, isLast, folderTitle);
-        i++;
+
+    try {
+      // Process all feeds with proper async tracking using Promise.all() for concurrent operations
+      const promises = [];
+      while (this._feedsToProcessList.length > 0) {
+        let feed = this._feedsToProcessList.shift();
+
+        if (!this._asynchronousFeedChecking || i < syncThreshold) {
+          await action(feed, false, openNewTabForce, true, folderTitle);
+          i++;
+        } else {
+          // Collect async promises; Promise.all below waits for all to settle.
+          // allSettled — we don't want one rejection to short-circuit others.
+          const promise = action(feed, false, openNewTabForce, true, folderTitle);
+          promises.push(promise);
+        }
       }
-      else {
-        action(feed, false, openNewTabForce, isLast, folderTitle);
+
+      if (promises.length > 0) {
+        await Promise.allSettled(promises);
       }
+    }
+    finally {
+      // Safety net: if the list was empty, or if any action path failed to
+      // decrement the counter to 0, make sure the lock is released and
+      // status bar is cleared. _processFeedsFinished is idempotent.
+      await this._processFeedsFinished();
     }
   }
 
-  _processFeedsFinished() {
+  async _processFeedsFinished() {
+    if (!this._feedProcessingInProgress) { return; }
+    this._feedProcessingInProgress = false;
     FeedsStatusBar.instance.setText('');
     this._checkingFeeds = false;
     FeedsTopMenu.instance.animateCheckFeedButton(false);
     FeedsStatusBar.instance.workInProgress = false;
-    this._feedProcessingInProgress = false;
+    this._feedProcessingErrors = 0;
+
+    // Release lock after feed processing is finished
+    await this._releaseLock();
   }
 
   static async _feedsUpdate_async(feed, isCustom) {
@@ -187,12 +279,20 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
       /*eslint-disable no-console*/
+      console.error(e);
       /*eslint-enable no-console*/
     } finally {
       if (!isCustom) {
-        if (--self._feedsToProcessCounter == 0) {
+        const remaining = --self._feedsToProcessCounter;
+        if (remaining === 0) {
           await self._displayUpdatedFeedsNotification_async();
-          self._processFeedsFinished();
+          await self._processFeedsFinished();
+        } else if (self._asynchronousFeedChecking && self._feedsTotalCount) {
+          // Replace the lingering prep-phase title with live progress so the
+          // status bar doesn't look frozen on the last prepared feed's name.
+          const done = self._feedsTotalCount - remaining;
+          const title = (feed && feed.title) ? feed.title : '';
+          FeedsStatusBar.instance.setText(browser.i18n.getMessage('sbChecking') + (title ? ' : ' + title : ''));
         }
       }
     }
@@ -214,7 +314,11 @@ class FeedManager { /*exported FeedManager*/
       await feed.setStatus_async(feedStatus.OLD);
       FeedsStatusBar.instance.setText(loadingMessage);
       await feed.updateUiStatus_async();
-      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', browser.i18n.getMessage('sbLoadingNextFeed'), 2000);
+      // When batch-opening (isSingle=false) show "Loading next feed..." between
+      // feeds. For a single-click open we just clear the status bar after the
+      // brief "loaded" message — "Loading next feed..." is misleading there.
+      const afterTimeoutText = isSingle ? '' : browser.i18n.getMessage('sbLoadingNextFeed');
+      FeedsStatusBar.instance.setTextWithTimeOut(feed.title + ' ' + browser.i18n.getMessage('sbLoaded') + ' ', afterTimeoutText, 2000);
     } catch (e) {
       await feed.setStatus_async(feedStatus.ERROR);
       await feed.updateUiStatus_async();
@@ -223,8 +327,14 @@ class FeedManager { /*exported FeedManager*/
       /*eslint-enable no-console*/
     }
     finally {
-      if (--self._feedsToProcessCounter <= 0) {
-        self._processFeedsFinished();
+      // Only batch-mode shares the counter with _feedsUpdate_async. A
+      // single-click open must not touch it or it corrupts the progress
+      // display of a concurrent/prior refresh (e.g. "checking 197/196" and
+      // status bar stuck on "Loading next feed...").
+      if (!isSingle) {
+        if (--self._feedsToProcessCounter <= 0) {
+          await self._processFeedsFinished();
+        }
       }
     }
   }
@@ -252,7 +362,7 @@ class FeedManager { /*exported FeedManager*/
         await self._displayItems_async(true, isSingle, isUnified, feedNull, folderTitle);
         await self._openTabFeed_async(unifiedDocUrl, openNewTabForce);
         self._unifiedChannelTitle = '';
-        self._processFeedsFinished();
+        await self._processFeedsFinished();
       }
     }
   }
@@ -371,7 +481,7 @@ class FeedManager { /*exported FeedManager*/
     if (!this._automaticUpdatesEnabled) { return; }
     try {
       await LocalStorageManager.setValue_async('lastAutoUpdate', Date.now());
-      await FeedManager.instance.checkFeeds_async('feedsContentPanel', false, true);
+      await FeedManager.instance.checkFeeds_async('feedsContentPanel', false, true, false);
     }
     catch (e) {
       /*eslint-disable no-console*/
@@ -401,8 +511,8 @@ class FeedManager { /*exported FeedManager*/
     this._removeExtraData = value;
   }
 
-  _setSsyncThreshold_sbscrb(value) {
-    this._removeExtraData = value;
+  _setSyncThreshold_sbscrb(value) {
+    this._syncThreshold = value;
   }
 
   async _resetAutoUpdateInterval() {
@@ -442,6 +552,75 @@ class FeedManager { /*exported FeedManager*/
   _start1stAutoUpdate() {
     this._automaticFeedUpdate_async();
     this._autoUpdateInterval = setInterval(() => { this._automaticFeedUpdate_async(); }, this._automaticUpdatesMilliseconds);
+  }
+
+  async _acquireLock_async() {
+    return await this._lockManager.acquireLock_async();
+  }
+
+  async _releaseLock() {
+    await this._lockManager.releaseLock_async();
+  }
+
+  _scheduleManualUpdateRetry_async(folderId, resetAutoUpdateInterval, skipOncustomMode) {
+    const maxRetries = 6;
+    let retryCount = 0;
+    const checkLockAndRetry = async () => {
+      try {
+        const lockAcquired = await this._acquireLock_async();
+        if (lockAcquired) {
+          this._checkingFeeds = true;
+          FeedsTopMenu.instance.animateCheckFeedButton(false);
+          if (resetAutoUpdateInterval) { this._resetAutoUpdateInterval(); }
+          await this._preparingListOfFeedsToProcess_async(folderId, '.feedRead, .feedError', browser.i18n.getMessage('sbChecking'), skipOncustomMode);
+          await this._processFeedsFromList(folderId, FeedManager._feedsUpdate_async, this._syncThreshold);
+        } else if (++retryCount < maxRetries) {
+          setTimeout(() => { checkLockAndRetry(); }, 5000);
+        } else {
+          ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', 'Max retries reached, giving up');
+        }
+      } catch (e) {
+        ErrorHandler.logError('FeedManager._scheduleManualUpdateRetry_async', e);
+        if (++retryCount < maxRetries) {
+          setTimeout(() => { checkLockAndRetry(); }, 5000);
+        }
+      }
+    };
+
+    checkLockAndRetry();
+  }
+
+  get feedProcessingErrors() {
+    return this._feedProcessingErrors || 0;
+  }
+
+  cleanup() {
+    if (this._feedUpdateLockSubscription) {
+      this._feedUpdateLockSubscription();
+      this._feedUpdateLockSubscription = null;
+    }
+
+    if (this._checkingFeeds) {
+      this._lockManager.releaseLock_async().catch(e => {
+        ErrorHandler.logError('FeedManager.cleanup', e);
+      });
+    }
+
+    // Unsubscribe all listener subscriptions
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'asynchronousFeedChecking');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'showFeedUpdatePopup');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'renderFeeds');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdateMinutes');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdatesOnStart');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'automaticFeedUpdates');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'removeExtraData');
+    Listener.instance.unsubscribe(ListenerProviders.localStorage, 'syncThreshold');
+
+    // Clear intervals
+    clearInterval(this._autoUpdateInterval);
+    this._autoUpdateInterval = undefined;
+    clearInterval(this._customAutoUpdateInterval);
+    this._customAutoUpdateInterval = undefined;
   }
 
   feedUIStatusHasChanged(feed) {

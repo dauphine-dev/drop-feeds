@@ -545,8 +545,17 @@ class FeedParser { /*exported FeedParser*/
   }
 
   static async _getDescription_async(itemText) {
-    let description = TextTools.decodeHtml(FeedParser._extractValue(itemText, tagList.DESC));
+    let description = FeedParser._extractValue(itemText, tagList.DESC);
     if (!description) { return ''; }
+    // When the extracted description already contains real HTML tags, it is
+    // raw HTML (CDATA or already-decoded entity-escaped). Any remaining
+    // entities inside attribute values (e.g. &quot; in data-image-meta JSON)
+    // are legitimate and must be decoded by the HTML parser, not here.
+    // Only decode when no tags are present — that indicates double-encoded
+    // source that still needs one pass to become parseable HTML.
+    if (!/<[a-z!/]/i.test(description)) {
+      description = TextTools.decodeHtml(description);
+    }
     description = FeedParser._fixDescriptionTags(description);
     description = await SecurityFilters.instance.applySecurityFilters_async(description);
     return description;

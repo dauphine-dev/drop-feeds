@@ -41,13 +41,14 @@
             <span class="itemNumber"><xsl:value-of select="./number" />.</span>
             <xsl:element name="a">
               <xsl:attribute name="target"><xsl:value-of select="./target"/></xsl:attribute>
+              <xsl:attribute name="rel">noopener noreferrer</xsl:attribute>
               <xsl:attribute name="href"><xsl:value-of select="./link"/></xsl:attribute>
               <span class="encodedText"><xsl:value-of select="./title" /></span>
             </xsl:element>
           </h2>
-          <div class="itemDescription"><span class="encodedHtml"><xsl:value-of disable-output-escaping="yes" select="./description"/></span></div>
+          <div class="itemDescription"><span class="encodedHtml"><xsl:value-of select="./description"/></span></div>
           <div class="itemInfo">
-            <div   class="itemPubDate"><xsl:value-of disable-output-escaping="yes" select="./pubDateText"/></div>
+            <div   class="itemPubDate"><xsl:value-of select="./pubDateText"/></div>
           </div>
         </div>
 	    </xsl:for-each>      

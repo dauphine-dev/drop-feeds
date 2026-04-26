@@ -51,11 +51,17 @@ class DefaultValues { /*exported DefaultValues*/
   static get lockFeedTreeEnabled()           { return false; }
       
   static get allowedTagList() {
-    return [{ '*': ['style'] }, { 'a': ['href', 'title'] }, { 'b': [] }, { 'blockquote': [] }, { 'br': [] }, { 'cite': [] }, { 'code': [] }, { 'del': [] },
-      { 'div': [] }, { 'em': [] }, { 'font': ['color', 'size'] }, { 'h1': [] }, { 'h2': [] }, { 'h3': [] }, { 'h4': [] }, { 'h5': [] }, { 'h6': [] }, { 'hr': [] }, { 'i': [] },
-      { 'img': ['alt', 'border', 'src', 'title', 'width'] }, { 'ins': [] }, { 'li': [] }, { 'ol': [] }, { 'p': [] }, { 'pre': [] }, { 'q': [] }, { 's': [] }, { 'span': [] }, { 'strong': [] },
-      { 'table': ['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width'] }, { 'tbody': ['align'] }, { 'td': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] },
-      { 'th': ['bgcolor', 'colspan', 'height', 'rowspan', 'width'] }, { 'tr': ['bgcolor'] }, { 'u': [] }, { 'ul': [] }];
+    return [{ '*': ['style', 'class', 'lang', 'dir', 'title'] }, { 'a': ['href', 'title', 'rel'] }, { 'abbr': ['title'] }, { 'article': [] }, { 'aside': [] },
+      { 'b': [] }, { 'blockquote': ['cite'] }, { 'br': [] }, { 'caption': [] }, { 'cite': [] }, { 'code': [] }, { 'col': ['span'] }, { 'colgroup': ['span'] },
+      { 'dd': [] }, { 'del': ['cite', 'datetime'] }, { 'details': ['open'] }, { 'dfn': [] }, { 'div': [] }, { 'dl': [] }, { 'dt': [] }, { 'em': [] },
+      { 'figcaption': [] }, { 'figure': [] }, { 'font': ['color', 'size'] }, { 'footer': [] }, { 'h1': [] }, { 'h2': [] }, { 'h3': [] }, { 'h4': [] }, { 'h5': [] }, { 'h6': [] },
+      { 'header': [] }, { 'hr': [] }, { 'i': [] }, { 'img': ['alt', 'border', 'decoding', 'height', 'loading', 'sizes', 'src', 'srcset', 'title', 'width'] },
+      { 'ins': ['cite', 'datetime'] }, { 'kbd': [] }, { 'li': [] }, { 'mark': [] }, { 'ol': ['start', 'type'] }, { 'p': [] }, { 'picture': [] }, { 'pre': [] },
+      { 'q': ['cite'] }, { 's': [] }, { 'samp': [] }, { 'section': [] }, { 'small': [] }, { 'source': ['media', 'sizes', 'src', 'srcset', 'type'] }, { 'span': [] }, { 'strong': [] },
+      { 'sub': [] }, { 'summary': [] }, { 'sup': [] }, { 'table': ['bgcolor', 'border', 'cellpadding', 'cellspacing', 'width'] }, { 'tbody': ['align'] },
+      { 'td': ['align', 'bgcolor', 'colspan', 'height', 'rowspan', 'valign', 'width'] }, { 'tfoot': ['align'] },
+      { 'th': ['align', 'bgcolor', 'colspan', 'height', 'rowspan', 'valign', 'width'] }, { 'thead': ['align'] }, { 'time': ['datetime'] },
+      { 'tr': ['align', 'bgcolor'] }, { 'u': [] }, { 'ul': ['type'] }, { 'var': [] }];
   }
 
   static get rejectedCssFragmentList() {

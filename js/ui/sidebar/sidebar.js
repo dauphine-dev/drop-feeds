@@ -1,5 +1,5 @@
 /*global browser ThemeManager FeedsTopMenu Dialogs BrowserManager ItemSorter SecurityFilters FeedRendererOptions RenderItemLayout FeedsFilterBar FeedsNewFolderDialog*/
-/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog FeedTabHandler*/
+/*global FeedsContextMenu FeedsTreeView Listener ListenerProviders BookmarkManager FeedManager ItemsLayout TabManager OptionSubscribeDialog FeedTabHandler FeedUpdateLockManager*/
 'use strict';
 class SideBar { /*exported SideBar*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -9,6 +9,7 @@ class SideBar { /*exported SideBar*/
     console.log('Drop Feeds loading...');
     /*eslint-enable no-console*/
     this._contentTop = null;
+    this._bgPort = null;
   }
 
   async init_async() {
@@ -43,9 +44,32 @@ class SideBar { /*exported SideBar*/
   async _sendWindowIdToBgScript() {
     let windowInfo = await browser.windows.getCurrent({ populate: true });
     let connectInfo = { 'name': 'sidebarWindowId:' + windowInfo.id };
-    let port = browser.runtime.connect(connectInfo);
-    port.postMessage({ sidebarWindowId: windowInfo.id });
+    this._bgPort = browser.runtime.connect(connectInfo);
+    this._bgPort.postMessage({ sidebarWindowId: windowInfo.id });
 
+    // Forward local lock acquire/release events to the background so it can
+    // clean up on sidebar close. Local FeedUpdateLockManager already fires
+    // these via its storage listener; we just relay them.
+    FeedUpdateLockManager.instance.subscribe((status) => {
+      if (!this._bgPort) { return; }
+      if (status.status === 'acquired' || status.status === 'released') {
+        try {
+          this._bgPort.postMessage({ key: 'lockStatus', value: { status: status.status, lockId: status.lockId } });
+        } catch (e) {
+          // Port may be disconnected during teardown — non-fatal.
+        }
+      }
+    });
+
+    // Best-effort release on sidebar unload. Fire-and-forget because the
+    // page is going away; the background's port-disconnect cleanup is the
+    // authoritative fallback.
+    window.addEventListener('pagehide', () => {
+      try {
+        const p = FeedUpdateLockManager.instance.releaseLock_async();
+        if (p && typeof p.catch === 'function') { p.catch(() => {}); }
+      } catch (e) { /* noop */ }
+    });
   }
 
   async reloadPanelWindow_sbscrb() {

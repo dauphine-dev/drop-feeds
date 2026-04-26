@@ -39,6 +39,9 @@
   },
   "background": {
     "scripts": [
+      "js/tools/errorHandler.js",
+      "js/tools/localStorageManager.js",
+      "js/tools/feedUpdateLockManager.js",
       "js/independent/background.js"
     ]
   },

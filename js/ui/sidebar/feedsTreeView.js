@@ -11,6 +11,34 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     Listener.instance.subscribe(ListenerProviders.localStorage, 'displayRootFolder', (v) => { this._reload_sbscrb(v); }, false);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'showUpdatedFeedCount', (v) => { this._showUpdatedFeedCount_sbscrb(v); }, true);
     Listener.instance.subscribe(ListenerProviders.localStorage, 'lockFeedTreeEnabled', (v) => { this._lockFeedTreeEnabled_sbscrb(v); }, true);
+
+    // Cross-window feed status sync: when another window writes a feed's stored
+    // state (Feed.save_async uses the bookmark id as the storage key), update
+    // this window's tree item class in place — no full reload, selection and
+    // scroll preserved.
+    browser.storage.onChanged.addListener((changes, areaName) => {
+      if (areaName !== 'local') { return; }
+      this._syncFeedStatusFromStorage(changes);
+    });
+  }
+
+  _syncFeedStatusFromStorage(changes) {
+    let countDirty = false;
+    for (const feedId in changes) {
+      const nv = changes[feedId].newValue;
+      if (!nv || !nv.isFeedInfo) { continue; }
+      const el = document.getElementById(feedId);
+      if (!el) { continue; }
+      const targetClass = Feed.getClassName(nv);
+      if (!targetClass) { continue; }
+      if (el.classList.contains(targetClass)) { continue; }
+      el.classList.remove('feedUnread', 'feedRead', 'feedError');
+      el.classList.add(targetClass);
+      countDirty = true;
+    }
+    if (countDirty) {
+      this.updateAllFolderCount(true);
+    }
   }
 
   _init() {
@@ -159,7 +187,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
   async updatedFeedsSetVisibility_async(updatedFeedsVisible) {
     let visibleValue = updatedFeedsVisible ? 'display:none !important;' : 'visibility:visible;';
     let unreadValue = '  visibility: visible;\n  font-weight: bold;';
-    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnreadCheckbox);
+    let showErrorsAsUnread = await LocalStorageManager.getValue_async('showErrorsAsUnread', DefaultValues.showErrorsAsUnread);
     CssManager.replaceStyle('.feedUnread', unreadValue);
     CssManager.replaceStyle('.feedRead', visibleValue);
     CssManager.replaceStyle('.feedError', showErrorsAsUnread ? unreadValue : visibleValue);
@@ -338,7 +366,7 @@ class FeedsTreeView { /*exported FeedsTreeView*/
     let folderItem = event.currentTarget;
     FeedsContextMenu.instance.hide();
     let folderId = folderItem.getAttribute('id');
-    let storedFolder = DefaultValues.getStoredFolder(folderId);
+    let storedFolder = await LocalStorageManager.getValue_async(folderId, DefaultValues.getStoredFolder(folderId));
     storedFolder.checked = folderItem.checked;
     await LocalStorageManager.setValue_async(folderId, storedFolder);
   }

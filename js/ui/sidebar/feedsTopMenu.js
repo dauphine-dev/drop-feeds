@@ -1,5 +1,5 @@
 /*global browser DefaultValues LocalStorageManager CssManager FeedManager FeedsTreeView BrowserManager*/
-/*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu*/
+/*global Dialogs Listener ListenerProviders TabManager FeedsFilterBar FeedsContextMenu FeedUpdateLockManager*/
 'use strict';
 class FeedsTopMenu { /*exported FeedsTopMenu*/
   static get instance() { return (this._instance = this._instance || new this()); }
@@ -36,6 +36,11 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._buttonlockFeedTreeEnabled = await LocalStorageManager.getValue_async('lockFeedTreeEnabled', this._buttonlockFeedTreeEnabled);
     this.activateButton('lockFeedTreeButton', this._buttonlockFeedTreeEnabled);
     this._updateFilterBar();
+    // If another window is already checking feeds when this window opens,
+    // show the spinning animation to mirror the in-progress state.
+    if (await FeedUpdateLockManager.instance.isLockHeldByOther_async()) {
+      this.animateCheckFeedButton(true);
+    }
   }
 
   set workInProgress(value) {
@@ -62,7 +67,8 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this._checkingFeedsStartTime = new Date();
     this._forceAnimateCheckFeedButton = forceAnimate;
     let checkFeedsButton = document.getElementById('checkFeedsButton');
-    if (FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton) {
+    const willAnimate = FeedManager.instance.checkingFeeds || this._forceAnimateCheckFeedButton;
+    if (willAnimate) {
       checkFeedsButton.setAttribute('title', browser.i18n.getMessage('sbStopAndRestart'));
       checkFeedsButton.classList.add('checkFeedsButtonAnim');
       checkFeedsButton.classList.remove('checkFeedsButton');
@@ -104,7 +110,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
   async checkFeedsButtonClicked_event(event) {
     event.stopPropagation();
     event.preventDefault();
-    await FeedManager.instance.checkFeeds_async('feedsContentPanel', true, true);
+    await FeedManager.instance.checkFeeds_async('feedsContentPanel', true, true, true);
   }
 
   async _updateLocalizedStrings() {
@@ -149,7 +155,7 @@ class FeedsTopMenu { /*exported FeedsTopMenu*/
     this.activateButton('toggleFoldersButton', this._foldersOpened);
     for (let folder of folders) {
       let folderId = folder.id;
-      let storedFolder = DefaultValues.getStoredFolder(folderId);
+      let storedFolder = await LocalStorageManager.getValue_async(folderId, DefaultValues.getStoredFolder(folderId));
       folder.checked = this._foldersOpened;
       storedFolder.checked = this._foldersOpened;
       await LocalStorageManager.setValue_async(folderId, storedFolder);

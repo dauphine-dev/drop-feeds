@@ -63,19 +63,17 @@ class TextTools { /* exported TextTools*/
       return decodedCar;
     });
 
-    // &#x3C; -> "<", &#x3e; -> ">", etc.
-    /*eslint-disable quotes*/
-    let listHexEncodedChars = { '26': '&', '3C': '<', '3E': '>', '22': '"', '27': "'" };
-    /*eslint-enable quotes*/
-    decodedText = decodedText.replace(/&#x([^;]+);/gi, (l, c) => {
-      let decodedChar = listHexEncodedChars[c];
-      decodedChar = decodedChar ? decodedChar : l;
-      return decodedChar;
+    // &#x3C; -> "<", &#x2F; -> "/", &#x3e; -> ">", etc.
+    decodedText = decodedText.replace(/&#x([0-9a-f]+);/gi, (l, c) => {
+      let codePoint = parseInt(c, 16);
+      if (!Number.isFinite(codePoint) || codePoint <= 0) { return l; }
+      return String.fromCodePoint(codePoint);
     });
 
-    decodedText = decodedText.replace(/&#(\d+);/g, function (match, dec) {
-      let fromCharCode = String.fromCharCode(dec);
-      return fromCharCode;
+    decodedText = decodedText.replace(/&#(\d+);/g, (l, dec) => {
+      let codePoint = parseInt(dec, 10);
+      if (!Number.isFinite(codePoint) || codePoint <= 0) { return l; }
+      return String.fromCodePoint(codePoint);
     });
     return decodedText;
   }

@@ -15,6 +15,22 @@ class UserScriptTools { /* exported UserScriptTools */
   constructor() {
     this._scriptList = [];
     this._scriptObjList = [];
+    // Upper bound on a single user-script execution. A runaway script must not
+    // be able to hold the feed-update lock open — it will reject here, the
+    // enclosing Feed.update_async catches and flags the feed as errored.
+    this._scriptTimeoutMs = 20000;
+  }
+
+  _withTimeout_async(promise, ms, label) {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error(label + ' timed out after ' + ms + 'ms'));
+      }, ms);
+      Promise.resolve(promise).then(
+        (v) => { clearTimeout(timer); resolve(v); },
+        (e) => { clearTimeout(timer); reject(e); }
+      );
+    });
   }
 
   async init_async() {
@@ -68,7 +84,7 @@ class UserScriptTools { /* exported UserScriptTools */
       let feedText = null, scriptError = null;
       try {
         let virtualFeedScript = (BrowserManager.newFunction(scriptCode))();
-        feedText = await virtualFeedScript();
+        feedText = await this._withTimeout_async(virtualFeedScript(), this._scriptTimeoutMs, 'virtual feed script "' + scriptId + '"');
       }
       catch (e) {
         scriptError = e;
@@ -87,7 +103,7 @@ class UserScriptTools { /* exported UserScriptTools */
       let feedTextUpdated = null, scriptError = null;
       try {
         let userScriptFunction = (BrowserManager.newFunction(scriptCode))();
-        feedTextUpdated = await userScriptFunction(feedText);
+        feedTextUpdated = await this._withTimeout_async(userScriptFunction(feedText), this._scriptTimeoutMs, 'feed transformer "' + scriptObj.id + '"');
       }
       catch (e) {
         scriptError = e;

@@ -125,6 +125,9 @@
   "sbChecking": {
     "message": "comprobando"
   },
+  "sbLockedByOtherWindow": {
+    "message": "bloqueado por otra ventana"
+  },
   "sbPreparing": {
     "message": "preparando"
   },
@@ -607,6 +610,12 @@
   },
   "sbInfoAddressLbl": {
     "message": "Dirección"
+  },
+  "sbInfoMinRefreshLbl": {
+    "message": "Actualización automática mínima (segundos)"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "Tiempo mínimo entre actualizaciones automáticas para los feeds de esta carpeta. Dejar en blanco para desactivar. Se ignora en las comprobaciones manuales."
   },
   "sbInfoUpdateButton": {
     "message": "Actualizar"

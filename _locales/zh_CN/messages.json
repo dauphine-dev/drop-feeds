@@ -125,6 +125,9 @@
   "sbChecking": {
     "message": "正在检查"
   },
+  "sbLockedByOtherWindow": {
+    "message": "被其他窗口锁定"
+  },
   "sbPreparing": {
     "message": "正在准备"
   },
@@ -607,6 +610,12 @@
   },
   "sbInfoAddressLbl": {
     "message": "地址"
+  },
+  "sbInfoMinRefreshLbl": {
+    "message": "最小自动刷新间隔（秒）"
+  },
+  "sbInfoMinRefreshTooltip": {
+    "message": "此文件夹中订阅源两次自动刷新之间的最小间隔时间。留空以禁用。手动检查时忽略此设置。"
   },
   "sbInfoUpdateButton": {
     "message": "更新"
